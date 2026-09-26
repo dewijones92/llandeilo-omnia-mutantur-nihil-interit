@@ -44,7 +44,7 @@ so the next reader knows the map was unreliable there.
 | Terrain ✅ | **Both**: OS Terrain 50 (50m grid) for the whole 10-mile circle; Welsh Government LiDAR (1-2m) for the close-up places you fly into | The Tywi valley's shape is the one constant across every era. 50m is plenty for a low-poly overview; close-ups need the detail |
 | Timeline scale ✅ | Non-linear (deep time compressed, recent centuries spread) | A linear 12,000-year slider puts everything since the Romans in the last sliver |
 | Content ✅ | Data files in the repo, written ahead of time; **no live AI at runtime** | Reviewable, citable, testable; no runtime AI cost or invented "facts" |
-| v1 scope ✅ | **Vertical slice**: about 3 eras done properly end to end before filling in the rest | A thin sweep of 12,000 years would look empty everywhere |
+| v1 scope ✅ | **Vertical slice**: 3 eras done properly end to end before filling in the rest: **Iron Age** (e.g. Garn Goch), **Medieval up to 1282** (Dinefwr, Deheubarth), **Victorian** (gentry vs tenants, Rebecca Riots, railway). Specific sites and dates to be confirmed by research | A thin sweep of 12,000 years would look empty everywhere |
 | Hosting ✅ | **GitHub Pages**, deployed by GitHub Actions from the **public** GitHub repo | Free, no extra accounts |
 | Offline ✅ | Not needed (no PWA) | |
 | Audience ✅ | Dewi and family, **no young kids** | Tell history honestly, including the grim parts |
@@ -52,6 +52,19 @@ so the next reader knows the map was unreliable there.
 | ⓘ model ✅ | 3 tiers: documented / reconstructed / imagined | Honest about the large middle ground of archaeological reconstruction |
 
 ## Historical accuracy (the project's first law)
+
+- **Research first, always, and never write from memory.** Before writing or changing any content,
+  research it with real sources, including everything *tangential* to it: language and
+  pronunciation, clothing, buildings and building materials, tools, food and farming, prices,
+  religion, law and social class, names, flora and fauna, climate and landscape (forest cover, the
+  river's course), sounds, and what people could plausibly have known or talked about. A scene is
+  only as accurate as its least-researched detail. This applies to the renderer too: a roundhouse
+  model, a period costume or an era's ambient sound needs a source as much as a date does.
+- **Research is recorded, not just done.** Notes live in `docs/research/` (one file per topic or
+  era, frontmatter'd, with full source citations and what each source actually says). Content
+  files cite them by id. Flag contradictions between sources, and don't silently pick one.
+- **My memory is a lead, not a source.** Anything recalled rather than looked up is treated as
+  unverified until checked, including anything in this file (e.g. the sites named under v1 scope).
 
 - **Every piece of content has a provenance**, one of:
   - **Documented**: attested by a primary or reputable secondary source. Must cite ≥1 source.
