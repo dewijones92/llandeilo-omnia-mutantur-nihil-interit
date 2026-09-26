@@ -14,6 +14,7 @@ showing it. Everything here is plain markdown so it outlives any particular app.
 | Where | What it holds |
 |---|---|
 | [`brief.md`](brief.md) | Dewi's original brief, verbatim |
+| [`images/`](images/) | Screenshots used in the README |
 | [`research/`](research/README.md) | Sourced research notes, one per era or topic, plus the briefs that produced them and the method |
 | [`research/open-questions.md`](research/open-questions.md) | Gaps and contradictions worth a future research pass |
 | [`content/authoring.md`](content/authoring.md) | How research becomes content: provenance tiers, citations, bilingual text, placing features |
