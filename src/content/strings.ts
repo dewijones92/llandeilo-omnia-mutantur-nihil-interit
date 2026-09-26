@@ -48,6 +48,9 @@ export const STRINGS = {
   play: { en: 'Play', cy: 'Chwarae' },
   translation: { en: 'Translation', cy: 'Cyfieithiad' },
   flyTo: { en: 'Visit', cy: 'Ymweld' },
+  playAll: { en: 'Play conversation', cy: 'Chwarae’r sgwrs' },
+  family: { en: 'the family', cy: 'y teulu' },
+  aboutLanguage: { en: 'About the language:', cy: 'Am yr iaith:' },
   overview: { en: 'Whole valley', cy: 'Y dyffryn cyfan' },
   aboutBody: {
     en: 'A diorama of the real landscape within ten miles of Llandeilo, built from Ordnance Survey height data (hills are exaggerated 2.4 times so they read at this scale). Move the slider to travel through time. Every item is labelled: documented, reconstructed, or imagined. Hover or tap a label to see why, and the sources.',

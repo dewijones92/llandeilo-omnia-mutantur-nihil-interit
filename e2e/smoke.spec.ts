@@ -24,3 +24,18 @@ test('the interface switches to Welsh', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('lang', 'cy');
   await expect(page.locator('.tl-era')).toHaveText('Yr Oesoedd Canol');
 });
+
+test('a conversation opens from its bubble and lists its lines', async ({ page }) => {
+  await page.goto('./?place=llandeilo&year=1282&radius=200');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const bubble = page.locator('.bubble').filter({ visible: true });
+  await expect(bubble).toBeVisible();
+  await bubble.click();
+  const panel = page.locator('.convo');
+  await expect(panel).toBeVisible();
+  await expect(panel.locator('h2')).toHaveText('News of the ambush');
+  await expect(panel.locator('.line')).toHaveCount(6);
+  await expect(panel.locator('.prov-imagined')).toBeVisible();
+  await expect(panel.locator('.line-quote')).toContainText('Peryf ap Cedifor');
+  await page.screenshot({ path: 'test-results/conversation-1282.png' });
+});

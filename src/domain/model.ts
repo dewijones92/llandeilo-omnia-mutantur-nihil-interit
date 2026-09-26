@@ -70,6 +70,7 @@ export interface Person {
   readonly role: Bilingual;
   readonly clothing: Clothing;
   readonly voice: 'male' | 'female';
+  readonly age: 'child' | 'adult' | 'elder';
   readonly historical: boolean;
   readonly family: boolean;
 }
@@ -79,12 +80,15 @@ export interface Line {
   readonly language: LanguageCode;
   readonly spoken: string;
   readonly translation: Bilingual;
+  readonly quote?: Bilingual;
 }
 
 export interface Conversation {
   readonly id: ConversationId;
   readonly when: TimeRange;
   readonly place: PlaceId;
+  readonly at: GridRef;
+  readonly setIn: Bilingual;
   readonly title: Bilingual;
   readonly people: readonly PersonId[];
   readonly lines: readonly Line[];

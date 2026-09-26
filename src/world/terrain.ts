@@ -14,16 +14,16 @@ const UPLAND_M = 290;
 const PLINTH_BOTTOM = -70;
 
 export const MAIN_RIVERS: Readonly<Record<string, number>> = {
-  'Afon Tywi': 75,
-  'Afon Cothi': 42,
-  'Afon Aman': 28,
-  'Afon Llwchwr': 28,
-  'Afon Sawdde': 26,
-  'Afon Dulais': 24,
-  'Afon Cennen': 24,
-  'Afon Marlais': 20,
-  'Afon Bran': 20,
-  'Afon Dulas': 20,
+  'Afon Tywi': 42,
+  'Afon Cothi': 28,
+  'Afon Aman': 18,
+  'Afon Llwchwr': 18,
+  'Afon Sawdde': 16,
+  'Afon Dulais': 15,
+  'Afon Cennen': 15,
+  'Afon Marlais': 13,
+  'Afon Bran': 13,
+  'Afon Dulas': 13,
 };
 
 const PALETTE = {

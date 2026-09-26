@@ -1,4 +1,4 @@
-import { Vector3 } from '@babylonjs/core';
+import { PointerEventTypes, Vector3 } from '@babylonjs/core';
 import './ui/styles.css';
 import { WORLD_CONTENT } from './content/world.ts';
 import { toWorld } from './domain/geo.ts';
@@ -17,12 +17,15 @@ import {
 import { DebugOverlay } from './ui/debug.ts';
 import { PlaceLabels } from './ui/labels.ts';
 import { MomentCard } from './ui/moment.ts';
+import { Bubbles } from './ui/bubbles.ts';
+import { ConversationPanel } from './ui/conversation.ts';
 import { h } from './ui/dom.ts';
 import { LangStore } from './ui/store.ts';
 import { TimelineBar } from './ui/timeline.ts';
 import { createEngine } from './world/engine.ts';
 import { FeatureLayer } from './world/features.ts';
 import { Flight } from './world/flight.ts';
+import { People } from './world/people.ts';
 import { World } from './world/scene.ts';
 
 const SNAP_RADIUS = 0.018;
@@ -64,6 +67,8 @@ async function start(): Promise<void> {
   const world = new World(engine, heightfield, rivers, woodland);
   const content = WORLD_CONTENT;
   const features = new FeatureLayer(world, content.features, footprints, railways, roads);
+  const people = new People(world.scene, content.conversations, content.people, features.ground);
+  for (const m of people.meshes) world.addCaster(m);
 
   const debug = params.has('debug') ? new DebugOverlay(engine, backend) : undefined;
   let pending = true;
@@ -101,7 +106,7 @@ async function start(): Promise<void> {
     new Map(content.places.map((p) => [p.id, p])),
   );
   const flight = new Flight(world.camera);
-  const home = h('button', { class: 'tool home panel', type: 'button', hidden: true }, store.t('overview'));
+  const home = h('button', { class: 'tool home', type: 'button', hidden: true }, store.t('overview'));
   home.addEventListener('click', () => {
     flight.flyHome();
     home.hidden = true;
@@ -114,7 +119,26 @@ async function start(): Promise<void> {
   store.onChange(() => {
     home.textContent = store.t('overview');
   });
-  app.append(labels.el, brand, moment.el, timeline.el, home);
+  const sourceMap = new Map(content.sources.map((s) => [s.id, s]));
+  const panel = new ConversationPanel(store, new Map(content.people.map((p) => [p.id, p])), sourceMap);
+  const openConversation = (c: (typeof content.conversations)[number]): void => {
+    panel.show(c);
+    const g = people.groups.get(c.id);
+    if (g) flight.flyTo(g.anchor.clone(), 55, 1.1);
+    home.hidden = false;
+  };
+  const bubbles = new Bubbles(world.scene, people.groups.values(), store, openConversation);
+  world.scene.onPointerObservable.add((info) => {
+    if (info.type !== PointerEventTypes.POINTERTAP) return;
+    const hit = info.pickInfo?.pickedMesh;
+    const meta: unknown = hit?.metadata;
+    if (meta && typeof meta === 'object' && 'conversation' in meta) {
+      const c = content.conversations.find((x) => x.id === meta.conversation);
+      if (c) openConversation(c);
+    }
+  });
+  brand.querySelector('.brand-row')?.append(home);
+  app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el);
   const startPlace = content.places.find((p) => p.id === params.get('place'));
   if (startPlace) {
     const { x, z } = toWorld(startPlace.at);
@@ -125,12 +149,16 @@ async function start(): Promise<void> {
   }
   if (debug) app.append(debug.el);
 
+  let active = new Set<(typeof content.conversations)[number]['id']>();
   const apply = (): void => {
     if (!pending) return;
     pending = false;
     const snap = snapshotAt(content, t);
     world.applyEnvironment(snap.environment, features.clearings(snap.features));
     features.apply(snap.features);
+    active = new Set(snap.conversations.map((c) => c.id));
+    const open = panel.open;
+    if (open && !active.has(open.id)) panel.close();
     const near = snap.nearestEvent;
     moment.show(
       near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined,
@@ -144,8 +172,11 @@ async function start(): Promise<void> {
     const dt = engine.getDeltaTime();
     features.tick(dt);
     flight.tick(dt);
+    const now = performance.now();
+    people.show(active, now);
     world.scene.render();
     labels.update();
+    bubbles.update(active, now);
   });
   window.addEventListener('resize', () => {
     engine.resize();

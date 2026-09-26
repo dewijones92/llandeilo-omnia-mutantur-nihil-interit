@@ -57,7 +57,7 @@ export class World {
       new Vector3(-150, 30, -420),
       scene,
     );
-    camera.lowerRadiusLimit = 90;
+    camera.lowerRadiusLimit = 25;
     camera.upperRadiusLimit = 5200;
     camera.lowerBetaLimit = 0.15;
     camera.upperBetaLimit = 1.38;

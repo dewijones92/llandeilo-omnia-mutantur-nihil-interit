@@ -18,7 +18,7 @@ export function buildRivers(scene: Scene, rivers: readonly RiverPath[]): Mesh {
       const dx = next.e - prev.e;
       const dn = next.n - prev.n;
       const len = Math.hypot(dx, dn) || 1;
-      const half = river.width / 2 + 14;
+      const half = river.width / 2 + 6;
       const nx = (-dn / len) * half;
       const nn = (dx / len) * half;
       const y = heightToWorld(level) + 0.55;
