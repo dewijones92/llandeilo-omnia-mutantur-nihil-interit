@@ -1,4 +1,6 @@
-import type { AlmanacEntry, AlmanacTopic, LanguageSnapshot } from '../domain/model.ts';
+import { ASSETS } from '../content/assets.ts';
+import { ALMANAC_TOPICS } from '../content/languages.ts';
+import type { AlmanacEntry, LanguageSnapshot } from '../domain/model.ts';
 import type { Source } from '../domain/provenance.ts';
 import { formatYear } from '../domain/time.ts';
 import type { Snapshot } from '../domain/state.ts';
@@ -8,23 +10,12 @@ import type { LangStore } from './store.ts';
 
 export type InfoTab = 'almanac' | 'language' | 'about';
 
-const TOPICS: Readonly<Record<AlmanacTopic, { en: string; cy: string }>> = {
-  food: { en: 'Food', cy: 'Bwyd' },
-  clothing: { en: 'Clothing', cy: 'Dillad' },
-  homes: { en: 'Homes', cy: 'Cartrefi' },
-  religion: { en: 'Belief', cy: 'Cred' },
-  money: { en: 'Money', cy: 'Arian' },
-  health: { en: 'Health', cy: 'Iechyd' },
-  travel: { en: 'Travel', cy: 'Teithio' },
-  population: { en: 'People', cy: 'Pobl' },
-  nature: { en: 'Nature', cy: 'Natur' },
-};
-
 export class InfoPanel {
   readonly el = h('aside', { class: 'info panel', hidden: true });
   private tab: InfoTab = 'almanac';
   private snapshot: Snapshot | undefined;
   private key = '';
+  private readonly whenEl = h('p', { class: 'info-when' });
 
   constructor(
     private readonly store: LangStore,
@@ -55,7 +46,11 @@ export class InfoPanel {
 
   update(s: Snapshot): void {
     this.snapshot = s;
-    if (!this.el.hidden) this.render();
+    if (this.el.hidden) return;
+    this.render();
+    const lang = this.store.lang;
+    const when = `${formatYear(s.year, lang, s.year < 1000)}${s.era ? ` · ${s.era.name[lang]}` : ''}`;
+    if (this.whenEl.textContent !== when) this.whenEl.textContent = when;
   }
 
   private render(): void {
@@ -64,9 +59,20 @@ export class InfoPanel {
     if (key === this.key) return;
     this.key = key;
     const tabs = (['almanac', 'language', 'about'] as const).map((t) => {
-      const b = h('button', { type: 'button', 'aria-pressed': this.tab === t }, this.store.t(t));
+      const b = h(
+        'button',
+        {
+          type: 'button',
+          role: 'tab',
+          'aria-selected': this.tab === t,
+          'aria-pressed': this.tab === t,
+          tabindex: this.tab === t ? 0 : -1,
+        },
+        this.store.t(t),
+      );
       b.addEventListener('click', () => {
         this.open(t);
+        this.el.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]')?.focus();
       });
       return b;
     });
@@ -75,7 +81,7 @@ export class InfoPanel {
       this.close();
     });
     const lang = this.store.lang;
-    const when = s
+    this.whenEl.textContent = s
       ? `${formatYear(s.year, lang, s.year < 1000)}${s.era ? ` · ${s.era.name[lang]}` : ''}`
       : '';
     let body: HTMLElement;
@@ -84,7 +90,7 @@ export class InfoPanel {
     else body = this.about();
     this.el.replaceChildren(
       h('div', { class: 'info-head' }, h('div', { class: 'seg', role: 'tablist' }, ...tabs), close),
-      this.tab === 'about' ? h('div') : h('p', { class: 'info-when' }, when),
+      this.tab === 'about' ? h('div') : this.whenEl,
       body,
     );
   }
@@ -99,7 +105,7 @@ export class InfoPanel {
         h(
           'li',
           {},
-          h('span', { class: 'info-topic' }, TOPICS[e.topic][lang]),
+          h('span', { class: 'info-topic' }, ALMANAC_TOPICS[e.topic][lang]),
           h('p', {}, e.text[lang]),
           provenanceBadge(e.provenance, this.store, this.sources),
         ),
@@ -136,7 +142,19 @@ export class InfoPanel {
         `${this.counts.events} ${this.store.t('keyDates')} · ${this.counts.features} ${this.store.t('featuresCount')} · ${this.counts.sources} ${this.store.t('sourcesCount')}`,
       ),
       h('h3', {}, this.store.t('credits')),
-      h('p', {}, this.store.t('osCredit')),
+      h(
+        'ul',
+        { class: 'info-credits' },
+        ...ASSETS.map((a) =>
+          h(
+            'li',
+            {},
+            h('b', {}, `${a.what[this.store.lang]}: `),
+            `${a.source}. `,
+            h('a', { href: a.url, target: '_blank', rel: 'noopener' }, a.licence),
+          ),
+        ),
+      ),
       h('p', {}, this.store.t('voicesCredit')),
       h('p', {}, this.store.t('soundCredit')),
       h(

@@ -40,3 +40,10 @@ Milestones and what each one taught us. Newest last.
     plus the side-effect modules they need (ray picking, layer and shadow scene components, thin
     instances): 387KB gzipped. A missing side-effect import fails only at runtime, so this was
     verified by screenshot and the full e2e suite on the production build.
+12. **Independent Opus review** (code, and history plus visuals). Fixed: Roman forts 0.9km out
+    of place, Younger Dryas on uncalibrated dates, the year readout printing raw floats, arrow keys
+    snapping back to key dates, a listener leak per provenance badge, whole-terrain recolouring
+    on nearly every scrub frame, purity-lint holes, no voice/text or asset-licence checks, and
+    bilingual gaps. New e2e tests then found that the full-screen label and bubble layers were
+    swallowing mouse input meant for the 3D view (`#app > *` outranked their `pointer-events:
+    none`); now fixed and guarded by a test that fails on the old CSS.

@@ -45,9 +45,10 @@ function groupDigits(value: number, lang: Lang): string {
   return Math.round(value).toLocaleString(lang === 'cy' ? 'cy-GB' : 'en-GB');
 }
 
-export function formatYear(y: Year, lang: Lang, approximate = false): string {
+export function formatYear(value: Year, lang: Lang, approximate = false): string {
   const labels = ERA_LABEL[lang];
-  const before = PRESENT_YEAR - y;
+  const y = Math.round(value);
+  const before = PRESENT_YEAR - value;
   if (before >= 1_000_000) {
     const millions = before / 1_000_000;
     return `${millions >= 10 ? Math.round(millions) : millions.toFixed(1)} ${labels.million}`;

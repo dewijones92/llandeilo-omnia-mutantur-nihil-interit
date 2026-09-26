@@ -2,6 +2,7 @@ import '@babylonjs/core/Culling/ray.js';
 import '@babylonjs/core/Layers/layerSceneComponent.js';
 import '@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent.js';
 import '@babylonjs/core/Meshes/thinInstanceMesh.js';
+import '@babylonjs/core/Particles/particleSystemComponent.js';
 import { CreateBox } from '@babylonjs/core/Meshes/Builders/boxBuilder.js';
 import { CreateCylinder } from '@babylonjs/core/Meshes/Builders/cylinderBuilder.js';
 import { CreateIcoSphere } from '@babylonjs/core/Meshes/Builders/icoSphereBuilder.js';
@@ -24,6 +25,7 @@ export { Matrix, Quaternion, Vector3 } from '@babylonjs/core/Maths/math.vector.j
 export { Mesh } from '@babylonjs/core/Meshes/mesh.js';
 export { VertexData } from '@babylonjs/core/Meshes/mesh.vertexData.js';
 export { DefaultRenderingPipeline } from '@babylonjs/core/PostProcesses/RenderPipeline/Pipelines/defaultRenderingPipeline.js';
+export { ParticleSystem } from '@babylonjs/core/Particles/particleSystem.js';
 export { Scene } from '@babylonjs/core/scene.js';
 
 export const MeshBuilder = { CreateBox, CreateCylinder, CreateIcoSphere } as const;

@@ -8,6 +8,24 @@ const ICON = {
   imagined: 'i',
 } as const;
 
+let listening = false;
+
+function closeAll(): void {
+  for (const el of document.querySelectorAll('.prov-wrap.open')) el.classList.remove('open');
+}
+
+function listenOnce(): void {
+  if (listening) return;
+  listening = true;
+  document.addEventListener('click', closeAll);
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    closeAll();
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && active.closest('.prov-wrap')) active.blur();
+  });
+}
+
 export function provenanceBadge(
   p: Provenance,
   store: LangStore,
@@ -47,10 +65,10 @@ export function provenanceBadge(
   const wrap = h('span', { class: 'prov-wrap' }, badge, pop);
   badge.addEventListener('click', (e) => {
     e.stopPropagation();
-    wrap.classList.toggle('open');
+    const open = !wrap.classList.contains('open');
+    closeAll();
+    wrap.classList.toggle('open', open);
   });
-  document.addEventListener('click', () => {
-    wrap.classList.remove('open');
-  });
+  listenOnce();
   return wrap;
 }

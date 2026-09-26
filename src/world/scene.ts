@@ -86,6 +86,8 @@ export class World {
     this.shadows.bias = 0.0008;
     this.shadows.normalBias = 0.6;
     this.shadows.darkness = 0.28;
+    const shadowMap = this.shadows.getShadowMap();
+    if (shadowMap) shadowMap.refreshRate = 0;
 
     this.sky = new Sky(scene);
     this.terrain = new Terrain(scene, heightfield, rivers, woodland);
@@ -117,10 +119,18 @@ export class World {
 
   addCaster(mesh: Mesh): void {
     this.shadows.addShadowCaster(mesh);
+    this.refreshShadows();
+  }
+
+  refreshShadows(): void {
+    this.shadows.getShadowMap()?.resetRefreshCounter();
   }
 
   applyEnvironment(env: Environment, clearings: readonly Clearing[]): void {
-    if (this.terrain.applyEnvironment(env, clearings)) this.forest.update();
+    if (this.terrain.applyEnvironment(env, clearings)) {
+      this.forest.update();
+      this.refreshShadows();
+    }
     this.sky.apply(env.skyTop, env.skyHorizon);
     const horizon = c3(env.skyHorizon);
     this.scene.fogColor = horizon;

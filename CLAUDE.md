@@ -202,12 +202,31 @@ so the next reader knows the map was unreliable there.
 - Remote: `github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit` (**public**, created
   2026-09-26). Local clone: `~/code/llandeilo-omnia-mutantur-nihil-interit` (the old folder name
   `~/code/llandeilo-historical-game` is a symlink to it). Default branch `main`.
-- Every push to `main` will deploy to GitHub Pages via Actions (workflow not written yet).
+- Every push to `main` deploys to GitHub Pages via `.github/workflows/ci.yml` after all checks and
+  e2e pass: https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
 - Public repo: never commit secrets, credentials or personal data.
 
 ## Build & test
 
-Not scaffolded yet. Fill this in once the stack is agreed.
+```bash
+npm run dev                          # Vite dev server on :5173 (?debug for the overlay, ?year=1282, ?place=garn-goch)
+npm run check                        # format, types, lint, unit tests, knip (the pre-push hook runs the same)
+npx vite build && npx playwright test   # production build and e2e (needs PAGES_BASE to match CI)
+node tools/research/extract-sources.mjs # after any change to docs/research/*.md
+node tools/voices/build-voices.ts    # after any change to conversation text (needs edge-tts)
+tools/terrain/build-terrain.sh && python3 tools/geo/build-osdata.py   # rebuild map data (see docs/data)
+node tools/shot.mjs '<url>' out.png  # screenshot, using the Chromium that works on this WSL box
+```
+
+Run `git config core.hooksPath .githooks` once per clone. Local Playwright uses Chromium 136 because
+newer Chromium cannot navigate on this WSL machine; CI uses the bundled browser. Everything
+automated renders with WebGL2 through SwiftShader at about 1fps, so **WebGPU and real frame rates
+are not measured yet** (a gap, tracked in docs/todos). Particle effects barely advance at 1fps, so
+check them with the particle probe in `?debug` (`window.llandeiloDebug.scene`) rather than by eye.
+
+**Performance numbers** (to be filled from a real desktop GPU): first load, scrubbing frame rate,
+terrain recolour time (logged as `dewidebug terrain recolour … in Nms`). Bundle: 387KB gzipped,
+held under 450KB by a CI budget.
 
 ## Working agreements
 

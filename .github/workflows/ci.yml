@@ -8,12 +8,10 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   PAGES_BASE: /llandeilo-omnia-mutantur-nihil-interit/
@@ -37,6 +35,11 @@ jobs:
       - run: npm test
       - run: npm run knip
       - run: npx vite build
+      - name: Bundle size budget (gzipped main chunk under 450KB)
+        run: |
+          size=$(cat dist/assets/index-*.js | gzip -9 | wc -c)
+          echo "main bundle gzipped: $size bytes"
+          test "$size" -lt 460800
       - name: Install Chromium for e2e
         run: npx playwright install --with-deps chromium
       - name: End-to-end tests
@@ -56,6 +59,9 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: check
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

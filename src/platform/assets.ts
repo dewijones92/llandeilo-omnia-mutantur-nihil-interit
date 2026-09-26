@@ -42,21 +42,28 @@ export async function loadHeightfield(): Promise<Heightfield> {
   return createHeightfield(meta, data);
 }
 
+function points(v: unknown): GridRef[] {
+  if (!Array.isArray(v)) throw new Error('expected an array of points');
+  return v.map((p: unknown) => {
+    if (!Array.isArray(p) || typeof p[0] !== 'number' || typeof p[1] !== 'number')
+      throw new Error('bad point');
+    return { e: p[0], n: p[1] };
+  });
+}
+
 export async function loadRivers(): Promise<readonly RiverLine[]> {
   const res = await fetch(asset('data/rivers.json'));
   if (!res.ok) throw new Error(`rivers fetch failed: ${res.status}`);
-  const raw = (await res.json()) as {
-    features: {
-      properties: { watercourse_name: string | null };
-      geometry: { type: string; coordinates: number[][] };
-    }[];
-  };
+  const raw: unknown = await res.json();
+  if (!isRecord(raw) || !Array.isArray(raw['features'])) throw new Error('rivers.json has no features');
   const lines: RiverLine[] = [];
-  for (const f of raw.features) {
-    if (f.geometry.type !== 'LineString') continue;
+  for (const f of raw['features'] as unknown[]) {
+    if (!isRecord(f) || !isRecord(f['geometry']) || !isRecord(f['properties'])) continue;
+    if (f['geometry']['type'] !== 'LineString') continue;
+    const name = f['properties']['watercourse_name'];
     lines.push({
-      name: f.properties.watercourse_name,
-      points: f.geometry.coordinates.map(([e = 0, n = 0]) => ({ e, n })),
+      name: typeof name === 'string' ? name : null,
+      points: points(f['geometry']['coordinates']),
     });
   }
   console.info(`dewidebug rivers loaded lines=${lines.length}`);
@@ -72,6 +79,7 @@ export async function loadBuildings(): Promise<BuildingFootprints> {
   const res = await fetch(asset('data/buildings.bin'));
   if (!res.ok) throw new Error(`buildings fetch failed: ${res.status}`);
   const data = new Float32Array(await res.arrayBuffer());
+  if (data.length % 5 !== 0) throw new Error(`buildings.bin has ${data.length} floats, not a multiple of 5`);
   console.info(`dewidebug buildings loaded count=${data.length / 5}`);
   return { count: data.length / 5, data };
 }
@@ -84,8 +92,12 @@ export interface MapLine {
 async function loadLines(path: string): Promise<readonly MapLine[]> {
   const res = await fetch(asset(path));
   if (!res.ok) throw new Error(`${path} fetch failed: ${res.status}`);
-  const raw = (await res.json()) as { lines: { kind: string; points: [number, number][] }[] };
-  return raw.lines.map((l) => ({ kind: l.kind, points: l.points.map(([e, n]) => ({ e, n })) }));
+  const raw: unknown = await res.json();
+  if (!isRecord(raw) || !Array.isArray(raw['lines'])) throw new Error(`${path} has no lines`);
+  return (raw['lines'] as unknown[]).map((l) => {
+    if (!isRecord(l) || typeof l['kind'] !== 'string') throw new Error(`${path}: bad line`);
+    return { kind: l['kind'], points: points(l['points']) };
+  });
 }
 
 export const loadRailways = (): Promise<readonly MapLine[]> => loadLines('data/railways.json');

@@ -23,7 +23,6 @@ export class Forest {
   private readonly broadleaf: Mesh;
   private readonly conifer: Mesh;
   private readonly candidates: readonly Candidate[];
-  private lastVisible = -1;
 
   constructor(
     scene: Scene,
@@ -72,8 +71,7 @@ export class Forest {
       if (this.terrain.cover[c.tri] === code) (c.conifer ? con : broad).push(c);
     }
     const visible = broad.length + con.length;
-    if (visible === this.lastVisible) return;
-    this.lastVisible = visible;
+    console.info(`dewidebug forest visible=${visible}`);
     apply(this.broadleaf, broad);
     apply(this.conifer, con);
   }

@@ -12,6 +12,7 @@ export async function createEngine(canvas: HTMLCanvasElement, forceWebGL: boolea
     try {
       const engine = new WebGPUEngine(canvas, { antialias: true, stencil: true, adaptToDeviceRatio: true });
       await engine.initAsync();
+      capPixelRatio(engine);
       console.info('dewidebug engine backend=webgpu');
       return { engine, backend: 'webgpu' };
     } catch (err) {
@@ -20,7 +21,14 @@ export async function createEngine(canvas: HTMLCanvasElement, forceWebGL: boolea
   } else {
     console.info(`dewidebug engine webgpu skipped forceWebGL=${forceWebGL}`);
   }
-  const engine = new Engine(canvas, true, { stencil: true, preserveDrawingBuffer: true }, true);
+  const engine = new Engine(canvas, true, { stencil: true }, true);
+  capPixelRatio(engine);
   console.info(`dewidebug engine backend=webgl2 version=${engine.webGLVersion}`);
   return { engine, backend: 'webgl2' };
+}
+
+function capPixelRatio(engine: AbstractEngine): void {
+  const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+  engine.setHardwareScalingLevel(1 / ratio);
+  console.info(`dewidebug engine pixelRatio=${ratio}`);
 }

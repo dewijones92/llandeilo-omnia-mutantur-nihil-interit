@@ -7,6 +7,7 @@ import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
 import { Buildings, lineRibbons, longestLine, Train } from './settlement.ts';
 import { buildFeature, type Ground } from './structures.ts';
+import type { SmokeSource } from './smoke.ts';
 import type { Clearing } from './terrain.ts';
 
 interface Monument {
@@ -112,6 +113,31 @@ export class FeatureLayer {
     return out;
   }
 
+  smokeSources(present: readonly FeaturePresence[]): SmokeSource[] {
+    const out: SmokeSource[] = [];
+    for (const p of present) {
+      if (p.presence < 0.6) continue;
+      const k = p.feature.kind;
+      const { x, z } = toWorld(p.feature.at);
+      const y = this.ground(x, z) + 2;
+      if (k.type === 'roundhouses' || k.type === 'hall-houses') {
+        out.push({
+          key: p.feature.id,
+          x,
+          y,
+          z,
+          spread: (k.spread / 10) * 0.5 + 1,
+          density: Math.min(1.5, k.count / 4),
+        });
+      } else if (k.type === 'town' && k.style !== 'modern') {
+        out.push({ key: p.feature.id, x, y: y + 1, z, spread: 18, density: 1.8 });
+      } else if (k.type === 'mansion') {
+        out.push({ key: p.feature.id, x, y: y + 3, z, spread: 1.5, density: 0.5 });
+      }
+    }
+    return out;
+  }
+
   apply(present: readonly FeaturePresence[]): void {
     const active = new Map(present.map((p) => [p.feature.id, p]));
     for (const [id, m] of this.monuments) {
@@ -119,10 +145,10 @@ export class FeatureLayer {
       m.mesh.setEnabled(p > 0.01);
       if (p > 0.01) m.mesh.scaling.y = 0.05 + 0.95 * (1 - Math.pow(1 - p, 3));
     }
-    const selections: { order: Int32Array; count: number }[] = [];
+    const selections: { id: string; order: Int32Array; count: number }[] = [];
     for (const [id, t] of this.towns) {
       const p = active.get(id)?.presence ?? 0;
-      if (p > 0) selections.push({ order: t.order, count: Math.floor(t.target * p) });
+      if (p > 0) selections.push({ id, order: t.order, count: Math.floor(t.target * p) });
     }
     this.buildings.show(selections);
     let rail = 0;

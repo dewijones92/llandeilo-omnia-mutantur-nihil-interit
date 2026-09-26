@@ -3,6 +3,7 @@ import './ui/styles.css';
 import { WORLD_CONTENT } from './content/world.ts';
 import { toWorld } from './domain/geo.ts';
 import { isLang } from './domain/i18n.ts';
+import { STRINGS } from './content/strings.ts';
 import { snapshotAt, snapTarget } from './domain/state.ts';
 import { tAt } from './domain/timeline.ts';
 import { ad, year } from './domain/time.ts';
@@ -28,9 +29,10 @@ import { createEngine } from './world/engine.ts';
 import { FeatureLayer } from './world/features.ts';
 import { Flight } from './world/flight.ts';
 import { People } from './world/people.ts';
+import { Smoke } from './world/smoke.ts';
 import { World } from './world/scene.ts';
 
-const SNAP_RADIUS = 0.018;
+const SNAP_RADIUS = 0.009;
 const MOMENT_RADIUS = 0.01;
 
 async function start(): Promise<void> {
@@ -71,6 +73,8 @@ async function start(): Promise<void> {
   const features = new FeatureLayer(world, content.features, footprints, railways, roads);
   const people = new People(world.scene, content.conversations, content.people, features.ground);
   for (const m of people.meshes) world.addCaster(m);
+  const smoke = new Smoke(world.scene);
+  let smokeSources = features.smokeSources([]);
 
   const debug = params.has('debug') ? new DebugOverlay(engine, backend) : undefined;
   let pending = true;
@@ -181,11 +185,17 @@ async function start(): Promise<void> {
   brand.append(row2);
   brand.querySelector('.brand-row')?.append(home);
   app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el);
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (panel.open) panel.close();
+    else if (info.isOpen) info.close();
+  });
   const startPlace = content.places.find((p) => p.id === params.get('place'));
   if (startPlace) {
     const { x, z } = toWorld(startPlace.at);
     world.camera.target = new Vector3(x, features.ground(x, z), z);
-    world.camera.radius = Number(params.get('radius') ?? 420);
+    const radius = Number(params.get('radius') ?? 420);
+    world.camera.radius = Number.isFinite(radius) && radius > 0 ? radius : 420;
     world.camera.beta = 0.82;
     home.hidden = false;
   }
@@ -198,6 +208,8 @@ async function start(): Promise<void> {
     const snap = snapshotAt(content, t);
     world.applyEnvironment(snap.environment, features.clearings(snap.features));
     features.apply(snap.features);
+    world.refreshShadows();
+    smokeSources = features.smokeSources(snap.features);
     active = new Set(snap.conversations.map((c) => c.id));
     const open = panel.open;
     if (open && !active.has(open.id)) panel.close();
@@ -218,6 +230,8 @@ async function start(): Promise<void> {
     flight.tick(dt);
     const now = performance.now();
     people.show(active, now);
+    const eye = world.camera.globalPosition;
+    smoke.show(smokeSources, (x, z) => Math.hypot(eye.x - x, eye.z - z));
     world.scene.render();
     labels.update();
     bubbles.update(active, now);
@@ -230,6 +244,7 @@ async function start(): Promise<void> {
   setTimeout(() => {
     loader.remove();
   }, 900);
+  if (debug) Object.assign(window, { llandeiloDebug: { scene: world.scene } });
   document.body.dataset['ready'] = 'true';
   console.info(`dewidebug app ready backend=${backend}`);
 }
@@ -253,11 +268,12 @@ function langToggle(store: LangStore): HTMLElement {
 
 start().catch((err: unknown) => {
   console.error('dewidebug app failed to start', err);
+  const lang = new URLSearchParams(location.search).get('lang') === 'cy' ? 'cy' : 'en';
   document.body.dataset['ready'] = 'error';
   const msg = document.createElement('p');
   msg.className = 'panel';
   msg.style.cssText =
     'position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);padding:20px;z-index:200';
-  msg.textContent = `Something went wrong loading the valley: ${err instanceof Error ? err.message : String(err)}`;
+  msg.textContent = `${STRINGS.loadingFailed[lang]} ${err instanceof Error ? err.message : String(err)}`;
   document.body.append(msg);
 });

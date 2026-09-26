@@ -1,4 +1,4 @@
-import type { AmbientBed } from '../domain/model.ts';
+import { AMBIENT_BEDS, type AmbientBed } from '../domain/model.ts';
 
 type Levels = Readonly<Record<AmbientBed, number>>;
 
@@ -38,6 +38,7 @@ export class Ambience {
   private readonly reverb: ConvolverNode;
   private readonly beds = new Map<AmbientBed, GainNode>();
   private levels: Levels | undefined;
+  private on = false;
   private readonly timer: number;
   private readonly white: AudioBuffer;
   private readonly pink: AudioBuffer;
@@ -54,19 +55,7 @@ export class Ambience {
     this.reverb.connect(wet).connect(this.master);
     this.white = noiseBuffer(this.ctx, 4, false);
     this.pink = noiseBuffer(this.ctx, 4, true);
-    for (const bed of [
-      'wind',
-      'river',
-      'birds',
-      'forest',
-      'livestock',
-      'forge',
-      'bells',
-      'market',
-      'train',
-      'traffic',
-      'chant',
-    ] as const) {
+    for (const bed of AMBIENT_BEDS) {
       const g = this.ctx.createGain();
       g.gain.value = 0;
       g.connect(this.master);
@@ -171,6 +160,7 @@ export class Ambience {
   }
 
   private tick(): void {
+    if (!this.on) return;
     const t = this.ctx.currentTime + 0.05;
     if (this.chance('birds', 1.6)) {
       this.voice('birds', t, (out, at) => {
@@ -276,8 +266,14 @@ export class Ambience {
   }
 
   enable(on: boolean): void {
-    void this.ctx.resume();
+    this.on = on;
+    if (on) void this.ctx.resume();
     this.master.gain.setTargetAtTime(on ? 0.8 : 0, this.ctx.currentTime, 0.4);
+    if (!on) {
+      window.setTimeout(() => {
+        if (!this.on) void this.ctx.suspend();
+      }, 1500);
+    }
     console.info(`dewidebug audio ${on ? 'on' : 'off'}`);
   }
 

@@ -98,8 +98,8 @@ export class Buildings {
     return Int32Array.from(ids);
   }
 
-  show(selections: readonly { order: Int32Array; count: number }[]): void {
-    const key = selections.map((s) => `${s.order.length}:${s.count}`).join('|');
+  show(selections: readonly { id: string; order: Int32Array; count: number }[]): void {
+    const key = selections.map((s) => `${s.id}:${s.count}`).join('|');
     if (key === this.lastKey) return;
     this.lastKey = key;
     const chosen = new Set<number>();

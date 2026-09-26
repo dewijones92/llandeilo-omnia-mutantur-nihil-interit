@@ -171,18 +171,20 @@ export interface Feature {
   readonly label: Bilingual;
 }
 
-export type AmbientBed =
-  | 'wind'
-  | 'river'
-  | 'birds'
-  | 'forest'
-  | 'livestock'
-  | 'forge'
-  | 'bells'
-  | 'market'
-  | 'train'
-  | 'traffic'
-  | 'chant';
+export const AMBIENT_BEDS = [
+  'wind',
+  'river',
+  'birds',
+  'forest',
+  'livestock',
+  'forge',
+  'bells',
+  'market',
+  'train',
+  'traffic',
+  'chant',
+] as const;
+export type AmbientBed = (typeof AMBIENT_BEDS)[number];
 
 export interface EnvironmentKey {
   readonly year: Year;

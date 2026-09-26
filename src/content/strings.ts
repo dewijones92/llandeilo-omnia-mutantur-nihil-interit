@@ -33,22 +33,21 @@ export const STRINGS = {
   },
   basedOn: { en: 'Based on', cy: 'Yn seiliedig ar' },
   sources: { en: 'Sources', cy: 'Ffynonellau' },
-  sound: { en: 'Sound', cy: 'Sain' },
   soundOn: { en: 'Sound on', cy: 'Sain ymlaen' },
   soundOff: { en: 'Sound off', cy: 'Sain i ffwrdd' },
   about: { en: 'About', cy: 'Ynghylch' },
   almanac: { en: 'Almanac', cy: 'Almanac' },
   language: { en: 'Language', cy: 'Iaith' },
-  conversations: { en: 'Voices', cy: 'Lleisiau' },
   nothingRecorded: {
     en: 'Nothing recorded for this moment yet.',
     cy: 'Dim wedi’i gofnodi ar gyfer yr adeg hon eto.',
   },
   close: { en: 'Close', cy: 'Cau' },
   play: { en: 'Play', cy: 'Chwarae' },
-  translation: { en: 'Translation', cy: 'Cyfieithiad' },
   flyTo: { en: 'Visit', cy: 'Ymweld' },
   playAll: { en: 'Play conversation', cy: 'Chwarae’r sgwrs' },
+  conversation: { en: 'Conversation', cy: 'Sgwrs' },
+  imaginedBecause: { en: 'Imagined. Based on', cy: 'Dychmygol. Yn seiliedig ar' },
   keyDates: { en: 'key dates', cy: 'dyddiad allweddol' },
   featuresCount: { en: 'places and buildings through time', cy: 'lle ac adeilad drwy amser' },
   sourcesCount: { en: 'research sources', cy: 'ffynhonnell ymchwil' },
@@ -72,10 +71,6 @@ export const STRINGS = {
     cy: "Diorama o'r tirwedd go iawn o fewn deg milltir i Landeilo, wedi'i adeiladu o ddata uchder yr Arolwg Ordnans (mae'r bryniau wedi'u gorliwio 2.4 gwaith er mwyn eu gweld ar y raddfa hon). Symudwch y llithrydd i deithio drwy amser. Mae label ar bopeth: wedi'i gofnodi, wedi'i ail-greu, neu ddychmygol. Hofran neu dapio label i weld pam, a'r ffynonellau.",
   },
   credits: { en: 'Credits and licences', cy: 'Cydnabyddiaeth a thrwyddedau' },
-  osCredit: {
-    en: 'Contains OS data © Crown copyright and database right 2026 (OS Terrain 50 and OS Open Rivers, Open Government Licence v3.0).',
-    cy: 'Yn cynnwys data’r AO © Hawlfraint y Goron a hawl cronfa ddata 2026 (OS Terrain 50 ac OS Open Rivers, Trwydded Llywodraeth Agored v3.0).',
-  },
 } as const satisfies Record<string, Bilingual>;
 
 export type StringKey = keyof typeof STRINGS;

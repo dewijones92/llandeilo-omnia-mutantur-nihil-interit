@@ -34,6 +34,9 @@ export class PlaceLabels {
         onVisit(place, new Vector3(x, ground(x, z), z));
       });
       this.labels.push({ place, el, world });
+      store.onChange(() => {
+        el.title = `${store.t('flyTo')} ${place.name}`;
+      });
       this.el.append(el);
     }
   }
@@ -50,9 +53,11 @@ export class PlaceLabels {
     for (const l of this.labels) {
       const p = Vector3.Project(l.world, Matrix.IdentityReadOnly, transform, viewport);
       const visible = p.z > 0 && p.z < 1 && p.x > 0 && p.x < w && p.y > 0 && p.y < hgt;
-      l.el.style.display = visible ? '' : 'none';
-      if (visible)
-        l.el.style.transform = `translate(${(p.x * scale).toFixed(1)}px, ${(p.y * scale).toFixed(1)}px)`;
+      const display = visible ? '' : 'none';
+      if (l.el.style.display !== display) l.el.style.display = display;
+      if (!visible) continue;
+      const next = `translate(${Math.round(p.x * scale)}px, ${Math.round(p.y * scale)}px)`;
+      if (l.el.style.transform !== next) l.el.style.transform = next;
     }
   }
 }

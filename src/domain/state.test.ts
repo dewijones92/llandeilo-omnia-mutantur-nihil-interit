@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { presenceAt } from './state.ts';
+import { latestStarting, presenceAt } from './state.ts';
 import { ad, range } from './time.ts';
 import { createTimeline } from './timeline.ts';
 
@@ -22,5 +22,22 @@ describe('presenceAt', () => {
     expect(presenceAt(tl, when, 0.195)).toBeGreaterThan(0);
     expect(presenceAt(tl, when, 0.505)).toBeLessThan(1);
     expect(presenceAt(tl, when, 0.6)).toBe(0);
+  });
+});
+
+describe('latestStarting', () => {
+  const eras = [
+    { id: 'a', when: range(ad(1000), ad(1099)) },
+    { id: 'b', when: range(ad(1100), ad(1199)) },
+  ];
+
+  it('covers the gap between whole-year ranges', () => {
+    expect(latestStarting(eras, ad(1099.5))?.id).toBe('a');
+    expect(latestStarting(eras, ad(1100))?.id).toBe('b');
+  });
+
+  it('is empty before the first and after the last range', () => {
+    expect(latestStarting(eras, ad(999))).toBeUndefined();
+    expect(latestStarting(eras, ad(1201))).toBeUndefined();
   });
 });

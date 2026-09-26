@@ -105,6 +105,17 @@ export function environmentAt(keys: readonly EnvironmentKey[], y: Year): Environ
   };
 }
 
+export function latestStarting<T extends { readonly when: TimeRange }>(
+  items: readonly T[],
+  y: Year,
+): T | undefined {
+  let best: T | undefined;
+  for (const item of items) {
+    if (item.when.from <= y && (!best || item.when.from > best.when.from)) best = item;
+  }
+  return best && y < best.when.to + 1 ? best : undefined;
+}
+
 export function presenceAt(timeline: Timeline, when: TimeRange, t: number): number {
   const from = tAt(timeline, when.from);
   const to = tAt(timeline, when.to);
@@ -130,12 +141,12 @@ export function snapshotAt(world: WorldContent, t: number): Snapshot {
   return {
     t,
     year: y,
-    era: world.eras.find((e) => contains(e.when, y)),
+    era: latestStarting(world.eras, y),
     environment: environmentAt(world.environment, y),
     features,
     conversations: world.conversations.filter((c) => contains(c.when, y)),
     almanac: world.almanac.filter((a) => contains(a.when, y)),
-    language: world.language.find((l) => contains(l.when, y)),
+    language: latestStarting(world.language, y),
     nearestEvent,
   };
 }

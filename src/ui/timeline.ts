@@ -1,6 +1,7 @@
 import { clamp } from '../domain/assert.ts';
 import type { Era, KeyEvent } from '../domain/model.ts';
-import { formatYear, year } from '../domain/time.ts';
+import { latestStarting } from '../domain/state.ts';
+import { formatYear } from '../domain/time.ts';
 import { tAt, yearAt, type Timeline } from '../domain/timeline.ts';
 import { h } from './dom.ts';
 import type { LangStore } from './store.ts';
@@ -9,10 +10,6 @@ export interface TimelineCallbacks {
   onScrub(t: number): void;
   onRelease(t: number): void;
 }
-
-const TICK_YEARS = [
-  -12499, -3999, -2299, -799, 74, 410, 1000, 1163, 1300, 1500, 1700, 1850, 1950, 2026,
-] as const;
 
 export class TimelineBar {
   readonly el: HTMLElement;
@@ -41,22 +38,34 @@ export class TimelineBar {
     this.thumb = h('div', { class: 'tl-thumb', 'aria-hidden': 'true' }, h('span', { class: 'tl-knob' }));
     this.track = h(
       'div',
-      { class: 'tl-track', role: 'slider', tabindex: 0, 'aria-valuemin': 0, 'aria-valuemax': 1000 },
+      {
+        class: 'tl-track',
+        role: 'slider',
+        tabindex: 0,
+        'aria-valuemin': 0,
+        'aria-valuemax': 1000,
+        'aria-label': store.t('timeline'),
+        'aria-describedby': 'tl-hint',
+      },
       this.bands,
-      this.markers,
       this.thumb,
     );
+    const hint = h('span', { id: 'tl-hint', class: 'sr-only' }, store.t('sliderHint'));
     this.ticks = h('div', { class: 'tl-ticks', 'aria-hidden': 'true' });
     this.el = h(
       'section',
       { class: 'timeline panel', 'aria-label': store.t('timeline') },
       h('div', { class: 'tl-readout' }, this.yearEl, this.eraEl),
-      this.track,
+      h('div', { class: 'tl-rail' }, this.track, this.markers),
       this.ticks,
+      hint,
     );
     this.render();
     this.bind();
     store.onChange(() => {
+      this.el.setAttribute('aria-label', store.t('timeline'));
+      this.track.setAttribute('aria-label', store.t('timeline'));
+      hint.textContent = store.t('sliderHint');
       this.render();
       this.set(this.t);
     });
@@ -69,7 +78,7 @@ export class TimelineBar {
   set(t: number): void {
     this.t = clamp(t, 0, 1);
     const y = yearAt(this.timeline, this.t);
-    const era = this.eras.find((e) => y >= e.when.from && y <= e.when.to);
+    const era = latestStarting(this.eras, y);
     const lang = this.store.lang;
     this.thumb.style.left = `${this.t * 100}%`;
     this.yearEl.textContent = formatYear(y, lang, y < 1000);
@@ -119,6 +128,7 @@ export class TimelineBar {
           {
             class: `tl-marker${ev.magnetic ? ' magnetic' : ''}`,
             type: 'button',
+            tabindex: -1,
             'aria-label': `${formatYear(ev.when.from, lang, ev.approximate)}: ${ev.title[lang]}`,
           },
           h(
@@ -142,10 +152,9 @@ export class TimelineBar {
       }),
     );
     this.ticks.replaceChildren(
-      ...TICK_YEARS.map((y) => {
-        const t = tAt(this.timeline, year(y));
-        const label = h('span', { class: 'tl-tick' }, formatYear(year(y), lang));
-        label.style.left = `${t * 100}%`;
+      ...this.timeline.anchors.map((a) => {
+        const label = h('span', { class: 'tl-tick' }, formatYear(a.year, lang));
+        label.style.left = `${a.t * 100}%`;
         return label;
       }),
     );
@@ -194,7 +203,6 @@ export class TimelineBar {
       if (e.key.startsWith('Arrow')) {
         this.set(final);
         this.cb.onScrub(this.t);
-        this.cb.onRelease(this.t);
       } else {
         this.animateTo(final, () => {
           this.cb.onRelease(final);

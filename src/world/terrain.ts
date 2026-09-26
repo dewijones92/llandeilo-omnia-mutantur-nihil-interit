@@ -1,7 +1,7 @@
 import { Color3, Mesh, StandardMaterial, VertexBuffer, VertexData, type Scene } from './babylon.ts';
 import Delaunator from 'delaunator';
 import { clamp, smoothstep } from '../domain/assert.ts';
-import { hex, mix, type Rgb } from '../domain/colour.ts';
+import { hex, type Rgb } from '../domain/colour.ts';
 import { heightToWorld, toGrid, WORLD } from '../domain/geo.ts';
 import { sampleHeight, type Heightfield } from '../domain/heightfield.ts';
 import type { GridRef } from '../domain/model.ts';
@@ -27,35 +27,30 @@ export const MAIN_RIVERS: Readonly<Record<string, number>> = {
 };
 
 const PALETTE = {
-  meadow: hex('#8fc46a'),
-  meadowWet: hex('#79b866'),
-  grass: hex('#a9c97a'),
-  scrub: hex('#9bb86b'),
-  wood: hex('#4f8a4c'),
-  woodDark: hex('#3f7746'),
-  moor: hex('#b59a62'),
-  heather: hex('#9a7a8c'),
-  uplandGrass: hex('#b8c07e'),
-  rock: hex('#9a9690'),
-  fieldA: hex('#9fcb6b'),
-  fieldB: hex('#b3d178'),
-  fieldC: hex('#d3c77a'),
-  fieldD: hex('#8ec262'),
-  fieldE: hex('#c7b27a'),
-  riverbed: hex('#6f9f6a'),
+  pasture: hex('#8fae6a'),
+  meadow: hex('#86ab66'),
+  meadowWet: hex('#7ea465'),
+  grass: hex('#a3b27a'),
+  scrub: hex('#97aa70'),
+  wood: hex('#5f7f4c'),
+  woodDark: hex('#557446'),
+  moor: hex('#b9ab7c'),
+  heather: hex('#a39487'),
+  uplandGrass: hex('#b3b584'),
+  rock: hex('#9c978d'),
+  tundra: hex('#b8b08e'),
+  snow: hex('#eef1f3'),
 } as const;
 
 const FIELD_COLOURS: readonly Rgb[] = [
-  PALETTE.fieldA,
-  PALETTE.fieldB,
-  PALETTE.fieldD,
-  PALETTE.fieldA,
-  PALETTE.fieldB,
-  PALETTE.fieldD,
-  PALETTE.fieldC,
-  PALETTE.fieldA,
-  PALETTE.fieldE,
-];
+  '#9fb873',
+  '#a9bd7b',
+  '#93b16d',
+  '#a2b674',
+  '#b8b77a',
+  '#9cb56f',
+  '#c2b280',
+].map(hex);
 
 export interface RiverPath {
   readonly name: string;
@@ -79,6 +74,7 @@ export interface TerrainTriangles {
   readonly shade: Float32Array;
   readonly mapped: Uint8Array;
   readonly mix: Float32Array;
+  readonly north: Float32Array;
 }
 
 export type LandCover = 'wood' | 'farm' | 'meadow' | 'moor' | 'grass' | 'rock';
@@ -105,6 +101,11 @@ export class Terrain {
     woodland: Uint8Array,
   ) {
     const started = performance.now();
+    if (woodland.length !== heightfield.meta.width * heightfield.meta.height) {
+      throw new Error(
+        `woodland.bin has ${woodland.length} cells, expected ${heightfield.meta.width * heightfield.meta.height}`,
+      );
+    }
     this.rivers = buildRiverPaths(heightfield, riverLines);
     const { positions, tris } = triangulate(heightfield, this.rivers, woodland);
     this.tris = tris;
@@ -142,28 +143,32 @@ export class Terrain {
     return sampleHeight(this.heightfield, g);
   }
 
-  applyEnvironment(env: Environment, clearings: readonly Clearing[] = []): boolean {
-    const key = `${env.forest.toFixed(3)}|${env.farmland.toFixed(3)}|${env.moor.toFixed(3)}|${env.mappedWoodland.toFixed(3)}|${clearings.map((c) => `${c.x.toFixed(0)},${c.z.toFixed(0)},${c.radius.toFixed(0)}`).join(';')}`;
+  applyEnvironment(raw: Environment, clearings: readonly Clearing[] = []): boolean {
+    const env = quantise(raw);
+    const key = `${env.forest}|${env.farmland}|${env.moor}|${env.mappedWoodland}|${clearings.map((c) => `${Math.round(c.x)},${Math.round(c.z)},${Math.round(c.radius)}`).join(';')}`;
     if (key === this.lastKey) return false;
     this.lastKey = key;
+    const started = performance.now();
     const t = this.tris;
     const c = this.colours;
     const farmShare = env.farmland / Math.max(0.0001, 1 - env.forest);
+    const cold = 1 - smoothstep(0.04, 0.2, env.forest);
+    const col = { r: 0, g: 0, b: 0 };
     for (let i = 0; i < t.count; i++) {
       let cover = classify(t, i, env, farmShare);
       if (cover === 'wood' && clearings.length > 0) {
         const cx = t.cx[i] ?? 0;
         const cz = t.cz[i] ?? 0;
-        for (const c of clearings) {
-          const d = Math.hypot(cx - c.x, cz - c.z);
-          if (d < c.radius * (0.75 + (t.mix[i] ?? 0) * 0.5)) {
+        for (const cl of clearings) {
+          const d = Math.hypot(cx - cl.x, cz - cl.z);
+          if (d < cl.radius * (0.75 + (t.mix[i] ?? 0) * 0.5)) {
             cover = (t.heightM[i] ?? 0) >= UPLAND_M ? 'grass' : 'farm';
             break;
           }
         }
       }
       this.cover[i] = COVER_CODE[cover];
-      const col = colourFor(t, i, cover, env);
+      colourInto(col, t, i, cover, env, cold);
       const o = i * 12;
       for (let v = 0; v < 3; v++) {
         c[o + v * 4] = col.r;
@@ -173,6 +178,9 @@ export class Terrain {
       }
     }
     this.mesh.updateVerticesData(VertexBuffer.ColorKind, c);
+    console.info(
+      `dewidebug terrain recolour key=${key.slice(0, 40)} in ${Math.round(performance.now() - started)}ms`,
+    );
     return true;
   }
 
@@ -211,34 +219,83 @@ function classify(t: TerrainTriangles, i: number, env: Environment, farmShare: n
   return 'grass';
 }
 
-function colourFor(t: TerrainTriangles, i: number, cover: LandCover, env: Environment): Rgb {
+const STEPS = 48;
+
+function q(v: number): number {
+  return Math.round(v * STEPS) / STEPS;
+}
+
+function quantise(env: Environment): Environment {
+  return {
+    ...env,
+    forest: q(env.forest),
+    farmland: q(env.farmland),
+    moor: q(env.moor),
+    mappedWoodland: q(env.mappedWoodland),
+  };
+}
+
+interface MutableRgb {
+  r: number;
+  g: number;
+  b: number;
+}
+
+function set(out: MutableRgb, c: Rgb): void {
+  out.r = c.r;
+  out.g = c.g;
+  out.b = c.b;
+}
+
+function blend(out: MutableRgb, c: Rgb, t: number): void {
+  out.r += (c.r - out.r) * t;
+  out.g += (c.g - out.g) * t;
+  out.b += (c.b - out.b) * t;
+}
+
+function colourInto(
+  out: MutableRgb,
+  t: TerrainTriangles,
+  i: number,
+  cover: LandCover,
+  env: Environment,
+  cold: number,
+): void {
   const shade = t.shade[i] ?? 1;
-  let base: Rgb;
+  const h = t.heightM[i] ?? 0;
   switch (cover) {
     case 'rock':
-      base = PALETTE.rock;
+      set(out, PALETTE.rock);
       break;
     case 'wood':
-      base = mix(PALETTE.wood, PALETTE.woodDark, (t.woodRank[i] ?? 0) * 0.8);
+      set(out, PALETTE.wood);
+      blend(out, PALETTE.woodDark, (t.woodRank[i] ?? 0) * 0.8);
       break;
     case 'farm':
-      base = FIELD_COLOURS[(t.field[i] ?? 0) % FIELD_COLOURS.length] ?? PALETTE.fieldA;
+      set(out, FIELD_COLOURS[(t.field[i] ?? 0) % FIELD_COLOURS.length] ?? PALETTE.pasture);
+      blend(out, PALETTE.pasture, 0.25);
       break;
     case 'meadow':
-      base = mix(PALETTE.meadow, PALETTE.meadowWet, shade - 0.9);
+      set(out, PALETTE.meadow);
+      blend(out, PALETTE.meadowWet, shade - 0.975);
       break;
-    case 'moor': {
-      const heath = smoothstep(0.4, 0.8, t.moorRank[i] ?? 0);
-      base = mix(PALETTE.moor, PALETTE.heather, heath * 0.55);
+    case 'moor':
+      set(out, PALETTE.moor);
+      blend(out, PALETTE.heather, smoothstep(0.4, 0.8, t.moorRank[i] ?? 0) * 0.5);
+      blend(out, PALETTE.tundra, cold);
       break;
-    }
-    case 'grass': {
-      const up = smoothstep(UPLAND_M - 60, UPLAND_M + 120, t.heightM[i] ?? 0);
-      base = mix(mix(PALETTE.grass, PALETTE.scrub, 1 - env.farmland), PALETTE.uplandGrass, up);
+    case 'grass':
+      set(out, PALETTE.grass);
+      blend(out, PALETTE.scrub, 1 - env.farmland);
+      blend(out, PALETTE.uplandGrass, smoothstep(UPLAND_M - 60, UPLAND_M + 120, h));
+      blend(out, PALETTE.tundra, cold * 0.85);
       break;
-    }
   }
-  return { r: base.r * shade, g: base.g * shade, b: base.b * shade };
+  if (cold > 0.5 && h > 420 && (t.north[i] ?? 0) > 0.12)
+    blend(out, PALETTE.snow, smoothstep(0.5, 1, cold) * smoothstep(420, 560, h));
+  out.r *= shade;
+  out.g *= shade;
+  out.b *= shade;
 }
 
 function buildRiverPaths(hf: Heightfield, lines: readonly RiverLine[]): RiverPath[] {
@@ -395,6 +452,7 @@ function triangulate(
     shade: new Float32Array(count),
     mapped: new Uint8Array(count),
     mix: new Float32Array(count),
+    north: new Float32Array(count),
   };
   const woodScore = new Float32Array(count);
   const farmScore = new Float32Array(count);
@@ -441,11 +499,12 @@ function triangulate(
     const nl = Math.hypot(nx, ny, nz) || 1;
     const slope = 1 - Math.abs(ny / nl);
     tris.slope[t] = slope;
+    tris.north[t] = (ny < 0 ? -nz : nz) / nl;
     const riverSide = A.river || B.river || C.river;
     const large = fbm(ex / 2600, ez / 2600, 4, 7);
     const medium = fbm(ex / 700, ez / 700, 3, 11);
     const jitter = hash2(Math.round(ex), Math.round(ez), 3);
-    tris.shade[t] = 0.95 + jitter * 0.07;
+    tris.shade[t] = 0.975 + jitter * 0.05;
     const col = Math.floor((ex - hf.meta.originEasting) / hf.meta.cellSize);
     const row = Math.floor((hf.meta.originNorthing - ez) / hf.meta.cellSize);
     tris.mapped[t] = woodland[row * hf.meta.width + col] ?? 0;

@@ -54,3 +54,19 @@ describe('formatYear', () => {
     expect(formatYear(yearsAgo(450_000_000), 'en')).toBe('450 million years ago');
   });
 });
+
+describe('formatYear with fractional years (as the slider produces)', () => {
+  it('rounds every branch', () => {
+    expect(formatYear(year(1892.857142857143), 'en')).toBe('1893');
+    expect(formatYear(year(74.48), 'en', true)).toBe('c. AD 74');
+    expect(formatYear(year(-799.6), 'en')).toBe('801 BC');
+    expect(formatYear(year(1023.28), 'cy')).toBe('1023');
+  });
+
+  it('never prints a decimal point for any slider position', () => {
+    for (let i = 0; i <= 2000; i++) {
+      const text = formatYear(yearAt(tl, i / 2000), 'en');
+      expect(text).not.toMatch(/\d\.\d{2,}/);
+    }
+  });
+});

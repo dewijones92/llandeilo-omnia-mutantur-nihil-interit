@@ -8,6 +8,7 @@ interface Bubble {
   readonly group: Group;
   readonly el: HTMLButtonElement;
   readonly text: HTMLElement;
+  readonly info: HTMLElement;
 }
 
 export class Bubbles {
@@ -22,16 +23,18 @@ export class Bubbles {
   ) {
     for (const group of groups) {
       const text = h('span', { class: 'bubble-text' });
+      const info = h('span', { class: 'bubble-info' });
       const el = h(
         'button',
         { class: 'bubble', type: 'button' },
         text,
-        h('span', { class: 'bubble-i', 'aria-label': store.t('imagined') }, 'i'),
+        h('span', { class: 'bubble-i', 'aria-hidden': 'true' }, 'i'),
+        info,
       );
       el.addEventListener('click', () => {
         onOpen(group.conversation);
       });
-      this.bubbles.push({ group, el, text });
+      this.bubbles.push({ group, el, text, info });
       this.el.append(el);
     }
   }
@@ -62,7 +65,13 @@ export class Bubbles {
       const line = c.lines[index];
       const next = near && line ? line.translation[lang] : c.title[lang];
       if (b.text.textContent !== next) b.text.textContent = next;
-      b.el.style.transform = `translate(${(p.x * scale).toFixed(1)}px, ${(p.y * scale).toFixed(1)}px)`;
+      const why = `${this.store.t('imaginedBecause')}: ${c.provenance.kind === 'imagined' ? c.provenance.groundedIn[lang] : ''}`;
+      if (b.info.textContent !== why) {
+        b.info.textContent = why;
+        b.el.title = why;
+      }
+      const pos = `translate(${Math.round(p.x * scale)}px, ${Math.round(p.y * scale)}px)`;
+      if (b.el.style.transform !== pos) b.el.style.transform = pos;
     }
   }
 }

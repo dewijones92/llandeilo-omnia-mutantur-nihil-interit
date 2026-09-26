@@ -33,13 +33,25 @@ export default tseslint.config(
           patterns: [
             { group: ['@babylonjs/*'], message: 'domain/content are pure: no Babylon.js.' },
             {
-              group: ['**/world/**', '**/ui/**', '**/audio/**'],
+              group: ['**/world/**', '**/ui/**', '**/audio/**', '**/platform/**', '**/main.ts'],
               message: 'domain/content must not import outer layers.',
             },
           ],
         },
       ],
-      'no-restricted-globals': ['error', 'window', 'document', 'AudioContext', 'navigator'],
+      'no-restricted-globals': [
+        'error',
+        'window',
+        'document',
+        'AudioContext',
+        'navigator',
+        'fetch',
+        'location',
+        'localStorage',
+        'sessionStorage',
+        'requestAnimationFrame',
+        'performance',
+      ],
     },
   },
   {
