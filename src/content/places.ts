@@ -1,5 +1,6 @@
 import type { Place } from '../domain/model.ts';
 import type { Provenance } from '../domain/provenance.ts';
+import { ad } from '../domain/time.ts';
 import { placeId, src } from './ids.ts';
 
 const cite = (...keys: Parameters<typeof src>[0][]): Provenance => {
@@ -11,6 +12,7 @@ const cite = (...keys: Parameters<typeof src>[0][]): Provenance => {
 export const PLACES: readonly Place[] = [
   {
     id: placeId('llandeilo'),
+    namedFrom: ad(550),
     name: 'Llandeilo',
     other: 'Llandeilo Fawr, Llandilo',
     at: { e: 262930, n: 222236 },
@@ -23,6 +25,7 @@ export const PLACES: readonly Place[] = [
   },
   {
     id: placeId('dinefwr'),
+    namedFrom: ad(1151),
     name: 'Dinefwr',
     other: 'Dynevor',
     at: { e: 261155, n: 221729 },
@@ -47,6 +50,7 @@ export const PLACES: readonly Place[] = [
   },
   {
     id: placeId('carreg-cennen'),
+    namedFrom: ad(1248),
     name: 'Carreg Cennen',
     at: { e: 266801, n: 219083 },
     description: {
@@ -58,6 +62,7 @@ export const PLACES: readonly Place[] = [
   },
   {
     id: placeId('dryslwyn'),
+    namedFrom: ad(1220),
     name: 'Dryslwyn',
     at: { e: 255390, n: 220294 },
     description: {
@@ -69,6 +74,7 @@ export const PLACES: readonly Place[] = [
   },
   {
     id: placeId('talley'),
+    namedFrom: ad(1185),
     name: 'Talyllychau',
     other: 'Talley',
     at: { e: 263199, n: 232800 },

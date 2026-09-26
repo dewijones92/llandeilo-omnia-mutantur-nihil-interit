@@ -4,7 +4,7 @@ import type { Clothing, Conversation, ConversationId, Person } from '../domain/m
 import { cone, cylinder, merge, place } from './meshkit.ts';
 import type { Ground } from './structures.ts';
 
-export const PERSON_HEIGHT = 2.6;
+export const PERSON_HEIGHT = 1.35;
 
 const CLOTHES: Readonly<Record<Clothing, { body: string; accent: string; hat?: string }>> = {
   'iron-age': { body: '#8a6a4a', accent: '#a8452f' },
@@ -43,7 +43,7 @@ export class People {
         const person = byId.get(pid);
         if (!person) throw new Error(`Unknown person ${pid} in ${c.id}`);
         const a = (i / c.people.length) * Math.PI * 2 + 0.4;
-        const r = c.people.length > 1 ? 1.2 + c.people.length * 0.35 : 0;
+        const r = c.people.length > 1 ? 0.6 + c.people.length * 0.2 : 0;
         const px = Math.cos(a) * r;
         const pz = Math.sin(a) * r;
         const py = ground(x + px, z + pz) - y;

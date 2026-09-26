@@ -119,7 +119,7 @@ async function start(): Promise<void> {
   });
   const labels = new PlaceLabels(world.scene, content.places, features.ground, store, (place, at) => {
     console.info(`dewidebug visit place=${place.id}`);
-    flight.flyTo(at, 420, 0.82);
+    flight.flyTo(at, 420, 0.98);
     home.hidden = false;
   });
   store.onChange(() => {
@@ -136,7 +136,7 @@ async function start(): Promise<void> {
     info.close();
     panel.show(c);
     const g = people.groups.get(c.id);
-    if (g) flight.flyTo(g.anchor.clone(), 55, 1.1);
+    if (g) flight.flyTo(g.anchor.clone(), 30, 1.12);
     home.hidden = false;
   };
   const bubbles = new Bubbles(world.scene, people.groups.values(), store, openConversation);
@@ -196,7 +196,7 @@ async function start(): Promise<void> {
     world.camera.target = new Vector3(x, features.ground(x, z), z);
     const radius = Number(params.get('radius') ?? 420);
     world.camera.radius = Number.isFinite(radius) && radius > 0 ? radius : 420;
-    world.camera.beta = 0.82;
+    world.camera.beta = 0.98;
     home.hidden = false;
   }
   if (debug) app.append(debug.el);
@@ -213,6 +213,8 @@ async function start(): Promise<void> {
     active = new Set(snap.conversations.map((c) => c.id));
     const open = panel.open;
     if (open && !active.has(open.id)) panel.close();
+    labels.setYear(Math.round(snap.year));
+    moment.el.classList.toggle('compact', panel.open !== undefined || info.isOpen);
     const near = snap.nearestEvent;
     moment.show(
       near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined,
@@ -233,8 +235,8 @@ async function start(): Promise<void> {
     const eye = world.camera.globalPosition;
     smoke.show(smokeSources, (x, z) => Math.hypot(eye.x - x, eye.z - z));
     world.scene.render();
-    labels.update();
     bubbles.update(active, now);
+    labels.update(bubbles.visible);
   });
   window.addEventListener('resize', () => {
     engine.resize();

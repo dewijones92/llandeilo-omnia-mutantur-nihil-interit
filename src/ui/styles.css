@@ -1,6 +1,6 @@
 :root {
   --ink: #1f2328;
-  --ink-soft: #4b5563;
+  --ink-soft: #3d434b;
   --muted: #6b7280;
   --panel: rgba(255, 255, 255, 0.82);
   --panel-solid: #ffffff;
@@ -915,4 +915,23 @@ button {
   padding-left: 18px;
   font-size: 13px;
   color: var(--ink-soft);
+}
+
+.label.anachronistic .label-name {
+  opacity: 0.62;
+}
+
+.label-note {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.moment.compact p,
+.moment.compact .prov-wrap {
+  display: none;
+}
+
+.moment.compact h2 {
+  margin-bottom: 0;
+  font-size: 17px;
 }

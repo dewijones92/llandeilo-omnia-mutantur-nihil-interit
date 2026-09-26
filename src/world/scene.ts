@@ -71,12 +71,12 @@ export class World {
     this.camera = camera;
 
     this.hemi = new HemisphericLight('hemi', new Vector3(0.2, 1, 0.1), scene);
-    this.hemi.intensity = 0.5;
+    this.hemi.intensity = 0.42;
     this.hemi.groundColor = new Color3(0.42, 0.4, 0.36);
 
     this.sun = new DirectionalLight('sun', new Vector3(0.62, -0.42, 0.46).normalize(), scene);
     this.sun.position = new Vector3(-3100, 2100, -2300);
-    this.sun.intensity = 1.75;
+    this.sun.intensity = 1.95;
     this.sun.shadowMinZ = 10;
     this.sun.shadowMaxZ = 9000;
 

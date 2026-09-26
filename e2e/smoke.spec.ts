@@ -86,7 +86,7 @@ test('the 3D view receives the mouse through the overlay layers', async ({ page 
 test('a place label flies the camera in and offers the whole valley back', async ({ page }) => {
   await page.goto('./?year=1282');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  await page.locator('.label', { hasText: 'Carreg Cennen' }).click();
+  await page.locator('.label', { hasText: 'Talyllychau' }).click();
   const home = page.getByRole('button', { name: 'Whole valley' });
   await expect(home).toBeVisible();
   await home.click();

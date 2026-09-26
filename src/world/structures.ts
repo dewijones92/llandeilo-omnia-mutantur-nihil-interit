@@ -19,6 +19,7 @@ const TIMBER = hex('#7a5a3c');
 const SLATE = hex('#5f6670');
 const TILE = hex('#b5613f');
 const EARTH = hex('#8f935f');
+const RAMPART = hex('#8a7f6e');
 const LIMEWASH = hex('#f1ede2');
 
 export interface Built {
@@ -50,7 +51,7 @@ export function buildFeature(
         const r = Math.sqrt(random()) * kind.spread * s;
         const x = Math.cos(a) * r;
         const z = Math.sin(a) * r;
-        const d = (6 + random() * 5) * s * 1.8;
+        const d = (6 + random() * 5) * s * 0.95;
         const y = ground(ox + x, oz + z) - baseY;
         parts.push(roundhouse(scene, d, x, y, z, a));
       }
@@ -153,7 +154,7 @@ function rampart(
     const m = new Mesh('rampart', scene);
     m.setVerticesData('position', positions);
     m.setIndices(both);
-    parts.push(paint(m, k.stone ? (k.ruined ? mix(STONE, MOSS, 0.3) : STONE) : EARTH, 1.1, 0.8));
+    parts.push(paint(m, k.stone ? (k.ruined ? mix(RAMPART, MOSS, 0.3) : RAMPART) : EARTH, 1.06, 0.84));
   }
   const merged = merge('hillfort', parts);
   merged.position = new Vector3(ox, base, oz);
@@ -336,8 +337,8 @@ function abbey(scene: Scene, ruined: boolean, angle: number, s: number, random: 
 }
 
 function longhouse(scene: Scene, x: number, y: number, z: number, rot: number, s: number): Mesh[] {
-  const len = 14 * s * 1.3;
-  const w = 5.5 * s * 1.3;
+  const len = 14 * s * 0.8;
+  const w = 5.5 * s * 0.8;
   return [
     place(box(scene, len, w * 0.45, w, DAUB), x, y, z, rot),
     place(gable(scene, len * 1.05, w * 1.25, w * 0.75, THATCH), x, y + w * 0.45, z, rot),

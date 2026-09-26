@@ -37,7 +37,7 @@ export class Forest {
     for (let i = 0; i < t.count; i++) {
       const r = hash2(i, 91, 5);
       if (r > 0.62) continue;
-      const scale = 2 + hash2(i, 17, 2) * 1.3;
+      const scale = 1.5 + hash2(i, 17, 2) * 0.9;
       const rot = Quaternion.RotationAxis(Vector3.Up(), hash2(i, 3, 9) * Math.PI * 2);
       const jx = (hash2(i, 5, 1) - 0.5) * 3;
       const jz = (hash2(i, 6, 1) - 0.5) * 3;

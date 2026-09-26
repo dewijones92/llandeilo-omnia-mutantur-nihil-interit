@@ -539,11 +539,11 @@ function buildPlinth(scene: Scene, hf: Heightfield): Mesh {
   const R = WORLD.radiusMetres;
   const segments = 360;
   const bands: readonly { depth: number; colour: Rgb }[] = [
-    { depth: 0, colour: hex('#6b4f36') },
-    { depth: 6, colour: hex('#8a6b4a') },
-    { depth: 18, colour: hex('#a58a67') },
-    { depth: 34, colour: hex('#7f7a73') },
-    { depth: 1000, colour: hex('#5f5b56') },
+    { depth: 0, colour: hex('#7a5a42') },
+    { depth: 6, colour: hex('#8c5a4a') },
+    { depth: 18, colour: hex('#9a7a5c') },
+    { depth: 34, colour: hex('#6d6a72') },
+    { depth: 1000, colour: hex('#807b76') },
   ];
   const positions: number[] = [];
   const colors: number[] = [];
@@ -586,7 +586,7 @@ function buildPlinth(scene: Scene, hf: Heightfield): Mesh {
   }
   const centre = v;
   positions.push(0, PLINTH_BOTTOM, 0);
-  colors.push(0.3, 0.28, 0.26, 1);
+  colors.push(0.43, 0.42, 0.45, 1);
   for (let i = 0; i < segments; i++) {
     const a = (i / segments) * Math.PI * 2;
     positions.push(
@@ -594,7 +594,7 @@ function buildPlinth(scene: Scene, hf: Heightfield): Mesh {
       PLINTH_BOTTOM,
       (Math.sin(a) * R) / WORLD.metresPerUnit,
     );
-    colors.push(0.3, 0.28, 0.26, 1);
+    colors.push(0.43, 0.42, 0.45, 1);
   }
   for (let i = 0; i < segments; i++) indices.push(centre, centre + 1 + ((i + 1) % segments), centre + 1 + i);
   const mesh = new Mesh('plinth', scene);
@@ -608,6 +608,7 @@ function buildPlinth(scene: Scene, hf: Heightfield): Mesh {
   data.applyToMesh(mesh);
   const mat = new StandardMaterial('plinth-mat', scene);
   mat.specularColor = Color3.Black();
+  mat.emissiveColor = new Color3(0.22, 0.2, 0.19);
   mat.backFaceCulling = false;
   mesh.material = mat;
   mesh.useVertexColors = true;

@@ -45,6 +45,7 @@ export const STRINGS = {
   close: { en: 'Close', cy: 'Cau' },
   play: { en: 'Play', cy: 'Chwarae' },
   flyTo: { en: 'Visit', cy: 'Ymweld' },
+  todayName: { en: 'today', cy: 'heddiw' },
   playAll: { en: 'Play conversation', cy: 'Chwarae’r sgwrs' },
   conversation: { en: 'Conversation', cy: 'Sgwrs' },
   imaginedBecause: { en: 'Imagined. Based on', cy: 'Dychmygol. Yn seiliedig ar' },

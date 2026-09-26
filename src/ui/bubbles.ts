@@ -14,6 +14,7 @@ interface Bubble {
 export class Bubbles {
   readonly el = h('div', { class: 'bubbles' });
   private readonly bubbles: Bubble[] = [];
+  readonly visible: { x: number; y: number }[] = [];
 
   constructor(
     private readonly scene: Scene,
@@ -49,6 +50,7 @@ export class Bubbles {
     const viewport = camera.viewport.toGlobal(w, hgt);
     const transform = this.scene.getTransformMatrix();
     const lang = this.store.lang;
+    this.visible.length = 0;
     for (const b of this.bubbles) {
       const c = b.group.conversation;
       const on = active.has(c.id);
@@ -70,6 +72,7 @@ export class Bubbles {
         b.info.textContent = why;
         b.el.title = why;
       }
+      this.visible.push({ x: p.x * scale, y: p.y * scale });
       const pos = `translate(${Math.round(p.x * scale)}px, ${Math.round(p.y * scale)}px)`;
       if (b.el.style.transform !== pos) b.el.style.transform = pos;
     }

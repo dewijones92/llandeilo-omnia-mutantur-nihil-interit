@@ -23,6 +23,7 @@ export interface Place {
   readonly description: Bilingual;
   readonly provenance: Provenance;
   readonly visitable: boolean;
+  readonly namedFrom?: Year;
 }
 
 export interface KeyEvent {
