@@ -30,8 +30,8 @@ so the next reader knows the map was unreliable there.
 | Decision | Choice | Why |
 |---|---|---|
 | Platform ✅ | Web app, static site, **desktop-first** (phones must work, not shine) | Dewi will mainly use it on desktop, which gives us graphics headroom |
-| Stack ⚠️ | Vite + TypeScript (strict) | Fast dev loop; strict types make bad content data fail at compile time |
-| Rendering ⚠️ | three.js (WebGPURenderer, WebGL2 fallback) | Largest ecosystem; WebGPU where available without writing an engine |
+| Stack ✅ | Vite + TypeScript (strict) | Fast dev loop; strict types make bad content data fail at compile time |
+| Rendering ✅ | **Babylon.js**: WebGPU engine where supported, WebGL2 fallback | Dewi's pick over three.js: a fuller engine with more built in (inspector, scene tooling, audio), and WebGPU without writing our own engine |
 | Look ✅ | **Clean low-poly** 3D diorama of the real valley that you can orbit around | Charming, fast, and quick to fill every era; fidelity can be raised per era later |
 | Exploring ✅ | Both: the whole 10-mile circle as one diorama, **and** a camera flight into individual places (Dinefwr, Carreg Cennen, Talley, Dryslwyn…) | Overview plus depth |
 | Slider ✅ | Both: smooth morphing while dragging, **and** magnetic key dates that snap with a short "moment" | Continuous feel without losing the landmarks |
@@ -39,10 +39,10 @@ so the next reader knows the map was unreliable there.
 | Voices ✅ | `edge-tts` neural voices (Welsh, English, Italian, French); **no robotic TTS** | Natural sound. **Latin = `it-IT-DiegoNeural` reading plain Latin** (Church Latin pronunciation), chosen by ear 2026-09-26 over a classical respelling. Fits medieval clergy; Roman-era lines carry an ⓘ saying Romans pronounced it differently |
 | Ambient sound ✅ | A sound bed per era, crossfaded as you scrub; CC0/CC-BY audio with tracked credits | Atmosphere |
 | Language layer ✅ | Show how spoken language changed over time and **by class** (e.g. Welsh farmers vs Norman lords vs Latin clergy), with unknowns shown as unknown | Dewi's request, and a natural fit for the ⓘ model |
-| Almanac layer ⚠️ | Panel for the current time: food, clothing, homes, religion, money, health, travel, population | "Not just language": more ways into daily life |
+| Almanac layer ✅ | Panel for the current time: food, clothing, homes, religion, money, health, travel, population | "Not just language": more ways into daily life |
 | Family bloodline ✅ | One imagined family recurring in every era, always ⓘ | Makes it personal |
-| Terrain ⚠️ | Real elevation data (Welsh Government LiDAR / OS Terrain 50) | The Tywi valley's shape is the one constant across every era |
-| Timeline scale ⚠️ | Non-linear (deep time compressed, recent centuries spread) | A linear 12,000-year slider puts everything since the Romans in the last sliver |
+| Terrain ✅ | **Both**: OS Terrain 50 (50m grid) for the whole 10-mile circle; Welsh Government LiDAR (1-2m) for the close-up places you fly into | The Tywi valley's shape is the one constant across every era. 50m is plenty for a low-poly overview; close-ups need the detail |
+| Timeline scale ✅ | Non-linear (deep time compressed, recent centuries spread) | A linear 12,000-year slider puts everything since the Romans in the last sliver |
 | Content ⚠️ | Data files in the repo, written ahead of time | Reviewable, citable, testable; no runtime AI cost or invented "facts" |
 | v1 scope ✅ | **Vertical slice**: about 3 eras done properly end to end before filling in the rest | A thin sweep of 12,000 years would look empty everywhere |
 | Hosting ✅ | **GitHub Pages**, deployed by GitHub Actions from the **public** GitHub repo | Free, no extra accounts |
@@ -100,7 +100,7 @@ so the next reader knows the map was unreliable there.
 
 ### Layers
 
-- **The domain and content layer is pure TypeScript**, with no three.js, DOM or Web Audio imports.
+- **The domain and content layer is pure TypeScript**, with no Babylon.js, DOM or Web Audio imports.
   A lint rule (`no-restricted-imports` or a boundaries plugin) makes a leak a build error. The
   history model is then testable without a browser, and the renderer, audio and UI only *read*
   the current era state from it. Dependencies point inward.
@@ -127,7 +127,7 @@ so the next reader knows the map was unreliable there.
   Prettier owns formatting (no style rules in ESLint).
 - **Zero warnings:** `--max-warnings 0`. A warning is either fixed or its rule is turned off here,
   with a reason.
-- Dead code and unused dependencies are checked (e.g. `knip`) ⚠️.
+- Dead code and unused dependencies are checked with `knip`.
 - **Shift left:** a sub-second pre-push hook runs the cheap checks (format, lint on changed files,
   content validation). CI runs everything: typecheck, lint, content validation, tests, build.
 - CI stays green. Any red check blocks the deploy.
