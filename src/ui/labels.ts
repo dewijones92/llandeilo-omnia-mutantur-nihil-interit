@@ -1,4 +1,4 @@
-import { Matrix, Vector3, type Scene } from '@babylonjs/core';
+import { Matrix, Vector3, type Scene } from '../world/babylon.ts';
 import { toWorld } from '../domain/geo.ts';
 import type { Place } from '../domain/model.ts';
 import { h } from './dom.ts';

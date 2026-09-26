@@ -11,7 +11,7 @@ import {
   Vector3,
   type AbstractEngine,
   type Mesh,
-} from '@babylonjs/core';
+} from './babylon.ts';
 import type { Rgb } from '../domain/colour.ts';
 import type { Heightfield } from '../domain/heightfield.ts';
 import type { Environment } from '../domain/state.ts';

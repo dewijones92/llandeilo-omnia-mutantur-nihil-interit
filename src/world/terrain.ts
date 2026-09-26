@@ -1,4 +1,4 @@
-import { Color3, Mesh, StandardMaterial, VertexBuffer, VertexData, type Scene } from '@babylonjs/core';
+import { Color3, Mesh, StandardMaterial, VertexBuffer, VertexData, type Scene } from './babylon.ts';
 import Delaunator from 'delaunator';
 import { clamp, smoothstep } from '../domain/assert.ts';
 import { hex, mix, type Rgb } from '../domain/colour.ts';

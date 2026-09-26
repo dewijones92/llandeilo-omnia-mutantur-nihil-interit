@@ -1,4 +1,4 @@
-import type { AbstractEngine } from '@babylonjs/core';
+import type { AbstractEngine } from '../world/babylon.ts';
 import { formatYear } from '../domain/time.ts';
 import type { Snapshot } from '../domain/state.ts';
 import { h } from './dom.ts';

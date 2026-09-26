@@ -7,7 +7,7 @@ import {
   Vector3,
   VertexData,
   type Scene,
-} from '@babylonjs/core';
+} from './babylon.ts';
 import { hex } from '../domain/colour.ts';
 import { WORLD } from '../domain/geo.ts';
 import type { GridRef } from '../domain/model.ts';

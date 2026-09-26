@@ -1,4 +1,4 @@
-import { DynamicTexture, Layer, type Scene } from '@babylonjs/core';
+import { DynamicTexture, Layer, type Scene } from './babylon.ts';
 import { toHex, mix, type Rgb } from '../domain/colour.ts';
 
 export class Sky {

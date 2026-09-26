@@ -1,4 +1,4 @@
-import { Matrix, Vector3, type Scene } from '@babylonjs/core';
+import { Matrix, Vector3, type Scene } from '../world/babylon.ts';
 import type { Conversation, ConversationId } from '../domain/model.ts';
 import type { Group } from '../world/people.ts';
 import { h } from './dom.ts';

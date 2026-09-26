@@ -1,4 +1,4 @@
-import { Vector3, type ArcRotateCamera } from '@babylonjs/core';
+import { Vector3, type ArcRotateCamera } from './babylon.ts';
 
 interface Pose {
   readonly target: Vector3;

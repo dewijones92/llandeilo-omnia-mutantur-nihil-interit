@@ -1,4 +1,4 @@
-import { Mesh, Vector3, type Scene } from '@babylonjs/core';
+import { Mesh, Vector3, type Scene } from './babylon.ts';
 import { toWorld } from '../domain/geo.ts';
 import type { Clothing, Conversation, ConversationId, Person } from '../domain/model.ts';
 import { cone, cylinder, merge, place } from './meshkit.ts';

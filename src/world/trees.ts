@@ -8,7 +8,7 @@ import {
   Vector3,
   VertexData,
   type Scene,
-} from '@babylonjs/core';
+} from './babylon.ts';
 import { hash2 } from '../domain/noise.ts';
 import { COVER_CODE, type Terrain } from './terrain.ts';
 

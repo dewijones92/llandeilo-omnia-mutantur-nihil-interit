@@ -1,4 +1,4 @@
-import type { Mesh } from '@babylonjs/core';
+import type { Mesh } from './babylon.ts';
 import { toGrid, toWorld } from '../domain/geo.ts';
 import type { Feature, FeatureId } from '../domain/model.ts';
 import type { FeaturePresence } from '../domain/state.ts';

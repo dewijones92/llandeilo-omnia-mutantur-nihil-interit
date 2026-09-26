@@ -33,3 +33,10 @@ Milestones and what each one taught us. Newest last.
    were re-mapped by title.
 9. **First deploy**: https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/,
    verified by loading it in a browser, not just by the HTTP 200.
+10. **Conversations, almanac, language, sound**: six family scenes with voices, 32 almanac
+    entries, 12 language periods, procedural Web Audio ambience.
+11. **Bundle**: `@babylonjs/core` barrel imports pulled in the whole engine (1.6MB gzipped). All
+    Babylon imports now go through `src/world/babylon.ts`, which deep-imports only the modules used
+    plus the side-effect modules they need (ray picking, layer and shadow scene components, thin
+    instances): 387KB gzipped. A missing side-effect import fails only at runtime, so this was
+    verified by screenshot and the full e2e suite on the production build.

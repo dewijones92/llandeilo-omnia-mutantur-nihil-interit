@@ -19,7 +19,7 @@ updated: 2026-09-26
 
 ## Quality
 
-- [ ] Trim the Babylon bundle (1.6MB gzipped) with deep imports
+- [x] Trim the Babylon bundle: 1.6MB → 387KB gzipped via deep imports in `src/world/babylon.ts`
 - [ ] Check WebGPU on a real GPU (CI and local screenshots use WebGL2 via SwiftShader)
 - [ ] Performance numbers on an ordinary desktop, recorded in CLAUDE.md
 - [ ] More e2e: fly to a place, open a provenance popover, moment card at a key date

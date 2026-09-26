@@ -1,4 +1,4 @@
-import { PointerEventTypes, Vector3 } from '@babylonjs/core';
+import { PointerEventTypes, Vector3 } from './world/babylon.ts';
 import './ui/styles.css';
 import { WORLD_CONTENT } from './content/world.ts';
 import { toWorld } from './domain/geo.ts';

@@ -1,0 +1,29 @@
+import '@babylonjs/core/Culling/ray.js';
+import '@babylonjs/core/Layers/layerSceneComponent.js';
+import '@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent.js';
+import '@babylonjs/core/Meshes/thinInstanceMesh.js';
+import { CreateBox } from '@babylonjs/core/Meshes/Builders/boxBuilder.js';
+import { CreateCylinder } from '@babylonjs/core/Meshes/Builders/cylinderBuilder.js';
+import { CreateIcoSphere } from '@babylonjs/core/Meshes/Builders/icoSphereBuilder.js';
+
+export { VertexBuffer } from '@babylonjs/core/Buffers/buffer.js';
+export { ArcRotateCamera } from '@babylonjs/core/Cameras/arcRotateCamera.js';
+export { AbstractEngine } from '@babylonjs/core/Engines/abstractEngine.js';
+export { Engine } from '@babylonjs/core/Engines/engine.js';
+export { WebGPUEngine } from '@babylonjs/core/Engines/webgpuEngine.js';
+export { PointerEventTypes } from '@babylonjs/core/Events/pointerEvents.js';
+export { Layer } from '@babylonjs/core/Layers/layer.js';
+export { DirectionalLight } from '@babylonjs/core/Lights/directionalLight.js';
+export { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight.js';
+export { ShadowGenerator } from '@babylonjs/core/Lights/Shadows/shadowGenerator.js';
+export { ImageProcessingConfiguration } from '@babylonjs/core/Materials/imageProcessingConfiguration.js';
+export { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial.js';
+export { DynamicTexture } from '@babylonjs/core/Materials/Textures/dynamicTexture.js';
+export { Color3, Color4 } from '@babylonjs/core/Maths/math.color.js';
+export { Matrix, Quaternion, Vector3 } from '@babylonjs/core/Maths/math.vector.js';
+export { Mesh } from '@babylonjs/core/Meshes/mesh.js';
+export { VertexData } from '@babylonjs/core/Meshes/mesh.vertexData.js';
+export { DefaultRenderingPipeline } from '@babylonjs/core/PostProcesses/RenderPipeline/Pipelines/defaultRenderingPipeline.js';
+export { Scene } from '@babylonjs/core/scene.js';
+
+export const MeshBuilder = { CreateBox, CreateCylinder, CreateIcoSphere } as const;

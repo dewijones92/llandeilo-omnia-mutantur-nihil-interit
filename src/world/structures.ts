@@ -1,4 +1,4 @@
-import { Mesh, Vector3, type Scene } from '@babylonjs/core';
+import { Mesh, Vector3, type Scene } from './babylon.ts';
 import { assertNever } from '../domain/assert.ts';
 import { hex, mix } from '../domain/colour.ts';
 import type { FeatureKind } from '../domain/model.ts';

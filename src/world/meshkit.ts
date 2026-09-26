@@ -1,4 +1,4 @@
-import { Mesh, MeshBuilder, Vector3, VertexBuffer, VertexData, type Scene } from '@babylonjs/core';
+import { Mesh, MeshBuilder, Vector3, VertexBuffer, VertexData, type Scene } from './babylon.ts';
 import { hex, type Rgb } from '../domain/colour.ts';
 
 export type Colour = Rgb | string;

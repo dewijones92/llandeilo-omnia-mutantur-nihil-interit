@@ -1,4 +1,4 @@
-import { Color3, Mesh, StandardMaterial, VertexData, type Scene } from '@babylonjs/core';
+import { Color3, Mesh, StandardMaterial, VertexData, type Scene } from './babylon.ts';
 import { heightToWorld, WORLD } from '../domain/geo.ts';
 import type { RiverPath } from './terrain.ts';
 
