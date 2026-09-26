@@ -1,7 +1,7 @@
 # Llandeilo Through Time (working title)
 
-Repo: `llandeilo-omnia-mutantur-nihil-interit`, meaning *"everything changes, nothing perishes"*
-(Ovid, *Metamorphoses* XV).
+Repo: `llandeilo-omnia-mutantur-nihil-interit`, meaning _"everything changes, nothing perishes"_
+(Ovid, _Metamorphoses_ XV).
 
 A web app for exploring **Llandeilo and a 10-mile radius around it** across the whole of human
 history. A timeline slider at the bottom runs from the earliest evidence of people living here to
@@ -45,6 +45,8 @@ so the next reader knows the map was unreliable there.
 | Timeline scale ✅ | Non-linear (deep time compressed, recent centuries spread) | A linear 12,000-year slider puts everything since the Romans in the last sliver |
 | Content ✅ | Data files in the repo, written ahead of time; **no live AI at runtime** | Reviewable, citable, testable; no runtime AI cost or invented "facts" |
 | v1 scope ✅ | **Vertical slice**: 3 eras done properly end to end before filling in the rest: **Iron Age** (e.g. Garn Goch), **Medieval up to 1282** (Dinefwr, Deheubarth), **Victorian** (gentry vs tenants, Rebecca Riots, railway). Specific sites and dates to be confirmed by research | A thin sweep of 12,000 years would look empty everywhere |
+| Deep time ✅ (later phase) | Extend the slider **before humans**: geology (the rocks, incl. the Ordovician 'Llandeilo' stage), ice ages shaping the Tywi valley, and how animals, plants, climate and landscape changed, carried on as a **natural-history layer** through every human era too | Dewi, 2026-09-26. The timeline scale must stretch to millions of years without a rewrite (piecewise, with a log segment for deep time) |
+| Ripples from afar ✅ (later phase) | A layer for **distant events that reached this valley**: e.g. volcanic eruptions far away causing cold years and failed harvests, pandemics, wars, trade and technology arriving. Each shows what happened elsewhere and the evidence for its effect _here_ | Dewi, 2026-09-26. Keep the claim honest: a global event is only linked to Llandeilo where a source supports the local effect, otherwise it's marked as the likely regional impact |
 | Hosting ✅ | **GitHub Pages**, deployed by GitHub Actions from the **public** GitHub repo | Free, no extra accounts |
 | Offline ✅ | Not needed (no PWA) | |
 | Audience ✅ | Dewi and family, **no young kids** | Tell history honestly, including the grim parts |
@@ -54,7 +56,7 @@ so the next reader knows the map was unreliable there.
 ## Historical accuracy (the project's first law)
 
 - **Research first, always, and never write from memory.** Before writing or changing any content,
-  research it with real sources, including everything *tangential* to it: language and
+  research it with real sources, including everything _tangential_ to it: language and
   pronunciation, clothing, buildings and building materials, tools, food and farming, prices,
   religion, law and social class, names, flora and fauna, climate and landscape (forest cover, the
   river's course), sounds, and what people could plausibly have known or talked about. A scene is
@@ -115,7 +117,7 @@ so the next reader knows the map was unreliable there.
 
 - **The domain and content layer is pure TypeScript**, with no Babylon.js, DOM or Web Audio imports.
   A lint rule (`no-restricted-imports` or a boundaries plugin) makes a leak a build error. The
-  history model is then testable without a browser, and the renderer, audio and UI only *read*
+  history model is then testable without a browser, and the renderer, audio and UI only _read_
   the current era state from it. Dependencies point inward.
 - Small, focused modules (SOLID).
 

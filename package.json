@@ -1,0 +1,43 @@
+{
+  "name": "llandeilo-omnia-mutantur-nihil-interit",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Llandeilo and 10 miles around it, through all of human history: an interactive 3D timeline.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "knip": "knip",
+    "check": "npm run format:check && npm run typecheck && npm run lint && npm run test && npm run knip"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "1.63",
+    "@types/delaunator": "^5.0.3",
+    "@types/node": "^24.19.0",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0",
+    "knip": "^6.38.0",
+    "prettier": "^3.9.9",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  },
+  "dependencies": {
+    "@babylonjs/core": "^9.28.0",
+    "delaunator": "^5.1.0"
+  }
+}

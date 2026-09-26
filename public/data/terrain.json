@@ -1,0 +1,15 @@
+{
+  "crs": "EPSG:27700",
+  "originEasting": 245900,
+  "originNorthing": 239500,
+  "cellSize": 50,
+  "width": 680,
+  "height": 680,
+  "centreEasting": 262900,
+  "centreNorthing": 222500,
+  "heightScale": 0.1,
+  "minHeight": 4,
+  "maxHeight": 675.40002441406,
+  "encoding": "uint16 little-endian, decimetres, row-major from the north-west corner",
+  "source": "Contains OS data © Crown copyright and database right 2026 (OS Terrain 50, Open Government Licence v3.0)"
+}
