@@ -32,15 +32,15 @@ export const EVENTS: readonly KeyEvent[] = [
   },
   {
     id: eventId('younger-dryas'),
-    when: range(bc(8800), bc(8300)),
+    when: range(bc(10900), bc(9700)),
     approximate: true,
     title: { en: 'The last cold snap', cy: 'Yr oerfel olaf' },
     summary: {
-      en: 'The Younger Dryas: after centuries of warming, the cold returned and ice grew again in the mountain hollows. The young birch woods gave way to tundra for a few hundred years.',
-      cy: 'Y Dryas Diweddar: ar ôl canrifoedd o gynhesu, daeth yr oerfel yn ôl a thyfodd iâ eto yng nghymoedd y mynyddoedd. Ildiodd y coedwigoedd bedw ifanc i dwndra am rai cannoedd o flynyddoedd.',
+      en: 'The Younger Dryas, about 12,900 to 11,700 years ago: after centuries of warming, the cold returned for over a thousand years and small glaciers grew again in the mountain hollows. Tundra returned.',
+      cy: 'Y Dryas Diweddar, tua 12,900 i 11,700 o flynyddoedd yn ôl: ar ôl canrifoedd o gynhesu, daeth yr oerfel yn ôl am dros fil o flynyddoedd a thyfodd rhewlifoedd bach eto ym mhantiau’r mynyddoedd. Dychwelodd y twndra.',
     },
     magnetic: true,
-    provenance: documented('deeptime:S8', 'deeptime:S10'),
+    provenance: documented('deeptime:S8', 'deeptime:S1'),
   },
   {
     id: eventId('mesolithic-burning'),
@@ -91,11 +91,11 @@ export const EVENTS: readonly KeyEvent[] = [
     title: { en: 'The great hillfort of Garn Goch', cy: 'Bryngaer fawr Garn Goch' },
     summary: {
       en: 'Y Gaer Fawr, 720m long with stone ramparts once about 10m high, is one of the largest hillforts in Wales. It has been surveyed but never excavated, so who lived there, and how, is inference.',
-      cy: "Mae Y Gaer Fawr, 720m o hyd gyda rhagfuriau cerrig a oedd unwaith tua 10m o uchder, yn un o'r bryngaerau mwyaf yng Nghymru. Mae wedi'i harolygu ond erioed wedi'i chloddio.",
+      cy: "Mae'r Gaer Fawr, 720m o hyd gyda rhagfuriau cerrig a oedd unwaith tua 10m o uchder, yn un o'r bryngaerau mwyaf yng Nghymru. Mae wedi'i harolygu ond erioed wedi'i chloddio.",
     },
     magnetic: true,
     place: placeId('garn-goch'),
-    provenance: documented('ironage:S1', 'ironage:S7', 'timeline:S10'),
+    provenance: documented('ironage:S1', 'ironage:S4', 'ironage:S7', 'timeline:S10'),
   },
   {
     id: eventId('roman-forts'),
@@ -134,8 +134,8 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: true,
     title: { en: 'The first written Welsh', cy: 'Y Gymraeg ysgrifenedig gyntaf' },
     summary: {
-      en: 'In the margin of the great gospel book kept at Llandeilo, a scribe recorded the settlement of a land dispute over Tir Telych. The note, starting with the Latin “Surexit”, is the earliest surviving connected text in Welsh. The book later went to Lichfield, by a route nobody recorded.',
-      cy: "Ar ymyl yr efengyl fawr a gadwyd yn Llandeilo, cofnododd ysgrifydd setliad anghydfod tir dros Dir Telych. Y nodyn, sy'n dechrau â'r gair Lladin “Surexit”, yw'r testun Cymraeg cysylltiedig cynharaf sydd wedi goroesi.",
+      en: 'In the margin of the great gospel book kept at Llandeilo, a scribe recorded the settlement of a land dispute over Tir Telych. The note, starting with the Latin “Surexit”, is the earliest surviving connected text in Welsh. It was written in the 9th century (the exact decade is debated), perhaps copying an older text. The book later went to Lichfield, by a route nobody recorded.',
+      cy: "Ar ymyl yr efengyl fawr a gadwyd yn Llandeilo, cofnododd ysgrifydd setliad anghydfod tir dros Dir Telych. Y nodyn, sy'n dechrau â'r gair Lladin “Surexit”, yw'r testun Cymraeg cysylltiedig cynharaf sydd wedi goroesi. Fe'i hysgrifennwyd yn y 9fed ganrif (mae'r union ddegawd yn destun dadl), gan gopïo testun hŷn efallai.",
     },
     magnetic: true,
     place: placeId('llandeilo'),
@@ -159,8 +159,8 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: true,
     title: { en: 'The Lord Rhys builds at Dinefwr', cy: 'Yr Arglwydd Rhys yn adeiladu yn Ninefwr' },
     summary: {
-      en: 'After regaining Cantref Mawr, Rhys ap Gruffudd, the Lord Rhys, raised the first castle at Dinefwr that archaeology can vouch for. Much of what stands today is 13th and 14th-century work.',
-      cy: "Ar ôl adennill y Cantref Mawr, cododd Rhys ap Gruffudd, yr Arglwydd Rhys, y castell cyntaf yn Ninefwr y gall archaeoleg dystio iddo. Mae llawer o'r hyn sy'n sefyll heddiw o'r 13eg a'r 14eg ganrif.",
+      en: 'A castle is first recorded at Dinefwr in 1151. After regaining Cantref Mawr, Rhys ap Gruffudd, the Lord Rhys, built “a castle in the new style” there. Much of what stands today is 13th and early 14th-century work.',
+      cy: "Cofnodir castell yn Ninefwr gyntaf yn 1151. Ar ôl adennill y Cantref Mawr, cododd Rhys ap Gruffudd, yr Arglwydd Rhys, “gastell yn y dull newydd” yno. Mae llawer o'r hyn sy'n sefyll heddiw o'r 13eg a dechrau'r 14eg ganrif.",
     },
     magnetic: true,
     place: placeId('dinefwr'),
@@ -185,8 +185,8 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: true,
     title: { en: 'Dryslwyn Castle rises', cy: 'Codi Castell Dryslwyn' },
     summary: {
-      en: 'A native Welsh castle with three wards, unique in Wales, was built on its hill above the Tywi in the 1220s, probably by Rhys Gryg.',
-      cy: "Codwyd castell Cymreig brodorol gyda thair ward, yr unig un o'i fath yng Nghymru, ar ei fryn uwchben y Tywi yn yr 1220au, gan Rhys Gryg mae'n debyg.",
+      en: 'The only native Welsh castle with three wards was built on its hill above the Tywi in the 1220s, perhaps by Rhys Gryg (sources differ).',
+      cy: "Codwyd yr unig gastell Cymreig brodorol â thair ward ar ei fryn uwchben y Tywi yn yr 1220au, gan Rhys Gryg efallai (mae'r ffynonellau'n gwahaniaethu).",
     },
     magnetic: true,
     place: placeId('dryslwyn'),
@@ -201,8 +201,8 @@ export const EVENTS: readonly KeyEvent[] = [
       cy: "Dinefwr a Charreg Cennen yn mynd i'r Saeson",
     },
     summary: {
-      en: 'In Edward I’s first war, local Welsh lords sided with the king against Llywelyn ap Gruffudd, and the two castles passed into English hands.',
-      cy: "Yn rhyfel cyntaf Edward I, ochrodd arglwyddi Cymreig lleol â'r brenin yn erbyn Llywelyn ap Gruffudd, ac aeth y ddau gastell i ddwylo'r Saeson.",
+      en: 'In Edward I’s first war, local Welsh lords sided with the king against Llywelyn ap Gruffudd, and the two castles passed into English hands. (Cadw dates Dinefwr’s final fall to English control to 1287.)',
+      cy: "Yn rhyfel cyntaf Edward I, ochrodd arglwyddi Cymreig lleol â'r brenin yn erbyn Llywelyn ap Gruffudd, ac aeth y ddau gastell i ddwylo'r Saeson. (Mae Cadw yn dyddio cwymp terfynol Dinefwr i'r Saeson i 1287.)",
     },
     magnetic: false,
     provenance: documented('timeline:S26', 'timeline:S37'),
@@ -227,7 +227,7 @@ export const EVENTS: readonly KeyEvent[] = [
     title: { en: 'The siege of Dryslwyn', cy: 'Gwarchae Dryslwyn' },
     summary: {
       en: 'An army of over 11,000 besieged Rhys ap Maredudd’s castle with a purpose-built trebuchet and miners. A tunnel collapse killed several English nobles. The castle fell on 5 September 1287.',
-      cy: 'Gwarchaeodd byddin o dros 11,000 ar gastell Rhys ap Maredudd gyda thrybedd a mwynwyr. Lladdwyd sawl uchelwr Seisnig pan gwympodd twnnel. Syrthiodd y castell ar 5 Medi 1287.',
+      cy: 'Gwarchaeodd byddin o dros 11,000 ar gastell Rhys ap Maredudd gyda pheiriant hyrddio cerrig pwrpasol a chloddwyr. Lladdwyd sawl uchelwr Seisnig pan gwympodd twnnel. Syrthiodd y castell ar 5 Medi 1287.',
     },
     magnetic: true,
     place: placeId('dryslwyn'),
@@ -242,8 +242,8 @@ export const EVENTS: readonly KeyEvent[] = [
       cy: 'Carreg Cennen yn cael ei ailadeiladu gan y Saeson',
     },
     summary: {
-      en: 'The castle you can visit today is mostly the work of John Giffard and his son, English Marcher lords, not the Lord Rhys of popular story.',
-      cy: "Gwaith John Giffard a'i fab, arglwyddi'r Mers o Loegr, yw'r rhan fwyaf o'r castell y gallwch ymweld ag ef heddiw, nid yr Arglwydd Rhys.",
+      en: 'The castle you can visit today is probably mostly the work of John Giffard and his son, English Marcher lords, not the Lord Rhys of popular story.',
+      cy: "Gwaith John Giffard a'i fab, mae'n debyg, arglwyddi'r Mers o Loegr, yw'r rhan fwyaf o'r castell y gallwch ymweld ag ef heddiw, nid yr Arglwydd Rhys.",
     },
     magnetic: false,
     place: placeId('carreg-cennen'),
@@ -306,8 +306,8 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: false,
     title: { en: 'Newton House is built', cy: 'Codi Plas Dinefwr' },
     summary: {
-      en: 'Edward Rice built a new house in the park, replacing the ruinous medieval castle as the family’s home.',
-      cy: "Cododd Edward Rice dŷ newydd yn y parc, yn lle'r castell canoloesol adfeiliedig fel cartref y teulu.",
+      en: 'Edward Rice built a new house in the park, replacing the medieval castle as the family’s home.',
+      cy: "Cododd Edward Rice dŷ newydd yn y parc, yn lle'r castell canoloesol fel cartref y teulu.",
     },
     magnetic: true,
     place: placeId('dinefwr'),
@@ -336,7 +336,7 @@ export const EVENTS: readonly KeyEvent[] = [
     },
     magnetic: true,
     place: placeId('llandeilo'),
-    provenance: documented('victorian:S7', 'victorian:S8', 'victorian:S4'),
+    provenance: documented('victorian:S7', 'victorian:S8', 'victorian:S4', 'victorian:S9', 'victorian:S16'),
   },
   {
     id: eventId('bridge'),
@@ -357,8 +357,8 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: false,
     title: { en: 'St Teilo’s is rebuilt', cy: 'Ailadeiladu Eglwys Teilo Sant' },
     summary: {
-      en: 'The body of the medieval church was pulled down and rebuilt by George Gilbert Scott, keeping the old west tower and two 10th or 11th-century carved cross-heads.',
-      cy: "Tynnwyd corff yr eglwys ganoloesol i lawr a'i ailadeiladu gan George Gilbert Scott, gan gadw'r hen dŵr gorllewinol a dau ben croes cerfiedig o'r 10fed neu'r 11eg ganrif.",
+      en: 'The body of the medieval church was pulled down and rebuilt by George Gilbert Scott, keeping the old west tower. A 10th or 11th-century carved cross-head was found under the chancel during the work, and another by 1893.',
+      cy: "Tynnwyd corff yr eglwys ganoloesol i lawr a'i ailadeiladu gan George Gilbert Scott, gan gadw'r hen dŵr gorllewinol. Cafwyd hyd i ben croes cerfiedig o'r 10fed neu'r 11eg ganrif dan y gangell yn ystod y gwaith, ac un arall erbyn 1893.",
     },
     magnetic: false,
     place: placeId('llandeilo'),
@@ -375,7 +375,7 @@ export const EVENTS: readonly KeyEvent[] = [
     },
     magnetic: true,
     place: placeId('llandeilo'),
-    provenance: documented('timeline:S55', 'victorian:S29', 'victorian:S31', 'victorian:S28'),
+    provenance: documented('timeline:S55', 'victorian:S29', 'victorian:S31', 'victorian:S30', 'timeline:S20'),
   },
   {
     id: eventId('guardianship'),
@@ -412,8 +412,8 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: false,
     title: { en: 'The Roman forts are found', cy: 'Darganfod y caerau Rhufeinig' },
     summary: {
-      en: 'Geophysical survey found the two Roman forts in Dinefwr Park, and they were excavated in 2005, live on television.',
-      cy: "Daeth arolwg geoffisegol o hyd i'r ddwy gaer Rufeinig ym Mharc Dinefwr, a chawsant eu cloddio yn 2005, yn fyw ar y teledu.",
+      en: 'The forts were identified by geophysical survey in 2003, where fieldwalking and metal-detecting had already turned up Roman finds, and were excavated in 2005, live on television.',
+      cy: 'Adnabuwyd y caerau gan arolwg geoffisegol yn 2003, lle roedd cerdded caeau a chwilio â datgelyddion metel eisoes wedi dod o hyd i bethau Rhufeinig, a chawsant eu cloddio yn 2005, yn fyw ar y teledu.',
     },
     magnetic: false,
     place: placeId('roman-forts'),

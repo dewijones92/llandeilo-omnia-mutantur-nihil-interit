@@ -13,7 +13,7 @@ export const PLACES: readonly Place[] = [
     id: placeId('llandeilo'),
     name: 'Llandeilo',
     other: 'Llandeilo Fawr, Llandilo',
-    at: { e: 262976, n: 222347 },
+    at: { e: 262930, n: 222236 },
     description: {
       en: 'A market town on a bluff above the Tywi, named after St Teilo.',
       cy: 'Tref farchnad ar glogwyn uwchben y Tywi, wedi’i henwi ar ôl Teilo Sant.',
@@ -37,9 +37,9 @@ export const PLACES: readonly Place[] = [
     id: placeId('roman-forts'),
     name: 'Caerau Rhufeinig Dinefwr',
     other: 'Dinefwr Roman forts',
-    at: { e: 263063, n: 222478 },
+    at: { e: 262187, n: 222534 },
     description: {
-      en: 'Two overlapping Roman forts, found by survey in 2003.',
+      en: 'Two overlapping Roman forts, identified by survey in 2003.',
       cy: 'Dwy gaer Rufeinig yn gorgyffwrdd, a ddarganfuwyd gan arolwg yn 2003.',
     },
     provenance: cite('timeline:S15'),
@@ -61,7 +61,7 @@ export const PLACES: readonly Place[] = [
     name: 'Dryslwyn',
     at: { e: 255390, n: 220294 },
     description: {
-      en: 'A native Welsh castle with three wards on an isolated hill in the Tywi valley.',
+      en: 'The only native Welsh castle with three wards, on an isolated hill in the Tywi valley.',
       cy: 'Castell Cymreig brodorol â thair ward ar fryn unig yn Nyffryn Tywi.',
     },
     provenance: cite('timeline:S13', 'medieval:S22'),
@@ -71,7 +71,7 @@ export const PLACES: readonly Place[] = [
     id: placeId('talley'),
     name: 'Talyllychau',
     other: 'Talley',
-    at: { e: 263277, n: 232822 },
+    at: { e: 263199, n: 232800 },
     description: {
       en: 'The only Premonstratensian abbey in Wales, at the head of two lakes.',
       cy: 'Yr unig abaty Premonstratensaidd yng Nghymru, ym mhen dau lyn.',

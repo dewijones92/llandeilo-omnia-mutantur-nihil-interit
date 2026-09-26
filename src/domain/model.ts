@@ -157,7 +157,7 @@ export type FeatureKind =
       readonly turrets: boolean;
     }
   | { readonly type: 'bridge'; readonly span: number; readonly angle: number; readonly arches: number }
-  | { readonly type: 'railway'; readonly trains: number }
+  | { readonly type: 'railway' }
   | { readonly type: 'roads' }
   | { readonly type: 'tower'; readonly height: number };
 

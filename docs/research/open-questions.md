@@ -40,3 +40,28 @@ for the next pass. Each note's own "Open questions" section has the full list an
 - **The 1851 religious census** attendance figures for Llandeilo.
 - **Mapped coordinates**: several lat/lon values came from aggregators and should be checked
   against Coflein or Cadw grid references before precise placement.
+
+## Corrections from the first independent review (2026-09-26)
+
+An Opus review checked every content claim against these notes and found problems now fixed in
+the app. They are recorded here so the notes and the app do not silently disagree:
+
+- **The Dinefwr Roman forts** were placed from an approximate lat/lon, about 0.9km east of
+  Coflein's grid reference SN6218722534 (NPRN 402271, confirmed directly). St Teilo's church
+  (SN6293022236) and Talley Abbey were also moved to their recorded positions. Use Coflein or Cadw
+  grid references for placement, never the notes' approximate lat/lon.
+- **Godwin pollen-zone dates are uncalibrated radiocarbon years.** The deep-time note's zone table
+  gives the Younger Dryas as c. 8,800–8,300 BC; the calendar dates (its own source S8) are
+  c. 12,900–11,700 BP, about 10,900–9,700 BC. The early Holocene keyframes use calendar years.
+- **How the forts were found**: Coflein says they were identified by survey in March 2003 "in an
+  area that had previously surrendered Roman material during fieldwalking and metal detecting".
+  The timeline note's summary of its S15 (fieldwalking/metal-detecting) and the Iron Age note
+  (radar/magnetometer) are both partial.
+- **12,500 BC is the Late Upper Palaeolithic**, not the Mesolithic (timeline S1: the Palaeolithic
+  ends c. 11,500 BP).
+- **St Teilo's west tower** dates from about 1600, so the medieval church is drawn without it.
+- **Longhouses** have no local medieval evidence; the note's claim rests on later mid-Wales
+  examples. The Llys Rhosyr citation was wrong and is removed.
+- **Welsh-medium schools before 1962**: a reviewer recalled schools from the 1940s (Llanelli, 1947).
+  That is not in the notes yet, so the app no longer credits the 1962 revival with Welsh-medium
+  schools. Worth a sourced check.

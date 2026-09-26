@@ -47,7 +47,7 @@ const feature = (s: Spec): Feature => {
 
 const NOW = ad(2026);
 const GARN_GOCH = { e: 269120, n: 224320 };
-const LLANDEILO_CHURCH = { e: 262976, n: 222347 };
+const LLANDEILO_CHURCH = { e: 262930, n: 222236 };
 
 const FARMSTEAD_BASIS = {
   en: 'Enclosed farmsteads were the commonest kind of Iron Age settlement in Wales. These spots are illustrative, not known sites.',
@@ -55,8 +55,8 @@ const FARMSTEAD_BASIS = {
 };
 
 const LONGHOUSE_BASIS = {
-  en: 'Longhouses, with people at one end and cattle at the other, are the best-attested rural home in medieval south and mid Wales. Their exact places here are illustrative.',
-  cy: "Tai hir, gyda phobl un pen a gwartheg y pen arall, yw'r cartref gwledig sydd wedi'i gofnodi orau yn ne a chanolbarth Cymru yn yr Oesoedd Canol. Enghreifftiau yw eu lleoliadau yma.",
+  en: 'Longhouses, with people at one end and cattle at the other, were once common in mid and south Wales, but the known examples are later: almost no ordinary medieval house survives. Their form and places here are illustrative.',
+  cy: "Roedd tai hir, gyda phobl un pen a gwartheg y pen arall, yn gyffredin yng nghanolbarth a de Cymru, ond mae'r enghreifftiau hysbys yn ddiweddarach: does bron dim tŷ canoloesol cyffredin wedi goroesi. Enghreifftiau yw eu ffurf a'u lleoliadau yma.",
 };
 
 export const FEATURES: readonly Feature[] = [
@@ -115,8 +115,8 @@ export const FEATURES: readonly Feature[] = [
   }),
   feature({
     id: 'garn-goch-roundhouses',
-    kind: { type: 'roundhouses', count: 9, spread: 170 },
-    at: { e: 269000, n: 224250 },
+    kind: { type: 'roundhouses', count: 9, spread: 60 },
+    at: GARN_GOCH,
     from: bc(700),
     to: ad(74),
     label: { en: 'Roundhouses inside Y Gaer Fawr', cy: 'Tai crwn o fewn Y Gaer Fawr' },
@@ -176,13 +176,13 @@ export const FEATURES: readonly Feature[] = [
   feature({
     id: 'roman-fort-a',
     kind: { type: 'roman-fort', width: 200, length: 230, angle: 0.12 },
-    at: { e: 263063, n: 222478 },
+    at: { e: 262187, n: 222534 },
     from: ad(74),
-    to: ad(100),
+    to: ad(80),
     label: { en: 'The larger Roman fort', cy: 'Y gaer Rufeinig fwyaf' },
     provenance: documented(
       ['timeline:S15', 'ironage:S14', 'ironage:S15'],
-      'Sources disagree on its size (8 or 12 acres) and founding date. Its internal layout is a standard Roman plan.',
+      'Sources disagree on its size (8 or 12 acres) and founding date, so the dates drawn are approximate. Its internal layout is a standard Roman plan.',
       "Mae ffynonellau'n anghytuno ar ei maint a'i dyddiad sefydlu. Cynllun Rhufeinig safonol yw'r trefniant mewnol.",
     ),
     place: 'roman-forts',
@@ -190,13 +190,13 @@ export const FEATURES: readonly Feature[] = [
   feature({
     id: 'roman-fort-b',
     kind: { type: 'roman-fort', width: 100, length: 150, angle: 0.12 },
-    at: { e: 263090, n: 222450 },
-    from: ad(100),
+    at: { e: 262215, n: 222505 },
+    from: ad(78),
     to: ad(125),
     label: { en: 'The smaller Roman fort', cy: 'Y gaer Rufeinig lai' },
     provenance: documented(
       ['ironage:S14', 'ironage:S15'],
-      'About 150m by 100m. The order and dates of the two forts are disputed.',
+      'About 150m by 100m, probably occupied from about AD 78–83, with both forts gone early in the 2nd century. The exact order and dates are disputed.',
       "Tua 150m wrth 100m. Mae trefn a dyddiadau'r ddwy gaer yn destun dadl.",
     ),
     place: 'roman-forts',
@@ -217,18 +217,32 @@ export const FEATURES: readonly Feature[] = [
   }),
   feature({
     id: 'medieval-church',
-    kind: { type: 'church', length: 26, tower: true, angle: 0.05 },
+    kind: { type: 'church', length: 24, tower: false, angle: 0.05 },
     at: LLANDEILO_CHURCH,
     from: ad(1300),
+    to: ad(1600),
+    label: { en: 'Medieval St Teilo’s', cy: 'Eglwys Teilo Sant ganoloesol' },
+    provenance: reconstructed(
+      'A medieval church stood here; its form before about 1600 is not known.',
+      'Roedd eglwys ganoloesol yma; ni wyddys ei ffurf cyn tua 1600.',
+      ['victorian:S23', 'medieval:S3'],
+    ),
+    place: 'llandeilo',
+  }),
+  feature({
+    id: 'tower-church',
+    kind: { type: 'church', length: 26, tower: true, angle: 0.05 },
+    at: LLANDEILO_CHURCH,
+    from: ad(1600),
     to: ad(1848),
     label: {
-      en: 'Medieval St Teilo’s, with its west tower',
-      cy: 'Eglwys Teilo Sant ganoloesol, gyda’i thŵr gorllewinol',
+      en: 'St Teilo’s, with its new west tower',
+      cy: 'Eglwys Teilo Sant, gyda’i thŵr gorllewinol newydd',
     },
     provenance: reconstructed(
-      'A medieval double-nave church with a west tower thought to date from about 1600. Its earlier form is not known.',
-      "Eglwys ganoloesol â dau gorff a thŵr gorllewinol o tua 1600 mae'n debyg. Ni wyddys ei ffurf gynharach.",
-      ['victorian:S23', 'medieval:S3'],
+      'A double-nave church with a west tower thought to date from about 1600.',
+      "Eglwys â dau gorff a thŵr gorllewinol o tua 1600 mae'n debyg.",
+      ['victorian:S23'],
     ),
     place: 'llandeilo',
   }),
@@ -250,12 +264,12 @@ export const FEATURES: readonly Feature[] = [
     kind: { type: 'castle', towers: 5, radius: 42, ruined: false, keep: true },
     at: { e: 261155, n: 221729 },
     from: ad(1163),
-    to: ad(1660),
+    to: ad(1600),
     label: { en: 'Dinefwr Castle', cy: 'Castell Dinefwr' },
     provenance: documented(
       ['timeline:S26', 'timeline:S27', 'medieval:S9', 'medieval:S12'],
-      'The great round tower and two wards are documented; the layout here is simplified.',
-      "Mae'r tŵr crwn mawr a'r ddwy ward wedi'u cofnodi; mae'r cynllun yma wedi'i symleiddio.",
+      'The great round tower and two wards are documented; the layout here is simplified. It was abandoned as a home after the 15th century, so the end date here is approximate.',
+      "Mae'r tŵr crwn mawr a'r ddwy ward wedi'u cofnodi; mae'r cynllun wedi'i symleiddio. Fe'i gadawyd fel cartref ar ôl y 15fed ganrif, felly bras yw'r dyddiad gorffen yma.",
     ),
     place: 'dinefwr',
   }),
@@ -263,7 +277,7 @@ export const FEATURES: readonly Feature[] = [
     id: 'dinefwr-ruin',
     kind: { type: 'castle', towers: 5, radius: 42, ruined: true, keep: true },
     at: { e: 261155, n: 221729 },
-    from: ad(1660),
+    from: ad(1600),
     to: NOW,
     label: { en: 'Dinefwr Castle, a ruin', cy: 'Castell Dinefwr, yn adfail' },
     provenance: documented(['timeline:S45', 'timeline:S46', 'medieval:S13']),
@@ -340,21 +354,21 @@ export const FEATURES: readonly Feature[] = [
   feature({
     id: 'talley-abbey',
     kind: { type: 'abbey', ruined: false, angle: 0.02 },
-    at: { e: 263277, n: 232822 },
+    at: { e: 263199, n: 232800 },
     from: ad(1185),
     to: ad(1537),
     label: { en: 'Talley Abbey', cy: 'Abaty Talyllychau' },
     provenance: documented(
       ['medieval:S17', 'medieval:S18', 'medieval:S19'],
-      'Only the east end, crossing tower and transepts were finished; the nave stops at its footings.',
-      "Dim ond y pen dwyreiniol, y tŵr croesi a'r croesfeydd a orffennwyd; mae'r corff yn gorffen wrth ei sylfeini.",
+      'Only the east end, crossing tower and transepts were finished; the nave stops at its footings. It was dissolved in the 1530s; the exact year is not in our research.',
+      "Dim ond y pen dwyreiniol, y tŵr croesi a'r croesfeydd a orffennwyd; mae'r corff yn gorffen wrth ei sylfeini. Fe'i diddymwyd yn yr 1530au; nid yw'r union flwyddyn yn ein hymchwil.",
     ),
     place: 'talley',
   }),
   feature({
     id: 'talley-ruin',
     kind: { type: 'abbey', ruined: true, angle: 0.02 },
-    at: { e: 263277, n: 232822 },
+    at: { e: 263199, n: 232800 },
     from: ad(1537),
     to: NOW,
     label: {
@@ -381,7 +395,7 @@ export const FEATURES: readonly Feature[] = [
       from: ad(1050 + i * 30),
       to: ad(1720),
       label: { en: 'Longhouses', cy: 'Tai hir' },
-      provenance: imagined(LONGHOUSE_BASIS.en, LONGHOUSE_BASIS.cy, ['medieval:S51']),
+      provenance: imagined(LONGHOUSE_BASIS.en, LONGHOUSE_BASIS.cy, []),
     }),
   ),
   feature({
@@ -476,7 +490,7 @@ export const FEATURES: readonly Feature[] = [
     label: { en: 'Llandeilo, a Georgian market town', cy: 'Llandeilo, tref farchnad Sioraidd' },
     provenance: reconstructed(
       'The size is a guess below the 1858 count. Buildings use today’s OS footprints nearest the church, so the layout is approximate.',
-      "Dyfaliad yw'r maint, yn llai na chyfrif 1858. Mae'r adeiladau'n defnyddio olion traed yr AO heddiw agosaf at yr eglwys.",
+      "Dyfaliad yw'r maint, yn llai na chyfrif 1858. Mae'r adeiladau'n defnyddio amlinellau adeiladau'r Arolwg Ordnans heddiw agosaf at yr eglwys.",
       ['victorian:S39'],
     ),
     place: 'llandeilo',
@@ -493,7 +507,7 @@ export const FEATURES: readonly Feature[] = [
     },
     provenance: reconstructed(
       'The 1858 count is documented. Buildings use today’s OS footprints nearest the church, so which buildings stood then is approximate.',
-      "Mae cyfrif 1858 wedi'i gofnodi. Mae'r adeiladau'n defnyddio olion traed yr AO heddiw agosaf at yr eglwys.",
+      "Mae cyfrif 1858 wedi'i gofnodi. Mae'r adeiladau'n defnyddio amlinellau adeiladau'r Arolwg Ordnans heddiw agosaf at yr eglwys.",
       ['timeline:S55', 'timeline:S20'],
     ),
     place: 'llandeilo',
@@ -540,7 +554,7 @@ export const FEATURES: readonly Feature[] = [
   }),
   feature({
     id: 'railway',
-    kind: { type: 'railway', trains: 1 },
+    kind: { type: 'railway' },
     at: { e: 263266, n: 222361 },
     from: ad(1857),
     to: NOW,

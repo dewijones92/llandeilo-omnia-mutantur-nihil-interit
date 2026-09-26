@@ -64,7 +64,7 @@ export const PEOPLE: readonly Person[] = [
   },
   {
     id: personId('priest'),
-    name: 'Y Tad Iorwerth',
+    name: 'Iorwerth yr offeiriad',
     role: { en: 'A priest of St Teilo’s', cy: 'Offeiriad Eglwys Teilo' },
     clothing: 'clergy',
     voice: 'male',

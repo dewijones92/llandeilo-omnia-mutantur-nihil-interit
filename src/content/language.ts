@@ -234,7 +234,7 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
     [
       use(
         'Farmers, labourers, chapel congregations',
-        'Ffermwyr, gweision, cynulleidfaoedd capel',
+        'Ffermwyr, llafurwyr, cynulleidfaoedd capel',
         'welsh',
         'Overwhelmingly Welsh: 84.9% of Carmarthenshire still spoke it in 1911.',
         "Cymraeg yn llethol: roedd 84.9% o Sir Gâr yn dal i'w siarad yn 1911.",
@@ -272,8 +272,8 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
         'Wales as a whole',
         'Cymru gyfan',
         'english',
-        'A steady shift to English, then a revival from 1962 bringing Welsh-medium schools, S4C and legal status.',
-        'Symudiad cyson at y Saesneg, yna adfywiad o 1962 a ddaeth ag ysgolion Cymraeg, S4C a statws cyfreithiol.',
+        'A steady shift to English, then a political revival from 1962, followed by S4C (1982) and legal status for Welsh (1993).',
+        'Symudiad cyson at y Saesneg, yna adfywiad gwleidyddol o 1962, ac yna S4C (1982) a statws cyfreithiol i’r Gymraeg (1993).',
       ),
     ],
     doc('language:S26', 'language:S20', 'language:S21'),

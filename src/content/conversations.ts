@@ -83,7 +83,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
     id: conversationId('at-the-fort'),
     when: range(ad(76), ad(125)),
     place: placeId('roman-forts'),
-    at: { e: 263150, n: 222380 },
+    at: { e: 262280, n: 222450 },
     setIn: { en: 'Outside the Roman fort, about AD 80', cy: 'Y tu allan i’r gaer Rufeinig, tua 80 OC' },
     title: { en: 'Selling grain to the garrison', cy: "Gwerthu grawn i'r garsiwn" },
     people: people('marcus', 'ceri'),
@@ -133,7 +133,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
     place: placeId('llandeilo'),
     at: { e: 262930, n: 222420 },
     setIn: { en: 'Llandeilo Fawr, June 1282', cy: 'Llandeilo Fawr, Mehefin 1282' },
-    title: { en: 'News of the ambush', cy: 'Newyddion am y cyrch' },
+    title: { en: 'News of the ambush', cy: 'Newyddion am y rhagod' },
     people: people('ieuan', 'gwenllian', 'priest', 'bard'),
     lines: [
       line(
@@ -234,8 +234,8 @@ export const CONVERSATIONS: readonly Conversation[] = [
       line('dafydd', 'welsh', 'Fel arfer.', 'As ever.', 'Fel arfer.'),
     ],
     provenance: imagined(
-      'Llandeilo lime farmers crossed three turnpike trusts, with tolls reported at 30% of the cost of the lime; the Walk Gate on the Carmarthen road was destroyed in August 1843; dragoons were billeted at the Cawdor Arms. The couple, the agent and their words are invented.',
-      "Croesai ffermwyr calch Llandeilo dair ymddiriedolaeth dyrpeg, gyda'r tollau'n 30% o gost y calch; dinistriwyd Gât y Walk yn Awst 1843; lletywyd dragwniaid yn y Cawdor Arms. Mae'r cwpl, yr asiant a'u geiriau wedi'u dyfeisio.",
+      'Llandeilo lime farmers crossed three turnpike trusts, with tolls reported at 30% of the cost of the lime; the Walk Gate on the Carmarthen road was destroyed in August 1843; dragoons were billeted at the Cawdor Arms during the unrest (exactly when they arrived is not known). The couple, the agent and their words are invented.',
+      "Croesai ffermwyr calch Llandeilo dair ymddiriedolaeth dyrpeg, gyda'r tollau'n 30% o gost y calch; dinistriwyd Gât y Walk yn Awst 1843; lletywyd dragwniaid yn y Cawdor Arms yn ystod yr helynt (ni wyddys pryd yn union y cyrhaeddon nhw). Mae'r cwpl, yr asiant a'u geiriau wedi'u dyfeisio.",
       ['victorian:S7', 'victorian:S8', 'victorian:S9', 'victorian:S16'],
     ),
     languageNote: {
@@ -282,8 +282,8 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ),
     ],
     provenance: imagined(
-      'The Llanelly Railway reached Llandeilo in 1857. After the 1847 Blue Books report, schools pressed children towards English, sometimes with the Welsh Not. The family and their words are invented.',
-      "Cyrhaeddodd Rheilffordd Llanelli Landeilo yn 1857. Ar ôl adroddiad y Llyfrau Gleision yn 1847, roedd ysgolion yn gwthio plant tuag at Saesneg, weithiau gyda'r Welsh Not. Mae'r teulu a'u geiriau wedi'u dyfeisio.",
+      'The Llanelly Railway reached Llandeilo in 1857. Victorian schools pressed children towards English; some Welsh schools used the Welsh Not, though no case is recorded at Llandeilo and how widely it was used is debated. The family and their words are invented.',
+      "Cyrhaeddodd Rheilffordd Llanelli Landeilo yn 1857. Roedd ysgolion Fictoraidd yn gwthio plant tuag at Saesneg; roedd rhai ysgolion Cymreig yn defnyddio'r Welsh Not, er nad oes achos wedi'i gofnodi yn Llandeilo ac mae dadl ynghylch pa mor eang y'i defnyddiwyd. Mae'r teulu a'u geiriau wedi'u dyfeisio.",
       ['victorian:S29', 'victorian:S18', 'victorian:S49'],
     ),
   },
