@@ -43,7 +43,7 @@ so the next reader knows the map was unreliable there.
 | Family bloodline ✅ | One imagined family recurring in every era, always ⓘ | Makes it personal |
 | Terrain ✅ | **Both**: OS Terrain 50 (50m grid) for the whole 10-mile circle; Welsh Government LiDAR (1-2m) for the close-up places you fly into | The Tywi valley's shape is the one constant across every era. 50m is plenty for a low-poly overview; close-ups need the detail |
 | Timeline scale ✅ | Non-linear (deep time compressed, recent centuries spread) | A linear 12,000-year slider puts everything since the Romans in the last sliver |
-| Content ⚠️ | Data files in the repo, written ahead of time | Reviewable, citable, testable; no runtime AI cost or invented "facts" |
+| Content ✅ | Data files in the repo, written ahead of time; **no live AI at runtime** | Reviewable, citable, testable; no runtime AI cost or invented "facts" |
 | v1 scope ✅ | **Vertical slice**: about 3 eras done properly end to end before filling in the rest | A thin sweep of 12,000 years would look empty everywhere |
 | Hosting ✅ | **GitHub Pages**, deployed by GitHub Actions from the **public** GitHub repo | Free, no extra accounts |
 | Offline ✅ | Not needed (no PWA) | |
