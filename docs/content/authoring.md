@@ -1,0 +1,58 @@
+---
+title: Authoring content
+kind: guide
+status: current
+updated: 2026-09-26
+---
+
+# How research becomes content
+
+Content lives in `src/content/` as typed TypeScript data. The domain types in `src/domain/model.ts`
+decide what can be written, so many mistakes are compile errors rather than review comments.
+
+## Provenance: every item has one
+
+| Tier | Use it for | Must carry |
+|---|---|---|
+| `documented` | A claim a researched source makes | At least one `src('note:Sn')` (the type forbids an empty list), optional `note` |
+| `reconstructed` | Inferred from archaeology, typology or comparison (a roundhouse's form, a castle's plan) | A `basis` in both languages, plus sources where they exist |
+| `imagined` | Invented to fill a gap (dialogue, a farmstead's exact spot, a family) | `groundedIn`, saying what it is based on |
+
+Rules that follow:
+
+- Cite a source only for what it actually says. If a note flags a claim as single-source or
+  contested, say so in the item's text or `note`.
+- Never put invented words in a real person's mouth. Documented people may appear in imagined
+  scenes; their lines are marked as invented.
+- When unsure, write the uncertainty into the content ("16 or 17 June", "no chronicle names…").
+
+## Citations
+
+Sources come from the research notes via `tools/research/extract-sources.mjs`. A key such as
+`medieval:S27` means source S27 in `era-medieval-to-1282.md`. After any change to a note's source
+list, regenerate and fix whatever no longer compiles, re-mapping by title.
+
+## Time
+
+Years are astronomical (`bc(800)` is -799, `ad(1282)` is 1282). A feature is fully present from
+`from` to `to` and fades in just before and out just after, so a replacement (a ruin, a rebuilt
+church) that starts on the year its predecessor ends crossfades cleanly. Key dates marked
+`magnetic` snap the slider and show a moment card.
+
+## Places and features
+
+- Positions are OS grid references (EPSG:27700). Prefer the grid reference from Coflein or Cadw;
+  convert lat/lon with `gdaltransform -s_srs EPSG:4326 -t_srs EPSG:27700` only when there is none.
+- Feature kinds are a closed union; the renderer has one builder per kind. Adding a kind means
+  adding its builder, and the compiler lists everywhere that needs handling.
+- Landmarks are drawn larger than life (`MONUMENT_SCALE`) so they read on the diorama; very large
+  earthworks (hillforts) use their true footprint; town buildings use real OS footprints at true
+  size, with heights exaggerated. Hills are exaggerated 2.4 times. The About panel says so.
+- A town at a documented size uses the `nearest` OS footprints to its centre. The count can be
+  documented while which buildings stood is reconstructed; label it that way.
+- Active settlements clear woodland around them, so a hillfort sits on open ground.
+
+## Text
+
+UI strings live in `src/content/strings.ts`, and every content text is `{ en, cy }`. Welsh place
+names come first. A human check of the Welsh is still pending.

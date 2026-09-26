@@ -1,0 +1,35 @@
+---
+title: Backlog
+kind: index
+status: current
+updated: 2026-09-26
+---
+
+# Backlog
+
+## Vertical slice (in progress)
+
+- [ ] People on the map and conversations, with the ⓘ on every line
+- [ ] Voices with edge-tts (Welsh, English, Latin via Diego, French), generated at build time
+- [ ] Procedural ambient sound per era, crossfaded, with a sound toggle
+- [ ] Almanac panel and language-by-class panel for the current year
+- [ ] The imagined family that recurs through time
+- [ ] About panel with credits generated from the sources and data licences
+- [ ] Independent Opus review of code and screenshots; fix CRITICAL/IMPORTANT findings
+
+## Quality
+
+- [ ] Trim the Babylon bundle (1.6MB gzipped) with deep imports
+- [ ] Check WebGPU on a real GPU (CI and local screenshots use WebGL2 via SwiftShader)
+- [ ] Performance numbers on an ordinary desktop, recorded in CLAUDE.md
+- [ ] More e2e: fly to a place, open a provenance popover, moment card at a key date
+
+## Later phases
+
+- [ ] Deep time before people: geology and ice ages ([research](../research/deep-time-and-natural-history.md))
+- [ ] Natural history layer through every era
+- [ ] Ripples from afar: distant events that reached the valley
+- [ ] LiDAR close-up terrain at visitable places
+- [ ] Remaining eras filled in (Roman, early medieval, Tudor, Georgian, modern)
+- [ ] A human check of the Welsh text
+- [ ] A second research pass on the gaps in [`open-questions`](../research/open-questions.md)

@@ -1,5 +1,7 @@
+import { Vector3 } from '@babylonjs/core';
 import './ui/styles.css';
 import { WORLD_CONTENT } from './content/world.ts';
+import { toWorld } from './domain/geo.ts';
 import { isLang } from './domain/i18n.ts';
 import { snapshotAt, snapTarget } from './domain/state.ts';
 import { tAt } from './domain/timeline.ts';
@@ -106,20 +108,28 @@ async function start(): Promise<void> {
   });
   const labels = new PlaceLabels(world.scene, content.places, features.ground, store, (place, at) => {
     console.info(`dewidebug visit place=${place.id}`);
-    flight.flyTo(at, 320, 1.02);
+    flight.flyTo(at, 420, 0.82);
     home.hidden = false;
   });
   store.onChange(() => {
     home.textContent = store.t('overview');
   });
   app.append(labels.el, brand, moment.el, timeline.el, home);
+  const startPlace = content.places.find((p) => p.id === params.get('place'));
+  if (startPlace) {
+    const { x, z } = toWorld(startPlace.at);
+    world.camera.target = new Vector3(x, features.ground(x, z), z);
+    world.camera.radius = Number(params.get('radius') ?? 420);
+    world.camera.beta = 0.82;
+    home.hidden = false;
+  }
   if (debug) app.append(debug.el);
 
   const apply = (): void => {
     if (!pending) return;
     pending = false;
     const snap = snapshotAt(content, t);
-    world.applyEnvironment(snap.environment);
+    world.applyEnvironment(snap.environment, features.clearings(snap.features));
     features.apply(snap.features);
     const near = snap.nearestEvent;
     moment.show(

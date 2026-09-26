@@ -31,8 +31,8 @@ const PALETTE = {
   meadowWet: hex('#79b866'),
   grass: hex('#a9c97a'),
   scrub: hex('#9bb86b'),
-  wood: hex('#3f7a45'),
-  woodDark: hex('#2f6440'),
+  wood: hex('#4f8a4c'),
+  woodDark: hex('#3f7746'),
   moor: hex('#b59a62'),
   heather: hex('#9a7a8c'),
   uplandGrass: hex('#b8c07e'),
@@ -82,6 +82,12 @@ export interface TerrainTriangles {
 }
 
 export type LandCover = 'wood' | 'farm' | 'meadow' | 'moor' | 'grass' | 'rock';
+
+export interface Clearing {
+  readonly x: number;
+  readonly z: number;
+  readonly radius: number;
+}
 
 export class Terrain {
   readonly mesh: Mesh;
@@ -136,15 +142,26 @@ export class Terrain {
     return sampleHeight(this.heightfield, g);
   }
 
-  applyEnvironment(env: Environment): boolean {
-    const key = `${env.forest.toFixed(3)}|${env.farmland.toFixed(3)}|${env.moor.toFixed(3)}`;
+  applyEnvironment(env: Environment, clearings: readonly Clearing[] = []): boolean {
+    const key = `${env.forest.toFixed(3)}|${env.farmland.toFixed(3)}|${env.moor.toFixed(3)}|${env.mappedWoodland.toFixed(3)}|${clearings.map((c) => `${c.x.toFixed(0)},${c.z.toFixed(0)},${c.radius.toFixed(0)}`).join(';')}`;
     if (key === this.lastKey) return false;
     this.lastKey = key;
     const t = this.tris;
     const c = this.colours;
     const farmShare = env.farmland / Math.max(0.0001, 1 - env.forest);
     for (let i = 0; i < t.count; i++) {
-      const cover = classify(t, i, env, farmShare);
+      let cover = classify(t, i, env, farmShare);
+      if (cover === 'wood' && clearings.length > 0) {
+        const cx = t.cx[i] ?? 0;
+        const cz = t.cz[i] ?? 0;
+        for (const c of clearings) {
+          const d = Math.hypot(cx - c.x, cz - c.z);
+          if (d < c.radius * (0.75 + (t.mix[i] ?? 0) * 0.5)) {
+            cover = (t.heightM[i] ?? 0) >= UPLAND_M ? 'grass' : 'farm';
+            break;
+          }
+        }
+      }
       this.cover[i] = COVER_CODE[cover];
       const col = colourFor(t, i, cover, env);
       const o = i * 12;

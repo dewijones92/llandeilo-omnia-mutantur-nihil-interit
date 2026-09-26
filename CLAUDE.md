@@ -16,6 +16,11 @@ it is based on.
 **The original brief** is kept verbatim in `docs/brief.md`. Decisions below supersede it where
 they conflict.
 
+**The repo is a knowledge base, not just code.** `docs/` is a sourced archive of what is known and
+not known about the area: research notes and the briefs that produced them, the method, open
+questions, the authoring guide, the data pipeline, and dated decision and build logs. Keep it as
+carefully as the code; the app is one way of showing it.
+
 **Living docs:** `AGENTS.md` → `docs/` (frontmatter'd markdown: features, backlog, tests,
 sources). Keeping them current is part of "done". Bump each doc's `updated`.
 **A doc's `status` is a claim, and a stale claim is worse than none.** When you touch an area,

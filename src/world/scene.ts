@@ -8,7 +8,6 @@ import {
   ImageProcessingConfiguration,
   Scene,
   ShadowGenerator,
-  Vector2,
   Vector3,
   type AbstractEngine,
   type Mesh,
@@ -18,7 +17,7 @@ import type { Heightfield } from '../domain/heightfield.ts';
 import type { Environment } from '../domain/state.ts';
 import type { RiverLine } from '../platform/assets.ts';
 import { Sky } from './sky.ts';
-import { Terrain } from './terrain.ts';
+import { Terrain, type Clearing } from './terrain.ts';
 import { Forest } from './trees.ts';
 import { buildRivers } from './water.ts';
 
@@ -55,10 +54,9 @@ export class World {
       -Math.PI / 2 - 0.35,
       0.96,
       3500,
-      new Vector3(0, 30, 0),
+      new Vector3(-150, 30, -420),
       scene,
     );
-    camera.targetScreenOffset = new Vector2(0, 160);
     camera.lowerRadiusLimit = 90;
     camera.upperRadiusLimit = 5200;
     camera.lowerBetaLimit = 0.15;
@@ -121,8 +119,8 @@ export class World {
     this.shadows.addShadowCaster(mesh);
   }
 
-  applyEnvironment(env: Environment): void {
-    if (this.terrain.applyEnvironment(env)) this.forest.update();
+  applyEnvironment(env: Environment, clearings: readonly Clearing[]): void {
+    if (this.terrain.applyEnvironment(env, clearings)) this.forest.update();
     this.sky.apply(env.skyTop, env.skyHorizon);
     const horizon = c3(env.skyHorizon);
     this.scene.fogColor = horizon;

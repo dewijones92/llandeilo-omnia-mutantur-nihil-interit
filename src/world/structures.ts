@@ -5,7 +5,7 @@ import type { FeatureKind } from '../domain/model.ts';
 import { rng } from '../domain/noise.ts';
 import { box, cone, cylinder, gable, merge, paint, place } from './meshkit.ts';
 
-export const MONUMENT_SCALE = 4.5;
+export const MONUMENT_SCALE = 2.6;
 
 export type Ground = (x: number, z: number) => number;
 
@@ -13,7 +13,7 @@ const STONE = hex('#b7b0a2');
 const STONE_DARK = hex('#8f887c');
 const RUIN = hex('#a3a192');
 const MOSS = hex('#8a9a6c');
-const THATCH = hex('#bf9f5f');
+const THATCH = hex('#d2b172');
 const DAUB = hex('#d4c29a');
 const TIMBER = hex('#7a5a3c');
 const SLATE = hex('#5f6670');
@@ -50,7 +50,7 @@ export function buildFeature(
         const r = Math.sqrt(random()) * kind.spread * s;
         const x = Math.cos(a) * r;
         const z = Math.sin(a) * r;
-        const d = (6 + random() * 5) * s * 1.2;
+        const d = (6 + random() * 5) * s * 1.8;
         const y = ground(ox + x, oz + z) - baseY;
         parts.push(roundhouse(scene, d, x, y, z, a));
       }
@@ -117,16 +117,15 @@ function rampart(
   ox: number,
   oz: number,
 ): Mesh {
-  const s = MONUMENT_SCALE / 10;
   const base = ground(ox, oz);
   const parts: Mesh[] = [];
   const segments = 96;
   for (let ring = 0; ring < k.rings; ring++) {
     const shrink = 1 - ring * 0.14;
-    const a = (k.length / 2) * shrink * (s * 0.55);
-    const b = (k.width / 2) * shrink * (s * 0.55);
-    const height = (k.stone ? 3.2 : 2.4) * (k.ruined ? 0.55 : 1) * s * 2.2;
-    const half = (k.stone ? 3.5 : 4.5) * s * 1.5;
+    const a = (k.length / 2 / 10) * shrink;
+    const b = (k.width / 2 / 10) * shrink;
+    const height = (k.stone ? 1.25 : 0.95) * (k.ruined ? 0.6 : 1);
+    const half = k.stone ? 3.2 : 3.6;
     const positions: number[] = [];
     const indices: number[] = [];
     for (let i = 0; i <= segments; i++) {
@@ -148,10 +147,13 @@ function rampart(
         indices.push(v - 3, v, v - 2, v - 2, v, v + 1, v - 2, v + 1, v - 1, v - 1, v + 1, v + 2);
       }
     }
+    const both = [...indices];
+    for (let i = 0; i < indices.length; i += 3)
+      both.push(indices[i] ?? 0, indices[i + 2] ?? 0, indices[i + 1] ?? 0);
     const m = new Mesh('rampart', scene);
     m.setVerticesData('position', positions);
-    m.setIndices(indices);
-    parts.push(paint(m, k.stone ? (k.ruined ? mix(STONE_DARK, MOSS, 0.35) : STONE_DARK) : EARTH, 1.08, 0.78));
+    m.setIndices(both);
+    parts.push(paint(m, k.stone ? (k.ruined ? mix(STONE, MOSS, 0.3) : STONE) : EARTH, 1.1, 0.8));
   }
   const merged = merge('hillfort', parts);
   merged.position = new Vector3(ox, base, oz);

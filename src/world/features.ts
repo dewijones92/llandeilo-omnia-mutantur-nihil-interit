@@ -7,6 +7,7 @@ import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
 import { Buildings, lineRibbons, longestLine, Train } from './settlement.ts';
 import { buildFeature, type Ground } from './structures.ts';
+import type { Clearing } from './terrain.ts';
 
 interface Monument {
   readonly mesh: Mesh;
@@ -18,6 +19,23 @@ interface TownSet {
 }
 
 const TOWN_CORE_RADIUS = 1300;
+
+const CLEARING: Readonly<Record<Feature['kind']['type'], number>> = {
+  roundhouses: 40,
+  hillfort: 85,
+  'roman-fort': 60,
+  castle: 45,
+  church: 25,
+  abbey: 45,
+  'hall-houses': 45,
+  town: 110,
+  countryside: 0,
+  mansion: 40,
+  bridge: 0,
+  railway: 0,
+  roads: 0,
+  tower: 20,
+};
 
 export class FeatureLayer {
   private readonly monuments = new Map<FeatureId, Monument>();
@@ -80,6 +98,18 @@ export class FeatureLayer {
     console.info(
       `dewidebug features built monuments=${this.monuments.size} towns=${this.towns.size} in ${Math.round(performance.now() - started)}ms`,
     );
+  }
+
+  clearings(present: readonly FeaturePresence[]): Clearing[] {
+    const out: Clearing[] = [];
+    for (const p of present) {
+      if (p.presence < 0.35) continue;
+      const r = CLEARING[p.feature.kind.type];
+      if (r === 0) continue;
+      const { x, z } = toWorld(p.feature.at);
+      out.push({ x, z, radius: r });
+    }
+    return out;
   }
 
   apply(present: readonly FeaturePresence[]): void {

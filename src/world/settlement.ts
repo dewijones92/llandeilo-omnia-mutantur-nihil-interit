@@ -53,7 +53,7 @@ export class Buildings {
       const x = (e - WORLD.centre.e) / WORLD.metresPerUnit;
       const z = (nn - WORLD.centre.n) / WORLD.metresPerUnit;
       const area = w * dep * 100;
-      const h = (area > 500 ? 0.75 : area < 60 ? 0.6 : 0.85 + hash2(i, 1, 2) * 0.35) * 1.5;
+      const h = (area > 500 ? 0.75 : area < 60 ? 0.6 : 0.85 + hash2(i, 1, 2) * 0.35) * 1.6;
       const y = ground(x, z) - 0.15;
       const q = Quaternion.RotationAxis(Vector3.Up(), -angle);
       Matrix.Compose(new Vector3(w, h, dep), q, new Vector3(x, y, z)).copyToArray(this.matrices, i * 16);
