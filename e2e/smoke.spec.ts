@@ -39,3 +39,23 @@ test('a conversation opens from its bubble and lists its lines', async ({ page }
   await expect(panel.locator('.line-quote')).toContainText('Peryf ap Cedifor');
   await page.screenshot({ path: 'test-results/conversation-1282.png' });
 });
+
+test('the almanac, language and sound controls work for the chosen year', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?year=1843');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.getByRole('button', { name: 'Almanac' }).click();
+  const info = page.locator('.info');
+  await expect(info).toBeVisible();
+  await expect(info.locator('.info-list li').first()).toBeVisible();
+  await expect(info).toContainText('turnpike');
+  await expect(info.locator('.prov').first()).toBeVisible();
+  await page.screenshot({ path: 'test-results/almanac-1843.png' });
+  await info.getByRole('button', { name: 'Language' }).click();
+  await expect(info).toContainText('84.9%');
+  const sound = page.getByRole('button', { name: 'Sound off' });
+  await sound.click();
+  await expect(page.getByRole('button', { name: 'Sound on' })).toHaveAttribute('aria-pressed', 'true');
+  expect(errors).toEqual([]);
+});

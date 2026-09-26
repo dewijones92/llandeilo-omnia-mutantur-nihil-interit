@@ -49,6 +49,21 @@ export const STRINGS = {
   translation: { en: 'Translation', cy: 'Cyfieithiad' },
   flyTo: { en: 'Visit', cy: 'Ymweld' },
   playAll: { en: 'Play conversation', cy: 'Chwarae’r sgwrs' },
+  keyDates: { en: 'key dates', cy: 'dyddiad allweddol' },
+  featuresCount: { en: 'places and buildings through time', cy: 'lle ac adeilad drwy amser' },
+  sourcesCount: { en: 'research sources', cy: 'ffynhonnell ymchwil' },
+  voicesCredit: {
+    en: 'Voices are Microsoft neural text-to-speech (via edge-tts). A modern voice reading an old language is an approximation.',
+    cy: 'Lleisiau testun-i-leferydd niwral Microsoft (drwy edge-tts). Brasamcan yw llais modern yn darllen hen iaith.',
+  },
+  soundCredit: {
+    en: 'Ambient sound is generated in your browser, reconstructed from what the research says happened in each era.',
+    cy: "Mae'r sain gefndir yn cael ei chreu yn eich porwr, wedi'i hail-greu o'r hyn y mae'r ymchwil yn ei ddweud am bob oes.",
+  },
+  researchLink: {
+    en: 'Read the research, sources and method',
+    cy: "Darllen yr ymchwil, y ffynonellau a'r dull",
+  },
   family: { en: 'the family', cy: 'y teulu' },
   aboutLanguage: { en: 'About the language:', cy: 'Am yr iaith:' },
   overview: { en: 'Whole valley', cy: 'Y dyffryn cyfan' },

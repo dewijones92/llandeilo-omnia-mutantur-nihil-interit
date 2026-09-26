@@ -1,7 +1,9 @@
 import type { WorldContent } from '../domain/state.ts';
+import { ALMANAC } from './almanac.ts';
 import { CONVERSATIONS } from './conversations.ts';
 import { EVENTS } from './events.ts';
 import { FEATURES } from './features.ts';
+import { LANGUAGE } from './language.ts';
 import { PEOPLE } from './people.ts';
 import { PLACES } from './places.ts';
 import { SOURCES } from './sources.ts';
@@ -16,7 +18,7 @@ export const WORLD_CONTENT: WorldContent = {
   features: FEATURES,
   people: PEOPLE,
   conversations: CONVERSATIONS,
-  almanac: [],
-  language: [],
+  almanac: ALMANAC,
+  language: LANGUAGE,
   sources: SOURCES,
 };

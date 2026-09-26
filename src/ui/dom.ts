@@ -7,6 +7,10 @@ export function h<K extends keyof HTMLElementTagNameMap>(
 ): HTMLElementTagNameMap[K] {
   const el = document.createElement(tag);
   for (const [key, value] of Object.entries(props)) {
+    if (key.startsWith('aria-') && typeof value === 'boolean') {
+      el.setAttribute(key, String(value));
+      continue;
+    }
     if (value === undefined || value === false) continue;
     if (key === 'class') el.className = String(value);
     else el.setAttribute(key, value === true ? '' : String(value));

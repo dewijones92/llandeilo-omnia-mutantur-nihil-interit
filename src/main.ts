@@ -19,6 +19,8 @@ import { PlaceLabels } from './ui/labels.ts';
 import { MomentCard } from './ui/moment.ts';
 import { Bubbles } from './ui/bubbles.ts';
 import { ConversationPanel } from './ui/conversation.ts';
+import { InfoPanel, type InfoTab } from './ui/info.ts';
+import { Ambience } from './audio/ambience.ts';
 import { h } from './ui/dom.ts';
 import { LangStore } from './ui/store.ts';
 import { TimelineBar } from './ui/timeline.ts';
@@ -121,7 +123,13 @@ async function start(): Promise<void> {
   });
   const sourceMap = new Map(content.sources.map((s) => [s.id, s]));
   const panel = new ConversationPanel(store, new Map(content.people.map((p) => [p.id, p])), sourceMap);
+  const info = new InfoPanel(store, sourceMap, {
+    sources: content.sources.length,
+    events: content.events.length,
+    features: content.features.length,
+  });
   const openConversation = (c: (typeof content.conversations)[number]): void => {
+    info.close();
     panel.show(c);
     const g = people.groups.get(c.id);
     if (g) flight.flyTo(g.anchor.clone(), 55, 1.1);
@@ -137,8 +145,42 @@ async function start(): Promise<void> {
       if (c) openConversation(c);
     }
   });
+  let ambience: Ambience | undefined;
+  let soundOn = false;
+  const sound = h('button', { class: 'tool', type: 'button', 'aria-pressed': false }, store.t('soundOff'));
+  sound.addEventListener('click', () => {
+    soundOn = !soundOn;
+    ambience ??= new Ambience();
+    ambience.set(snapshotAt(content, t).environment.ambient);
+    ambience.enable(soundOn);
+    sound.setAttribute('aria-pressed', String(soundOn));
+    sound.textContent = store.t(soundOn ? 'soundOn' : 'soundOff');
+  });
+  const tabButton = (tab: InfoTab): HTMLButtonElement => {
+    const b = h('button', { class: 'tool', type: 'button' }, store.t(tab));
+    b.addEventListener('click', () => {
+      panel.close();
+      info.open(tab);
+    });
+    store.onChange(() => {
+      b.textContent = store.t(tab);
+    });
+    return b;
+  };
+  store.onChange(() => {
+    sound.textContent = store.t(soundOn ? 'soundOn' : 'soundOff');
+  });
+  const row2 = h(
+    'div',
+    { class: 'brand-row' },
+    tabButton('almanac'),
+    tabButton('language'),
+    tabButton('about'),
+    sound,
+  );
+  brand.append(row2);
   brand.querySelector('.brand-row')?.append(home);
-  app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el);
+  app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el);
   const startPlace = content.places.find((p) => p.id === params.get('place'));
   if (startPlace) {
     const { x, z } = toWorld(startPlace.at);
@@ -164,6 +206,8 @@ async function start(): Promise<void> {
       near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined,
     );
     debug?.update(snap);
+    info.update(snap);
+    ambience?.set(snap.environment.ambient);
   };
   apply();
 
