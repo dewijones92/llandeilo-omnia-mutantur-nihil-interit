@@ -193,7 +193,8 @@ so the next reader knows the map was unreliable there.
 ## Repo and deploy
 
 - Remote: `github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit` (**public**, created
-  2026-09-26). Local clone: `~/code/llandeilo-historical-game`. Default branch `main`.
+  2026-09-26). Local clone: `~/code/llandeilo-omnia-mutantur-nihil-interit` (the old folder name
+  `~/code/llandeilo-historical-game` is a symlink to it). Default branch `main`.
 - Every push to `main` will deploy to GitHub Pages via Actions (workflow not written yet).
 - Public repo: never commit secrets, credentials or personal data.
 
@@ -203,8 +204,15 @@ Not scaffolded yet. Fill this in once the stack is agreed.
 
 ## Working agreements
 
-- **Nothing gets built until Dewi explicitly says go** (2026-09-26). Discussion and plan pages are fine.
-- Commit as you go: small, coherent commits at each green state.
+- **Dewi's standing brief (2026-09-26): "just go for it"**, with:
+  - **Full creative freedom, and it must look stunning.** Aesthetics are a requirement, not polish:
+    lighting, palette, atmosphere and motion get real design effort, checked by screenshot.
+  - **Review with another Opus.** Each milestone gets an independent Opus review (code and
+    screenshots, given this file and the brief), and its CRITICAL/IMPORTANT findings get fixed
+    before moving on. Treat review findings as hypotheses to verify, not verdicts.
+  - **CI/CD and deploy as you go.** The live GitHub Pages site tracks `main`; every milestone is
+    visible there, not only locally.
+  - **Commit and push regularly**: small, coherent commits at each green state, pushed to `main`
+    straight away. Pushing to `main` is pre-approved for this repo.
 - **Own the repo.** Take the structurally right option. Surface only decisions that are genuinely
   Dewi's: content or tone choices, trade-offs with no clear default, and anything published.
-- Anything that goes public (creating the GitHub repo, deploying) is confirmed with Dewi first.
