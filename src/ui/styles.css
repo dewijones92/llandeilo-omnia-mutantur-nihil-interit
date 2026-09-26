@@ -116,7 +116,8 @@ button {
   color: var(--ink-soft);
 }
 
-.seg button[aria-pressed='true'] {
+.seg button[aria-pressed='true'],
+.seg button[aria-selected='true'] {
   background: var(--ink);
   color: #fff;
 }

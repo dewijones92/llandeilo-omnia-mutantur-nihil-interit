@@ -36,7 +36,7 @@ export class Smoke {
     for (const [key, ps] of this.systems) {
       if (wanted.has(key)) continue;
       ps.stop();
-      ps.dispose();
+      ps.dispose(false);
       this.systems.delete(key);
     }
   }

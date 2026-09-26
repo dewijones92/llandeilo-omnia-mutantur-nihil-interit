@@ -12,7 +12,7 @@ const cite = (...keys: Parameters<typeof src>[0][]): Provenance => {
 export const PLACES: readonly Place[] = [
   {
     id: placeId('llandeilo'),
-    namedFrom: ad(550),
+    namedFrom: ad(800),
     name: 'Llandeilo',
     other: 'Llandeilo Fawr, Llandilo',
     at: { e: 262930, n: 222236 },
@@ -43,7 +43,7 @@ export const PLACES: readonly Place[] = [
     at: { e: 262187, n: 222534 },
     description: {
       en: 'Two overlapping Roman forts, identified by survey in 2003.',
-      cy: 'Dwy gaer Rufeinig yn gorgyffwrdd, a ddarganfuwyd gan arolwg yn 2003.',
+      cy: 'Dwy gaer Rufeinig yn gorgyffwrdd, a adnabuwyd gan arolwg yn 2003.',
     },
     provenance: cite('timeline:S15'),
     visitable: false,
@@ -67,7 +67,7 @@ export const PLACES: readonly Place[] = [
     at: { e: 255390, n: 220294 },
     description: {
       en: 'The only native Welsh castle with three wards, on an isolated hill in the Tywi valley.',
-      cy: 'Castell Cymreig brodorol â thair ward ar fryn unig yn Nyffryn Tywi.',
+      cy: 'Yr unig gastell Cymreig brodorol â thair ward, ar fryn unig yn Nyffryn Tywi.',
     },
     provenance: cite('timeline:S13', 'medieval:S22'),
     visitable: true,

@@ -48,7 +48,9 @@ the app. They are recorded here so the notes and the app do not silently disagre
 
 - **The Dinefwr Roman forts** were placed from an approximate lat/lon, about 0.9km east of
   Coflein's grid reference SN6218722534 (NPRN 402271, confirmed directly). St Teilo's church
-  (SN6293022236) and Talley Abbey were also moved to their recorded positions. Use Coflein or Cadw
+  (SN6293022236, Coflein NPRN 100867) was also moved to its recorded position. Talley Abbey was moved
+  to Wikipedia's coordinates (51.97678, -3.99312, i.e. E 263199 N 232800), not yet checked against a
+  Coflein or Cadw grid reference. Use Coflein or Cadw
   grid references for placement, never the notes' approximate lat/lon.
 - **Godwin pollen-zone dates are uncalibrated radiocarbon years.** The deep-time note's zone table
   gives the Younger Dryas as c. 8,800–8,300 BC; the calendar dates (its own source S8) are

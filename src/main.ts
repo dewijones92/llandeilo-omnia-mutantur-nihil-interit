@@ -185,8 +185,14 @@ async function start(): Promise<void> {
   brand.append(row2);
   brand.querySelector('.brand-row')?.append(home);
   app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el);
+  const compact = (): void => {
+    moment.el.classList.toggle('compact', panel.open !== undefined || info.isOpen);
+  };
+  panel.onVisibility = compact;
+  info.onVisibility = compact;
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
+    if (document.querySelector('.prov-wrap.open') || document.activeElement?.closest('.prov-wrap')) return;
     if (panel.open) panel.close();
     else if (info.isOpen) info.close();
   });
@@ -214,7 +220,6 @@ async function start(): Promise<void> {
     const open = panel.open;
     if (open && !active.has(open.id)) panel.close();
     labels.setYear(Math.round(snap.year));
-    moment.el.classList.toggle('compact', panel.open !== undefined || info.isOpen);
     const near = snap.nearestEvent;
     moment.show(
       near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined,

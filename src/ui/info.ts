@@ -1,4 +1,4 @@
-import { ASSETS } from '../content/assets.ts';
+import { ASSETS, EXTERNAL_CREDITS } from '../content/assets.ts';
 import { ALMANAC_TOPICS } from '../content/languages.ts';
 import type { AlmanacEntry, LanguageSnapshot } from '../domain/model.ts';
 import type { Source } from '../domain/provenance.ts';
@@ -32,16 +32,22 @@ export class InfoPanel {
     return !this.el.hidden;
   }
 
+  onVisibility: (() => void) | undefined;
+
   open(tab: InfoTab): void {
     this.tab = tab;
+    const wasHidden = this.el.hidden;
     this.el.hidden = false;
     this.key = '';
     this.render();
+    if (wasHidden) this.onVisibility?.();
     console.info(`dewidebug info open tab=${tab}`);
   }
 
   close(): void {
+    if (this.el.hidden) return;
     this.el.hidden = true;
+    this.onVisibility?.();
   }
 
   update(s: Snapshot): void {
@@ -64,8 +70,9 @@ export class InfoPanel {
         {
           type: 'button',
           role: 'tab',
+          id: `info-tab-${t}`,
+          'aria-controls': 'info-body',
           'aria-selected': this.tab === t,
-          'aria-pressed': this.tab === t,
           tabindex: this.tab === t ? 0 : -1,
         },
         this.store.t(t),
@@ -73,6 +80,20 @@ export class InfoPanel {
       b.addEventListener('click', () => {
         this.open(t);
         this.el.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]')?.focus();
+      });
+      b.addEventListener('keydown', (e) => {
+        const order = ['almanac', 'language', 'about'] as const;
+        const i = order.indexOf(t);
+        const next =
+          e.key === 'ArrowRight'
+            ? order[(i + 1) % 3]
+            : e.key === 'ArrowLeft'
+              ? order[(i + 2) % 3]
+              : undefined;
+        if (!next) return;
+        e.preventDefault();
+        this.open(next);
+        this.el.querySelector<HTMLElement>(`#info-tab-${next}`)?.focus();
       });
       return b;
     });
@@ -91,7 +112,7 @@ export class InfoPanel {
     this.el.replaceChildren(
       h('div', { class: 'info-head' }, h('div', { class: 'seg', role: 'tablist' }, ...tabs), close),
       this.tab === 'about' ? h('div') : this.whenEl,
-      body,
+      h('div', { id: 'info-body', role: 'tabpanel', 'aria-labelledby': `info-tab-${this.tab}` }, body),
     );
   }
 
@@ -145,7 +166,7 @@ export class InfoPanel {
       h(
         'ul',
         { class: 'info-credits' },
-        ...ASSETS.map((a) =>
+        ...[...ASSETS, ...EXTERNAL_CREDITS].map((a) =>
           h(
             'li',
             {},

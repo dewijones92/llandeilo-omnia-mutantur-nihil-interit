@@ -135,7 +135,7 @@ export const EVENTS: readonly KeyEvent[] = [
     title: { en: 'The first written Welsh', cy: 'Y Gymraeg ysgrifenedig gyntaf' },
     summary: {
       en: 'In the margin of the great gospel book kept at Llandeilo, a scribe recorded the settlement of a land dispute over Tir Telych. The note, starting with the Latin “Surexit”, is the earliest surviving connected text in Welsh. It was written in the 9th century (the exact decade is debated), perhaps copying an older text. The book later went to Lichfield, by a route nobody recorded.',
-      cy: "Ar ymyl yr efengyl fawr a gadwyd yn Llandeilo, cofnododd ysgrifydd setliad anghydfod tir dros Dir Telych. Y nodyn, sy'n dechrau â'r gair Lladin “Surexit”, yw'r testun Cymraeg cysylltiedig cynharaf sydd wedi goroesi. Fe'i hysgrifennwyd yn y 9fed ganrif (mae'r union ddegawd yn destun dadl), gan gopïo testun hŷn efallai.",
+      cy: "Ar ymyl yr efengyl fawr a gadwyd yn Llandeilo, cofnododd ysgrifydd setliad anghydfod tir dros Dir Telych. Y nodyn, sy'n dechrau â'r gair Lladin “Surexit”, yw'r testun Cymraeg cysylltiedig cynharaf sydd wedi goroesi. Fe'i hysgrifennwyd yn y 9fed ganrif (mae'r union ddegawd yn destun dadl), gan gopïo testun hŷn efallai. Aeth y llyfr i Gaerlwytgoed yn ddiweddarach, ar hyd llwybr na chofnododd neb.",
     },
     magnetic: true,
     place: placeId('llandeilo'),
@@ -362,7 +362,7 @@ export const EVENTS: readonly KeyEvent[] = [
     },
     magnetic: false,
     place: placeId('llandeilo'),
-    provenance: documented('victorian:S23'),
+    provenance: documented('victorian:S23', 'timeline:S25'),
   },
   {
     id: eventId('railway'),

@@ -47,3 +47,9 @@ Milestones and what each one taught us. Newest last.
     bilingual gaps. New e2e tests then found that the full-screen label and bubble layers were
     swallowing mouse input meant for the 3D view (`#app > *` outranked their `pointer-events:
     none`); now fixed and guarded by a test that fails on the old CSS.
+13. **Verification review of the fixes** (a second Opus pass). Most fixes held, but six
+    regressions had come in with them: disposing one smoke system destroyed the shared smoke
+    texture, the render-once shadow map froze the moving train's shadow, the collapsed event card
+    only updated on scrub, an automatic panel close stole keyboard focus, and three new content
+    sentences were not in the research. All fixed; lessons: a shared resource must survive its
+    consumers' disposal, and a "render once" cache needs every moving caster accounted for.

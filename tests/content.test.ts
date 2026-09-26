@@ -101,6 +101,8 @@ describe('voices', () => {
   it('have no orphaned clips', () => {
     const keys = new Set(lines.map((l) => l.key));
     expect(Object.keys(manifest).filter((k) => !keys.has(k))).toEqual([]);
+    const onDisk = readdirSync(join(root, 'public/voices')).filter((f) => f.endsWith('.mp3'));
+    expect(onDisk.filter((f) => !keys.has(f.slice(0, -4)))).toEqual([]);
   });
 });
 

@@ -11,6 +11,7 @@ export class ConversationPanel {
   private audio: HTMLAudioElement | undefined;
   private generation = 0;
   private returnFocus: HTMLElement | null = null;
+  onVisibility: (() => void) | undefined;
 
   constructor(
     private readonly store: LangStore,
@@ -33,6 +34,7 @@ export class ConversationPanel {
     this.render(c);
     this.el.hidden = false;
     this.el.querySelector<HTMLElement>('h2')?.focus();
+    this.onVisibility?.();
     console.info(`dewidebug conversation open id=${c.id}`);
   }
 
@@ -41,8 +43,9 @@ export class ConversationPanel {
     this.stop();
     this.current = undefined;
     this.el.hidden = true;
-    this.returnFocus?.focus();
+    if (this.el.contains(document.activeElement)) this.returnFocus?.focus();
     this.returnFocus = null;
+    this.onVisibility?.();
   }
 
   private voiceUrl(c: Conversation, i: number): string {

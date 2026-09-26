@@ -73,7 +73,6 @@ export class FeatureLayer {
     this.roads.isVisible = false;
     const main = longestLine(railways);
     this.train = main ? new Train(scene, main, this.ground) : undefined;
-    if (this.train) world.addCaster(this.train.mesh);
     const started = performance.now();
     for (const f of features) {
       const { x, z } = toWorld(f.at);

@@ -38,8 +38,8 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     bc(12500),
     bc(11000),
     'nature',
-    'Only a few thousand years before, ice buried Wales: over the Irish Sea it stood 2,000–2,500m thick, so even the Black Mountain lay under it.',
-    'Ychydig filoedd o flynyddoedd ynghynt, roedd iâ wedi claddu Cymru: dros Fôr Iwerddon roedd yn 2,000–2,500m o drwch, felly roedd hyd yn oed y Mynydd Du oddi tano.',
+    'Only a few thousand years before, the ice sheet’s surface stood about 2,000–2,500m up around the Irish Sea, so even the Black Mountain lay beneath it.',
+    'Ychydig filoedd o flynyddoedd ynghynt, roedd wyneb y llen iâ tua 2,000–2,500m i fyny o gwmpas Môr Iwerddon, felly roedd hyd yn oed y Mynydd Du oddi tano.',
     doc('deeptime:S7'),
   ),
   entry(

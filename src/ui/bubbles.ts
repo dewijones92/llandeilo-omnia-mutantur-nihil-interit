@@ -14,7 +14,7 @@ interface Bubble {
 export class Bubbles {
   readonly el = h('div', { class: 'bubbles' });
   private readonly bubbles: Bubble[] = [];
-  readonly visible: { x: number; y: number }[] = [];
+  readonly visible: DOMRect[] = [];
 
   constructor(
     private readonly scene: Scene,
@@ -72,9 +72,9 @@ export class Bubbles {
         b.info.textContent = why;
         b.el.title = why;
       }
-      this.visible.push({ x: p.x * scale, y: p.y * scale });
       const pos = `translate(${Math.round(p.x * scale)}px, ${Math.round(p.y * scale)}px)`;
       if (b.el.style.transform !== pos) b.el.style.transform = pos;
+      this.visible.push(b.el.getBoundingClientRect());
     }
   }
 }

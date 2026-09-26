@@ -11,6 +11,20 @@ export interface AssetRecord {
 const OS = 'Contains OS data © Crown copyright and database right 2026';
 const OGL = 'Open Government Licence v3.0';
 
+export const EXTERNAL_CREDITS: readonly {
+  readonly what: Bilingual;
+  readonly source: string;
+  readonly licence: string;
+  readonly url: string;
+}[] = [
+  {
+    what: { en: 'Typefaces', cy: 'Ffontiau' },
+    source: 'Fraunces and Source Sans 3, served by Google Fonts',
+    licence: 'SIL Open Font License 1.1',
+    url: 'https://openfontlicense.org',
+  },
+];
+
 export const ASSETS: readonly AssetRecord[] = [
   {
     files: /^data\/terrain\.(bin|json)$/,

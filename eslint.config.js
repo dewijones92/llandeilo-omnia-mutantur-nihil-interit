@@ -26,12 +26,14 @@ export default tseslint.config(
   },
   {
     files: PURE_LAYERS,
+    languageOptions: { globals: {} },
     rules: {
       'no-restricted-imports': [
         'error',
         {
           patterns: [
             { group: ['@babylonjs/*'], message: 'domain/content are pure: no Babylon.js.' },
+            { group: ['node:*'], message: 'domain/content are pure: no Node modules.' },
             {
               group: ['**/world/**', '**/ui/**', '**/audio/**', '**/platform/**', '**/main.ts'],
               message: 'domain/content must not import outer layers.',
@@ -51,6 +53,10 @@ export default tseslint.config(
         'sessionStorage',
         'requestAnimationFrame',
         'performance',
+        'globalThis',
+        'self',
+        'setTimeout',
+        'setInterval',
       ],
     },
   },

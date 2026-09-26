@@ -39,7 +39,9 @@ export class PlaceLabels {
       this.labels.push({ place, el, world, note });
       store.onChange(() => {
         el.title = `${store.t('flyTo')} ${place.name}`;
+        const y = this.lastYear;
         this.lastYear = Number.NaN;
+        if (!Number.isNaN(y)) this.setYear(y);
       });
       this.el.append(el);
     }
@@ -56,7 +58,7 @@ export class PlaceLabels {
     }
   }
 
-  update(avoid: readonly { x: number; y: number }[] = []): void {
+  update(avoid: readonly DOMRect[] = []): void {
     const camera = this.scene.activeCamera;
     if (!camera) return;
     const engine = this.scene.getEngine();
@@ -70,7 +72,10 @@ export class PlaceLabels {
       const visible = p.z > 0 && p.z < 1 && p.x > 0 && p.x < w && p.y > 0 && p.y < hgt;
       const sx = p.x * scale;
       const sy = p.y * scale;
-      const covered = avoid.some((b) => Math.abs(b.x - sx) < 110 && sy - b.y > -20 && sy - b.y < 90);
+      const halfWidth = l.place.name.length * 4.2 + 30;
+      const covered = avoid.some(
+        (b) => sx + halfWidth > b.left && sx - halfWidth < b.right && sy > b.top && sy - 26 < b.bottom,
+      );
       const display = visible && !covered ? '' : 'none';
       if (l.el.style.display !== display) l.el.style.display = display;
       if (!visible || covered) continue;
