@@ -391,7 +391,7 @@ export const FEATURES: readonly Feature[] = [
     from: ad(1660),
     to: ad(1770),
     label: { en: 'Newton House', cy: 'Plas Dinefwr' },
-    provenance: documented(['timeline:S46', 'victorian:S38']),
+    provenance: documented(['timeline:S46', 'victorian:S25']),
     place: 'dinefwr',
   }),
   feature({
@@ -404,7 +404,7 @@ export const FEATURES: readonly Feature[] = [
       en: 'Newton House, with turrets and later a Gothic front',
       cy: 'Plas Dinefwr, gyda thyredau ac yn ddiweddarach wyneb Gothig',
     },
-    provenance: documented(['victorian:S38', 'victorian:S39', 'timeline:S46']),
+    provenance: documented(['victorian:S25', 'victorian:S27', 'timeline:S46']),
     place: 'dinefwr',
   }),
   feature({
@@ -414,7 +414,7 @@ export const FEATURES: readonly Feature[] = [
     from: ad(1600),
     to: NOW,
     label: { en: 'Aberglasney', cy: 'Aberglasne' },
-    provenance: documented(['timeline:S47', 'timeline:S48', 'victorian:S42']),
+    provenance: documented(['timeline:S47', 'timeline:S48', 'victorian:S34']),
   }),
   feature({
     id: 'golden-grove',
@@ -423,7 +423,7 @@ export const FEATURES: readonly Feature[] = [
     from: ad(1830),
     to: NOW,
     label: { en: 'Golden Grove, seat of the Earls Cawdor', cy: 'Gelli Aur, sedd Ieirll Cawdor' },
-    provenance: documented(['timeline:S53', 'victorian:S45', 'victorian:S46']),
+    provenance: documented(['timeline:S53', 'victorian:S35']),
   }),
   feature({
     id: 'golden-grove-earlier',
@@ -441,7 +441,7 @@ export const FEATURES: readonly Feature[] = [
     from: ad(1806),
     to: NOW,
     label: { en: 'Paxton’s Tower', cy: 'Tŵr Paxton' },
-    provenance: documented(['timeline:S52', 'victorian:S48']),
+    provenance: documented(['timeline:S52', 'victorian:S45', 'victorian:S46']),
   }),
   feature({
     id: 'old-bridge',
@@ -453,7 +453,7 @@ export const FEATURES: readonly Feature[] = [
     provenance: reconstructed(
       'A seven-arched bridge stood here before 1848, and one abutment still survives. When it was built is not in our research.',
       'Roedd pont saith bwa yma cyn 1848, ac mae un ategwaith wedi goroesi. Nid yw pryd y codwyd hi yn ein hymchwil.',
-      ['victorian:S2', 'timeline:S54'],
+      ['victorian:S21', 'timeline:S54'],
     ),
     place: 'bridge',
   }),
@@ -464,7 +464,7 @@ export const FEATURES: readonly Feature[] = [
     from: ad(1848),
     to: NOW,
     label: { en: 'Llandeilo Bridge', cy: 'Pont Llandeilo' },
-    provenance: documented(['timeline:S54', 'victorian:S1']),
+    provenance: documented(['timeline:S54', 'victorian:S22']),
     place: 'bridge',
   }),
   feature({
@@ -477,7 +477,7 @@ export const FEATURES: readonly Feature[] = [
     provenance: reconstructed(
       'The size is a guess below the 1858 count. Buildings use today’s OS footprints nearest the church, so the layout is approximate.',
       "Dyfaliad yw'r maint, yn llai na chyfrif 1858. Mae'r adeiladau'n defnyddio olion traed yr AO heddiw agosaf at yr eglwys.",
-      ['victorian:S26'],
+      ['victorian:S39'],
     ),
     place: 'llandeilo',
   }),
@@ -522,7 +522,7 @@ export const FEATURES: readonly Feature[] = [
     provenance: reconstructed(
       'Many of today’s farms stand on older sites. A share of today’s rural buildings stands in for them.',
       "Mae llawer o ffermydd heddiw ar safleoedd hŷn. Mae cyfran o adeiladau gwledig heddiw yn cynrychioli'r rheini.",
-      ['victorian:S26'],
+      ['victorian:S39'],
     ),
   }),
   feature({
@@ -546,7 +546,7 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'The railway through Llandeilo', cy: 'Y rheilffordd drwy Landeilo' },
     provenance: documented(
-      ['victorian:S4', 'victorian:S22'],
+      ['victorian:S29', 'victorian:S28'],
       'Drawn on today’s track. The 1864 line to Carmarthen, since closed, is not shown.',
       "Wedi'i darlunio ar y trac heddiw. Nid yw lein 1864 i Gaerfyrddin, sydd wedi cau, yn cael ei dangos.",
     ),

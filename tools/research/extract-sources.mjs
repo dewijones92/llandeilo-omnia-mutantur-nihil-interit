@@ -43,7 +43,7 @@ for (const file of readdirSync(dir)
   };
   for (const line of body) {
     if (/^## /.test(line)) break;
-    const m = line.match(/^\s*-\s*(?:\*\*)?\[(S\d+[a-z]?)\](?:\*\*)?\s*(.*)$/);
+    const m = line.match(/^\s*(?:-\s*)?(?:\*\*)?\[(S\d+[a-z]?)\](?:\*\*)?\s*(.*)$/);
     if (m) {
       flush();
       current = { id: m[1], lines: [m[2]] };

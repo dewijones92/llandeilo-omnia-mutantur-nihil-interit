@@ -18,7 +18,7 @@ export const PLACES: readonly Place[] = [
       en: 'A market town on a bluff above the Tywi, named after St Teilo.',
       cy: 'Tref farchnad ar glogwyn uwchben y Tywi, wedi’i henwi ar ôl Teilo Sant.',
     },
-    provenance: cite('timeline:S9', 'victorian:S26'),
+    provenance: cite('timeline:S9', 'victorian:S39'),
     visitable: true,
   },
   {
@@ -100,7 +100,7 @@ export const PLACES: readonly Place[] = [
       en: 'A single stone arch of 44.2m over the Tywi, completed in 1848.',
       cy: 'Un bwa carreg 44.2m dros y Tywi, a gwblhawyd yn 1848.',
     },
-    provenance: cite('timeline:S54', 'victorian:S1'),
+    provenance: cite('timeline:S54', 'victorian:S22'),
     visitable: false,
   },
 ];

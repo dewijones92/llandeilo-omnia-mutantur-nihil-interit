@@ -811,6 +811,372 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/era-medieval-to-1282.md"
   },
   {
+    "id": "victorian:S1",
+    "title": "Coflein (RCAHMW), \"Provisions Market, Llandeilo,\" NPRN 411976",
+    "url": "https://coflein.gov.uk/en/site/411976",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S2",
+    "title": "Wikipedia, \"Ffairfach\"",
+    "url": "https://en.wikipedia.org/wiki/Ffairfach",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S3",
+    "title": "Wikipedia, \"Rebecca Riots\"",
+    "url": "https://en.wikipedia.org/wiki/Rebecca_Riots",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S4",
+    "title": "Lowri Ann Rees, \"Paternalism and rural protest: the Rebecca riots and the landed interest of south-west Wales,\" *Agricultural History Review*, 59, I (2011), pp.36–60",
+    "url": "https://bahs.org.uk/AGHR/ARTICLES/59_1_3_Rees.pdf",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S5",
+    "title": "People's Collection Wales, \"Rebecca Riots\"",
+    "url": "https://www.peoplescollection.wales/content/rebecca-riots",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S6",
+    "title": "The Glamorgan Monmouth and Brecon Gazette and Merthyr Guardian, 15 July 1843, \"REBECCA AND HER DAUGHTERS\"",
+    "url": "https://newspapers.library.wales/view/3632850/3632853/16/",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S7",
+    "title": "The Welshman, 11 August 1843, \"REBECCA AND HER DAUGHTERS\"",
+    "url": "https://newspapers.library.wales/view/4345884/4345888/28/",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S8",
+    "title": "Welsh Newspapers Online, aggregated search, \"Walk gate Llandilo destroyed\" — surfaces the Monmouthshire Merlin, 12 August 1843, headline \"Destruction of the Walk Gate at Llandiloifawr.\"",
+    "url": "",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S9",
+    "title": "llandeilo.org, \"The Rebecca Riots\" (Dynevor Peerage section)",
+    "url": "https://llandeilo.org/dp_rebecca.html",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S10",
+    "title": "Monmouthshire Merlin, 12 August 1843",
+    "url": "https://newspapers.library.wales/view/3393998/3394001/24/",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S11",
+    "title": "Wikipedia, \"George Rice-Trevor, 4th Baron Dynevor\"",
+    "url": "https://en.wikipedia.org/wiki/George_Rice-Trevor,_4th_Baron_Dynevor",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S12",
+    "title": "Wikipedia, \"Baron Dynevor\"",
+    "url": "https://en.wikipedia.org/wiki/Baron_Dynevor",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S13",
+    "title": "The Welshman, 27 October 1843, \"THE PORTHYRHYD AFFAIR.—DEPOSITIONS.\"",
+    "url": "https://newspapers.library.wales/view/4345939/4345943/35/",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S14",
+    "title": "Welsh Newspapers Online, aggregated search results confirming a Special Commission of Assize, Carmarthen Town Hall, late Oct–early Nov 1843, before Baron Gurney and Mr Justice Cresswell.",
+    "url": "",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S15",
+    "title": "NLW Archives and Manuscripts catalogue, \"Rebecca Riots, 1839–1844\"",
+    "url": "https://archives.library.wales/index.php/rebecca-riots-1839-1844",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S16",
+    "title": "llandeilo.org, \"Caves, Castles, Rebecca Riots, Leeches and Scarlet Fever\" (Thomas Jenkins diary)",
+    "url": "https://llandeilo.org/tj_caves.html",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S17",
+    "title": "Internet Archive, *Reports of the Commissioners of Inquiry into the state of Education in Wales* (1847), item `reportsofcommiss00greaiala`",
+    "url": "https://archive.org/details/reportsofcommiss00greaiala",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S18",
+    "title": "Wikipedia, \"Reports of the Commissioners of Inquiry into the State of Education in Wales\"",
+    "url": "https://en.wikipedia.org/wiki/Reports_of_the_Commissioners_of_Inquiry_into_the_State_of_Education_in_Wales",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S19",
+    "title": "Coflein, \"Salem Welsh Calvinistic Methodist Chapel,\" NPRN 6334",
+    "url": "https://coflein.gov.uk/en/site/6334",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S20",
+    "title": "Wikipedia, \"Treachery of the Blue Books\"",
+    "url": "https://en.wikipedia.org/wiki/Treachery_of_the_Blue_Books",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S21",
+    "title": "Cadw, Full Report on the Grade II* listing of Llandeilo Bridge (id=20900)",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?id=20900",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S22",
+    "title": "Coflein (RCAHMW), \"Llandeilo Bridge,\" NPRN 43102",
+    "url": "https://coflein.gov.uk/en/site/43102",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S23",
+    "title": "Coflein (RCAHMW), \"St Teilo's Church, Llandeilo,\" NPRN 100867",
+    "url": "https://coflein.gov.uk/en/site/100867",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S24",
+    "title": "Coflein (RCAHMW), \"Cilyrychen Lime Kilns; Llandybie Limekilns,\" NPRN 40661",
+    "url": "https://coflein.gov.uk/en/site/40661",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S25",
+    "title": "Coflein (RCAHMW), \"Newton House; Dynevor Castle; Plas Dinefwr,\" NPRN 17603",
+    "url": "https://coflein.gov.uk/en/site/17603",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S26",
+    "title": "British Listed Buildings, listing WA-11098, \"Plas Dinefwr including SW screen wall\"",
+    "url": "http://www.britishlistedbuildings.co.uk/wa-11098-plas-dinefwr-including-sw-screen-wall-dyn",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S27",
+    "title": "Wikipedia, \"R. K. Penson\"",
+    "url": "https://en.wikipedia.org/wiki/R._K._Penson",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S28",
+    "title": "Wikipedia, \"Llandeilo railway station\"",
+    "url": "https://en.wikipedia.org/wiki/Llandeilo_railway_station",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S29",
+    "title": "Wikipedia, \"Llanelly Railway\"",
+    "url": "https://en.wikipedia.org/wiki/Llanelly_Railway",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S30",
+    "title": "Dyfed Archaeological Trust / Heneb, \"Tywi Time Line\" (PDF)",
+    "url": "https://heneb.org.uk/archive/dyfed/tywi/tywitimeline.pdf",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S31",
+    "title": "Wikipedia, \"Vale of Towy Railway\"",
+    "url": "https://en.wikipedia.org/wiki/Vale_of_Towy_Railway",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S32",
+    "title": "Wikipedia, \"Cymanfa Ganu\"",
+    "url": "https://en.wikipedia.org/wiki/Cymanfa_Ganu",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S33",
+    "title": "Wikipedia, \"Thomas Thomas (architect)\"",
+    "url": "https://en.wikipedia.org/wiki/Thomas_Thomas_(architect",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S34",
+    "title": "Wikipedia, \"Aberglasney\"",
+    "url": "https://en.wikipedia.org/wiki/Aberglasney",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S35",
+    "title": "Wikipedia, \"Golden Grove, Carmarthenshire\"",
+    "url": "https://en.wikipedia.org/wiki/Golden_Grove,_Carmarthenshire",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S36",
+    "title": "Wikipedia, \"Carmarthen railway station\"",
+    "url": "https://en.wikipedia.org/wiki/Carmarthen_railway_station",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S37",
+    "title": "Wikipedia, \"Drovers' road\"",
+    "url": "https://en.wikipedia.org/wiki/Drovers%27_road",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S38",
+    "title": "Wikipedia, \"Welsh hat\" and Wikipedia, \"Welsh costume\"",
+    "url": "https://en.wikipedia.org/wiki/Welsh_hat",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S39",
+    "title": "Wikipedia, \"Llandeilo\" and Wikipedia, \"Llandeilo Fawr\"",
+    "url": "https://en.wikipedia.org/wiki/Llandeilo",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S40",
+    "title": "Coflein, \"Capel Newydd Welsh Independent Chapel,\" NPRN 6328",
+    "url": "https://www.coflein.gov.uk/en/site/6328",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S41",
+    "title": "Coflein (RCAHMW), \"Llandeilo Shire Hall,\" NPRN 96635",
+    "url": "https://coflein.gov.uk/en/site/96635",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S42",
+    "title": "British Listed Buildings, \"Listed Buildings in Llandeilo, Carmarthenshire\"",
+    "url": "https://britishlistedbuildings.co.uk/wales/llandeilo-carmarthenshire",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S43",
+    "title": "Coflein, \"Bridge Farmhouse, By Llandeilo,\" NPRN 54161",
+    "url": "https://coflein.gov.uk/en/site/54161",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S44",
+    "title": "Wikipedia, \"Earl Cawdor\" and Wikipedia, \"John Campbell, 2nd Earl Cawdor\"",
+    "url": "https://en.wikipedia.org/wiki/Earl_Cawdor",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S45",
+    "title": "Wikipedia, \"Paxton's Tower\"",
+    "url": "https://en.wikipedia.org/wiki/Paxton%27s_Tower",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S46",
+    "title": "Coflein, \"Nelson's Monument, near Middleton Hall,\" NPRN 32666, and \"Towerhill Farm; Tower Lodge; Paxton's Tower,\" NPRN 96507",
+    "url": "https://coflein.gov.uk/en/site/32666",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S47",
+    "title": "Wikipedia, \"Middleton Hall, Carmarthenshire\"",
+    "url": "https://en.wikipedia.org/wiki/Middleton_Hall,_Carmarthenshire",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S48",
+    "title": "Coflein, \"Aberglasney House,\" NPRN 17068",
+    "url": "https://coflein.gov.uk/en/site/17068",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S49",
+    "title": "Wikipedia, \"Welsh Not\"",
+    "url": "https://en.wikipedia.org/wiki/Welsh_Not",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S50",
+    "title": "Wikipedia, \"Welsh Black cattle\"",
+    "url": "https://en.wikipedia.org/wiki/Welsh_Black_cattle",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S51",
+    "title": "Wikipedia, \"Llandovery\"",
+    "url": "https://en.wikipedia.org/wiki/Llandovery",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S52",
+    "title": "Wikipedia, \"St Fagans National Museum of History\"",
+    "url": "https://en.wikipedia.org/wiki/St_Fagans_National_Museum_of_History",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S53",
+    "title": "Coflein, site 17589 \"Nant Wallter\"",
+    "url": "https://coflein.gov.uk/en/site/17589",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S54",
+    "title": "Wikipedia, \"Cholera outbreaks and pandemics\"",
+    "url": "https://en.wikipedia.org/wiki/Cholera_outbreaks_and_pandemics",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S55",
+    "title": "Wikipedia, \"Welsh costume\" and Wikipedia, \"Lady Llanover\"",
+    "url": "https://en.wikipedia.org/wiki/Welsh_costume",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S56",
+    "title": "Wikipedia, \"Carmarthen\"",
+    "url": "https://en.wikipedia.org/wiki/Carmarthen",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S57",
+    "title": "Cambridge University Press, \"An 'Anglicised' and 'Alien' Gentry? Welsh Identities, Language and the Landowners of Wales\" (Chapter 5, *Coming of Age Celebrations on Welsh Landed Estates*)",
+    "url": "https://www.cambridge.org/core/books/abs/coming-of-age-celebrations-on-welsh-landed-estates/an-anglicised-and-alien-gentry-welsh-identities-language-and-the-landowners-of-wales/9D81E46702B7697941EE36F14971CEC9",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S58",
+    "title": "www.workhouses.org.uk, \"The Workhouse in Llandilo Fawr, Carmarthenshire\"",
+    "url": "https://www.workhouses.org.uk/LlandiloFawr/",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S59",
+    "title": "Gomer Roberts, *Hanes Plwyf Llandybie* (1939), trans. Ivor Griffiths (1986), \"Limestone Quarrying in Llandybie\"",
+    "url": "http://www.terrynorm.ic24.net/llandybie%20quarrying.htm",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S60",
+    "title": "Richard Colyer, \"Welsh Cattle Drovers in the Nineteenth Century\" (3 parts), *National Library of Wales Journal*, 1972 Vol.XVII/4, 1974 Vol.XVIII/3, 1975 Vol.XIX/1, via GENUKI",
+    "url": "https://www.genuki.org.uk/big/wal/Archives/NLWjournals/CattleDrovers1",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S61",
+    "title": "Vision of Britain, \"Llandeilo Fawr Parish (AP/CP) through time,\" Total Population table",
+    "url": "https://www.visionofbritain.org.uk/unit/10192791/cube/TOT_POP",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
     "id": "language:S1",
     "title": "Multiple works summarised via search (Wikipedia *Prehistoric Britain*, *Pictish language*; general prehistoric-linguistics consensus), on pre-Celtic language in Britain being unknown, the Vasconic substratum hypothesi…",
     "url": "",

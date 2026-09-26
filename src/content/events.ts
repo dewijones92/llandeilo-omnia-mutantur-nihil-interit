@@ -323,7 +323,7 @@ export const EVENTS: readonly KeyEvent[] = [
       cy: 'Cododd Syr William Paxton ffoli drionglog ar y bryn uwchben Llanarthne, fel cofeb i Nelson yn ôl y sôn.',
     },
     magnetic: false,
-    provenance: documented('timeline:S52', 'victorian:S14'),
+    provenance: documented('timeline:S52', 'victorian:S45'),
   },
   {
     id: eventId('rebecca'),
@@ -336,7 +336,7 @@ export const EVENTS: readonly KeyEvent[] = [
     },
     magnetic: true,
     place: placeId('llandeilo'),
-    provenance: documented('victorian:S67', 'victorian:S9', 'victorian:S30'),
+    provenance: documented('victorian:S7', 'victorian:S8', 'victorian:S4'),
   },
   {
     id: eventId('bridge'),
@@ -349,7 +349,7 @@ export const EVENTS: readonly KeyEvent[] = [
     },
     magnetic: true,
     place: placeId('bridge'),
-    provenance: documented('timeline:S54', 'victorian:S1', 'victorian:S2'),
+    provenance: documented('timeline:S54', 'victorian:S21', 'victorian:S22'),
   },
   {
     id: eventId('church-rebuilt'),
@@ -375,7 +375,7 @@ export const EVENTS: readonly KeyEvent[] = [
     },
     magnetic: true,
     place: placeId('llandeilo'),
-    provenance: documented('timeline:S55', 'victorian:S4', 'victorian:S22'),
+    provenance: documented('timeline:S55', 'victorian:S29', 'victorian:S31', 'victorian:S28'),
   },
   {
     id: eventId('guardianship'),
