@@ -19,7 +19,6 @@ interface Candidate {
   readonly conifer: boolean;
 }
 
-/** Instanced low-poly trees, shown where the terrain is currently woodland. */
 export class Forest {
   private readonly broadleaf: Mesh;
   private readonly conifer: Mesh;

@@ -14,7 +14,6 @@ const TICK_YEARS = [
   -12499, -3999, -2299, -799, 74, 410, 1000, 1163, 1300, 1500, 1700, 1850, 1950, 2026,
 ] as const;
 
-/** The slider at the bottom: era bands, key-date markers, magnetic snapping. */
 export class TimelineBar {
   readonly el: HTMLElement;
   private readonly track: HTMLElement;
@@ -83,7 +82,6 @@ export class TimelineBar {
     );
   }
 
-  /** Glide to t, then report it as a release (used by snapping and key jumps). */
   animateTo(target: number, done?: () => void): void {
     cancelAnimationFrame(this.animation);
     const from = this.t;

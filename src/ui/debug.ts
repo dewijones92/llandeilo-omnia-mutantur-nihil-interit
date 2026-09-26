@@ -3,7 +3,6 @@ import { formatYear } from '../domain/time.ts';
 import type { Snapshot } from '../domain/state.ts';
 import { h } from './dom.ts';
 
-/** ?debug overlay: the first tool for "why does this year look wrong?". */
 export class DebugOverlay {
   readonly el = h('div', { class: 'debug panel', 'aria-hidden': 'true' });
   private snapshot: Snapshot | undefined;

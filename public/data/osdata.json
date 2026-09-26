@@ -1,0 +1,10 @@
+{
+  "buildings": {
+    "count": 33316,
+    "encoding": "float32 LE x5: easting, northing, width, depth, angle (radians)"
+  },
+  "woodland": {
+    "encoding": "uint8 680x680 at 50m from the north-west corner, 1 = OS mapped woodland today"
+  },
+  "source": "Contains OS data \u00a9 Crown copyright and database right 2026 (OS Open Map Local, Open Government Licence v3.0)"
+}

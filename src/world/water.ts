@@ -2,7 +2,6 @@ import { Color3, Mesh, StandardMaterial, VertexData, type Scene } from '@babylon
 import { heightToWorld, WORLD } from '../domain/geo.ts';
 import type { RiverPath } from './terrain.ts';
 
-/** River ribbons laid along the carved channels. */
 export function buildRivers(scene: Scene, rivers: readonly RiverPath[]): Mesh {
   const positions: number[] = [];
   const indices: number[] = [];

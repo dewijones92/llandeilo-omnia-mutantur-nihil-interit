@@ -38,12 +38,12 @@ export interface Environment {
   readonly skyHorizon: Rgb;
   readonly sun: Rgb;
   readonly fog: number;
+  readonly mappedWoodland: number;
   readonly ambient: Readonly<Record<AmbientBed, number>>;
 }
 
 export interface FeaturePresence {
   readonly feature: Feature;
-  /** 0 = absent, 1 = fully present. Features fade in and out in slider space. */
   readonly presence: number;
 }
 
@@ -75,7 +75,6 @@ export function everyBed(value: (bed: AmbientBed) => number): Record<AmbientBed,
   };
 }
 
-/** Fade width in slider units: consistent on screen whatever the era's density. */
 export const FADE_T = 0.012;
 
 export function environmentAt(keys: readonly EnvironmentKey[], y: Year): Environment {
@@ -101,6 +100,7 @@ export function environmentAt(keys: readonly EnvironmentKey[], y: Year): Environ
     skyHorizon: mix(hex(a.skyHorizon), hex(b.skyHorizon), f),
     sun: mix(hex(a.sun), hex(b.sun), f),
     fog: lerp(a.fog, b.fog, f),
+    mappedWoodland: lerp(a.mappedWoodland, b.mappedWoodland, f),
     ambient,
   };
 }
@@ -108,8 +108,8 @@ export function environmentAt(keys: readonly EnvironmentKey[], y: Year): Environ
 export function presenceAt(timeline: Timeline, when: TimeRange, t: number): number {
   const from = tAt(timeline, when.from);
   const to = tAt(timeline, when.to);
-  const fadeIn = smoothstep(from, from + FADE_T, t);
-  const fadeOut = to >= 1 ? 1 : 1 - smoothstep(to - FADE_T, to, t);
+  const fadeIn = from <= 0 ? 1 : smoothstep(from - FADE_T, from, t);
+  const fadeOut = to >= 1 ? 1 : 1 - smoothstep(to, to + FADE_T, t);
   return Math.min(fadeIn, fadeOut);
 }
 
@@ -140,7 +140,6 @@ export function snapshotAt(world: WorldContent, t: number): Snapshot {
   };
 }
 
-/** The magnetic event to snap to, if one is within `radius` slider units of t. */
 export function snapTarget(world: WorldContent, t: number, radius: number): KeyEvent | undefined {
   let target: KeyEvent | undefined;
   let best = radius;

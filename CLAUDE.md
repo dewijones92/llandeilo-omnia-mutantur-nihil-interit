@@ -216,5 +216,7 @@ Not scaffolded yet. Fill this in once the stack is agreed.
     visible there, not only locally.
   - **Commit and push regularly**: small, coherent commits at each green state, pushed to `main`
     straight away. Pushing to `main` is pre-approved for this repo.
+- **No code comments** (Dewi's global rule): the why goes in commit messages. Tool directives
+  (`// prettier-ignore`) are the only exception.
 - **Own the repo.** Take the structurally right option. Surface only decisions that are genuinely
   Dewi's: content or tone choices, trade-offs with no clear default, and anything published.

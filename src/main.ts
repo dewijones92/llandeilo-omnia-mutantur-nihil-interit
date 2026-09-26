@@ -3,16 +3,28 @@ import { WORLD_CONTENT } from './content/world.ts';
 import { isLang } from './domain/i18n.ts';
 import { snapshotAt, snapTarget } from './domain/state.ts';
 import { tAt } from './domain/timeline.ts';
-import { ad } from './domain/time.ts';
-import { loadHeightfield, loadRivers } from './platform/assets.ts';
+import { ad, year } from './domain/time.ts';
+import {
+  loadBuildings,
+  loadHeightfield,
+  loadRailways,
+  loadRivers,
+  loadRoads,
+  loadWoodland,
+} from './platform/assets.ts';
 import { DebugOverlay } from './ui/debug.ts';
+import { PlaceLabels } from './ui/labels.ts';
+import { MomentCard } from './ui/moment.ts';
 import { h } from './ui/dom.ts';
 import { LangStore } from './ui/store.ts';
 import { TimelineBar } from './ui/timeline.ts';
 import { createEngine } from './world/engine.ts';
+import { FeatureLayer } from './world/features.ts';
+import { Flight } from './world/flight.ts';
 import { World } from './world/scene.ts';
 
 const SNAP_RADIUS = 0.018;
+const MOMENT_RADIUS = 0.01;
 
 async function start(): Promise<void> {
   const params = new URLSearchParams(location.search);
@@ -36,17 +48,26 @@ async function start(): Promise<void> {
   );
   document.body.append(loader);
 
-  const [{ engine, backend }, heightfield, rivers] = await Promise.all([
-    createEngine(canvas, params.has('webgl')),
-    loadHeightfield(),
-    loadRivers(),
-  ]);
-  const world = new World(engine, heightfield, rivers);
+  const [{ engine, backend }, heightfield, rivers, woodland, footprints, railways, roads] = await Promise.all(
+    [
+      createEngine(canvas, params.has('webgl')),
+      loadHeightfield(),
+      loadRivers(),
+      loadWoodland(),
+      loadBuildings(),
+      loadRailways(),
+      loadRoads(),
+    ],
+  );
+  const world = new World(engine, heightfield, rivers, woodland);
   const content = WORLD_CONTENT;
+  const features = new FeatureLayer(world, content.features, footprints, railways, roads);
 
   const debug = params.has('debug') ? new DebugOverlay(engine, backend) : undefined;
   let pending = true;
   let t = Number(params.get('t') ?? Number.NaN);
+  const yearParam = Number(params.get('year') ?? Number.NaN);
+  if (Number.isFinite(yearParam)) t = tAt(content.timeline, year(yearParam));
   if (!Number.isFinite(t)) t = tAt(content.timeline, ad(1282));
 
   const timeline = new TimelineBar(content.timeline, content.eras, content.events, store, {
@@ -72,7 +93,26 @@ async function start(): Promise<void> {
   store.onChange(() => {
     brand.querySelector('p')?.replaceChildren(store.t('subtitle'));
   });
-  app.append(brand, timeline.el);
+  const moment = new MomentCard(
+    store,
+    new Map(content.sources.map((s) => [s.id, s])),
+    new Map(content.places.map((p) => [p.id, p])),
+  );
+  const flight = new Flight(world.camera);
+  const home = h('button', { class: 'tool home panel', type: 'button', hidden: true }, store.t('overview'));
+  home.addEventListener('click', () => {
+    flight.flyHome();
+    home.hidden = true;
+  });
+  const labels = new PlaceLabels(world.scene, content.places, features.ground, store, (place, at) => {
+    console.info(`dewidebug visit place=${place.id}`);
+    flight.flyTo(at, 320, 1.02);
+    home.hidden = false;
+  });
+  store.onChange(() => {
+    home.textContent = store.t('overview');
+  });
+  app.append(labels.el, brand, moment.el, timeline.el, home);
   if (debug) app.append(debug.el);
 
   const apply = (): void => {
@@ -80,13 +120,22 @@ async function start(): Promise<void> {
     pending = false;
     const snap = snapshotAt(content, t);
     world.applyEnvironment(snap.environment);
+    features.apply(snap.features);
+    const near = snap.nearestEvent;
+    moment.show(
+      near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined,
+    );
     debug?.update(snap);
   };
   apply();
 
   engine.runRenderLoop(() => {
     apply();
+    const dt = engine.getDeltaTime();
+    features.tick(dt);
+    flight.tick(dt);
     world.scene.render();
+    labels.update();
   });
   window.addEventListener('resize', () => {
     engine.resize();

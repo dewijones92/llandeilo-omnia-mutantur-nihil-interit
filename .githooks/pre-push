@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+node tools/research/extract-sources.mjs >/dev/null
+git diff --quiet -- src/content/generated || { echo "pre-push: src/content/generated is stale; commit the regenerated sources"; exit 1; }
+npx prettier --check . >/dev/null || { echo "pre-push: run npm run format"; exit 1; }
+npx tsc --noEmit
+npx eslint . --max-warnings 0
+npx knip
+npx vitest run --reporter=dot

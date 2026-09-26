@@ -2,10 +2,8 @@ import { clamp, lerp } from './assert.ts';
 import { PRESENT_YEAR, year, type Year } from './time.ts';
 
 export interface TimelineAnchor {
-  /** Slider position in [0, 1]. */
   readonly t: number;
   readonly year: Year;
-  /** How to interpolate from the previous anchor to this one. */
   readonly scale: 'linear' | 'log';
 }
 
@@ -79,12 +77,4 @@ export function tAt(timeline: Timeline, y: Year): number {
         (Math.log(before(b.year)) - Math.log(before(a.year)))
       : (yy - a.year) / (b.year - a.year);
   return lerp(a.t, b.t, f);
-}
-
-export function timelineStart(timeline: Timeline): Year {
-  return timeline.anchors[0]?.year ?? year(0);
-}
-
-export function timelineEnd(timeline: Timeline): Year {
-  return timeline.anchors[timeline.anchors.length - 1]?.year ?? year(PRESENT_YEAR);
 }

@@ -17,7 +17,3 @@ export function h<K extends keyof HTMLElementTagNameMap>(
   }
   return el;
 }
-
-export function clear(el: Element): void {
-  while (el.firstChild) el.firstChild.remove();
-}

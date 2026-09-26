@@ -28,7 +28,6 @@ function at(h: Heightfield, col: number, row: number): number {
   return (h.data[r * h.meta.width + c] ?? 0) * h.meta.heightScale;
 }
 
-/** Bilinear height in metres at a grid reference (cell centres at half-cell offsets). */
 export function sampleHeight(h: Heightfield, g: GridRef): number {
   const { originEasting, originNorthing, cellSize } = h.meta;
   const fx = (g.e - originEasting) / cellSize - 0.5;

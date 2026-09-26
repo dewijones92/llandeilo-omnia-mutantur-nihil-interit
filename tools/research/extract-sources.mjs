@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-// Extracts the "## Sources" list of every docs/research/*.md into src/content/generated/sources.ts,
-// so content can only cite sources that research actually recorded (checked at compile time).
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 

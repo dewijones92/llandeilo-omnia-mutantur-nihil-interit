@@ -1,4 +1,3 @@
-/** Deterministic hash noise, so the world looks the same on every load. */
 export function hash2(x: number, y: number, seed = 0): number {
   let h = Math.imul(x | 0, 374761393) ^ Math.imul(y | 0, 668265263) ^ Math.imul(seed | 0, 2147483647);
   h = Math.imul(h ^ (h >>> 13), 1274126177);
@@ -36,7 +35,6 @@ export function fbm(x: number, y: number, octaves = 4, seed = 0): number {
   return sum / norm;
 }
 
-/** Mulberry32 PRNG. */
 export function rng(seed: number): () => number {
   let a = seed >>> 0;
   return () => {

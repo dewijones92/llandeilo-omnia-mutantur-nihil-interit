@@ -37,7 +37,12 @@ export class World {
   private readonly forest: Forest;
   readonly pipeline: DefaultRenderingPipeline;
 
-  constructor(engine: AbstractEngine, heightfield: Heightfield, rivers: readonly RiverLine[]) {
+  constructor(
+    engine: AbstractEngine,
+    heightfield: Heightfield,
+    rivers: readonly RiverLine[],
+    woodland: Uint8Array,
+  ) {
     const scene = new Scene(engine);
     this.scene = scene;
     scene.clearColor = new Color4(0.93, 0.95, 0.97, 1);
@@ -85,7 +90,7 @@ export class World {
     this.shadows.darkness = 0.28;
 
     this.sky = new Sky(scene);
-    this.terrain = new Terrain(scene, heightfield, rivers);
+    this.terrain = new Terrain(scene, heightfield, rivers, woodland);
     this.shadows.addShadowCaster(this.terrain.mesh);
     const water = buildRivers(scene, this.terrain.rivers);
     water.receiveShadows = true;

@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-// Usage: node tools/shot.mjs <url> <out.png> [width] [height]
-// Captures the page once it reports ready, plus its console. Local runs use Chromium 136 because
-// newer Chromium cannot navigate on this WSL box (see ~/.claude/memory).
 import { chromium } from '@playwright/test';
 import { existsSync } from 'node:fs';
 

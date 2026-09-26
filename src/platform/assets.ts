@@ -62,3 +62,37 @@ export async function loadRivers(): Promise<readonly RiverLine[]> {
   console.info(`dewidebug rivers loaded lines=${lines.length}`);
   return lines;
 }
+
+export interface BuildingFootprints {
+  readonly count: number;
+  readonly data: Float32Array;
+}
+
+export async function loadBuildings(): Promise<BuildingFootprints> {
+  const res = await fetch(asset('data/buildings.bin'));
+  if (!res.ok) throw new Error(`buildings fetch failed: ${res.status}`);
+  const data = new Float32Array(await res.arrayBuffer());
+  console.info(`dewidebug buildings loaded count=${data.length / 5}`);
+  return { count: data.length / 5, data };
+}
+
+export interface MapLine {
+  readonly kind: string;
+  readonly points: readonly GridRef[];
+}
+
+async function loadLines(path: string): Promise<readonly MapLine[]> {
+  const res = await fetch(asset(path));
+  if (!res.ok) throw new Error(`${path} fetch failed: ${res.status}`);
+  const raw = (await res.json()) as { lines: { kind: string; points: [number, number][] }[] };
+  return raw.lines.map((l) => ({ kind: l.kind, points: l.points.map(([e, n]) => ({ e, n })) }));
+}
+
+export const loadRailways = (): Promise<readonly MapLine[]> => loadLines('data/railways.json');
+export const loadRoads = (): Promise<readonly MapLine[]> => loadLines('data/roads.json');
+
+export async function loadWoodland(): Promise<Uint8Array> {
+  const res = await fetch(asset('data/woodland.bin'));
+  if (!res.ok) throw new Error(`woodland fetch failed: ${res.status}`);
+  return new Uint8Array(await res.arrayBuffer());
+}

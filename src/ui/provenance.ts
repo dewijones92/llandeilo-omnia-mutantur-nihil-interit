@@ -8,7 +8,6 @@ const ICON = {
   imagined: 'i',
 } as const;
 
-/** The provenance chip: hover, focus or tap to see what kind of claim this is and why. */
 export function provenanceBadge(
   p: Provenance,
   store: LangStore,

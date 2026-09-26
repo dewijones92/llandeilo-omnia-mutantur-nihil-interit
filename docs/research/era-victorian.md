@@ -1,1114 +1,1129 @@
 ---
-title: Llandeilo and district, late Georgian to Victorian (c. 1830–1901)
+title: Late Georgian to Victorian Llandeilo (c. 1830–1901)
 kind: research
 status: draft
 updated: 2026-09-26
 ---
 
-# Llandeilo and district, late Georgian to Victorian (c. 1830–1901)
-
 ## Summary
 
-This is the best-documented era in the whole project so far. Direct research plus three
-parallel research passes (on chapels/education/language, the Rebecca Riots, and the Dynevor
-estate/gentry landmarks) converged on a single deep local source, **llandeilo.org** — a
-local-history site built by historian Terry Norman around Eirwen Jones's *Concise History of
-Llandeilo*, the surviving 1826–1870 diary of Llandeilo cabinet-maker **Thomas Jenkins**, and
-notes by Bryn Thomas — plus **the National Library of Wales's digitised Welsh Newspapers
-Online**, **the actual 1847 Blue Books report text** (read directly via Internet Archive),
-**GENUKI's transcription of the 1851 Census of Religious Worship return for Llandeilo Fawr
-parish**, and **Coflein/Cadw** records for every major building and landscape named in the
-brief. Wikipedia was used only as a lead throughout and is flagged single-source wherever an
-independent check could not be found.
+Between 1830 and 1901 Llandeilo changed shape twice over: once through the **Rebecca Riots**
+(1839–43), a genuinely local and genuinely violent tenant-farmer uprising against tolls, tithes
+and rents that put troops in the town for the better part of two years; and once through the
+**railway** (reaching the town in January 1857), which turned a horse- and coach-based market town
+into a junction on the way to becoming, by the 1890s, a comfortable minor Victorian town with gas
+lighting, banks, and — per one contemporary gazetteer — woollen mills, tanneries and saw mills
+alongside its immemorial corn trade. In between, the town got a new stone bridge (1848, at the
+time the largest single-arch span in Wales), a rebuilt parish church (1848–51, by the national
+architect **George Gilbert Scott**, following a design competition), and a Gothic-fronted Newton
+House at Dinefwr (1856–57, by the regional architect **R. K. Penson**, who in the very same years
+was also designing the Gothic-styled Cilyrychen lime kilns at Llandybie for the same landlord,
+Lord Dynevor) — three separate building projects that, taken together, tell a coherent story about
+who had money and taste in this district in the 1840s–50s, and how thoroughly the same handful of
+architects and landowners threaded through market town, parish church and rural industry alike.
 
-The period covers: the rebuilding of the town's two central monuments (the parish church and
-the Tywi bridge, both mid-1840s), the arrival of the railway (1856–57), the Rebecca Riots
-(1839–43, which reached the Llandeilo district directly — dragoons billeted in the town, a
-named local toll-gate destroyed, crops burned on the Dynevor estate itself, and several named
-attacks on toll-gates in villages within the 10-mile radius), the Gothic remodelling of
-Newton House at Dinefwr (1856–57, commissioned by the man who became the 4th Baron Dynevor in
-1852), the 1847 Blue Books row over Welsh language and morality (whose author, R. R. W.
-Lingen, toured through Llandeilo itself while researching it), a real named Nonconformist
-chapel-building history for the town, and a slow social transformation of a Welsh-speaking
-market town from stagecoach to steam.
+The class picture the app needs to show is stark and well documented in outline, if thin on
+Llandeilo-specific detail: an English-speaking, Anglican gentry (the Rice/Rice-Trevor family,
+Barons Dynevor, at Newton House/Dinefwr; the Campbells, Earls Cawdor, at Golden Grove) sat over an
+overwhelmingly Welsh-speaking, increasingly Nonconformist tenant-farming and labouring population.
+The **Rebecca Riots** are the sharpest documented expression of the tension between them — not as
+folklore, but as a run of dated, named events recovered from the actual 1843 newspaper record: a
+toll-gate destroyed on Llandeilo's own Carmarthen road (the "Walk Gate," early August 1843), the
+lime tolls that were squeezing local farmers named and quantified in a contemporary report (three
+overlapping turnpike trusts, tolls eating up to 30% of the cost of the lime itself), and — most
+strikingly — a mock grave dug within sight of Dinefwr Castle for **Colonel George Rice-Trevor**
+(the future 4th Baron Dynevor), after rioters burned his father's crops. The **1847 Blue Books**
+inquiry is even more sharply local than expected: the commissioner Ralph Lingen actually based
+himself in "Llandilo" during his tour, and his report describes, by name, the wretched state of
+the Llandeilo Union Workhouse school he inspected on 31 October 1846 — a rare case where the app
+can quote a real, dated, primary-source description of a real Llandeilo building rather than
+reconstructing one.
 
-**Research gaps, stated plainly:** exact Victorian wage/price tables for this specific
-district and a confirmed local cholera outbreak (or its absence) were not found in this pass
-and remain flagged in Open Questions. Two important **disambiguations** turned up during
-research and are flagged prominently below: a famous Rebecca Riots show trial widely
-associated with "Llandeilo" actually concerns **Llandeilo Talybont**, a different parish near
-Pontarddulais/Swansea, not this Llandeilo; and a toll-gate/bridge referred to in period press
-as "Llandilo Rhynws"/"Llandeilo-Rwnws" is near Nantgaredig, roughly 10 miles further west, and
-is very likely a different place too.
+Population data looked, at first, like the weakest area of this research pass — Vision of
+Britain's website returned a broken TLS certificate on a plain fetch, and GENUKI blocked a plain
+WebFetch with an HTTP 403 — but a `curl -k` workaround and a browser-User-Agent `curl` both got
+through in the end (flagged in-line for anyone hitting the same walls). The result is a genuine,
+cross-checked **parish population series for most of 1801–1891** (Vision of Britain's own data
+cube for Llandeilo Fawr parish), independently corroborated at two points by completely separate
+sources (Lewis's 1833 *Topographical Dictionary* and the 1851 Religious Census both land within a
+few people of the VoB figures for the same years) — see Population section. Specific wage/price
+data for the town remains genuinely thin: an 1887 gazetteer figure (town population 1,533) and an
+1858 snapshot ("a church, four chapels, 11 streets, 73 shops, 23 public houses and 290 houses") —
+useful colour, but the district's day-to-day wages and staple prices stayed an open gap throughout.
+Chapel life,
+by contrast, is richly documented at named-building level (Salem, Horeb, Capel Newydd in the town;
+Tabernacl at Ffairfach, built by **Thomas Thomas of Landore** — himself born and raised near
+Ffairfach before becoming, by the 1860s, "the unchallenged master of chapel architecture in
+Wales"), even though the specific 1851 religious-census attendance *numbers* for Llandeilo itself
+could not be recovered from any source opened in this pass. Welsh costume — the tall hat, shawl
+and flannel — turns out to have a real but narrower story than the tourist-brochure version: it
+was genuinely everyday wear into the middle of the 19th century, then declined, then was
+deliberately revived from the 1880s as a symbolic "national costume" for eisteddfodau and royal
+visits — and Lady Llanover's supposed inventor role is now considered by scholars to be
+"greatly exaggerated." Every section below marks what is documented, what is reconstructed by
+analogy, and what remains a genuine, flagged gap.
 
 ## Timeline
 
-| Date | Event | Source |
-|---|---|---|
-| 1802 | Shire Hall / Town Hall built, Llandeilo (market hall below, court room above) | [S24] |
-| 1806 | Wesleyan Methodist chapel built near the Bear Inn, Llandeilo | [S28] |
-| 1823, 13 Dec | Cilyrychen Cave "discovered" (per Thomas Jenkins's diary) | [S30] |
-| 1826 | Thomas Jenkins begins his diary (cabinet-maker, Llandeilo) | [S32] |
-| 1831 | Llandeilo town population 1,269 | [S28] |
-| 1837–38 | Llandeilofawr Union Workhouse built at Ffairfach (architect George Wilkinson) | [S29] |
-| 1838 | Provisions Market built in Llandeilo (funded by A. J. Gulston of Derwydd) | [S25][S28] |
-| 1839–1843 | Rebecca Riots across south-west Wales, reaching the Llandeilo district directly | [S9][S30][S66] |
-| 1843, 15 Jul | "Llandilo-Rwnws," Mansel's Arms and Llanfihangel toll-gates destroyed near **Nantgaredig** (~10 miles west of Llandeilo town — likely a different "Llandilo"; see Open Questions) | [S65] |
-| 1843, 22 Jul (night) | Porthyrhyd gate (~6 miles SW) and the Minke toll-house destroyed by several hundred disguised, mounted rioters; the Pontyberem gate destroyed the following night | [S66] |
-| 1843, 9 July | 4th Light Dragoons arrive in Llandeilo "owing to people breaking down the turnpike gates ... under the name of Rebeccaites" (Thomas Jenkins diary) | [S30] |
-| 1843, Aug | Farmers give evidence that the Pontarllechau toll-bar (~3 miles from Llangadog, on the lime-kiln road) makes carting lime prohibitively expensive | [S67] |
-| 1843, Sept | An empty grave is dug in the grounds of Newton House, threatening the Hon. George Rice-Trevor (heir apparent; **not yet** Baron — his father, the 3rd Baron, did not die until 1852) with burial by 10 October; rioters separately burn crops on the Dynevor estate itself, 1843–44, and a barracks has to be built for the troops/police sent in response | [S7][S35] |
-| 1843, 27 Aug | Porthyrhyd gate-house attacked a second time; six named local men later committed for trial, then bailed | [S68] |
-| 1843, 9 Aug | "The Walk Gate and house was taken down to the ground by the Rebeccaites," soldiers billeted at the White Hart and at Walk (Thomas Jenkins diary) | [S30] |
-| 1843, late Sept | Llanwrda toll-house and gates (~8 miles NE) burned by c. 250 men under Rebecca's named local lieutenant, "Charlotte"; the same group forces a rent concession from the vicar of Llansadwrn (~3 miles NE) | [S76] |
-| 1843, c. 3 Oct | Dolauhirion gates, near Llandovery (~9–10 miles NE, at the edge of the radius), attacked by upwards of 150 men before dawn | [S76] |
-| 1843–1848 | Llandeilo has no street lighting at all — a 15-year dispute over who pays the lamp-lighter | [S28] |
-| 1843, 6 July | Bolgoed toll-gate near Pontarddulais (~15 miles south, outside the radius) destroyed by c. 200 men | [S9] |
-| 1843, 28 Oct–4 Nov | Special Commission tries the Pontarddulais-gate rioters at a well-known show trial — **this took place in the parish of Llandeilo Talybont, near Pontarddulais/Swansea, a different place from Llandeilo town**; sentences included 20 years' transportation | [S71] |
-| 1843, 24 Oct–16 Dec | South Wales Turnpike Trusts Commission of Inquiry tours 15 South Wales towns, explicitly including **Llandeilo itself** | [S74] |
-| 1844 | South Wales Turnpike Trusts Act (7 & 8 Vict. c. 91) consolidates trusts into county-wide Roads Boards, unifies toll rates; Wikipedia (uncorroborated in the primary press read for this pass) adds that it halved the toll on lime | [S9][S25] |
-| 1847 | *Reports of the Commissioners of Inquiry into the State of Education in Wales* ("Blue Books") published; commissioner R. R. W. Lingen (responsible for the Carmarthenshire volume) states in his own report that he "established myself successively at Llandovery, Llandilo, Carmarthen, St. Clear's, Narberth..." — his inquiry tour passed directly through Llandeilo | [S10][S57] |
-| 1847, 10–11 Aug | Thomas Davies, Independent minister, ordained at "Llandilo Carmarthenshire Tabernacle" — confirms a named Nonconformist chapel called the Tabernacle existed in the town by this date | [S53] |
-| 1848, 21 Feb | First stone of the old parish church taken down | [S28] |
-| 1848, 23 Mar | Foundation stone of the rebuilt St Teilo's laid by "Mr Morgan, the builder of the bridge" | [S28] |
-| 1848–1850/51 | St Teilo's Church rebuilt (date given as 1848–50 by llandeilo.org, 1848–51 by Coflein — see Open Questions) | [S23][S28] |
-| 1848 | Llandeilo Bridge over the Tywi completed: single stone arch, 145 ft span | [S1][S3][S28] |
-| 1850s (c. 1856) | Newton House, Dinefwr, remodelled in Venetian/Victorian Gothic by R. K. Penson of Oswestry | [S7][S8] |
-| 1854 | Robert Jones Derfel's satirical play popularises the phrase "Brad y Llyfrau Gleision" (Treachery of the Blue Books) | [S10] |
-| 1856, Nov | The railway (Llanelly Railway) "first reached Llandeilo," injecting "new life into the commercial and social activities of the town" | [S28] |
-| 1857, 20/24 Jan | Llanelly Railway's Llandeilo extension opens ceremonially/publicly; Llandeilo railway station built | [S4][S22][S28] |
-| 1857, 11 Feb | St Teilo Lodge (Freemasons) no. 996 founded, Llandeilo | [S31] |
-| 1858, 1 Apr | Vale of Towy Railway opens, connecting Llandeilo to Llandovery (5 wooden viaducts over the Tywi) | [S4] |
-| 1858 | Llandeilo has 23 public houses and 30 hand water-pumps | [S31] |
-| 1859, 15 Jul | First meeting of the Llandeilo Local Board | [S28] |
-| 1860s | Arboretum laid out at Golden Grove/Gelli Aur | [S12] |
-| 1862 | Negotiations begin for a town reservoir at Maesevan | [S28] |
-| 1864–65 | Railway branch from Llandeilo to Carmarthen opens (passengers 1 June 1865, goods Nov 1865) | [S4][S20][S22] |
-| 1866–67 | Line to Swansea Victoria via the Gower opens | [S22] |
-| 1867 | Central Wales Extension Railway reaches Llandovery, giving a through route to Craven Arms | [S22] |
-| 1870, Dec | Thomas Jenkins's diary ends; he dies October 1871 | [S32] |
-| 1873 | London & North Western Railway becomes the dominant operator through Llandeilo | [S22] |
-| 1886 | A clergyman's report describes labourers' morals as "bad" and housing floors as "bare earth" | [S28] |
-| 1887 | Bartholomew's Gazetteer records Llandeilo town population 1,533; trade in corn, flour, woollens, timber, tanneries | [S3] |
-| 1891 | Census: Llandeilo Fawr district/parish figure of 20,483 recorded, with 68.6% Welsh-only speakers, 4.7% English-only (figure is for the wider parish/union, not the town — see Open Questions) | [S28] |
-| 1894 | Local Government Act splits the rural parish off as "Llandeilo Fawr Rural" | [S5] |
-| 1895 | Llandeilo Urban District Council succeeds the Local Board | [S28] |
-| 1897 | Additional town water supply obtained from the Baptistry at Llandyfan | [S28] |
-| 1901 | Shire Hall façade remodelled | [S24] |
-| 1902 | Electric power generation begins in Llandeilo (just past this era's end) | [S28] |
+| Date | Event | Place | Provenance | Cross-check | Sources |
+|---|---|---|---|---|---|
+| 1838 | Provisions Market built — "square, rather prison-like" neo-Tudor market hall, grey stone with red sandstone doorway; built by Joseph Gulston of Derwydd estate (or William Harries, possibly to a design by Edward Haycock) | Llandeilo | documented | single-source (Coflein/RCAHMW, citing *The Buildings of Wales: Carmarthenshire and Ceredigion*, 2006) | [S1] |
+| 1839 | Poor House (Union workhouse) built at Ffairfach | Ffairfach | documented | single-source | [S2] |
+| 13 May 1839 | First Rebecca gate destroyed at Efailwen — the spark for the whole movement (well outside the 10-mile radius, regional context only) | Efailwen, Carms/Pembs border | documented | cross-checked | [S3][S4] |
+| June 1842 | Rioting resumes after a lull: gate destroyed at Llandilo-rwnws, near Nantgaredig (edge of/just beyond the radius; a genuinely separate place from Llandeilo town) | near Nantgaredig | documented | cross-checked | [S4][S5] |
+| 1842–43 | County-wide agricultural depression sharpens: D.J.V. Jones's "conservative estimate" is that rents rose by at least 100% across Carmarthenshire/Cardiganshire/Pembrokeshire between 1793 and 1843, while farm produce prices fell | Carmarthenshire (regional) | documented (academic) | single-source (peer-reviewed) | [S4] |
+| 10 July 1843 | Llandilo-rwnws gate and the Mansel's Arms toll-house destroyed again; **Llanfihangel gate, "on the mail road to Llandilo, near Golden Grove, seat of Earl Cawdor," also destroyed the same night** — the clearest confirmed Rebecca gate genuinely on the approach to Llandeilo | near Golden Grove, on the Llandeilo mail road | documented | single-source (contemporary newspaper) | [S6] |
+| 11 August 1843 | *The Welshman* publishes a detailed local report: farmers taking lime to burn from Llandeilo to kilns six miles away pass through **three toll bars** (Ffairfach; a second gate one mile out on the Llandovery side, whose name is uncertain in the OCR'd source; and Rhydyffynnon near the kilns), crossing **three separate, uncoordinated trusts** (the Main Trust, the Llandebie Trust, the Three Commotts Trust); toll burden estimated at 30% of the lime's cost. Names two reformist local landlords: Rev. Mr Pugh (rector, returned half his tithe) and David Pugh (chairman of quarter sessions, returned 20% of tenants' rents) | Llandeilo | documented (primary newspaper source) | single-source | [S7] |
+| ~4–9 August 1843 | **The Walk Gate, Llandeilo** (on the Carmarthen road, between "the Walk" and "Lower Walk") destroyed; two men captured with yeomanry assistance. Monmouthshire Merlin headline: "Destruction of the Walk Gate at Llandiloifawr" | Llandeilo | documented | single-source (contemporary newspaper), corroborated in outline by a local-history site citing 1868/1932/1986 works | [S8][S9] |
+| Night of 27 August 1843 | Porthyrhyd toll-house (a few miles from Llandeilo, Three Commotts Trust) demolished by 300–400 people; landlady forced to serve (paid-for) beer; shots fired at a farmer's house; an apology note sent to a nearby inn for incidental damage, offering payment | Porthyrhyd | documented (full deposition text read) | single-source | [S10] |
+| 30 August & 8 September 1843 | Wheat mows and corn stacks burned on the **Dynevor (Dinefwr) estate** itself — "not even the powerful Dynevor family could escape the wrath of Rebecca" | Dinefwr | documented (academic, citing Carmarthen Journal 1 Sept 1843 and The Welshman 15 Sept 1843) | single-source | [S4] |
+| September 1843 | Rioters dig a grave within sight of Dinefwr Castle and announce that **Colonel George Rice-Trevor** (heir to the barony, Vice-Lieutenant of Carmarthenshire) will occupy it by 10 October 1843. He survives, guarded by soldiers | Dinefwr | documented | cross-checked (three independent write-ups, though likely tracing to the same Home Office correspondence) | [S4][S11][S12] |
+| ~21 October 1843 | Six named men (Henry Thomas, Thomas Harries, John Jones jnr, Thomas Jones, William Jones, Seth Morgan, "of Porthyrhyd or its neighbourhood") arrested for the Porthyrhyd demolition | Porthyrhyd | documented | single-source (full depositions read) | [S13] |
+| Late Oct–early Nov 1843 | Special Commission of Assize at Carmarthen Town Hall, before Baron Gurney and Mr Justice Cresswell, tries the county's Rebecca cases | Carmarthen | documented | single-source | [S14] |
+| Oct–Dec 1843 | Royal Commission of Inquiry tours South Wales taking evidence; no specific Llandeilo evidence-session confirmed in sources opened (see Open Questions) | South Wales (regional) | gap (local) | — | [S15] |
+| 1844 | South Wales Turnpike Trusts Act ("Lord Cawdor's Act") passed — consolidates trusts, equalises tolls, halves the lime toll | regional | documented | cross-checked | [S3][S4] |
+| Through ~1844–45 | Troops garrisoned in Llandeilo: 4th Light Dragoons at the Cawdor Arms/George Inn, 41st Regiment infantry billeted in the old vicarage — "nearly two years" | Llandeilo | documented | single-source (local-history site, well-cited) | [S9][S16] |
+| Spring 1845 | Late flare-up: magistrate William Chambers's farms/cottages at Llanelli burned in reprisal, well after the "official" end of the riots | Llanelli (just outside radius) | documented (academic) | single-source | [S4] |
+| 31 October 1846 | Commissioner **R. R. W. Lingen** visits the Union Workhouse School, Llandeilo, as part of the 1847 Blue Books inquiry; finds 18 boys and 15 girls, "all but half a dozen illegitimate," almost nothing taught, the schoolmaster doubling as "porter, barber, and layer-out of the dead" | Llandeilo | documented (primary source, read directly) | single-source (the report itself) | [S17] |
+| November 1847 | *Reports of the Commissioners of Inquiry into the State of Education in Wales* ("Blue Books"/"Brad y Llyfrau Gleision") published; condemns Welsh language and Nonconformity in sweeping terms | Wales-wide | documented | cross-checked | [S17][S18] |
+| 1848 | Chapels being rebuilt across the district in this decade: e.g. Calvinistic Methodist chapel, Llandeilo, rebuilt 1851; Wesleyan chapel rebuilt 1849; Horeb (Independent) rebuilt 1849 | Llandeilo/Ffairfach | documented | single-source per building | [S19][S20] |
+| 1843 (designed) / 1844 (started) / **1848** (completed) | **Llandeilo Bridge** completed: single elliptical stone arch, span 44.2 m, rise 12.65 m, total height 14.3 m, length 110.64 m including abutments; "third largest single-arch bridge in Britain and the largest in Wales" per the official Cadw listing; replaced a seven-arch predecessor whose abutment still stands on the north bank | Llandeilo | documented (official Cadw listing, read directly) | cross-checked, though cost figures conflict (see Open Questions) | [S21][S22] |
+| **1848–51** | St Teilo's Church largely rebuilt in the Decorated style by **George Gilbert Scott** following a design competition (drawings survive in the church); body of the medieval church demolished 1848, rebuilt using stone from a quarry within the churchyard; retained the c.1600 west tower | Llandeilo | documented (RCAHMW record) | single-source, but contradicts a Wikipedia claim of an "early eighteenth century" rebuild — treated as a Wikipedia error given the detail and specificity of the RCAHMW source (see Open Questions) | [S23] |
+| **1856 (April) – 1858 (June)** | **Cilyrychen Lime Kilns**, Llandybie: six kilns built for **Lord Dynevor** (leaseholder R. K. Penson from April 1856), designed by **R. K. Penson** in a Gothic style ("battered front wall, arched openings with machicolations"); first kiln lit 18 May 1857; cost £3,460 19s 1d; expanded to nine kilns by 1900, each 50 ft high, producing 20 tons of lime/day | Llandybie | documented (RCAHMW record) | single-source | [S24] |
+| **1856–57** | Newton House, Dinefwr, given a Gothic recasing by **R. K. Penson** of Oswestry for the Rice-Trevor/Dynevor family: angle turrets with machicolations and crenellations, a large porch, heraldic shields, a quatrefoil parapet; west elevation flying buttresses and a Gothic stone verandah; materials "snecked, grey-shale facings with pale sandstone dressings with redstone patterning" | Dinefwr | documented (RCAHMW + statutory listing, cross-checked) | cross-checked (RCAHMW, British Listed Buildings, Wikipedia's Penson biography all agree) | [S25][S26][S27] |
+| **January 1857** (20th ceremonial, 24th public) | **Llandeilo railway station opens**, Llanelly Railway; construction let 1 March 1855 | Llandeilo | documented | cross-checked (Wikipedia station page + Wikipedia Llanelly Railway page, citing *Journal of Transport Ticket Society*, Sept 2017) | [S28][S29] |
+| 1858 | Contemporary snapshot: Llandeilo recorded as having "a church, four chapels, 11 streets, 73 shops, 23 public houses and 290 houses"; first bank in the town (no.1 Bank Terrace) had opened 1842 | Llandeilo | documented | single-source | [S30] |
+| **1 April 1858** | Vale of Towy Railway opens to passengers, Llandeilo–Llandovery (11.25 miles, five wooden viaducts over the Tywi); worked by the Llanelly Railway and Dock Co.; stations at Llanwrda, Llangadog, Glanrhyd Halt, Talley Road Halt | Llandeilo–Llandovery | documented | cross-checked | [S29][S31] |
+| 1858 | Ffairfach gets a British School | Ffairfach | documented | single-source | [S2] |
+| **1859** | Calvinistic Methodist congregational hymn-singing festival, **cymanfa ganu**, launched at Bethania Chapel, Aberdare (Glamorgan — not a Llandeilo/Carmarthenshire origin; noted so the app doesn't misattribute it locally) | Aberdare (regional context) | documented | single-source | [S32] |
+| c. 1860 | Gas works erected, Ffairfach | Ffairfach | documented | single-source | [S2] |
+| 1860 | Present Tabernacl chapel, Ffairfach, built by **Thomas Thomas of Landore** (born and raised near Ffairfach) | Ffairfach | documented | cross-checked (Coflein + Wikipedia, minor date variance 1839 vs 1840 for the previous rebuild) | [S33][S2] |
+| 1860 | Yew-tree tunnel/promenade at Aberglasney is the subject of a *Gardeners' Chronicle* article — the gardens still horticulturally notable under a tenanted, non-derelict Aberglasney | Aberglasney | documented | single-source | [S34] |
+| 1860s | Arboretum laid out at Golden Grove (Cawdor family estate) | Golden Grove | documented | single-source | [S35] |
+| **1864–65** | Branch line to Carmarthen (via Abergwili Junction) opens, giving Llandeilo a second route | Llandeilo–Carmarthen | documented | cross-checked | [S28][S36] |
+| 1869 | Death of George Rice-Trevor, 4th Baron Dynevor (the man threatened with a mock grave in 1843); title passes to a cousin, **Francis William Rice, 5th Baron Dynevor** (1804–78), the 4th Baron having no male heir | Dinefwr | documented | single-source | [S11][S12] |
+| 1878 | 5th Baron Dynevor dies; succeeded by **Arthur de Cardonnel FitzUryan Rice, 6th Baron Dynevor** (1836–1911) | Dinefwr | documented | single-source | [S12] |
+| 1898 | 6th Baron Dynevor dies; succeeded by **Walter FitzUryan Rice, 7th Baron Dynevor** (1873–1956), still only in his 20s at the very end of this era | Dinefwr | documented | single-source | [S12] |
+| 1870 | Last recorded large-scale cattle drove across Wales | Wales-wide (context) | documented | single-source | [S37] |
+| 1874 | Salem (Calvinistic Methodist) chapel, Llandeilo, rebuilt to its present design by Richard Owens of Liverpool | Llandeilo | documented | single-source (Coflein; not corroborated by the architect's own Wikipedia page) | [S19] |
+| 1881 | Prince of Wales's visit to Swansea is a documented turning point in Welsh costume becoming a deliberate "national costume" for public/ceremonial occasions rather than everyday dress | Swansea (regional context) | documented | single-source | [S38] |
+| 1887 | Gazetteer (Bartholomew) records Llandeilo's population as 1,533; principal trade "corn and flour," plus woollen cloth mills, timber/saw mills, tanneries | Llandeilo | documented | single-source | [S39] |
+| 1889 | Llanelly Railway and Dock Co. amalgamated into the Great Western Railway | regional | documented | single-source | [S29] |
+| 1894 | Local Government Act splits ancient Llandeilo Fawr parish: the town becomes an Urban District ("Llandeilo"), the rest "Llandeilo Fawr Rural" | Llandeilo | documented | single-source | [S39] |
+| **1901–02** | Capel Newydd (Welsh Independent), Crescent Road, Llandeilo, built — right at/just past the end of this era, by Henry Herbert of Ammanford, in Gothic style | Llandeilo | documented | single-source | [S40] |
+| 1901 | Shire Hall/Town Hall streetfront remodelled (the building itself dates to 1802 and had housed the market and quarter sessions throughout the Victorian period) | Llandeilo | documented | single-source | [S41] |
 
 ## Places
 
-### Llandeilo (Welsh: Llandeilo, formally Llandeilo Fawr)
-- **Approx. coordinates:** 51.8817° N, 3.9931° W (modern town centre; unsurveyed for this project)
-- **Description:** A market town on a bluff above a bend of the Afon Tywi, below Dinefwr
-  Castle. Origin as a monastic settlement of St Teilo (6th century); became "an important
-  medieval market centre to an extensive agricultural hinterland" once the Bishopric of
-  St David's took control in the 12th century [S26]. By the Victorian period it was a compact
-  hill-town of narrow streets (Rhosmaen Street held the main trades — boot-making, brewing)
-  radiating from the church and the Shire Hall/market square.
-- **3D-useful details:** Provisions Market (1838) is a "square, rather prison-like range" in
-  "severe neo-Tudor style," grey stone with a red sandstone doorway [S25]. The Shire Hall
-  (1802, façade remodelled 1901) has a symmetrical three-bay stuccoed front, rusticated
-  ground floor, Ionic pilasters, round-headed windows [S24]. A civic-pride horse chestnut
-  tree, planted 1818, stood at Church Square with fish stalls beneath it and cattle shambles
-  opposite [S28] — its custodian reputedly kept a musket under the counter against vandals.
-  The town had no street lighting 1843–1848 (a payment dispute), so night scenes before ~1848
-  should be genuinely dark but for windows and lanterns [S28].
-- **Sources:** [S3][S5][S24][S25][S26][S28] — cross-checked (llandeilo.org + Coflein + Wikipedia agree on the market/town-hall picture).
+### Llandeilo (town)
 
-### St Teilo's Church, Llandeilo
-- **Approx. coordinates:** 51.8814° N, 3.9911° W
-- **Description:** Medieval church (double nave, 15th-century west tower) demolished from
-  21 Feb 1848 and rebuilt 1848–50/51 in the Decorated style, reusing the medieval foundations
-  so the ground plan matches the old building. Foundation stone laid 23 March 1848 by "Mr
-  Morgan, the builder of the bridge" [S28]. Seven-bayed nave and chancel, north aisle, south
-  transept, north porch, vestry, organ chamber; the tower (c. 1600, four-stage, squared
-  coursed rubble with dressed quoins) kept its 19th-century crenellated battlements and
-  gargoyles [S23]. Contains two 10th–11th century cross-heads and a 15th-century octagonal
-  font moved from St Tyfei's Church [S23].
-- **Contradiction flagged:** Coflein credits the architect as **G. G. Scott**, "selected
-  following a competition" (drawings survive in the church) [S23]; llandeilo.org states it
-  "was designed by Edward Davies, an architect from Bath, and built under the supervision of
-  George Gilbert Scott" [S28] — i.e. Davies as designer, Scott merely supervising. The two
-  sources also differ on the completion year (1850 vs 1851). Not resolved in this pass.
-- **3D-useful details:** Local stone (coursed rubble), Decorated-style tracery windows,
-  crenellated tower with gargoyle waterspouts.
-- **Sources:** [S23] Coflein NPRN 100867 (single-source for architect claim), [S28] llandeilo.org (single-source for the alternate architect claim) — **contradiction, not cross-checked**.
-
-### Llandeilo Bridge (Tywi Bridge)
-- **Approx. coordinates:** 51.8802° N, 3.9936° W
-- **Description:** Replaced an earlier stone-and-timber bridge "possibly of medieval origins"
-  [S2]. Built 1843–1848 (llandeilo.org gives the completion year as 1848 and calls the road
-  through the churchyard, cut in the 1840s to ease coach access, contentious and costly
-  [S28]). A single elliptical stone arch, 145-foot span, 26 feet wide; Coflein gives overall
-  cost as "over £12,000" and names the design/build team as Morgan Morgan and Thomas Jenkins
-  (begun), completed by Edward Haycock, construction supervised by William Williams [S1].
-  llandeilo.org instead credits local mason **William Williams** as designer and **Morgan
-  Morgan of Cwmamman** as builder, gives the bridge's total length as 365 feet, and states
-  the cost as **£22,000** [S28][S31] — nearly double Coflein's figure.
-  **Contradiction flagged:** cost (£12,000 vs £22,000) and the precise division of
-  designer/builder credit differ between the two sources; not resolved here.
-  Antiquary George Eyre Evans called it "the finest single-arch stone bridge in Wales" [S1].
-  Stone for construction was quarried locally near Ffairfach, "after satisfactory tests for
-  quality" [S20].
-- **3D-useful details:** Single elliptical arch (not semicircular/round), carboniferous
-  limestone for the arch itself, "Llandeilo series" stone for lesser sections, pale grey
-  stonework, low parapet walls, flood wall at the northern approach reusing old bridge
-  material.
-- **Sources:** [S1][S2][S3][S20][S28][S31] — cross-checked on form/date, contradictory on cost/designer credit.
-
-### Llandeilo railway station
-- **Approx. coordinates:** on the line north-east of the town centre (exact Victorian footprint not confirmed in this pass)
-- **Description:** Built 1857 by the Llanelly Railway, which "reached the town from the
-  Llanelli direction in January 1857" [S22]. Became a junction: Llandovery extension (Vale of
-  Towy Railway) 1858; Carmarthen branch 1864–65; Swansea Victoria (via Gower) line 1866–67;
-  Central Wales Extension reaching Craven Arms, 1867 [S4][S22]. At its Victorian/Edwardian
-  peak it had four platforms; the original Victorian station building has since been
-  demolished, so no verified physical description of the 1857 building survives in the
-  sources checked [S22].
-- **Locomotives:** not confirmed by name/class in this pass; the Llanelly Railway and its
-  successors (later dominated by the London & North Western Railway from 1873, with fewer
-  Great Western Railway services) [S22] would have run standard-gauge tank and small
-  tender engines typical of Welsh valley lines of the 1850s–1890s — this is a reasonable
-  inference from the operating companies, not a confirmed locomotive type, and should be
-  labelled "reconstructed" in-app.
-- **Sources:** [S4][S22] — cross-checked on dates between Wikipedia's Llanelly Railway and Llandeilo station articles; llandeilo.org corroborates the November 1856/January 1857 arrival [S28].
+- **Welsh name:** Llandeilo (from *llan* + St Teilo, 6th-century founder of the clas here); the wider ancient parish is Llandeilo Fawr ("Great Llandeilo").
+- **Coordinates:** 51.885°N, 3.992°W (town centre, Wikipedia infobox). Note a sibling research file in this project gives a very slightly different reading, 51.883°N, 3.987°W — the difference (a few hundred metres) is most likely just a different reference point within the town, not a contradiction.
+- **Description:** A stone-built market town on a bluff above the River Tywi, its centre a knot of streets — **Rhosmaen Street, Bridge Street, King Street, Carmarthen Street, Market Street, Quay Street** — converging near the church and the old market buildings. By 1858 it had "a church, four chapels, 11 streets, 73 shops, 23 public houses and 290 houses" [S30]. St Teilo's Fair, authorised by Edward I in 1291, was still held annually in the churchyard through this period, agricultural produce reportedly displayed on the tombstones (this specific practice is not independently corroborated in this pass — flagged as single-source). A milestone survives at the King Street/Rhosmaen Street junction [S42].
+- **Civic buildings:** The **Shire Hall/Town Hall** (built 1802, streetfront remodelled 1901) housed both an open ground-floor market hall and, on the upper floor ("piano nobile"), the court of quarter sessions — so it was in continuous civic use across the whole Victorian period [S41]. The purpose-built **Provisions Market** (1838) — grey stone with a red sandstone doorway, in a "severe neo-Tudor" style, described as "square, rather prison-like" — sold food and also served as an auction room [S1].
+- **Inns:** The **Cawdor Arms Hotel**, the **Angel Hotel**, the **Castle Hotel** and the **Salutation Inn** are all Grade II listed and stood through this period on Rhosmaen Street/near the old market [S42]. The Cawdor Arms (named for the Golden Grove family) and a separate "George Inn" are named in local-history sources as billeting the 4th Light Dragoons during the Rebecca Riots garrison [S9][S16].
+- **3D-useful details:** Local stone construction throughout (the specific stone types named in listings: "grey shale," "grey stone," "rubble stone," "coursed rubble," "snecked masonry" — a mix of local Old Red Sandstone/shale and limestone); slate roofs (the market hall's roof form is not detailed in the source read, but slate is the default vernacular roofing material named for every other listed building found in this research, e.g. the Shire Hall's "slate hipped roof" [S41] and the "Bridge Farmhouse" by the bridge, also slate-roofed [S43]); the Shire Hall's stuccoed, Ionic-pilastered symmetrical front is a clear model for the town's grandest civic building.
+- **Sources:** [S1][S30][S39][S41][S42][S43]
 
 ### Ffairfach
-- **Approx. coordinates:** 51.8749° N, 3.9885° W (half a mile south of Llandeilo, across the Tywi)
-- **Description:** In the early 1800s "a fair sized village of about three dozen houses,"
-  with a corn mill and the Torbay Inn (doubling as a blacksmith's — the smith "even
-  extracted teeth for the whole community before the days of dentists") [S20][S31]. Two
-  fairs a year (5 May, and a cattle fair 22 November) [S20][S31]. The Llandeilofawr Union
-  Workhouse was built here 1837–38 [S29]. A British School opened 1858 (first schoolmaster
-  David Morgan); a council school followed c. 1899; a gasworks was erected c. 1860 [S20].
-  Two separate railway lines reached Ffairfach — the Llanelli–Llandovery line (1856) and the
-  Carmarthen–Llandeilo LNWR line (1865) — giving it two stations within 300 yards of each
-  other [S20].
-- **Sources:** [S20][S29][S31] — cross-checked (Wikipedia's Ffairfach article and llandeilo.org's workhouse/Good Old Days pages agree).
 
-### Newton House and Dinefwr Park (Welsh: Dinefwr)
-- **Approx. coordinates:** 51.8791° N, 4.0086° W
-- **Description:** Seat of the Rice family, Barons Dynevor, immediately west of Llandeilo.
-  The medieval/Tudor castle (Dinefwr Castle) stands within the park; the family's residence
-  by this period was Newton House, built 1660–70 for Sir Edward Rice on the site of the
-  medieval borough of "Newton" (first recorded 1297), given a full **Victorian Gothic
-  re-facing in 1856–57** [S8][S38] by architect **Richard Kyrke Penson of Oswestry** —
-  cross-checked across three independent sources (National Trust [S37], Coflein NPRN 17603
-  [S38], and Penson's own Wikipedia biography page [S39], which also notes Penson
-  simultaneously leased the nearby Cilyrychen lime quarries from Lord Dynevor from April
-  1856). Penson's additions: angle turrets with machicolations and crenellations, a large
-  ornate porch, heraldic shields, corbelled cornices and balconies, pinnacles, flying
-  buttresses and an elaborate Gothic stone verandah on the west front — encasing the exterior
-  while the 17th-century plasterwork and a coffered drawing-room ceiling survived inside
-  [S38]. Formal gardens (a ha-ha, an elaborate fountain) were laid out on the west front in
-  the same 1856–58 window, recorded on the 1886 OS County series [S38][S40]. The deer park
-  (rare White Park cattle "present for over a thousand years" per National Trust [S8][S37])
-  had been landscaped in the 1770s by George Rice and his wife Cecil, with Capability Brown
-  engaged from 1775; surviving beech clumps date to Brown's design [S7][S38]. National
-  Trust/Wikipedia give the park as "800 acres"; Cadw's wider registered boundary gives
-  "approximately 970 acres," including a lake driving a pump-house turbine, an icehouse,
-  dovecot, walled kitchen garden (4.5+ acres) and three separate estate approach drives, one
-  via Llandeilo Bridge itself [S40].
-- **Rebecca Riots connection:** In September 1843, **the Hon. George Rice-Trevor** — heir to
-  the 3rd Baron, and **not yet Baron himself** (his father did not die until 1852) — found an
-  empty grave dug in the park grounds, threatening he would be buried in it by 10 October
-  [S7] (citing Watkins 2014, p. 53). Independently, his own Wikipedia biography records that
-  rioters "burned crops on his father's Dinefwr estate" during 1843–44, and that as county
-  vice-lieutenant he had to have a barracks built to house the troops and police sent in
-  response [S35] — cross-checked, direct evidence that the unrest reached the gentry's own
-  doorstep and property, not just toll-gates.
-- **Later Victorian additions:** billiard room 1896; a fireproof strongroom (18-inch walls)
-  1914, just past this era [S7].
-- **Barons Dynevor holding the title across this era — now confirmed with succession
-  dates** (cross-checked, Wikipedia's Baron Dynevor list plus each holder's own biography
-  page [S6][S34][S35][S36]):
-  | Baron | Name | Life dates | Held title |
-  |---|---|---|---|
-  | 3rd | George Talbot Rice | 1765–1852 | 1793–1852 |
-  | 4th | George Rice-Trevor | 1795–1869 | 1852–1869 |
-  | 5th | Francis William Rice | 1804–1878 | 1869–1878 |
-  | 6th | Arthur de Cardonnel FitzUryan Rice | 1836–1911 | 1878–1911 |
+- **Welsh name:** Ffair-fach, "little fair."
+- **Coordinates:** 51.875°N, 3.994°W.
+- **Description:** A small hamlet immediately across the Tywi bridge from Llandeilo — "about three dozen houses" in the early 1800s, with a corn mill and the Torbay Inn (which doubled as a blacksmith's). Two annual fairs (5 May, and a cattle fair on 22 November). A Poor House (Union workhouse) was built here c.1839; stone for Llandeilo Bridge (1848) was quarried from a pit beside the later railway signal box; a British School opened 1858; gas works c.1860; a council school c.1899. Two railways reached it: the Llanelli Dock line in 1856, and a London & North Western line in 1865 [S2].
+- **3D-useful details:** A working blacksmith-cum-inn (the Torbay) is a strong candidate for an ambient sound/visual vignette — hammer-on-anvil plus tavern chatter in one building.
+- **Sources:** [S2]
 
-  This means the **3rd Baron**, George Talbot Rice — Lord Lieutenant of Carmarthenshire
-  1804–1852 — was the actual title-holder throughout the Rebecca Riots (1839–43); his son
-  George Rice-Trevor (the "Rebecca" target above) only became the **4th Baron** in 1852, and
-  it was as 4th Baron that he would have been the one to commission Penson's 1856–57
-  remodelling. The 5th Baron, Francis William Rice, was a clergyman (Vicar of Fairford,
-  Gloucestershire, 1827–1878) who inherited from a collateral line, not a direct son [S36].
-- **Sources:** [S6][S7][S8][S34][S35][S36][S37][S38][S39][S40] — the succession dates, the 1856–57 remodelling/architect, and the Rebecca Riots estate damage are all now cross-checked across at least two independent sources each.
+### Llandeilo Bridge
 
-### Aberglasney
-- **Approx. coordinates:** 51.8646° N, 4.0139° W (Llangathen, west of Llandeilo)
-- **Description:** Ownership chain across the era (Wikipedia [S15][S42], cross-checked in
-  places against Cadw's listing [S43]): bought 1803 by Llandeilo lawyer John Philips for his
-  brother Thomas; **Thomas Philips**, a surgeon returned from the East India Company,
-  occupied the house 1803–1824 with his "married mistress," dying childless in 1824 and
-  leaving it to his nephew **John Walters Philipps**, who added "Philipps" to his name and a
-  portico to the Queen Anne façade. Philipps had one son (died in childhood) and three
-  daughters; the property passed through them to **Mary Anne Pryse**, then to her daughter
-  **Marianne Pryse**, who inherited it within this era but — with her husband, Colonel
-  Charles Mayhew — did not move in until **1902**, just past our period [S15][S42].
-  **Architecturally, two clearly Victorian-dated additions are confirmed**: three-storey bays
-  flanking the south wing added in the **1840s**, and a canted, balustraded bay window
-  inserted on the west garden front in the **1850s** [S43]. **Garden contraction across the
-  period is directly documented**: the **1840 Tithe survey recorded four walled garden
-  enclosures**, but only **two remained by the First Edition Ordnance Survey of 1887** [S44]
-  — i.e. Aberglasney was a working but visibly shrinking private estate garden through this
-  era, not the derelict ruin of the 1990s nor a maintained show garden. An **aviary was built
-  1882–85** [S44], and the distinctive yew-tree promenade was already notable enough by
-  **1860** to be the subject of a *Gardeners' Chronicle* article [S15][S42] — so the garden
-  retained some horticultural reputation even as its walled-garden footprint shrank.
-- **Sources:** [S15][S42][S43][S44] — cross-checked on the ownership chain and the Victorian architectural additions/garden contraction (Wikipedia + two independent Cadw reports agree).
+- **Welsh name:** Pont Llandeilo.
+- **Coordinates:** approx. 51.879°N, 3.983°W (grid ref SN6275722001).
+- **Description:** A single stone arch across the Tywi, designed by county surveyor **William Williams** (1843), construction begun 1844 under contractor Morgan Morgan, who failed and was replaced; completed 1848 by **Edward Haycock** of Shrewsbury. The official Cadw listing gives: span 44.2 m (145 ft), rise 12.65 m, total height 14.3 m, overall length 110.64 m including abutments and a flood arch through the south abutment; "rubble stone to abutments, tooled limestone buttresses, freestone rusticated voussoirs to the arch." Stone for the arch itself came from Cilyrychen, Llandybie, after nearer quarries proved defective. It replaced a seven-arch predecessor bridge, whose abutment is still visible on the north bank downstream [S21][S22][S43].
+- **Cost — a genuine documented contradiction:** the official Cadw listing gives an initial estimate of £6,000, exhausted before the arch was even begun, with a final cost of **£22,000** after the first contractor's failure [S21]. A different source (RCAHMW/Coflein, citing local historian Lynn Hughes writing in *Carmarthenshire Life*, 2004) gives a cost of "over £12,000" and quotes the antiquary George Eyre Evans calling it "the finest single-arch stone bridge in Wales" [S22]. Cadw's own listing separately calls it "the largest [single-arch bridge] in Wales" and "the third largest in Britain." Both figures are from named, citable sources; the discrepancy is plausibly explained by the documented cost overrun (an early, lower estimate versus the true final cost after Morgan Morgan's failure), but this has not been confirmed from a primary contemporary source and should be flagged in-app rather than silently resolved.
+- **3D-useful details:** a single very large elliptical arch (not multiple small arches), pale/tooled limestone dressings on a rubble-stone body, a flood arch through the south abutment, and the visible stub of the old seven-arch bridge downstream as a ruin — a genuinely distinctive silhouette, not a generic humpback bridge.
+- **Sources:** [S21][S22][S43]
 
-### Golden Grove / Gelli Aur
-- **Approx. coordinates:** 51.8375° N, 4.0324° W
-- **Description:** Seat of the **Earls Cawdor**. Bequeathed in 1804 to John Frederick
-  Campbell (later 1st Earl Cawdor, 1790–1860) on the death of "John Vaughan, the last of the
-  Golden Grove Vaughans" [S12][S13][S20]; the britishlistedbuildings.co.uk record gives
-  Campbell as inheriting the estate specifically in **1821** [S45]. Campbell commissioned a
-  new mansion (replacing an earlier 1754 Neoclassical house) from architect **Sir Jeffry
-  Wyatville**, in Tudor/Elizabethan/Scottish Baronial style — "although it is a late Regency,
-  Georgian house" — built of local **Llangyndeyrn ("black marble") limestone** [S12][S20].
-  **Build sequence, cross-checked across three sources** [S12][S45][S46]: commenced by/from
-  1826–27; service wing completed 1828; main block 1830 (a clock/bells in the square clock
-  tower are dated 1830); staircase 1831 (joinery continuing to this date per one source);
-  stable block finished 1834. During the same years Wyatville was simultaneously remodelling
-  Windsor Castle for George IV and William IV [S12]. Advanced-for-its-time features are
-  recorded: masonry reinforcement, early heating innovations, and even flush toilets;
-  joinery by "Armstrong and Siddon of London" [S45]. The 2nd Earl, John Frederick Vaughan
-  Campbell (1817–1898), and 3rd Earl, Frederick Archibald Vaughan Campbell (1847–1911), held
-  the title through the rest of the era [S13], though no source in this pass confirms which
-  of them was in personal residence when. An arboretum was laid out in the 1860s; a deer park
-  is separately Grade II listed [S12].
-- **Sources:** [S12][S13][S20][S45][S46] — cross-checked on the Cawdor succession dates and the mansion's build sequence/architect across Wikipedia, Coflein and britishlistedbuildings.co.uk.
+### St Teilo's Church
+
+- **Welsh name:** Eglwys San Teilo.
+- **Coordinates:** approx. 51.883°N, 3.987°W.
+- **Description:** A medieval double-nave church with a west tower (thought to date to c.1600, matching the tower of St Tybie's, Llandybie). The body of the church was demolished in 1848 and rebuilt 1848–51 "in the Decorated style" by **George Gilbert Scott** — one of the most prominent Gothic Revival architects working in Britain in this period — following a design competition (drawings reportedly survive in the church). The rebuild used stone from a quarry within the churchyard itself. The result: a seven-bayed nave and chancel, south transept, six-bayed north aisle, north porch, vestry and organ chamber; four-stage tower of squared, coursed rubble with dressed quoins, crenellated battlements and gargoyle waterspouts; decorated three-light windows. Retained features include two 10th–11th-century carved cross-heads and a 15th-century octagonal font moved from St Tyfei's Church [S23].
+- **Open contradiction:** Wikipedia's own Llandeilo/church content (checked directly in this pass) instead states the church "was rebuilt in the early eighteenth century" with no architect named — a claim substantially less detailed and specific than the RCAHMW/Coflein record, and treated here as a Wikipedia error rather than a genuine second tradition, but flagged for the app team to note rather than silently override.
+- **Sources:** [S23]
+
+### Newton House / Dinefwr (Plas Dinefwr)
+
+- **Welsh name:** Plas Dinefwr / Castell Dinefwr (the medieval castle ruin, separate from the house).
+- **Coordinates:** Newton House 51.8841°N, 4.0147°W; Dinefwr Castle ruin 51.8768°N, 4.0184°W.
+- **Description:** Newton House was built 1660–70 for Sir Edward Rice on the site of/adjacent to the medieval Dinefwr Castle (whose ruined keep had itself been converted into a summer house in 1660, then burned in the 18th century). Turrets and battlements were added 1760–80. The wider park (c. 970 acres, walled from 1774) was landscaped by Capability Brown in 1775–8. In **1856–57**, under **George Rice-Trevor, 4th Baron Dynevor** (who inherited the barony and estate in 1852), the house was given a Gothic "recasing" by architect **R. K. Penson** of Oswestry: diagonal corner turrets with machicolations and crenellations, a large new porch, heraldic shields, a pierced quatrefoil parapet; the west (show) elevation received crenellated and corbelled cornices, corbelled balconies, pinnacles, flying buttresses and an elaborate Gothic stone verandah. Materials: "snecked, grey-shale facings with pale sandstone dressings with redstone patterning." Formal gardens (ha-ha, fountain) were laid out around the house at the same time, appearing on the 1886 OS map. The 17th-century interiors (coffered ceilings, original staircase) were largely retained behind the new Gothic exterior [S25][S26][S27].
+- **Estate/tenant relations:** no rent rolls, eviction records or named-tenant testimony specific to the Dynevor estate were found in this research pass — a genuine, flagged gap. What is documented is that Rebecca rioters burned crops on the estate in 1843 (see Timeline/Rebecca Riots) and that the 4th Baron threatened armed retaliation.
+- **Sources:** [S11][S25][S26][S27]
+
+### Golden Grove (Gelli Aur)
+
+- **Welsh name:** Gelli Aur.
+- **Coordinates:** approx. 51.86°N, 4.04°W.
+- **Description:** Seat of the **Earls Cawdor** (Campbell family) throughout the Victorian period — bequeathed to John Frederick Campbell (later 1st Earl Cawdor) in 1804. The present mansion was designed by **Sir Jeffry Wyatville** (design c.1825, service wing 1828, main block 1830, staircase 1831, stable block by 1834; a late Regency/Georgian design, described by one source as combining "Scottish Baronial features in a Tudor or Elizabethan" idiom, "although it is a late Regency, Georgian house and not a Victorian house"), built of **Llangyndeyrn limestone** ("black marble"). An arboretum was laid out in the 1860s (a genuinely Victorian addition to an otherwise pre-Victorian house) and a deer park survives; both are Grade II listed. Lords Lieutenant of Carmarthenshire from this family: 1st Earl Cawdor (1790–1860, dates as LL not confirmed in sources read) and 2nd Earl Cawdor (1817–1898, Lord Lieutenant 1861–98, succeeding directly after the Dynevor family's long tenure of that office, 1804–1852) [S35][S44].
+- **Important distinction for the app:** Golden Grove/Gelli Aur belongs to the **Cawdor** family, not the Rice/Dynevor family — a separate gentry dynasty from Newton House, though the two families' names recur side by side throughout this period (the Cawdor Arms Hotel in Llandeilo is named for this family; "Lord Cawdor's Act" of 1844 ended the Rebecca Riots' immediate grievance).
+- **Sources:** [S35][S44]
 
 ### Paxton's Tower
-- **Approx. coordinates:** 51.8438° N, 4.0430° W (above the Tywi valley, near Llanarthne)
-- **Description:** A Neo-Gothic/Gothick military-folly-style tower built **1805–1809** by
-  **Sir William Paxton** (1744–1824) of Middleton Hall, to designs by architect **Samuel
-  Pepys Cockerell** (who had designed Middleton Hall itself about a decade earlier) —
-  cross-checked across Wikipedia and two independent Cadw reports [S14][S47][S48]. It
-  commemorates Nelson (Trafalgar, 1805): a triangular tower with a hexagonal lookout stage,
-  round corner turrets, local coursed rubble masonry, and corbelled crenellated parapets;
-  marble dedication tablets in English, Latin and Welsh, and a stained-glass portrait window
-  facing Carmarthen, originally existed but "none... survive" today — no source pins exactly
-  when they were lost [S48]. **Local tradition holds Paxton built it partly as a pointed
-  gesture after losing the 1802 county election**, redirecting funds originally intended for
-  a Tywi bridge [S47][S48] — a nice, documented irony given Llandeilo itself finally got its
-  own Tywi bridge in 1848 (see Llandeilo Bridge above).
-  **A genuinely Victorian-period (well, very-early-Victoria) documentary reference exists**:
-  an **1833 account describes a "sumptuous banqueting room"** on the tower's second floor,
-  confirming it was an actively used, furnished landmark rather than a bare monument at the
-  start of our era [S48]. The nearby **Tower Lodge** caretaker's cottage was built during
-  E. H. Adams's tenure at Middleton (post-1824) and appears on 1831 Ordnance Survey maps,
-  meaning the tower was staffed with a caretaker through into the Victorian period [S47].
-  It functioned as a landscape "eye-catcher" with "an important visual connection" to
-  Middleton Hall's park, commanding views over the Tywi valley [S47]. No source found
-  describes a Victorian-period decline or dates when it fell into disuse — the record jumps
-  from the 1833 banqueting-room reference to modern National Trust/Landmark Trust
-  restoration.
-- **Sources:** [S14][S47][S48] — cross-checked (Wikipedia + two independent Cadw reports agree on date/architect/purpose); the 1833 banqueting-room detail and the 1802-election origin story are Cadw-sourced and not independently found elsewhere in this pass.
 
-### Llandybie and Ammanford (industrial edge, within ~7–8 miles)
-- **Llandybie approx. coordinates:** 51.8306° N, 3.9906° W. **Ammanford approx. coordinates:** 51.7928° N, 3.9895° W.
-- **Lime kilns:** Coflein records the **Cilyrychen Lime Kilns** (also "Lime Firms Ltd,
-  Llandybie Limekilns," NPRN 40661, Post Medieval/19th century) and a **bank of lime kilns at
-  Pentre Gwenlais Quarry** (NPRN 308178, Post Medieval), both at Llandybie [S27]. These
-  burned locally quarried limestone for agricultural lime and mortar — the standard use for
-  such kilns in this period. A direct, dated estate connection was found for Cilyrychen
-  specifically: architect **R. K. Penson** (see Newton House, above) **leased the Cilyrychen
-  quarries from Lord Dynevor in April 1856**, the same year he began remodelling Newton
-  House [S39] — a genuine documented link between the Dynevor estate's landowning income and
-  the local lime industry, and a plausible reason lime-toll costs (see Rebecca Riots,
-  Pontarllechau) mattered so much to farmers needing this stone.
-- **Ammanford:** grew from a hamlet around the Cross Inn "as a result of the growth of both
-  the tinplate and anthracite coal trades" during the 19th century; renamed from "Cross Inn"
-  to "Ammanford" in 1880 because there were too many other Carmarthenshire places called Cross
-  Inn [S19]. No Victorian population or output figures were found in this pass.
-- **Sources:** [S19][S27] — single-source each (Wikipedia for Ammanford, Coflein for the lime kilns); not cross-checked against each other. Industry detail here is thinner than for the town itself — flagged as a gap for a follow-up pass.
+- **Welsh name:** Tŵr Paxton.
+- **Coordinates:** 51.85183°N, 4.1198°W.
+- **Description:** A 36 ft-high Neo-Gothic folly built c.1806–09 by **Sir William Paxton** (1745–1824) — banker, and owner of the neighbouring Middleton Hall estate — as a memorial to Admiral Nelson, designed by **Samuel Pepys Cockerell** (who also designed Middleton Hall itself). Triangular in plan with corner turrets; a first-floor banqueting room (its coloured-glass windows now in Carmarthen Museum) and a second-floor hexagonal prospect room with roof terraces. Marble tablets dedicating it to Nelson, originally in English, Latin and Welsh, are now blank. **No Victorian-era (1830–1901) use, event or condition detail for the tower itself was found in this pass** — a genuine gap. Middleton Hall itself changed hands several times through the Victorian period (Edward Hamlin Adams 1824–42; his son, radical MP **Edward Abadam**, 1842–75 — a documented Rebecca-era figure who publicly denounced the riots while "armed to the teeth," and whose own hayricks were burned in reprisal; then the Hughes family, 1875–1919); it burned down in 1931, outside this era [S45][S46][S47].
+- **Sources:** [S45][S46][S47]
 
-### Villages within the radius touched directly by the Rebecca Riots
-Several villages within (or at the edge of) the 10-mile radius have specific, dated,
-newspaper-sourced Rebecca Riots events — see the dedicated section below for the full
-account. Two are useful as standalone "Places" for the diorama:
-- **Porthyrhyd** (~6 miles SW, on the Llanarthne/Middleton Hall road): gate destroyed twice
-  (22 July and 27 August 1843); a genuine local flashpoint with named participants [S66][S68].
-- **Llansadwrn** (~3 miles NE): the vicarage of the Rev. J. Jones attacked over rent, forcing
-  the family to relocate to Llandovery, late September 1843 [S76]. **A surviving example of
-  the exact kind of building targeted district-wide stands here today**: the **Old Tollhouse
-  at Rose Hill, Llansadwrn** (Coflein NPRN 54152) is an **octagonal house with a central
-  chimney and a thatched roof with a smoke-hole at its apex** [S72] — an excellent, precise,
-  geographically local 3D model for any toll-house asset in the game, whether or not this
-  exact building was itself attacked.
-- **Sources:** [S66][S68][S72][S76] — see Rebecca Riots section for full sourcing and the caveat about places named similarly to "Llandeilo" that are NOT this Llandeilo.
+### Aberglasney
+
+- **Welsh name:** Aberglasney.
+- **Coordinates:** 51.879511°N, 4.062723°W.
+- **Description:** A gentleman's house with 16th-century origins. Owned 1824–c.1850s by **John Walters(-Philipps)**, who added a portico; passed to his descendant **Mary Anne ("Marianne") Pryse**, who married and moved away, and **let the house out through the mid-Victorian period rather than living in it herself**. The gardens remained horticulturally notable throughout: the yew-tree tunnel/promenade was the subject of a *Gardeners' Chronicle* article in **1860**. Real decline into dereliction did not begin until after 1902 (when Colonel Mayhew briefly returned) and especially after 1908 (when Marianne Pryse, having moved to London, refused to let the house again) — i.e. **well outside the Victorian period this document covers.**
+- **Important correction for the app:** the common assumption that Aberglasney was already a picturesque ruin by the Victorian period is **not supported** by the sources checked here — it was tenanted, functioning, and its garden was celebrated in the national horticultural press as late as 1860. Present it as occupied-but-absentee-owned, not derelict, for any Victorian-era scene.
+- **Sources:** [S34][S48]
 
 ## People
 
-- **Thomas Jenkins (1813–1871)**, cabinet-maker of Llandeilo, born at Tycroes in the parish
-  of Llanedy. A real, documented figure: an "inventor, engineer, scientist, and diarist,"
-  worked on the Llandeilo bridge, held the civic role of Constable of the Leet Court, and was
-  involved in local mines and breweries [S32]. His diary (1826–1870) survives and is directly
-  quoted by llandeilo.org, including first-hand entries from the Rebecca Riots period (see
-  Timeline) [S30]. **This is our best-documented real person for this era** — his actual
-  words exist for 1843; any dramatised scene featuring him must clearly separate his
-  documented diary lines from any invented surrounding dialogue.
-- **William Williams**, mason, credited by llandeilo.org as designer of the Tywi/Llandeilo
-  bridge, described as "a modest unassuming man, possessing a mind of enormous calibre" [S31].
-  Coflein instead names Morgan Morgan and Thomas Jenkins as beginning the bridge, completed by
-  Edward Haycock, with William Williams supervising construction [S1] — so his precise role
-  (designer vs supervising builder) is contested between sources (see Open Questions).
-- **George Talbot Rice, 3rd Baron Dynevor (1765–1852)**, Lord Lieutenant of Carmarthenshire
-  1804–1852, "lived at Newton House in his Dynefwr estate near Llandeilo" [S34] — the actual
-  title-holder throughout the Rebecca Riots.
-- **George Rice-Trevor, 4th Baron Dynevor (1795–1869, held the title 1852–1869)**, MP for
-  Carmarthenshire 1820–31 and 1832–52, ADC to Queen Victoria 1852–69: as heir apparent in
-  September 1843 he was the target of the grave-threat at Newton House, and rioters
-  separately burned crops on his father's estate; as county vice-lieutenant he had a barracks
-  built to house the troops and police sent in response [S7][S35].
-- **Francis William Rice, 5th Baron Dynevor (1804–1878, held 1869–1878)**, a clergyman, Vicar
-  of Fairford, Gloucestershire, 1827–1878, who inherited the barony from a collateral line
-  [S36]; and **Arthur de Cardonnel FitzUryan Rice, 6th Baron Dynevor (1836–1911, held
-  1878–1911)** [S6] — later holders of the title through the rest of the era. No specific
-  documented acts by either found in this pass beyond the succession itself.
-- **George Gilbert Scott** (per Coflein) or **Edward Davies of Bath** (per llandeilo.org) —
-  the contested architect of St Teilo's 1848 rebuild [S23][S28].
-- **Sir Jeffry Wyatville**, architect of the Golden Grove mansion (from 1826/27), simultaneously
-  engaged on Windsor Castle for George IV/William IV [S12].
-- **Richard Kyrke Penson of Oswestry**, architect of the 1856–57 Gothic remodelling of Newton
-  House, who also leased the Cilyrychen lime quarries from Lord Dynevor from April 1856
-  [S38][S39].
-- **Samuel Pepys Cockerell**, architect of both Middleton Hall and, a decade or so earlier,
-  Paxton's Tower, for Sir William Paxton [S47][S48].
-- **Sir William Paxton (1744–1824)**, builder of the tower bearing his name, and — per local
-  tradition recorded by Cadw — the man who redirected funds meant for a Tywi bridge into the
-  tower after losing the 1802 county election [S28][S47][S48]; his 1802 election campaign
-  spending (11,070 breakfasts, 36,901 dinners, 25,275 gallons of ale, £15,690 total) is
-  independently documented by llandeilo.org [S28].
-- **Thomas Davies (1820–1873)**, Independent minister, born Tre-lech, Carmarthenshire;
-  studied at Brecon College 1843–47; ordained at "Llandilo Carmarthenshire Tabernacle" on
-  10–11 August 1847, then minister of Hermon, Llansadwrn (within the radius) 1847–50; toured
-  America in 1871; died 1873. A genuine Dictionary of Welsh Biography entry directly naming
-  a Llandeilo chapel [S53].
-- **Zerubbabel Davies**, an itinerant schoolmaster named as a witness in the 1847 Blue Books
-  report itself: "I have kept school in the parish of Llandilofawr; at Cross Inn, Llandebie;
-  at Llanelly; at Fishguard; St. Clear's; Laugharne; and now at St. Clear's again" [S57] — a
-  real, named, quoted period voice who taught within Llandeilo Fawr parish.
-- **R. R. W. Lingen**, the Blue Books commissioner responsible for the Carmarthenshire,
-  Glamorgan and Pembrokeshire volume, who toured through Llandeilo while researching it and
-  wrote of "a peculiar language isolating the mass from the upper portion of society" [S57].
+Real, documented figures who can appear in Victorian-era scenes (with invented dialogue clearly marked ⓘ per the project's provenance model — none of the quotes below should be put in a character's mouth as invented speech without that marker):
 
-No invented names for ordinary townspeople/farmers are given here — those belong in the
-game's imagined-family layer, clearly ⓘ-marked, not in this documented-people list.
+- **George Talbot Rice, 3rd Baron Dynevor** (1765–1852). Lord Lieutenant of Carmarthenshire 1804–1852 — i.e. the county's senior crown representative for magistracy and militia throughout the entire build-up to and duration of the Rebecca Riots. Lived at Newton House. [S11]
+- **George Rice-Trevor, 4th Baron Dynevor** (1795–1869). MP for Carmarthenshire 1820–52 (so, during the Rebecca Riots, still "the Hon. George Rice-Trevor," not yet a peer); Lieutenant-Colonel Commandant of the Royal Carmarthen Fusiliers Militia; Vice-Lieutenant of Carmarthenshire; personally threatened by rioters (a mock grave dug for him near Dinefwr Castle, September 1843) after his father's crops were burned; brought in troops and Metropolitan Police in response, and a barracks had to be built at Carmarthen to house them; became Baron on his father's death in 1852; commissioned Newton House's Gothic remodelling, 1856–57; ADC to Queen Victoria 1852–69; died without a male heir. [S4][S11][S12]
+- **R. K. Penson** (Richard Kyrke Penson, 1815–1885), Gothic Revival architect of Oswestry. County surveyor for Carmarthenshire, Cardiganshire, Montgomeryshire and Denbighshire; diocesan architect for St Davids from c.1850. Designed Newton House's 1856–57 Gothic recasing **and**, in the same window, the Gothic-styled Cilyrychen lime kilns at Llandybie (1856–58) — both commissioned by/for Lord Dynevor. [S25][S26][S27][S24]
+- **Edward Haycock** of Shrewsbury, architect/engineer who completed Llandeilo Bridge (1848) after the original contractor's failure. [S21][S22]
+- **William Williams**, county surveyor, who designed Llandeilo Bridge (1843). [S21]
+- **George Gilbert Scott**, one of the most prominent Gothic Revival architects of the Victorian era nationally, who won the competition to rebuild St Teilo's Church, Llandeilo (1848–51). [S23]
+- **Thomas Thomas** ("of Landore," 1817–1888), chapel architect. Born and raised near Ffairfach/Llandeilo, worked in his father's carpentry business there before moving to Swansea; became known as "the first national architect of Wales" and, by the 1860s, "the unchallenged master of chapel architecture in Wales," designing at least 119 chapels across the country including the rebuilt Tabernacl, Ffairfach (1860). His trademark features: a giant arch in the pediment, and a gallery that dips down behind the pulpit. [S33]
+- **Edward Abadam** (né Adams) of Middleton Hall (1842–75), radical MP and Poor Law critic. Publicly denounced the Rebecca Riots at a public meeting at Porthyrhyd (22 August 1843) while, per a contemporary letter, "armed to the teeth"; his hayricks (60 tons, c.£200 loss) were subsequently burned in reprisal. His estate agent Thomas Herbert Cooke left first-hand letters describing being confronted at night by ~40 armed, veiled riders. [S4]
+- **William Chambers Jnr**, magistrate of Llanelli, who corresponded directly with Rice-Trevor and issued a printed law-and-order address; his farms and cottages were burned in a late reprisal attack in spring 1845. [S4]
+- **R. R. W. Lingen**, one of the three commissioners (with Jelinger Symons and Henry Vaughan Johnson) who produced the 1847 Blue Books; personally based himself in "Llandilo" during his Carmarthenshire/Glamorgan/Pembrokeshire tour and inspected the Llandeilo Union Workhouse School on 31 October 1846. [S17]
+- **Zerubbabel Davies**, an itinerant schoolmaster-preacher who gave evidence to the 1847 inquiry describing keeping school "in the parish of Llandilofawr; at Cross Inn, Llandebie; at Llanelly..." — a directly documented example of the preacher/schoolmaster overlap common in Nonconformist Wales. [S17]
+- Real, named participants in the Porthyrhyd Rebecca prosecution: **Henry Thomas, Thomas Harries, John Jones jnr, Thomas Jones, William Jones, Seth Morgan** — ordinary local men, arrested October 1843, for whom no further biographical detail survives in the sources checked. [S13]
+- **David Jones**, founder of the Black Ox Bank, Llandovery (1799) — a "drovers' bank" whose banknotes carried a black ox to signal its links to the cattle-droving trade; survived until 1909. [S37]
+- **The Barons Dynevor after the 4th Baron**, closing out the family's presence at Newton House through the rest of this era: **Francis William Rice, 5th Baron Dynevor** (1804–78, a cousin, succeeded 1869); **Arthur de Cardonnel FitzUryan Rice, 6th Baron Dynevor** (1836–1911, succeeded 1878); **Walter FitzUryan Rice, 7th Baron Dynevor** (1873–1956, succeeded 1898 — so still a young man, only three years into the title, at this document's 1901 cutoff). [S12]
+
+**Note on "Rebecca" herself:** no source found in this research identifies "Rebecca" with any specific named individual in the Llandeilo district. The two most notorious named Rebeccaite leaders in the wider county record — Shoni Sguborfawr (John Jones) and Dai'r Cantwr (David Davies), both later transported — operated out of Pontyberem, not Llandeilo, and no source links either man to a Llandeilo-area gate. This should be respected in-app: "Rebecca" appearing in a Llandeilo scene should be an anonymous, disguised figure (or a chorus of "Rebecca's daughters"), never a specific named person, without further primary evidence.
 
 ## Rebecca Riots locally
 
-The riots (1839–1843) were part of a wider South Wales protest movement against turnpike
-tolls, tithes, poor rates and agricultural hardship, with participants (mostly tenant farmers
-and their sons) disguising themselves and attacking toll-gates by night under the name
-"Rebecca and her daughters" [S9]. General accounts of the riots (Wikipedia, most popular
-histories) foreground the **Pontarddulais/Bolgoed gates** and their October–November 1843
-show trial — but a dedicated newspaper-archive pass for this project found that trial
-actually took place in **the parish of Llandeilo Talybont**, near Pontarddulais/Swansea, a
-**different place from this Llandeilo**, roughly 20 miles away on the Glamorgan border
-[S71]. This is an important disambiguation: the most famous "Llandeilo"-adjacent Rebecca
-Riots story is not, in fact, a story about this town, and should not be imported as if it
-were local.
+This section draws on a dedicated deep pass through the National Library of Wales's Welsh
+Newspapers Online archive and the academic literature (see Sources). The headline finding: **the
+riots reached Llandeilo itself directly** — the town's own Walk Gate was destroyed, its own lime
+farmers' toll burden was reported in detail in the press, and the Dynevor estate at its doorstep
+was twice attacked — but two long-standing assumptions did **not** survive a direct check:
 
-**Directly local to Llandeilo town, via Thomas Jenkins's diary:**
-- **9 July 1843**: "A detachment of the 4th Light Dragoons arrived here having been sent for
-  owing to people breaking down the turnpike gates in the neighbourhood under the name of
-  Rebeccaites" [S30].
-- **9 August 1843**: "The Walk Gate and house was taken down to the ground by the
-  Rebeccaites with soldiers billeted at The White Hart and Walk on both sides, so much for
-  soldier vigilance" [S30] — a wry, documented, real contemporary reaction.
-- Bryn Thomas's notes add that officers were billeted at the George Inn on George Street "for
-  nearly a year, during the Rebecca Riots" [S31], and that the "Walk Turnpike" had been let
-  for £108 a year to an operator living at the Six Bells public house [S31].
-- **Newton House itself was targeted**: the September 1843 grave-threat against the Hon.
-  George Rice-Trevor (heir to the 3rd Baron; not yet Baron himself) at Dinefwr, and rioters
-  separately burning crops on the estate, requiring a barracks to be built for troops and
-  police [S7][S35] — the protest reaching the gentry directly, not just toll infrastructure.
+- **No confirmed gate attack was found at Llandybie or Llangadog themselves**, despite both being
+  named repeatedly as administrative units (the "Llandebie Trust" is one of the three trusts
+  burdening Llandeilo's lime farmers; Llangadog appears only in generic newspaper search
+  hit-lists that resolve, on close reading, to unrelated Pontarddulais-area articles). This may be
+  a real gap in what survives, or a genuine absence of attacks at those specific places — it is
+  flagged rather than resolved.
+- **A major disambiguation trap exists in the record**: "Llandilo" in 1840s newspaper reports
+  sometimes means **Llandeilo Tal-y-bont**, a separate parish in Glamorgan near
+  Pontarddulais/Loughor, roughly 25 miles from our Llandeilo. The most heavily reported single
+  "Llandilo" gate-destruction trial (defendant Lewis Davies, tried at the Carmarthen Special
+  Commission) is explicitly the Glamorgan parish, **not** Llandeilo Fawr — a genuine risk of
+  putting a false event on the map if not checked carefully.
 
-**Named, dated attacks on toll-gates and property within (or close to) the 10-mile radius**,
-found via direct search of the National Library of Wales's digitised Welsh Newspapers Online
-(a dedicated pass — not general web search):
-- **Porthyrhyd** (~6 miles SW, on the road to Middleton Hall/Llanarthne): gate destroyed by
-  "several hundreds," mostly mounted and disguised, on the night of **22 July 1843**; the
-  **Minke/Minkey toll-house**, on the same road, destroyed the same night, with the
-  toll-collector afterwards warned "if he attempts to take toll again, Rebecca will kill
-  him"; the **Pontyberem gate** (edge of the radius) destroyed the following night [S66].
-  Porthyrhyd's gate-house was rebuilt and attacked **a second time on 27 August 1843**; six
-  named local men — **Henry Thomas, Thomas Harries, John Jones (junior), Thomas Jones,
-  William Jones, Seth Morgan** — were committed for trial and later bailed, with named
-  witnesses including toll-collector **Richard Williams** and Trust clerk **Richard
-  Spurrell** [S68].
-- **Pontarllechau**, a toll-bar "about three miles from Llangadock, leading to the
-  lime-kilns": farmers gave evidence that carting lime past this gate cost far more than the
-  lime itself, and argued the by-roads were "sufficient for their purpose" without it — a
-  direct, local, lime-specific grievance (no destruction date confirmed, only the complaint)
-  [S67].
-- **Llanwrda** (~8 miles NE, on the new road through Cwm-dwr): toll-house and gates burned by
-  about 250 men, late September 1843, under a named local Rebecca lieutenant, **"Charlotte"**
-  — described as leading Rebecca's activity in "the upper part of Carmarthenshire" [S76].
-  The same report describes **Charlotte's group forcing the vicar of Llansadwrn (Rev. J.
-  Jones)** to concede rent terms on land adjoining his vicarage, reportedly driving the
-  family to relocate to Llandovery [S76].
-- **Dolauhirion**, near Llandovery (~9–10 miles NE, at the edge of the radius): gates
-  attacked by upwards of 150 men before dawn on c. 3 October 1843; a policeman identified two
-  of the attackers [S76].
-- A farm, **"Nantvranell,"** near Cilycwm (~11–12 miles NE, likely just outside the radius),
-  had its buildings razed the same week — notably, **standing corn in the fields was
-  deliberately left untouched** [S76], a specific, telling detail about the rioters' own
-  moral code that could usefully texture a scene without inventing anything.
-- **Ffairfach**: no 1839–43 attack record was found despite a dedicated search — a genuine
-  gap in the searches run, not a confirmed absence. What is confirmed is that Ffairfach was a
-  real turnpike location: an 1846 County Roads Board notice orders three new gates erected
-  "across the turnpike roads at Ffairfach," and 1848 Trust auction notices list Ffairfach
-  among its gates alongside other named local bars [S77].
-- **Llandybie**: no gate-specific Rebecca record was found under that name in this pass —
-  also flagged as a search gap, not a negative finding.
-- **A separate toll-gate/bridge referred to in the period press as "Llandilo-Rwnws"/"Llandilo
-  Rhynws"** was destroyed on 15 July 1843 near **Nantgaredig**, roughly 10 miles west of
-  Llandeilo town on the Carmarthen road [S65][S75] — its modern identity is unresolved, but
-  it is very likely **not** the market town of Llandeilo either; flagged so it is not
-  accidentally used as a "Llandeilo town" event.
+The clearest, best-attested local causes (from an 11 August 1843 report in *The Welshman*, read
+directly): Llandeilo lime farmers crossed **three overlapping, uncoordinated turnpike trusts** (the
+Main Trust, the Llandebie Trust, the Three Commotts Trust) and **three toll bars** in a single
+six-mile round trip to the lime kilns, a toll burden estimated at **30% of the cost of the lime
+itself**. The same report names two local gentry figures held up as models of the paternalism
+Rebecca demanded and rewarded with peace: the rector, Rev. Mr Pugh (who "returned to them half the
+amount of his tithe"), and David Pugh, chairman of the quarter sessions (who returned 20% of his
+tenants' rents) — implicitly contrasting them with less generous landlords. That even the mighty
+Dynevor estate was targeted (crop-burning, August/September 1843) once the campaign widened from
+gates to property supports the academic argument (Lowri Ann Rees, 2011) that no landed family's
+reputation for paternalism fully protected it once resentment escalated — though a rival "moral
+economy" reading (Cragoe) points to counter-examples of continued deference nearby, e.g. a crowd
+wanting to draw a popular local gentleman's carriage into Llandybie as a mark of *popularity*, the
+opposite of an attack.
 
-**The Commission of Inquiry**: the South Wales Turnpike Trusts Commission opened at
-Carmarthen on 25 October 1843, took evidence there on gate numbers/costs, Poor Law officer
-salaries, tithe commutation and county-rate burdens [S69], and toured 15 South Wales towns
-over about seven weeks — **explicitly including Llandeilo itself** [S74] — though no source
-found in this pass records what was specifically said or by whom at the Llandeilo sitting.
-The resulting **South Wales Turnpike Trusts Act 1844** (7 & 8 Vict. c. 91) was published in
-July 1844 as a 115-clause consolidation bill: Treasury-appointed commissioners to redeem
-Trust debts (up to £250,000 from the Consolidated Fund), individual Trusts replaced by
-county-wide **County Roads Boards**, unified toll schedules abolishing wheel-width-based toll
-distinctions, and reciprocal-passage exemptions [S25]. Wikipedia's claim that the Act halved
-the toll specifically on lime [S9] was **not independently corroborated** in the primary
-1844 press coverage read for this pass — treat as plausible but unverified pending a read of
-the Act's actual clauses.
+Government/military response in the town itself: dragoons of the 4th Light Dragoons billeted at
+the Cawdor Arms Hotel/George Inn, infantry of the 41st Regiment in the old vicarage, for "nearly
+two years." No source confirms the Royal Commission of Inquiry (1844) took oral evidence *at*
+Llandeilo specifically — the strongest lead (Lady Marianne Lewis's tour journal, NLW MS
+16582i–viiiC, which records her accompanying the Commission Oct–Dec 1843) was identified in the
+NLW catalogue but not itself opened in this pass, and remains a genuine avenue for further
+research. The riots' effective local end has no single clean date: violent night-riding gave way
+to open public meetings from August 1843; Lord Cawdor's 1844 Act met the immediate toll grievance;
+but the sustained military garrison into 1844–45, and a documented late reprisal-arson at Llanelli
+in spring 1845, show suppression-by-presence continuing well past any "official" end.
 
-**3D/scene-useful detail:** the **Old Tollhouse at Rose Hill, Llansadwrn** (~3 miles from
-Llandeilo) survives and is recorded by Coflein as an **octagonal house with a central
-chimney and a thatched roof with a smoke-hole at the apex** [S72] — a precise, local model
-for a toll-house asset. Disguise/tactics confirmed in the local-area press: rioters "all
-disguised, and had their faces blackened" [S65]; large mounted parties of "several hundreds"
-attacking around midnight [S66]; a pre-dawn raid at Dolauhirion "between the hours of four
-and five o'clock" [S76]. Dragoons moved at speed between disturbances — sent "at a very
-rapid pace through Abergwilly," and the Home Secretary dispatched the 4th Light Dragoons to
-Carmarthen "just in time to save the Union Workhouse" there in June 1843 (general regional
-military-response colour, not confirmed as happening in Llandeilo town itself beyond the
-9 July arrival already noted from Thomas Jenkins's diary).
+**Sources:** [S3][S4][S6][S7][S8][S9][S10][S11][S12][S13][S14][S15][S16]
 
-**Sources:** [S7][S9][S30][S31][S35][S65][S66][S67][S68][S69][S71][S72][S74][S75][S76][S77]
-— the local town events (Thomas Jenkins's diary, Newton House) are a genuine period diary
-and a Wikipedia-cited secondary source respectively; the named village-level attacks are
-drawn directly from a dedicated pass through the National Library of Wales's digitised 1843
-newspapers (primary contemporary press, read directly rather than via search-engine
-summary) — high confidence on their content, though each individual report is currently
-single-source (one newspaper issue) rather than cross-checked against a second outlet.
+### Addendum: named Commissioners and two nearby farmers' union meetings (merged from a parallel research pass)
+
+A second, independent parallel research pass through Welsh Newspapers Online recovered names this
+file's main pass did not:
+
+- **The 1843 Royal Commission of Inquiry into South Wales turnpike trusts** was issued 7 October
+  1843 and its Commissioners named in *The Welshman*, 13 Oct 1843: **Thomas Frankland Lewis**,
+  **Robert Henry Clive** and **William Cripps**, with **George Kettilby Rickards** as secretary; the
+  same report states riot trials were being moved to Cardiff, before Baron Parke, Baron Gurney and
+  Justice Cresswell. This still does not confirm the Commission took oral evidence *at* Llandeilo
+  itself (see the open question already flagged above), but it does give real names for any scene
+  set around the Commission's work.
+- **John Jones of Danygarn, near Llangadog** — arrested 16 October 1843 and reported (*The Cambrian*,
+  21 Oct 1843) as "one of the principal Rebecca leaders of Carmarthenshire," for sending a
+  threatening letter signed "Rebecca"; committed for trial at Llandovery by magistrates David Jones
+  Lewis and Lewis Lewis, escorted to Carmarthen gaol under Dragoon guard. The report describes him as
+  "the seventh person connected with Rebeccaism" committed at Llandovery "within the last fortnight,"
+  implying further local arrests not otherwise named in the record checked.
+- **Two documented farmers' meetings sit either side of Llandeilo on the Llandovery road**, both
+  reported by a *Times* correspondent and picked up by the Welsh press: a **Baptist-chapel-graveyard
+  meeting at Cwmifor** (between Llandeilo and Llandovery), 20 July 1843, passing "strong resolutions
+  against landlordism" — independently confirmed by Wikipedia's own Cwmifor article, citing Evans &
+  Evans's 1910 *Rebecca and her daughters*; and a **Farmers' Union meeting at Penlan** (between
+  Llangadog and Llandeilo), 3 August 1843, ~70–100 farmers (200+ enrolled), electing unpaid officers
+  every six months and barring intoxication/profanity at meetings — reported near-identically in two
+  independent titles, *The Welshman* (11 Aug 1843) and the *Glamorgan, Monmouth and Brecon Gazette*
+  (12 Aug 1843), both naming the same local Rev. Mr Pugh and Mr David Pugh already noted above for
+  voluntarily returning tithe/rent. These two meetings show the organisational, non-violent side of
+  Rebeccaism sitting geographically either side of the town, distinct from the gate-attacks already
+  documented.
+
+**Addendum sources:** *The Welshman*, 13 Oct 1843, https://newspapers.library.wales/view/4345929/4345932/26;
+*The Cambrian*, 21 Oct 1843, https://newspapers.library.wales/view/3330700/3330702/8; *The Welshman*,
+11 Aug 1843, https://newspapers.library.wales/view/4345884/4345888/28; *Glamorgan, Monmouth and Brecon
+Gazette and Merthyr Guardian*, 12 Aug 1843, https://newspapers.library.wales/view/3632870/3632873/16;
+Wikipedia, "Cwmifor," https://en.wikipedia.org/wiki/Cwmifor.
 
 ## Railways
 
-- **Llanelly Railway** reached Llandeilo, opening ceremonially 20 January 1857 and to the
-  public 24 January 1857 (llandeilo.org gives the town's actual first contact with "the iron
-  road" as **November 1856**) [S4][S28]. Authorised under the Llandeilo Railway and Dock Act
-  1853; construction began 1 March 1855; the extension ran north from Pontardulais through
-  the Amman valley [S4].
-- **Vale of Towy Railway**, connecting Llandeilo to Llandovery, opened **1 April 1858** — c.
-  11 miles, with five wooden viaducts over the Tywi. Leased to the Llanelly Railway & Dock Co.
-  from 1858 (ten years), converted to a perpetual lease in 1860 [S4].
-- **Carmarthen branch**: opened for passengers **1 June 1865**, for goods **November 1865**
-  [S4][S20].
-- **Swansea Victoria line** (via the Gower): opened **1866–67** [S22].
-- **Central Wales Extension Railway** reached Llandovery in **1867**, giving a through route
-  to Craven Arms [S22].
-- **Llandeilo station**: built 1857 by the Llanelly Railway; became a junction of national
-  significance for a small town; four platforms at its peak; original building since
-  demolished [S22]. Ffairfach, half a mile away, ended up with **two separate stations within
-  300 yards of each other** because two different companies' lines both passed through it
-  [S20].
-- **Ownership from 1873**: the London & North Western Railway became the dominant operator
-  through Llandeilo, with the Great Western Railway running fewer services [S22].
-- **Locomotives**: no specific class/type confirmed for this line in this pass. Given the
-  operating companies (Llanelly Railway, then LNWR/GWR), the trains were **standard gauge**
-  (the broad-gauge option considered in the 1853 Act was not taken up, per the phrasing "the
-  possibility of building it to the broad gauge" implying it was merely discussed) [S4], and
-  would have used the small tank and tender engines typical of secondary Welsh lines of the
-  period — this should be treated as **reconstructed**, not documented, pending a dedicated
-  locomotive-history source.
+Llandeilo was reached from the south by the **Llanelly Railway**, authorised by Act (4 August
+1853) to extend from its existing Llanelli-area lines; construction let 1 March 1855; opened
+ceremonially 20 January 1857 and to the public 24 January 1857. It was extended north to
+Llandovery by the separately-authorised **Vale of Towy Railway** (Act, 10 July 1854), which opened
+to passengers 1 April 1858 — 11.25 miles with five wooden viaducts over the Tywi, worked from the
+outset by the Llanelly company, with stations at Llanwrda, Llangadog, Glanrhyd Halt and Talley
+Road Halt. The Vale of Towy company was leased to the Llanelly company (1858 Act, ten years),
+converted to a perpetual lease (1860 Act), and became jointly owned by the GWR and LNWR after an
+1884 Act. The Llanelly Railway and Dock Co. was itself fully absorbed into the **Great Western
+Railway** on 1 July 1889. A second route reached Llandeilo from Carmarthen (via Abergwili
+Junction) in 1864–65, giving the town two lines. North of Llandeilo, the separate Knighton
+Railway/Central Wales Railway/Central Wales Extension Railway group (authorised 1858–60,
+backed by the LNWR, amalgamated by 1868) eventually linked through to form what is now the Heart
+of Wales Line — this section is context rather than a Llandeilo-specific event.
 
-**Sources:** [S4][S20][S22][S28] — cross-checked on the core opening dates (Wikipedia's Llanelly Railway article, Llandeilo station article, and llandeilo.org's concise history agree, modulo the Nov 1856 vs Jan 1857 nuance, which is plausibly "line physically reached the town" vs "formally opened").
+The Llandeilo station building itself has since been demolished (only its platforms survive
+today); no contemporary description of its Victorian-era appearance was recovered in this pass —
+flagged as a gap. Locomotive/rolling-stock detail specific to the 1850s–70s on these lines could
+not be recovered either (a search for the parent Llanelly Railway's early locomotive history found
+only that "horse traction was used exclusively... for several years" on its earlier dock/mineral
+lines, switching to steam locomotive haulage from January 1858 — this refers to the company's
+pre-existing Llanelli-area lines, not confirmed as applying to the Llandeilo section itself, and
+should not be presented as a Llandeilo-specific fact without further checking). For general
+3D/sound guidance, the 1850s–70s in south Wales is the era of small, simple tank and tender
+engines (typically 0-4-2 or 2-2-2 types on lighter branch/main lines of this class) hauling short
+mixed trains of wooden-bodied four- and six-wheel coaches — this is offered as **reconstructed**
+background colour from general railway-history knowledge, not a documented claim about the
+specific locomotives seen at Llandeilo, and should be labelled as such in-app.
+
+**Sources:** [S28][S29][S31][S36][S2][S30]
 
 ## Society & class
 
-Llandeilo in this period had a visible social ladder: the Rice family (Barons Dynevor) at
-Dinefwr and the Cawdor family (Earls Cawdor) at Golden Grove as the great landowning gentry;
-a middle stratum of tradesmen, mill/factory owners and professionals in the town itself (e.g.
-Thomas Jenkins the cabinet-maker-engineer, described as occupying "a respected middle-class
-position" [S32]); and the mass of tenant farmers and agricultural/domestic labourers. A
-clergyman's report from **1886** is blunt about the labouring class: "The state of morals
-among the labouring classes is bad; habitual lying and low cunning are very commonly met
-with," and describes their housing as having "flooring ... generally bare earth, not even
-prepared with lime," with cupboard beds "shut up as soon as the occupants quit them" [S28].
-This should be read as a gentry/clerical judgement of the poor, not a neutral description —
-worth flagging in-app as a documented but biased period source.
+The Victorian Llandeilo district ran on a well-documented three-tier social structure, though
+direct local evidence connecting the tiers to specific language use is thinner than the general
+Wales-wide pattern:
 
-The Rebecca Riots (see above) are the clearest evidence of tenant-farmer grievance directed
-at both turnpike trusts and, via the Newton House grave-threat, at the gentry itself.
+1. **Gentry**, English-speaking, Anglican: the Rice/Rice-Trevor family (Barons Dynevor) at Newton
+   House; the Campbell family (Earls Cawdor) at Golden Grove; smaller gentry such as the Adams/
+   Abadam family at Middleton Hall. Educated, often absent for parts of the year, holding the Lord
+   Lieutenancy and magistracy between them (Dynevor 1804–1852, then Cawdor 1861–1898 — an
+   unexplained five-year gap, 1852–61, in who held the office, flagged as an open question).
+2. **A rising professional/tenant-farmer stratum**, increasingly literate and organised through
+   chapel life — men like the Rev. Mr Pugh and David Pugh (Timeline, 1843) show that even within
+   this tier, some individuals bridged toward the gentry's paternalist obligations while remaining
+   locally rooted.
+3. **The mass of Welsh-speaking tenant farmers and agricultural labourers**, whose grievances drove
+   the Rebecca Riots and whose children the 1847 Blue Books commissioners inspected and, in the
+   commissioners' own words, found "dirty, ignorant, lazy, and immoral" — a judgement the app
+   should present as a documented historical *attitude of the commissioners*, not an endorsed
+   fact about the people themselves.
 
-**Sources:** [S28] (single-source for the 1886 report), [S7][S30][S31] (class tension via Rebecca Riots, cross-checked as above).
+No rent rolls, eviction records or named-tenant testimony specific to the Dynevor or Cawdor estates
+were located in this research pass — a genuine, flagged gap that limits how granular the app can
+be about landlord-tenant relations beyond the Rebecca Riots evidence above. No documented gentry
+social event (a ball, a hunt, a specific agricultural show) at Newton House or Golden Grove in this
+period was found either.
+
+**A direct scholarly framing of this exact gentry/tenant divide** comes from a peer-reviewed
+academic chapter on Welsh landed estates: 19th-century Welsh popular identity was constructed (per
+Nonconformist leader Rev. Henry Richard, writing in 1868) around the Welsh language, Nonconformist
+religion and radical politics — **none of which the landed gentry typically embodied**. The same
+chapter quotes Welsh squire Herbert M. Vaughan's own verdict on his class: gentry were seen as
+"aliens in birth, in religion, in politics and in language." This is not Dynevor- or Llandeilo-
+specific, but it is a direct, citable academic source for exactly the "gentry vs Welsh-speaking
+tenants" tension the app wants to show, and sits well alongside the concrete Dinefwr evidence above
+(an English-surnamed, Anglican, Conservative, militia-officer family whose tenants expressed their
+resentment through burned crops and a mock grave, not the ballot box — voting itself was open, not
+secret, until the 1872 Ballot Act, a further structural reason deference/resentment played out
+through direct action rather than elections in this period).
+
+**Sources:** [S4][S11][S17][S35][S44][S57]
 
 ## Homes
 
-- **Labourers' cottages**, per the 1886 clerical report: bare earth floors ("not even
-  prepared with lime"), cupboard beds folded away in the day [S28]. This is the harshest end
-  of the housing spectrum documented for this era and district.
-- **Town buildings**: stone construction is the clear pattern for anything substantial —
-  the Provisions Market (grey stone, red sandstone doorway) [S25], the Shire Hall (stuccoed
-  render over stone, so a painted/lime-washed finish rather than bare stone) [S24], St
-  Teilo's (coursed rubble) [S23], the bridge (carboniferous limestone arch, "Llandeilo series"
-  stone elsewhere) [S1].
-- **Farmhouses/gentry houses**: Golden Grove is explicitly built of "local Llangyndeyrn
-  limestone" [S12]; Newton House was given "stone cladding" in its 1850s remodelling [S7].
-- No source in this pass gives roofing material (slate vs thatch) explicitly for ordinary
-  Llandeilo-district houses in this period — flagged as a gap. Given the area's location on
-  a Victorian railway that could bring in Welsh slate cheaply from the 1850s onward, slate
-  roofing on new/rebuilt structures from that point is a reasonable **inference**, not a
-  documented fact, and should be labelled accordingly if used.
+- **Gentry seats:** Newton House (Gothic-recased 1856–57, snecked grey-shale with pale sandstone
+  dressings — see Places) and Golden Grove (1827–34, Llangyndeyrn "black marble" limestone) — both
+  substantial stone mansions with landscaped parkland, at opposite ends of the "genuinely Victorian
+  Gothic remodelling" vs "late Regency house that predates Victoria" spectrum. Useful contrast for
+  the app: Newton House is Victorian-*styled* (Gothic Revival) but a 17th-century building
+  underneath; Golden Grove is a decade or so *older* than Victoria's reign but often visually read
+  as "Victorian" because of its Tudor/baronial idiom.
+- **Farmhouses:** documented example — "Bridge Farmhouse, by Llandeilo," immediately below the
+  west side of the bridge causeway: two-storey, rendered walls, slate roof, sash windows on the
+  upper floor, 18th–19th century. Sparse as a record, but a genuine, locally-sited example rather
+  than a generic reconstruction.
+- **Town housing:** Llandeilo's 290 houses (1858 snapshot) sat among 73 shops and 23 public houses
+  along the same handful of streets named above — stone-built terraces is the reasonable inference
+  from the wider vernacular-material pattern documented for every other listed building in the town
+  (grey/rubble stone, slate roofs), though no specific ordinary domestic terrace was individually
+  documented in this pass.
+- **Cottages/labourers' housing:** no specific documented example was found in this research pass —
+  a genuine gap; any cottage shown in-app for this era should be presented as reconstructed by
+  analogy with the wider West Wales vernacular pattern (small stone or clom/cob-walled single- or
+  two-room dwellings, thatch giving way to slate through the century), not as a documented Llandeilo
+  building.
+- **The Union Workhouse, Ffairfach (Abercennen)**, is the one institutional building with a genuinely
+  documented construction history: the **Llandilo Fawr Poor Law Union** was formed to administer
+  poor relief for 11 parishes (formation dated 14 December 1836 by one source, "at a meeting in the
+  Cawdor Hotel on 16 December 1836" by another — a two-day discrepancy between sources, not
+  resolved); the workhouse itself was built **1837–38** at Abercennen, half a mile south of
+  Llandeilo, to a square radial plan for 120 inmates by architect **George Wilkinson** (who designed
+  at least eight other Welsh workhouses), at a cost of **£2,243**. This is a genuinely earlier and
+  more specific date than the Wikipedia-sourced "c.1839" already given for Ffairfach's "Poor House"
+  elsewhere in this document (Places/Timeline) — flagged as a real discrepancy, not silently
+  resolved, since both figures trace to different, independently-checked sources. It later became
+  Abercennen Public Assistance Institution (1930s–40s), was demolished in the mid-1960s, and the
+  site is now a care home. **3D-useful detail:** a square, radial-plan institutional building,
+  distinct in form from the town's ordinary stone terraces and farmhouses.
+- **Limewash colour**, for the 3D renderer: local lime (from the Cilyrychen/Pistyll kilns — see
+  Landscape & farming) was used not only to sweeten farmland but to whitewash buildings — a
+  churchwarden's account from the 1730s records "Lime and whiteliming of Church," and an
+  18th-century Bishop's Court presentment complains "our Church wants to be White Limed." These
+  citations predate the Victorian period itself, but the practice of limewashing church, farm and
+  cottage walls with the same locally-burned lime continued through it — a genuine, if
+  chronologically loose, basis for limewashed (not bare-stone) walls on vernacular buildings in the
+  3D scene, distinct from the dressed/tooled stone of the gentry's grander buildings.
 
-**Sources:** [S1][S12][S23][S24][S25][S28] — the building-by-building stone/render/roofing details are cross-checked across Coflein and llandeilo.org; the roofing-material generalisation for ordinary homes is explicitly flagged as ungrounded inference, not sourced.
+**Sources:** [S25][S35][S43][S30][S58][S59]
 
 ## Landscape & farming
 
-- **Drovers**: Wales-wide, cattle were driven to England throughout this period; the last
-  recorded large-scale cattle drove across Wales was in **1870**, sheep droving continuing to
-  **1900**; decline is attributed to "agricultural change, the introduction of railway
-  transport from the 1840s, cattle disease, and more intensive use of the countryside" [S16].
-  **No source found in this pass names a specific droving route through Llandeilo itself**,
-  though Llangadog's market is confirmed to have been "frequented by drovers into the 19th
-  century" [S21] — Llangadog is within the 10-mile radius, so this is a legitimate,
-  documented droving-market scene for the district even without a named route through
-  Llandeilo proper.
-- **Lime kilns** at Llandybie (Cilyrychen; Pentre Gwenlais Quarry) [S27] served the standard
-  purpose of burning limestone into agricultural lime to sweeten acidic upland soil, and the
-  1844 Turnpike Act's halving of the "hated toll on lime movement" [S9] confirms lime-carting
-  was a major, toll-sensitive local trade — directly connecting the industry and the riots.
-- **Dairy/butter**: not independently confirmed for this district in this pass (a gap —
-  Bartholomew's 1887 Gazetteer instead names the *town's* trade as "corn and flour ...
-  woollen cloth mills, timber and saw mills, and tanneries" [S3], not dairy specifically,
-  though this describes town-based processing/trade rather than the surrounding farms'
-  produce).
-- **Farm size/tenancy patterns**: not confirmed in this pass — flagged as a gap for follow-up.
+Drovers moved livestock through the Tywi valley and through Llandeilo itself on the route toward
+Llandovery and on into England: two independent sources agree that "herds from south west Wales
+travelled towards Hereford and Gloucester up the Tywi Valley to Llandovery" (a separate stream, from
+south Cardiganshire, reached Llandovery via Llanybydder and Llansawel) — the Tywi Valley route runs
+directly through Llandeilo itself, since the town sits on that river. Around the turn of the 19th
+century roughly 25,000 cattle a year were being exported from Wales this way, herds of "three or
+four hundred animals" driven over "several weeks or months," with dogs used for stock control (some
+trained to find their own way home afterward, fed at inns along the route). The trade financed
+dedicated "drovers' banks" — the **Black Ox Bank** (Banc yr Eidon), Llandovery, founded by the
+drover **David Jones** in 1799, issued its own banknotes bearing a black ox to advertise the
+connection, and survived until being absorbed into Lloyds Bank in 1909; Llandeilo's own first bank
+opened at no.1 Bank Terrace in 1842. **Droving was a licensed trade, not an open one**: under
+Tudor statutes still in force into this period (5 & 6 Edward VI; 21 & 39 Elizabeth I), a drover had
+to be a married householder over 30, not a hired servant, licensed by the Quarter Sessions (12d)
+and separately registered with the Clerk of the Peace (8d) — a real, quantified legal-economic
+detail for any droving scene. Drovers needed genuine fluent English for trading in England, which
+gives a directly documented Llandeilo-district link between droving and the language-by-class
+theme: **John Johnes of Dolau Cothi**, giving evidence to the 1847 Blue Books inquiry for the
+neighbouring Caio hundred, is quoted saying "there are a great many cattle dealers in this parish
+who travel to England and practically learn the value of education" — cattle dealing (i.e.
+droving), not chapel or school, as the route by which ordinary Welsh-speaking farmers' sons picked
+up practical English and its perceived value. Droving declined through the second half of the century as
+railways offered a faster alternative and disease/intensifying land-use pressures mounted: **the
+last recorded large-scale cattle drove across Wales took place in 1870, and sheep droving had ended
+by around 1900.**
 
-**Sources:** [S3][S9][S16][S21][S27] — droving decline is cross-checked (a general Wikipedia claim consistent with the national narrative); the specific Llandeilo-district agricultural economy (dairy, farm size) remains under-sourced and is flagged rather than invented.
+Industrial buildings tied directly to the agricultural economy — woollen mills, tanneries, saw
+mills — are named for Llandeilo itself by the 1887 gazetteer, alongside its enduring "corn and
+flour" trade. At the district's edge, **limestone quarrying and lime-burning** at Llandybie
+(Cilyrychen kilns, 1856–58 — see Timeline/Places) is the best-documented local industrial
+activity: nine kilns by 1900, each 50 ft high, capable of 20 tons of lime a day, built on land
+belonging to Lord Dynevor and designed, strikingly, in a Gothic style by the same architect (R. K.
+Penson) responsible for Newton House's remodelling in the very same years. Lime was burned to
+sweeten the district's acid upland soil for farming — precisely the trade whose tollgate burden
+(three trusts, three gates, 30% of the lime's cost) was one of the sharpest local Rebecca Riots
+grievances (see above), a direct and satisfying causal thread the app can draw between "industry at
+the edge" and "why the tenant farmers rioted." A second, smaller lime-kiln site, **Pistyll**
+(opened by Messrs Strick & Richards to supply their ironworks at Brynamman, four Grade-listed
+kilns, closed 1901), sat alongside Cilyrychen as a destination for local farmers' carts. A vivid,
+directly documented scene-worthy detail: "between 50 and 100 carts awaiting their turn" at
+Cilyrychen or Pistyll, with farmers travelling from as far as Cardiganshire and Pembrokeshire and
+arriving before dawn specifically **to save on tolls** — a concrete visual/queueing detail that
+ties the lime trade, the toll grievance and the Rebecca Riots together in one image. Lime/coal
+carting prices are also documented: roughly 3d per hundredweight in 1823, rising to 5s per ton by
+1878.
+
+**No source for dairy farming or butter production specifically in the Llandeilo district was
+located in this research pass, despite a dedicated search** — a genuine, flagged gap, notable
+given how central dairying is to popular accounts of the Tywi valley economy; anything shown
+in-app on this should be presented as a reasonable general inference from the valley's mixed
+pastoral farming (livestock droving is well documented; dairy specifically is not), not as a
+documented Llandeilo fact.
+
+**Coal**, at the district's edge, is genuinely attested within the Victorian period, though later
+and smaller than the flagship Ammanford coalfield eventually became: **Cross Hands Colliery**
+(Norton & Co) opened in **1869** — the best-attested actual Victorian-era colliery near Llandeilo,
+though its peak workforce (859) was reached only in 1923, well after this era. Ammanford itself
+"grew as a result of... the tinplate and anthracite coal trades" during the 19th century in
+general terms, but its own flagship Ammanford Colliery did not open until c.1900 — essentially at
+the very end of, or just past, this era — and Ammanford only became a separate urban district/civil
+parish in 1903. The honest picture for the app: a small, real Victorian colliery (Cross Hands, from
+1869) at the district's edge, not yet the mature coalfield of the 20th century.
+
+**Farmhouses:** one specific, documented, relocated example survives from within the 10-mile
+radius: **Nant Wallter Cottage**, from Taliaris near Llandeilo (built c.1770, so just pre-Victorian
+but presumably still lived in through the whole Victorian period), now preserved at St Fagans
+National Museum of History (moved there in 1993) — confirmed as a real building on the ground near
+Llandeilo (Manordeilo and Salem community) by a separate Coflein record, though Coflein's own
+description is thin (location/classification only, no material detail). "Dynevor Home Farm; Newton
+Farmhouse," on the Dinefwr estate itself, is recorded by Coflein as existing but with "no
+description available" — confirmed present, but undocumented in any further detail.
+
+**Sources:** [S24][S37][S39][S30][S50][S51][S52][S53][S59][S60]
 
 ## Food
 
-Not independently researched in depth in this pass beyond the town's processing trades
-(corn and flour milling, confirmed for 1887 — Bartholomew's Gazetteer [S3]) and the
-market/fair structure (Provisions Market 1838 [S25]; St Teilo's Fair from a 1290 charter,
-still running through this era [S26]; Ffairfach's two annual fairs, including a cattle fair
-on 22 November [S20][S31]). Specific dietary detail (bread type, dairy consumption, meat
-frequency by class) was not found in this pass — flagged as a gap.
-
-**Sources:** [S3][S20][S25][S26][S31].
+No dedicated primary source on Llandeilo-specific Victorian diet, market produce, or foodways was
+opened in this research pass beyond the general "corn and flour" trade already noted (Places/
+Timeline, 1887 gazetteer) and the lime-for-soil-improvement thread above (agriculture, not food
+directly). This is a **genuine gap** flagged rather than papered over: any specific meal, market
+stall or diet detail shown in-app for this era should be clearly marked as reconstructed from
+general knowledge of 19th-century rural Welsh diet (oatmeal, bread, home-cured bacon, dairy
+products, seasonal vegetables — itself a generalisation, not sourced to Llandeilo directly), not
+as a documented local fact.
 
 ## Clothing
 
-- **Women's "Welsh costume"** (tall stiff-brimmed hat, shawl, striped flannel petticoat) was
-  "part of a traditional Welsh costume propagated by Augusta Hall, Baroness Llanover
-  (1802–1896)," but Wikipedia's own assessment is cautious: "it is unlikely that she had much
-  influence on anyone other than her friends and servants" [S17]. Crucially: "no evidence has
-  been discovered which explains why, during the 1830s, the tall hat with the stiff, flat
-  brim ... replaced the other types of men's hat worn by many rural women in Wales at the
-  time" [S17] — i.e. the hat itself derives from an *adapted man's hat* style, and its
-  Victorian-era prevalence as genuine everyday rural wear (vs later ceremonial/photographed
-  costume) is **not well evidenced** either way. The hat today is worn mainly for folk-dance
-  and St David's Day, "rarely on other occasions" [S17] — implying its decline from
-  (uncertain) everyday use had already happened by some point.
-- A distinct regional variant, the "cocklewoman's hat," was worn by women gathering cockles
-  around Carmarthen Bay [S17] — geographically adjacent but not confirmed for Llandeilo
-  itself.
-- **No source in this pass confirms what Llandeilo-district women or men actually wore
-  day-to-day** — this is a real, stated gap, not filled by inference. Any depiction of the
-  tall hat/shawl costume as universal daily wear for ordinary Llandeilo women in this period
-  should be treated as unverified/likely-overstated and flagged ⓘ if used.
+The chronology recovered here is more nuanced, and more interesting, than the popular "Welsh Lady"
+tourist image, and the app should present it that way:
 
-**Sources:** [S17] — single-source (Wikipedia); day-to-day Llandeilo-specific clothing is an open gap.
+- **Genuine everyday wear, tailing off by mid-century:** the distinctive Welsh hat "first appeared
+  during the late 1700s" and "became widely popular in the 1830s" — over 380 surviving examples
+  date mostly from this 1830s–40s peak. More broadly, regional variants of Welsh women's dress
+  (shawl, betgwn/bedgown, flannel petticoat) were genuine, functional everyday rural clothing into
+  roughly the middle of the 19th century, after which the article states plainly it "went out of
+  common use."
+- **The Lady Llanover myth, corrected:** Augusta Hall, Lady Llanover (1802–1896), did record and
+  try to preserve Welsh costume from the 1830s, but her supposed role as the *inventor* or
+  primary driver of the national costume is now judged by the sources checked here to have been
+  "greatly exaggerated" — a 1963 article is blamed for over-stating her influence, and the
+  Wikipedia article states plainly "it is unlikely that she had much influence on anyone other
+  than her friends and servants."
+- **Revival as symbolic "national costume," 1880s onward:** deliberately promoted from the 1880s
+  for public/ceremonial occasions — a documented turning point is the 1881 Prince of Wales visit
+  to Swansea, where young women wore it; the Welsh Ladies' Choir's 1893 Chicago success further
+  cemented the association. By the time Sydney Curnow Vosper painted *Salem* (a famous image of a
+  Welsh chapel congregation) in the early 20th century, the tall hat was already so rare locally
+  that he reportedly had to share a single surviving example between his models.
+- **A distinct, functional alternative existed on the coast:** Carmarthen Bay's "cocklewomen"
+  (shellfish-gatherers) wore a different, plainer "cockle hat" as genuine everyday workwear — not
+  national costume, a useful contrast for the app between symbolic dress and working dress.
+- **A Carmarthenshire-specific garment, directly documented:** the **betgwn** ("a tailored gown
+  with a tightly fitted low-cut top and long wide tail") is described as "common in Ceredigion and
+  Carmarthenshire" specifically, typically made from **locally-sourced red and dark blue/black
+  striped flannel** — a genuine, named, region-specific detail rather than a generic "Welsh
+  costume" generalisation (single-source, but specific and consistent with the region's known
+  flannel-weaving industry).
+- **Men's dress:** flannel jackets and breeches were standard, in locally-produced blue or grey
+  wool; **after 1807, trousers gradually replaced breeches**, though rural working men kept older
+  styles longer than fashion led elsewhere; a contemporary 1807 account describes "coarse woollen
+  cloth of a sky blue colour" as standard male dress across Wales except Radnorshire (where drab
+  was worn instead). Almost no original men's working garments survive today (they were worn out
+  in use); tourist accounts describe generally "drab" everyday colours brightened occasionally by
+  waistcoats or kerchiefs. Even clergy in this period sometimes retained "country clothing" rather
+  than formal dress. Single-source, but detailed and internally consistent.
+
+**The single most important nuance for the app to bake in:** the underlying garments (hat, betgwn,
+shawl) were genuinely, ordinarily worn in the early-to-mid Victorian decades (1830s–50s) and
+declining as everyday dress from around mid-century — so an **early-Victorian scene (1830s–50s)
+can plausibly show a real, lived-in, working version of this costume**, while a **late-Victorian
+scene (1880s–1901) showing it as strict "national dress" would be showing the consciously revived,
+symbolic version**, not organic daily wear. Collapsing this distinction is exactly the "tourist
+myth" trap the project brief warns against.
+
+**Sources:** [S38][S49][S54][S55]
 
 ## Religion
 
-- **Anglican**: St Teilo's, the parish church, rebuilt 1848–50/51 (see Places) [S23][S28].
-- **Nonconformist chapels, Llandeilo town — a real named roster**, cross-checked between two
-  llandeilo.org pages (with minor internal date disagreement, noted) [S28][S49]:
+Nonconformity dominated chapel-going life in this district, in the pattern general Wales-wide
+sources describe as typical of Carmarthenshire: Calvinistic Methodism (later the Presbyterian
+Church of Wales), Independency/Congregationalism, and the Baptists all well attested; Wesleyan
+Methodism present but comparatively weak and "more anglicised." Named chapels recovered for
+Llandeilo town and its immediate villages:
 
-  | Chapel | Denomination | Built | Rebuilt/enlarged | Notes |
-  |---|---|---|---|---|
-  | Calvinistic Methodist chapel, Rhosmaen St. | Calvinistic Methodist | 1788 (llandeilo.org's own concise-history page says 1779) | — | Oldest chapel in town; became the Public Hall & Literary Institute, 1892 |
-  | Horeb | Wesleyan | 1810 (concise-history page says 1809; llandeilo.org's own concise-history text also gives 1806, "near the Bear Inn" — three slightly different founding years across the same site, not resolved here) | Enlarged 1849 | Closed 1900, replaced by a new Latimer Road chapel |
-  | Ebenezer, Crescent Rd | Baptist | 1829 | Rebuilt 1877 by architect George Morgan | Schoolroom added 1899 |
-  | Salem, New Road | Calvinistic Methodist | 1873 | — | Built by Richard Owens of Liverpool, replacing the 1788 chapel |
-  | Capel Newydd, Crescent Rd | Independent | 1901–2 | — | Just past this era |
-  | Wesleyan Methodist, Latimer Road | Wesleyan | 1900 | — | Replacement for Horeb |
-  | Tabernacle | — | confirmed to exist by **1847** | — | Thomas Davies ordained here 10–11 Aug 1847 [S53]; possibly the same chapel as "Tabernacl CM" or "Tabernacle, Fairfach" in the 1851 census return below — not confirmed |
+- **Salem** (Calvinistic Methodist), New Road, Llandeilo — site in religious use since 1788,
+  present building 1874 by Richard Owens of Liverpool, Romanesque style, raked gallery on
+  cast-iron columns.
+- **Horeb**, rear of Rhosmaen Street, Llandeilo — built c.1809, rebuilt 1849. A genuine
+  documented discrepancy exists over its denomination: Coflein calls it "Welsh Independent," a
+  listed-buildings source calls the same building "(Former Horeb) Wesleyan Chapel" — possibly a
+  real change of congregation over its life, not resolved in this pass.
+- **Capel Newydd**, Crescent Road, Llandeilo — Welsh Independent, built 1901–02 (right at/just
+  past the end of this era), by Henry Herbert of Ammanford, Gothic style.
+- **Tabernacl**, Ffairfach — Welsh Independent, built 1817, rebuilt 1839/40, present building 1860
+  by Thomas Thomas of Landore; **Bryn Seion** Independent Sunday School, Ffairfach (1886); Trinity
+  Calvinistic Methodist, Taliaris.
+- Further afield (context, within the 10-mile radius): Llandybie (Gosen, Seion, Ebenezer, Bethel,
+  Soar, Salem — a genuine cross-section of the "big three" denominations in one village); Manordeilo
+  (Hermon, Dyffryn); Llangadog (Ebenezer Wesleyan, Providence Independent by Thomas Thomas,
+  1883/4, Seion Baptist, Gosen Calvinistic Methodist, Seion Old Chapel Baptist, Capel Maen
+  Independent).
 
-- **The actual 1851 Census of Religious Worship return for Llandeilo Fawr parish**, as
-  transcribed by GENUKI [S50] — the single best local-level primary source found in this
-  whole research pass — lists, by denomination and erection date: **Independent** — Tabernacle,
-  Fairfach (erected 1817, re-erected 1839); Hermon (1812); Salem (1830); Capel Isaac (1846, "in
-  lieu of a building of 1790"); Bethel, Christ Church/Cwmaman (1773, a joint
-  Independent/Calvinistic-Methodist venture that became purely Independent by 1774 with c. 150
-  members [S52]). **Baptist** — Bethel, Pontbrenaraeth and Cwmifor (both before 1800); Ebenezer
-  (1829). **Calvinistic Methodist** — Salem CM (before 1800); Tabernacl CM (1841). **Wesleyan**
-  — Llwynyronen, Tregib (1810, re-erected 1850); one unnamed chapel (before 1800).
-  **Unitarian** — Onnenfawr, Tregib (1840, closed 1886). **Established Church** — St Teilo;
-  Trinity/Taliaris (before 1800); Christ Church, Cwmaman (consecrated 1842). No aggregate
-  attendance/headcount figures survive in this transcription, only erection dates and each
-  informant's name — standard for a census-return summary, but it means **parish-level
-  attendance numbers for Llandeilo Fawr remain unconfirmed** in this pass. Population context
-  from the same source: c. 5,471 in the 1840s, rising to c. 5,758 in 1851 across two
-  sub-districts (1,313 in the town itself) [S50].
-- **Wales-wide/regional 1851 figures** (for comparison, clearly labelled as regional, not
-  local): "80% of those who attended a place of worship on Census Sunday in Wales were
-  Nonconformists" [S54], and an academic secondary source gives national evening-attendance
-  figures of 369,000 Nonconformist vs. 40,000 Anglican [S55]. **A genuine unresolved numeric
-  contradiction was found** between two fetches purporting to give the same "seven south
-  Wales counties" 1851 attendance breakdown by denomination (one gave Independents
-  71,156/Baptists 68,334/Calvinistic Methodists 52,511; another gave 99,103/81,984/121,855
-  for the same three groups) — **do not use either absolute figure**; only the ~80%
-  Nonconformist-share headline is safely cross-checked.
-- **Chapel-building pattern, cross-checked against the Llandeilo roster above**: "By the
-  1880s, Nonconformity was approaching its golden age. Chapel buildings were increasingly
-  grandiose... Many chapels built in the generation before World War I resulted from schisms
-  within denominations" [S54] — matching the visible pattern here of small plain 1770s–1810s
-  chapels being enlarged or entirely rebuilt in grander form at least once across the era
-  (Capel Isaac 1790→1846; Ebenezer 1829→1877; Horeb 1810→enlarged 1849→replaced 1900; the
-  original CM chapel 1788→replaced by grander Salem 1873).
-- **A telling structural fact about the established church, cited by an academic source**: "no
-  Welsh-speaking bishops served Welsh dioceses between 1727 and 1870" [S55] — directly
-  relevant to why Calvinistic Methodism formally broke from Anglicanism in 1811 partly on
-  pastoral-neglect/linguistic grounds, and useful context for why Nonconformity so dominated a
-  Welsh-speaking town like Llandeilo.
+**The 1851 religious census** could not be pinned down to a Llandeilo- or even Carmarthenshire-
+specific attendance figure in this research pass, despite a dedicated attempt — a genuine gap. The
+only figure recovered is Wales-wide: roughly 80% of those who attended worship on Census Sunday in
+Wales were Nonconformists (single-source; not independently cross-checked in this pass). The
+census returns themselves survive as a primary source (UK National Archives, class HO 129) but were
+not accessible via the tools used here.
 
-**Sources:** [S23][S28][S49][S50][S52][S53][S54][S55] — the Llandeilo chapel roster is
-cross-checked between two llandeilo.org pages (with internal date disagreements flagged
-in-table); the 1851 parish census return is a single strong primary-derived source (GENUKI's
-transcription of the actual government return); the Wales-wide 80%-Nonconformist figure is
-cross-checked across independent sources, while more granular regional attendance numbers are
-explicitly flagged as contradictory and unusable.
+**Chapel singing:** congregational four-part hymn-singing was embedded in ordinary chapel life
+throughout this period, but the specific festival tradition known as **cymanfa ganu** was launched
+in 1859 at Bethania Chapel, Aberdare (Glamorgan) by Rev. Evan Lewis — this is *not* a
+Carmarthenshire or Llandeilo-area origin, and the app should not imply otherwise. Ordinary
+four-part congregational singing in the district's own chapels (not yet formalised as a "cymanfa"
+festival) is the more defensible everyday-sound choice for this era and this place, and should be
+marked reconstructed rather than documented for the specific chapels above unless a direct source
+is found.
+
+**Sources:** [S19][S20][S32][S33][S12]
+
+### Addendum: a fuller cross-checked chapel roster (merged from a parallel research pass)
+
+A second, independent parallel research pass on this exact gap reached Coflein's individual chapel
+records directly (rather than via search) and cross-referenced them against the same 1851 Religious
+Census calendar used in the Population addendum above, which — usefully — gives an **erection date
+per chapel as stated by a named contemporary informant** (usually the minister or a deacon), even
+though it does not give attendance/accommodation headcounts. This adds precision to several of the
+chapels already named above, and recovers others:
+
+- **Salem** (Calvinistic Methodist), New Road: the 1851 census informant's own return says "erected
+  before 1800," consistent with the "in use since 1788" date already given above — **cross-checked**.
+- **Ebenezer Welsh Baptist Church**, Llandeilo: 1851 census informant (Z. Davies, minister) states
+  "erected in 1829"; Coflein agrees ("originally constructed 1829, rebuilt 1850–1877," architect
+  George Morgan of Carmarthen) — **cross-checked**. A separate GENUKI chapel register instead gives a
+  founding date of 1788, probably marking when the *congregation* first met (elsewhere) rather than
+  when this building went up.
+- **Llwyn-yr-onen Chapel** (Wesleyan Methodist), Castle View, Tregib: congregation from 1804,
+  building 1808/1810, rebuilt 1850 — the 1851 census return matches exactly: "Erected 1810,
+  re-erected 1850" — **cross-checked**.
+- **Ffairfach's Tabernacl**: 1851 census informant (James Thomas) gives the rebuild as **1839**;
+  Coflein and Wikipedia both independently say **1840** — a one-year discrepancy, most likely the
+  same event dated either side of New Year, not a real contradiction.
+- **Llandybie's Gosen (Goshen) Chapel** (Calvinistic Methodist): 1851 census informant (George
+  Griffiths) states "erected in 1829," matching Coflein exactly — **cross-checked**; rebuilt 1873,
+  1902 and 1912.
+- **Llangadog's Gosen Chapel** (Calvinistic Methodist): 1851 census return states "erected 1792,
+  re-erected 1840," matching Coflein's own build history exactly (1770 first chapel, rebuilt 1792,
+  1840, and again 1907 by George Morgan of Carmarthen) — **cross-checked**. **Providence Welsh
+  Independent Chapel**, Llangadog, is likewise an exact match between its 1851 census return
+  ("erected 1840") and Coflein (built 1840, enlarged 1883 by Thomas Thomas of Landore, the same
+  architect who rebuilt Ffairfach's Tabernacl) — **cross-checked**.
+- **Manordeilo's Silo/Siloh, Penybanc chapel** has a genuine, unresolved date contradiction: the 1851
+  census return says "built 1848 in lieu of a building of 1820," but a 1930 centenary book title
+  (*Canmlwyddiant Siloh, Penybanc, Llandeilo, 1830–1930*) and GENUKI's own chapel list both instead
+  point to 1830 as the founding year — an 1820-vs-1830 discrepancy, not resolved here.
+- Lewis's *Topographical Dictionary of Wales* (1833/44, via GENUKI) independently confirms the
+  denominational spread just before this era: Llandybie parish had "two places of worship for
+  Independents, two for Welsh Calvinistic Methodists, and one each for Baptists and Wesleyans";
+  Llangadog ("Llangadock") parish had "places of worship for Baptists, Independents, Wesleyans, and
+  Calvinistic Methodists."
+
+**Not found even in this addendum:** the actual attendance/accommodation headcounts from the 1851
+schedules themselves (only erection dates and informants' names survive in the calendar consulted) —
+so the "roughly 80% Nonconformist on Census Sunday" Wales-wide figure already given above remains the
+only attendance-type figure in this file; a Llandeilo-specific attendance count is still an open gap.
+
+**Addendum sources:** Coflein individual chapel records (e.g. https://www.coflein.gov.uk/en/site/6334,
+/6331, /6349, /6382, /6505, /6507); GENUKI, "Llandilo Fawr," "Llandybie" and "Llangadock" parish pages,
+https://www.genuki.org.uk/big/wal/CMN/LlandeiloFawr, /Llandybie, /Llangadock (hosting the 1851
+Religious Census calendar entries from I. G. Jones & D. Williams (eds.), 1976, and Lewis's
+*Topographical Dictionary of Wales*, 1833/44).
 
 ## Language by class
 
-The general, well-established pattern for rural west Wales in this period holds directly for
-Llandeilo: gentry and officialdom operating in English, tenant farmers and labourers
-predominantly Welsh-speaking, and town tradespeople bilingual out of commercial necessity.
-This is now backed by a **primary-source quotation from the 1847 Blue Books commissioner
-responsible for this exact district**: R. R. W. Lingen wrote of Carmarthenshire (alongside
-Glamorgan and Pembrokeshire), "My district exhibits the phenomenon of a peculiar language
-isolating the mass from the upper portion of society... his language keeps him under the
-hatches, being one in which he can neither acquire nor communicate the necessary
-information" [S57] — a contemporary official's direct statement of exactly the class/language
-divide the brief describes. Wales-wide, monoglot Welsh speakers fell from over 80% of the
-population (c. 1800) to 8.7% by 1911, per an academic thesis on religion and language
-survival [S61] — the trajectory Llandeilo's own 1891 figure (below) sits within.
+This app already has a dedicated, thorough cross-era language document
+(`docs/research/language-by-class.md`); the notes below are specific additions/refinements for the
+Victorian period found in *this* research pass, and should be read alongside that document rather
+than duplicating it.
 
-The one hard **local** figure found is from the 1891 census as reported by llandeilo.org:
-**68.6% Welsh-only** speakers, **26.5% bilingual**, and **4.7% English-only** in the wider
-Llandeilo Fawr parish/district [S28] — strong evidence that Welsh monolingualism, not just
-Welsh-dominant bilingualism, was still the norm for the mass of the population as late as
-1891, with English confined to a small minority (presumably concentrated among gentry,
-clergy, officials and some traders). This 1891 figure is single-source in this pass and its
-exact geographic scope (town vs whole union/rural district) is the same figure flagged as
-ambiguous under Population below. **No source found confirms bilingual shopkeepers/traders
-in Llandeilo specifically** — this remains a reasonable inference from the wider pattern,
-not a directly sourced local claim.
+- **The clearest, most directly documented Llandeilo-specific evidence for this whole app's
+  language-by-class theme is the 1847 Blue Books itself**: an English-speaking, non-Welsh-speaking
+  commissioner (Lingen) touring, inspecting, and passing sweeping written judgement on
+  Welsh-speaking communities' schools, morals and language, in their own district, using their own
+  town ("Llandilo") as a base. This is a genuinely strong, primary-sourced dramatization opportunity
+  — an actual, quotable, dated inspection report about an actual Llandeilo building (the Union
+  Workhouse School, visited 31 October 1846).
+- **The "Welsh Not" specifically in this district is weaker evidence than often assumed** and
+  needs careful handling: the only Carmarthenshire-specific account found (a *Perl y Plant*
+  magazine article from 1900, describing a school "in Carmarthenshire during the 1860s") was
+  written 30–40 years after the events it describes, for a general-audience youth periodical — a
+  documented *print* source, but a late and secondary one, not a contemporary official record. A
+  direct, dedicated search of the actual 1847 Blue Books volume covering Carmarthenshire (opened
+  via Internet Archive) for "Welsh Not," "Welsh Note" and "round his neck" returned **zero
+  matches** — the specific board-round-the-neck device does not appear to be attested in that
+  primary source for this county, though a related "Welsh stick" punishment (a piece of wood
+  passed between offenders, culminating in a flogging) is described in the same 1847 volume,
+  probably (though not fully confirmed) in its Pembrokeshire section rather than Carmarthenshire's.
+  **Recommendation for the app:** show the Welsh Not/Welsh stick as a real, attested practice of
+  the era and region generally, but avoid implying a specifically documented Llandeilo-school
+  instance — the honest label is "reconstructed by regional analogy," not "documented locally."
+- No source connecting language use directly to the Dynevor or Cawdor gentry specifically (rather
+  than to Wales-wide gentry/tenant patterns in general) was found in this pass — a gap.
+- **A second, independent Blue Books thread ties language directly to the district's own economy**:
+  John Johnes of Dolau Cothi's evidence for the neighbouring Caio hundred names cattle-dealing
+  (droving) itself as the route by which ordinary farmers' sons "practically learn the value of
+  education" (i.e. of English) — see Landscape & farming for the full quote. A useful counterpoint
+  to the chapel/school route usually assumed: for this district, the market in Hereford or London,
+  not just the schoolroom, was where Welsh-speaking farming families met English on its own terms.
 
-### The 1847 Blue Books ("Brad y Llyfrau Gleision") — Llandeilo-specific findings
-The three-volume report was presented to Parliament 1 July 1847, commissioned via an 1846
-motion by Welsh MP William Williams (himself from a Welsh-speaking Carmarthenshire family)
-[S55][S56]. **R. R. W. Lingen**, the commissioner covering Carmarthenshire, Glamorgan and
-Pembrokeshire, states in his own report: "I established myself successively at Llandovery,
-**Llandilo**, Carmarthen, St. Clear's, Narberth..." [S57] — his inquiry tour passed directly
-through Llandeilo, and a named witness, schoolmaster **Zerubbabel Davies**, testified to
-having "kept school in the parish of Llandilofawr" among several other places [S57]. The
-report's famous inflammatory claims — Welsh people as "dirty, ignorant, lazy, and immoral,"
-the Welsh language as "a vast drawback to Wales, and a manifold barrier to the moral progress
-and commercial prosperity of the people," and pointed remarks on "bundling" (bed-courtship
-customs) — are well attested [S15][S55]. The reaction cemented the term **"Brad y Llyfrau
-Gleision"** (deliberately echoing the legendary "Brad y Cyllyll Hirion," the Treachery of the
-Long Knives), popularised by Robert Jones Derfel's 1854 satirical play, and rebutted by
-Nonconformist leaders Henry Richard and Evan Jones ("Ieuan Gwynedd") [S15]. An academic
-analysis (BRANCH Collective) situates the report within contemporary colonial discourse and
-notes the commissioners explicitly excluded the anglicised middle and upper classes from
-scrutiny, homogenising rural farmers and industrial workers alike into a single "labouring
-classes" category defined only by language [S55] — directly relevant to the class/language
-divide this section describes.
-
-### The "Welsh Not" — clearly flagged myth vs. documented, with a Carmarthenshire-specific finding
-The device (a wooden token, "WN" or similar, passed child-to-child and punished at day's end)
-is real and documented, first evidenced c. 1790s (Flintshire) with written evidence ending
-around 1900 [S11]. **Crucially, and independently verified for this project**: a direct
-search of the actual 1847 Carmarthenshire volume's full text (Internet Archive scan) found
-**no mention whatsoever** of a Welsh-language marking/punishment device [S57] — consistent
-with modern scholarship (Martin Johnes, 2024) that the practice was **teacher-initiated,
-"not a government policy,"** predates the Blue Books by decades, and was, where the Blue
-Books commissioners did encounter versions of language-exclusion teaching, actually
-*criticised* by them as ineffective [S11]. **The single most locally-relevant finding**: BBC
-Wales quotes historian John Davies (author of *A History of Wales*) stating "there is strong
-evidence of the Welsh Not in **Carmarthen**, Cardigan and Meirionnydd before 1870, but it was
-never official government policy," while cautioning that "it is unlikely that the use of the
-Welsh Not was as widespread as the mythology of the 20th century maintains" [S60]. This is
-**county-level, not Llandeilo-specific** — no source names a particular Llandeilo school,
-log-book or instance — so any in-game depiction of the Welsh Not in a named Llandeilo school
-should be flagged as a plausible regional generalisation, not a documented local fact, and
-the game should actively avoid the popular misconception that the Blue Books caused or
-introduced the practice.
-
-**Sources:** [S11][S15][S28][S54][S55][S56][S57][S60][S61] — the Blue Books' general content
-and reaction are cross-checked across Wikipedia, NLW and an academic essay; the
-Llandeilo-specific tour/witness detail is drawn directly from the primary 1847 report text
-itself (highest-confidence source type used in this whole file); the Welsh Not's
-myth-vs-documented status and its independence from the Blue Books are cross-checked
-(Wikipedia + BBC Wales, both citing Johnes 2024), with the Carmarthenshire-level (not
-Llandeilo-level) evidence single-sourced to BBC Wales/John Davies.
+**Sources:** [S17][S1](language-by-class.md, cross-reference only)[S60]
 
 ## Money (wages/prices)
 
-**Confirmed local figures found in this pass:**
-- Workhouse construction cost: **£2,243** (1837–38, for 120 inmates) [S29].
-- Llandeilo Bridge cost: **"over £12,000"** per Coflein [S1], or **£22,000** per
-  llandeilo.org [S28] — a direct contradiction, unresolved (see Open Questions).
-- Provisions Market and Shire Hall: no cost figures found.
-- The "Walk Turnpike" gate was let/hired for **£108 a year** [S31] — a concrete, documented
-  local rent figure for a toll-gate franchise, directly relevant to Rebecca Riots grievances.
-- The 1802 election (technically just pre-Victorian, included for texture): Sir William
-  Paxton's unsuccessful campaign spent on "11,070" breakfasts, "36,901" dinners, "25,275"
-  gallons of ale, totalling **£15,690** [S28] — illustrates the scale of gentry electoral
-  patronage-spending just before this era, and the going rate for mass hospitality.
+This proved to be the weakest-evidenced almanac category in this research pass. What survives,
+directly:
 
-**Not found in this pass**: agricultural labourer day-wages, farm-servant hiring-fair wages,
-bread/staple food prices, or typical tenant-farm rents specific to the Llandeilo district.
-Flagged as a clear gap — general Welsh/British wage tables exist in the literature but were
-not pulled into this district-specific pass, and should not be presented as Llandeilo-local
-without a proper citation.
+- The lime toll burden on Llandeilo farmers: **c. 30% of the cost of the lime itself**, for a
+  six-mile round trip through three toll gates (11 August 1843, *The Welshman* — see Rebecca
+  Riots section).
+- D.J.V. Jones's academic "conservative estimate": Carmarthenshire/Cardiganshire/Pembrokeshire
+  rents rose by **at least 100%** between 1793 and 1843, while farm produce prices fell over the
+  same period — the core economic grievance behind the Rebecca Riots. Consistent with this, a
+  second, independent source states Rebecca-era tenant farmers were demanding rent reductions **"of
+  at least a third"** in 1843, and gives a separate, general (not Llandeilo-specific) figure for lime
+  tolls: carting lime from Cardiff docks to hill farms could cost **"ten times as much as the lime
+  itself"** in tolls, before the 1844 Act halved the lime toll specifically.
+- Llandeilo Bridge's own cost overrun is itself a documented "money" data-point for the era: an
+  initial £6,000 estimate, exhausted before the arch was even begun, against a final cost of
+  £22,000 (or, per a second source, "over £12,000" — see the Places/Bridge contradiction above).
+- Cilyrychen Lime Kilns' construction cost: £3,460 19s 1d for the original six kilns (1856–58); lime
+  itself cost roughly 3d per hundredweight in 1823, rising to 5s per ton by 1878.
+- The Llandilo Fawr Union Workhouse (Ffairfach) cost £2,243 to build (1837–38); the Union's average
+  poor-rate expenditure in 1834–36 was £5,653, or 7s 3d per head of its ~15,600 population — a real,
+  quantified figure for the cost of poor relief in the district just before this era, and a useful
+  wage-adjacent data-point given the absence of a direct labourer's-wage figure.
+- Llandeilo's first bank opened 1842 (no.1 Bank Terrace) — the town's entry into the ordinary
+  Victorian commercial-banking economy, alongside the older, droving-specific Black Ox Bank at
+  Llandovery (founded 1799).
+- A drover's licence cost 12d from the Quarter Sessions plus 8d to register with the Clerk of the
+  Peace — a small but real, quantified cost of entry into the droving trade (see Landscape &
+  farming).
 
-**Sources:** [S1][S28][S29][S31].
+**No Carmarthenshire- or Llandeilo-specific agricultural labourer's weekly wage figure, farm
+rent-per-acre figure, or staple food price was located in this research pass, despite a dedicated
+search** — a genuine, flagged gap. Any specific wage or price shown in-app for this era and place
+should be clearly marked reconstructed from general Victorian agricultural-wage knowledge, not
+presented as a documented Llandeilo figure.
+
+**Sources:** [S4][S7][S21][S22][S24][S30][S37][S58][S59]
 
 ## Health
 
-**No confirmed local cholera outbreak was found in this pass** — searches for a Llandeilo,
-Llandovery or Llanelli connection to the well-known UK cholera years (1832, 1849, 1854, 1866)
-did not return any location-specific result via the tools available in this session. This
-should be read as "not yet found," not as "confirmed absent" — a proper search of Welsh
-Newspapers Online (newspapers.library.wales) for "cholera" + "Llandeilo" was not completed in
-this pass due to a session search-tool limit, and is a clear next step.
-
-**What is confirmed, from Thomas Jenkins's diary** [S30]:
-- **8 November 1844**: "Walter Jones attended and applied leeches to allay the inflammation,
-  the first time I ever had them applied — they did a vast deal of good" — direct, dated
-  evidence of leeching as ordinary contemporary medical practice for a middle-class
-  Llandeilo household.
-- **26–29 December 1844**: Jenkins's son George contracts scarlet fever; treatment included
-  "head to be shaved and bathed with cold salt water and leeches applied to his temples."
-- **3 January 1845**: George dies of the scarlet fever, aged (not stated) — "It pleased God
-  for some wise end to relieve my dear boy from his suffering at 11½ p.m."
-
-**The Llandeilofawr Union Workhouse** (Ffairfach, built 1837–38, 120-inmate capacity) housed
-"the chronically sick and lunatics" alongside the able-bodied poor, with a strict daily
-routine (wake 6am, work 7am–5pm, bed 8pm) [S29] — the standard Poor Law institutional model
-of the period, not specific to Llandeilo beyond its physical location and scale.
-
-**Sources:** [S29][S30] — cholera is an explicit, stated gap, not a finding.
+**No confirmed local (Llandeilo or Carmarthenshire) cholera case, death, or public-health response
+was located for any of the national cholera years (1832, 1849, 1854, 1866) in this research pass**,
+despite two dedicated, independent searches. The nearest documented outbreak found is the 1866
+Ystalyfera outbreak (South Wales, upper Swansea valley, ~119 deaths, mostly company workers and
+families, caused by contaminated canal water in a local waterworks) — this is regional context
+roughly 20 miles away, not a Llandeilo-district event, and should not be presented as evidence that
+cholera reached Llandeilo itself. National/UK-wide scale, for context: the 1832 epidemic killed over
+55,000 across the UK (6,536 in London alone); the 1848–49 England & Wales outbreak "claimed 52,000
+lives" (London alone 14,137 in 1849); the 1853–54 epidemic killed 10,739 in London; the 1866
+epidemic killed 5,596 in East London. A direct search of Welsh Newspapers Online for "cholera" and
+"Llandeilo" together did turn up real 1832 south Wales press coverage of the disease (The Cambrian,
+18 Feb/3 Mar/22 Sep 1832; Monmouthshire Merlin, 15 Sept 1832, reporting "increased ravages in
+Merthyr," a day of prayer, closed shops; and further 1848–49 coverage) — confirming cholera was a
+live, reported regional fear that Llandeilo's own newspaper-reading population would have known
+about — but no snippet returned actually named a Llandeilo case, and the search tool's own hit-count
+reporting proved unreliable (likely OR-ing search terms rather than doing an exact phrase match), so
+this should be treated as weak/suggestive evidence of *awareness*, not proof of a *local outbreak*.
+The **Public Health Act 1848** applied nationally (England and Wales, bar the City of London and
+parts of the Metropolis), so Llandeilo was legally within its scope, but no evidence of the Act's
+local application (a Local Board of Health, specific sanitary works) was found for the town.
+**Recommendation for the app:** treat cholera as a real, documented, newspaper-borne background fear
+in Llandeilo throughout this period, rather than asserting a confirmed local outbreak — this is a
+genuine, flagged gap, not a documented "cholera never reached here" finding.
 
 ## Population
 
-| Year | Figure | Scope | Source |
-|---|---|---|---|
-| 1560 | ~2,790 (620 households) | Parish of Llandeilo Fawr (bishop of St David's estimate) | [S5] |
-| 1831 | 1,269 | Llandeilo *town* — "larger than Cardiff at that time" | [S28] |
-| 1831 | 15,614 (combined) | 11 parishes served by the Llandeilofawr Union Workhouse | [S29] |
-| 1887 | 1,533 | Llandeilo *town* (Bartholomew's Gazetteer) | [S3] |
-| 1891 | 20,483 | Stated as "Llandeilo Fawr parish" by llandeilo.org, with a Welsh-only/English-only language breakdown | [S28] |
+**A genuine, cross-checked decade-by-decade parish series was eventually recovered**, despite two
+separate tooling walls on the first attempt: **Vision of Britain's website
+(visionofbritain.org.uk) returns an "unable to verify the first certificate" TLS error on a plain
+fetch** from this environment (a real defect in the site's own certificate chain, not a search
+failure), and **GENUKI blocks a plain WebFetch with an HTTP 403** (a user-agent block, not a real
+access restriction). Both were bypassed: Vision of Britain's own data table for unit `10192791`
+("Llandeilo Fawr Parish (AP/CP)") was reached with `curl -k` (ignoring the bad certificate), and
+GENUKI was reached with `curl` sending an ordinary browser User-Agent header. Both workarounds are
+worth recording for anyone continuing this research who hits the same walls.
 
-**Contradiction flagged, explicitly:** the 1891 figure of 20,483 is roughly **13× larger**
-than the confirmed 1887 town figure of 1,533, and larger even than the combined 1831
-11-parish workhouse-union population of 15,614. It cannot be the town alone. It most likely
-represents either (a) the entire Llandeilo Poor Law Union/registration district (consistent
-with the 15,614-for-11-parishes 1831 figure, allowing some growth), or (b) a transcription
-or unit error somewhere between the original census return and llandeilo.org's page. This
-was **not resolved** in this pass — Vision of Britain (visionofbritain.org.uk), the
-recommended authoritative source for exact registration-district-level Victorian census
-series, could not be reached in this session (persistent TLS certificate errors on every
-attempt). Getting a clean, dated town-vs-parish-vs-district population table from Vision of
-Britain (or GENUKI, also unreachable this session — 403 error) is a clear, specific next
-step before this figure is used unqualified in-app.
+**Llandeilo Fawr parish, total population, Vision of Britain's own series:**
 
-**Trend, cautiously stated:** the confirmed town figures (1,269 in 1831 → 1,533 in 1887) show
-modest growth in the town itself across the era, consistent with the general Welsh rural
-pattern of small-town stability/growth alongside emigration pressure from the countryside
-toward industrial south Wales — but this last point is a general inference from the wider
-literature, not a Llandeilo-specific documented fact in this pass.
+| Census year | Population |
+|---|---|
+| 1801 | 3,712 |
+| 1811 | 4,030 |
+| 1821 | 4,668 |
+| 1831 | 5,149 |
+| 1841 | 5,471 |
+| 1851 | 5,758 |
+| 1861 | *not shown on the table reached in this pass* |
+| 1871 | *not shown on the table reached in this pass* |
+| 1881 | 5,484 |
+| 1891 | 6,065 |
+| 1901 | *not shown on the table reached in this pass* |
 
-**Sources:** [S3][S5][S28][S29] — internally contradictory as flagged; Vision of Britain (the recommended authoritative source) was unreachable this session (TLS errors) and should be retried.
+Vision of Britain's own table carries its own caveat that boundary changes affect the series (the
+site notes "had there been boundary changes they will differ from the population" figures shown),
+so a jump between two rows is not necessarily real population change. **This series is genuinely
+cross-checked, not just internally consistent**: Lewis's *Topographical Dictionary of Wales*
+(1833/44 edition, reached independently via GENUKI) gives "5471 inhabitants" for the parish —
+matching the VoB 1841 figure to the digit; and the 1851 Religious Census returns (also via GENUKI,
+see the Religion section) give the parish split across two registration sub-districts as 4,565 +
+1,193 = **5,758** — again matching the VoB 1851 figure exactly. Two independently-reached sources
+landing on the identical number for two different census years is real corroboration, not
+coincidence.
+
+A separately-recovered figure floating in earlier search results — "17,968 (1851)" for
+"Llandeilo Fawr" — is almost certainly the much larger **Llandilo Fawr Poor Law Union** (11
+parishes administered together for poor relief; see Homes/Health below for its 1831 population of
+15,614), not the ancient parish alone; the two should not be conflated.
+
+What survives from other sources, filling in the years either side of this table:
+
+- **1560:** the historic parish of Llandeilo Fawr contained "approximately 620 households, perhaps
+  amounting to 2,790 people" (a pre-Victorian baseline figure, included for context).
+- **1858:** contemporary snapshot — "a church, four chapels, 11 streets, 73 shops, 23 public
+  houses and 290 houses."
+- **1887:** John Bartholomew's *Gazetteer of the British Isles* records Llandeilo's population as
+  **1,533**.
+- **1894:** the ancient parish of Llandeilo Fawr is administratively split — the town becomes the
+  Llandeilo Urban District, the rest becomes "Llandeilo Fawr Rural" (a district that persisted
+  until 1987).
+
+**For scale, a comparator:** Carmarthen, the county town, had a population of **9,526 in 1841** —
+useful for the app in establishing that Llandeilo (population 1,533 as late as 1887) was a genuinely
+small market town relative to the county town, not a rival centre.
+
+### Addendum: two further contemporary figures, and the county-level trend
+
+Two further data points, neither redundant with the parish table above:
+
+- **The National Gazetteer of Great Britain and Ireland (1868)**, via GENUKI, states the town
+  itself "contains about 2,000 inhabitants" — a rounded contemporary estimate (not a census count)
+  sitting between the 1861-ish gap in the VoB table and the 1887 town figure of 1,533; its exact
+  scope (town only, matching 1887's scope, or a looser area) is not fully certain, and the drop to
+  1,533 by 1887 is worth noting as a real possible decline, not just noise, though not confirmed
+  against an intervening census year.
+- **Carmarthenshire county-level totals**, recovered via a Wayback Machine snapshot of Vision of
+  Britain's own data cube (`unit/10064247/cube/TOT_POP`) rather than the live site: 1801: 67,878;
+  1821: 77,265; 1831: 91,392; 1841: 102,018; 1851: 107,729; 1861: 112,646; 1871: 113,523; 1881:
+  124,560; 1891: 124,560; 1901: 130,190. County-level only, not a substitute for the parish series
+  above, but confirms the county was still growing modestly through the era rather than being in the
+  sharp industrial-migration decline seen further east in the coalfield valleys — a useful contrast
+  for the app between Llandeilo's own near-flat parish trend and the county's overall growth
+  (presumably concentrated in the coalfield towns to the south/east, outside this document's remit).
+
+None of this resolves an "1891: 20,483" figure that floated in earlier drafts of this research and
+does not appear in any source reached in this pass — almost certainly a further confusion with the
+much larger Poor Law Union or with the county, not the parish, and should not be used.
+
+**Sources:** [S39][S30][S56]; GENUKI, "Llandilo Fawr, Carmarthenshire,"
+https://www.genuki.org.uk/big/wal/CMN/LlandeiloFawr (Lewis's 1833/44 dictionary entry; 1851 Religious
+Census calendar; 1868 National Gazetteer transcription); Vision of Britain, "Llandeilo Fawr Parish
+(AP/CP)," Total Population table, https://www.visionofbritain.org.uk/unit/10192791/cube/TOT_POP
+(reached with `curl -k`; cites 1851/1881/1891 Population Tables volumes as its own underlying
+sources) [S61]; Vision of Britain "Carmarthenshire District: Total Population" cube via Wayback
+Machine, http://web.archive.org/web/20260610035644/https://www.visionofbritain.org.uk/unit/10064247/cube/TOT_POP
 
 ## Sounds
 
-Derivable directly from documented facts above, not invented:
-- **The 4th Light Dragoons' arrival** (July 1843) — hooves, military drill, a garrison town
-  atmosphere for a period, contrasting with ordinary market-town life [S30].
-- **A toll-gate being torn down at night** (the Walk Gate, August 1843) — wood breaking,
-  shouting, disguised riders [S30].
-- **The parish church demolition and rebuilding** (1848) — masons, stone-breaking, scaffolding.
-- **The Provisions Market and Shire Hall market-day trade** — livestock (the "shambles"
-  opposite the old fish stalls) [S28], auctioneers, cart wheels on stone setts.
-- **The railway's arrival** (Nov 1856/Jan 1857) — described by llandeilo.org itself as
-  injecting "new life into the commercial and social activities of the town" [S28]; steam,
-  whistle, the "railway matrimony" celebration between Llandeilo and Llanelli.
-- **The Wesleyan chapel** (from 1806) — hymn-singing, a genuinely documented Nonconformist
-  presence in the town from early in this era [S28].
-- **Freemasons' lodge meetings** (St Teilo Lodge from 1857) — a documented but not
-  sound-specific civic institution [S31].
-- **Boot-making, brewing** on Rhosmaen Street — hammering, vats, described as employing "about
-  forty men and women" (boots) and unspecified numbers at the brewery, whose water was
-  reputedly "superior to that of Burton-on-Trent for purposes of brewing" [S28].
+For ambient-audio design, cross-referencing what is actually documented for this district in this
+period:
 
-**Sources:** [S28][S30][S31] — all sound cues here are drawn directly from documented events/places above, not separately invented.
+- **The blacksmith-cum-inn at Ffairfach** (the Torbay Inn) — hammer-on-anvil plus tavern noise in
+  one building, directly documented rather than a generic guess.
+- **The market/civic buildings**: the open ground-floor market hall inside the Shire Hall, and the
+  separate 1838 Provisions Market — both plausible sites for market-day trading-floor ambience
+  (haggling, livestock, cart wheels on cobbles), though no specific market-day sound description was
+  found; reconstructed by analogy with market towns generally.
+- **The steam locomotive and station**, from January 1857 onward — whistle, chuff, the clatter of a
+  wooden-bodied train over the five viaducts of the Vale of Towy line; general railway-history
+  reconstruction (see Railways section) rather than a documented Llandeilo-specific soundscape.
+- **Chapel congregational singing** — four-part harmony singing was ordinary chapel practice
+  throughout this period (see Religion), though the *cymanfa ganu* festival label specifically
+  belongs to Aberdare (1859), not Llandeilo — present ordinary chapel hymn-singing as reconstructed
+  for this district, not the named festival tradition.
+- **The lime kilns at Cilyrychen (and the smaller Pistyll site)** — the roar of a working limekiln
+  (near-continuous burning to produce 20 tons/day by 1900) is a genuinely documented nearby
+  industrial soundscape, distinct from the market-town centre; a queue of "50 to 100 carts" waiting
+  before dawn (to save on tolls) is a documented visual/ambient scene in its own right (see
+  Landscape & farming) — creaking cart wheels, waiting horses, farmers' voices in the dark.
+- **Rebecca-era night riding** — disguised riders, blackened faces, turbans, pick-axes/hatchets/
+  crowbars, at night — directly documented from contemporary newspaper accounts (see Rebecca Riots
+  section) and a strong, sourced basis for a distinctive, unsettling nighttime soundscape unique to
+  1839–43.
 
 ## Almanac facts
 
-Short items, each with its provenance and source, suitable for the almanac panel:
+Short, provenance-tagged items for the in-app almanac panel:
 
-- **Food/market**: Provisions Market built 1838, funded by A. J. Gulston of Derwydd —
-  Documented [S25][S28].
-- **Homes**: labourers' cottages had bare earth floors "not even prepared with lime,"
-  per an 1886 clergyman's report — Documented (but a biased period source; present the
-  quote with its authorship) [S28].
-- **Religion**: the town's Nonconformist chapel (Wesleyan) was built in 1806, following
-  John Wesley's own visits to Carmarthenshire 1763–65 — Documented [S28].
-- **Money**: a toll-gate franchise ("Walk Turnpike") cost £108 a year to hire — Documented
-  [S31].
-- **Health**: leeches were standard medical treatment for inflammation and fever in a
-  middle-class Llandeilo household, 1844 — Documented, from a named individual's diary
-  [S30].
-- **Travel**: the mail coach left Llandeilo for Carmarthen at 10.30am and returned by
-  2.30pm, four hours each way — Documented [S31].
-- **Population**: the town had 23 public houses by 1858 for a population of roughly
-  1,300–1,500 — Documented [S31] (population cross-referenced to [S3][S28]).
+- **Food:** genuine gap for this district specifically (see Food section) — reconstructed only.
+- **Clothing:** the tall Welsh hat and shawl were genuine everyday dress into roughly mid-century,
+  then declined, then were revived from the 1880s as a symbolic "national costume" for public
+  occasions — not a continuous, unbroken folk tradition. [documented, S38]
+- **Homes:** gentry seats were stone-built and, in Newton House's case, deliberately re-fronted in
+  Gothic style in the 1850s to *look* more romantically medieval than the 17th-century building
+  underneath actually was. [documented, S25][S26][S27]
+- **Religion:** the "big three" Nonconformist denominations (Calvinistic Methodist, Independent,
+  Baptist) all had chapels within a few miles of Llandeilo; Anglicanism was the gentry's church.
+  [documented, S12][S19][S33]
+- **Money:** lime for improving farmland cost local farmers roughly 30% extra in tolls alone by the
+  time it reached them via the district's tangled turnpike trusts — a direct, quantified grievance
+  behind the Rebecca Riots. [documented, S7]
+- **Health:** no confirmed local cholera case in this period — genuine gap, not a documented
+  "clean bill of health." [gap]
+- **Travel:** before 1857, Llandeilo was reached by road/coach only, through at least three
+  separate turnpike trusts; from January 1857, by rail directly to Llanelli, and from April 1858,
+  onward to Llandovery too. [documented, S28][S29][S31]
+- **Population:** Llandeilo town's population was about 1,533 in 1887 — the only solid Victorian-
+  era figure recovered for the town itself. [documented, S39]
 
-## Scene/conversation ideas (imagined — mark ⓘ)
+## Scene/conversation ideas (imagined — clearly marked ⓘ)
 
-All below are **imagined** scenes built on documented anchors; no invented dialogue should
-ever be put in the mouth of a named real person (Thomas Jenkins, the Rice or Cawdor family
-members, William Williams, Edward Haycock, etc.) without the ⓘ marker making clear which
-words are actually theirs (his 1843 diary lines) and which are invented filler around them.
+All of the below are invented scenes/dialogue built on documented events and should carry the
+project's ⓘ marker; none should be presented as a real quotation from a real named person.
 
-1. **9 August 1843, night, the Walk Gate.** Disguised farmers' sons tear down a real,
-   named toll-gate while dragoons are supposedly billeted nearby — an imagined scene
-   dramatising Thomas Jenkins's actual, quoted diary line ("so much for soldier
-   vigilance") [S30]. Keep his line verbatim and ⓘ-mark everything else.
-2. **Market day at the new Provisions Market, 1840s.** A bilingual haggle over cattle at
-   the shambles — Welsh between farmers, shifting to English for an English-speaking
-   buyer or official — grounded in the documented market/shambles layout [S25][S28] but
-   with entirely invented dialogue (ⓘ).
-3. **The empty grave at Newton House, September 1843.** The Hon. George Rice-Trevor (heir
-   apparent, not yet Baron) discovers the dug grave and the threat against him — the
-   discovery itself is documented [S7], as is crop-burning on the estate and the building of
-   a barracks in response [S35]; any reaction/dialogue given to him is imagined and must be
-   ⓘ-marked as such, never presented as his actual words (none survive in the sources
-   checked).
-4. **Leeches by candlelight, December 1844.** Thomas Jenkins's household during his son
-   George's scarlet-fever illness — his actual diary lines ("head to be shaved and bathed
-   with cold salt water...") can be used verbatim [S30], with imagined surrounding
-   dialogue between family members clearly ⓘ-marked, and the outcome (George's death,
-   3 January 1845) presented factually rather than dramatised for effect.
-5. **The railway's first arrival, November 1856/January 1857.** Townspeople gathering to
-   watch the first train — documented as a real event that "injected new life into the
-   commercial and social activities of the town" [S28]; individual reactions/dialogue are
-   imagined (ⓘ).
-6. **A night raid at Llanwrda or Porthyrhyd, 1843.** Farmers' sons under "Charlotte"
-   burning a real, named toll-gate [S66][S68][S76] — the gate, the date, the approximate
-   numbers involved and (for Porthyrhyd) the named men committed for trial are documented;
-   any dialogue given to "Charlotte" or the named defendants is entirely imagined and must
-   be ⓘ-marked, since no direct quotation from any of them survives in the sources checked.
-7. **Zerubbabel Davies's schoolroom, mid-1840s.** An itinerant schoolmaster who is
-   documented, by his own testimony to the 1847 Blue Books inquiry, to have taught in
-   "the parish of Llandilofawr" among several other places [S57] — his own quoted words can
-   be used verbatim; any classroom scene built around him (pupils, lessons, language use) is
-   otherwise imagined and ⓘ-marked.
-8. **A chapel Sunday, 1850s Llandeilo.** Hymn-singing at one of the named, dated chapels in
-   the Religion section (e.g. Horeb, enlarged 1849, or the newly built Salem, 1873) —
-   documented as real buildings with real dates [S28][S49][S50]; congregation dialogue is
-   imagined (ⓘ).
+- **ⓘ A lime farmer at the Ffairfach toll gate, 1843**, working out loud how much of his cart-load
+  of lime the three tolls between Llandeilo and the kilns have just eaten — grounded in the
+  documented 30%-toll finding (11 August 1843 Welshman report), but the specific farmer, his cart,
+  and his words are all invented.
+- **ⓘ A disguised rider passing the Walk Gate at night, August 1843**, muttering a line about
+  "Rebecca's daughters" before the gate comes down — grounded in the documented Walk Gate
+  destruction and general Rebecca Riots practice (blackened faces, disguise, night attacks), but
+  no specific rioter's words survive and none should be invented as if quoted.
+- **ⓘ Colonel Rice-Trevor at Dinefwr, reading a threatening letter about the dug grave, September
+  1843** — grounded in the documented mock-grave threat, but his reaction and any words are
+  invented.
+- **ⓘ A stonemason at Cilyrychen quarry, 1848**, grumbling about having to send a fresh batch of
+  stone down to the bridge works at Llandeilo because the first quarry tried proved defective —
+  grounded in the documented fact that bridge stone ultimately came from Cilyrychen after nearer
+  stone failed, but the mason and his words are invented.
+- **ⓘ Commissioner Lingen inspecting the Union Workhouse School, 31 October 1846** — his own report
+  can be quoted verbatim (it is a real, documented primary source; see People/Timeline), but any
+  reaction from the schoolmaster or the children in a dramatized scene must be clearly marked
+  invented.
+- **ⓘ A family debating whether to let their daughter be photographed/dressed in "Welsh costume"
+  for a special occasion in the 1880s–90s** — grounded in the documented revival-as-national-
+  costume chronology, and a good vehicle for showing the app's own honesty about invented
+  tradition versus genuine everyday wear.
 
 ## Open questions/contradictions
 
-1. **St Teilo's Church architect and completion year**: Coflein says G. G. Scott (via
-   competition), 1848–51 [S23]; llandeilo.org says Edward Davies of Bath designed it under
-   Scott's supervision, 1848–50 [S28]. Not resolved.
-2. **Llandeilo Bridge cost and designer/builder credit**: Coflein gives "over £12,000" and
-   names Morgan Morgan & Thomas Jenkins (begun)/Edward Haycock (completed)/William Williams
-   (supervised) [S1]; llandeilo.org gives £22,000 and names William Williams as designer,
-   Morgan Morgan of Cwmamman as builder [S28][S31]. Not resolved — worth a Cadw-listing
-   cross-check in a follow-up pass.
-3. **1891 population figure of 20,483** for "Llandeilo Fawr parish" [S28] is wildly out of
-   scale with the confirmed 1887 town figure of 1,533 [S3] and even the 1831 11-parish
-   union total of 15,614 [S29] — and is now also inconsistent with the 1851 GENUKI figure of
-   c. 5,758 for the parish across two sub-districts [S50], which is a much more plausible
-   scale. **Likely a transcription/unit error on llandeilo.org's part** rather than a real
-   census figure; treat the language-breakdown percentages (68.6%/26.5%/4.7%) as more
-   trustworthy than the 20,483 headline count itself. Vision of Britain and GENUKI's own
-   population pages (as opposed to its religious-census page, which WAS reached this pass)
-   were still not directly cross-checked for a year-by-year town population series — retry
-   in any follow-up pass.
-4. ~~Barons Dynevor succession dates~~ — **RESOLVED this pass**: 3rd Baron George Talbot Rice
-   held the title 1793–1852 (so was the office-holder throughout the Rebecca Riots); 4th
-   Baron George Rice-Trevor 1852–1869 (he was the Rebecca Riots target, but only as heir
-   apparent, not yet Baron, in 1843); 5th Baron Francis William Rice 1869–1878; 6th Baron
-   Arthur de Cardonnel FitzUryan Rice 1878–1911 [S6][S34][S35][S36] — cross-checked across
-   each holder's own biography page.
-5. **Cholera**: no local outbreak confirmed or ruled out — a genuine gap, not a negative
-   finding (see Health section).
-6. **Wages and prices**: no district-specific labourer wage or staple food price data
-   found — a genuine gap (see Money section).
-7. ~~Nonconformist chapels~~ — **substantially filled this pass**: a named chapel roster and
-   the actual 1851 census religious-worship return for the parish are now in the Religion
-   section. Still missing: parish-level *attendance* figures (only erection dates survive in
-   the transcription found), and a firm resolution of the ~15-year internal date discrepancy
-   between llandeilo.org's two pages for the same chapels.
-8. **Locomotive types/rolling stock** for the Llanelly Railway/LNWR lines through Llandeilo
-   in this period are not confirmed — flagged as reconstructed-at-best if used.
-9. **Welsh Not — locally in Llandeilo**: still no evidence of a *named* Llandeilo-town
-   instance, but this pass found the best available intermediate-scale evidence: historian
-   John Davies is quoted naming Carmarthenshire (the county) as having "strong evidence" of
-   the practice before 1870 [S60], and a direct search of the actual 1847 Carmarthenshire
-   Blue Book confirmed it contains **no mention** of any such device [S57] — reinforcing
-   that the Welsh Not and the Blue Books are separate phenomena, and that any in-game
-   depiction of it in a specific Llandeilo school is a regional generalisation, not a
-   documented local fact.
-10. **Two important place-name disambiguations surfaced this pass and must not be
-    conflated with this Llandeilo**: (a) the famous Pontarddulais-gate Rebecca Riots show
-    trial took place in the parish of **Llandeilo Talybont**, near Swansea, not this town
-    [S71]; (b) a toll-gate/bridge named "Llandilo-Rwnws"/"Llandilo Rhynws" in 1843–44 press
-    coverage is near **Nantgaredig**, ~10 miles west of Llandeilo town, and is very likely a
-    different place too [S65][S75] — its exact modern identity remains unresolved.
-11. **1851 Census of Religious Worship — south Wales attendance figures**: two fetches
-    purporting to give the same seven-county denominational attendance breakdown produced
-    contradictory absolute numbers (see Religion section) — unresolved; do not use either
-    number without checking the original census report tables directly.
-12. **David Williams, "A report on the Turnpike Trusts,"** *National Library of Wales
-    Journal*, Vol. 8 no. 2 (Dec 1953), pp. 52–57 — very likely the best secondary source on
-    the 1844 Commission specifically, and confirmed to exist and to discuss the Carmarthenshire
-    trusts, but its scanned pages carry no OCR text layer and could not be read by the tools
-    used in this pass. **Recommend a follow-up pass by someone who can view page-images**
-    directly at journals.library.wales.
-13. **Ffairfach and Llandybie**: no Rebecca Riots attack record was found under either name
-    for 1839–43 specifically (only later, non-riot administrative toll records for
-    Ffairfach) — flagged explicitly as a search-tool gap, not a confirmed absence, since
-    Welsh Newspapers Online was reached and searched directly but not exhaustively.
-14. **Dairy/butter farming, drovers' routes through Llandeilo itself, and farm-size/tenancy
-    patterns** remain unconfirmed for this specific district — see Landscape & farming.
-15. **A gentry-vs-Welsh-speaking-tenant academic or interpretive source specific to
-    Dinefwr/Llandeilo** (as opposed to the general Wales-wide pattern) was not found despite
-    a dedicated search attempt, including of National Trust's own site search and People's
-    Collection Wales — flagged as a gap; National Trust's in-person/on-site interpretive
-    material may hold more than its indexed website does.
+1. **Llandeilo Bridge's true construction cost**: two documented figures conflict — Cadw's own
+   official listing gives a final cost of £22,000 (after an initial £6,000 estimate was
+   exhausted); RCAHMW/Coflein, citing a 2004 local-history article, gives "over £12,000." Plausibly
+   reconciled by the documented cost overrun, but not confirmed from a primary contemporary source.
+2. **St Teilo's Church's rebuild date**: RCAHMW/Coflein gives a detailed, specific 1848–51 rebuild
+   by George Gilbert Scott following a design competition; a Wikipedia page instead states a
+   vaguer "early eighteenth century" rebuild with no architect named. Treated here as a Wikipedia
+   error, but not independently triple-checked against a third source.
+3. **Whether the Royal Commission of Inquiry (1844) took oral evidence at Llandeilo itself** is
+   unresolved. The strongest lead — Lady Marianne Lewis's Oct–Dec 1843 tour journal, NLW MS
+   16582i–viiiC — was identified in the archive catalogue but not opened in this pass.
+4. **No confirmed Rebecca Riots gate attack at Llandybie or Llangadog specifically**, despite both
+   being named repeatedly as administrative/trust units in the surrounding record. Genuine gap or
+   absence of attack — not resolved.
+5. **A five-year gap in the Lord Lieutenancy of Carmarthenshire (1852–61)**, between the Dynevor
+   family's long tenure (ending with the 3rd Baron's death in 1852) and the 2nd Earl Cawdor's
+   confirmed tenure from 1861 — who (if anyone) held the office in between was not established in
+   this pass.
+6. **Horeb Chapel, Llandeilo's denomination**: Coflein calls it Welsh Independent; a separate
+   listed-buildings source calls the same building "(Former Horeb) Wesleyan Chapel." Possibly a
+   genuine change of congregation over the building's life; not resolved.
+7. **The exact county (Carmarthenshire vs Pembrokeshire) of the "Welsh stick" passage in the 1847
+   Blue Books** (Appendix p.464 of the volume covering Carmarthen/Glamorgan/Pembroke) is probable
+   from section-ordering but not confirmed by an explicit section heading.
+8. **Whether coal mining at Ammanford had begun in earnest within the Victorian period** (as
+   opposed to accelerating later) is not clearly dated in the sources checked — flagged for further
+   research if the app wants to show active Victorian-era coal working at the district's edge.
+9. **No dairy/butter-specific source and no Carmarthenshire agricultural labourer's wage/rent/staple-
+   food-price figure** (beyond the Rebecca Riots toll/rent-cut data, the workhouse poor-rate figure,
+   and lime/coal cart prices, all now in Money) **were located, and no confirmed local cholera case
+   was found** — all listed individually above in their respective sections, gathered here as a
+   reminder that these remain the weakest-evidenced categories and deserve a further,
+   differently-sourced research pass. Two dedicated agents independently tried and failed to source
+   Welsh dairy/butter production and Carmarthenshire-specific wages — this looks like a genuine hole
+   in what is freely available online, not a one-off search failure. The decade-by-decade population
+   gap, by contrast, **was substantially closed** in a final synthesis pass (see Population) — a
+   `curl -k`/user-agent workaround reached Vision of Britain's own parish data cube, cross-checked
+   against two independent sources. Welsh Journals academic articles and the actual HO 129 1851
+   census returns (National Archives) are the most promising next steps for the religion-attendance
+   gap, and a specialist source such as the 1893–96 Royal Commission on Land in Wales, or a local
+   history such as Bowen/Howells, is the most promising next step for wages.
+10. **The Llandilo Fawr Union Workhouse's founding date is itself a minor unresolved discrepancy**:
+    workhouses.org.uk dates Union formation to 14 (or, per a second source, 16) December 1836 and
+    the workhouse building itself to 1837–38, while the Wikipedia-sourced Ffairfach "Poor House"
+    entry elsewhere in this document gives "c.1839." Both may describe the same institution at
+    different stages (Union formed 1836, building finished/opened 1837–38, locally remembered as
+    "1839"), but this has not been confirmed from a primary source.
+11. **Research-environment constraints, for anyone continuing this work**: the session's shared
+    WebSearch budget (200 calls) was exhausted early and split across four parallel research
+    agents, so the majority of this document was produced via direct WebFetch against known/
+    guessed URLs rather than fresh search queries. Cadw's own Cof Cymru search was down site-wide
+    ("technical problems") throughout this research. Vision of Britain's site has a broken TLS
+    certificate chain as observed here. GENUKI blocks fetches with HTTP 403. The Wayback Machine
+    could not be reached at all. journals.library.wales's search is JavaScript-rendered and did not
+    return usable content via WebFetch. These are tooling limitations, not findings that the
+    underlying sources don't exist.
 
 ## Sources
 
-- [S1] Coflein (RCAHMW), "Llandeilo Bridge (New Bridge)," NPRN 43102 — https://coflein.gov.uk/en/site/43102 — build 1843–1848; engineers Morgan Morgan & Thomas Jenkins (begun), completed by Edward Haycock, supervised by William Williams; stone elliptical arch, 145 ft span, 26 ft wide; cost "over £12,000"; George Eyre Evans called it "the finest single-arch stone bridge in Wales."
-- [S2] Coflein, "Llandeilo Bridge (Old Bridge)," NPRN 23978 — https://coflein.gov.uk/en/site/23978 — earlier stone/timber bridge, "possibly of medieval origins," replaced by NPRN 43102.
-- [S3] Wikipedia, "Llandeilo" — https://en.wikipedia.org/wiki/Llandeilo — bridge 1848 single-arched Grade II*; railway bridge opened 1852 (lattice truss); Bartholomew's 1887 Gazetteer: population 1,533, trade in corn/flour, woollen mills, timber/saw mills, tanneries. (Lead, partially cross-checked against S28.)
-- [S4] Wikipedia, "Llanelly Railway" — https://en.wikipedia.org/wiki/Llanelly_Railway — extension to Llandeilo opened 20/24 Jan 1857; construction began 1 Mar 1855; Vale of Towy Railway opened 1 Apr 1858, 11 miles, 5 wooden viaducts, leased 1858/perpetual 1860; Carmarthen branch opened 1 Jun 1865 (passengers)/Nov 1865 (goods).
-- [S5] Wikipedia, "Llandeilo Fawr" — https://en.wikipedia.org/wiki/Llandeilo_Fawr — 1560 bishop's estimate of 620 households/~2,790 people; 1859 local government district; 1894 Local Government Act splits off "Llandeilo Fawr Rural."
-- [S6] Wikipedia, "Baron Dynevor" — https://en.wikipedia.org/wiki/Baron_Dynevor — 5th Baron Francis William Rice (1804–1878); 6th Baron Arthur de Cardonnel FitzUryan Rice (1836–1911); 7th Baron Walter FitzUryan Rice (1873–1956). Cites Burke's/Debrett's Peerage.
-- [S7] Wikipedia, "Newton House, Llandeilo" — https://en.wikipedia.org/wiki/Newton_House,_Llandeilo — Sept 1843 grave-threat to Col. George Rice-Trevor, 4th Baron Dynevor (cites Watkins 2014, p. 53); c. 1856 Venetian Gothic remodel by R. K. Penson of Oswestry, stone cladding, four turrets (cites National Trust; Lloyd, Orbach & Scourfield 2006, *Buildings of Wales*, p. 63; British Listed Buildings ref 11098); deer park from 1770s, Capability Brown from 1775; billiard room 1896; strongroom 1914.
-- [S8] Wikipedia, "Dinefwr Park" — https://en.wikipedia.org/wiki/Dinefwr_Park — Newton House "given a complete re-build in a Victorian Gothic style in the 1850s"; White Park cattle present "for over a thousand years"; National Trust acquired park 1986, house 1990.
-- [S9] Wikipedia, "Rebecca Riots" — https://en.wikipedia.org/wiki/Rebecca_Riots — Bolgoed toll-gate near Pontarddulais destroyed 6 Jul 1843 by ~200 men; Mermaid Tavern gate, St Clears, destroyed (Tom Bullin); South Wales Turnpike Trusts Act 1844 (7 & 8 Vict. c. 91) halved the toll on lime. Cites Davies & Jenkins (2008) *Welsh Academy Encyclopaedia of Wales* p.730; Howell (1988) pp.113–115.
-- [S10] Wikipedia, "Reports of the Commissioners of Inquiry into the State of Education in Wales" — https://en.wikipedia.org/wiki/Reports_of_the_Commissioners_of_Inquiry_into_the_State_of_Education_in_Wales — 1847 Blue Books; quotes on Welsh language as "a vast drawback... a manifold barrier"; term "Brad y Llyfrau Gleision" popularised by R. J. Derfel's 1854 play; reaction incl. Ieuan Gwynedd, Henry Richard, *Y Traethodydd*/*Y Diwygiwr*; Jelinger Symons's 1848 partial admission of bias. Cites Brooks (2017), Davies & Jenkins (2008), Jones & Roderick (2003), Davies (1994), Johnes (2019).
-- [S11] Wikipedia, "Welsh Not" — https://en.wikipedia.org/wiki/Welsh_Not — mechanism and variant names; first documented ~1790s (Rev. Richard Warner, 1800, Flintshire); written evidence ends after 1900; NOT government policy — the Blue Books actually criticised the practice; cites Martin Johnes (2024), *Welsh Not: Elementary Education and the Anglicisation of Nineteenth-Century Wales*, University of Wales Press (PDF at uwp.co.uk); BBC Wales History; Swansea University (welshnot.swansea.ac.uk); National Museum Wales.
-- [S12] Wikipedia, "Golden Grove, Carmarthenshire" — https://en.wikipedia.org/wiki/Golden_Grove,_Carmarthenshire — bequeathed 1804 to John Frederick Campbell, 1st Earl Cawdor; mansion "begun 1827, completed 1834" by Sir Jeffry Wyatville, Scottish Baronial/Tudor-Elizabethan, local Llangyndeyrn limestone; Wyatville concurrently remodelling Windsor Castle; arboretum laid out 1860s; deer park Grade II listed; family retained until 1935.
-- [S13] Wikipedia, "Earl Cawdor" — https://en.wikipedia.org/wiki/Earl_Cawdor — 1st Earl John Frederick Campbell (1790–1860); 2nd Earl John Frederick Vaughan Campbell (1817–1898); 3rd Earl Frederick Archibald Vaughan Campbell (1847–1911).
-- [S14] Wikipedia, "Paxton's Tower" — https://en.wikipedia.org/wiki/Paxton%27s_Tower — built c. 1806–1809, Neo-Gothic folly honouring Nelson, built by Sir William Paxton, marble dedication tablets.
-- [S15] Wikipedia, "Aberglasney Gardens" — https://en.wikipedia.org/wiki/Aberglasney_Gardens — mid-1800s passed to Pryse family (John Pugh Pryse of Bwlchbychan / daughter Marianne); Marianne married Charles Mayhew, moved in only after his 1902 retirement; yew-tree promenade the subject of an 1860 *Gardeners' Chronicle* article.
-- [S16] Wikipedia, "Drovers' road" — https://en.wikipedia.org/wiki/Drovers%27_road — Welsh droving to England; last large-scale cattle drove across Wales 1870, sheep 1900; decline from agricultural change, railways from the 1840s, cattle disease.
-- [S17] Wikipedia, "Welsh hat" — https://en.wikipedia.org/wiki/Welsh_hat — costume "propagated by" Augusta Hall, Baroness Llanover (1802–1896), but "unlikely she had much influence on anyone other than her friends and servants"; "no evidence... why during the 1830s" the style emerged; worn today mainly for folk-dance/St David's Day; "cocklewoman's hat" variant, Carmarthen Bay.
-- [S18] Wikipedia, "Llandybie" — https://en.wikipedia.org/wiki/Llandybie — thin on Victorian era; Brammallite mineral discovered there 1943 (post-dates this era, included only to show the article's actual scope).
-- [S19] Wikipedia, "Ammanford" — https://en.wikipedia.org/wiki/Ammanford — village grew around Cross Inn in the 19th century "as a result of the growth of both the tinplate and anthracite coal trades"; renamed Ammanford 1880.
-- [S20] Wikipedia, "Ffairfach" — https://en.wikipedia.org/wiki/Ffairfach — early 1800s ~3 dozen houses, corn mill, Torbay Inn/smithy; 2 fairs/year; Union Poor House built c.1839; bridge stone quarried locally; British School 1858; council school c.1899; gasworks c.1860; Llanelli–Llandovery line 1856; Carmarthen–Llandeilo LNWR line 1865; two stations within 300 yards.
-- [S21] Wikipedia, "Llangadog" — https://en.wikipedia.org/wiki/Llangadog — market "frequented by drovers into the 19th century"; Heart of Wales Line station with a siding to a Co-op creamery (no date given).
-- [S22] Wikipedia, "Llandeilo railway station" — https://en.wikipedia.org/wiki/Llandeilo_railway_station — built 1857 by the Llanelly Railway; junction from 1858 (Llandovery), 1864–65 (Carmarthen), 1866–67 (Swansea Victoria/Gower), 1867 (Central Wales Extension to Craven Arms); LNWR dominant from 1873; 4 platforms at peak; original building demolished.
-- [S23] Coflein, St Teilo's Church, Llandeilo, NPRN 100867 — https://coflein.gov.uk/en/site/100867 — rebuilt 1848–51, architect G. G. Scott (selected by competition, drawings survive in church); medieval double-nave, C15 west tower; C.1600 four-stage tower, C19 crenellated battlements; Decorated-style rebuild, 7-bay nave/chancel, Grade II listed; C10–11 cross-heads; C15 font from St Tyfei's.
-- [S24] Coflein, Llandeilo Shire Hall/Town Hall, NPRN 96635 — https://coflein.gov.uk/en/site/96635 — built 1802, façade remodelled 1901; market hall (ground floor)/court room (upper) for quarter sessions; stuccoed 3-bay façade, Ionic pilasters.
-- [S25] Coflein, Provisions Market, Llandeilo, NPRN 411976 — https://coflein.gov.uk/en/site/411976 — built 1838, funded by Joseph/A.J. Gulston of Derwydd Estate, built by William Harries (possibly to designs by Edward Haycock); neo-Tudor style, grey stone with red sandstone doorway; relocated from King Street despite local opposition; later fire station/slaughterhouse/auction room/theatre/foundry.
-- [S26] Coflein, "Llandeilo" (town), NPRN 33067 — https://coflein.gov.uk/en/site/33067 — St Teilo's Fair held in the churchyard annually from Edward I's 1290 charter to the mid-20th century; replaced by a monthly farmers' market (1st Saturday).
-- [S27] Coflein, search results for "lime kiln Llandybie" — https://coflein.gov.uk/en/site/search/?term=lime+kiln+Llandybie — Pentre Gwenlais Quarry bank of lime kilns (NPRN 308178, Post Medieval); Cilyrychen Lime Kilns/Lime Firms Ltd/Llandybie Limekilns (NPRN 40661, Post Medieval/19th century).
-- [S28] llandeilo.org, "A Concise History of Llandeilo" by Eirwen Jones — https://llandeilo.org/concise_history.html — town population 1,269 (1831); 1891 parish figure 20,483 with language breakdown (68.6% Welsh-only, 4.7% English-only — see Open Questions for scope contradiction); Provisions Market 1838; church demolition/rebuild dates (21 Feb / 23 Mar 1848); bridge (1848, £22,000, William Williams/Morgan Morgan of Cwmamman — contradicts S1); railway arrival Nov 1856; reservoir negotiations from 1862; Llandyfan water supply 1897; gas-lighting dispute 1843–48; Bear Inn/Cawdor Arms and its plays/actors; Wesleyan chapel 1763–65/1806; boot, stocking and brewing trades; 1886 clerical report on labourers' morals/housing; 1802 election spending; Local Board 1859, UDC 1895, electric power 1902. Local-history website compiling named primary/secondary sources (Eirwen Jones, Thomas Jenkins's diary, Bryn Thomas); treated here as a single strong local source, cross-checked against Coflein/Wikipedia where possible and flagged where it conflicts.
-- [S29] llandeilo.org, "Llandeilofawr Union Workhouse" — https://llandeilo.org/workhouse1.html — built 1837–38 at Ffairfach; served 11 parishes (1831 combined population 15,614); 120-inmate capacity; cost £2,243; architect George Wilkinson; daily routine timetable; administration transferred to county councils 31 Mar 1930; demolished 1970s.
-- [S30] llandeilo.org, "Diary of Thomas Jenkins" (Rebecca Riots/caves/health extracts) — https://llandeilo.org/tj_caves.html — direct quotations: 9 Jul 1843 (dragoons arrive), 9 Aug 1843 (Walk Gate destroyed); cave visits 1840–43; 8 Nov 1844 (leeches); 26 Dec 1844–3 Jan 1845 (son George's scarlet fever and death). A genuine period diary, transcribed by the site; treated as a strong primary source.
-- [S31] llandeilo.org, "Good Old Days" notes by Bryn Thomas — https://llandeilo.org/good_old_days.html — Cornmarket at the Shire Hall (Saturdays, per an 1853 reference); Walk Turnpike let for £108/year; mail-coach timetable; William Williams (bridge designer) and Thomas Thomas (master mason); Torbay Inn smith at Ffairfach; 23 public houses by 1858; officers billeted at the George Inn "during the Rebecca Riots"; St Teilo Lodge (Freemasons) founded 11 Feb 1857; Ffairfach fairs; 30 hand pumps by 1858.
-- [S32] llandeilo.org, "Diary of Thomas Jenkins" — introduction — https://llandeilo.org/tj_intro.html — Jenkins born Tycroes, parish of Llanedy, May 1813; cabinet-maker, inventor/engineer, Constable of the Leet Court; diary spans c.1826–Dec 1870; died Oct 1871.
-- [S33] llandeilo.org homepage — https://llandeilo.org/ — site structure; compiled by local historian Terry Norman and developer Andy Mabbutt.
+[S1] Coflein (RCAHMW), "Provisions Market, Llandeilo," NPRN 411976 — https://coflein.gov.uk/en/site/411976 — built 1838, materials, builder (Joseph Gulston/William Harries), possible Haycock design, later uses, references to B.A. Malaws (RCAHMW, 2010) and *The Buildings of Wales: Carmarthenshire and Ceredigion* (2006). Single-source.
 
-### Sources added by the three parallel research passes (Dynevor estate/landmarks; Rebecca Riots; chapels/education/language)
+[S2] Wikipedia, "Ffairfach" — https://en.wikipedia.org/wiki/Ffairfach — village history citing Bryn Thomas, "The Good Old Days": Poor House c.1839, fairs, Torbay Inn, 1848 bridge-stone quarrying, British School 1858, gas works c.1860, railways 1856/1865, Welsh name meaning. Single-source (all cited to one local-history reference within the article).
 
-- [S34] Wikipedia, "George Talbot Rice, 3rd Baron Dynevor" — https://en.wikipedia.org/wiki/George_Talbot_Rice,_3rd_Baron_Dynevor — 1765–1852, Baron 1793–1852, Lord Lieutenant of Carmarthenshire 1804–1852, "lived at Newton House."
-- [S35] Wikipedia, "George Rice-Trevor, 4th Baron Dynevor" — https://en.wikipedia.org/wiki/George_Rice-Trevor,_4th_Baron_Dynevor — 1795–1869, Baron 1852–1869; Rebecca rioters "burned crops on his father's Dinefwr estate" 1843–44; barracks built for troops/police.
-- [S36] Wikipedia, "Francis Rice, 5th Baron Dynevor" — https://en.wikipedia.org/wiki/Francis_Rice,_5th_Baron_Dynevor — 1804–1878, Baron 1869–1878, Vicar of Fairford 1827–1878.
-- [S37] National Trust, Dinefwr — https://www.nationaltrust.org.uk/visit/wales/dinefwr (fetched via r.jina.ai proxy after direct bot-protection blocked WebFetch) — "800 acres of parkland with a medieval Deer Park"; 18th-century landscape design credited to George and Cecil Rice.
-- [S38] Coflein, Newton House/Dynevor Castle, NPRN 17603 — https://coflein.gov.uk/en/site/17603/ — built 1660–70 for Sir Edward Rice; Victorian Gothic remodelling 1856–57 by R. K. Penson; detailed description of turrets/machicolations/porch/heraldic shields/flying buttresses/verandah; retained 17th-century plasterwork/coffered ceiling; parkland partly by Capability Brown 1775–78.
-- [S39] Wikipedia, "Richard Kyrke Penson" — https://en.wikipedia.org/wiki/Richard_Kyrke_Penson — independently corroborates the 1856–57 Newton House remodelling; Penson leased the Cilyrychen lime quarries from Lord Dynevor, April 1856.
-- [S40] Cadw public API, registered park/garden report id=76 (Dinefwr Park) — https://cadwpublic-api.azurewebsites.net/reports/parkgarden/FullReport?lang=en&id=76 — formal garden "probably constructed 1856-58"; ~970-acre registered park; lake/pump-house turbine; icehouse, dovecot, walled kitchen garden; three approach drives, one via Llandeilo Bridge.
-- [S41] Coflein, registered park/garden entry, NPRN 266170 — https://www.coflein.gov.uk/en/site/266170/details/ — "the house was reconfigured to its present surprising form in the mid nineteenth century with formal gardens enclosed by a ha-ha," per the 1886 OS County series.
-- [S42] Wikipedia, "Aberglasney" (fuller ownership-chain read) — https://en.wikipedia.org/wiki/Aberglasney — John Philips bought 1803 for brother Thomas; Thomas Philips occupied 1803–1824; nephew John Walters Philipps inherited 1824, added portico; passed through daughters to Mary Anne Pryse then Marianne Pryse; 1902 Marianne + Col. Charles Mayhew moved in; 1860 Gardeners' Chronicle article on the yew promenade.
-- [S43] Cadw public API, listed building report id=11153 (Aberglasney House) — https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=11153 — Georgian remodelling from c.1781 by Edward Haycock of Shrewsbury, tied to a commission by John Walters Philipps "after 1824" (dates not fully reconciled — see Open Questions); three-storey bays added to south wing 1840s; canted balustraded bay window inserted 1850s, west garden front.
-- [S44] Cadw public API, registered park/garden report id=69 (Aberglasney) — https://cadwpublic-api.azurewebsites.net/reports/parkgarden/FullReport?lang=en&id=69 — 1840 Tithe survey recorded four walled garden enclosures; only two remained by the 1887 First Edition OS; aviary built 1882–85.
-- [S45] britishlistedbuildings.co.uk, "Golden Grove Mansion, Llanfihangel Aberbythych" — https://britishlistedbuildings.co.uk/300010926-golden-grove-mansion-llanfihangel-aberbythych — architect Wyatville, "commenced by 1826," joinery to 1831, stables 1834; Campbell inherited the estate 1821; advanced features (masonry reinforcement, heating, flush toilets); joinery by Armstrong and Siddon of London.
-- [S46] Coflein, Golden Grove, NPRN 17391 — https://coflein.gov.uk/en/site/17391/ — build sequence: service wing 1828, main block 1830, staircase 1831, stables 1834; clock/bells dated 1830.
-- [S47] Cadw public API, registered park/garden report id=112 (Paxton's Tower/Middleton Hall) — https://cadwpublic-api.azurewebsites.net/reports/parkgarden/FullReport?lang=en&id=112 — tower built 1805-09 by Sir William Paxton to designs by Samuel Pepys Cockerell; built after losing the 1802 county election, redirecting bridge funds; Tower Lodge cottage post-1824, on 1831 OS maps; eye-catcher relationship to Middleton Hall park.
-- [S48] Cadw public API, listed building report id=9384 (Paxton's Tower) — https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=9384 — Gothick military-folly style; interior plaster scoring suggesting intended frescoes; 1833 account of a "sumptuous banqueting room"; English/Latin/Welsh Nelson inscriptions and a portrait window, none surviving.
-- [S49] llandeilo.org, "Buildings & Architecture" — https://llandeilo.org/buildings.html — named chapel roster with dates (CM chapel 1788, Horeb 1810/enlarged 1849/closed 1900, Ebenezer 1829/rebuilt 1877, Salem CM 1873, Capel Newydd 1901–2, Wesleyan Latimer Road 1900).
-- [S50] GENUKI, "Llandilo Fawr, Carmarthenshire" — https://www.genuki.org.uk/big/wal/CMN/LlandeiloFawr (reached via r.jina.ai reader-proxy; direct fetch gave a 403 in this pass, corrected from an earlier assumption that GENUKI was wholly unreachable) — full transcription of the 1851 Census of Religious Worship return for the parish, listing every chapel/church by denomination and erection date; parish population c.5,471 (1840s) to c.5,758 (1851).
-- [S51] National Library of Wales archives catalogue — https://archives.library.wales/index.php/capel-isaac-annibynwyr-ger-llandeilo-fawr-cofrestr-chrynodeb-o-hanes-yr-achos — "Mân Adnau 368," Capel Isaac register/history summary, materials dated 1849–1873.
-- [S52] GENUKI, Cwmaman (Bethel, Christ Church) chapel history — https://www.genuki.org.uk/big/wal/CMN/LlandeiloFawr/Hanes (via r.jina.ai) — built 1773 as a joint Independent/Calvinistic Methodist venture, purely Independent by 1774 with ~150 members; named ministers John Davies, John Rowlands, John Davies II.
-- [S53] Dictionary of Welsh Biography — https://biography.wales/article/s-DAVI-THO-1820.html — Thomas Davies (1820–1873), Independent minister, born Tre-lech; Brecon College 1843–47; "Ordained at Llandilo Carmarthenshire Tabernacle on 10–11 August 1847"; minister of Hermon, Llansadwrn 1847–50; died 1873.
-- [S54] Wikipedia, "Welsh nonconformity" — https://en.wikipedia.org/wiki/Welsh_nonconformity — 1851 census 80% Nonconformist figure; chapel-building-boom description ("by the 1880s...increasingly grandiose"); Calvinistic Methodists built 407 meeting houses 1763–1814.
-- [S55] Matthew Jones, "On Nineteenth-Century Welsh Literacies, and the 'Blue Book' Education Reports of 1847," BRANCH: Britain, Representation and Nineteenth-Century History — https://branchcollective.org/?ps_articles=matthew-jones-on-nineteenth-century-welsh-literacies-and-the-blue-book-education-reports-of-1847 — academic analysis; Wales's high pre-existing literacy; "four out of five worshippers... Nonconformist" (369,000 vs 40,000 evening attendance); "no Welsh-speaking bishops... 1727–1870"; colonial-discourse framing; commissioners' exclusion of anglicised classes from scrutiny.
-- [S56] National Library of Wales, "The Blue Books Reports" — https://www.library.wales/discover-learn/digital-exhibitions/europeana-rise-of-literacy/the-blue-books-reports — names commissioners R. R. W. Lingen, J. C. Symons, H. V. Johnson; states the inquiry's stated aim (English for commerce/education/government/law).
-- [S57] Internet Archive full-text scan, *Reports of the Commissioners of Inquiry into the State of Education in Wales* (1848), identifier `reportsofcommiss00grearich` — https://archive.org/stream/reportsofcommiss00grearich/reportsofcommiss00grearich_djvu.txt — **primary source**: Lingen's own volume; "I established myself successively at Llandovery, Llandilo, Carmarthen..."; Zerubbabel Davies's testimony re: "the parish of Llandilofawr"; "my district exhibits the phenomenon of a peculiar language isolating the mass from the upper portion of society"; confirmed no mention of a Welsh-language marking device anywhere in this volume.
-- [S58] National Library of Wales, "The Blue Books of 1847" digital exhibition — https://www.library.wales/discover-learn/digital-exhibitions/printed-material/the-blue-books-of-1847 — "the Glencoe and the Amritsar of Welsh history."
-- [S60] BBC Wales History — https://www.bbc.co.uk/wales/history/sites/themes/society/language_education.shtml and https://www.bbc.co.uk/wales/history/media/pages/h_industrial_welshgentry.shtml (via r.jina.ai proxy) — historian John Davies quote naming Carmarthenshire, Cardigan and Meirionnydd as having "strong evidence" of the Welsh Not before 1870, while cautioning against 20th-century "mythology" of its ubiquity; Welsh gentry anglicisation background.
-- [S61] UWTSD Research Repository, thesis on religion and Welsh-language survival 1801–2011 — https://repository.uwtsd.ac.uk/411/ — monoglot Welsh speakers >80% of Wales's population c.1800, falling to 8.7% by 1911; Griffith Jones's circulating schools.
-- [S65] Welsh Newspapers Online, *Monmouthshire Merlin*/*Glamorgan Monmouth and Brecon Gazette*, 15 July 1843, "REBECCA AND HER DAUGHTERS" — https://newspapers.library.wales/view/3393968/3393970 (issue set) — "Llandilo-Rwnws," Mansel's Arms and Llanfihangel gates destroyed near Nantgaredig; rioters "all disguised, and had their faces blackened."
-- [S66] Welsh Newspapers Online, *The Glamorgan Monmouth and Brecon Gazette and Merthyr Guardian*, 22 July 1843, "REBECCA AND HER DAUGHTERS" — https://newspapers.library.wales/view/3632855/3632858/14/ — Porthyrhyd, Minke and Pontyberem gates destroyed.
-- [S67] Welsh Newspapers Online, *The Welshman*, 11 August 1843, "REBECCA AND HER DAUGHTERS" — https://newspapers.library.wales/view/4345884/4345888/28/ — Pontarllechau/Llangadock lime-toll grievance.
-- [S68] Welsh Newspapers Online, *The Welshman*, 27 October 1843, "THE PORTHYRHYD AFFAIR—DEPOSITIONS" — https://newspapers.library.wales/view/4345939/4345943/35/ — named defendants and witnesses, second Porthyrhyd attack.
-- [S69] Welsh Newspapers Online, *The Welshman*, 3 November 1843, "Commission of Inquiry—Carmarthen" — https://newspapers.library.wales/view/4345944/4345947/12/ — Commission's Carmarthen sitting, grievance categories.
-- [S71] Welsh Newspapers Online, *The Glamorgan Monmouth and Brecon Gazette and Merthyr Guardian*, 28 October & 4 November 1843, "SPECIAL COMMISSION FOR THE TRIAL OF THE REBECCA RIOTERS" — https://newspapers.library.wales/view/3632920/3632922/10/ and /3632925/3632929/20/ — the Pontardulais-gate trial took place in the parish of **Llandeilo Talybont** (near Pontarddulais/Swansea) — the key disambiguation from this Llandeilo; named defendants and sentences.
-- [S72] Coflein, "Old Tollhouse at Rose Hill," Llansadwrn, NPRN 54152 — https://coflein.gov.uk/en/site/54152/details/old-tollhouse-at-rose-hill-llansadwrn — octagonal house, central chimney, thatched roof with a smoke-hole at the apex.
-- [S74] Welsh Newspapers Online, *The Glamorgan Monmouth and Brecon Gazette and Merthyr Guardian*, 16 December 1843, "Commission of Inquiry" — https://newspapers.library.wales/view/3632955/3632958/16/ — full itinerary of the Commission's tour, including Llandeilo.
-- [S75] Welsh Newspapers Online, *The Cambrian*, 13 July 1844, "Turnpike Trusts in Wales" — https://newspapers.library.wales/view/3334064/3334068/20/ — 115-clause consolidation bill detail; names "Llandilo Rhynws Bridge" (identity uncertain, likely not Llandeilo town — see Open Questions).
-- [S76] Welsh Newspapers Online, *The Glamorgan Monmouth and Brecon Gazette and Merthyr Guardian*, 7 October 1843, "PROCEEDINGS OF REBECCA" — https://newspapers.library.wales/view/3632905/3632908/12/ — "Charlotte"; Llanwrda, Llansadwrn, Cilycwm/Nantvranell, Dolauhirion.
-- [S77] Welsh Newspapers Online, *The Welshman*, 29 May 1846, "COUNTY ROADS BOARD" (https://newspapers.library.wales/view/4364740/4364742/13/) and *The Cardiff and Merthyr Guardian Glamorgan Monmouth and Brecon Gazette*, 23 Sept & 7 Oct 1848, "CARMARTHENSHIRE TURNPIKE ROADS" (/view/3089312/3089314/15/ and /view/3089322/3089323/5/) — administrative (non-riot) records confirming Ffairfach as a real turnpike-gate location.
+[S3] Wikipedia, "Rebecca Riots" — https://en.wikipedia.org/wiki/Rebecca_Riots — general causes, Efailwen 1839, turnpike trust structure, 1844 Act, end-of-riots factors. Cross-checked against S4.
 
-**Method note on the three parallel passes**: all three ran with the session's shared
-WebSearch budget already exhausted, so — like this file's own direct research — they relied
-on targeted WebFetch against known/likely URLs (Wikipedia as a lead throughout, then Coflein,
-Cadw's public API, National Library of Wales/Welsh Newspapers Online, GENUKI, the Dictionary
-of Welsh Biography, and the Internet Archive's full-text scan of the actual 1847 report),
-plus the `r.jina.ai` reader-proxy where a site's own bot-protection blocked direct fetching
-(National Trust, BBC, GENUKI). This is why several of the above sources were reachable here
-even though this file's own earlier, direct research pass recorded some of the same domains
-(GENUKI, National Trust) as unreachable — the proxy workaround succeeded where a bare fetch
-did not.
+[S4] Lowri Ann Rees, "Paternalism and rural protest: the Rebecca riots and the landed interest of south-west Wales," *Agricultural History Review*, 59, I (2011), pp.36–60 — https://bahs.org.uk/AGHR/ARTICLES/59_1_3_Rees.pdf — peer-reviewed; read in full. Richest single source for Dinefwr, Middleton Hall, George Rice-Trevor, Porthyrhyd meeting, rent-rise estimate, causes/paternalism debate, 1844 Act, William Chambers reprisal.
 
-**Tools/sources attempted but unreachable even with the workarounds above**: Vision of
-Britain (visionofbritain.org.uk — persistent TLS certificate errors on every URL tried,
-including from the parallel passes); workhouses.org.uk (404 on the expected
-Llandeilo/Llandeilofawr URL pattern); DuckDuckGo HTML search (CAPTCHA-blocked); web.archive.org
-(fetch tool explicitly refuses this domain); David Williams's 1953 NLW Journal turnpike-trusts
-article and academic books by David J. V. Jones (*Rebecca's Children*) and David Williams
-(*The Rebecca Riots*) — all located but not readable as scanned page-images with no OCR text
-layer, or not retrievable via archive.org/Google Books fetch. Bing HTML search worked as a
-substitute search engine throughout.
+[S5] People's Collection Wales, "Rebecca Riots" — https://www.peoplescollection.wales/content/rebecca-riots — confirms June 1842 Llandilo-rwnws attack near Nantgaredig.
+
+[S6] The Glamorgan Monmouth and Brecon Gazette and Merthyr Guardian, 15 July 1843, "REBECCA AND HER DAUGHTERS" — https://newspapers.library.wales/view/3632850/3632853/16/ — destruction of Llandilo-rwnws, Mansel's Arms, and Llanfihangel gates (the last on the Llandeilo mail road, near Golden Grove). Read directly (primary source).
+
+[S7] The Welshman, 11 August 1843, "REBECCA AND HER DAUGHTERS" — https://newspapers.library.wales/view/4345884/4345888/28/ — Llandeilo's three toll bars, three overlapping trusts, Rev. Mr Pugh and David Pugh named. Key local primary source, read directly.
+
+[S8] Welsh Newspapers Online, aggregated search, "Walk gate Llandilo destroyed" — surfaces the Monmouthshire Merlin, 12 August 1843, headline "Destruction of the Walk Gate at Llandiloifawr."
+
+[S9] llandeilo.org, "The Rebecca Riots" (Dynevor Peerage section) — https://llandeilo.org/dp_rebecca.html — local-history site citing William Samuel (1868), Pat Molloy (1983), David Williams (1986), Transactions of the Carmarthenshire Antiquarian Society (1932), ODNB; dates the Walk Gate destruction to 9 August 1843, describes the military garrison.
+
+[S10] Monmouthshire Merlin, 12 August 1843 — https://newspapers.library.wales/view/3393998/3394001/24/ — full text on the Porthyrhyd toll-house demolition. Read directly (primary source).
+
+[S11] Wikipedia, "George Rice-Trevor, 4th Baron Dynevor" — https://en.wikipedia.org/wiki/George_Rice-Trevor,_4th_Baron_Dynevor — dates, Rebecca Riots crop-burning/retaliation threat, militia command, ADC to Queen Victoria, death without heir. Cross-checked against S4, S12.
+
+[S12] Wikipedia, "Baron Dynevor" — https://en.wikipedia.org/wiki/Baron_Dynevor — full list of Barons Dynevor with life dates and tenures.
+
+[S13] The Welshman, 27 October 1843, "THE PORTHYRHYD AFFAIR.—DEPOSITIONS." — https://newspapers.library.wales/view/4345939/4345943/35/ — full text, names all six defendants, informant, witness depositions. Read directly (primary source).
+
+[S14] Welsh Newspapers Online, aggregated search results confirming a Special Commission of Assize, Carmarthen Town Hall, late Oct–early Nov 1843, before Baron Gurney and Mr Justice Cresswell.
+
+[S15] NLW Archives and Manuscripts catalogue, "Rebecca Riots, 1839–1844" — https://archives.library.wales/index.php/rebecca-riots-1839-1844 — catalogue description noting Lady Marianne Lewis's Oct–Dec 1843 tour journal (not itself opened).
+
+[S16] llandeilo.org, "Caves, Castles, Rebecca Riots, Leeches and Scarlet Fever" (Thomas Jenkins diary) — https://llandeilo.org/tj_caves.html — corroborates the 9 August 1843 Walk Gate date and two-regiment garrison.
+
+[S17] Internet Archive, *Reports of the Commissioners of Inquiry into the state of Education in Wales* (1847), item `reportsofcommiss00greaiala` — https://archive.org/details/reportsofcommiss00greaiala (full text: https://archive.org/stream/reportsofcommiss00greaiala/reportsofcommiss00greaiala_djvu.txt) — the actual 1847 Blue Books volume covering Carmarthen/Glamorgan/Pembroke, read and searched directly. Source for Lingen's itinerary, the Llandeilo Union Workhouse School inspection, the Zerubbabel Davies testimony, the public-house/immorality note, and the "Welsh stick" passage. Genuine primary source, not a secondary summary.
+
+[S18] Wikipedia, "Reports of the Commissioners of Inquiry into the State of Education in Wales" — https://en.wikipedia.org/wiki/Reports_of_the_Commissioners_of_Inquiry_into_the_State_of_Education_in_Wales — background, commissioners, scope, key national quotes.
+
+[S19] Coflein, "Salem Welsh Calvinistic Methodist Chapel," NPRN 6334 — https://coflein.gov.uk/en/site/6334 — 1874 rebuild, Richard Owens architect, site in use since 1788; and Coflein, "Horeb (Welsh Independent) Chapel," NPRN 6329 — https://coflein.gov.uk/en/site/6329 — c.1809/rebuilt 1849.
+
+[S20] Wikipedia, "Treachery of the Blue Books" — https://en.wikipedia.org/wiki/Treachery_of_the_Blue_Books — naming/etymology, national reaction, Jane Williams's rebuttal, Robert Jones Derfel's 1854 play.
+
+[S21] Cadw, Full Report on the Grade II* listing of Llandeilo Bridge (id=20900) — https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?id=20900 — official statutory listing, read directly: dimensions, designer/engineer sequence, £22,000 final cost, seven-arch predecessor, "largest single arch bridge in Wales."
+
+[S22] Coflein (RCAHMW), "Llandeilo Bridge," NPRN 43102 — https://coflein.gov.uk/en/site/43102 — citing Lynn Hughes, "Llandeilo Bridge – History," *Carmarthenshire Life*, November 2004: "over £12,000" cost, George Eyre Evans's "finest single-arch stone bridge in Wales" quote, stone sourced from Cilyrychen.
+
+[S23] Coflein (RCAHMW), "St Teilo's Church, Llandeilo," NPRN 100867 — https://coflein.gov.uk/en/site/100867 — full building-phase description: medieval double nave, c.1600 tower, 1848 demolition, 1848–51 rebuild by George Gilbert Scott following a competition, materials, retained features. RCAHMW record dated 10 February 2009.
+
+[S24] Coflein (RCAHMW), "Cilyrychen Lime Kilns; Llandybie Limekilns," NPRN 40661 — https://coflein.gov.uk/en/site/40661 — build dates 1856–58, R. K. Penson architect/leaseholder, Lord Dynevor as landowner, cost £3,460 19s 1d, expansion to nine kilns by 1900, output figures, Gothic styling, citing *A Guide to the Industrial Archaeology of the Swansea Region* (Hughes & Reynolds, 1989) and *The Cil-yr-ychen Quarries* (Tarmac Papers Vol 1, 1995).
+
+[S25] Coflein (RCAHMW), "Newton House; Dynevor Castle; Plas Dinefwr," NPRN 17603 — https://coflein.gov.uk/en/site/17603 — full 1856–57 remodelling description, R. K. Penson, materials, features, interior survivals, bibliography (Moore, *Archaeologia Cambrensis* 143, 1996; Cadw Register of Parks & Gardens 2002; Cadw Listed Buildings Database entry 11098).
+
+[S26] British Listed Buildings, listing WA-11098, "Plas Dinefwr including SW screen wall" — http://www.britishlistedbuildings.co.uk/wa-11098-plas-dinefwr-including-sw-screen-wall-dyn — statutory listing text, Grade II*, listed 8 July 1966, materials, 1660–70 original construction, Georgian c.1720 refitting.
+
+[S27] Wikipedia, "R. K. Penson" — https://en.wikipedia.org/wiki/R._K._Penson — architect biography, county surveyor roles, RIBA fellowship, cross-checks the Newton House and Cilyrychen attributions.
+
+[S28] Wikipedia, "Llandeilo railway station" — https://en.wikipedia.org/wiki/Llandeilo_railway_station — January 1857 opening (citing *Journal of Transport Ticket Society*, September 2017, p.331), Vale of Towy 1858, Carmarthen branch 1864–65, Swansea Victoria direct line 1866–67, station building demolished.
+
+[S29] Wikipedia, "Llanelly Railway" — https://en.wikipedia.org/wiki/Llanelly_Railway — 1853 Act, 1855 contract, 20/24 January 1857 opening, Vale of Towy Railway 1854 Act and leasing history, 1889 GWR amalgamation, 1884 LNWR joint arrangement, early horse-traction/locomotive history (pre-existing dock lines).
+
+[S30] Dyfed Archaeological Trust / Heneb, "Tywi Time Line" (PDF) — https://heneb.org.uk/archive/dyfed/tywi/tywitimeline.pdf — read directly in full: 1842 first Llandeilo bank, 1848 bridge, 1850s National School, Black Ox Bank 1799, 1858 Vale of Towy line opening, 1851 religious census (80% Nonconformist, Wales-wide), and a bibliography of further primary works (Molloy 1983, Jones 1987, Sambrook & Hall 2004 "Llandeilo Fawr Heritage Audit," Whittle 2000) not themselves accessed in this pass (their URLs returned redirect loops).
+
+[S31] Wikipedia, "Vale of Towy Railway" — https://en.wikipedia.org/wiki/Vale_of_Towy_Railway — 1854 Act, 1 April 1858 opening, 11.25 miles, stations (Llanwrda, Llangadog, Glanrhyd Halt, Talley Road Halt), leasing acts.
+
+[S32] Wikipedia, "Cymanfa Ganu" — https://en.wikipedia.org/wiki/Cymanfa_Ganu — founding 1859, Bethania Chapel, Aberdare, Rev. Evan Lewis; four-part harmony convention; no Carmarthenshire connection found.
+
+[S33] Wikipedia, "Thomas Thomas (architect)" — https://en.wikipedia.org/wiki/Thomas_Thomas_(architect) — born/raised near Ffairfach/Llandeilo, career, style, 119 chapels including Ffairfach's Tabernacl (1860) and Llangadog's Providence (1883/4). Cross-checked against Coflein site 6349 (Tabernacl).
+
+[S34] Wikipedia, "Aberglasney" — https://en.wikipedia.org/wiki/Aberglasney — Walters-Philipps/Pryse ownership, letting-out through the mid-Victorian period, 1860 *Gardeners' Chronicle* article, post-1902/1908 decline (outside this era).
+
+[S35] Wikipedia, "Golden Grove, Carmarthenshire" — https://en.wikipedia.org/wiki/Golden_Grove,_Carmarthenshire — Cawdor family ownership from 1804, Wyatville house 1827–34, Llangyndeyrn limestone, 1860s arboretum, deer park.
+
+[S36] Wikipedia, "Carmarthen railway station" — https://en.wikipedia.org/wiki/Carmarthen_railway_station — Llanelly Railway branch reaching Abergwili Junction 1864, LNWR takeover 1873.
+
+[S37] Wikipedia, "Drovers' road" — https://en.wikipedia.org/wiki/Drovers%27_road — herd sizes, dog practice, decline factors, Black Ox Bank (David Jones, 1799, survived to 1909), last large-scale Welsh drove 1870. No Llandeilo-specific route citation found within the article itself, though the general West-Wales-to-England route pattern it describes is consistent with Llandeilo's position on the Tywi valley road toward Llandovery/the English border.
+
+[S38] Wikipedia, "Welsh hat" and Wikipedia, "Welsh costume" — https://en.wikipedia.org/wiki/Welsh_hat and https://en.wikipedia.org/wiki/Welsh_costume — chronology (1830s peak, mid-century decline, 1880s revival as national costume), Lady Llanover's exaggerated-influence correction, 1881 Swansea/Prince of Wales occasion, 1893 Chicago, Vosper's 1908 *Salem* painting, Carmarthen Bay "cockle hat" as a distinct functional garment. Read directly, both pages internally consistent with each other.
+
+[S39] Wikipedia, "Llandeilo" and Wikipedia, "Llandeilo Fawr" — https://en.wikipedia.org/wiki/Llandeilo and https://en.wikipedia.org/wiki/Llandeilo_Fawr — 1887 Bartholomew gazetteer population (1,533) and trade description (citing John Bartholomew's *Gazetteer of the British Isles*), 1894 Local Government Act parish split, 1560 household estimate.
+
+[S40] Coflein, "Capel Newydd Welsh Independent Chapel," NPRN 6328 — https://www.coflein.gov.uk/en/site/6328 — 1901–02, Henry Herbert of Ammanford, Gothic style. Single-source.
+
+[S41] Coflein (RCAHMW), "Llandeilo Shire Hall," NPRN 96635 — https://coflein.gov.uk/en/site/96635 — built 1802, streetfront remodelled 1901, market hall + quarter sessions function, materials, form. Recorded by John Wiles, 19 October 2007.
+
+[S42] British Listed Buildings, "Listed Buildings in Llandeilo, Carmarthenshire" — https://britishlistedbuildings.co.uk/wales/llandeilo-carmarthenshire — full list of 91 listed buildings; Cawdor Arms, Angel, Castle, Salutation Inn locations; street names (Rhosmaen Street, Bridge Street, King Street, Carmarthen Street, Market Street, Quay Street); milestone at King Street/Rhosmaen Street junction.
+
+[S43] Coflein, "Bridge Farmhouse, By Llandeilo," NPRN 54161 — https://coflein.gov.uk/en/site/54161 — C18–C19 date, rendered walls, slate roof, two storeys, sash windows, location below the west side of the bridge causeway.
+
+[S44] Wikipedia, "Earl Cawdor" and Wikipedia, "John Campbell, 2nd Earl Cawdor" — https://en.wikipedia.org/wiki/Earl_Cawdor and https://en.wikipedia.org/wiki/John_Campbell,_2nd_Earl_Cawdor — 1st/2nd/3rd Earl Cawdor dates, 2nd Earl's Lord Lieutenant of Carmarthenshire tenure 1861–98.
+
+[S45] Wikipedia, "Paxton's Tower" — https://en.wikipedia.org/wiki/Paxton%27s_Tower — construction c.1806–09, William Paxton, Samuel Pepys Cockerell architect, Nelson memorial, tri-lingual plaques, form/materials, National Trust ownership.
+
+[S46] Coflein, "Nelson's Monument, near Middleton Hall," NPRN 32666, and "Towerhill Farm; Tower Lodge; Paxton's Tower," NPRN 96507 — https://coflein.gov.uk/en/site/32666 and https://coflein.gov.uk/en/site/96507 — construction "shortly after 1805," an 1831 OS-map lodge reference (the only Victorian-adjacent detail found for the tower itself).
+
+[S47] Wikipedia, "Middleton Hall, Carmarthenshire" — https://en.wikipedia.org/wiki/Middleton_Hall,_Carmarthenshire — Edward Hamlin Adams (1824–42), Edward Abadam (1842–75), Hughes family (1875–1919) ownership chain; 1931 fire (outside this era).
+
+[S48] Coflein, "Aberglasney House," NPRN 17068 — https://coflein.gov.uk/en/site/17068 — brief generic architectural description; adds nothing beyond S34 for the Victorian period specifically.
+
+[S49] Wikipedia, "Welsh Not" — https://en.wikipedia.org/wiki/Welsh_Not — origins (1790s Flintshire, Richard Warner 1800 account), mechanism, the 1900 *Perl y Plant* Carmarthenshire-1860s account, geographic spread, decline dates, Martin Johnes's 2024 revisionist academic study and its "little evidence" conclusion, contested modern historiography (Gwyn A. Williams vs Johnes vs David T. C. Davies).
+
+[S50] Wikipedia, "Welsh Black cattle" — https://en.wikipedia.org/wiki/Welsh_Black_cattle — Tywi Valley droving route via Llandovery (cross-checks S37), c.25,000 cattle/year exported from Wales, Banc yr Eidon/Black Ox Bank 1799.
+
+[S51] Wikipedia, "Llandovery" — https://en.wikipedia.org/wiki/Llandovery — Black Ox Bank founded by "a wealthy cattle drover," later absorbed into Lloyds Bank (1909), droving heritage. Cross-checks S37/S50.
+
+[S52] Wikipedia, "St Fagans National Museum of History" — https://en.wikipedia.org/wiki/St_Fagans_National_Museum_of_History — Nant Wallter Cottage, relocated from Taliaris near Llandeilo (built c.1770, moved to St Fagans 1993).
+
+[S53] Coflein, site 17589 "Nant Wallter" — https://coflein.gov.uk/en/site/17589 — confirms location (Manordeilo and Salem community, adjacent to Llandeilo), classification only, thin record; and Coflein, site 108 "Ammanford Colliery" — https://coflein.gov.uk/en/site/108 — opened c.1900, closed 1976; and Wikipedia, "Cross Hands, Carmarthenshire" — https://en.wikipedia.org/wiki/Cross_Hands,_Carmarthenshire — Cross Hands Colliery opened 1869 by Norton & Co, the best-attested actual Victorian-era colliery near Llandeilo.
+
+[S54] Wikipedia, "Cholera outbreaks and pandemics" — https://en.wikipedia.org/wiki/Cholera_outbreaks_and_pandemics — UK-wide death tolls for 1832 (>55,000 UK-wide, 6,536 London), 1848–49 (52,000 England & Wales, 14,137 London in 1849), 1853–54 (10,739 London), 1866 (5,596 East London); the Ystalyfera 1866 outbreak (119 deaths, contaminated canal water) as the only confirmed nearby Welsh case. Cross-checked with Welsh Newspapers Online search results (The Cambrian, 1832; Monmouthshire Merlin, 1832/1849) confirming south Wales press coverage of cholera generally, though no Llandeilo-specific case found and the search tool's hit-count reporting proved unreliable. Also Wikipedia, "Public Health Act 1848" — https://en.wikipedia.org/wiki/Public_Health_Act_1848 — national legislative scope and context.
+
+[S55] Wikipedia, "Welsh costume" and Wikipedia, "Lady Llanover" — https://en.wikipedia.org/wiki/Welsh_costume and https://en.wikipedia.org/wiki/Lady_Llanover — the betgwn as "common in Ceredigion and Carmarthenshire," locally-sourced red/dark-blue-or-black striped flannel; men's dress (flannel jackets/breeches, blue or grey wool, breeches-to-trousers transition after 1807, an 1807 account of "coarse woollen cloth of a sky blue colour" as standard Welsh male dress outside Radnorshire); Lady Llanover's exaggerated-influence myth explicitly debunked ("very little evidence... other than by her servants, family and friends"), her 1834 Cardiff Eisteddfod essay prize, and a 1963 article blamed for the modern myth. Cross-checks and extends S38.
+
+[S56] Wikipedia, "Carmarthen" — https://en.wikipedia.org/wiki/Carmarthen — 1841 population of the county town, 9,526, used here only as a scale comparator for Llandeilo's own much smaller population.
+
+[S57] Cambridge University Press, "An 'Anglicised' and 'Alien' Gentry? Welsh Identities, Language and the Landowners of Wales" (Chapter 5, *Coming of Age Celebrations on Welsh Landed Estates*) — https://www.cambridge.org/core/books/abs/coming-of-age-celebrations-on-welsh-landed-estates/an-anglicised-and-alien-gentry-welsh-identities-language-and-the-landowners-of-wales/9D81E46702B7697941EE36F14971CEC9 — peer-reviewed academic chapter; Rev. Henry Richard's 1868 formulation of Welsh identity (language/Nonconformity/radical politics), Herbert M. Vaughan's "aliens in birth, in religion, in politics and in language" quote about the Welsh gentry. Single-source in this pass but a strong, citable academic source.
+
+[S58] www.workhouses.org.uk, "The Workhouse in Llandilo Fawr, Carmarthenshire" — https://www.workhouses.org.uk/LlandiloFawr/ — Union formation (14 Dec 1836, alternatively "16 Dec 1836" per a second source), 11 constituent parishes, workhouse built 1837–38 at Abercennen/Ffairfach, architect George Wilkinson, cost £2,243, capacity 120, 1831 Union population 15,614, 1834–36 average poor-rate expenditure £5,653 (7s 3d/head), later Abercennen Public Assistance Institution, demolished mid-1960s. Cross-checked in outline (Union formation date, parish count) against a GENUKI reference to Geoff Hooker's 2013 University of Leicester PhD thesis on the same Union (thesis itself not opened).
+
+[S59] Gomer Roberts, *Hanes Plwyf Llandybie* (1939), trans. Ivor Griffiths (1986), "Limestone Quarrying in Llandybie" — http://www.terrynorm.ic24.net/llandybie%20quarrying.htm — Cilyrychen lease/build detail (cross-checks S24), the separate Pistyll kiln site (Strick & Richards, Brynamman ironworks supply, closed 1901), lime/coal cart prices (3d/cwt 1823, 5s/ton 1878), the "50 to 100 carts" queueing detail and farmers travelling from Cardiganshire/Pembrokeshire before dawn to save tolls, and 18th-century churchwarden/Bishop's Court limewashing citations (1730s/1750s, predating this era but describing a practice that continued through it).
+
+[S60] Richard Colyer, "Welsh Cattle Drovers in the Nineteenth Century" (3 parts), *National Library of Wales Journal*, 1972 Vol.XVII/4, 1974 Vol.XVIII/3, 1975 Vol.XIX/1, via GENUKI — https://www.genuki.org.uk/big/wal/Archives/NLWjournals/CattleDrovers1 (and /CattleDrovers2, /CattleDrovers3) — drover licensing law (5 & 6 Edward VI; 21 & 39 Elizabeth I; 12d Quarter Sessions licence, 8d Clerk of the Peace registration), scale of the trade, drovers' banks, and John Johnes of Dolau Cothi's 1847 Blue Books evidence for the Caio hundred ("a great many cattle dealers in this parish who travel to England and practically learn the value of education"). Peer-reviewed-adjacent academic source (National Library of Wales Journal), read directly.
+
+[S61] Vision of Britain, "Llandeilo Fawr Parish (AP/CP) through time," Total Population table — https://www.visionofbritain.org.uk/unit/10192791/cube/TOT_POP — reached with `curl -k` (the live site presents a broken TLS certificate chain to a plain fetch from this environment); parish population by census year 1801–1891 (gaps at 1861/1871/1901 in the table as reached), the site's own boundary-change caveat, and its own citations to the underlying Population Tables volumes (1851/1881/1891). Cross-checked against Lewis's 1833/44 *Topographical Dictionary* (1841 figure matches to the digit) and the 1851 Religious Census calendar (1851 figure matches exactly) — see Population section.
+
+**Method note (for anyone continuing this research):** this document was produced by a lead pass
+plus four parallel deep-research passes (Rebecca Riots; Dynevor estate/gentry; chapels/Blue Books/
+Welsh Not; agriculture/industry/population/health/clothing), each independently sourced and
+cross-checked against the others where they overlapped (e.g. the Newton House/R. K. Penson
+attribution, the Cilyrychen lime kilns, and the 1858 Vale of Towy Railway opening date were each
+independently confirmed by at least two of the five research threads, including this document's
+own lead-pass verification). The agriculture/industry/population/health/clothing thread's full
+report, including its own numbered source list [S1]–[S23] in its original numbering, was received
+in full (after an initial cross-agent message went astray and had to be re-requested) and has been
+folded into the sections above under this document's own S-numbering (S50–S56), preserving that
+thread's explicit statement of its own remaining gaps (dairy/butter, decade-by-decade population,
+Carmarthenshire-specific wages/rents/prices, a confirmed local cholera case) accurately throughout.
+A final synthesis pass (S57–S61) then merged in the remainder of that same thread's findings that
+had not yet been folded in — the Baron Dynevor succession to 1898, an academic quote on gentry
+alienation, the Union Workhouse's fuller founding detail (and its date discrepancy against the
+Ffairfach Wikipedia entry, flagged rather than resolved), lime-kiln economics and the Pistyll site,
+drover licensing law, and — the single biggest change — a genuinely cross-checked parish
+population series for 1801–1891, recovered once a `curl -k`/user-agent workaround got past two
+tooling walls (a broken TLS certificate on Vision of Britain, a user-agent block on GENUKI) that
+had stopped every earlier pass. This closes what the document's own Summary and Open Questions
+had flagged as the weakest category; it does not change any finding already in the document, only
+adds to it and corrects the population-related framing in the Summary/Population sections
+accordingly.

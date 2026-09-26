@@ -1,11 +1,9 @@
 import type { GridRef } from './model.ts';
 
-/** The diorama: a disc of 10 miles radius centred on Llandeilo. */
 export const WORLD = {
   centre: { e: 262900, n: 222500 },
   radiusMetres: 16093,
   metresPerUnit: 10,
-  /** Hills are exaggerated so the valley reads at diorama scale (stated in the About panel). */
   verticalExaggeration: 2.4,
 } as const;
 
@@ -27,12 +25,4 @@ export function toGrid(p: WorldXZ): GridRef {
 
 export function heightToWorld(metres: number): number {
   return (metres * WORLD.verticalExaggeration) / WORLD.metresPerUnit;
-}
-
-export function distanceMetres(a: GridRef, b: GridRef): number {
-  return Math.hypot(a.e - b.e, a.n - b.n);
-}
-
-export function insideDisc(g: GridRef): boolean {
-  return distanceMetres(g, WORLD.centre) <= WORLD.radiusMetres;
 }

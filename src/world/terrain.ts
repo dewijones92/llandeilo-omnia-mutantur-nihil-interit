@@ -61,7 +61,6 @@ export interface RiverPath {
   readonly name: string;
   readonly width: number;
   readonly points: readonly GridRef[];
-  /** River surface level in metres at each point. */
   readonly levels: readonly number[];
 }
 
@@ -78,6 +77,8 @@ export interface TerrainTriangles {
   readonly floodplain: Uint8Array;
   readonly field: Uint16Array;
   readonly shade: Float32Array;
+  readonly mapped: Uint8Array;
+  readonly mix: Float32Array;
 }
 
 export type LandCover = 'wood' | 'farm' | 'meadow' | 'moor' | 'grass' | 'rock';
@@ -95,10 +96,11 @@ export class Terrain {
     private readonly scene: Scene,
     private readonly heightfield: Heightfield,
     riverLines: readonly RiverLine[],
+    woodland: Uint8Array,
   ) {
     const started = performance.now();
     this.rivers = buildRiverPaths(heightfield, riverLines);
-    const { positions, tris } = triangulate(heightfield, this.rivers);
+    const { positions, tris } = triangulate(heightfield, this.rivers, woodland);
     this.tris = tris;
     this.cover = new Uint8Array(tris.count);
     this.colours = new Float32Array(tris.count * 12);
@@ -134,7 +136,6 @@ export class Terrain {
     return sampleHeight(this.heightfield, g);
   }
 
-  /** Recolour for an environment; cheap no-op when nothing visible changed. */
   applyEnvironment(env: Environment): boolean {
     const key = `${env.forest.toFixed(3)}|${env.farmland.toFixed(3)}|${env.moor.toFixed(3)}`;
     if (key === this.lastKey) return false;
@@ -178,15 +179,17 @@ function classify(t: TerrainTriangles, i: number, env: Environment, farmShare: n
   const slope = t.slope[i] ?? 0;
   const h = t.heightM[i] ?? 0;
   if (slope > 0.62) return 'rock';
-  const wood = t.woodRank[i] ?? 0;
+  const useMap = (t.mix[i] ?? 1) < env.mappedWoodland;
+  const wood = useMap ? ((t.mapped[i] ?? 0) === 1 ? 1 : 0) : (t.woodRank[i] ?? 0);
+  if (useMap && wood === 1) return 'wood';
   if (h >= UPLAND_M) {
     const treeLine = UPLAND_M + (h > 520 ? 0 : 230) * env.forest;
-    if (h < treeLine && wood > 1 - env.forest * 0.85) return 'wood';
+    if (!useMap && h < treeLine && wood > 1 - env.forest * 0.85) return 'wood';
     if ((t.moorRank[i] ?? 0) > 1 - env.moor) return 'moor';
     return 'grass';
   }
   if ((t.floodplain[i] ?? 0) === 1 && env.forest < 0.75) return 'meadow';
-  if (wood > 1 - env.forest) return 'wood';
+  if (!useMap && wood > 1 - env.forest) return 'wood';
   if ((t.farmRank[i] ?? 0) > 1 - farmShare) return 'farm';
   return 'grass';
 }
@@ -276,6 +279,7 @@ interface Pt {
 function triangulate(
   hf: Heightfield,
   rivers: readonly RiverPath[],
+  woodland: Uint8Array,
 ): { positions: Float32Array; tris: TerrainTriangles } {
   const R = WORLD.radiusMetres;
   const pts: Pt[] = [];
@@ -372,6 +376,8 @@ function triangulate(
     floodplain: new Uint8Array(count),
     field: new Uint16Array(count),
     shade: new Float32Array(count),
+    mapped: new Uint8Array(count),
+    mix: new Float32Array(count),
   };
   const woodScore = new Float32Array(count);
   const farmScore = new Float32Array(count);
@@ -380,7 +386,6 @@ function triangulate(
   const upland: number[] = [];
 
   for (let t = 0; t < count; t++) {
-    // Delaunator is counter-clockwise in (x, z); Babylon is left-handed, so flip winding to face up.
     const ia = triIdx[t * 3] ?? 0;
     const ib = triIdx[t * 3 + 2] ?? 0;
     const ic = triIdx[t * 3 + 1] ?? 0;
@@ -424,6 +429,10 @@ function triangulate(
     const medium = fbm(ex / 700, ez / 700, 3, 11);
     const jitter = hash2(Math.round(ex), Math.round(ez), 3);
     tris.shade[t] = 0.95 + jitter * 0.07;
+    const col = Math.floor((ex - hf.meta.originEasting) / hf.meta.cellSize);
+    const row = Math.floor((hf.meta.originNorthing - ez) / hf.meta.cellSize);
+    tris.mapped[t] = woodland[row * hf.meta.width + col] ?? 0;
+    tris.mix[t] = fbm(ex / 1800, ez / 1800, 3, 29) * 0.85 + jitter * 0.15;
     woodScore[t] = large * 0.55 + medium * 0.2 + smoothstep(0.05, 0.35, slope) * 0.35 + jitter * 0.05;
     const flat = 1 - smoothstep(0.03, 0.25, slope);
     farmScore[t] = flat * 0.45 + (1 - clamp(hM / UPLAND_M, 0, 1)) * 0.3 + medium * 0.25;

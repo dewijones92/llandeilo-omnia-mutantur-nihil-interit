@@ -1,7 +1,6 @@
 import { DynamicTexture, Layer, type Scene } from '@babylonjs/core';
 import { toHex, mix, type Rgb } from '../domain/colour.ts';
 
-/** Screen-space studio backdrop: zenith to horizon gradient, recoloured per era. */
 export class Sky {
   private readonly texture: DynamicTexture;
   private last = '';

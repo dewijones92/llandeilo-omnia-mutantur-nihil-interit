@@ -1,7 +1,6 @@
 import { mintNumber, type Brand } from './brand.ts';
 import type { Lang } from './i18n.ts';
 
-/** Astronomical year numbering: 0 is 1 BC, -99 is 100 BC. */
 export type Year = Brand<number, 'Year'>;
 
 export const PRESENT_YEAR = 2026;

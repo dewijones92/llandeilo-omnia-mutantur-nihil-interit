@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Builds public/data/terrain.bin, terrain.json and rivers.json from OS OpenData.
-# Inputs (not committed): OS Terrain 50 ASCII grid and OS Open Rivers GeoPackage, downloaded to $DATA.
 set -euo pipefail
 
 DATA="${DATA:-$HOME/code/data/llandeilo}"
@@ -32,7 +30,6 @@ gdalbuildvrt -q -a_srs EPSG:27700 "$WORK/terrain.vrt" "$WORK"/asc/*.asc
 gdalwarp -q -overwrite -te "$XMIN" "$YMIN" "$XMAX" "$YMAX" -tr "$CELL" "$CELL" -r bilinear \
   -ot Float32 "$WORK/terrain.vrt" "$WORK/terrain.tif"
 
-# Height in decimetres as little-endian uint16, row 0 = north edge.
 gdal_translate -q -of ENVI -ot UInt16 -scale 0 6553.5 0 65535 "$WORK/terrain.tif" "$WORK/terrain.envi"
 cp "$WORK/terrain.envi" "$OUT/terrain.bin"
 
