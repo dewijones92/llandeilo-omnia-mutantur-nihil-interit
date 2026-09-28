@@ -6,6 +6,7 @@ import {
   parseClock,
   phaseOf,
   SEASONS,
+  seasonKey,
   seasonLook,
   snowCover,
   sunDirection,
@@ -147,5 +148,16 @@ describe('parseClock', () => {
     expect(parseClock('dusk', 'monsoon')).toEqual(DEFAULT_CLOCK);
     expect(parseClock('', null)).toEqual(DEFAULT_CLOCK);
     expect(wrapHour(-1)).toBe(23);
+  });
+});
+
+describe('seasonKey', () => {
+  it('changes when the land would look different, and only then', () => {
+    const winter = seasonLook('winter', 0);
+    expect(seasonKey(winter)).toBe(seasonKey(seasonLook('winter', 0)));
+    expect(seasonKey(winter)).not.toBe(seasonKey(seasonLook('summer', 0)));
+    expect(seasonKey(winter)).not.toBe(seasonKey(seasonLook('winter', 0.45)));
+    expect(seasonKey({ ...winter, snowLine: 605 })).toBe(seasonKey({ ...winter, snowLine: 600 }));
+    expect(seasonKey({ ...winter, snowLine: 650 })).not.toBe(seasonKey({ ...winter, snowLine: 600 }));
   });
 });
