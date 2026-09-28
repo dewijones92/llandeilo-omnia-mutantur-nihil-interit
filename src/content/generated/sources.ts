@@ -104,7 +104,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "classes:S18",
-    "title": "Catholic Encyclopedia, \"Premonstratensian Canons\" (via catholic.com), search-summary only.",
+    "title": "Catholic Encyclopedia, \"Premonstratensian Canons\" (via catholic.com),",
     "url": "https://www.catholic.com/encyclopedia/premonstratensian-canons",
     "doc": "docs/research/conversations-by-class.md"
   },
@@ -268,6 +268,12 @@ export const SOURCE_SEEDS = [
     "id": "classes:S45",
     "title": "Heneb (Dyfed Archaeological Trust), \"Dinefwr and Newtown\", search-summary only (the page redirect-loops).",
     "url": "https://www.dyfedarchaeology.org.uk/wp/discovery/projects/dinefwr-and-newtown/",
+    "doc": "docs/research/conversations-by-class.md"
+  },
+  {
+    "id": "classes:S46",
+    "title": "Wikipedia, \"Middle English\" (raw wikitext read 2026-09-28).",
+    "url": "https://en.wikipedia.org/wiki/Middle_English",
     "doc": "docs/research/conversations-by-class.md"
   },
   {
