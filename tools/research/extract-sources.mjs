@@ -11,6 +11,7 @@ const PREFIX = {
   'era-victorian': 'victorian',
   'language-by-class': 'language',
   'deep-time-and-natural-history': 'deeptime',
+  'conversations-by-class': 'classes',
 };
 
 const entries = [];

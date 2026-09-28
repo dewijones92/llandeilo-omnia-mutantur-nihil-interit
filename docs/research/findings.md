@@ -52,6 +52,27 @@ because of it. The detail and sources are in each note; this is the summary a ne
   Dinefwr, recorded in 1688, and wolves died out in Wales in 1166; both rest on Wikipedia pages
   only so far (single-source). ([deep time](deep-time-and-natural-history.md))
 
+## Conversations by class (2026-09-28)
+
+From [`conversations-by-class.md`](conversations-by-class.md), a draft not yet independently checked:
+
+- **Carreg Cennen was in Welsh hands in June 1282**, taken on 26 March by Dafydd ap Gruffudd and the
+  lords of Is Cennen. The English army occupied the ruins around mid-June and left about fifty foot
+  and some workmen. The attested English garrison was at **Dinefwr**, about 35 lances of Somerset and
+  Devon knights under Alan Plukenet after the battle. The army itself was mostly Welsh levies.
+- **Giffard's grant of Carreg Cennen dates from 1283**, so "lands granted after the conquest" belongs
+  to 1283–87, not June 1282. Newton, the English borough beside Dinefwr, is first mentioned in 1297.
+- **The primary annal gives 16 June 1282** ("XVI Kalendas Julii"); Morris's 17 June looks like a
+  counting slip. The app keeps "16 or 17 June" and should note the primary reading.
+- **Talley's first canons came from St-Jean, Amiens.** Gerald of Wales mentions its "canons and
+  brothers" and servants c. 1193–1205; nothing says where the brothers came from or what they spoke.
+- **Real 1282 grievances from this valley survive** in Archbishop Peckham's register: English soldiers
+  stabling horses in Llangadog church, the burning of Llandingad and Llanwrda churches, and Welsh
+  lords denied Welsh law. They are the best grounding yet for what people here were angry about.
+- **The Roman forts report was read**: Fort 1 is 3.85ha, probably soon after AD 74; the unit is unknown.
+- Attested lines to quote now exist for every key date except the Iron Age, and Carmarthenshire
+  dialect features are sourced, from 20th-century recordings only.
+
 ## Corrections the review forced
 
 See [`open-questions.md`](open-questions.md) for the full list. The most important:

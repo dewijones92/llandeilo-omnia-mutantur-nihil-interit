@@ -1,13 +1,13 @@
 ---
 title: Conversations by class
 kind: design
-status: proposed
+status: agreed
 updated: 2026-09-28
 ---
 
 # Typical conversations at every key date, by class
 
-Raised by Dewi, 2026-09-28. **Proposed, not built.**
+Raised by Dewi, 2026-09-28. **Agreed; research done (draft), not built yet.**
 
 ## The idea
 
@@ -36,15 +36,26 @@ class one conversation with:
 
 | Class | Language | Talking about | Voice |
 |---|---|---|---|
-| Welsh farmers | Middle Welsh (modern stand-in) | The ambush, and who to trust | Welsh |
-| A poet (bardd teulu) | Middle Welsh, a real attested line | Praise and lament | Welsh |
-| Parish clergy | Latin (church) and Welsh | Burials, prayers for the dead | Latin (Diego), Welsh |
-| ⚠️ English troops in the valley (needs research: who held Carreg Cennen in June 1282? rebels had seized it, and de Clare's column sacked it that month) | Anglo-Norman French / Middle English (French-speaking garrisons are inferred by analogy, not documented) | Orders, fear of the valley | French / English |
+Revised 2026-09-28 from [`research/conversations-by-class.md`](../research/conversations-by-class.md)
+(draft), which corrected the first outline:
 
-A Marcher lord's household belongs after Giffard's grant of 1283, not June 1282. Other dates follow
-the same shape: Roman fort (Brittonic farmers, Latin soldiers), Talley 1185 (Latin canons; whether
-there were Welsh lay brothers is not researched), 1843 (Welsh tenants, English agents and magistrates, a
-Nonconformist minister), 1860s (children at school, the Welsh Not debate), today (bilingual).
+| Class | Language | Talking about | Voice |
+|---|---|---|---|
+| Welsh farmers | Middle Welsh (modern stand-in) | The ambush, and who to trust | Welsh |
+| Parish clergy | Latin (church) and Welsh | The attested sacrilege: Llangadog church used as a stable, Llandingad and Llanwrda churches burned | Latin (Diego), Welsh |
+| The English garrison at **Dinefwr** (a royal castle since 1277) | Anglo-Norman French / Middle English | Orders, the woods, the dead William de Valence | French / English |
+| A magnate's retinue on campaign | Anglo-Norman French | Plunder, the ambush | French |
+
+Not in June 1282: an English garrison at Carreg Cennen (Welsh-held from 26 March; about fifty foot
+were left in its ruins in mid-June), a Marcher lord's household with granted lands (Giffard's grant is
+1283; this belongs to 1283–87), and a poet's attested line (none local found; the famous elegy is
+December 1282 or later).
+
+Other dates: Roman fort (Brittonic farmers; Latin as the army's language, unit unknown), Talley 1185
+(canons from Amiens, probably French-speaking by inference; lay brothers or servants of unknown
+origin; Latin liturgy; Welsh tenants), 1843 (Welsh tenants, the English toll farmer, gentry and
+magistrates doing business in English, a Nonconformist minister), 1846–60s (the Llandilo workhouse
+school, where "the schoolmaster could not explain them in Welsh"), today (bilingual).
 
 ## Rules and cautions
 
@@ -57,6 +68,3 @@ Nonconformist minister), 1860s (children at school, the Welsh Not debate), today
 - **Welsh quality**: more Welsh text raises the value of the parked human Welsh check.
 - **Scale**: roughly 22 dates × 3–5 classes ≈ 70–110 conversations and a few hundred voice clips
   (~10–20MB). Worth deciding whether that is every date or the vertical-slice eras first.
-
-> Corrected 2026-09-28 after an independent review found anachronisms in the 1282 outline. A
-> dedicated research pass (`docs/research/conversations-by-class.md`) is under way.

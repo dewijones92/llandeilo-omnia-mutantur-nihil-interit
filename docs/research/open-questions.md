@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # Open questions
@@ -14,7 +14,7 @@ for the next pass. Each note's own "Open questions" section has the full list an
 
 | Question | Sources disagree | Note |
 |---|---|---|
-| Date of the Battle of Llandeilo Fawr | 16 June vs 17 June 1282 | [medieval](era-medieval-to-1282.md) |
+| Date of the Battle of Llandeilo Fawr | 16 June vs 17 June 1282; the primary annal reads XVI Kal. Jul. = 16 June, so 17 looks like a slip (2026-09-28) | [medieval](era-medieval-to-1282.md), [classes](conversations-by-class.md) |
 | Who led the Welsh in 1282 | Wikipedia's battle page names Rhys ap Maredudd; his own biography puts him on the English side; no chronicle names anyone | [medieval](era-medieval-to-1282.md) |
 | Size and date of the Dinefwr Roman forts | 8 vs 12 acres; AD 57/58 vs late 70s | [iron age](era-iron-age.md) |
 | Garn Goch's area | 11.2ha (fort) vs 16.6ha (with annexe), probably two definitions | [iron age](era-iron-age.md) |
@@ -27,9 +27,13 @@ for the next pass. Each note's own "Open questions" section has the full list an
 
 - **Earliest people in the radius**: no dated Palaeolithic or Mesolithic site; the Garn Goch long
   cairn is Neolithic by shape only. The Waun Fignen Felen evidence lies just outside the disc.
-- **The primary Roman forts report** ("The Llandeilo Roman Forts: Archaeological Investigations
-  2003–2007") could not be fetched and should settle the fort questions.
-- **Brut y Tywysogion's own wording** for 1282 was not read directly.
+- ~~**The primary Roman forts report**~~ was read on 2026-09-28: Fort 1 is 3.85ha, probably soon after
+  AD 74, Fort 2 is 1.54ha, abandoned by about AD 140; the unit is unknown
+  ([classes](conversations-by-class.md)). The app's "8 vs 12 acres" contradiction can now be revisited.
+- **Brut y Tywysogion's own wording** for 1282: the Rolls Series edition read on 2026-09-28 stops at
+  25 March 1282. The Peniarth 20 version is still unread.
+- **Talley Abbey's position**: Monastic Wales gives SN6328132772 (2026-09-28), about 90m from the
+  Wikipedia point the app uses. Confirm against Coflein or Cadw, then move it.
 - **Gerald of Wales on Welsh clothing**: the Description of Wales itself was not read.
 - **Local wages, prices and food** for the Victorian period: no Carmarthenshire figures found.
 - **Dryslwyn after 1287**: when the castle fell out of use is not researched (the app shows an
@@ -40,6 +44,10 @@ for the next pass. Each note's own "Open questions" section has the full list an
 - **The 1851 religious census** attendance figures for Llandeilo.
 - **Mapped coordinates**: several lat/lon values came from aggregators and should be checked
   against Coflein or Cadw grid references before precise placement.
+
+The conversations-by-class note (2026-09-28) has its own open questions: which Rhys made the 1282
+complaint, Newton's burgesses, the Genesis 24:60 text, the soldiers of 1843, and more. See its "Open
+questions" section.
 
 ## Corrections from the first independent review (2026-09-26)
 

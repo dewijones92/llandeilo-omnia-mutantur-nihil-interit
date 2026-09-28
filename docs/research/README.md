@@ -2,7 +2,7 @@
 title: Research index
 kind: index
 status: current
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # Research
@@ -23,9 +23,10 @@ the research drove.
 | [era-victorian](era-victorian.md) | c. 1830–1901: Rebecca Riots, bridge, railway, chapels, gentry and tenants | draft | [brief](briefs/era-victorian.md) |
 | [language-by-class](language-by-class.md) | Spoken language over time and by class; sample phrases | draft | [brief](briefs/language-by-class.md) |
 | [deep-time-and-natural-history](deep-time-and-natural-history.md) | Geology, ice ages, vegetation, animals, climate | draft | [brief](briefs/deep-time-and-natural-history.md) |
+| [conversations-by-class](conversations-by-class.md) | Who was present at each key date, their languages and concerns, attested lines to quote; Anglo-Norman and Middle English pronunciation; Carmarthenshire dialect | draft | [brief](briefs/conversations-by-class.md) |
 
-All six are `draft`: produced in one pass on 2026-09-26, with WebSearch quota exhausted part way
-through (see [`process.md`](process.md)). None has yet had an independent verification pass.
+The first six are `draft`: produced in one pass on 2026-09-26, with WebSearch quota exhausted part
+way through (see [`process.md`](process.md)). `conversations-by-class` was added on 2026-09-28. None has yet had an independent verification pass.
 
 ## Citing these notes
 
