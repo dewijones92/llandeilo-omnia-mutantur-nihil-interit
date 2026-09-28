@@ -19,6 +19,12 @@ lead), **inference** (my reasoning from sources, not a claim any source makes), 
 optical-character-recognition text layer, so a letter or number may be wrong). Cross-references to
 other notes use their citation ids (e.g. `medieval:S27`).
 
+> **Verification pass, 2026-09-28** (independent reviewer): the priority claims were re-read in the
+> sources themselves (Internet Archive text layers, page images where a reading mattered, the forts
+> PDF, TNA pages via the Web Archive, Welsh Newspapers Online, Monastic Wales, RIB, the Latin Library,
+> Amgueddfa Cymru, Prosiect BRO). Most checked out and are marked "Verified 2026-09-28". Several were
+> corrected (marked "Corrected 2026-09-28"), so the note stays `status: draft`.
+
 ## Summary
 
 - **June 1282 is the date that needed the most correction.** Carreg Cennen was **in Welsh hands** from
@@ -29,11 +35,21 @@ other notes use their citation ids (e.g. `medieval:S27`).
   garrison that is actually attested sat at **Dinefwr**, a royal castle since 1277, and after the battle
   it was held by about 35 lances of Somerset and Devon knights under Alan Plukenet ([S1]). No land had
   yet been granted "after the conquest": Giffard's grant of Carreg Cennen is dated 1283 (Wikipedia, Gatehouse; Cadw confirms the grant without a year),
-  and Morris has him in full possession of Is Cennen in 1284.
+  and Morris has him in full possession of Is Cennen in 1284. *Verified 2026-09-28* against Morris
+  pp. 154, 165–167, 201 and the Annales page image. Two nuances found in Morris: he also says
+  Caercynan was "seized and destroyed, at least partially, by David early in April" (p. 165,
+  against March 26 on p. 154), and he calls Caercynan "the royal lands" still in 1283, when Gower
+  tenants migrated there (p. 201), which sits uneasily with a 1283 grant. And Giffard **already held
+  Llandovery** "since 1277, both by right of conquest and through his wife's claim" (p. 201). In spring
+  1282 Edward ordered Gloucester "to reconquer and hand over Llandovery to John Giffard" (p. 165).
+  *Corrected 2026-09-28.*
 - **The battle date resolves to 16 June in the primary text.** Annales Cambriae says young William de
   Valence was killed "in Estratewy XVI Kalendas Julii", which is 16 June. Morris gives 17 June and cites
   the same annal, apparently by a counting slip ([S1], [S2]). The Annales do not name Llandeilo, and no
-  source read here names the Welsh leader.
+  source read here names the Welsh leader. *Verified 2026-09-28* against the page image of the Rolls
+  Series edition (p. 106): it prints "xvi. Kalendas Julii" (the OCR's "XVL" is the full stop). The Kalends
+  of July is 1 July; counting inclusively back through June's 30 days, a.d. XVI Kal. Jul. = 32 − 16 =
+  16 June. Pilling [S8] also gives 16 June.
 - **The Welsh Brut edition read here stops at Lady Day (25 March) 1282**, so it has no entry for the
   battle at all ([S3]).
 - **Real local grievances of 1282 survive in Latin** in Archbishop Peckham's register ([S4]). They
@@ -42,8 +58,11 @@ other notes use their citation ids (e.g. `medieval:S27`).
   Giffard claimed a Welsh lord's inheritance; and that Welsh lords were denied Welsh law. These are the
   best grounding in the whole project for what people in this valley were angry about in 1282.
 - **Talley's "Welsh lay brothers" are not attested.** The first canons came from **St-Jean, Amiens**
-  ([S13], [S15]). Gerald of Wales, writing c. 1193–1205, describes Talley's abbot, "canons and
-  brothers" (*fratres*) and "servants" being thrown out at night by Whitland's Cistercians ([S14]).
+  ([S13], [S15]). Gerald of Wales, writing after 1200 (Owen: "probably not long before his death" in
+  1223) about an episode of 1193–1205, describes Talley's abbot, "canons and
+  brothers" (*fratres*) and "servants" being thrown out at night "by an armed band of laymen" at the
+  instigation of Whitland's abbot ([S14]). *Corrected 2026-09-28*: this bullet had "writing c.
+  1193–1205" (the episode's date, not the writing) and "thrown out by Whitland's Cistercians".
   The *fratres* were probably lay brothers (inference), but nothing says where they came from or what
   they spoke. The canons were later identified with the Welsh ([S13], [S16]).
 - **The primary Roman forts report was fetched** ([S19]). Fort 1 is 3.85ha and probably early Flavian
@@ -114,7 +133,9 @@ other notes use their citation ids (e.g. `medieval:S27`).
   had timber-and-earth defences and timber buildings ([S19], primary excavation report, Hughes 2007).
   **No inscription names the unit**, so the soldiers' origin (Gaul, Germany, Spain, Thrace…) is
   **unknown**. Single-source for the sizes, but this is the primary report, and it supersedes the
-  8 versus 12 acres disagreement in the Iron Age note.
+  8 versus 12 acres disagreement in the Iron Age note. *Verified 2026-09-28*: the PDF (68 pages) was
+  downloaded and every [S19] quote in this section checked word for word (the report itself spells
+  "peditiata"). The finds, grains, "by AD140" and the seven denarii are as stated.
 - **Vicus (civilian settlement) people.** Traders and families beside the fort, and a later reuse of Fort
   2's interior "by the inhabitants of the vicus after the departure of the soldiers" ([S19]).
 - **Local farmers.** The report frames the forts' grain supply and "the effect of the forts on the local
@@ -162,6 +183,8 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - The only local Roman text is the lost milestone RIB 2262, *Imp(eratori) C(aesari) M(arco) Cl(audio)
   Tacito P(io) F(elici) Invicto Aug(usto)*, AD 275–276. It was seen in 1697 as a farmhouse cornerstone
   near Dynevor ([S20]). It is **two centuries too late** for AD 80.
+- *Verified 2026-09-28*: RIB 2262, Tab. Vindol. 164 and 343, and the Tacitus and Caesar Latin quoted
+  in this note match RIB and the Latin Library.
 
 ## Talley Abbey's founding, c. 1185
 
@@ -169,14 +192,21 @@ other notes use their citation ids (e.g. `medieval:S27`).
 
 - **Canons regular (White Canons).** Talley was founded by the Lord Rhys "as a dependency of Amiens,
   St Jean", "between 1184 and 1189" ([S13]). The VCH also says it "was founded from the monastery of
-  St. John's, Amiens" ([S15]). **Cross-checked.**
+  St. John's, Amiens" ([S15]). **Cross-checked.** *Verified 2026-09-28* (both pages read; Monastic
+  Wales gives OS grid SN6328132772). A third, independent witness: the abbot of Prémontré wrote in
+  1475 that Talley "was at first subject as a daughter of the monastery of St John of Amiens"
+  (*primitus fuit filiale subjectum monasterii S. Johannis Ambianensis*), printed by Owen ([S14],
+  October 1893 instalment).
 - **"Brothers" and servants.** Gerald of Wales's *Speculum Ecclesiae* (written after 1200, as quoted by
   Owen 1893, [S14]) describes the abbot of Whitland luring Talley's "abbot ... with certain of his canons
   and brothers" (*abbatem cum canonicis suis aliquot et fratribus*). The convent was then ejected at night
   "with the brethren and servants" (*cum fratribus et servientibus*) "by an armed band of laymen". The
-  Premonstratensian order did have lay brothers (Catholic Encyclopedia via catholic.com: "composed of
-  priests and lay brothers", [S18], **search-summary only**). Reading *fratres* here as lay brothers is
-  **inference**.
+  Premonstratensian order did have lay brothers (Catholic Encyclopedia via catholic.com, [S18]). *Corrected
+  2026-09-28*: read directly, the page does not say "composed of priests and lay brothers"; it says "In
+  the monasteries there are laybrothers and laysisters who likewise make their vows", describing the
+  order as it was c. 1911, so it is **not evidence for the 12th century**. Reading *fratres* here as lay
+  brothers is **inference**. The Latin and Owen's translation were *verified 2026-09-28*
+  (archaeologiacam20moorgoog, pp. 121–123).
 - **The founder's court and patrons**: the Lord Rhys and his sons (medieval note).
 - **Neighbouring religious**: the Cistercians of Whitland, who seized Talley's grange "Buthelan" and kept
   it after litigation at Rome and before judges in England ([S14]). Owen dates the episode 1193–1205
@@ -214,7 +244,9 @@ other notes use their citation ids (e.g. `medieval:S27`).
   [S14], which prints Latin and Owen's English. Attribute them to Gerald. They are not anyone's speech.
 - The 1285 royal charter putting Talley under Welbeck (Charter Roll 13 Edw. I, in [S14]) calls it
   "formerly wealthy" (*dudum opulentam*) but found "impoverished and destroyed" through failures "of rule
-  and of honest conduct". This **contradicts** Gerald's "meanly endowed". Both are partisan voices, so
+  and of honest conduct". *Verified 2026-09-28* (Latin as OCR'd: *tam pro defectem regiminis quam honeste
+  conversacionis ... depauperatam ... et destructam*; dated at Bristol, 2 January, and witnessed by
+  Gloucester and Robert de Tybetot). The 1291 Prémontré letter is dated "19-20 Ed. I, 1291" by Owen. This **contradicts** Gerald's "meanly endowed". Both are partisan voices, so
   show both.
 
 ### Contradiction
@@ -227,8 +259,10 @@ other notes use their citation ids (e.g. `medieval:S27`).
 
 ### Classes present (with evidence)
 
-- **Welsh lords in revolt.** On 26 March 1282 (*in crastino Annunciationis*) the royal castles of
-  Llanbadarn, Llandovery and Carreg Cennen were taken by Dafydd ap Gruffudd; Rhys Fychan son of Rhys son
+- **Welsh lords in revolt.** On 26 March 1282 (*in crastino Annunciationis*) the king's castle at
+  Llanbadarn was destroyed (*Destructum fuit castrum regis*) and the castles of Llandovery and Carreg
+  Cennen taken (*captum*) by Dafydd ap Gruffudd; *Corrected 2026-09-28*: the Annales call only
+  Llanbadarn "the king's", and Morris dates Llanbadarn's fall to 9 April; Rhys Fychan son of Rhys son
   of Maelgwn; Gruffudd and Cynan, sons of Maredudd ab Owain; and "Gruffudd and Llywelyn, sons of Rhys
   Fychan, lords of Is Cennen" (*dominos Deyskennen*) ([S2]). Morris gives the same list, also from the
   Annales, and adds that Dafydd destroyed the fortresses rather than hold them ([S1]). **Cross-checked,
@@ -241,7 +275,10 @@ other notes use their citation ids (e.g. `medieval:S27`).
   retinues of William de Valence, some marchers and Gloucester ([S1], from the pay-roll). Pilling gives
   "approximately 8,000 Welsh infantry" and 200 cavalry, with a small band of Forest of Dean miners as the
   "only Englishmen present" ([S9]). The two numbers differ, but **both make the foot overwhelmingly Welsh
-  levies**. That the foot were largely Welsh is cross-checked; the numbers are not.
+  levies**. That the foot were largely Welsh is cross-checked; the numbers are not. *Verified
+  2026-09-28.* Morris does not call the 1,600 Welsh in that sentence; his wording is that the roll
+  records payments "to the levies of Welsh friendlies, and to occasional bodies of crossbowmen and
+  English foot" (p. 165). Pilling is explicit.
 - **At Carreg Cennen after the English arrived**: "Caercynan, or the ruins of the castle, was occupied by
   fifty foot and some workmen, as if the intention were to rebuild for permanent occupation" ([S1],
   single-source). Whether they stayed after the rout is **not known**. Gatehouse says the castle was
@@ -251,7 +288,8 @@ other notes use their citation ids (e.g. `medieval:S27`).
   of about thirty-five lances "remaining under Alan Plukenet to hold Dynevor". Plukenet's corps was
   "composed of Somerset and Devon tenants" ([S1]). Crossbowmen and English foot "were clearly in permanent
   pay in the castles" ([S1]). Wikipedia also has the English heading "back to ... Dinefwr Castle" ([S10],
-  a lead). **This is the attested English garrison near Llandeilo in June 1282.**
+  a lead). **This is the attested English garrison near Llandeilo in June 1282.** *Verified
+  2026-09-28* (Morris pp. 164–167; quotes exact).
 - **Royal officials**: Robert de Tibetot, justiciar at Carmarthen, "the guiding spirit throughout this
   war", working with the Bishop of St Davids ([S1]).
 - **Clergy**: parish priests, including the chaplain at Llangadog struck by English soldiers ([S4]). The
@@ -273,10 +311,13 @@ other notes use their citation ids (e.g. `medieval:S27`).
 ### Topics by class (grounded)
 
 - **Welsh lords and freemen: law and land.** Peckham's register keeps "grievances" (*gravamina*) from
-  Ystrad Tywi ([S4], Latin; working translation here):
-  - A Rhys "the Little" (*Resus Parvus*) of Ystrad Tywi says that after he gave the king "his castle at
-    Dynewr", while in the custody of Payn de Chaworth, "six noble men" of his were killed, and he never had
-    justice. John Giffard "challenged" him over "his own inheritance at Hirfryn" (*Hirurym*). When he asked
+  south-west Wales ([S4], Latin; working translation here). *Verified 2026-09-28* against the text
+  layer (pp. 451–454). *Corrected 2026-09-28*: only Rhys's complaint is "of Estrad Tywy"; the sons of
+  Maredudd ab Owain complain about Genenglyn, Creuddyn and "the county of Cardigan", i.e. Ceredigion.
+  - A Rhys "the Little" (*Reso Parvo de Estrad Tywy*; the edition's heading is "Rys the Little") says
+    that after he gave the king "his castle at Dynewr", at a time when he was in the [*tentilio*, an
+    OCR-uncertain word, so the relationship is not certain] of Payn de Chaworth ("Payn de Gadury"),
+    "six noble men" of his were killed, and he never had justice. John Giffard "challenged" him over "his own inheritance at Hirfryn" (*Hirurym*). When he asked
     for "the law of his country or the law of the county of Carmarthen", he got none and "wholly lost his
     land".
   - Llywelyn and Hywel, sons of Rhys, complain that Edward disinherited them, "denying them all the laws
@@ -290,15 +331,18 @@ other notes use their citation ids (e.g. `medieval:S27`).
   the houses; and in the same church beside the altar struck the chaplain on the head with a sword and
   left him half-alive". Also "the church of Dyngad [Llandingad, Llandovery] and the church of Llanwrda
   they despoiled and burned", and robbed other churches "of chalices and books" ([S4]). Llangadog is about
-  6 miles from Llandeilo, **inside the radius**.
+  6 miles from Llandeilo, **inside the radius**. *Verified 2026-09-28*: the Latin reads *ecclesia Sancti
+  David, que vocatur Laungadawe* and *ecclesiam Dyngad et ecclesiam Launwrdaf*. The identifications with
+  Llangadog, Llandingad and Llanwrda are this note's (inference); the edition's text layer gives none.
 - **Farmers: sheep and money.** The Annales record "a great murrain of sheep, which began in the year
   before", around 1281 ([S2], an OCR passage with garbled context). The Brut for 1279: "Edward ordered the
   coining of new money; and that the halfpennies and farthings should be made round. And thus was
   fulfilled the prophecy of Myrddin, when he says, 'The symbol of the exchange shall be split, and the
   half shall be round'" ([S3]). That is a real talking point, prophecy included.
 - **Soldiers of the royal army: plunder, fear, the woods.** A week's raiding, the force "loaded with
-  loot", "without scouts", "attacked all of a sudden from the hills" ([S1]). The Welsh "broke out from the
-  hiding-places of the woods and the marshes" (Wykes, [S8]). Trivet: "many men on the side of the Welsh
+  loot", "without scouts", "attacked all of a sudden from the hills" ([S1]). The Welsh were "breaking
+  out from the hiding-places of the woods and the marshes" (Wykes, in Pilling's translation, [S8];
+  *quote corrected 2026-09-28*, it had "broke out from"). Trivet: "many men on the side of the Welsh
   were killed, and Gilbert, himself, lost five knights" ([S8]).
 - **Knights at Dinefwr: the dead and the command.** Young William de Valence, "kinsman of the king",
   killed ([S8]). Gloucester stripped of his command on 6 July ([S1], `medieval:S28`).
@@ -307,12 +351,16 @@ other notes use their citation ids (e.g. `medieval:S27`).
 
 - **Annales Cambriae, 1282** (Latin): *"interfectus fuit Willelmus de Valenciis junior haeres
   Penbrochiae in Estratewy XVI Kalendas Julii"*, "William de Valence the younger, heir of Pembroke, was
-  killed in Ystrad Tywi on 16 June" ([S2]). A clergy scene could read it out.
+  killed in Ystrad Tywi on 16 June" ([S2]). A clergy scene could read it out. *Verified 2026-09-28*
+  against the page image, which prints *hæres Penbrochiæ* and *xvi. Kalendas Julii*.
 - **Brut y Tywysogion, 1282** (Middle Welsh, the last entry of that edition): "Y vlwydyn rac wyneb gwyl
   Veir y gehyded y goresgynnawd Gruffud ab Maredud ... a Rys ab Maelgwn ... dref Aber Ystwyth ar castell"
   ("The ensuing year, on the feast of St Mary of the equinox, Gruffudd son of Maredudd ... and Rhys son of
   Maelgwn ... took the town and castle of Aberystwyth", [S3]). I have written *w* where the OCR shows *O*:
-  the edition uses a special *w* glyph. Check against the page image before quoting.
+  the edition uses a special *w* glyph. Check against the page image before quoting. *Verified
+  2026-09-28* that this is the edition's last entry, dated *gwyl Veir y gehyded* (Lady Day; the edition's English: "the feast of St. Mary of the
+  equinox"), and that
+  no June battle follows; the Welsh wording was not checked against the image.
 - **The gravamina** above ([S4]), in Latin, can be quoted, labelled as formal complaints.
 - **Anglo-Norman letters of December 1282** ([S4]; see the Anglo-Norman section below).
 - **Poetry**: the design doc's "a real attested line" for a bardd teulu was **not researched here**.
@@ -331,6 +379,8 @@ other notes use their citation ids (e.g. `medieval:S27`).
   "Giffard's reward", without giving a year ([S7]). Morris says the king "had also granted him the march of
   Isgenen", and that "in 1284 he was in full possession" ([S1]). **Cross-checked for 1283–84; no charter
   date was found.** Giffard's household is **correctly placed from 1283–84 on**, not in June 1282.
+  (*Verified 2026-09-28*, with the Morris nuances noted in the Summary: Caercynan still "royal lands"
+  in 1283, and Giffard already at Llandovery since 1277.)
   Peckham's letter to "Mahaud Lungespeye" ([S4]) is probably to Giffard's wife Maud, widow of William
   Longespée ([S6]; Wikipedia on Giffard). That identification is inference.
 - **English burgesses at Newton.** A borough "associated with Dinefwr Castle", "first mentioned in 1297"
@@ -344,16 +394,20 @@ other notes use their citation ids (e.g. `medieval:S27`).
   Gloucester and Robert de Tibetot ([S14]).
 - **The 1287 revolt.** Rhys ap Maredudd, "at odds with Robert Tybetot, then the king's justiciar at
   Carmarthen", took Llandovery, Dinefwr and Carreg Cennen on "the Sunday before the feast of St Barnabas"
-  (8 June 1287) ([S2]). DWB gives 8 June too ([S11]). **Cross-checked.**
+  (8 June 1287) ([S2]). DWB gives 8 June too ([S11]). **Cross-checked.** *Verified 2026-09-28*: St
+  Barnabas is 11 June, a Wednesday in 1287 (Julian), so the Sunday before is 8 June.
 - **The besieging army** at Dryslwyn on 15 August 1287 numbered 10,635 foot, and "besides the
   crossbowmen and mechanics, 3,740 only were English" ([S1], pay-rolls). The Welsh contingents included
   "Welsh of Carmarthenshire, 1,000" and Welsh of North Pembroke and Cardigan, 920 ([S1]). **Carmarthenshire
-  Welshmen besieged a Welsh lord's castle for the king.** The skilled mechanics were English, from the new
+  Welshmen besieged a Welsh lord's castle for the king.** *Verified 2026-09-28* (Morris pp. 209–210;
+  the total is "nearly 11,000 foot", tabulated as 10,635, on reaching Dryslwyn on 15 August). The skilled mechanics were English, from the new
   northern castles. Carpenters earned about 3d and 4d a day, masons 5d, 6d and 7d (OCR "yi. and 4^." read
   as 3d. and 4d.; check) ([S1]).
 - **Siege workers.** The engine's fitting "came to £14. Twenty quarrymen and four carters made and brought
   up the stone bullets" ([S1]). The medieval note (`medieval:S23`) says **24 carters**: a discrepancy,
-  possibly OCR on one side. Twenty-six *fossatores* were paid to remove stones and mortar and break through
+  possibly OCR on one side. *Verified 2026-09-28*: Morris's text layer spells out "four carters" as a
+  word, so an OCR slip in Morris is unlikely; the castlewales figure is the one to doubt. Twenty-six
+  (OCR "twcnty-sx-x", so the number is uncertain) *fossatores* were paid to remove stones and mortar and break through
   the chapel wall ([S1]). William de Montchensy was killed under an undermined wall ([S1], [S2]).
 - **After the fall.** Dinefwr was garrisoned by "ten archers and twenty crossbows". Dryslwyn under
   Plukenet had "two knights, twenty-two troopers, twenty crossbows, and eighty archers; only four of the
@@ -397,8 +451,9 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - **The toll farmer**: Thomas Bullin, "chief collector of tolls and builder of gates in the area, an
   Englishman hated in Wales" (TNA glossary, [S25]). **Toll collectors**, such as William Rees at
   Trevaughan, whose books were seized by disguised men in "white frocks" in August 1843 ([S25]).
-- **Turnpike trustees**, accused of placing gates "so as to exempt their own Tenants from paying Toll"
-  (George Ellis's memorandum for the Commission, 2 November 1843, [S25]).
+- **Turnpike trustees**, accused of "so placing gates as to exempt their own Tenants from paying Toll"
+  (George Ellis's memorandum for the Commission, 2 November 1843, [S25]; *quote corrected and verified
+  2026-09-28*).
 - **Gentry and magistrates**: Rice-Trevor and the Dynevor estate; the Llandovery magistrates David Jones
   Lewis and Lewis Lewis (victorian note). **Their Welsh names are a caution**: it is not documented that
   local magistrates were English or non-Welsh-speaking.
@@ -407,8 +462,11 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - **Soldiers**: 4th Light Dragoons and the 41st Regiment billeted in the town for nearly two years
   (victorian note). Their men's origins and language were **not researched**.
 - **Officials and gentry reformers**: the High Sheriff of Cardiganshire, E. C. Lloyd Hall, issued a
-  handbill "TO REBECCA AND HER DAUGHTERS" **in Welsh and English** on 20 June 1843 ([S25]). It is in
-  Cardiganshire, not the Llandeilo district, but shows that officials addressed Rebecca in Welsh.
+  handbill "TO REBECCA AND HER DAUGHTERS" **in Welsh and English** on 20 June 1843 ([S25]). It is not
+  from the Llandeilo district, but shows that officials addressed Rebecca in Welsh. *Corrected
+  2026-09-28*: TNA says only that Lloyd Hall was "high sheriff of Cardiganshire"; it does not say where
+  the handbill was posted, and the text itself points to "the Parishes in the Hundred of Upper Elvet",
+  so "it is in Cardiganshire" was an inference.
 
 ### Languages by class
 
@@ -435,14 +493,18 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - **Genesis 24:60, Welsh Bible as printed 1847/48** ([S26], OCR of two printings reconciled): *"Ac a
   fendithiasant Rebeccah, ac a ddywedasant wrthi, Ein chwaer wyt, bydd di fil fyrddiwn; ac etifedded dy
   had borth ei gaseion."* The OCR has "fU fyrddiwn" in both printings, which I read as *fil fyrddiwn*.
-  One printing ends "borth d gaseum", the other "borth ei gaseion". **Check a page image before voicing
-  it.** English (KJV, [S27]): "And they blessed Rebekah, and said unto her, Thou art our sister, be thou
+  One printing ends "borth d gaseum", the other "borth ei gaseion". *Verified 2026-09-28* against the
+  page image of the 1847 printing (ybiblcyssegrlan01unkngoog, leaf n25), which reads exactly: "Ac a
+  fendithiasant Rebeccah, ac a ddywedasant wrthi, Ein chwaer wyt, bydd di fil fyrddiwn; ac etifedded dy
+  had borth ei gaseion." The reading above is right. English (KJV, [S27]): "And they blessed Rebekah, and said unto her, Thou art our sister, be thou
   the mother of thousands of millions, and let thy seed possess the gate of those which hate them."
 - **Rebecca letter, 16 December 1842** (HO 45/265 f1, [S25], transcript under the Open Government Licence
   v3.0): "all thine property in one night shall be in conflagration if they will not obey to this notice"
   and "Becca her children heeds no more of them than the Grass-hopers which fly in the summer". It is
   signed "Faithfull to Death with the county Becca & children". This is from St Clears, not Llandeilo:
-  label it as regional.
+  label it as regional. *Verified 2026-09-28* (TNA transcript; TNA says it "was addressed to the
+  inhabitants of St Clears and others in Carmarthenshire"). The handbill and Ellis quotes are exact
+  too, and the KJV text matches Bible.com.
 - **Lloyd Hall's handbill**, 20 June 1843 ([S25]): "Go each one to your own homes on Wednesday night,
   peaceably and quietly."
 
@@ -492,8 +554,11 @@ other notes use their citation ids (e.g. `medieval:S27`).
 ### Attested lines usable as quotes
 
 - The Welshman's arrival sentence above ([S28]). WNO marks the copyright status of this item as
-  "unknown", so quote a sentence, not the article.
-- Lingen's interpreter sentence ([S29], public domain).
+  "unknown", so quote a sentence, not the article. *Verified 2026-09-28*: every quote from [S28] in this
+  section matches the WNO text.
+- Lingen's interpreter sentence ([S29], public domain). *Verified 2026-09-28* (report text layer, p. 232
+  of the appendix as cited; 31 October visit; "18" boys is OCR "IS"). Zerubbabel Davies's evidence is
+  exact too; he was by then at St Clears.
 
 ## Today
 
@@ -504,14 +569,18 @@ other notes use their citation ids (e.g. `medieval:S27`).
   **45.1%** (my arithmetic). The same compendium's 2011 figures sum to 1,454 of 2,889, **exactly the
   50.3% ward figure** in `language:S23`, which cross-checks the method. Among children aged 3–15, 74% and
   54% are Welsh speakers ([S30]). This **closes the open question** about the 2021 figure, at LSOA level.
-  LSOAs "do not always correspond to electoral wards" ([S30]).
+  LSOAs "do not always correspond to electoral wards" ([S30]). *Verified 2026-09-28* (Tables 3.10 and
+  3.11 of the PDF; 1,307/2,895 = 45.1%, 1,454/2,889 = 50.3%). One caution the method check missed: the
+  2001 LSOA figures (Table 3.12) sum to 1,570 of 2,864, 54.8%, not the ward's 55.1%, because BRO fits
+  older LSOAs to 2021 geography. So the LSOA-to-ward match is exact for 2011 only.
 
 ### Topics by class (grounded)
 
 - **Traffic and air quality**: the Welsh Government plans "to build a bypass and introduce a one-way
   system, to improve journey times, increase safety and reduce pollution". The preferred route was
-  announced in 2024, with surveys from April to November 2026 and completion estimated for spring 2033
-  "if approved" ([S31], page updated 2 June 2026). An air quality management area runs along the A483 and
+  announced in August 2024, with surveys from April to November 2026 and an "Estimated spring 2033" end
+  date; the page adds that "The scheme is not yet guaranteed to go ahead" ([S31], page updated 2 June
+  2026). *Corrected 2026-09-28*: "if approved" was a paraphrase shown as a quote. An air quality management area runs along the A483 and
   Rhosmaen Street ([S32], search-summary only). Trade press reported a February 2026 tender and a July
   2026 start ([S32], search-summary only), which **conflicts** with the Welsh Government page. Use the
   government page.
@@ -543,8 +612,12 @@ other notes use their citation ids (e.g. `medieval:S27`).
   place of his body small things which we have seen; among the other things there was a letter disguised
   by false names, of treason." (Working translation.)
 - To Maud Longespée: *"Mes sachez ke Lewelyn, qui esteyt prince de Gales, ne poet estre asouz se il ne
-  mustra signe de repentaunce en sa mort."* "But know that Llywelyn, who was prince of Wales, cannot be
-  absolved unless he showed a sign of repentance at his death."
+  mustra signe de repentaunce en sa mort ..."* "But know that Llywelyn, who was prince of Wales, cannot be
+  absolved unless he showed a sign of repentance at his death ..." (*Corrected 2026-09-28*: the sentence
+  continues *de sey amender [e] lesser ses folies*, "to amend himself and leave his follies", so an
+  ellipsis is needed.)
+- *Verified 2026-09-28*: both December 1282 letters (Edward I, 17 December; Maud, December) and the 1283
+  letter to Queen Eleanor, with its opening and closing formulae, read as quoted in the 1884 text layer.
 - Everyday formulae from the same letters: *"Madame, je vus mercy mut des lettres..."* ("Madam, I thank you
   much for the letters", to Queen Eleanor, 1283) and *"Madame, Dieu vous eyt en sa garde"* ("Madam, God
   have you in his keeping").
@@ -560,8 +633,12 @@ other notes use their citation ids (e.g. `medieval:S27`).
   alle hise holde, ilaerde and ileawede, on Huntendoneschire."* ("Henry, through God's help King in
   England, Lord in Ireland, Duke in Normandy, in Aquitaine, and Earl in Anjou, sends greeting to all his
   faithful, learned and lay, in Huntingdonshire.") The translation is mine and the text is English, not
-  Welsh. It is the earliest official English and shows the kind of English Plukenet's Somerset men spoke
-  a generation later.
+  Welsh. *Corrected 2026-09-28*: [S42] says only that in 1258 the Crown "issued for the first time,
+  official letters with the same text in Latin, French and English", so call it the first royal
+  letter issued in English alongside Latin and French, not "the earliest official English". It is the
+  Huntingdonshire copy, so that it shows how Plukenet's Somerset men spoke is **inference**, and a weak
+  one, since the copy is addressed to Huntingdonshire, not Somerset. The opening was *verified 2026-09-28*
+  against [S41].
 - **No Middle English text written in south-west Wales in 1282–1350 was found in this pass** (open
   question).
 - **Welsh speakers writing English**: the *Hymn to the Virgin*, Oxford c. 1470, by Ieuan ap Hywel
@@ -586,6 +663,8 @@ other notes use their citation ids (e.g. `medieval:S27`).
   ([S39]). Anglo-Norman *soun* and *round* were "originally pronounced something like ... 'soon', 'roond'"
   ([S37]). Modern French nasalises *saunz* and *graunt* as [sɑ̃], [ɡʁɑ̃].
 - ***r***: a "voiced alveolar trill" in Old French ([S39]). Modern French uses a uvular [ʁ].
+- *Verified 2026-09-28*: the [S37], [S38] and [S39] quotes in this list match the pages (read via
+  WebFetch; [S38]'s wording is "the reduction of dipthongs ai and ei to e (faire/fere; ciel cel)").
 - **Diphthongs**: Anglo-Norman reduced *ai* and *ei* to *e* (*faire/fere*, [S38]) and kept *ei* where
   Paris moved to *oi* [wa] (*veil* against *voile*, [S37]). Modern French reads *oi* as [wa] everywhere.
 - **Advice (inference)**: either respell for the TTS (e.g. write out final syllables) and still carry an
@@ -597,12 +676,21 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - **Long vowels before the Great Vowel Shift** ([S40]): *time* /iː/ (like "teem"), *house* /uː/ ("hoose"),
   *name* /aː/ ("nahm"), *food* /oː/, *sweet* /eː/. A modern voice applies the shifted values.
 - **Consonants** ([S40]): "kn-, gn-, wr- retained pronunciation", "final gh represented [x] or [ç]", and
-  "initial h remained pronounced". A modern voice drops the k, w and gh.
+  "initial h remained pronounced". A modern voice drops the k, w and gh. *Corrected 2026-09-28*: none
+  of these three phrases is in the current [S40] (raw wikitext searched), so they are paraphrases, not
+  quotes. The substance is supported: [S40] gives coda /h/ two allophones, "the voiceless palatal
+  fricative [ç], occurring after front vowels, and the voiceless velar fricative [x], occurring after
+  back vowels", and [S46] says "Middle English generally did not have silent letters. For
+  example, *knight* was pronounced [ˈkniçt] (with both the k and the gh pronounced ...)".
 - **Final *-e***: "Around Chaucer's time, final /ə/ was dropped" ([S40]). So in 1282 it was still spoken.
-  A modern voice drops it.
+  A modern voice drops it. *Corrected 2026-09-28*: that sentence is not in [S40] either. [S40] says the
+  loss of final /e/ "was normal in Chaucer's time before a vowel-initial word and optional elsewhere",
+  and [S46] that "By Chaucer's time, this vowel was silent in normal speech". "Still spoken in 1282" is
+  therefore **inference** from a late-14th-century loss.
 - **Southern dialect**: Old English dialects that "voiced initial fricatives" gave doublets like *fat* and
   *vat* ([S40]). A Somerset or Devon soldier plausibly said [v] and [z] for initial f and s (inference
-  from regional pattern, not attested for these men).
+  from regional pattern, not attested for these men). *Verified 2026-09-28*, with the caveat that [S40]
+  names Kentish as its example, not the south-west.
 - **Advice**: a respelled text ("hoose", "nahm-uh", "knicht") makes the TTS closer. The ⓘ should say
   "modern English voice; 1280s English had the old long vowels, a sounded -e, and sounded k and gh".
 
@@ -615,11 +703,16 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - **Features the museum lists** ([S33], Welsh; my glosses):
   - "Yr *e* yn y sillaf olaf": final *-e* for standard *-au/-ai*, as in *bore*, *dechre* 'dechrau',
     *bydde* 'byddai'. Wikipedia's Dyfedeg article gives the same pattern (*gore*, *ffrindie*, *gafel*),
-    per a search summary ([S35]), so this is **cross-checked**.
+    per a search summary ([S35]), so this is **cross-checked**. *Corrected 2026-09-28*: **single-source**
+    (the museum, read directly and confirmed). The current English and Welsh Wikipedia "Dyfedeg"
+    articles (raw wikitext fetched) contain no such examples, so the search summary could not be
+    confirmed and cannot count as a second source.
   - *ow* in *mowr* 'mawr' (though *aw* also occurs).
   - "Colli *h* yn achlysurol yn unig": only occasional h-loss (*yd* 'hyd', but *hyd*, *haul*, *helpu*).
   - *hw* for *chw*: *hwys* 'chwys'. In southern dialects "initial /χw/ is colloquially realised as [ʍ]",
-    e.g. *chwech* ([S35], search-summary only).
+    e.g. *chwech* ([S35], search-summary only). *Verified 2026-09-28*: the "Welsh phonology" article,
+    read directly, says "Initial /χw/ is colloquially realised as [ʍ] in the south, e.g. *chwech*", so
+    *hw* for *chw* is now **cross-checked**.
   - *ô* in *ôd* 'oed'. The museum contrasts *wêd* at Pen-caer (Pembrokeshire) and *oid* at Blaenpennal.
   - *â* in *mâs* 'maes', *câ* 'cae'.
   - Southern vocabulary: *bord*, *cwmpo*, *dala*, *dodi*, *ffilu*, *mâs*. Tags: *chwel*, *chim(b)od*,
@@ -632,12 +725,17 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - **Attested sample of speech** (20th century, about haymaking in her childhood, so roughly the 1910s):
   *"Wel, weda i wthoch chi, och chi yn lladd y gwair i ddechre. Os gallech chi, a bod 'i'n sych, lladd e yn
   y bore."* and *"'Le ma'r crwt 'na nawr 'te wedi mynd?'"* ([S33]). The museum's copyright terms were not
-  checked, so paraphrase features rather than reproduce the transcript in the app.
+  checked, so paraphrase features rather than reproduce the transcript in the app. *Verified
+  2026-09-28*: the page says "Ganed Mrs Martha Williams o Lansawel ym 1907", lists every feature above,
+  calls the *ll* mutation a "datblygiad naturiol", and the two sample sentences are exact.
 - **The 19th-century problem**: no 19th-century transcript of Carmarthenshire speech was found. Using
   these features for 1843 or 1857 is **reconstruction by projecting back one or two generations**
   (inference). The ⓘ should say "dialect features from a Llansawel speaker born 1907".
 - **Contrast for the class layer**: the museum notes Pembrokeshire's "unique features" (*we'*, *wedd*
-  for *oedd*) against Llansawel's more "neutral" southern sound ([S34]).
+  for *oedd*) against Llansawel's more "neutral" southern sound ([S34]). *Corrected 2026-09-28*: the
+  "neutral" (*'niwtral'*) comparison, set against the *nodweddion hynod* (remarkable features) of Penfro
+  to the west and Morgannwg to the east, is in [S33]; the Pembrokeshire forms from [S34] were not
+  re-checked.
 - **TTS**: whether `cy-GB-AledNeural` / `NiaNeural` sound northern or southern was **not tested**. Spelling
   dialect forms into the text (*mowr*, *bydde*, *mâs*) is the only control available.
 
@@ -646,7 +744,7 @@ other notes use their citation ids (e.g. `medieval:S27`).
 | Proposal says | Finding | Suggested change | Sources |
 |---|---|---|---|
 | 1282: "English garrison at Carreg Cennen" | Welsh-held and partly destroyed from 26 March; about 50 foot and workmen left in the ruins around mid-June by an army that was mostly Welsh levies; their fate after the rout is unknown | Move the garrison conversation to **Dinefwr**: Plukenet's Somerset and Devon knights, crossbowmen and English foot in permanent pay. Or make Carreg Cennen's the handful of levies in a ruin, labelled | [S1] [S2] [S5] [S8] |
-| 1282: "Marcher lord's household ... lands granted after the conquest" | No grants yet in June 1282; Giffard's grant dates from 1283–84. But marcher retinues were present on campaign (Gloucester, de Valence) | In June 1282 use **a magnate's retinue on campaign** (Anglo-Norman): plunder, the woods, the dead de Valence. Move "lands granted" to **1283–87** (Giffard at Carreg Cennen; Newton's English burgesses, 1297–98) | [S1] [S6] [S7] [S44] [S45] |
+| 1282: "Marcher lord's household ... lands granted after the conquest" | No grant of Carreg Cennen or Is Cennen yet in June 1282; Giffard's grant dates from 1283–84. But marcher retinues were present on campaign (Gloucester, de Valence). *Corrected 2026-09-28*: Giffard had held Llandovery since 1277 (Morris p. 201), and in spring 1282 Edward ordered it reconquered for him (p. 165), so an English lord with lands up the valley is not anachronistic, only a Carreg Cennen one is | In June 1282 use **a magnate's retinue on campaign** (Anglo-Norman): plunder, the woods, the dead de Valence. Move "lands granted" to **1283–87** (Giffard at Carreg Cennen; Newton's English burgesses, 1297–98) | [S1] [S6] [S7] [S44] [S45] |
 | 1282: parish clergy talk of "burials, prayers for the dead" | Grounded, and there is better: the attested sacrilege at Llangadog, Llandingad and Llanwrda, and Llandeilo church belonging to Talley | Ground the clergy scene in the gravamina | [S4] [S13] |
 | 1282: bardd teulu with "a real attested line" | No local attested line researched; the famous elegy dates from December 1282 or later | Research and fetch before writing, or move to after 11 December 1282 | — |
 | Talley 1185: "Welsh lay brothers" | Mother house St-Jean, Amiens; Gerald mentions *fratres* and servants c. 1193–1205; origin and language not attested; Welsh identity documented later | "Canons from Amiens (French-speaking, inferred) and lay brothers or servants of unknown origin; Latin liturgy"; Welsh for tenants and servants | [S13] [S14] [S15] [S16] |
@@ -661,7 +759,11 @@ other notes use their citation ids (e.g. `medieval:S27`).
   DWB and Morris attribute a 1282 list of complaints to **Rhys ap Maredudd** ([S11], [S1]). German
   Wikipedia says **Rhys Wyndod** surrendered Dinefwr to Payn de Chaworth on 24 April 1277 and lost Hirfryn
   to Giffard ([S12]). DWB and Morris say Rhys ap Maredudd surrendered Dinefwr in 1277. **Unresolved.**
-  Needs J. Beverley Smith or Griffiths 1991 ("A tale of two towns", listed by [S13]).
+  Needs J. Beverley Smith or Griffiths 1991 ("A tale of two towns", listed by [S13]). *Added
+  2026-09-28*: *Parvus* is how these Latin texts render Welsh *Fychan*: the Annales call Rhys Fychan ap
+  Rhys ap Maelgwn *Resum Vechan* in 1282 and *Resus Parvus* in 1283 ([S2]). So the complainant is "Rhys
+  Fychan of Ystrad Tywi", and "the Little" is the editor's literal gloss. [S12] says Rhys Wyndod was
+  "eigentlich Rhys ap Rhys Fychan" (son of a Rhys Fychan). Still unresolved.
 - **What happened to Carreg Cennen's 50 foot** after the 16 June rout: the pay-roll beyond Morris's
   summary.
 - **Brut y Tywysogion, Peniarth 20 version**: does it mention Llandeilo in 1282? The Rolls Series text
@@ -671,10 +773,12 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - **Newton borough**: the Heneb page could not be fetched (redirect loop, Wayback rate-limited). The
   Newton charters and burgess names need a direct read.
 - **Middle English written in south-west Wales, 1282–1350**: none found.
-- **Genesis 24:60 Welsh text**: confirm the OCR reading against a page image or the 1620 text.
+- ~~**Genesis 24:60 Welsh text**: confirm the OCR reading against a page image or the 1620 text.~~
+  *Resolved 2026-09-28*: confirmed against the 1847 page image (see the Rebecca section).
 - **Soldiers of 1843**: the origins and language of the 4th Light Dragoons and 41st Regiment men billeted
   at Llandeilo.
-- **The 24 versus 4 carters** at Dryslwyn: OCR in Morris or an error in castlewales.
+- **The 24 versus 4 carters** at Dryslwyn: OCR in Morris or an error in castlewales. (2026-09-28:
+  Morris's text layer has the word "four", so the doubt now rests on castlewales.)
 - **Llansawel recording date** and the museum's reuse terms.
 - **Today**: farming, tourism and housing topics not researched; the White Park cattle at Dinefwr not
   checked (the National Trust page failed to load).
@@ -688,7 +792,7 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - [S5] Gatehouse Gazetteer, "Carreg Cennen Castle". http://www.gatehouse-gazetteer.info/Welshsites/192.html — 1277 English; 1282 "captured by the forces of Llywelyn ap Gruffudd", "lost again 1283"; Giffard from 1283; crown takes it over 1287–89; most building after 1287 and before 1321.
 - [S6] Wikipedia, "Carreg Cennen Castle" (lead, citing Davis 2021 pp. 282–283). https://en.wikipedia.org/wiki/Carreg_Cennen_Castle — 1282–83 seized by local Welsh nobles, back in English control within a year; granted to John Giffard in 1283; passed to the Duchy of Lancaster in 1322. Also consulted: Wikipedia, "John Giffard, 1st Baron Giffard" (married Maud de Clifford, widow of William III Longespée).
 - [S7] Cadw, "More about Carreg Cennen". https://cadw.gov.wales/more-about-carreg-cennen — The earliest castle probably the Lord Rhys's; the builder "most likely John Giffard, who fought for Edward I in the battle of Irfon Bridge in 1282"; "Carreg Cennen was Giffard's reward".
-- [S8] David Pilling, "A rout at Llandeilo" (Medieval Realms, 16 June 2026). https://medievalrealms.substack.com/p/a-rout-at-llandeilo — Date 16 June; Trivet ("Gilbert, himself, lost five knights") and Wykes ("broke out from the hiding-places of the woods and the marshes") quoted in translation; William de Valence junior "kinsman of the king"; de Clare's camp placed at "Llandeusant".
+- [S8] David Pilling, "A rout at Llandeilo" (Medieval Realms, 16 June 2026). https://medievalrealms.substack.com/p/a-rout-at-llandeilo — Date 16 June; Trivet ("Gilbert, himself, lost five knights") and Wykes ("breaking out from the hiding-places of the woods and the marshes") quoted in translation; William de Valence junior "kinsman of the king"; de Clare's camp placed at "Llandeusant".
 - [S9] David Pilling, "The Battle of Llandeilo Fawr" (Aspects of History). https://www.aspectsofhistory.com/the-battle-of-llandeilo-fawr/ — About 8,000 Welsh infantry and 200 paid and unpaid cavalry under Gloucester, with a small band of Forest of Dean miners the only Englishmen present; Carreg Cennen recently burnt out by the Welsh; "very little discussion of the Welsh army".
 - [S10] Wikipedia, "Battle of Llandeilo Fawr" (lead only). https://en.wikipedia.org/wiki/Battle_of_Llandeilo_Fawr — 1,600 infantry and 100 cavalry; the force headed "back to the nearby English settlement, Dinefwr Castle"; 17 June.
 - [S11] R. T. Jenkins, "Rhys ap Maredudd (died 1292)", Dictionary of Welsh Biography. https://biography.wales/article/s1-RHYS-APM-1291 — Surrendered Dinefwr in 1277 and kept Dryslwyn; in 1282 Llywelyn "put forward 'grievances' on Rhys's behalf", but Rhys "gave assistance to Edward"; revolted 8 June 1287 and overran Iscennen; Dryslwyn taken c. 5 September.
@@ -698,7 +802,7 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - [S15] *Victoria County History: Nottinghamshire*, vol. 2, "Houses of Premonstratensian canons: The abbey of Welbeck", British History Online. https://www.british-history.ac.uk/vch/notts/vol2/pp129-138 — Talley "was founded from the monastery of St. John's, Amiens", later subsidiary to Halesowen, then Welbeck.
 - [S16] Howard M. R. Williams, "Loose Canons?: Talley Abbey Explored" (blog, 17 October 2014). https://howardwilliamsblog.wordpress.com/2014/10/17/loose-canons-talley-abbey-explored/ — The Whitland dispute; the reduced church; "the Welsh language of the canons and their Welsh patrons" as a possible factor in patronage.
 - [S17] medievalheritage.eu, "Talley – Premonstratensian Abbey", **search-summary only**. https://medievalheritage.eu/en/main-page/heritage/wales/talley-abbey/ — Losses at Talley in 1277 during Edward I's campaign; Edward's dislike of the house's Welsh patronage and "the Welsh origin of monks"; supervision by Welbeck from 1285. Not relied on for any claim here.
-- [S18] Catholic Encyclopedia, "Premonstratensian Canons" (via catholic.com), **search-summary only**. https://www.catholic.com/encyclopedia/premonstratensian-canons — "The Order is composed of priests and lay brothers."
+- [S18] Catholic Encyclopedia, "Premonstratensian Canons" (via catholic.com), https://www.catholic.com/encyclopedia/premonstratensian-canons — Read directly 2026-09-28 (previously search-summary only): "In the monasteries there are laybrothers and laysisters who likewise make their vows"; describes the order c. 1911, not the 12th century. The earlier quoted wording "composed of priests and lay brothers" is not on the page.
 - [S19] Gwilym Hughes, *The Llandeilo Roman Forts: Archaeological Investigations 2003–2007*, Cambria Archaeology report 2006/38 for the National Trust (December 2007), PDF read in full. https://heneb.org.uk/wp-content/uploads/2025/09/llandeiloromanforts2003-2007.pdf — Fort 1 3.85ha, early Flavian (perhaps soon after AD 74), an ala quingenaria, cohors milliaria or legionary detachment; Fort 2 1.54ha, perhaps a cohors quingenaria peditata; timber and earth; vicus reusing Fort 2 after the soldiers left; samian AD 70–150; abandonment by AD 140; Dressel 20 Spanish olive-oil amphorae; Malvern jars; spelt, barley, oats; seven denarii found in 2000.
 - [S20] Roman Inscriptions of Britain, RIB 2262, "Milestone of Tacitus". https://romaninscriptionsofbritain.org/inscriptions/2262 — Text and translation; AD 275–276; seen in 1697 as the cornerstone of a farmhouse near Dynevor; now lost.
 - [S21] Roman Inscriptions of Britain, Tab. Vindol. 343 (letter of Octavius to Candidus). https://romaninscriptionsofbritain.org/inscriptions/TabVindol343 — Latin and translation: 5,000 modii of grain, hides, "while the roads are bad" (*dum uiae male sunt*); AD 104–120.
@@ -720,9 +824,10 @@ other notes use their citation ids (e.g. `medieval:S27`).
 - [S37] Wikipedia, "Anglo-Norman language". https://en.wikipedia.org/wiki/Anglo-Norman_language — *ch* /tʃ/ and *j* /dʒ/ preserved in English; *soun*, *round* originally "soon", "roond"; *veil* keeps /ei/; use in law, charters and correspondence from the mid-13th to the early 15th century; extinct as a vernacular by the 15th century.
 - [S38] Fordham University, *The French of England*, "Introduction to the Language". https://frenchofengland.ace.fordham.edu/introduction-to-the-language/ — Reduction of *ai*/*ei* to *e*; *u* for *o*/*ou*; *k* for *qu*; verb endings *-um*, *-uns* for *-ons*.
 - [S39] Wikipedia, "Old French" (phonology). https://en.wikipedia.org/wiki/Old_French — All written consonants including final ones pronounced (except *s* before non-stops and *t* in *et*); final *e* [ə]; alveolar trill *r*; nasal vowels allophonic with the nasal consonant pronounced; /t͡ʃ/ and /d͡ʒ/, later fricatives.
-- [S40] Wikipedia, "Middle English phonology". https://en.wikipedia.org/wiki/Middle_English_phonology — Long-vowel values before the Great Vowel Shift (*time*, *house*, *name*, *food*, *sweet*); kn-, gn-, wr- pronounced; gh [x]/[ç]; initial h pronounced; final /ə/ dropped around Chaucer's time; voicing of initial fricatives in some southern dialects.
+- [S40] Wikipedia, "Middle English phonology". https://en.wikipedia.org/wiki/Middle_English_phonology — Long-vowel values before the Great Vowel Shift (*time*, *house*, *name*, *food*, *sweet*); kn-, gn-, wr- pronounced; gh [x]/[ç]; initial h pronounced; final /ə/ dropped around Chaucer's time; voicing of initial fricatives in some southern dialects. Checked 2026-09-28 against the raw wikitext: the substance holds, but the kn-/gh/h/final-e wordings quoted in the body are paraphrases, not the article's words (see the body).
 - [S41] Ado Neilson, "Proclamation of Henry III" (eME texts), transcription of the English text of 18 October 1258. https://www.adoneilson.com/eme/texts/proclamation_original.html — Opening "Henri, þurȝ Godes fultume King on Engleneloande ..." (also seen in A. J. Ellis's 1868 edition via search).
 - [S42] UK Government History blog, "The language of Government and the power of plain English" (19 April 2017). https://history.blog.gov.uk/2017/04/19/the-language-of-government-and-the-power-of-plain-english/ — 1258 letters issued in Latin, French and English; the 1362 Pleading in English Act, because Anglo-Norman "was not easily understood"; Latin court records until 1730.
 - [S43] Wikipedia, "Ieuan ap Hywel Swrdwal" (citing Garlick and Mathias 1995; Stephens 1998). https://en.wikipedia.org/wiki/Ieuan_ap_Hywel_Swrdwal — The *Hymn to the Virgin*, Oxford c. 1470, in awdl form and Welsh orthography: "O michti ladi, owr leding / tw haf / at hefn owr abeiding".
 - [S44] Coflein (RCAHMW), "Newton House; Dynevor Castle; Plas Dinefwr, Llandeilo", NPRN 17603. https://coflein.gov.uk/en/site/17603/ — Newton "a borough associated with Dinefwr Castle", first mentioned 1297; the 1660s house probably involved removing the borough.
 - [S45] Heneb (Dyfed Archaeological Trust), "Dinefwr and Newtown", **search-summary only** (the page redirect-loops). https://www.dyfedarchaeology.org.uk/wp/discovery/projects/dinefwr-and-newtown/ — 26 burgages by 1298; the twin towns of "old" Dinefwr and the new Newtown; English burgesses' charter privileges and immunity from Welsh fines in the royal courts.
+- [S46] Wikipedia, "Middle English" (raw wikitext read 2026-09-28). https://en.wikipedia.org/wiki/Middle_English — "Middle English generally did not have silent letters. For example, *knight* was pronounced [ˈkniçt] (with both the k and the gh pronounced ...)"; on final *-e*: "By Chaucer's time, this vowel was silent in normal speech, although it was normally pronounced in verse as the meter required".

@@ -47,8 +47,8 @@ Revised 2026-09-28 from [`research/conversations-by-class.md`](../research/conve
 | A magnate's retinue on campaign | Anglo-Norman French | Plunder, the ambush | French |
 
 Not in June 1282: an English garrison at Carreg Cennen (Welsh-held from 26 March; about fifty foot
-were left in its ruins in mid-June), a Marcher lord's household with granted lands (Giffard's grant is
-1283; this belongs to 1283–87), and a poet's attested line (none local found; the famous elegy is
+were left in its ruins in mid-June), Carreg Cennen already granted to an English lord (Giffard's grant
+is 1283; he did hold Llandovery from 1277, so an English lord's men nearby are plausible), and a poet's attested line (none local found; the famous elegy is
 December 1282 or later).
 
 Other dates: Roman fort (Brittonic farmers; Latin as the army's language, unit unknown), Talley 1185
