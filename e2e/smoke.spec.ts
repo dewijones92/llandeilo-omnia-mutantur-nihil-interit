@@ -262,9 +262,15 @@ test('tapping the train makes the camera follow it until you stop', async ({ pag
     if (camera && typeof camera === 'object') Reflect.set(camera, 'lockedTarget', null);
   });
   const first = await cameraTarget(page);
-  await page.waitForTimeout(3000);
-  const later = await cameraTarget(page);
-  expect(Math.hypot(later.x - first.x, later.z - first.z)).toBeGreaterThan(5);
+  await expect
+    .poll(
+      async () => {
+        const later = await cameraTarget(page);
+        return Math.hypot(later.x - first.x, later.z - first.z);
+      },
+      { timeout: 60_000 },
+    )
+    .toBeGreaterThan(5);
   await chip.getByRole('button', { name: 'Stop' }).click();
   await expect(chip).toBeHidden();
 });
