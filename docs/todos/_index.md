@@ -193,6 +193,12 @@ Each needs its research or design first, like everything else. The ideas board k
       when each died out) and shown in the scene. Needs research: what is attested inside the ten
       miles versus Wales generally, and calibrated dates ([research](../research/deep-time-and-natural-history.md))
 - [ ] Ripples from afar: distant events that reached the valley, only where a source shows the local effect
+- [ ] **The big national and world events, as they touched the valley** (Dewi, 2026-09-28): the
+      two World Wars (who from here served and died, the war memorials, evacuees, land girls, Home
+      Guard, rationing, the war-work at local sites), the Civil War, the Black Death, the Reformation
+      and Dissolution (Talley), the Napoleonic Wars, the Chartists, the Depression, the 1918 flu,
+      and today's events. Each researched for its local effect first, with the national story as
+      context, and dated key dates on the slider
 - [ ] LiDAR close-up terrain at the places you fly into
 
 ## 💡 Ideas
