@@ -255,9 +255,14 @@ held under 450KB by a CI budget.
 - **Dewi's standing brief (2026-09-26): "just go for it"**, with:
   - **Full creative freedom, and it must look stunning.** Aesthetics are a requirement, not polish:
     lighting, palette, atmosphere and motion get real design effort, checked by screenshot.
-  - **Review with another Opus.** Each milestone gets an independent Opus review (code and
-    screenshots, given this file and the brief), and its CRITICAL/IMPORTANT findings get fixed
-    before moving on. Treat review findings as hypotheses to verify, not verdicts.
+  - **A second Opus reviews everything we commit** (Dewi, 2026-09-28: "always have second opus to
+    [review] stuff we commit to git"). Code, content, docs and design guides alike: an independent
+    Opus pass, given this file and the brief, reads the change. For small commits it can run just
+    after pushing; for code or content it runs before, and its CRITICAL/IMPORTANT findings are fixed
+    before moving on. Treat findings as hypotheses to verify, not verdicts, and attack the fixes too
+    (the third review of 2026-09-26 found six regressions in the fixes themselves).
+  - **Discussion phases are real.** When Dewi says "we are still in discussion phase, don't code
+    anything until I say", only docs change: ideas go in `docs/design/` (proposed) until he agrees.
   - **CI/CD and deploy as you go.** The live GitHub Pages site tracks `main`; every milestone is
     visible there, not only locally.
   - **Commit and push regularly**: small, coherent commits at each green state, pushed to `main`
