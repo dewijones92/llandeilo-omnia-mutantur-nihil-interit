@@ -70,6 +70,11 @@ e2e tests as not done.)
 
 ## 💡 Ideas (not agreed)
 
+The living ideas board, with status per idea, is [`../design/ideas.md`](../design/ideas.md). New
+design proposals from 2026-09-28: previous/next and camera shots per key date, effects per event,
+conversations by class at every key date, realistic landmark models ([`../design/`](../design/README.md)).
+
+
 - 💡 A guided tour: "play history" that moves the slider through the key dates with narration
 - 💡 Shareable links that keep the camera view, not just the year and place
 - 💡 Seasons and day/night, with weather per era (the Little Ice Age, the Medieval Warm Period)

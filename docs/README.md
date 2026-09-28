@@ -23,6 +23,7 @@ showing it. Everything here is plain markdown so it outlives any particular app.
 | [`data/README.md`](data/README.md) | The map data: where it comes from, its licences, how to rebuild it |
 | [`process/decision-log.md`](process/decision-log.md) | How and why each decision was made, dated |
 | [`process/build-log.md`](process/build-log.md) | Milestones, what broke, and what we learned |
+| [`design/`](design/README.md) | Design guides and the ideas board (proposed, not yet agreed) |
 | [`todos/_index.md`](todos/_index.md) | The live backlog |
 | [`tests/_index.md`](tests/_index.md) | Testing strategy and what is covered |
 
