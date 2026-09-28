@@ -82,6 +82,24 @@ describe('content integrity', () => {
   });
 });
 
+describe('languages', () => {
+  const modern = new Set(['welsh', 'english']);
+
+  it('explains every conversation that uses an old language or a stand-in', () => {
+    const unexplained = W.conversations
+      .filter((c) => c.lines.some((l) => !modern.has(l.language)) && !c.languageNote)
+      .map((c) => c.id);
+    expect(unexplained).toEqual([]);
+  });
+
+  it('never labels speech before about AD 500 as Welsh', () => {
+    const early = W.conversations.filter((c) => c.when.to < 500);
+    expect(
+      early.flatMap((c) => c.lines.filter((l) => l.language === 'welsh').map((l) => `${c.id}:${l.spoken}`)),
+    ).toEqual([]);
+  });
+});
+
 describe('voices', () => {
   const lines = voiceLines(W.conversations, W.people);
   const manifestPath = join(root, 'public/voices/manifest.json');

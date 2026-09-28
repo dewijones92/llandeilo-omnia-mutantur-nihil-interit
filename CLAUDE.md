@@ -112,8 +112,24 @@ The summary lives in [`docs/research/findings.md`](docs/research/findings.md), a
   against the notes is part of shipping new content.
 
 **If in doubt, document it in this repo.** A decision, a research outcome, a correction, a dead end,
-a voice choice: write it into `docs/` (findings, decision log, build log, open questions) in the
-same pass as the change. Chat and memory are not the record; the repo is.
+a voice choice: write it into `docs/` in the same pass as the change. Chat and memory are not the
+record; the repo is. **Document everything** (Dewi, 2026-09-28: "make sure to document ADRs, and
+anything else"). What goes where:
+
+| What | Where |
+|---|---|
+| A technical or architectural decision (library, format, pipeline, layer, technique, process) | An ADR in [`docs/adr/`](docs/adr/README.md), numbered, never rewritten; supersede it instead |
+| A product, content or tone choice, and Dewi's answers | [`docs/process/decision-log.md`](docs/process/decision-log.md), dated |
+| A research outcome, a correction, a source contradiction | [`docs/research/findings.md`](docs/research/findings.md) and the topic note |
+| An unanswered question or gap | [`docs/research/open-questions.md`](docs/research/open-questions.md) |
+| A milestone, a bug that taught something, a dead end, a gotcha | [`docs/process/build-log.md`](docs/process/build-log.md) |
+| A measurement (performance, bundle size) | The Performance numbers line in this file, with the date |
+| An idea or proposal not yet agreed | [`docs/design/`](docs/design/README.md) and its ideas board |
+| Agreed work not yet done | [`docs/todos/_index.md`](docs/todos/_index.md) |
+| How to author content, voices, data | [`docs/content/`](docs/content/authoring.md), [`docs/data/`](docs/data/README.md) |
+
+If a thing fits none of these, add a doc and link it from [`docs/README.md`](docs/README.md). The
+Decisions table above is the summary; it links to the ADR or log entry that holds the reasons.
 
 ## Quality bar
 
@@ -158,7 +174,7 @@ same pass as the change. Chat and memory are not the record; the repo is.
 - **Branded types for domain values** (`Year`, `PlaceId`, `EventId`, `PersonId`, `LangCode`) so an
   id or a year can't be passed where another is expected.
 - **Validate at the boundary, trust inside.** Content is written as typed TypeScript data in
-  `src/content/`, so the domain types in `src/domain/model.ts` are the schema and the compiler
+  `src/content/`, so the domain types in `src/domain/model.ts` and `src/domain/provenance.ts` are the schema and the compiler
   enforces it, backed by the integrity tests in `tests/content.test.ts`. Runtime data files
   (`public/data/*`) are checked by hand-written guards in `src/platform/assets.ts`. (Corrected
   2026-09-28: this line used to say content was parsed with zod; it never was.)
@@ -256,11 +272,11 @@ held under 450KB by a CI budget.
   - **Full creative freedom, and it must look stunning.** Aesthetics are a requirement, not polish:
     lighting, palette, atmosphere and motion get real design effort, checked by screenshot.
   - **A second Opus reviews everything we commit** (Dewi, 2026-09-28: "always have second opus to
-    [review] stuff we commit to git"). Code, content, docs and design guides alike: an independent
+    remove stuff we commit to git", read as "review"; ⚠️ that reading is awaiting his confirmation). Code, content, docs and design guides alike: an independent
     Opus pass, given this file and the brief, reads the change. For small commits it can run just
     after pushing; for code or content it runs before, and its CRITICAL/IMPORTANT findings are fixed
     before moving on. Treat findings as hypotheses to verify, not verdicts, and attack the fixes too
-    (the third review of 2026-09-26 found six regressions in the fixes themselves).
+    (the verification review of 2026-09-26 found six regressions in the fixes themselves).
   - **Discussion phases are real.** When Dewi says "we are still in discussion phase, don't code
     anything until I say", only docs change: ideas go in `docs/design/` (proposed) until he agrees.
   - **CI/CD and deploy as you go.** The live GitHub Pages site tracks `main`; every milestone is

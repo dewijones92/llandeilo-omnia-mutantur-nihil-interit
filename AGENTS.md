@@ -1,7 +1,7 @@
 ---
 title: Llandeilo Through Time — agent entry point
 kind: index
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # AGENTS.md
@@ -14,5 +14,6 @@ Start here, then read what's relevant.
 3. **`docs/README.md`**: the map of the knowledge base: research, the research method and briefs,
    open questions, the authoring guide, the data pipeline, the decision and build logs, the
    backlog and the testing map.
+4. **`docs/adr/`**: why the code is built the way it is (architecture decision records).
 
 Keep docs current as part of "done", and bump `updated` when you touch one.

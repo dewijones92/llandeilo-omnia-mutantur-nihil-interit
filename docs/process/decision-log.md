@@ -8,7 +8,8 @@ updated: 2026-09-28
 # Decision log
 
 How the decisions in `CLAUDE.md` were reached. The Decisions table there is the current state;
-this is the history behind it.
+this is the history behind it. Technical decisions also have an ADR in [`../adr/`](../adr/README.md)
+with the full context and consequences.
 
 ## 2026-09-26: first discussion with Dewi
 
@@ -53,3 +54,4 @@ this is the history behind it.
 | Rewrite the backlog as the one list of agreed work plus unagreed 💡 ideas; correct the stale zod claim in CLAUDE.md | Dewi asked for a backlog; both files had drifted from the code |
 | A second Opus reviews every commit (code, content and docs) | Dewi, 2026-09-28; wording "remove" read as "review", confirmation asked |
 | Discussion-phase ideas go in `docs/design/` as proposed, no code | Dewi: "we are still in discussion phase, dont code anything until i say" |
+| Record technical decisions as ADRs in `docs/adr/`, backfilled for the existing architecture; a "what goes where" table in CLAUDE.md | Dewi: "make sure to document ADRs, and anything else"; [ADR 0001](../adr/0001-record-architecture-decisions.md) |

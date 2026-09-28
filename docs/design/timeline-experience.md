@@ -1,13 +1,13 @@
 ---
 title: Timeline experience
 kind: design
-status: proposed
+status: partly built
 updated: 2026-09-28
 ---
 
 # Timeline experience: stepping through history
 
-Raised by Dewi, 2026-09-28. **Proposed, not built.**
+Raised by Dewi, 2026-09-28. **Partly built**: sections 1 and 2, and the train in section 3.
 
 ## 1. Previous and next
 
@@ -25,7 +25,7 @@ only a slider to drag.
   would make it visible, and the same code path serves both.
 - Keyboard: ← and → for next and previous when the slider is not focused; the slider keeps its
   fine arrow-key scrubbing.
-- At the ends: Next on the last date goes to "today"; Previous on the first goes to 12,500 BC.
+- At the ends the buttons are disabled (the first key date is already 12,500 BC).
 - 💭 Should non-magnetic dates be steppable too, with a "major only" / "everything" switch?
 
 ## 2. The camera goes to the action
@@ -34,8 +34,9 @@ At each key date, **the camera flies to where it happened** and frames it.
 
 - Each key date gets a **shot**: target point, distance, angle, and optionally a slow drift.
   Default: the event's place, at the close-up distance used by place labels.
-- Examples: 1282 frames the road below Llandeilo where the ambush happened; 1287 frames Dryslwyn
-  from the side the siege came from; 1857 follows the first train into the station.
+- Examples: 1282 frames the area around Llandeilo (the research says only "near Llandeilo Fawr", so
+  no precise spot is implied); 1287 frames Dryslwyn; 1857 frames the station. A shot never implies
+  a location or direction the research does not support.
 - Dragging the slider freely never moves the camera. Only Next, Previous, clicking a marker or a
   snap does. A "Whole valley" button always brings you back.
 - 💭 Should the camera keep its own position when you step, if you have moved it yourself?

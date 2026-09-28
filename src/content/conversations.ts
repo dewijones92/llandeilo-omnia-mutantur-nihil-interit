@@ -42,28 +42,28 @@ export const CONVERSATIONS: readonly Conversation[] = [
     lines: [
       line(
         'ellyw',
-        'welsh',
+        'brittonic',
         "Mae'r sbelt yn barod, Nhad. Fe gawn ni ei falu ar y maen newydd.",
         'The spelt is ready, Father. We can grind it on the new quernstone.',
         "Mae'r sbelt yn barod, Nhad. Fe gawn ni ei falu ar y maen newydd.",
       ),
       line(
         'bran',
-        'welsh',
+        'brittonic',
         "Da iawn. Ond cadw'r gwartheg o'r cae nes bydd y cyfan i mewn.",
         "Good. But keep the cattle out of the field until it's all in.",
         "Da iawn. Ond cadw'r gwartheg o'r cae nes bydd y cyfan i mewn.",
       ),
       line(
         'ellyw',
-        'welsh',
+        'brittonic',
         'Pryd fyddan nhw’n gorffen y gaer fach, dwedwch?',
         'When will they finish the little fort, do you think?',
         'Pryd fyddan nhw’n gorffen y gaer fach, dwedwch?',
       ),
       line(
         'bran',
-        'welsh',
+        'brittonic',
         'Pwy a ŵyr. Dechrau sy’n hawdd; gorffen sy’n anodd.',
         'Who knows. Starting is easy; finishing is hard.',
         'Pwy a ŵyr. Dechrau sy’n hawdd; gorffen sy’n anodd.',
@@ -75,8 +75,8 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ['ironage:S27', 'ironage:S38', 'ironage:S2'],
     ),
     languageNote: {
-      en: 'Nobody knows exactly how their language, Brittonic, sounded: no sentence of it survives. It is shown in modern Welsh, its descendant.',
-      cy: "Does neb yn gwybod yn union sut roedd eu hiaith, y Frythoneg, yn swnio: does dim brawddeg ohoni wedi goroesi. Mae'n cael ei dangos mewn Cymraeg modern, ei disgynnydd.",
+      en: 'They spoke Brittonic, the ancestor of Welsh. Only scattered words and short inscriptions survive from Britain, and no connected sentence has been reconstructed, so it is shown and voiced in modern Welsh, its descendant.',
+      cy: "Roedden nhw'n siarad Brythoneg, hynafiad y Gymraeg. Dim ond geiriau gwasgaredig ac arysgrifau byr sydd wedi goroesi o Brydain, a does neb wedi ail-greu brawddeg gyfan, felly mae'n cael ei dangos a'i lleisio mewn Cymraeg modern, ei disgynnydd.",
     },
   },
   {
@@ -97,7 +97,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ),
       line(
         'ceri',
-        'welsh',
+        'brittonic',
         "Mwy nag y buoch chi'n ei gynnig ddoe.",
         'More than you offered yesterday.',
         "Mwy nag y buoch chi'n ei gynnig ddoe.",
@@ -111,7 +111,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ),
       line(
         'ceri',
-        'welsh',
+        'brittonic',
         "Yn sych, o dan do gwellt da. Dewch â'r arian.",
         'Dry, under a good thatched roof. Bring the money.',
         "Yn sych, o dan do gwellt da. Dewch â'r arian.",
@@ -123,8 +123,8 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ['ironage:S14', 'ironage:S15', 'ironage:S40'],
     ),
     languageNote: {
-      en: 'The soldier speaks Latin, read by a modern Italian voice in church-style pronunciation (Romans said it differently). The woman speaks Brittonic, shown in modern Welsh because none of it survives.',
-      cy: "Mae'r milwr yn siarad Lladin, wedi'i darllen gan lais Eidaleg modern yn null yr eglwys (roedd y Rhufeiniaid yn ei dweud yn wahanol). Mae'r wraig yn siarad Brythoneg, wedi'i dangos mewn Cymraeg modern.",
+      en: 'The soldier speaks Latin, read by a modern Italian voice in church-style pronunciation (Romans said it differently). The woman speaks Brittonic, shown and voiced in modern Welsh because no connected sentence of it has been reconstructed.',
+      cy: "Mae'r milwr yn siarad Lladin, wedi'i darllen gan lais Eidaleg modern yn null yr eglwys (roedd y Rhufeiniaid yn ei dweud yn wahanol). Mae'r wraig yn siarad Brythoneg, wedi'i dangos a'i lleisio mewn Cymraeg modern gan nad oes neb wedi ail-greu brawddeg gyfan ohoni.",
     },
   },
   {

@@ -15,14 +15,14 @@ Add freely; nothing here is a commitment.
 
 | Idea | Status | Notes |
 |---|---|---|
-| Previous / Next buttons through key dates | 🗣️ discussing | See [`timeline-experience.md`](timeline-experience.md); PageUp/PageDown already do it by keyboard |
-| Camera moves to the action at each key date | 🗣️ discussing | Per-date "shot" |
-| Sound and visual effects per event (train sound, train smoke…) | 🗣️ discussing | Must be labelled reconstructed |
-| Typical conversations per class at every key date, in the right language | 🗣️ discussing | See [`conversations-by-class.md`](conversations-by-class.md) |
+| Previous / Next buttons through key dates | ✅ built 2026-09-28 | See [`timeline-experience.md`](timeline-experience.md); PageUp/PageDown already do it by keyboard |
+| Camera moves to the action at each key date | ✅ built 2026-09-28 | Per-date "shot" |
+| Sound and visual effects per event (train sound, train smoke…) | 🟡 train done; more to come | Must be labelled reconstructed |
+| Typical conversations per class at every key date, in the right language | ✅ agreed, research under way | See [`conversations-by-class.md`](conversations-by-class.md) |
 | Immersive sound and other assets, generated or found online | 🗣️ discussing | See [`sound-and-assets.md`](sound-and-assets.md) |
 | In-app feedback and corrections, into GitHub issues | 🗣️ discussing | See [`feedback.md`](feedback.md); recommend a pre-filled issue link first |
 | Analytics or usage tracking | 🗣️ discussing | See [`analytics.md`](analytics.md); recommend cookieless (no banner) |
-| Realistic models of important buildings through time | 🗣️ discussing | Conflicts with the agreed low-poly look: see [`models.md`](models.md) |
+| Realistic models of important buildings through time | ✅ agreed as option A (accurate low-poly), being built | See [`models.md`](models.md) |
 
 ## From Claude (for discussion)
 
@@ -36,5 +36,7 @@ Add freely; nothing here is a commitment.
 | Before/after wipe between two years | 💭 raised | Good for the castles |
 | Sources page listing every source and what it supports | 💭 raised | Easy win for the "history first" promise |
 | Welsh narration with English subtitles | 💭 raised | Voices exist |
+| Shareable links that keep the camera view, not just the year and place | 💭 raised | |
+| Compare two years side by side | 💭 raised | Or a before/after wipe |
 | Mini-quizzes: "how many shops in 1858?" | 💭 raised | Fun for family; answers link to sources |
 | Poster mode: a high-resolution render of a chosen year | 💭 raised | |

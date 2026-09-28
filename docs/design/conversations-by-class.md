@@ -39,11 +39,11 @@ class one conversation with:
 | Welsh farmers | Middle Welsh (modern stand-in) | The ambush, and who to trust | Welsh |
 | A poet (bardd teulu) | Middle Welsh, a real attested line | Praise and lament | Welsh |
 | Parish clergy | Latin (church) and Welsh | Burials, prayers for the dead | Latin (Diego), Welsh |
-| English garrison at Carreg Cennen | Anglo-Norman French / Middle English | Orders, fear of the valley | French / English |
-| Marcher lord's household | Anglo-Norman French | Lands granted after the conquest | French |
+| ⚠️ English troops in the valley (needs research: who held Carreg Cennen in June 1282? rebels had seized it, and de Clare's column sacked it that month) | Anglo-Norman French / Middle English (French-speaking garrisons are inferred by analogy, not documented) | Orders, fear of the valley | French / English |
 
-Other dates follow the same shape: Roman fort (Brittonic farmers, Latin soldiers), Talley 1185
-(Latin canons, Welsh lay brothers), 1843 (Welsh tenants, English agents and magistrates, a
+A Marcher lord's household belongs after Giffard's grant of 1283, not June 1282. Other dates follow
+the same shape: Roman fort (Brittonic farmers, Latin soldiers), Talley 1185 (Latin canons; whether
+there were Welsh lay brothers is not researched), 1843 (Welsh tenants, English agents and magistrates, a
 Nonconformist minister), 1860s (children at school, the Welsh Not debate), today (bilingual).
 
 ## Rules and cautions
@@ -57,3 +57,6 @@ Nonconformist minister), 1860s (children at school, the Welsh Not debate), today
 - **Welsh quality**: more Welsh text raises the value of the parked human Welsh check.
 - **Scale**: roughly 22 dates × 3–5 classes ≈ 70–110 conversations and a few hundred voice clips
   (~10–20MB). Worth deciding whether that is every date or the vertical-slice eras first.
+
+> Corrected 2026-09-28 after an independent review found anachronisms in the 1282 outline. A
+> dedicated research pass (`docs/research/conversations-by-class.md`) is under way.

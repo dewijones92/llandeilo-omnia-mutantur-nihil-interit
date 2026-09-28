@@ -14,11 +14,11 @@ if any clip is missing, out of date with its text, or orphaned.
 
 ## Which voice speaks which language
 
-| Language in the content | Voice | Honest label (what the ⓘ says) |
+| Language in the content | Voice | What the label should say |
 |---|---|---|
 | Welsh (modern) | `cy-GB-AledNeural` / `cy-GB-NiaNeural` | Close to how people speak; a standard accent, not Carmarthenshire dialect |
 | Middle Welsh, Old Welsh | same Welsh voices, reading modern Welsh stand-ins | A modern stand-in for older Welsh |
-| Brittonic (Iron Age, Roman) | same Welsh voices, reading modern Welsh | No sentence of Brittonic survives; modern Welsh stands in |
+| Brittonic (Iron Age, Roman) | same Welsh voices, reading modern Welsh | Only fragments of Brittonic survive and no connected sentence has been reconstructed; modern Welsh stands in |
 | Latin | `it-IT-DiegoNeural` (male), `it-IT-IsabellaNeural` (female), plain spelling | Church-style pronunciation; right for medieval clergy, wrong for Romans (hard c, w for v) |
 | English | `en-GB-RyanNeural` / `en-GB-SoniaNeural` | Modern English |
 | Anglo-Norman French, Middle English | French and English voices | Modern-voice approximations (not used in any line yet) |
@@ -56,7 +56,10 @@ From [`../research/language-by-class.md`](../research/language-by-class.md), "Pr
   vowels and words like *moyn* and *dishgled*.
 - A modern French voice would impose modern phonology on Anglo-Norman.
 
-Any new line in an old language must carry a `languageNote` saying which of these applies.
+Any conversation with a line in an old language must carry a `languageNote` saying which of these
+applies; `tests/content.test.ts` enforces that, and that nothing before about AD 500 is labelled
+"Welsh". Not yet done: the notes do not yet mention the standard-accent mismatch for modern
+Welsh (tracked in the backlog).
 
 ## Privacy
 

@@ -34,9 +34,11 @@ because of it. The detail and sources are in each note; this is the summary a ne
   Sources disagree on their size and dates. ([iron age](era-iron-age.md))
 - **The Llandeilo Gospels' "Surexit" note** is the earliest surviving connected text in Welsh,
   recorded at Llandeilo; its exact date is debated. ([language](language-by-class.md))
-- **The Battle of Llandeilo Fawr, 1282** is real: 16 or 17 June (sources differ), and **no
-  chronicle names the Welsh leader**. Wikipedia's claim that Rhys ap Maredudd led it contradicts
-  his own biography. There is no separate "1116 battle". ([medieval](era-medieval-to-1282.md))
+- **The Battle of Llandeilo Fawr, 1282** is real: 16 or 17 June (sources differ). **No source read so
+  far names the Welsh leader**: two secondary analyses say the primary chronicles do not, and Brut y
+  Tywysogion has not yet been read directly. Wikipedia's claim that Rhys ap Maredudd led it
+  contradicts his own biography. No evidence of a separate "1116 battle" was found.
+  ([medieval](era-medieval-to-1282.md))
 - **Carreg Cennen as it stands** is probably mostly English work of 1287–1321, not the Lord Rhys's.
 - **The Rebecca Riots reached Llandeilo**: the Walk Gate was destroyed in August 1843, and lime
   tolls ran to about 30% of the cost of the lime. "Llandilo" in 1840s newspapers can also mean a
@@ -46,8 +48,9 @@ because of it. The detail and sources are in each note; this is the summary a ne
 - **Welsh speakers in Llandeilo**: 55.1% (2001) and 50.3% (2011). The 2021 ward figure was not
   found.
 - **Deep time**: Llandeilo gave its name to an Ordovician stage (now obsolete) and the Llandeilo
-  Flags Formation. Britain's first recorded trilobite was described from near Dinefwr in 1688.
-  Wolves died out in Wales in 1166. ([deep time](deep-time-and-natural-history.md))
+  Flags Formation (BGS). The first written record of a trilobite was a find probably made near
+  Dinefwr, recorded in 1688, and wolves died out in Wales in 1166; both rest on Wikipedia pages
+  only so far (single-source). ([deep time](deep-time-and-natural-history.md))
 
 ## Corrections the review forced
 
@@ -63,15 +66,13 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
 
 | Decision | Based on |
 |---|---|
-| The 1282 scene shows villagers hearing news, not a staged battle with named Welsh leaders | No chronicle names the leader |
-| Brittonic is voiced as modern Welsh and labelled so | No reliable Brittonic sentence reconstruction exists |
+| The 1282 scene shows villagers hearing news, not a staged battle with named Welsh leaders | No source read so far names the leader |
+| Brittonic is voiced as modern Welsh and labelled so | No connected Brittonic sentence reconstruction was found; only fragments and place-name elements |
 | Latin read in Church style, with an ⓘ on Roman lines | No Latin TTS voice; Church style fits medieval clergy ([voices](../content/voices.md)) |
 | Garn Goch's interior is marked reconstructed; farmsteads imagined | Never excavated |
 | Forest cover per era follows the pollen zones, blended to today's OS woodland from the 1850s | No local Tywi pollen core |
-| Towns use today's OS building footprints nearest the church, sized to documented counts | 1858 count documented; which buildings stood is not |
+| Towns use today's OS building footprints nearest the church; the Victorian town is sized to the documented 1858 count, the Georgian town is a guess below it | 1858 count documented; which buildings stood is not |
 
 ## Gaps worth a second pass
 
-Listed in [`open-questions.md`](open-questions.md): the primary Roman forts report, Brut y
-Tywysogion's own wording for 1282, Gerald of Wales on clothing, Victorian wages and prices,
-Dryslwyn after 1287, a sourced 1588 Bible passage, and Talley Abbey's Coflein grid reference.
+The one list is [`open-questions.md`](open-questions.md).

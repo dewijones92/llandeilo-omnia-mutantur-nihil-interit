@@ -7,8 +7,8 @@ updated: 2026-09-28
 
 # Backlog
 
-The one list of what is left, what is planned, and what is only an idea. Items marked 💡 are ideas
-nobody has agreed to yet; everything else is agreed scope. Tick items off in the same commit that
+The one list of agreed and proposed work. Unagreed ideas live on the ideas board,
+[`../design/ideas.md`](../design/ideas.md); the "Proposed" section below is under discussion. Tick items off in the same commit that
 does them. (Corrected 2026-09-28: this file had gone stale, still listing the review and the extra
 e2e tests as not done.)
 
@@ -56,7 +56,7 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       water with reflections, colour grading per era, gentle wind in the trees
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
-- [ ] Buildings with period styles (the `town.style` field is not yet read by the renderer)
+- [ ] Buildings with period styles (today `town.style` only decides which towns get chimney smoke)
 - [ ] Contact shadows under people and buildings
 - [ ] A low-sun, warmer light option; haze towards the rim
 - [ ] Better castle models from their documented plans (Dinefwr's great round tower, Carreg Cennen's gatehouse)
@@ -68,7 +68,7 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Place labels: "(today)" for the Roman forts too; review each place's `namedFrom`
 - [ ] Focus management for the info panel (move focus in and restore it on close)
 - [ ] Performance: move land-cover classification to the GPU if recolouring is slow on real hardware
-- [ ] Remove or implement the unused `town.style` field
+- [ ] Modern Welsh voices: add the standard-accent (not Carmarthenshire) note to modern-Welsh conversations
 
 ## Proposed (under discussion)
 
@@ -92,19 +92,6 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Ripples from afar: distant events that reached the valley, only where a source shows the local effect
 - [ ] LiDAR close-up terrain at the places you fly into
 
-## 💡 Ideas (not agreed)
+## 💡 Ideas
 
-The living ideas board, with status per idea, is [`../design/ideas.md`](../design/ideas.md). New
-design proposals from 2026-09-28: previous/next and camera shots per key date, effects per event,
-conversations by class at every key date, realistic landmark models ([`../design/`](../design/README.md)).
-
-
-- 💡 A guided tour: "play history" that moves the slider through the key dates with narration
-- 💡 Shareable links that keep the camera view, not just the year and place
-- 💡 Seasons and day/night, with weather per era (the Little Ice Age, the Medieval Warm Period)
-- 💡 "What was here?" click anywhere on the map for the almanac of that spot
-- 💡 Compare two years side by side, or a before/after wipe
-- 💡 A family-tree panel for the imagined bloodline
-- 💡 Sources page: every source, with what it supports in the app
-- 💡 Welsh-language narration throughout, with English subtitles
-- 💡 A print or poster mode: a high-resolution render of a chosen year
+See [`../design/ideas.md`](../design/ideas.md), the one ideas list.

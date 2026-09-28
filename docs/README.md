@@ -2,7 +2,7 @@
 title: Knowledge base map
 kind: index
 status: current
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # Knowledge base
@@ -21,7 +21,8 @@ showing it. Everything here is plain markdown so it outlives any particular app.
 | [`content/authoring.md`](content/authoring.md) | How research becomes content: provenance tiers, citations, bilingual text, placing features |
 | [`content/voices.md`](content/voices.md) | Which TTS voice speaks which language, how the Latin voice was chosen, known mismatches |
 | [`data/README.md`](data/README.md) | The map data: where it comes from, its licences, how to rebuild it |
-| [`process/decision-log.md`](process/decision-log.md) | How and why each decision was made, dated |
+| [`adr/`](adr/README.md) | Architecture decision records: one per technical decision, with context, consequences and rejected options |
+| [`process/decision-log.md`](process/decision-log.md) | How and why each product and content decision was made, dated |
 | [`process/build-log.md`](process/build-log.md) | Milestones, what broke, and what we learned |
 | [`design/`](design/README.md) | Design guides and the ideas board (proposed, not yet agreed) |
 | [`todos/_index.md`](todos/_index.md) | The live backlog |
