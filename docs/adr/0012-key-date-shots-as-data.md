@@ -23,7 +23,8 @@ requires every magnetic event to have a shot or a place, and every shot to be in
 
 Corrected 2026-09-28 after review: `Shot` is now a union (`valley`, or a framing with an optional
 `feature` id), so a valley shot cannot carry a point, and fixed points refer to a feature by id
-rather than copying its coordinates. Every event has a shot, not only the key dates, and a snap of
+rather than copying its coordinates. Every event now resolves to a shot, not only the key dates (`shot` is optional and defaults to its
+place at site distance), and a snap of
 the slider no longer moves the camera.
 
 ## Consequences

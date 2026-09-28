@@ -52,8 +52,10 @@ with the full context and consequences.
 | Record research outcomes in `docs/research/findings.md` and voice choices in `docs/content/voices.md`, summarised in CLAUDE.md | Dewi: "if in doubt document it in this repo" |
 | Keep edge-tts for Latin (Diego, plain) as already shipped | Confirmed with Dewi; see `docs/content/voices.md` |
 | Rewrite the backlog as the one list of agreed work plus unagreed 💡 ideas; correct the stale zod claim in CLAUDE.md | Dewi asked for a backlog; both files had drifted from the code |
-| A second Opus reviews every commit (code, content and docs) | Dewi, 2026-09-28; wording "remove" read as "review", confirmation asked |
+| A second Opus reviews every commit (code, content and docs) | Dewi, 2026-09-28; he wrote "remove" and confirmed later that day he meant "review" |
 | Discussion-phase ideas go in `docs/design/` as proposed, no code | Dewi: "we are still in discussion phase, dont code anything until i say" |
 | Record technical decisions as ADRs in `docs/adr/`, backfilled for the existing architecture; a "what goes where" table in CLAUDE.md | Dewi: "make sure to document ADRs, and anything else"; [ADR 0001](../adr/0001-record-architecture-decisions.md) |
 | Desktop only: drop phone and screen-reader requirements; a dismissible "best viewed on desktop" banner elsewhere | Dewi: "remove the requirement to support mobile and accessibility stuff like screenreaders"; [ADR 0015](../adr/0015-desktop-only.md) |
 | A snap of the slider moves only the slider, not the camera | Review of the Previous/Next commit: a third of the slider snaps, so drags kept pulling the camera away; see `design/timeline-experience.md` |
+| Remove the 450KB bundle limit; CI only reports the size | Dewi: "did I say the app is meant to be under half a MB??? if so please remove this limit". He never had; [ADR 0016](../adr/0016-no-bundle-size-limit.md) |
+| Ask before fanning out parallel agents or worktrees; the single commit review stays automatic | Dewi: "ask me first before you do this, as sometimes I wanna not use all my tokens" |

@@ -219,7 +219,8 @@ async function start(): Promise<void> {
     const stepKey = e.key === 'ArrowRight' || e.key === 'ArrowLeft';
     const modified = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     const focus = document.activeElement;
-    if (stepKey && !modified && (focus === document.body || focus?.classList.contains('tl-step'))) {
+    const inTimeline = focus?.closest('.timeline') && !focus.classList.contains('tl-track');
+    if (stepKey && !modified && (focus === document.body || inTimeline)) {
       e.preventDefault();
       timeline.step(e.key === 'ArrowRight' ? 1 : -1);
       return;

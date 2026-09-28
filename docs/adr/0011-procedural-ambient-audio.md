@@ -16,7 +16,7 @@ Each era needs a sound bed that follows the slider continuously, with no licence
 
 ## Decision
 
-`src/audio/ambience.ts` synthesises beds with Web Audio and crossfades them by era; `near(bed,
+`src/audio/ambience.ts` synthesises beds with Web Audio and crossfades them between the environment keyframes as the slider moves; `near(bed,
 factor)` scales a bed by the camera's distance to its source (the train, 2026-09-28).
 
 ## Consequences

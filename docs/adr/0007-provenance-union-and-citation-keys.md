@@ -25,7 +25,8 @@ mistyped or missing citation fails to compile.
 ## Consequences
 
 Renumbering a research note breaks every citation to it (seen 2026-09-26), which is the check
-working. A new research note needs its prefix added to the extractor.
+working. A new research note is picked up automatically and cited by its file name, unless a shorter prefix
+is added to the extractor's `PREFIX` map (as `classes` was for `conversations-by-class`).
 
 ## Alternatives considered
 

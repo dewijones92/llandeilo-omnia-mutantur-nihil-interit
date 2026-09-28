@@ -75,8 +75,8 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ['ironage:S27', 'ironage:S38', 'ironage:S2'],
     ),
     languageNote: {
-      en: 'They spoke Brittonic, the ancestor of Welsh. Only scattered words and short inscriptions survive from Britain, and no connected sentence has been reconstructed, so it is shown and voiced in modern Welsh, its descendant.',
-      cy: "Roedden nhw'n siarad Brythoneg, hynafiad y Gymraeg. Dim ond geiriau gwasgaredig ac arysgrifau byr sydd wedi goroesi o Brydain, a does neb wedi ail-greu brawddeg gyfan, felly mae'n cael ei dangos a'i lleisio mewn Cymraeg modern, ei disgynnydd.",
+      en: 'They spoke Brittonic, the ancestor of Welsh. Only scattered words and short inscriptions survive from Britain, and we found no reliable reconstruction of a whole sentence, so it is shown and voiced in modern Welsh, its descendant.',
+      cy: "Roedden nhw'n siarad Brythoneg, hynafiad y Gymraeg. Dim ond geiriau gwasgaredig ac arysgrifau byr sydd wedi goroesi o Brydain, a ni ddaethon ni o hyd i ail-greu dibynadwy o frawddeg gyfan, felly mae'n cael ei dangos a'i lleisio mewn Cymraeg modern, ei disgynnydd.",
     },
   },
   {
@@ -123,8 +123,8 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ['ironage:S14', 'ironage:S15', 'ironage:S40'],
     ),
     languageNote: {
-      en: 'The soldier speaks Latin, read by a modern Italian voice in church-style pronunciation (Romans said it differently). The woman speaks Brittonic, shown and voiced in modern Welsh because no connected sentence of it has been reconstructed.',
-      cy: "Mae'r milwr yn siarad Lladin, wedi'i darllen gan lais Eidaleg modern yn null yr eglwys (roedd y Rhufeiniaid yn ei dweud yn wahanol). Mae'r wraig yn siarad Brythoneg, wedi'i dangos a'i lleisio mewn Cymraeg modern gan nad oes neb wedi ail-greu brawddeg gyfan ohoni.",
+      en: 'The soldier speaks Latin, read by a modern Italian voice in church-style pronunciation (Romans said it differently). The woman speaks Brittonic, shown and voiced in modern Welsh because we found no reliable reconstruction of a whole sentence of it.',
+      cy: "Mae'r milwr yn siarad Lladin, wedi'i darllen gan lais Eidaleg modern yn null yr eglwys (roedd y Rhufeiniaid yn ei dweud yn wahanol). Mae'r wraig yn siarad Brythoneg, wedi'i dangos a'i lleisio mewn Cymraeg modern gan na ddaethon ni o hyd i ail-greu dibynadwy o frawddeg gyfan ohoni.",
     },
   },
   {
@@ -178,8 +178,8 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ),
     ],
     provenance: imagined(
-      'In June 1282 an English force returning from sacking Carreg Cennen was ambushed near Llandeilo and William de Valence the younger was killed. No chronicle names the Welsh leader. The family, priest and poet are invented; only the poem line is real.',
-      "Ym mis Mehefin 1282 ymosodwyd ar lu Seisnig ger Llandeilo ar ei ffordd yn ôl o ysbeilio Carreg Cennen. Nid yw'r un cronicl yn enwi arweinydd y Cymry. Mae'r teulu, yr offeiriad a'r bardd wedi'u dyfeisio; dim ond llinell y gerdd sy'n go iawn.",
+      'In June 1282 an English force returning from sacking Carreg Cennen was ambushed near Llandeilo and William de Valence the younger was killed. No source we have read names the Welsh leader. The family, priest and poet are invented; only the poem line is real.',
+      "Ym mis Mehefin 1282 ymosodwyd ar lu Seisnig ger Llandeilo ar ei ffordd yn ôl o ysbeilio Carreg Cennen. Does dim un ffynhonnell a ddarllenwyd gennym yn enwi arweinydd y Cymry. Mae'r teulu, yr offeiriad a'r bardd wedi'u dyfeisio; dim ond llinell y gerdd sy'n go iawn.",
       ['medieval:S27', 'medieval:S28', 'medieval:S29', 'language:S10'],
     ),
     languageNote: STAND_IN_WELSH(

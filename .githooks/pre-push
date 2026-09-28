@@ -7,4 +7,4 @@ npx prettier --check . >/dev/null || { echo "pre-push: run npm run format"; exit
 npx tsc --noEmit
 npx eslint . --max-warnings 0
 npx knip
-npx vitest run --reporter=dot
+npx vitest run --coverage --reporter=dot

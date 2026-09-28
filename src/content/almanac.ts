@@ -171,8 +171,8 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     ad(1100),
     ad(1166),
     'nature',
-    'Wolves still roam Wales, but not for long: they die out here in 1166, more than two centuries before England.',
-    "Mae bleiddiaid yn dal i grwydro Cymru, ond nid am hir: maen nhw'n diflannu yma yn 1166, dros ddwy ganrif cyn Lloegr.",
+    'Wolves still roam Wales, but not for long: they are said to have died out in Wales in 1166, more than two centuries before England (one source).',
+    'Mae bleiddiaid yn dal i grwydro Cymru, ond nid am hir: dywedir iddyn nhw ddiflannu o Gymru yn 1166, dros ddwy ganrif cyn Lloegr (un ffynhonnell).',
     doc('deeptime:S31'),
   ),
   entry(

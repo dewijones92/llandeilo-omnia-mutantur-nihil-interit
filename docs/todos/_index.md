@@ -20,7 +20,7 @@ e2e tests as not done.)
 - [x] Almanac (32 entries), language by class (12 periods), About and credits
 - [x] Procedural ambient sound, hearth smoke
 - [x] Three independent Opus reviews; every CRITICAL and IMPORTANT finding fixed
-- [x] Bundle 1.6MB → 387KB gzipped, with a CI budget
+- [x] Bundle 1.6MB → 387KB gzipped (the CI budget added then was removed on 2026-09-28, ADR 0016)
 - [x] 24 unit and integrity tests, 9 e2e tests in CI, deploy to GitHub Pages
 - [x] Knowledge base in `docs/`, README with screenshots
 

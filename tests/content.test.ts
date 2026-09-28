@@ -8,6 +8,7 @@ import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { latestStarting } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
+import { contains } from '../src/domain/time.ts';
 import { tAt, yearAt } from '../src/domain/timeline.ts';
 
 const root = join(import.meta.dirname, '..');
@@ -144,11 +145,14 @@ describe('key-date camera shots', () => {
     expect(unframed).toEqual([]);
   });
 
-  it('names only features that exist', () => {
-    const missing = W.events.flatMap((e) =>
-      e.shot && e.shot.framing !== 'valley' && e.shot.feature && !features.has(e.shot.feature) ? [e.id] : [],
-    );
-    expect(missing).toEqual([]);
+  it('names only features that exist, and exist at the date of the event', () => {
+    const wrong = W.events.flatMap((e) => {
+      const id = e.shot?.feature;
+      if (!id) return [];
+      const f = features.get(id);
+      return f && contains(f.when, e.when.from) ? [] : [e.id];
+    });
+    expect(wrong).toEqual([]);
   });
 
   it('only points the camera inside the ten-mile disc', () => {

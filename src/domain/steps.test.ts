@@ -46,6 +46,8 @@ describe('key steps', () => {
     expect(nearestStep(steps, 0.21, 0.02)?.event.id).toBe('b');
     expect(nearestStep(steps, 0.16, 0.05)?.event.id).toBe('b');
     expect(nearestStep(steps, 0.25, 0.02)).toBeUndefined();
+    expect(nearestStep(steps, 0.16, 0.1)?.event.id).toBe('b');
+    expect(nearestStep(steps, 0.14, 0.1)?.event.id).toBe('a');
   });
 });
 

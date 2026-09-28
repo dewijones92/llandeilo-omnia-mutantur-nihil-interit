@@ -18,15 +18,15 @@ camera flies there on Next, Previous or a marker click.
 
 How the build differs from the proposal below, and why (corrected 2026-09-28 after review):
 
-- **A snap moves only the slider, not the camera.** The proposal had snaps fly the camera too, but
-  a third of the slider is within snapping distance of a key date, so ordinary drags kept pulling
-  the camera away from a place you had flown to, with a conversation still open.
+- **A snap moves only the slider, not the camera.** The first proposal (since rewritten below) had
+  snaps fly the camera too, but a third of the slider is within snapping distance of a key date, so
+  ordinary drags kept pulling the camera away from a place you had flown to.
 - **The counter reads "12 / 22"**, with the event's title in the moment card rather than repeated.
-- **← → need the page or a step button focused.** Once you click the 3D view, Babylon gives the
+- **← → work when the page or anything on the timeline except the slider has focus.** Once you click the 3D view, Babylon gives the
   canvas focus and the arrow keys orbit the camera instead. Modified keys (Alt+← for Back) are left
   to the browser.
-- **Two quick clicks on Next move two dates**: a step made while the slider is still moving counts
-  from where it is heading.
+- **Steps count from where the slider is heading**, so two quick clicks on Next move two dates, and
+  Next straight after a marker click steps on from that marker.
 - **A minor marker flies to its own event**, rather than snapping to the nearest key date.
 
 Someone wanting to go through history in order needs **◀ Previous** and **Next ▶** buttons, not

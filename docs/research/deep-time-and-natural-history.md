@@ -97,7 +97,7 @@ By the Bronze Age, climate had turned wetter, and population was "forced... away
 | Elm decline / Neolithic clearance | Britain-wide, presumably affecting the wildwood locally | c.4300–3250 BCE | Cross-checked | [S11] |
 | Brown bear | Extinct in Britain | c.500 CE | Cross-checked | [S31] |
 | Eurasian lynx | Extinct in Britain (subfossil evidence c.700 CE; disputed later Scottish written record to c.1760) | c.700 CE (contested) | Single-source, internally disputed | [S31] |
-| Grey wolf | Extinct in Wales specifically | **1166** | Cross-checked | [S31] |
+| Grey wolf | Extinct in Wales specifically | **1166** | Single-source (corrected 2026-09-28: only [S31], a Wikipedia list, supports it, so it was never cross-checked) | [S31] |
 | Grey wolf | Extinct in England / Scotland / Ireland | 1390 / 1680 / 1786 | Cross-checked | [S31] |
 | Wild boar | Extinct in Britain; since reintroduced/established as feral populations from escapes | c.1400 CE | Cross-checked | [S31] |
 | European beaver | Extinct in Britain (last English historical reference 1526) | 16th century | Cross-checked | [S34] |

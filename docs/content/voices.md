@@ -18,7 +18,7 @@ if any clip is missing, out of date with its text, or orphaned.
 |---|---|---|
 | Welsh (modern) | `cy-GB-AledNeural` / `cy-GB-NiaNeural` | Close to how people speak; a standard accent, not Carmarthenshire dialect |
 | Middle Welsh, Old Welsh | same Welsh voices, reading modern Welsh stand-ins | A modern stand-in for older Welsh |
-| Brittonic (Iron Age, Roman) | same Welsh voices, reading modern Welsh | Only fragments of Brittonic survive and no connected sentence has been reconstructed; modern Welsh stands in |
+| Brittonic (Iron Age, Roman) | same Welsh voices, reading modern Welsh | Only fragments of Brittonic survive and we found no reliable reconstruction of a whole sentence; modern Welsh stands in |
 | Latin | `it-IT-DiegoNeural` (male), `it-IT-IsabellaNeural` (female), plain spelling | Church-style pronunciation; right for medieval clergy, wrong for Romans (hard c, w for v) |
 | English | `en-GB-RyanNeural` / `en-GB-SoniaNeural` | Modern English |
 | Anglo-Norman French, Middle English | French and English voices | Modern-voice approximations (not used in any line yet) |

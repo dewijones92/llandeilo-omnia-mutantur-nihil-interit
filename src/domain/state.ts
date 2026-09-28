@@ -119,8 +119,8 @@ export function latestStarting<T extends { readonly when: TimeRange }>(
 export function presenceAt(timeline: Timeline, when: TimeRange, t: number): number {
   const from = tAt(timeline, when.from);
   const to = tAt(timeline, when.to);
-  const fadeIn = from <= 0 ? 1 : smoothstep(from - FADE_T, from, t);
-  const fadeOut = to >= 1 ? 1 : 1 - smoothstep(to, to + FADE_T, t);
+  const fadeIn = smoothstep(from - FADE_T, from, t);
+  const fadeOut = 1 - smoothstep(to, to + FADE_T, t);
   return Math.min(fadeIn, fadeOut);
 }
 

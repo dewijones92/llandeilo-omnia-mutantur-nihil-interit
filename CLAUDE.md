@@ -272,8 +272,10 @@ are not measured yet** (a gap, tracked in docs/todos). Particle effects barely a
 check them with the particle probe in `?debug` (`window.llandeiloDebug.scene`) rather than by eye.
 
 **Performance numbers** (to be filled from a real desktop GPU): first load, scrubbing frame rate,
-terrain recolour time (logged as `dewidebug terrain recolour … in Nms`). Bundle: 387KB gzipped,
-held under 450KB by a CI budget.
+terrain recolour time (logged as `dewidebug terrain recolour … in Nms`). Bundle: the main chunk is
+418KB gzipped (428,353 bytes, 2026-09-28; it was 387KB on 2026-09-26). There is **no size limit**
+(Dewi, 2026-09-28; the 450KB CI budget was mine, never his, and is removed, [ADR 0016](docs/adr/0016-no-bundle-size-limit.md)).
+CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*.js | wc -c`.
 
 ## Working agreements
 
@@ -281,7 +283,7 @@ held under 450KB by a CI budget.
   - **Full creative freedom, and it must look stunning.** Aesthetics are a requirement, not polish:
     lighting, palette, atmosphere and motion get real design effort, checked by screenshot.
   - **A second Opus reviews everything we commit** (Dewi, 2026-09-28: "always have second opus to
-    remove stuff we commit to git", read as "review"; ⚠️ that reading is awaiting his confirmation). Code, content, docs and design guides alike: an independent
+    remove stuff we commit to git"; he confirmed on 2026-09-28 that he meant "review"). Code, content, docs and design guides alike: an independent
     Opus pass, given this file and the brief, reads the change. For small commits it can run just
     after pushing; for code or content it runs before, and its CRITICAL/IMPORTANT findings are fixed
     before moving on. Treat findings as hypotheses to verify, not verdicts, and attack the fixes too
@@ -292,6 +294,11 @@ held under 450KB by a CI budget.
     visible there, not only locally.
   - **Commit and push regularly**: small, coherent commits at each green state, pushed to `main`
     straight away. Pushing to `main` is pre-approved for this repo.
+- **Ask Dewi before fanning out parallel agents or worktrees** (Dewi, 2026-09-28: "ask me first
+  before you do this, as sometimes I wanna not use all my tokens"). Say what you would run, how many
+  agents and roughly what it costs, and wait for a yes. The one standing exception is the single
+  second-Opus review of a commit, which he asked for. Approval covers the batch it was given for, not
+  the next one.
 - **The dev server is always running on port 5051** (Dewi, 2026-09-28: "always have the dev server
   running so I can play as you are doing stuff"). At the start of every session, and after anything
   that might have stopped it, check `curl -s -o /dev/null -w '%{http_code}' http://localhost:5051/`

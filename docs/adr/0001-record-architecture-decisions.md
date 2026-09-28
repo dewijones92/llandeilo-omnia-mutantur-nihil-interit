@@ -19,7 +19,8 @@ else".
 ## Decision
 
 Each significant technical decision gets an ADR in `docs/adr/`, numbered, one file per decision, and
-never edited after acceptance except for its status. A changed mind means a new ADR that supersedes
+never rewritten after acceptance: only its status changes, or a dated "Corrected" note is added
+when a detail proves wrong while the decision stands. A changed mind means a new ADR that supersedes
 the old one. CLAUDE.md's Decisions table remains the current summary and links here.
 
 ## Consequences

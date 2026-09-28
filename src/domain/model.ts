@@ -41,7 +41,8 @@ export interface KeyEvent {
 export type Framing = 'close' | 'site' | 'area';
 
 export type Shot =
-  { readonly framing: 'valley' } | { readonly framing: Framing; readonly feature?: FeatureId };
+  | { readonly framing: 'valley'; readonly feature?: never }
+  | { readonly framing: Framing; readonly feature?: FeatureId };
 
 export type LanguageCode =
   | 'unknown'

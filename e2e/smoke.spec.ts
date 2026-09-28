@@ -1,4 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
+import { EVENTS } from '../src/content/events.ts';
+import { TIMELINE } from '../src/content/timeline.ts';
+import { toWorld } from '../src/domain/geo.ts';
+import { keySteps, stepFrom } from '../src/domain/steps.ts';
+import { tAt } from '../src/domain/timeline.ts';
 
 test('the valley loads and the slider moves through time', async ({ page }) => {
   const errors: string[] = [];
@@ -153,7 +158,7 @@ test('letting go near a key date snaps the slider but leaves the camera where it
   const before = await cameraTarget(page);
   const track = page.locator('.tl-track');
   const box = await track.boundingBox();
-  const left = await page.locator('.tl-marker.magnetic').nth(20).getAttribute('style');
+  const left = await page.getByRole('button', { name: /The railway arrives/ }).getAttribute('style');
   const leftPct = Number(/left:\s*([\d.]+)%/.exec(left ?? '')?.[1]);
   if (!box) throw new Error('no track');
   const y = box.y + box.height / 2;
@@ -172,7 +177,7 @@ test('a minor marker flies the camera to its own event', async ({ page }) => {
   await page.goto('./?debug&year=1282');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   await page.getByRole('button', { name: /Paxton’s Tower/ }).dispatchEvent('click');
-  const paxton = { x: (254094 - 262900) / 10, z: (219151 - 222500) / 10 };
+  const paxton = toWorld({ e: 254094, n: 219151 });
   await expect
     .poll(
       async () => {
@@ -182,6 +187,26 @@ test('a minor marker flies the camera to its own event', async ({ page }) => {
       { timeout: 60_000 },
     )
     .toBeLessThan(5);
+});
+
+test('Next straight after a minor marker click steps on from that marker', async ({ page }) => {
+  await page.goto('./?year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const paxton = EVENTS.find((e) => e.id === 'paxtons-tower');
+  if (!paxton) throw new Error('no Paxton event');
+  const expected = stepFrom(keySteps(TIMELINE, EVENTS), tAt(TIMELINE, paxton.when.from), 1);
+  if (!expected) throw new Error('no key date after Paxton');
+  await page.evaluate(() => {
+    const marker = [...document.querySelectorAll('.tl-marker')].find((m) =>
+      m.getAttribute('aria-label')?.includes('Paxton'),
+    );
+    const next = [...document.querySelectorAll('.tl-step')].find((b) => b.textContent.includes('Next'));
+    if (!(marker instanceof HTMLElement) || !(next instanceof HTMLElement))
+      throw new Error('controls missing');
+    marker.click();
+    next.click();
+  });
+  await expect(page.locator('.tl-counter')).toHaveAttribute('title', expected.event.title.en);
 });
 
 test.describe('off a desktop', () => {
