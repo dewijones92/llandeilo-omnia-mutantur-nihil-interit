@@ -46,6 +46,15 @@ e2e tests as not done.)
 
 ## Look and feel
 
+**Dewi, 2026-09-28: "I want this app to look amazing"**, with effect trickery from WebGPU or the
+engine, and time of day and seasons. Agreed as a goal; the items below serve it.
+
+- [ ] Time of day: sun path, dawn and dusk colour, night with lit windows and stars
+- [ ] Seasons: spring blossom, summer green, autumn colour, winter frost and snow, per era's climate
+- [ ] Weather: rain, mist in the valley, low cloud on the Black Mountain
+- [ ] Engine effects: ambient occlusion, soft volumetric light shafts, depth-of-field tilt-shift,
+      water with reflections, colour grading per era, gentle wind in the trees
+
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (the `town.style` field is not yet read by the renderer)
 - [ ] Contact shadows under people and buildings
