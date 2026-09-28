@@ -37,6 +37,11 @@ e2e tests as not done.)
       the primary Roman forts report, Brut y Tywysogion on 1282, Gerald of Wales on clothing,
       Victorian wages and prices, Dryslwyn after 1287, a sourced 1588 Bible passage
 - [ ] Talley Abbey: replace Wikipedia coordinates with a Coflein or Cadw grid reference
+- [ ] 1282 moment card: add that the primary annal reads 16 June (keep "sources differ")
+- [ ] Roman forts: use the primary report's 3.85ha and 1.54ha to revisit the "8 vs 12 acres" contradiction
+- [ ] Earliest environment keyframes (12,500–10,900 BC): check they use calendar, not uncalibrated pollen, dates
+- [ ] Railway loose ends: Victoria's weight (18 vs 14 tons), the unconfirmed "Victor" of 1864, the 1858 Beyer Peacock engines
+- [ ] Independent verification of every research note, as conversations-by-class had (it found 13 corrections)
 - [ ] Check every place against its Coflein grid reference (only some were verified)
 - [ ] Human check of the Welsh text (parked)
 - [ ] Mark research notes `reviewed` once each has had an independent pass against its sources
@@ -73,6 +78,10 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 
 ## Quality (from the reviews, deferred)
 
+- [ ] Timeline tick labels overlap at both ends ("12,500 BC" over "8,300 BC", "1950" over "2026")
+- [ ] e2e: give each checkout its own preview port; locally Playwright reuses whatever server is on
+      4173, so a run can silently test another agent's build (seen 2026-09-28)
+- [ ] The train is rigid: carriages cut across curves instead of following the track; judge its speed on a real GPU
 - [ ] Purity lint as an allow-list rather than a deny-list (or a separate tsconfig without DOM for domain/content)
 - [ ] Place labels: "(today)" for the Roman forts too; review each place's `namedFrom`
 - [ ] Performance: move land-cover classification to the GPU if recolouring is slow on real hardware
