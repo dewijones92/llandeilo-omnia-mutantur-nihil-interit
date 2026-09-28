@@ -960,14 +960,15 @@ button {
 
 .desktop-banner {
   position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 8px;
+  left: 8px;
+  right: 8px;
   z-index: 20;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   padding: 10px 12px 10px 16px;
-  max-width: calc(100vw - 32px);
+  background: var(--panel-solid);
   color: var(--ink);
 }

@@ -256,7 +256,7 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
 ## Build & test
 
 ```bash
-npm run dev                          # Vite dev server on :5173 (?debug for the overlay, ?year=1282, ?place=garn-goch)
+npm run dev                          # the always-on dev server on :5051 (?debug for the overlay, ?year=1282, ?place=garn-goch)
 npm run check                        # format, types, lint, unit tests, knip (the pre-push hook runs the same)
 npx vite build && npx playwright test   # production build and e2e (needs PAGES_BASE to match CI)
 node tools/research/extract-sources.mjs # after any change to docs/research/*.md
@@ -292,6 +292,15 @@ held under 450KB by a CI budget.
     visible there, not only locally.
   - **Commit and push regularly**: small, coherent commits at each green state, pushed to `main`
     straight away. Pushing to `main` is pre-approved for this repo.
+- **The dev server is always running on port 5051** (Dewi, 2026-09-28: "always have the dev server
+  running so I can play as you are doing stuff"). At the start of every session, and after anything
+  that might have stopped it, check `curl -s -o /dev/null -w '%{http_code}' http://localhost:5051/`
+  and if it isn't 200, start it from the main clone:
+  `nohup npm run dev > ~/claude-tasks/llandeilo-dev-5051.log 2>&1 &` (the port is set in
+  `package.json`).
+  Never stop it, never move it to another port, and never point it at a worktree: it serves `main`'s
+  working tree with hot reload, so Dewi sees each change as it lands. Worktrees and e2e use other
+  ports (5174+, 4173). Tell Dewi the URL: http://localhost:5051/ (`?debug`, `?year=1282`).
 - **No code comments** (Dewi's global rule): the why goes in commit messages. Tool directives
   (`// prettier-ignore`) are the only exception.
 - **Own the repo.** Take the structurally right option. Surface only decisions that are genuinely

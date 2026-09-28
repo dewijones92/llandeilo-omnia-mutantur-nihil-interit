@@ -9,7 +9,7 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5051 --strictPort --host",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
