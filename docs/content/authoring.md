@@ -2,7 +2,7 @@
 title: Authoring content
 kind: guide
 status: current
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # How research becomes content
@@ -48,6 +48,40 @@ church) that starts on the year its predecessor ends crossfades cleanly. Key dat
 - Landmarks are drawn larger than life (`MONUMENT_SCALE`) so they read on the diorama; very large
   earthworks (hillforts) use their true footprint; town buildings use real OS footprints at true
   size, with heights exaggerated. Hills are exaggerated 2.4 times. The About panel says so.
+
+## Building models (`building` features)
+
+Important buildings are `building` features: a **plan** in `src/content/buildings.ts` plus a
+**condition** (`standing` or `ruin`). One renderer (`src/world/buildings.ts`) draws every plan,
+with one builder per part type: `wall`, `tower`, `hall`, `prism`, `ditch`, `bridge`, `platform`.
+There is no per-castle or per-era code.
+
+- **Plans are in true metres**, measured east (x) and north (y) from the feature's grid reference.
+  Angles are degrees anticlockwise from east. A plan's `angle` turns the whole plan; a hall's or
+  tower's `angle` turns that part. A part's `sides` and `openings` name walls in the part's own frame
+  before rotation: `e` and `w` are its ends, `n` and `s` its long sides.
+- **Only documented dimensions are "documented".** Everything else in a plan (positions, heights,
+  widths) is a reconstruction, and the feature's provenance note must say which parts are
+  approximate. Where a phase's form is unknown, keep a modest plan and label it `reconstructed`.
+- **Phases share parts.** A later phase spreads the earlier phase's parts and adds to them
+  (`CARREG_CENNEN = [...CC_INNER, ...CC_OUTER]`); a ruin reuses its standing plan with
+  `condition: 'ruin'`.
+- **Ruins come from the plan, not from code.** Each part may carry `ruin`: `{ stands }` (the
+  fraction of its height that survives, broken deterministically), optionally `sides` (which walls
+  of a square tower or hall stand, e.g. Talley's two tower walls), or `'gone'`. A part with no
+  `ruin` keeps 45% in a ruin, and timber, daub and thatch rot away.
+- **`platform`** levels a ward to the ground height at the grid reference, so a castle stands on its
+  summit rather than draping down a 105m-spaced terrain mesh. Walls still reach down to the real
+  ground. Its outline must be convex and follow the outer walls.
+- **Scale: one rule, chosen by `setting`.** `landscape` plans (castles, the abbey, country houses,
+  follies) are scaled `MONUMENT_SCALE` (2.6×) in all three axes so they read on the diorama.
+  `map` plans (the church inside the town, the bridges across the drawn Tywi) sit among true-size
+  map data, so they are drawn at **true footprint**, with heights × the terrain's 2.4× vertical
+  exaggeration. A `map` plan hides any OS building footprint it covers, so the church is not
+  drawn twice; any plan hides the OS footprint that contains its grid reference (the landmark's own
+  outline), and nothing else.
+- **Orientation**: use a documented one (OS footprint, road line, a described side) and say so;
+  otherwise the note says orientation is approximate.
 - A town at a documented size uses the `nearest` OS footprints to its centre. The count can be
   documented while which buildings stood is reconstructed; label it that way.
 - Active settlements clear woodland around them, so a hillfort sits on open ground.

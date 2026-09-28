@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # Build log
@@ -53,3 +53,40 @@ Milestones and what each one taught us. Newest last.
     only updated on scrub, an automatic panel close stole keyboard focus, and three new content
     sentences were not in the research. All fixed; lessons: a shared resource must survive its
     consumers' disposal, and a "render once" cache needs every moving caster accounted for.
+
+## 2026-09-28
+
+1. **Building models from the documented plans** (option A in
+   [`../design/models.md`](../design/models.md), "accurate low-poly"). The generic `castle`,
+   `church`, `abbey`, `mansion`, `bridge` and `tower` kinds became one `building` kind: a plan
+   (`src/content/buildings.ts`, true metres, citing the research) plus a condition. One renderer
+   draws every plan, with one builder per part type, and ruins come from each part's `ruin` data
+   rather than from code. 26 models, about 27k triangles in all.
+2. **Every face was inside out at first.** Square prisms and roofs looked fine, so nothing gave it
+   away until round towers showed as crescents from above. Hiding the terrain proved the geometry
+   was solid; flipping the winding fixed it. Babylon's front face is the reverse of the right-hand
+   rule used in `sculpt.ts`, so check a new primitive from above, not only from the side.
+3. **Two terrains.** `ground()` interpolates the 50m OS grid, but the rendered terrain is a Delaunay
+   mesh of points about 105m apart, and on a crag they differ by several units. Landmarks now sit
+   on the rendered surface (`src/domain/surface.ts`), and `platform` levels a ward to its summit so
+   a castle 2.6× larger than life stands on its hill instead of draping down it.
+4. **The OS footprint of a landmark is the same building.** A model now hides any OS footprint
+   that contains its grid reference or lies under it. That removed the white 120–150m slabs beside
+   Newton House and Golden Grove, and the town's copy of St Teilo's.
+5. **Scale rule**: `landscape` plans ×2.6 in all axes; `map` plans (the church, the bridges) at true
+   footprint with heights × the terrain's 2.4, because they must meet true-size streets and the drawn
+   Tywi. Recorded in [`../content/authoring.md`](../content/authoring.md).
+6. **Bundle**: 429.9KB → 443.1KB gzipped (the base was already well above the 387KB in CLAUDE.md).
+   About 7KB of headroom is left under the 450KB budget.
+7. **Independent Opus review**: no CRITICAL, 9 IMPORTANT, all fixed. Square towers ignored the plan's
+   rotation, so St Teilo's tower and Newton House's turrets sat askew. A raised part (the Dinefwr
+   summerhouse) still reached the ground and filled in the ruined stump. Round towers drew no
+   battlements, because every edge was shorter than the merlon spacing. Landscape plans hid real
+   neighbouring buildings (six near Talley). Three houses whose form is a guess were labelled
+   documented. Two source contradictions were left unsaid (the summerhouse's date; an early
+   18th-century rebuild of St Teilo's). The orientation notes were missing. Tests now pin the
+   documented dimensions, platform convexity, the surface lookup and the footprint rule.
+8. **e2e on a shared machine**: port 4173 was already serving another agent's build, and
+   Playwright reuses an existing server locally, so the first run tested someone else's code. Rerun
+   against this branch's own preview on a private port: 10 passed.
+

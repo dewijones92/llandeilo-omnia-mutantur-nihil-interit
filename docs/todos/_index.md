@@ -59,7 +59,12 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Buildings with period styles (the `town.style` field is not yet read by the renderer)
 - [ ] Contact shadows under people and buildings
 - [ ] A low-sun, warmer light option; haze towards the rim
-- [ ] Better castle models from their documented plans (Dinefwr's great round tower, Carreg Cennen's gatehouse)
+- [x] Better castle models from their documented plans (Dinefwr's great round tower, Carreg Cennen's gatehouse):
+      landmark models built phase by phase from the research, 2026-09-28 ([`design/models.md`](../design/models.md))
+- [ ] Close the modelling research gaps listed in [`design/models.md`](../design/models.md) (Coflein plans, Cadw guidebooks)
+- [ ] Decide option B or C for the landmark models (realistic textures), or keep option A
+- [ ] Roman forts and Garn Goch as plans too (they still use the older builders)
+- [ ] The About panel says hills are exaggerated 2.4×; it should also say landmarks are drawn 2.6× larger
 - [ ] The closed 1864 railway to Carmarthen
 
 ## Quality and accessibility (from the reviews, deferred)
