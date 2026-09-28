@@ -1,4 +1,4 @@
-import type { Mesh } from './babylon.ts';
+import { Vector3, type Mesh } from './babylon.ts';
 import { toGrid, toWorld } from '../domain/geo.ts';
 import type { Feature, FeatureId } from '../domain/model.ts';
 import type { FeaturePresence } from '../domain/state.ts';
@@ -127,11 +127,12 @@ export class FeatureLayer {
           z,
           spread: (k.spread / 10) * 0.5 + 1,
           density: Math.min(1.5, k.count / 4),
+          style: 'hearth',
         });
       } else if (k.type === 'town' && k.style !== 'modern') {
-        out.push({ key: p.feature.id, x, y: y + 1, z, spread: 18, density: 1.8 });
+        out.push({ key: p.feature.id, x, y: y + 1, z, spread: 18, density: 1.8, style: 'hearth' });
       } else if (k.type === 'mansion') {
-        out.push({ key: p.feature.id, x, y: y + 3, z, spread: 1.5, density: 0.5 });
+        out.push({ key: p.feature.id, x, y: y + 3, z, spread: 1.5, density: 0.5, style: 'hearth' });
       }
     }
     return out;
@@ -163,5 +164,25 @@ export class FeatureLayer {
 
   tick(dt: number): void {
     this.train?.step(dt, this.railPresence > 0.9);
+  }
+
+  trainSmoke(): SmokeSource | undefined {
+    const train = this.train;
+    if (!train?.mesh.isVisible) return undefined;
+    const p = train.mesh.position;
+    return {
+      key: 'train',
+      x: p.x,
+      y: p.y,
+      z: p.z,
+      spread: 0,
+      density: 1,
+      style: 'steam',
+      follow: { mesh: train.mesh, offset: new Vector3(1.1, 2.6, 0) },
+    };
+  }
+
+  trainPosition(): Vector3 | undefined {
+    return this.train?.mesh.isVisible ? this.train.mesh.position : undefined;
   }
 }

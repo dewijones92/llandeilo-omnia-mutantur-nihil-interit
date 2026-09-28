@@ -22,6 +22,7 @@ export { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial.js'
 export { DynamicTexture } from '@babylonjs/core/Materials/Textures/dynamicTexture.js';
 export { Color3, Color4 } from '@babylonjs/core/Maths/math.color.js';
 export { Matrix, Quaternion, Vector3 } from '@babylonjs/core/Maths/math.vector.js';
+export { AbstractMesh } from '@babylonjs/core/Meshes/abstractMesh.js';
 export { Mesh } from '@babylonjs/core/Meshes/mesh.js';
 export { VertexData } from '@babylonjs/core/Meshes/mesh.vertexData.js';
 export { DefaultRenderingPipeline } from '@babylonjs/core/PostProcesses/RenderPipeline/Pipelines/defaultRenderingPipeline.js';

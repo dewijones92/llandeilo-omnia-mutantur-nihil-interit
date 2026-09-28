@@ -269,7 +269,15 @@ async function start(): Promise<void> {
     const now = performance.now();
     people.show(active, now);
     const eye = world.camera.globalPosition;
-    smoke.show(smokeSources, (x, z) => Math.hypot(eye.x - x, eye.z - z));
+    const trainSmoke = features.trainSmoke();
+    smoke.show(trainSmoke ? [...smokeSources, trainSmoke] : smokeSources, (x, z) =>
+      Math.hypot(eye.x - x, eye.z - z),
+    );
+    const train = features.trainPosition();
+    ambience?.near(
+      'train',
+      train ? 0.15 + 0.85 * Math.max(0, 1 - Vector3.Distance(eye, train) / 1400) ** 2 : 0,
+    );
     world.scene.render();
     bubbles.update(active, now);
     labels.update(bubbles.visible);

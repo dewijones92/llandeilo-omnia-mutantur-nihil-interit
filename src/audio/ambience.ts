@@ -38,6 +38,7 @@ export class Ambience {
   private readonly reverb: ConvolverNode;
   private readonly beds = new Map<AmbientBed, GainNode>();
   private levels: Levels | undefined;
+  private readonly nearness = new Map<AmbientBed, number>();
   private on = false;
   private readonly timer: number;
   private readonly white: AudioBuffer;
@@ -262,7 +263,15 @@ export class Ambience {
       traffic: 0.6,
       chant: 0.8,
     };
-    for (const [bed, g] of this.beds) g.gain.setTargetAtTime(levels[bed] * gain[bed], now, 0.6);
+    for (const [bed, g] of this.beds)
+      g.gain.setTargetAtTime(levels[bed] * gain[bed] * (this.nearness.get(bed) ?? 1), now, 0.6);
+  }
+
+  near(bed: AmbientBed, factor: number): void {
+    const f = Math.round(Math.max(0, Math.min(1, factor)) * 20) / 20;
+    if (this.nearness.get(bed) === f) return;
+    this.nearness.set(bed, f);
+    if (this.levels) this.set(this.levels);
   }
 
   enable(on: boolean): void {

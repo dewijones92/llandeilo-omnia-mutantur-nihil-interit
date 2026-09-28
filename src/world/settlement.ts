@@ -35,6 +35,7 @@ export class Buildings {
   ) {
     const mat = new StandardMaterial('building-mat', scene);
     mat.specularColor = new Color3(0.04, 0.04, 0.04);
+    mat.emissiveColor = new Color3(0.2, 0.19, 0.18);
     this.walls = merge('building-walls', [box(scene, 1, 1, 1, '#ffffff')]);
     this.walls.material = mat;
     this.roofs = merge('building-roofs', [gable(scene, 1, 1, 1, '#5f6670')]);

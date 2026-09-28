@@ -43,6 +43,9 @@ At each key date, **the camera flies to where it happened** and frames it.
 
 ## 3. Sound and effects per event
 
+**Partly built 2026-09-28**: the train trails steam from its chimney (the one smoke system, `style:
+'steam'`, following the train), and its sound bed scales with the camera's distance to the train.
+
 Each key date and era can carry **effects**: short sounds and visual effects tied to the moment,
 on top of the ambient sound bed that already crossfades by era.
 
