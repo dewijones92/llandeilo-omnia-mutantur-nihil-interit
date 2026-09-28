@@ -43,6 +43,10 @@ export const STRINGS = {
     cy: 'Dim wedi’i gofnodi ar gyfer yr adeg hon eto.',
   },
   close: { en: 'Close', cy: 'Cau' },
+  desktopBest: {
+    en: 'This is best viewed on a desktop computer.',
+    cy: "Mae'n well gweld hwn ar gyfrifiadur bwrdd gwaith.",
+  },
   play: { en: 'Play', cy: 'Chwarae' },
   flyTo: { en: 'Visit', cy: 'Ymweld' },
   todayName: { en: 'today', cy: 'heddiw' },

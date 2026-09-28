@@ -62,11 +62,10 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Better castle models from their documented plans (Dinefwr's great round tower, Carreg Cennen's gatehouse)
 - [ ] The closed 1864 railway to Carmarthen
 
-## Quality and accessibility (from the reviews, deferred)
+## Quality (from the reviews, deferred)
 
 - [ ] Purity lint as an allow-list rather than a deny-list (or a separate tsconfig without DOM for domain/content)
 - [ ] Place labels: "(today)" for the Roman forts too; review each place's `namedFrom`
-- [ ] Focus management for the info panel (move focus in and restore it on close)
 - [ ] Performance: move land-cover classification to the GPU if recolouring is slow on real hardware
 - [ ] Modern Welsh voices: add the standard-accent (not Carmarthenshire) note to modern-Welsh conversations
 
@@ -84,6 +83,7 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [x] Train steam trailing from the chimney, and train sound that grows as the camera nears (2026-09-28)
 - [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md))
 - [x] Previous / Next through key dates, with the camera flying to each (2026-09-28)
+- [x] Desktop only, with a dismissible banner on phones and tablets (2026-09-28, [ADR 0015](../adr/0015-desktop-only.md))
 
 ## Later phases (agreed)
 

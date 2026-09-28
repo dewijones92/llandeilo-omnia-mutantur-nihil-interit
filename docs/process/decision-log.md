@@ -55,3 +55,5 @@ with the full context and consequences.
 | A second Opus reviews every commit (code, content and docs) | Dewi, 2026-09-28; wording "remove" read as "review", confirmation asked |
 | Discussion-phase ideas go in `docs/design/` as proposed, no code | Dewi: "we are still in discussion phase, dont code anything until i say" |
 | Record technical decisions as ADRs in `docs/adr/`, backfilled for the existing architecture; a "what goes where" table in CLAUDE.md | Dewi: "make sure to document ADRs, and anything else"; [ADR 0001](../adr/0001-record-architecture-decisions.md) |
+| Desktop only: drop phone and screen-reader requirements; a dismissible "best viewed on desktop" banner elsewhere | Dewi: "remove the requirement to support mobile and accessibility stuff like screenreaders"; [ADR 0015](../adr/0015-desktop-only.md) |
+| A snap of the slider moves only the slider, not the camera | Review of the Previous/Next commit: a third of the slider snaps, so drags kept pulling the camera away; see `design/timeline-experience.md` |

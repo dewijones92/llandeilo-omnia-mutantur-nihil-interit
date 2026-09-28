@@ -5,7 +5,9 @@ import { describe, expect, it } from 'vitest';
 import { ASSETS } from '../src/content/assets.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
+import { WORLD } from '../src/domain/geo.ts';
 import { latestStarting } from '../src/domain/state.ts';
+import { shotFor } from '../src/domain/steps.ts';
 import { tAt, yearAt } from '../src/domain/timeline.ts';
 
 const root = join(import.meta.dirname, '..');
@@ -133,16 +135,28 @@ describe('assets', () => {
 
 describe('key-date camera shots', () => {
   const places = new Map(W.places.map((p) => [p.id, p]));
+  const features = new Map(W.features.map((f) => [f.id, f]));
 
-  it('frames a real place or asks for the whole valley at every magnetic key date', () => {
-    const unframed = W.events.filter((e) => e.magnetic && !e.shot && !e.place).map((e) => e.id);
+  it('resolves a shot for every event unless it asks for the whole valley', () => {
+    const unframed = W.events
+      .filter((e) => e.shot?.framing !== 'valley' && !shotFor(e, places, features))
+      .map((e) => e.id);
     expect(unframed).toEqual([]);
+  });
+
+  it('names only features that exist', () => {
+    const missing = W.events.flatMap((e) =>
+      e.shot && e.shot.framing !== 'valley' && e.shot.feature && !features.has(e.shot.feature) ? [e.id] : [],
+    );
+    expect(missing).toEqual([]);
   });
 
   it('only points the camera inside the ten-mile disc', () => {
     const outside = W.events
-      .map((e) => ({ id: e.id, at: e.shot?.at ?? (e.place ? places.get(e.place)?.at : undefined) }))
-      .filter((x) => x.at && Math.hypot(x.at.e - 262900, x.at.n - 222500) > 16093)
+      .map((e) => ({ id: e.id, at: shotFor(e, places, features)?.at }))
+      .filter(
+        (x) => x.at && Math.hypot(x.at.e - WORLD.centre.e, x.at.n - WORLD.centre.n) > WORLD.radiusMetres,
+      )
       .map((x) => x.id);
     expect(outside).toEqual([]);
   });

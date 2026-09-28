@@ -10,7 +10,7 @@ the landscape, buildings, people, their conversations and events.
 
 **The core promise: history first, invention always labelled.** Content is as factual as the
 sources allow. Where there are gaps (dialogue, faces, everyday detail), we fill them in, and every
-invented piece carries a visible ⓘ marker. Hover it (or tap it) to see what is invented and what
+invented piece carries a visible ⓘ marker. Hover or click it to see what is invented and what
 it is based on.
 
 **The original brief** is kept verbatim in `docs/brief.md`. Decisions below supersede it where
@@ -34,7 +34,7 @@ so the next reader knows the map was unreliable there.
 
 | Decision | Choice | Why |
 |---|---|---|
-| Platform ✅ | Web app, static site, **desktop-first** (phones must work, not shine) | Dewi will mainly use it on desktop, which gives us graphics headroom |
+| Platform ✅ | Web app, static site, **desktop only**. Phones and tablets get a dismissible "best viewed on a desktop" banner and no other support ([ADR 0015](docs/adr/0015-desktop-only.md)) | Dewi, 2026-09-28: "remove the requirement to support mobile and accessibility stuff like screenreaders". Desktop gives us graphics headroom |
 | Stack ✅ | Vite + TypeScript (strict) | Fast dev loop; strict types make bad content data fail at compile time |
 | Rendering ✅ | **Babylon.js**: WebGPU engine where supported, WebGL2 fallback | Dewi's pick over three.js: a fuller engine with more built in (inspector, scene tooling, audio), and WebGPU without writing our own engine |
 | Look ✅ | **Clean low-poly** 3D diorama of the real valley that you can orbit around | Charming, fast, and quick to fill every era; fidelity can be raised per era later |
@@ -200,14 +200,23 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
   (e.g. "what is on screen, and heard, in 1282?"), test that answer end to end as well as each part.
   Green unit tests can sit on top of a bug that only the whole picture shows.
 - **Every flow that matters has an e2e test that runs in CI on every push**, not only locally.
+- **Coverage good enough to change things without fear** (Dewi, 2026-09-28: "good test coverage to
+  give u confidence of low risk of regression"). The pure layers (`src/domain`, `src/content`) are
+  measured on every `npm test` and CI fails below the floor in `vitest.config.ts` (statements 92%,
+  branches 85%, functions 100%, lines 95%, measured at 94.9 / 89.3 / 100 / 97.3 on 2026-09-28).
+  Raise the floor when coverage rises; never lower it to get a change through. The renderer, UI and
+  audio are covered by e2e flows instead, so every user-visible behaviour change adds or extends one.
+  A number is not the goal: a test must fail when the behaviour breaks, so check new tests against
+  the old code (red, then green) and make sure they fail at the assertion they name.
 - **A visual change isn't verified until the screen has been LOOKED AT.** Take a Playwright
-  screenshot of the changed scene at more than one point on the timeline, on desktop (and check
-  phone width still works), before calling it done. Green tests don't prove a scene looks right.
+  screenshot of the changed scene at more than one point on the timeline, on desktop, before
+  calling it done. Green tests don't prove a scene looks right.
 - **Text wraps; nothing truncates.** No ellipsis on speech bubbles, captions or ⓘ popovers.
 - **Performance budget**: slider scrubbing stays smooth (60fps target on an ordinary desktop), and
   first load is small enough to feel quick. Measure before optimising, and record numbers here.
-- **Accessible**: the ⓘ works on hover, tap and keyboard focus. The slider is keyboard-operable.
-  Text meets contrast on a light theme.
+- **Not required** (Dewi, 2026-09-28): phone and tablet layouts, touch, and screen-reader support.
+  Don't spend effort on them, and don't strip what already works. Keyboard stepping and scrubbing
+  are features, and text still needs good contrast on the light theme because it has to be readable.
 
 ### Assets and licences
 

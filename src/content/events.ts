@@ -1,7 +1,7 @@
 import type { KeyEvent } from '../domain/model.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import { ad, bc, range } from '../domain/time.ts';
-import { eventId, placeId, src, type SourceKey } from './ids.ts';
+import { eventId, featureId, placeId, src, type SourceKey } from './ids.ts';
 
 const documented = (...keys: [SourceKey, ...SourceKey[]]): Provenance => ({
   kind: 'documented',
@@ -67,7 +67,7 @@ export const EVENTS: readonly KeyEvent[] = [
       cy: "Carnedd hir 55m o gerrig ar gopa Garn Goch yw'r heneb gynharaf o fewn y deg milltir hyn. Mae'n edrych yn Neolithig, ond does neb erioed wedi'i dyddio.",
     },
     magnetic: true,
-    shot: { framing: 'close' },
+    shot: { framing: 'site' },
     place: placeId('garn-goch'),
     provenance: reconstructed(
       'Dated by its shape alone: no excavation, no radiocarbon date.',
@@ -86,6 +86,7 @@ export const EVENTS: readonly KeyEvent[] = [
       cy: "Mae carneddau crwn fel Tair Carn Uchaf a Thair Carn Isaf ar ben y bryniau i'r de-ddwyrain o Landeilo. Maen nhw o fath Oes yr Efydd, ond does gan yr un ddyddiad pendant.",
     },
     magnetic: false,
+    shot: { framing: 'valley' },
     provenance: reconstructed('Typology only.', 'Yn ôl eu math yn unig.', 'timeline:S7'),
   },
   {
@@ -330,7 +331,7 @@ export const EVENTS: readonly KeyEvent[] = [
       cy: "Cododd Edward Rice dŷ newydd yn y parc, yn lle'r castell canoloesol fel cartref y teulu.",
     },
     magnetic: true,
-    shot: { at: { e: 261432, n: 222534 }, framing: 'close' },
+    shot: { framing: 'close', feature: featureId('newton-house') },
     place: placeId('dinefwr'),
     provenance: documented('timeline:S45', 'timeline:S46'),
   },
@@ -344,7 +345,7 @@ export const EVENTS: readonly KeyEvent[] = [
       cy: 'Cododd Syr William Paxton ffoli drionglog ar y bryn uwchben Llanarthne, fel cofeb i Nelson yn ôl y sôn.',
     },
     magnetic: false,
-    shot: { at: { e: 254094, n: 219151 }, framing: 'close' },
+    shot: { framing: 'close', feature: featureId('paxtons-tower') },
     provenance: documented('timeline:S52', 'victorian:S45'),
   },
   {
@@ -399,7 +400,7 @@ export const EVENTS: readonly KeyEvent[] = [
       cy: 'Agorodd Rheilffordd Llanelli i Landeilo ym mis Ionawr 1857, ac aeth lein Dyffryn Tywi ymlaen i Lanymddyfri ym mis Ebrill 1858. Yn 1858 roedd gan y dref eglwys, pedwar capel, 11 stryd, 73 siop, 23 tafarn a 290 o dai.',
     },
     magnetic: true,
-    shot: { at: { e: 263266, n: 222361 }, framing: 'site' },
+    shot: { framing: 'site', feature: featureId('railway') },
     place: placeId('llandeilo'),
     provenance: documented('timeline:S55', 'victorian:S29', 'victorian:S31', 'victorian:S30', 'timeline:S20'),
   },

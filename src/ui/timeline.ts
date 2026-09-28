@@ -2,7 +2,7 @@ import { clamp } from '../domain/assert.ts';
 import type { Era, KeyEvent } from '../domain/model.ts';
 import { latestStarting } from '../domain/state.ts';
 import { formatYear } from '../domain/time.ts';
-import { keySteps, stepAt, stepFrom, type Step } from '../domain/steps.ts';
+import { stepAt, stepFrom, type Step } from '../domain/steps.ts';
 import { tAt, yearAt, type Timeline } from '../domain/timeline.ts';
 import { h } from './dom.ts';
 import type { LangStore } from './store.ts';
@@ -10,7 +10,7 @@ import type { LangStore } from './store.ts';
 export interface TimelineCallbacks {
   onScrub(t: number): void;
   onRelease(t: number): void;
-  onArrive(step: Step): void;
+  onArrive(event: KeyEvent): void;
 }
 
 export class TimelineBar {
@@ -25,19 +25,19 @@ export class TimelineBar {
   private t = 0;
   private dragging = false;
   private animation = 0;
-  private readonly steps: readonly Step[];
   private readonly prev: HTMLButtonElement;
   private readonly next: HTMLButtonElement;
   private readonly counter: HTMLElement;
+  private heading: Step | undefined;
 
   constructor(
     private readonly timeline: Timeline,
     private readonly eras: readonly Era[],
     private readonly events: readonly KeyEvent[],
+    private readonly steps: readonly Step[],
     private readonly store: LangStore,
     private readonly cb: TimelineCallbacks,
   ) {
-    this.steps = keySteps(timeline, events);
     this.prev = h('button', { class: 'tool tl-step', type: 'button' }, `◀ ${store.t('previous')}`);
     this.next = h('button', { class: 'tool tl-step', type: 'button' }, `${store.t('next')} ▶`);
     this.counter = h('span', { class: 'tl-counter', 'aria-live': 'polite' });
@@ -117,17 +117,28 @@ export class TimelineBar {
   }
 
   step(direction: 1 | -1): void {
-    const target = stepFrom(this.steps, this.t, direction);
+    const target = this.heading
+      ? this.steps[this.heading.index + direction]
+      : stepFrom(this.steps, this.t, direction);
     console.info(
-      `dewidebug timeline step dir=${direction} from=${this.t.toFixed(4)} to=${target?.event.id ?? 'none'}`,
+      `dewidebug timeline step dir=${direction} from=${this.t.toFixed(4)} heading=${this.heading?.event.id ?? 'none'} to=${target?.event.id ?? 'none'}`,
     );
     if (target) this.arrive(target);
   }
 
   arrive(target: Step): void {
-    this.animateTo(target.t, () => {
-      this.cb.onArrive(target);
+    this.visit(target.event, target);
+  }
+
+  snapTo(target: Step): void {
+    this.animateTo(target.t);
+  }
+
+  private visit(event: KeyEvent, heading?: Step): void {
+    this.animateTo(tAt(this.timeline, event.when.from), () => {
+      this.cb.onArrive(event);
     });
+    this.heading = heading;
   }
 
   private updateNav(): void {
@@ -142,6 +153,7 @@ export class TimelineBar {
 
   animateTo(target: number, done?: () => void): void {
     cancelAnimationFrame(this.animation);
+    this.heading = undefined;
     const from = this.t;
     const start = performance.now();
     const duration = 520;
@@ -151,7 +163,10 @@ export class TimelineBar {
       this.set(from + (target - from) * e);
       this.cb.onScrub(this.t);
       if (f < 1) this.animation = requestAnimationFrame(step);
-      else done?.();
+      else {
+        this.heading = undefined;
+        done?.();
+      }
     };
     this.animation = requestAnimationFrame(step);
   }
@@ -190,14 +205,10 @@ export class TimelineBar {
         m.style.left = `${t * 100}%`;
         m.addEventListener('click', (e) => {
           e.stopPropagation();
-          const target = this.steps.find((st) => st.event.id === ev.id);
-          if (target) {
-            this.arrive(target);
-            return;
-          }
-          this.animateTo(t, () => {
-            this.cb.onRelease(t);
-          });
+          this.visit(
+            ev,
+            this.steps.find((st) => st.event.id === ev.id),
+          );
         });
         m.addEventListener('pointerdown', (e) => {
           e.stopPropagation();
@@ -222,6 +233,7 @@ export class TimelineBar {
   private bind(): void {
     this.track.addEventListener('pointerdown', (e) => {
       cancelAnimationFrame(this.animation);
+      this.heading = undefined;
       this.dragging = true;
       this.track.setPointerCapture(e.pointerId);
       this.el.classList.add('dragging');
@@ -256,6 +268,8 @@ export class TimelineBar {
       e.preventDefault();
       const final = clamp(target, 0, 1);
       if (e.key.startsWith('Arrow')) {
+        cancelAnimationFrame(this.animation);
+        this.heading = undefined;
         this.set(final);
         this.cb.onScrub(this.t);
       } else {

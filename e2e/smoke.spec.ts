@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
 test('the valley loads and the slider moves through time', async ({ page }) => {
   const errors: string[] = [];
@@ -127,4 +127,80 @@ test('Next and Previous step through key dates and fly the camera there', async 
   await page.getByRole('button', { name: /Previous/ }).click();
   await expect(page.locator('.tl-counter')).toHaveText(start ?? '');
   await expect(page.locator('.moment h2')).toHaveText('Battle of Llandeilo Fawr');
+});
+
+const cameraTarget = async (page: Page): Promise<{ x: number; z: number }> => {
+  await expect(page.locator('.debug')).toHaveAttribute('data-camera', /,/);
+  const [x, z] = ((await page.locator('.debug').getAttribute('data-camera')) ?? '').split(',').map(Number);
+  return { x: x ?? Number.NaN, z: z ?? Number.NaN };
+};
+
+test('two quick clicks on Next move two key dates', async ({ page }) => {
+  await page.goto('./?year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const [n, total] = ((await page.locator('.tl-counter').textContent()) ?? '').split(' / ').map(Number);
+  await page.getByRole('button', { name: /Next/ }).evaluate((b) => {
+    if (!(b instanceof HTMLElement)) throw new Error('Next is not a button');
+    b.click();
+    b.click();
+  });
+  await expect(page.locator('.tl-counter')).toHaveText(`${(n ?? 0) + 2} / ${total ?? 0}`);
+});
+
+test('letting go near a key date snaps the slider but leaves the camera where it was', async ({ page }) => {
+  await page.goto('./?debug&year=1282&place=talley');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const before = await cameraTarget(page);
+  const track = page.locator('.tl-track');
+  const box = await track.boundingBox();
+  const left = await page.locator('.tl-marker.magnetic').nth(20).getAttribute('style');
+  const leftPct = Number(/left:\s*([\d.]+)%/.exec(left ?? '')?.[1]);
+  if (!box) throw new Error('no track');
+  const y = box.y + box.height / 2;
+  await page.mouse.move(box.x + box.width * 0.3, y);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * (leftPct / 100 + 0.004), y, { steps: 4 });
+  await page.mouse.up();
+  await expect(page.locator('.tl-counter')).toHaveText(/^\d+ \/ \d+$/);
+  await page.waitForTimeout(3000);
+  const after = await cameraTarget(page);
+  expect(Math.hypot(after.x - before.x, after.z - before.z)).toBeLessThan(1);
+  await expect(page.getByRole('button', { name: 'Whole valley' })).toBeVisible();
+});
+
+test('a minor marker flies the camera to its own event', async ({ page }) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.getByRole('button', { name: /Paxton’s Tower/ }).dispatchEvent('click');
+  const paxton = { x: (254094 - 262900) / 10, z: (219151 - 222500) / 10 };
+  await expect
+    .poll(
+      async () => {
+        const t = await cameraTarget(page);
+        return Math.hypot(t.x - paxton.x, t.z - paxton.z);
+      },
+      { timeout: 60_000 },
+    )
+    .toBeLessThan(5);
+});
+
+test.describe('off a desktop', () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+  test('a banner says it is best on a desktop, and stays gone once closed', async ({ page }) => {
+    await page.goto('./?year=1282');
+    const banner = page.locator('.desktop-banner');
+    await expect(banner).toContainText('best viewed on a desktop');
+    await banner.getByRole('button', { name: 'Close' }).click();
+    await expect(banner).toHaveCount(0);
+    await page.reload();
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await expect(page.locator('.desktop-banner')).toHaveCount(0);
+  });
+});
+
+test('no desktop banner on a desktop', async ({ page }) => {
+  await page.goto('./?year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.desktop-banner')).toHaveCount(0);
 });

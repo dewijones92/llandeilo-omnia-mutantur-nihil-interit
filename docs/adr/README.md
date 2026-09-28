@@ -22,7 +22,8 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 
 - Copy [`template.md`](template.md), take the next number, and add a row below in the same commit.
 - An accepted ADR is not rewritten. To change a decision, write a new ADR, set the old one's status
-  to "Superseded by NNNN", and update CLAUDE.md's Decisions table.
+  to "Superseded by NNNN", and update CLAUDE.md's Decisions table. A detail that turns out wrong,
+  where the decision itself stands, gets a dated "Corrected" note in the ADR rather than a quiet edit.
 - Status is one of Proposed, Accepted, Superseded by NNNN, or Rejected. Proposed ADRs need Dewi's
   agreement before code is built on them if the choice is his (see CLAUDE.md).
 
@@ -44,6 +45,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0012](0012-key-date-shots-as-data.md) | Camera shots for key dates are content data | Accepted | 2026-09-28 |
 | [0013](0013-render-once-shadows.md) | Shadows rendered once, refreshed on change | Accepted | 2026-09-26 |
 | [0014](0014-parallel-agents-and-second-review.md) | Parallel agents in worktrees, and a second review of every commit | Accepted | 2026-09-28 |
+| [0015](0015-desktop-only.md) | Desktop only, with a banner elsewhere | Accepted | 2026-09-28 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

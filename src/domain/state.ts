@@ -150,17 +150,3 @@ export function snapshotAt(world: WorldContent, t: number): Snapshot {
     nearestEvent,
   };
 }
-
-export function snapTarget(world: WorldContent, t: number, radius: number): KeyEvent | undefined {
-  let target: KeyEvent | undefined;
-  let best = radius;
-  for (const ev of world.events) {
-    if (!ev.magnetic) continue;
-    const d = Math.abs(tAt(world.timeline, ev.when.from) - t);
-    if (d <= best) {
-      best = d;
-      target = ev;
-    }
-  }
-  return target;
-}

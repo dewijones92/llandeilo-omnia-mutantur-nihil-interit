@@ -957,3 +957,17 @@ button {
   color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
+
+.desktop-banner {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px 10px 16px;
+  max-width: calc(100vw - 32px);
+  color: var(--ink);
+}

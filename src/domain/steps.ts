@@ -1,4 +1,4 @@
-import type { Framing, GridRef, KeyEvent, Place } from './model.ts';
+import type { Feature, FeatureId, Framing, GridRef, KeyEvent, Place, PlaceId } from './model.ts';
 import { tAt, type Timeline } from './timeline.ts';
 
 export interface Step {
@@ -26,18 +26,36 @@ export function stepFrom(steps: readonly Step[], t: number, direction: 1 | -1): 
   return undefined;
 }
 
+export function nearestStep(steps: readonly Step[], t: number, radius: number): Step | undefined {
+  let found: Step | undefined;
+  let best = radius;
+  for (const s of steps) {
+    const d = Math.abs(s.t - t);
+    if (d <= best) {
+      best = d;
+      found = s;
+    }
+  }
+  return found;
+}
+
 export function stepAt(steps: readonly Step[], t: number): Step | undefined {
   return steps.find((s) => Math.abs(s.t - t) <= SAME_PLACE);
 }
 
 export interface ResolvedShot {
   readonly at: GridRef;
-  readonly framing: Exclude<Framing, 'valley'>;
+  readonly framing: Framing;
 }
 
-export function shotFor(event: KeyEvent, places: ReadonlyMap<string, Place>): ResolvedShot | undefined {
-  const framing = event.shot?.framing ?? 'site';
-  if (framing === 'valley') return undefined;
-  const at = event.shot?.at ?? (event.place ? places.get(event.place)?.at : undefined);
-  return at ? { at, framing } : undefined;
+export function shotFor(
+  event: KeyEvent,
+  places: ReadonlyMap<PlaceId, Place>,
+  features: ReadonlyMap<FeatureId, Feature>,
+): ResolvedShot | undefined {
+  const shot = event.shot ?? { framing: 'site' };
+  if (shot.framing === 'valley') return undefined;
+  const feature = shot.feature ? features.get(shot.feature) : undefined;
+  const at = feature?.at ?? (event.place ? places.get(event.place)?.at : undefined);
+  return at ? { at, framing: shot.framing } : undefined;
 }

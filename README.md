@@ -13,7 +13,7 @@ to the Rebecca Riots, the railway and today.
 
 ## History first, invention always labelled
 
-Everything on screen carries one of three labels, and you can hover or tap it to see why:
+Everything on screen carries one of three labels, and you can hover or click it to see why:
 
 - **Documented**: recorded in historical or archaeological sources, with those sources listed.
 - **Reconstructed**: inferred from archaeology or from comparable places, with the basis stated.

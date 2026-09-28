@@ -38,12 +38,10 @@ export interface KeyEvent {
   readonly shot?: Shot;
 }
 
-export type Framing = 'close' | 'site' | 'area' | 'valley';
+export type Framing = 'close' | 'site' | 'area';
 
-export interface Shot {
-  readonly at?: GridRef;
-  readonly framing: Framing;
-}
+export type Shot =
+  { readonly framing: 'valley' } | { readonly framing: Framing; readonly feature?: FeatureId };
 
 export type LanguageCode =
   | 'unknown'

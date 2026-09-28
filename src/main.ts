@@ -4,9 +4,9 @@ import { WORLD_CONTENT } from './content/world.ts';
 import { toWorld } from './domain/geo.ts';
 import { isLang } from './domain/i18n.ts';
 import { STRINGS } from './content/strings.ts';
-import { snapshotAt, snapTarget } from './domain/state.ts';
-import { keySteps, shotFor, type Step } from './domain/steps.ts';
-import type { Framing } from './domain/model.ts';
+import { snapshotAt } from './domain/state.ts';
+import { keySteps, nearestStep, shotFor } from './domain/steps.ts';
+import type { Framing, KeyEvent } from './domain/model.ts';
 import { tAt } from './domain/timeline.ts';
 import { ad, year } from './domain/time.ts';
 import {
@@ -21,6 +21,7 @@ import { DebugOverlay } from './ui/debug.ts';
 import { PlaceLabels } from './ui/labels.ts';
 import { MomentCard } from './ui/moment.ts';
 import { Bubbles } from './ui/bubbles.ts';
+import { desktopBanner } from './ui/desktop-banner.ts';
 import { ConversationPanel } from './ui/conversation.ts';
 import { InfoPanel, type InfoTab } from './ui/info.ts';
 import { Ambience } from './audio/ambience.ts';
@@ -36,7 +37,7 @@ import { World } from './world/scene.ts';
 
 const SNAP_RADIUS = 0.009;
 const MOMENT_RADIUS = 0.01;
-const FRAMING_RADIUS: Readonly<Record<Exclude<Framing, 'valley'>, number>> = {
+const FRAMING_RADIUS: Readonly<Record<Framing, number>> = {
   close: 160,
   site: 420,
   area: 950,
@@ -83,7 +84,7 @@ async function start(): Promise<void> {
   const smoke = new Smoke(world.scene);
   let smokeSources = features.smokeSources([]);
 
-  const debug = params.has('debug') ? new DebugOverlay(engine, backend) : undefined;
+  const debug = params.has('debug') ? new DebugOverlay(engine, backend, world.camera) : undefined;
   let pending = true;
   let t = Number(params.get('t') ?? Number.NaN);
   const yearParam = Number(params.get('year') ?? Number.NaN);
@@ -91,21 +92,23 @@ async function start(): Promise<void> {
   if (!Number.isFinite(t)) t = tAt(content.timeline, ad(1282));
 
   const places = new Map(content.places.map((p) => [p.id, p]));
+  const featureMap = new Map(content.features.map((f) => [f.id, f]));
   const steps = keySteps(content.timeline, content.events);
-  let goToShot: (step: Step) => void = () => undefined;
-  const timeline = new TimelineBar(content.timeline, content.eras, content.events, store, {
+  let goToShot: (event: KeyEvent) => void = () => undefined;
+  const timeline = new TimelineBar(content.timeline, content.eras, content.events, steps, store, {
     onScrub(next) {
       t = next;
       pending = true;
     },
     onRelease(next) {
-      const target = snapTarget(content, next, SNAP_RADIUS);
-      console.info(`dewidebug slider release t=${next.toFixed(4)} snap=${target?.id ?? 'none'}`);
-      const step = target ? steps.find((st) => st.event.id === target.id) : undefined;
-      if (step) timeline.arrive(step);
+      const target = nearestStep(steps, next, SNAP_RADIUS);
+      console.info(
+        `dewidebug slider release t=${next.toFixed(4)} snap=${target?.event.id ?? 'none'} camera=stays`,
+      );
+      if (target) timeline.snapTo(target);
     },
-    onArrive(step) {
-      goToShot(step);
+    onArrive(event) {
+      goToShot(event);
     },
   });
   timeline.set(t);
@@ -120,20 +123,16 @@ async function start(): Promise<void> {
   store.onChange(() => {
     brand.querySelector('p')?.replaceChildren(store.t('subtitle'));
   });
-  const moment = new MomentCard(
-    store,
-    new Map(content.sources.map((s) => [s.id, s])),
-    new Map(content.places.map((p) => [p.id, p])),
-  );
+  const moment = new MomentCard(store, new Map(content.sources.map((s) => [s.id, s])), places);
   const flight = new Flight(world.camera);
   const home = h('button', { class: 'tool home', type: 'button', hidden: true }, store.t('overview'));
   home.addEventListener('click', () => {
     flight.flyHome();
     home.hidden = true;
   });
-  goToShot = (step: Step): void => {
-    const shot = shotFor(step.event, places);
-    console.info(`dewidebug shot event=${step.event.id} framing=${shot?.framing ?? 'valley'}`);
+  goToShot = (event: KeyEvent): void => {
+    const shot = shotFor(event, places, featureMap);
+    console.info(`dewidebug shot event=${event.id} framing=${shot?.framing ?? 'valley'}`);
     if (!shot) {
       flight.flyHome();
       home.hidden = true;
@@ -145,7 +144,7 @@ async function start(): Promise<void> {
   };
   const labels = new PlaceLabels(world.scene, content.places, features.ground, store, (place, at) => {
     console.info(`dewidebug visit place=${place.id}`);
-    flight.flyTo(at, 420, 0.98);
+    flight.flyTo(at, FRAMING_RADIUS.site, 0.98);
     home.hidden = false;
   });
   store.onChange(() => {
@@ -217,7 +216,10 @@ async function start(): Promise<void> {
   panel.onVisibility = compact;
   info.onVisibility = compact;
   document.addEventListener('keydown', (e) => {
-    if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && document.activeElement === document.body) {
+    const stepKey = e.key === 'ArrowRight' || e.key === 'ArrowLeft';
+    const modified = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
+    const focus = document.activeElement;
+    if (stepKey && !modified && (focus === document.body || focus?.classList.contains('tl-step'))) {
       e.preventDefault();
       timeline.step(e.key === 'ArrowRight' ? 1 : -1);
       return;
@@ -231,11 +233,13 @@ async function start(): Promise<void> {
   if (startPlace) {
     const { x, z } = toWorld(startPlace.at);
     world.camera.target = new Vector3(x, features.ground(x, z), z);
-    const radius = Number(params.get('radius') ?? 420);
-    world.camera.radius = Number.isFinite(radius) && radius > 0 ? radius : 420;
+    const radius = Number(params.get('radius') ?? FRAMING_RADIUS.site);
+    world.camera.radius = Number.isFinite(radius) && radius > 0 ? radius : FRAMING_RADIUS.site;
     world.camera.beta = 0.98;
     home.hidden = false;
   }
+  const banner = desktopBanner(store);
+  if (banner) app.append(banner);
   if (debug) app.append(debug.el);
 
   let active = new Set<(typeof content.conversations)[number]['id']>();

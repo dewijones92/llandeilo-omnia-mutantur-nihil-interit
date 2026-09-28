@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { mint } from './brand.ts';
-import type { EventId, KeyEvent, Place, PlaceId } from './model.ts';
-import { keySteps, shotFor, stepAt, stepFrom } from './steps.ts';
+import type { EventId, Feature, FeatureId, KeyEvent, Place, PlaceId } from './model.ts';
+import { keySteps, nearestStep, shotFor, stepAt, stepFrom } from './steps.ts';
 import { ad, range } from './time.ts';
 import { createTimeline } from './timeline.ts';
 
@@ -41,6 +41,12 @@ describe('key steps', () => {
     expect(stepAt(steps, 0.2)?.event.id).toBe('b');
     expect(stepAt(steps, 0.25)).toBeUndefined();
   });
+
+  it('snaps to the nearest key date within the radius, and to none beyond it', () => {
+    expect(nearestStep(steps, 0.21, 0.02)?.event.id).toBe('b');
+    expect(nearestStep(steps, 0.16, 0.05)?.event.id).toBe('b');
+    expect(nearestStep(steps, 0.25, 0.02)).toBeUndefined();
+  });
 });
 
 describe('shotFor', () => {
@@ -53,19 +59,29 @@ describe('shotFor', () => {
     visitable: true,
   };
   const places = new Map([[place.id, place]]);
+  const feature: Feature = {
+    id: mint<FeatureId>('f'),
+    kind: { type: 'railway' },
+    at: { e: 5, n: 6 },
+    when: range(ad(1100), ad(1900)),
+    provenance: { kind: 'reconstructed', basis: { en: '', cy: '' }, sources: [] },
+    label: { en: 'F', cy: 'F' },
+  };
+  const features = new Map([[feature.id, feature]]);
 
   it('frames the event place by default', () => {
-    expect(shotFor(ev('x', 1100, true, { place: place.id }), places)).toEqual({
+    expect(shotFor(ev('x', 1100, true, { place: place.id }), places, features)).toEqual({
       at: { e: 1, n: 2 },
       framing: 'site',
     });
   });
 
-  it('prefers an explicit point and framing', () => {
+  it('prefers a named feature and framing', () => {
     expect(
       shotFor(
-        ev('x', 1100, true, { place: place.id, shot: { at: { e: 5, n: 6 }, framing: 'close' } }),
+        ev('x', 1100, true, { place: place.id, shot: { framing: 'close', feature: feature.id } }),
         places,
+        features,
       ),
     ).toEqual({
       at: { e: 5, n: 6 },
@@ -74,9 +90,9 @@ describe('shotFor', () => {
   });
 
   it('shows the whole valley when there is no place or the shot asks for it', () => {
-    expect(shotFor(ev('x', 1100), places)).toBeUndefined();
+    expect(shotFor(ev('x', 1100), places, features)).toBeUndefined();
     expect(
-      shotFor(ev('x', 1100, true, { place: place.id, shot: { framing: 'valley' } }), places),
+      shotFor(ev('x', 1100, true, { place: place.id, shot: { framing: 'valley' } }), places, features),
     ).toBeUndefined();
   });
 });

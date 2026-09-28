@@ -2,7 +2,7 @@
 title: Authoring content
 kind: guide
 status: current
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # How research becomes content
@@ -51,6 +51,11 @@ church) that starts on the year its predecessor ends crossfades cleanly. Key dat
 - A town at a documented size uses the `nearest` OS footprints to its centre. The count can be
   documented while which buildings stood is reconstructed; label it that way.
 - Active settlements clear woodland around them, so a hillfort sits on open ground.
+- Every event has a camera shot, used when Previous, Next or its marker takes you there. By default
+  it frames the event's place at site distance. Set `shot` to choose `close`, `site` or `area`, to
+  frame a `feature` by id instead of the place, or to ask for the whole `valley`. Don't frame closer
+  than the research places the event: "near Llandeilo Fawr" is an `area`, not a spot. A test fails
+  if a shot resolves to nothing or points outside the disc.
 
 ## Text
 
