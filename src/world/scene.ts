@@ -2,28 +2,32 @@ import {
   ArcRotateCamera,
   Color3,
   Color4,
+  ColorCurves,
   DefaultRenderingPipeline,
+  DepthOfFieldEffectBlurLevel,
   DirectionalLight,
   HemisphericLight,
   ImageProcessingConfiguration,
   Scene,
   ShadowGenerator,
+  StandardMaterial,
   Vector3,
   type AbstractEngine,
+  type Material,
   type Mesh,
 } from './babylon.ts';
-import type { Rgb } from '../domain/colour.ts';
+import { lerp } from '../domain/assert.ts';
+import type { Direction, Lighting, SeasonLook } from '../domain/daylight.ts';
 import type { Heightfield } from '../domain/heightfield.ts';
 import type { Environment } from '../domain/state.ts';
 import type { RiverLine } from '../platform/assets.ts';
 import { Sky } from './sky.ts';
 import { Terrain, type Clearing } from './terrain.ts';
 import { Forest } from './trees.ts';
-import { buildRivers } from './water.ts';
+import { Water } from './water.ts';
 
-function c3(c: Rgb): Color3 {
-  return new Color3(c.r, c.g, c.b);
-}
+const SHADOW_INTERVAL_MS = 90;
+const TILT_SHIFT = 0.026;
 
 export class World {
   readonly scene: Scene;
@@ -34,6 +38,14 @@ export class World {
   private readonly hemi: HemisphericLight;
   private readonly sky: Sky;
   private readonly forest: Forest;
+  private readonly water: Water;
+  private readonly curves = new ColorCurves();
+  private readonly lamps = new Set<Material>();
+  private readonly baseEmissive = new WeakMap<StandardMaterial, Color3>();
+  private lightKey = '';
+  private pendingDirection: Direction | undefined;
+  private shadowDue = false;
+  private shadowAt = 0;
   readonly pipeline: DefaultRenderingPipeline;
 
   constructor(
@@ -41,6 +53,7 @@ export class World {
     heightfield: Heightfield,
     rivers: readonly RiverLine[],
     woodland: Uint8Array,
+    private readonly effects: boolean,
   ) {
     const scene = new Scene(engine);
     this.scene = scene;
@@ -89,11 +102,11 @@ export class World {
     const shadowMap = this.shadows.getShadowMap();
     if (shadowMap) shadowMap.refreshRate = 0;
 
-    this.sky = new Sky(scene);
+    this.sky = new Sky(scene, camera);
     this.terrain = new Terrain(scene, heightfield, rivers, woodland);
     this.shadows.addShadowCaster(this.terrain.mesh);
-    const water = buildRivers(scene, this.terrain.rivers);
-    water.receiveShadows = true;
+    this.water = new Water(scene, this.terrain.rivers);
+    this.lamps.add(this.water.material);
     this.forest = new Forest(scene, this.terrain);
     for (const m of this.forest.meshes) this.shadows.addShadowCaster(m);
 
@@ -114,7 +127,18 @@ export class World {
     pipeline.imageProcessing.vignetteColor = new Color4(0.15, 0.13, 0.12, 0);
     pipeline.sharpenEnabled = true;
     pipeline.sharpen.edgeAmount = 0.18;
+    pipeline.depthOfFieldEnabled = effects;
+    pipeline.depthOfFieldBlurLevel = DepthOfFieldEffectBlurLevel.Medium;
+    pipeline.depthOfField.lensSize = 50;
+    pipeline.depthOfField.fStop = 1.4;
+    console.info(`dewidebug world effects=${effects ? 'full' : 'low'}`);
+    pipeline.imageProcessing.colorCurvesEnabled = true;
+    pipeline.imageProcessing.colorCurves = this.curves;
     this.pipeline = pipeline;
+  }
+
+  addLamp(material: Material): void {
+    this.lamps.add(material);
   }
 
   addCaster(mesh: Mesh): void {
@@ -126,19 +150,75 @@ export class World {
     this.shadows.getShadowMap()?.resetRefreshCounter();
   }
 
-  applyEnvironment(env: Environment, clearings: readonly Clearing[]): void {
-    if (this.terrain.applyEnvironment(env, clearings)) {
-      this.forest.update();
+  applyEnvironment(env: Environment, look: SeasonLook, clearings: readonly Clearing[]): void {
+    if (this.terrain.applyEnvironment(env, look, clearings)) {
+      this.forest.update(look);
       this.refreshShadows();
     }
-    this.sky.apply(env.skyTop, env.skyHorizon);
-    const horizon = c3(env.skyHorizon);
-    this.scene.fogColor = horizon;
-    this.scene.fogDensity = 0.00004 + env.fog * 0.00016;
-    this.scene.clearColor = new Color4(horizon.r, horizon.g, horizon.b, 1);
-    this.sun.diffuse = c3(env.sun);
-    this.hemi.diffuse = c3(env.skyTop)
-      .scale(0.55)
-      .add(new Color3(0.45, 0.45, 0.45));
+  }
+
+  applyLighting(l: Lighting): void {
+    const d = l.direction;
+    const key = `${Math.round(d.x * 400)},${Math.round(d.y * 400)},${Math.round(d.z * 400)}`;
+    if (key !== this.lightKey) {
+      this.lightKey = key;
+      this.pendingDirection = d;
+      this.shadowDue = true;
+    }
+    this.sun.diffuse.set(l.light.r, l.light.g, l.light.b);
+    this.sun.specular.set(l.light.r, l.light.g, l.light.b);
+    this.sun.intensity = l.lightIntensity;
+    this.hemi.diffuse.set(l.ambient.r, l.ambient.g, l.ambient.b);
+    this.hemi.groundColor.set(l.ambientGround.r, l.ambientGround.g, l.ambientGround.b);
+    this.hemi.intensity = l.ambientIntensity;
+    this.shadows.darkness = l.shadowDarkness;
+    this.scene.fogColor.set(l.fog.r, l.fog.g, l.fog.b);
+    this.scene.fogDensity = l.fogDensity;
+    this.scene.clearColor.set(l.fog.r, l.fog.g, l.fog.b, 1);
+    this.sky.apply(l);
+    this.water.reflect(l.skyTop, l.skyHorizon, l.selfLit);
+    this.dimSelfLit(l.selfLit);
+    const ip = this.pipeline.imageProcessing;
+    ip.exposure = l.exposure;
+    this.pipeline.depthOfField.fStop = lerp(1.4, 9, l.stars);
+    this.pipeline.bloomThreshold = lerp(0.82, 0.55, l.night);
+    this.pipeline.bloomWeight = lerp(0.18, 0.4, l.night);
+    const warm = Math.max(0, l.warmth);
+    const cool = Math.max(0, -l.warmth);
+    this.curves.globalSaturation = lerp(6, -30, cool);
+    this.curves.highlightsHue = 36;
+    this.curves.highlightsDensity = warm * 40;
+    this.curves.shadowsHue = 222;
+    this.curves.shadowsDensity = 10 + cool * 45 + warm * 12;
+  }
+
+  tick(dt: number): void {
+    this.water.tick(dt);
+    const now = performance.now();
+    const d = this.pendingDirection;
+    if (this.shadowDue && d && now - this.shadowAt > SHADOW_INTERVAL_MS) {
+      this.shadowDue = false;
+      this.shadowAt = now;
+      this.sun.direction.set(-d.x, -d.y, -d.z);
+      this.sun.position.set(d.x * 4500, d.y * 4500, d.z * 4500);
+      this.refreshShadows();
+    }
+    if (this.effects) {
+      const focus = Math.max(40, this.camera.radius) * 1000;
+      this.pipeline.depthOfField.focusDistance = focus;
+      this.pipeline.depthOfField.focalLength = focus * TILT_SHIFT;
+    }
+  }
+
+  private dimSelfLit(level: number): void {
+    for (const m of this.scene.materials) {
+      if (!(m instanceof StandardMaterial) || this.lamps.has(m)) continue;
+      let base = this.baseEmissive.get(m);
+      if (!base) {
+        base = m.emissiveColor.clone();
+        this.baseEmissive.set(m, base);
+      }
+      base.scaleToRef(level, m.emissiveColor);
+    }
   }
 }

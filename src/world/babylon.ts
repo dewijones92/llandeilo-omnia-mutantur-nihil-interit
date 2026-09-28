@@ -10,6 +10,7 @@ import { CreateIcoSphere } from '@babylonjs/core/Meshes/Builders/icoSphereBuilde
 export { VertexBuffer } from '@babylonjs/core/Buffers/buffer.js';
 export { ArcRotateCamera } from '@babylonjs/core/Cameras/arcRotateCamera.js';
 export { AbstractEngine } from '@babylonjs/core/Engines/abstractEngine.js';
+export { Constants } from '@babylonjs/core/Engines/constants.js';
 export { Engine } from '@babylonjs/core/Engines/engine.js';
 export { WebGPUEngine } from '@babylonjs/core/Engines/webgpuEngine.js';
 export { PointerEventTypes } from '@babylonjs/core/Events/pointerEvents.js';
@@ -17,7 +18,9 @@ export { Layer } from '@babylonjs/core/Layers/layer.js';
 export { DirectionalLight } from '@babylonjs/core/Lights/directionalLight.js';
 export { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight.js';
 export { ShadowGenerator } from '@babylonjs/core/Lights/Shadows/shadowGenerator.js';
+export { ColorCurves } from '@babylonjs/core/Materials/colorCurves.pure.js';
 export { ImageProcessingConfiguration } from '@babylonjs/core/Materials/imageProcessingConfiguration.js';
+export type { Material } from '@babylonjs/core/Materials/material.js';
 export { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial.js';
 export { DynamicTexture } from '@babylonjs/core/Materials/Textures/dynamicTexture.js';
 export { Color3, Color4 } from '@babylonjs/core/Maths/math.color.js';
@@ -26,6 +29,7 @@ export { AbstractMesh } from '@babylonjs/core/Meshes/abstractMesh.js';
 export { Mesh } from '@babylonjs/core/Meshes/mesh.js';
 export { VertexData } from '@babylonjs/core/Meshes/mesh.vertexData.js';
 export { DefaultRenderingPipeline } from '@babylonjs/core/PostProcesses/RenderPipeline/Pipelines/defaultRenderingPipeline.js';
+export { DepthOfFieldEffectBlurLevel } from '@babylonjs/core/PostProcesses/depthOfFieldEffect.js';
 export { ParticleSystem } from '@babylonjs/core/Particles/particleSystem.js';
 export { Scene } from '@babylonjs/core/scene.js';
 

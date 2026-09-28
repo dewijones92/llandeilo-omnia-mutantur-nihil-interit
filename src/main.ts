@@ -4,7 +4,8 @@ import { WORLD_CONTENT } from './content/world.ts';
 import { toWorld } from './domain/geo.ts';
 import { isLang } from './domain/i18n.ts';
 import { STRINGS } from './content/strings.ts';
-import { snapshotAt, snapTarget } from './domain/state.ts';
+import { lightingAt, parseClock, seasonLook } from './domain/daylight.ts';
+import { snapshotAt, snapTarget, type Snapshot } from './domain/state.ts';
 import { keySteps, shotFor, type Step } from './domain/steps.ts';
 import type { Framing } from './domain/model.ts';
 import { tAt } from './domain/timeline.ts';
@@ -25,10 +26,12 @@ import { ConversationPanel } from './ui/conversation.ts';
 import { InfoPanel, type InfoTab } from './ui/info.ts';
 import { Ambience } from './audio/ambience.ts';
 import { h } from './ui/dom.ts';
+import { SkyControls } from './ui/sky.ts';
 import { LangStore } from './ui/store.ts';
 import { TimelineBar } from './ui/timeline.ts';
 import { createEngine } from './world/engine.ts';
 import { FeatureLayer } from './world/features.ts';
+import { Firelight } from './world/firelight.ts';
 import { Flight } from './world/flight.ts';
 import { People } from './world/people.ts';
 import { Smoke } from './world/smoke.ts';
@@ -75,12 +78,14 @@ async function start(): Promise<void> {
       loadRoads(),
     ],
   );
-  const world = new World(engine, heightfield, rivers, woodland);
+  const world = new World(engine, heightfield, rivers, woodland, params.get('fx') !== 'low');
   const content = WORLD_CONTENT;
   const features = new FeatureLayer(world, content.features, footprints, railways, roads);
   const people = new People(world.scene, content.conversations, content.people, features.ground);
   for (const m of people.meshes) world.addCaster(m);
   const smoke = new Smoke(world.scene);
+  const firelight = new Firelight(world.scene, features.ground);
+  world.addLamp(firelight.material);
   let smokeSources = features.smokeSources([]);
 
   const debug = params.has('debug') ? new DebugOverlay(engine, backend) : undefined;
@@ -110,6 +115,14 @@ async function start(): Promise<void> {
   });
   timeline.set(t);
 
+  let clock = parseClock(params.get('hour'), params.get('season'));
+  let lightPending = true;
+  console.info(`dewidebug sky start hour=${clock.hour} season=${clock.season}`);
+  const skyControls = new SkyControls(store, clock, (next) => {
+    if (next.season !== clock.season) pending = true;
+    clock = next;
+    lightPending = true;
+  });
   const brand = h(
     'header',
     { class: 'brand panel' },
@@ -208,7 +221,7 @@ async function start(): Promise<void> {
     tabButton('about'),
     sound,
   );
-  brand.append(row2);
+  brand.append(row2, skyControls.el);
   brand.querySelector('.brand-row')?.append(home);
   app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el);
   const compact = (): void => {
@@ -239,11 +252,32 @@ async function start(): Promise<void> {
   if (debug) app.append(debug.el);
 
   let active = new Set<(typeof content.conversations)[number]['id']>();
+  let snap: Snapshot = snapshotAt(content, t);
+  const applyLight = (): void => {
+    if (!lightPending) return;
+    lightPending = false;
+    const light = lightingAt(snap.environment, clock);
+    world.applyLighting(light);
+    features.setLamps(light.lamps);
+    firelight.show(smokeSources, light.lamps);
+    smoke.shade(light.selfLit);
+    document.documentElement.classList.toggle('night', light.night > 0.5);
+    skyControls.paintTrack(snap.environment);
+    debug?.light(clock, light);
+  };
   const apply = (): void => {
-    if (!pending) return;
+    if (!pending) {
+      applyLight();
+      return;
+    }
     pending = false;
-    const snap = snapshotAt(content, t);
-    world.applyEnvironment(snap.environment, features.clearings(snap.features));
+    lightPending = true;
+    snap = snapshotAt(content, t);
+    world.applyEnvironment(
+      snap.environment,
+      seasonLook(clock.season, snap.chill),
+      features.clearings(snap.features),
+    );
     features.apply(snap.features);
     world.refreshShadows();
     smokeSources = features.smokeSources(snap.features);
@@ -258,12 +292,15 @@ async function start(): Promise<void> {
     debug?.update(snap);
     info.update(snap);
     ambience?.set(snap.environment.ambient);
+    applyLight();
   };
   apply();
 
   engine.runRenderLoop(() => {
-    apply();
     const dt = engine.getDeltaTime();
+    skyControls.tick(dt);
+    apply();
+    world.tick(dt);
     features.tick(dt);
     flight.tick(dt);
     const now = performance.now();

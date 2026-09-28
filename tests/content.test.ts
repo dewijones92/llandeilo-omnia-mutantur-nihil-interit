@@ -48,10 +48,24 @@ describe('content integrity', () => {
         if (!c.people.includes(l.speaker))
           missing.push(`conversation ${c.id} line by ${l.speaker}, not in its cast`);
     }
-    const all = [...W.events, ...W.features, ...W.places, ...W.conversations, ...W.almanac, ...W.language];
+    const all = [
+      ...W.events,
+      ...W.features,
+      ...W.places,
+      ...W.conversations,
+      ...W.almanac,
+      ...W.language,
+      ...W.climate,
+    ];
     for (const item of all)
       for (const s of item.provenance.sources) if (!sources.has(s)) missing.push(`source ${s}`);
     expect(missing).toEqual([]);
+  });
+
+  it('keeps the climate keyframes in time order, within range', () => {
+    const years = W.climate.map((k) => k.year);
+    expect(years).toEqual([...years].sort((a, b) => a - b));
+    expect(W.climate.every((k) => k.chill >= -1 && k.chill <= 1)).toBe(true);
   });
 
   it('never has a documented item without a source', () => {

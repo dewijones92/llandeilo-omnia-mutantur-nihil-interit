@@ -5,7 +5,7 @@ test('the valley loads and the slider moves through time', async ({ page }) => {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  const slider = page.getByRole('slider');
+  const slider = page.getByRole('slider', { name: /Timeline|Llinell amser/ });
   await expect(slider).toBeVisible();
   await expect(page.locator('.tl-year')).toHaveText('1282');
   await slider.focus();
@@ -63,7 +63,7 @@ test('the almanac, language and sound controls work for the chosen year', async 
 test('arrow keys move the slider without snapping back to a key date', async ({ page }) => {
   await page.goto('./');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  const slider = page.getByRole('slider');
+  const slider = page.getByRole('slider', { name: /Timeline|Llinell amser/ });
   await slider.focus();
   await page.keyboard.press('Home');
   const start = await page.locator('.tl-year').textContent();
@@ -113,7 +113,10 @@ test('switching to Welsh translates the moment card and the labels', async ({ pa
   await page.getByRole('button', { name: 'Cymraeg' }).click();
   await expect(page.locator('.moment h2')).toHaveText('Brwydr Llandeilo Fawr');
   await expect(page.locator('.label').first()).toHaveAttribute('title', /^Ymweld /);
-  await expect(page.getByRole('slider')).toHaveAttribute('aria-label', 'Llinell amser');
+  await expect(page.getByRole('slider', { name: /Timeline|Llinell amser/ })).toHaveAttribute(
+    'aria-label',
+    'Llinell amser',
+  );
 });
 
 test('Next and Previous step through key dates and fly the camera there', async ({ page }) => {
@@ -127,4 +130,49 @@ test('Next and Previous step through key dates and fly the camera there', async 
   await page.getByRole('button', { name: /Previous/ }).click();
   await expect(page.locator('.tl-counter')).toHaveText(start ?? '');
   await expect(page.locator('.moment h2')).toHaveText('Battle of Llandeilo Fawr');
+});
+
+test('time of day and season controls relight the valley, in both languages', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?year=1282&hour=12&season=summer&debug');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const readout = page.locator('.sky-readout');
+  await expect(readout).toHaveText('Midday 12:00');
+  await expect(page.locator('.debug')).toContainText('sky summer 12.00h');
+  const hour = page.getByRole('slider', { name: 'Time of day' });
+  await hour.focus();
+  for (let i = 0; i < 4; i++) await page.keyboard.press('ArrowRight');
+  await expect(readout).toHaveText('Afternoon 13:00');
+  await hour.fill('22.5');
+  await expect(readout).toHaveText('Night 22:30');
+  await expect(hour).toHaveAttribute('aria-valuetext', 'Night, 22:30');
+  await expect(page.locator('.debug')).toContainText(/sky summer 22\.50h .* moon/);
+  const winter = page.getByRole('button', { name: 'Winter' });
+  await winter.click();
+  await expect(winter).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('button', { name: 'Summer' })).toHaveAttribute('aria-pressed', 'false');
+  await hour.fill('16.5');
+  await expect(readout).toHaveText('Dusk 16:30');
+  await hour.fill('17');
+  await expect(readout).toHaveText('Night 17:00');
+  await expect(page.locator('.debug')).toContainText('sky winter 17.00h');
+  await page.screenshot({ path: 'test-results/sky-winter-night.png' });
+  await page.getByRole('button', { name: 'Cymraeg' }).click();
+  await expect(page.getByRole('button', { name: 'Gaeaf' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(readout).toHaveText('Nos 17:00');
+  await expect(page.getByRole('slider', { name: 'Adeg o’r dydd' })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('the day passes on its own when asked, and stops when the slider is moved', async ({ page }) => {
+  await page.goto('./?year=1880&hour=10');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const play = page.getByRole('button', { name: 'Let the day pass' });
+  await play.click();
+  await expect(play).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sky-readout')).not.toHaveText('Morning 10:00');
+  await page.getByRole('slider', { name: 'Time of day' }).fill('6');
+  await expect(play).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('.sky-readout')).toHaveText('Morning 06:00');
 });

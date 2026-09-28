@@ -13,16 +13,23 @@ import { WORLD } from '../domain/geo.ts';
 import type { GridRef } from '../domain/model.ts';
 import { hash2 } from '../domain/noise.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
-import { box, gable, merge } from './meshkit.ts';
+import { box, gable, merge, place } from './meshkit.ts';
 import type { Ground } from './structures.ts';
 
 const WALLS = ['#f3efe6', '#efe6d2', '#e9dfcf', '#f4ecd8', '#e5ded6', '#efe3d8', '#e2e4de', '#ecdcc3'].map(
   hex,
 );
 
+const LIT_SHARE = 0.62;
+
 export class Buildings {
   private readonly walls: Mesh;
   private readonly roofs: Mesh;
+  private readonly windows: Mesh;
+  readonly windowMaterial: StandardMaterial;
+  private readonly glow: Float32Array;
+  private lamps = 0;
+  private litCount = 0;
   private readonly matrices: Float32Array;
   private readonly roofMatrices: Float32Array;
   private readonly colours: Float32Array;
@@ -40,7 +47,14 @@ export class Buildings {
     this.walls.material = mat;
     this.roofs = merge('building-roofs', [gable(scene, 1, 1, 1, '#5f6670')]);
     this.roofs.material = mat;
+    this.windowMaterial = new StandardMaterial('window-mat', scene);
+    this.windowMaterial.disableLighting = true;
+    this.windowMaterial.diffuseColor = Color3.Black();
+    this.windowMaterial.specularColor = Color3.Black();
+    this.windows = merge('building-windows', windowPanes(scene));
+    this.windows.material = this.windowMaterial;
     const n = footprints.count;
+    this.glow = new Float32Array(n * 4);
     this.matrices = new Float32Array(n * 16);
     this.roofMatrices = new Float32Array(n * 16);
     this.colours = new Float32Array(n * 4);
@@ -65,9 +79,12 @@ export class Buildings {
       );
       const c = WALLS[Math.floor(hash2(i, 7, 3) * WALLS.length)] ?? WALLS[0];
       if (c) this.colours.set([c.r, c.g, c.b, 1], i * 4);
+      const warm = hash2(i, 33, 5);
+      this.glow.set([1, 0.7 + warm * 0.14, 0.36 + warm * 0.16, 1], i * 4);
     }
     this.walls.isVisible = false;
     this.roofs.isVisible = false;
+    this.windows.isVisible = false;
   }
 
   get meshes(): readonly Mesh[] {
@@ -124,7 +141,35 @@ export class Buildings {
     this.roofs.thinInstanceCount = n;
     this.walls.isVisible = n > 0;
     this.roofs.isVisible = n > 0;
+    const lit = [...chosen].filter((id) => hash2(id, 31, 7) < LIT_SHARE);
+    const wm = new Float32Array(Math.max(1, lit.length) * 16);
+    const wc = new Float32Array(Math.max(1, lit.length) * 4);
+    lit.forEach((id, j) => {
+      wm.set(this.matrices.subarray(id * 16, id * 16 + 16), j * 16);
+      wc.set(this.glow.subarray(id * 4, id * 4 + 4), j * 4);
+    });
+    this.windows.thinInstanceSetBuffer('matrix', wm, 16, false);
+    this.windows.thinInstanceSetBuffer('color', wc, 4, false);
+    this.windows.thinInstanceCount = lit.length;
+    this.litCount = lit.length;
+    this.setLamps(this.lamps);
   }
+
+  setLamps(level: number): void {
+    this.lamps = level;
+    this.windows.isVisible = level > 0.02 && this.litCount > 0;
+    this.windowMaterial.emissiveColor.set(level, level, level);
+  }
+}
+
+function windowPanes(scene: Scene): Mesh[] {
+  const panes: Mesh[] = [];
+  for (const side of [-1, 1]) {
+    for (const x of [-0.22, 0.22])
+      panes.push(place(box(scene, 0.28, 0.42, 0.06, '#ffffff'), x, 0.3, side * 0.5));
+    panes.push(place(box(scene, 0.06, 0.42, 0.36, '#ffffff'), side * 0.5, 0.3, 0));
+  }
+  return panes;
 }
 
 export function lineRibbons(

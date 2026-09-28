@@ -74,6 +74,28 @@ export const STRINGS = {
     cy: "Diorama o'r tirwedd go iawn o fewn deg milltir i Landeilo, wedi'i adeiladu o ddata uchder yr Arolwg Ordnans (mae'r bryniau wedi'u gorliwio 2.4 gwaith er mwyn eu gweld ar y raddfa hon). Symudwch y llithrydd i deithio drwy amser. Mae label ar bopeth: wedi'i gofnodi, wedi'i ail-greu, neu ddychmygol. Hofran neu dapio label i weld pam, a'r ffynonellau.",
   },
   credits: { en: 'Credits and licences', cy: 'Cydnabyddiaeth a thrwyddedau' },
+  timeOfDay: { en: 'Time of day', cy: 'Adeg o’r dydd' },
+  season: { en: 'Season', cy: 'Tymor' },
+  skyNote: {
+    en: 'Atmosphere only: you choose the time of day (by the sun, not the clock) and the season. They are not a record of this year.',
+    cy: 'Awyrgylch yn unig: chi sy’n dewis adeg y dydd (yn ôl yr haul, nid y cloc) a’r tymor. Nid cofnod o’r flwyddyn hon ydynt.',
+  },
+  skyCaption: {
+    en: 'Atmosphere only, not a record of this year',
+    cy: 'Awyrgylch yn unig, nid cofnod o’r flwyddyn hon',
+  },
+  spring: { en: 'Spring', cy: 'Gwanwyn' },
+  summer: { en: 'Summer', cy: 'Haf' },
+  autumn: { en: 'Autumn', cy: 'Hydref' },
+  winter: { en: 'Winter', cy: 'Gaeaf' },
+  night: { en: 'Night', cy: 'Nos' },
+  dawn: { en: 'Dawn', cy: 'Gwawr' },
+  morning: { en: 'Morning', cy: 'Bore' },
+  midday: { en: 'Midday', cy: 'Canol dydd' },
+  afternoon: { en: 'Afternoon', cy: 'Prynhawn' },
+  evening: { en: 'Evening', cy: 'Noswaith' },
+  dusk: { en: 'Dusk', cy: 'Cyfnos' },
+  playDay: { en: 'Let the day pass', cy: 'Gadael i’r dydd fynd heibio' },
 } as const satisfies Record<string, Bilingual>;
 
 export type StringKey = keyof typeof STRINGS;
