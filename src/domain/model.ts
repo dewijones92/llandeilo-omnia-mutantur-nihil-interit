@@ -1,5 +1,6 @@
 import type { Brand } from './brand.ts';
 import type { Bilingual } from './i18n.ts';
+import type { Condition, Plan } from './plan.ts';
 import type { Provenance } from './provenance.ts';
 import type { TimeRange, Year } from './time.ts';
 
@@ -141,15 +142,6 @@ export type FeatureKind =
       readonly ruined: boolean;
     }
   | { readonly type: 'roman-fort'; readonly width: number; readonly length: number; readonly angle: number }
-  | {
-      readonly type: 'castle';
-      readonly towers: number;
-      readonly radius: number;
-      readonly ruined: boolean;
-      readonly keep: boolean;
-    }
-  | { readonly type: 'church'; readonly length: number; readonly tower: boolean; readonly angle: number }
-  | { readonly type: 'abbey'; readonly ruined: boolean; readonly angle: number }
   | { readonly type: 'hall-houses'; readonly count: number; readonly spread: number }
   | {
       readonly type: 'town';
@@ -158,17 +150,9 @@ export type FeatureKind =
       readonly style: 'georgian' | 'victorian' | 'modern';
     }
   | { readonly type: 'countryside'; readonly share: number }
-  | {
-      readonly type: 'mansion';
-      readonly width: number;
-      readonly depth: number;
-      readonly angle: number;
-      readonly turrets: boolean;
-    }
-  | { readonly type: 'bridge'; readonly span: number; readonly angle: number; readonly arches: number }
+  | { readonly type: 'building'; readonly plan: Plan; readonly condition: Condition }
   | { readonly type: 'railway' }
-  | { readonly type: 'roads' }
-  | { readonly type: 'tower'; readonly height: number };
+  | { readonly type: 'roads' };
 
 export interface Feature {
   readonly id: FeatureId;
