@@ -1,4 +1,13 @@
-import { Mesh, MeshBuilder, Vector3, VertexBuffer, VertexData, type Scene } from './babylon.ts';
+import {
+  Color3,
+  Mesh,
+  MeshBuilder,
+  StandardMaterial,
+  Vector3,
+  VertexBuffer,
+  VertexData,
+  type Scene,
+} from './babylon.ts';
 import { hex, type Rgb } from '../domain/colour.ts';
 
 export type Colour = Rgb | string;
@@ -27,6 +36,13 @@ export function paint(mesh: Mesh, colour: Colour, shadeTop = 1, shadeBottom = 0.
   }
   mesh.setVerticesData(VertexBuffer.ColorKind, cols);
   return mesh;
+}
+
+export function solidMaterial(scene: Scene, name: string): StandardMaterial {
+  const mat = new StandardMaterial(name, scene);
+  mat.specularColor = new Color3(0.04, 0.04, 0.04);
+  mat.emissiveColor = new Color3(0.2, 0.19, 0.18);
+  return mat;
 }
 
 export function place(mesh: Mesh, x: number, y: number, z: number, rotY = 0): Mesh {

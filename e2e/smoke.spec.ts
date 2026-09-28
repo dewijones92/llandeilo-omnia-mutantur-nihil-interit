@@ -209,6 +209,63 @@ test('Next straight after a minor marker click steps on from that marker', async
   await expect(page.locator('.tl-counter')).toHaveAttribute('title', expected.event.title.en);
 });
 
+test('the compass shows the heading and turns the view to face north', async ({ page }) => {
+  await page.goto('./?year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const compass = page.locator('.compass');
+  const box = await page.locator('#scene').boundingBox();
+  if (!box) throw new Error('no canvas');
+  await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.3);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.75, box.y + box.height * 0.3, { steps: 6 });
+  await page.mouse.up();
+  await expect.poll(async () => Number(await compass.getAttribute('data-bearing'))).toBeGreaterThan(10);
+  await compass.click();
+  await expect(compass).toHaveAttribute('data-bearing', '0', { timeout: 60_000 });
+});
+
+test('tapping the train makes the camera follow it until you stop', async ({ page }) => {
+  await page.goto('./?debug&year=1860');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    if (!debug || typeof debug !== 'object') throw new Error('no debug hook');
+    const scene: unknown = Reflect.get(debug, 'scene');
+    const meshes: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'meshes') : undefined;
+    const camera: unknown =
+      scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+    const train: unknown = Array.isArray(meshes)
+      ? meshes.find(
+          (m: unknown) =>
+            m && typeof m === 'object' && String(Reflect.get(m, 'name')).includes('llanelly-train'),
+        )
+      : undefined;
+    if (!train || !camera || typeof camera !== 'object') throw new Error('no train or camera');
+    Reflect.set(camera, 'lockedTarget', train);
+    Reflect.set(camera, 'radius', 30);
+  });
+  await page.waitForTimeout(3000);
+  const box = await page.locator('#scene').boundingBox();
+  if (!box) throw new Error('no canvas');
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  const chip = page.locator('.follow-chip');
+  await expect(chip).toBeVisible({ timeout: 30_000 });
+  await expect(chip).toContainText('A Llanelly Railway train');
+  await page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const camera: unknown =
+      scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+    if (camera && typeof camera === 'object') Reflect.set(camera, 'lockedTarget', null);
+  });
+  const first = await cameraTarget(page);
+  await page.waitForTimeout(3000);
+  const later = await cameraTarget(page);
+  expect(Math.hypot(later.x - first.x, later.z - first.z)).toBeGreaterThan(5);
+  await chip.getByRole('button', { name: 'Stop' }).click();
+  await expect(chip).toBeHidden();
+});
+
 test.describe('off a desktop', () => {
   test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
 

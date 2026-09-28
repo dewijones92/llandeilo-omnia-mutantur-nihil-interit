@@ -128,6 +128,8 @@ export interface LanguageSnapshot {
   readonly provenance: Provenance;
 }
 
+export type RollingStock = 'llanelly-1850s' | 'generic';
+
 export type FeatureKind =
   | { readonly type: 'roundhouses'; readonly count: number; readonly spread: number }
   | {
@@ -166,6 +168,7 @@ export type FeatureKind =
     }
   | { readonly type: 'bridge'; readonly span: number; readonly angle: number; readonly arches: number }
   | { readonly type: 'railway' }
+  | { readonly type: 'train'; readonly stock: RollingStock }
   | { readonly type: 'roads' }
   | { readonly type: 'tower'; readonly height: number };
 

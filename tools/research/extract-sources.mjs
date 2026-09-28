@@ -12,6 +12,7 @@ const PREFIX = {
   'language-by-class': 'language',
   'deep-time-and-natural-history': 'deeptime',
   'conversations-by-class': 'classes',
+  'railway-locomotives': 'railway',
 };
 
 const entries = [];

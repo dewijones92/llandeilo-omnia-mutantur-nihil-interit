@@ -42,6 +42,15 @@ e2e tests as not done.)
 - [ ] Mark research notes `reviewed` once each has had an independent pass against its sources
 - [ ] Remaining eras filled in: Roman in depth, early medieval, Tudor and Stuart, Georgian, modern
 - [ ] More conversations per era, and the family at more key dates
+- [ ] **Wild animals through time** (Dewi, 2026-09-28): which wild animals roamed the valley in each
+      era, arriving and dying out (wolf, bear, lynx, beaver, boar, red kite and pine marten returning),
+      shown in the scene and the almanac, each sourced and with its "here or only in Wales" status
+- [ ] **What people did for a living, by class, in each era** (Dewi, 2026-09-28): farming, crafts,
+      trades, service, clergy, soldiering, industry (lime burning, woollen mills, the railway), grouped
+      by class, in the almanac and grounding the conversations; research first
+- [ ] **Other everyday texture** (Dewi, 2026-09-28, "other interesting stuff"): e.g. what they ate
+      and paid for it, games and pastimes, fairs and markets, how news travelled, crime and punishment,
+      childhood, medicine. Each a research item before it is content
 - [ ] 1403 Glyndŵr, 1287 Dryslwyn siege, 1843 Walk Gate as scenes (research is ready)
 
 ## Look and feel
@@ -84,11 +93,70 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md))
 - [x] Previous / Next through key dates, with the camera flying to each (2026-09-28)
 - [x] Desktop only, with a dismissible banner on phones and tablets (2026-09-28, [ADR 0015](../adr/0015-desktop-only.md))
+- [x] A researched 1850s train built in Blender, dated 1857–1888 with its own ⓘ; a placeholder after
+      the Great Western took over (2026-09-28, [ADR 0017](../adr/0017-hybrid-modelling.md))
+- [x] Compass showing the heading; click to face north (Dewi, 2026-09-28)
+- [x] Tap the train to follow it with the camera; Stop, a flight or Whole valley ends it (Dewi, 2026-09-28)
+- [ ] Research the later trains (Great Western from 1889, British Rail, today's Heart of Wales line)
+- [ ] More things to follow: animals, carts, drovers, boats, once they exist
+
+## Agreed ideas (Dewi, 2026-09-28: "add all of them to todo list")
+
+Each needs its research or design first, like everything else. The ideas board keeps their history.
+
+**Getting around**
+- [ ] Guided tour: a play button that steps the key dates with camera, sound and narration
+- [ ] Shareable links that keep the year, the place and the camera view
+- [ ] "What was here?": click any spot for its history across time
+- [ ] A place's own timeline: step through one site's phases (Dinefwr: Welsh castle, 1282 works, ruin, folly, Newton House)
+- [ ] Compare two years: side by side, or a before/after wipe
+- [ ] Street level: walk a town at eye height
+
+**People and daily life**
+- [ ] A day in the life: follow the family from dawn to dusk at a key date (needs time of day)
+- [ ] Follow the family: jump only to their scenes, with a family-tree panel; click a person to jump to their era
+- [ ] Welsh narration with English subtitles
+
+**History and evidence**
+- [ ] Place names through time (Dynevor → Dinefwr, Llandilo → Llandeilo, Talley/Talyllychau), dated and sourced
+- [ ] "How do we know?": every ⓘ quotes the primary text as well as citing it
+- [ ] Sources page listing every source and what it supports
+- [ ] Evidence map: colour everything on screen by provenance tier
+- [ ] Newspaper clippings at key dates from Welsh Newspapers Online (check the page-image licence first)
+- [ ] Historic maps draped on the terrain at Victorian dates: tithe maps, first-edition OS (check licences)
+- [ ] Search box over the knowledge base (a static index, no AI at runtime)
+- [ ] Research coverage report: which content cites which notes, and which notes are still drafts
+- [ ] A human expert pass: a local history society or Dyfed Archaeological Trust, and a Welsh speaker (outward-facing, so Dewi decides who and when)
+
+**Fun**
+- [ ] Games: "spot the invented" (guess documented vs imagined, then reveal) and mini-quizzes ("how many shops in 1858?") with answers linked to sources
+- [ ] Postcard and poster export: the current view with year, caption and credits, and a high-resolution render
+
+**Quality**
+- [ ] Visual regression tests: baseline screenshots of key years compared on every push
+
+**More (Dewi, 2026-09-28)**
+- [ ] The Tywi's wandering course: where the river ran in each era, from LiDAR old channels (research the dates)
+- [ ] "Nothing perishes" ghosts: faint outlines of vanished buildings and the medieval town over today
+- [ ] Drovers' roads: cattle herds driven along documented routes, followable with the camera
+- [ ] A Rebecca night: a set-piece of one attested 1843 attack, labelled as far as the sources go
+- [ ] Travel time from Llandeilo by era (foot, coach, train, car), shown as rings
+- [ ] Population sparkline along the timeline, with honest uncertainty bands
+- [ ] Sky events: comets, eclipses and storms the chronicles record, only where a source exists
+- [ ] An opening cinematic flight from deep time to today, under the Ovid motto
+- [ ] Real Carmarthenshire voices: St Fagans oral-history clips (check reuse terms)
+- [ ] The 1688 trilobite as an easter egg (single-source so far)
 
 ## Later phases (agreed)
 
 - [ ] Deep time before people: geology, the Ordovician Llandeilo stage, ice ages ([research](../research/deep-time-and-natural-history.md))
 - [ ] Natural-history layer through every era (animals arriving and dying out, forest, climate)
+- [ ] **Key dates before, during and after the last Ice Age**, with the animals of each (Dewi,
+      2026-09-28): e.g. the warm interglacial before it, the ice over the Tywi valley and the Black
+      Mountain, the tundra as it melted, and the post-glacial wildwood. Each with its animals (the
+      deep-time note lists mammoth, reindeer, hyena, aurochs, elk, wild boar, bear, lynx, wolf, and
+      when each died out) and shown in the scene. Needs research: what is attested inside the ten
+      miles versus Wales generally, and calibrated dates ([research](../research/deep-time-and-natural-history.md))
 - [ ] Ripples from afar: distant events that reached the valley, only where a source shows the local effect
 - [ ] LiDAR close-up terrain at the places you fly into
 

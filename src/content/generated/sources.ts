@@ -1645,6 +1645,42 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/language-by-class.md"
   },
   {
+    "id": "railway:S1",
+    "title": "Lt.-Col. W. Yolland, report to the Board of Trade on the boiler explosion of the locomotive Victoria at Pantyffynnon, Llanelly Railway, 29 January 1858, dated 9 June 1858 (covering letter 15 June 1858), pp. 20–22 of t…",
+    "url": "https://www.railwaysarchive.co.uk/documents/BoT_Pantyffynnon1858.pdf",
+    "doc": "docs/research/railway-locomotives.md"
+  },
+  {
+    "id": "railway:S2",
+    "title": "\"Heart of Wales railway line: history\", Terry Norman (personal site)",
+    "url": "http://www.users.ic24.net/~terrynorm/heart%20of%20wales%20history.htm",
+    "doc": "docs/research/railway-locomotives.md"
+  },
+  {
+    "id": "railway:S3",
+    "title": "Amgueddfa Cymru – Museum Wales, \"Llanelly Railway & Dock Co. 2-4-0 locomotive 'Napoleon III'\", Images of Industry item 4467",
+    "url": "https://museum.wales/industry/images/?action=show_item&item=4467",
+    "doc": "docs/research/railway-locomotives.md"
+  },
+  {
+    "id": "railway:S4",
+    "title": "Amgueddfa Cymru – Museum Wales, \"Llanelly Railway & Dock Company locomotive, photograph\", Collections Online",
+    "url": "https://museum.wales/collections/online/object/6976645e-97db-3690-b797-49920c42a93b/Llanelly-Railway--Dock-Company-locomotive-photograph/",
+    "doc": "docs/research/railway-locomotives.md"
+  },
+  {
+    "id": "railway:S5",
+    "title": "Wikipedia, \"Llanelly Railway\"",
+    "url": "https://en.wikipedia.org/wiki/Llanelly_Railway",
+    "doc": "docs/research/railway-locomotives.md"
+  },
+  {
+    "id": "railway:S6",
+    "title": "Michael Denman, *The Llanelly Railway and Dock Company* (2012), bookseller listing",
+    "url": "https://www.branchstow.co.uk/thellanellyrailwayanddockcompanymichaeldenman/",
+    "doc": "docs/research/railway-locomotives.md"
+  },
+  {
     "id": "timeline:S1",
     "title": "Amgueddfa Cymru (National Museum Wales), \"The Cave Men of Ice Age Wales\" (2007)",
     "url": "https://museum.wales/articles/2007-05-11/The-Cave-Men-of-Ice-Age-Wales/",

@@ -73,6 +73,10 @@ export const STRINGS = {
   family: { en: 'the family', cy: 'y teulu' },
   aboutLanguage: { en: 'About the language:', cy: 'Am yr iaith:' },
   overview: { en: 'Whole valley', cy: 'Y dyffryn cyfan' },
+  following: { en: 'Following', cy: 'Yn dilyn' },
+  stopFollowing: { en: 'Stop', cy: 'Stopio' },
+  faceNorth: { en: 'Compass: face north', cy: "Cwmpawd: wynebu'r gogledd" },
+  northLetter: { en: 'N', cy: 'G' },
   aboutBody: {
     en: 'A diorama of the real landscape within ten miles of Llandeilo, built from Ordnance Survey height data (hills are exaggerated 2.4 times so they read at this scale). Move the slider to travel through time. Every item is labelled: documented, reconstructed, or imagined. Hover or tap a label to see why, and the sources.',
     cy: "Diorama o'r tirwedd go iawn o fewn deg milltir i Landeilo, wedi'i adeiladu o ddata uchder yr Arolwg Ordnans (mae'r bryniau wedi'u gorliwio 2.4 gwaith er mwyn eu gweld ar y raddfa hon). Symudwch y llithrydd i deithio drwy amser. Mae label ar bopeth: wedi'i gofnodi, wedi'i ail-greu, neu ddychmygol. Hofran neu dapio label i weld pam, a'r ffynonellau.",

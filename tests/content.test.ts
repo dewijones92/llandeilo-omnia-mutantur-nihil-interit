@@ -134,6 +134,37 @@ describe('assets', () => {
   });
 });
 
+describe('trains', () => {
+  const trains = W.features.filter((f) => f.kind.type === 'train');
+  const railway = W.features.find((f) => f.kind.type === 'railway');
+
+  it('run only while the railway exists', () => {
+    expect(railway).toBeDefined();
+    const outside = trains.filter(
+      (t) => !railway || t.when.from < railway.when.from || t.when.to > railway.when.to,
+    );
+    expect(outside.map((t) => t.id)).toEqual([]);
+  });
+
+  it('never overlap, so one train is on the line at a time', () => {
+    const sorted = [...trains].sort((a, b) => a.when.from - b.when.from);
+    const overlaps = sorted.flatMap((t, i) => {
+      const next = sorted[i + 1];
+      return next && next.when.from <= t.when.to ? [`${t.id}/${next.id}`] : [];
+    });
+    expect(overlaps).toEqual([]);
+  });
+
+  it('cover the whole life of the railway', () => {
+    const years = new Set<number>();
+    for (const t of trains) for (let y = t.when.from; y <= t.when.to; y++) years.add(y);
+    const missing: number[] = [];
+    if (railway)
+      for (let y = railway.when.from; y <= railway.when.to; y++) if (!years.has(y)) missing.push(y);
+    expect(missing).toEqual([]);
+  });
+});
+
 describe('key-date camera shots', () => {
   const places = new Map(W.places.map((p) => [p.id, p]));
   const features = new Map(W.features.map((f) => [f.id, f]));

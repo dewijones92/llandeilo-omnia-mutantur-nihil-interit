@@ -566,6 +566,32 @@ export const FEATURES: readonly Feature[] = [
     ),
   }),
   feature({
+    id: 'train-llanelly',
+    kind: { type: 'train', stock: 'llanelly-1850s' },
+    at: { e: 263266, n: 222361 },
+    from: ad(1857),
+    to: ad(1888),
+    label: { en: 'A Llanelly Railway train', cy: 'Trên Rheilffordd Llanelli' },
+    provenance: reconstructed(
+      'The engine follows the one Llanelly Railway engine described in detail, a six-coupled Hackworth engine of 1841 (Board of Trade report, 1858). Which engine hauled Llandeilo’s trains is not known; the colours, tender and carriages are guesses. The company ran the line until the Great Western took it over in 1889.',
+      "Mae'r injan yn dilyn yr unig injan o Reilffordd Llanelli sydd wedi'i disgrifio'n fanwl, injan chwe olwyn gyplysedig gan Hackworth o 1841 (adroddiad y Bwrdd Masnach, 1858). Nid yw'n hysbys pa injan oedd yn tynnu trenau Llandeilo; dyfalu yw'r lliwiau, y tendr a'r cerbydau. Y cwmni oedd yn rhedeg y lein nes i'r Great Western ei chymryd drosodd yn 1889.",
+      ['railway:S1', 'railway:S2', 'victorian:S29'],
+    ),
+  }),
+  feature({
+    id: 'train-later',
+    kind: { type: 'train', stock: 'generic' },
+    at: { e: 263266, n: 222361 },
+    from: ad(1889),
+    to: NOW,
+    label: { en: 'A later train', cy: 'Trên diweddarach' },
+    provenance: imagined(
+      'A placeholder. The engines and carriages that ran here after the Great Western took over in 1889 have not been researched yet.',
+      "Dalfan. Nid oes ymchwil eto i'r injans a'r cerbydau a oedd yn rhedeg yma ar ôl i'r Great Western gymryd drosodd yn 1889.",
+      ['victorian:S29'],
+    ),
+  }),
+  feature({
     id: 'roads',
     kind: { type: 'roads' },
     at: LLANDEILO_CHURCH,

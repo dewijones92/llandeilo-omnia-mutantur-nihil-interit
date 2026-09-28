@@ -10,10 +10,11 @@ import {
 } from './babylon.ts';
 import { hex } from '../domain/colour.ts';
 import { WORLD } from '../domain/geo.ts';
-import type { GridRef } from '../domain/model.ts';
+import type { GridRef, RollingStock } from '../domain/model.ts';
 import { hash2 } from '../domain/noise.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
-import { box, gable, merge } from './meshkit.ts';
+import { box, gable, merge, solidMaterial } from './meshkit.ts';
+import type { LoadedModel } from './models.ts';
 import type { Ground } from './structures.ts';
 
 const WALLS = ['#f3efe6', '#efe6d2', '#e9dfcf', '#f4ecd8', '#e5ded6', '#efe3d8', '#e2e4de', '#ecdcc3'].map(
@@ -33,9 +34,7 @@ export class Buildings {
     private readonly footprints: BuildingFootprints,
     ground: Ground,
   ) {
-    const mat = new StandardMaterial('building-mat', scene);
-    mat.specularColor = new Color3(0.04, 0.04, 0.04);
-    mat.emissiveColor = new Color3(0.2, 0.19, 0.18);
+    const mat = solidMaterial(scene, 'building-mat');
     this.walls = merge('building-walls', [box(scene, 1, 1, 1, '#ffffff')]);
     this.walls.material = mat;
     this.roofs = merge('building-roofs', [gable(scene, 1, 1, 1, '#5f6670')]);
@@ -179,18 +178,25 @@ export function lineRibbons(
   return mesh;
 }
 
-export class Train {
+interface Stock {
   readonly mesh: Mesh;
+  readonly chimney: Vector3;
+  readonly lift: number;
+}
+
+export class Train {
+  private readonly stocks = new Map<RollingStock, Stock>();
   private readonly path: { x: number; y: number; z: number }[];
   private readonly lengths: number[];
   private readonly total: number;
   private distance = 0;
+  private current: Stock | undefined;
 
-  constructor(scene: Scene, line: MapLine, ground: Ground) {
+  constructor(scene: Scene, line: MapLine, ground: Ground, models: ReadonlyMap<RollingStock, LoadedModel>) {
     this.path = line.points.map((p) => {
       const x = (p.e - WORLD.centre.e) / WORLD.metresPerUnit;
       const z = (p.n - WORLD.centre.n) / WORLD.metresPerUnit;
-      return { x, y: ground(x, z) + 0.4, z };
+      return { x, y: ground(x, z), z };
     });
     this.lengths = [0];
     for (let i = 1; i < this.path.length; i++) {
@@ -199,25 +205,35 @@ export class Train {
       this.lengths.push((this.lengths[i - 1] ?? 0) + (a && b ? Math.hypot(b.x - a.x, b.z - a.z) : 0));
     }
     this.total = this.lengths[this.lengths.length - 1] ?? 0;
-    const parts = [box(scene, 3.2, 1.5, 1.2, '#2f3437'), box(scene, 0.5, 1, 0.5, '#2f3437')];
-    parts[1]?.position.set(1.1, 1.5, 0);
-    parts[1]?.bakeCurrentTransformIntoVertices();
-    for (let c = 0; c < 3; c++) {
-      const car = box(scene, 3.6, 1.4, 1.15, c % 2 ? '#7b2d26' : '#8a3a2e');
-      car.position.x = -4 - c * 4;
-      car.bakeCurrentTransformIntoVertices();
-      parts.push(car);
+    for (const [stock, model] of models) {
+      const chimney = model.anchors.get('chimney');
+      if (!chimney) {
+        console.warn(`dewidebug train stock=${stock} model has no chimney anchor; not used`);
+        continue;
+      }
+      model.mesh.isVisible = false;
+      this.stocks.set(stock, { mesh: model.mesh, chimney, lift: 0.1 });
+      console.info(`dewidebug train stock=${stock} model=${model.mesh.name} chimney=${chimney.toString()}`);
     }
-    this.mesh = merge('train', parts);
-    const mat = new StandardMaterial('train-mat', scene);
-    mat.specularColor = new Color3(0.2, 0.2, 0.2);
-    this.mesh.material = mat;
-    this.mesh.isVisible = false;
+    if (!this.stocks.has('generic')) this.stocks.set('generic', boxTrain(scene));
   }
 
-  step(dt: number, visible: boolean): void {
-    this.mesh.isVisible = visible && this.total > 0;
-    if (!this.mesh.isVisible) return;
+  get mesh(): Mesh | undefined {
+    return this.current?.mesh;
+  }
+
+  get chimney(): Vector3 | undefined {
+    return this.current?.chimney;
+  }
+
+  step(dt: number, stock: RollingStock | undefined): void {
+    const next = stock && this.total > 0 ? (this.stocks.get(stock) ?? this.stocks.get('generic')) : undefined;
+    if (next !== this.current) {
+      console.info(`dewidebug train stock now=${stock ?? 'none'} mesh=${next?.mesh.name ?? 'none'}`);
+      for (const s of this.stocks.values()) s.mesh.isVisible = s === next;
+      this.current = next;
+    }
+    if (!next) return;
     this.distance = (this.distance + dt * 0.012) % (this.total * 2);
     const d = this.distance > this.total ? this.total * 2 - this.distance : this.distance;
     const forward = this.distance <= this.total;
@@ -228,10 +244,28 @@ export class Train {
     if (!a || !b) return;
     const seg = (this.lengths[i] ?? 0) - (this.lengths[i - 1] ?? 0) || 1;
     const f = (d - (this.lengths[i - 1] ?? 0)) / seg;
-    this.mesh.position.set(a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f, a.z + (b.z - a.z) * f);
+    next.mesh.position.set(a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f + next.lift, a.z + (b.z - a.z) * f);
     const heading = Math.atan2(b.z - a.z, b.x - a.x);
-    this.mesh.rotation.y = -heading + (forward ? 0 : Math.PI);
+    next.mesh.rotation.y = -heading + (forward ? 0 : Math.PI);
   }
+}
+
+function boxTrain(scene: Scene): Stock {
+  const parts = [box(scene, 3.2, 1.5, 1.2, '#2f3437'), box(scene, 0.5, 1, 0.5, '#2f3437')];
+  parts[1]?.position.set(1.1, 1.5, 0);
+  parts[1]?.bakeCurrentTransformIntoVertices();
+  for (let c = 0; c < 3; c++) {
+    const car = box(scene, 3.6, 1.4, 1.15, c % 2 ? '#7b2d26' : '#8a3a2e');
+    car.position.x = -4 - c * 4;
+    car.bakeCurrentTransformIntoVertices();
+    parts.push(car);
+  }
+  const mesh = merge('train', parts);
+  const mat = new StandardMaterial('train-mat', scene);
+  mat.specularColor = new Color3(0.2, 0.2, 0.2);
+  mesh.material = mat;
+  mesh.isVisible = false;
+  return { mesh, chimney: new Vector3(1.1, 2.6, 0), lift: 0.4 };
 }
 
 export function longestLine(lines: readonly MapLine[]): MapLine | undefined {

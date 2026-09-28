@@ -6,7 +6,7 @@ import { isLang } from './domain/i18n.ts';
 import { STRINGS } from './content/strings.ts';
 import { snapshotAt } from './domain/state.ts';
 import { keySteps, nearestStep, shotFor } from './domain/steps.ts';
-import type { Framing, KeyEvent } from './domain/model.ts';
+import type { Framing, KeyEvent, RollingStock } from './domain/model.ts';
 import { tAt } from './domain/timeline.ts';
 import { ad, year } from './domain/time.ts';
 import {
@@ -21,6 +21,10 @@ import { DebugOverlay } from './ui/debug.ts';
 import { PlaceLabels } from './ui/labels.ts';
 import { MomentCard } from './ui/moment.ts';
 import { Bubbles } from './ui/bubbles.ts';
+import { loadModel, type LoadedModel } from './world/models.ts';
+import { Compass } from './ui/compass.ts';
+import { northAlpha } from './domain/compass.ts';
+import { FollowChip } from './ui/follow-chip.ts';
 import { desktopBanner } from './ui/desktop-banner.ts';
 import { ConversationPanel } from './ui/conversation.ts';
 import { InfoPanel, type InfoTab } from './ui/info.ts';
@@ -36,6 +40,7 @@ import { Smoke } from './world/smoke.ts';
 import { World } from './world/scene.ts';
 
 const SNAP_RADIUS = 0.009;
+const TRAIN_SCALE = 0.66;
 const MOMENT_RADIUS = 0.01;
 const FRAMING_RADIUS: Readonly<Record<Framing, number>> = {
   close: 160,
@@ -78,7 +83,14 @@ async function start(): Promise<void> {
   );
   const world = new World(engine, heightfield, rivers, woodland);
   const content = WORLD_CONTENT;
-  const features = new FeatureLayer(world, content.features, footprints, railways, roads);
+  const trainModels = new Map<RollingStock, LoadedModel>();
+  const llanelly = await loadModel(
+    world.scene,
+    `${import.meta.env.BASE_URL}models/llanelly-train.glb`,
+    TRAIN_SCALE,
+  );
+  if (llanelly) trainModels.set('llanelly-1850s', llanelly);
+  const features = new FeatureLayer(world, content.features, footprints, railways, roads, trainModels);
   const people = new People(world.scene, content.conversations, content.people, features.ground);
   for (const m of people.meshes) world.addCaster(m);
   const smoke = new Smoke(world.scene);
@@ -164,10 +176,22 @@ async function start(): Promise<void> {
     if (g) flight.flyTo(g.anchor.clone(), 30, 1.12);
     home.hidden = false;
   };
+  const followChip = new FollowChip(store, () => {
+    flight.stopFollowing('stop button');
+  });
   const bubbles = new Bubbles(world.scene, people.groups.values(), store, openConversation);
   world.scene.onPointerObservable.add((info) => {
     if (info.type !== PointerEventTypes.POINTERTAP) return;
     const hit = info.pickInfo?.pickedMesh;
+    const tracked = features.trackable(hit);
+    if (hit && tracked) {
+      flight.follow(hit, FRAMING_RADIUS.close * 0.25, () => {
+        followChip.hide();
+      });
+      followChip.show(tracked.label);
+      home.hidden = false;
+      return;
+    }
     const meta: unknown = hit?.metadata;
     if (meta && typeof meta === 'object' && 'conversation' in meta) {
       const c = content.conversations.find((x) => x.id === meta.conversation);
@@ -239,6 +263,10 @@ async function start(): Promise<void> {
     world.camera.beta = 0.98;
     home.hidden = false;
   }
+  const compass = new Compass(store, () => {
+    flight.turnTo(northAlpha(world.camera.alpha));
+  });
+  app.append(compass.el, followChip.el);
   const banner = desktopBanner(store);
   if (banner) app.append(banner);
   if (debug) app.append(debug.el);
@@ -271,6 +299,7 @@ async function start(): Promise<void> {
     const dt = engine.getDeltaTime();
     features.tick(dt);
     flight.tick(dt);
+    compass.update(world.camera.alpha);
     const now = performance.now();
     people.show(active, now);
     const eye = world.camera.globalPosition;

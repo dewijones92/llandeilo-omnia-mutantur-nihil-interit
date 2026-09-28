@@ -972,3 +972,67 @@ button {
   background: var(--panel-solid);
   color: var(--ink);
 }
+
+.compass {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.compass-rose {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  transition: transform 80ms linear;
+}
+
+.compass-needle {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 6px;
+  height: 32px;
+  margin-left: -3px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #c0392b 0 50%, #9aa1a8 50% 100%);
+}
+
+.compass-n {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font: 700 11px/1 var(--ui);
+  color: #c0392b;
+  background: var(--panel-solid);
+  padding: 0 2px;
+  border-radius: 3px;
+}
+
+.debug {
+  top: 92px;
+}
+
+.follow-chip {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px 8px 16px;
+}
+
+.follow-chip[hidden] {
+  display: none;
+}

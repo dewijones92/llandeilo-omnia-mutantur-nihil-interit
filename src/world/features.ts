@@ -1,6 +1,6 @@
-import { Vector3, type Mesh } from './babylon.ts';
+import { Vector3, type AbstractMesh, type Mesh } from './babylon.ts';
 import { toGrid, toWorld } from '../domain/geo.ts';
-import type { Feature, FeatureId } from '../domain/model.ts';
+import type { Feature, FeatureId, RollingStock } from '../domain/model.ts';
 import type { FeaturePresence } from '../domain/state.ts';
 import { hash2 } from '../domain/noise.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
@@ -9,6 +9,7 @@ import { Buildings, lineRibbons, longestLine, Train } from './settlement.ts';
 import { buildFeature, type Ground } from './structures.ts';
 import type { SmokeSource } from './smoke.ts';
 import type { Clearing } from './terrain.ts';
+import type { LoadedModel } from './models.ts';
 
 interface Monument {
   readonly mesh: Mesh;
@@ -34,6 +35,7 @@ const CLEARING: Readonly<Record<Feature['kind']['type'], number>> = {
   mansion: 40,
   bridge: 0,
   railway: 0,
+  train: 0,
   roads: 0,
   tower: 20,
 };
@@ -45,7 +47,8 @@ export class FeatureLayer {
   private readonly rail: Mesh;
   private readonly roads: Mesh;
   private readonly train: Train | undefined;
-  private railPresence = 0;
+  private stock: RollingStock | undefined;
+  private trainFeature: Feature | undefined;
   readonly ground: Ground;
 
   constructor(
@@ -54,6 +57,7 @@ export class FeatureLayer {
     footprints: BuildingFootprints,
     railways: readonly MapLine[],
     roads: readonly MapLine[],
+    trainModels: ReadonlyMap<RollingStock, LoadedModel>,
   ) {
     const scene = world.scene;
     this.ground = (x, z) => world.terrain.heightAt(toGrid({ x, z }));
@@ -72,7 +76,7 @@ export class FeatureLayer {
     );
     this.roads.isVisible = false;
     const main = longestLine(railways);
-    this.train = main ? new Train(scene, main, this.ground) : undefined;
+    this.train = main ? new Train(scene, main, this.ground, trainModels) : undefined;
     const started = performance.now();
     for (const f of features) {
       const { x, z } = toWorld(f.at);
@@ -153,36 +157,47 @@ export class FeatureLayer {
     this.buildings.show(selections);
     let rail = 0;
     let road = 0;
+    let train: { feature: Feature; stock: RollingStock; presence: number } | undefined;
     for (const p of present) {
-      if (p.feature.kind.type === 'railway') rail = Math.max(rail, p.presence);
-      if (p.feature.kind.type === 'roads') road = Math.max(road, p.presence);
+      const k = p.feature.kind;
+      if (k.type === 'railway') rail = Math.max(rail, p.presence);
+      if (k.type === 'roads') road = Math.max(road, p.presence);
+      if (k.type === 'train' && p.presence > (train?.presence ?? 0.9))
+        train = { feature: p.feature, stock: k.stock, presence: p.presence };
     }
-    this.railPresence = rail;
+    this.stock = rail > 0.9 ? train?.stock : undefined;
+    this.trainFeature = this.stock ? train?.feature : undefined;
     this.rail.isVisible = rail > 0.5;
     this.roads.isVisible = road > 0.5;
   }
 
   tick(dt: number): void {
-    this.train?.step(dt, this.railPresence > 0.9);
+    this.train?.step(dt, this.stock);
+  }
+
+  trackable(mesh: AbstractMesh | null | undefined): Feature | undefined {
+    const train = this.train?.mesh;
+    return mesh && train && mesh === train && train.isVisible ? this.trainFeature : undefined;
   }
 
   trainSmoke(): SmokeSource | undefined {
-    const train = this.train;
-    if (!train?.mesh.isVisible) return undefined;
-    const p = train.mesh.position;
+    const mesh = this.train?.mesh;
+    const chimney = this.train?.chimney;
+    if (!mesh || !chimney) return undefined;
+    const p = mesh.position;
     return {
-      key: 'train',
+      key: `train-${mesh.name}`,
       x: p.x,
       y: p.y,
       z: p.z,
       spread: 0,
       density: 1,
       style: 'steam',
-      follow: { mesh: train.mesh, offset: new Vector3(1.1, 2.6, 0) },
+      follow: { mesh, offset: chimney },
     };
   }
 
   trainPosition(): Vector3 | undefined {
-    return this.train?.mesh.isVisible ? this.train.mesh.position : undefined;
+    return this.train?.mesh?.position;
   }
 }

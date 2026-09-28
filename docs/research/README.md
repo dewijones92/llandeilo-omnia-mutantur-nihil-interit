@@ -24,6 +24,7 @@ the research drove.
 | [language-by-class](language-by-class.md) | Spoken language over time and by class; sample phrases | draft | [brief](briefs/language-by-class.md) |
 | [deep-time-and-natural-history](deep-time-and-natural-history.md) | Geology, ice ages, vegetation, animals, climate | draft | [brief](briefs/deep-time-and-natural-history.md) |
 | [conversations-by-class](conversations-by-class.md) | Who was present at each key date, their languages and concerns, attested lines to quote; Anglo-Norman and Middle English pronunciation; Carmarthenshire dialect | draft | [brief](briefs/conversations-by-class.md) |
+| [railway-locomotives](railway-locomotives.md) | The Llanelly Railway's engines around 1857, for the train model; the 1858 Board of Trade report on Victoria | draft | none (written inline, 2026-09-28) |
 
 The first six are `draft`: produced in one pass on 2026-09-26, with WebSearch quota exhausted part
 way through (see [`process.md`](process.md)). `conversations-by-class` was added on 2026-09-28. None has yet had an independent verification pass.

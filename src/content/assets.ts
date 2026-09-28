@@ -51,6 +51,14 @@ export const ASSETS: readonly AssetRecord[] = [
     url: 'https://www.ordnancesurvey.co.uk/products/os-open-map-local',
   },
   {
+    files: /^models\/llanelly-train\.glb$/,
+    what: { en: 'The 1850s train', cy: 'Trên y 1850au' },
+    source:
+      'Built by this project’s Blender script tools/models/llanelly-train.py, from the Board of Trade report of 1858 (docs/research/railway-locomotives.md)',
+    licence: 'Original work of this project',
+    url: 'https://www.railwaysarchive.co.uk/documents/BoT_Pantyffynnon1858.pdf',
+  },
+  {
     files: /^voices\/.+\.(mp3|json)$/,
     what: { en: 'Voices', cy: 'Lleisiau' },
     source: 'Microsoft neural text-to-speech via edge-tts, generated from this project’s own scripts',

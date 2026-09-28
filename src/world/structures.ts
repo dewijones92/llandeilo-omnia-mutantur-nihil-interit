@@ -91,6 +91,7 @@ export function buildFeature(
     case 'town':
     case 'countryside':
     case 'railway':
+    case 'train':
     case 'roads':
       return undefined;
     default:

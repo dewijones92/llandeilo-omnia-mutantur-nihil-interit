@@ -3,6 +3,7 @@ import '@babylonjs/core/Layers/layerSceneComponent.js';
 import '@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent.js';
 import '@babylonjs/core/Meshes/thinInstanceMesh.js';
 import '@babylonjs/core/Particles/particleSystemComponent.js';
+import '@babylonjs/loaders/glTF/2.0/glTFLoader.js';
 import { CreateBox } from '@babylonjs/core/Meshes/Builders/boxBuilder.js';
 import { CreateCylinder } from '@babylonjs/core/Meshes/Builders/cylinderBuilder.js';
 import { CreateIcoSphere } from '@babylonjs/core/Meshes/Builders/icoSphereBuilder.js';
@@ -27,6 +28,7 @@ export { Mesh } from '@babylonjs/core/Meshes/mesh.js';
 export { VertexData } from '@babylonjs/core/Meshes/mesh.vertexData.js';
 export { DefaultRenderingPipeline } from '@babylonjs/core/PostProcesses/RenderPipeline/Pipelines/defaultRenderingPipeline.js';
 export { ParticleSystem } from '@babylonjs/core/Particles/particleSystem.js';
+export { ImportMeshAsync } from '@babylonjs/core/Loading/sceneLoader.js';
 export { Scene } from '@babylonjs/core/scene.js';
 
 export const MeshBuilder = { CreateBox, CreateCylinder, CreateIcoSphere } as const;

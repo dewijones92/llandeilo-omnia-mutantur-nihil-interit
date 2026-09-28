@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # Build log
@@ -53,3 +53,22 @@ Milestones and what each one taught us. Newest last.
     only updated on scrub, an automatic panel close stole keyboard focus, and three new content
     sentences were not in the research. All fixed; lessons: a shared resource must survive its
     consumers' disposal, and a "render once" cache needs every moving caster accounted for.
+
+## 2026-09-28
+
+14. **Previous/Next and camera shots**, then two review rounds. The first found snaps pulling the
+    camera away and a quick second Next being lost; the second found Next stepping from the wrong
+    place after a marker click. Each fix landed with an e2e test seen failing on the old code first.
+    A Playwright lesson: at SwiftShader's 1fps, two sequential clicks never overlap an animation, so a
+    race test must fire both clicks in one page task.
+15. **ADRs and a what-goes-where table**; desktop only; no bundle limit; the dev server always on 5051.
+16. **Research verified by a second agent**: the conversations-by-class note had 13 corrections
+    (inexact quotes, an overstatement, two unsupported "cross-checked" labels) and stays a draft.
+17. **The first Blender model**: the 1850s train, researched first from the 1858 Board of Trade report
+    on the engine Victoria (a six-coupled Hackworth of 1841). Two traps: Blender applies scale on the
+    object's own axes before rotation (the carriage roofs came out as discs), and glTF's handedness
+    conversion is a mirror, so baking it into the vertices turns every face inside out; the model
+    looked black until the winding was flipped back. The train is now a feature kind with dates and
+    its own provenance, so the 1840s-type engine no longer runs through the 1990s.
+18. **Compass and follow**: the compass maths is pure and unit-tested; following lives in the one camera
+    seam (Flight), so any other flight ends it.
