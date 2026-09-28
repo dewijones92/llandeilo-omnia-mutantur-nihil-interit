@@ -63,6 +63,7 @@ export class FeatureLayer {
     this.ground = (x, z) => world.terrain.heightAt(toGrid({ x, z }));
     this.buildings = new Buildings(scene, footprints, this.ground);
     for (const m of this.buildings.meshes) world.addCaster(m);
+    world.addLamp(this.buildings.windowMaterial);
     this.rail = lineRibbons(scene, 'rail', railways, this.ground, () => 1.1, '#6d655c', 0.35);
     this.rail.isVisible = false;
     this.roads = lineRibbons(
@@ -132,11 +133,30 @@ export class FeatureLayer {
           spread: (k.spread / 10) * 0.5 + 1,
           density: Math.min(1.5, k.count / 4),
           style: 'hearth',
+          fire: true,
         });
       } else if (k.type === 'town' && k.style !== 'modern') {
-        out.push({ key: p.feature.id, x, y: y + 1, z, spread: 18, density: 1.8, style: 'hearth' });
+        out.push({
+          key: p.feature.id,
+          x,
+          y: y + 1,
+          z,
+          spread: 18,
+          density: 1.8,
+          style: 'hearth',
+          fire: false,
+        });
       } else if (k.type === 'mansion') {
-        out.push({ key: p.feature.id, x, y: y + 3, z, spread: 1.5, density: 0.5, style: 'hearth' });
+        out.push({
+          key: p.feature.id,
+          x,
+          y: y + 3,
+          z,
+          spread: 1.5,
+          density: 0.5,
+          style: 'hearth',
+          fire: true,
+        });
       }
     }
     return out;
@@ -171,6 +191,10 @@ export class FeatureLayer {
     this.roads.isVisible = road > 0.5;
   }
 
+  setLamps(level: number): void {
+    this.buildings.setLamps(level);
+  }
+
   tick(dt: number): void {
     this.train?.step(dt, this.stock);
   }
@@ -193,6 +217,7 @@ export class FeatureLayer {
       spread: 0,
       density: 1,
       style: 'steam',
+      fire: false,
       follow: { mesh, offset: chimney },
     };
   }

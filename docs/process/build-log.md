@@ -72,3 +72,30 @@ Milestones and what each one taught us. Newest last.
     its own provenance, so the 1840s-type engine no longer runs through the 1990s.
 18. **Compass and follow**: the compass maths is pure and unit-tested; following lives in the one camera
     seam (Flight), so any other flight ends it.
+19. **Atmosphere: time of day, seasons, effects** ([`../design/atmosphere.md`](../design/atmosphere.md)).
+    One pure function, `lightingAt(environment, clock)`, turns the era's sky colours and the chosen
+    hour and season into every light the renderer reads, from the real solar geometry at 51.88°N;
+    `seasonLook` does the same for land and trees, with the winter snow line moved by a climate
+    "chill" per period cited to the deep-time note. Lessons: a sun that has just set leaves the
+    land black unless the sky itself becomes the fill light (twilight ambient rose to 0.85, plus a
+    low afterglow key light from the sun's side); depth of field blurs the background too, so the
+    stars were bokeh until the aperture closes as they come out; `DynamicTexture` defaults to clamp
+    addressing, so a scrolling star layer smeared its edge column into lines until set to wrap;
+    windows at true scale are sub-pixel from the default close-up, so they only read nearer in;
+    autumn trees on a green woodland floor glittered at overview scale until the floor under the
+    woods turned russet with them. Screenshots were shot from a production build served by
+    `vite preview`, because hot reloads from ongoing edits kept restarting dev-server pages
+    mid-shot. An independent Opus review then found: a failing e2e expectation (winter 16:30 is
+    dusk, not night); the sun disc drawn with the wrong Babylon `Layer` maths (a layer's UVs are
+    screen-space, so a scaled layer shows a cut-out of a full-screen texture; the glow is now
+    painted into the sky gradient by ray angle); the ripple texture clamping after its first tile
+    (the same `DynamicTexture` default as the stars); shadow sampling using a newer light
+    direction than the shadow map; three copies of the snow rule; climate keys cited to sources
+    that do not cover their dates; smoke staying day-bright at night; and the phone summary
+    vanishing after a resize. All fixed. A second review of the fixes found the stars jumping as the camera passed due
+    south (a non-whole number of star tiles per turn), 12,500 BC wrongly treated as the coldest
+    point when in calendar years it sits inside the milder Late Glacial interstadial (checked
+    against a source and written into the research findings, with the existing environment
+    keyframes raised as an open question), and muted panel text too faint over the night scene.
+    All fixed. Bundle about +10KB (about 436KB gzipped; the size limit has since been removed, ADR 0016). Built in a worktree by a parallel agent and merged into main on 2026-09-28.
+

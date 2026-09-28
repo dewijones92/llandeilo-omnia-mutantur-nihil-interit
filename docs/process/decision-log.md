@@ -59,3 +59,6 @@ with the full context and consequences.
 | A snap of the slider moves only the slider, not the camera | Review of the Previous/Next commit: a third of the slider snaps, so drags kept pulling the camera away; see `design/timeline-experience.md` |
 | Remove the 450KB bundle limit; CI only reports the size | Dewi: "did I say the app is meant to be under half a MB??? if so please remove this limit". He never had; [ADR 0016](../adr/0016-no-bundle-size-limit.md) |
 | Ask before fanning out parallel agents or worktrees; the single commit review stays automatic | Dewi: "ask me first before you do this, as sometimes I wanna not use all my tokens" |
+| Allow short, useful code comments in this repo (a why, a gotcha, a convention, a tuned number), never narration | Dewi: "yes override the rule for this repo" |
+| Confirmed as Dewi's: animals from before people, people arriving from afar, a donation link; the donation platform left to Claude, who picked GitHub Sponsors (no new account, no tracking) | Dewi: "all good, up to u" |
+| Keep 12,500 BC without summer snow (it falls in the milder Late Glacial interstadial in calendar years) | Dewi: "ok" |

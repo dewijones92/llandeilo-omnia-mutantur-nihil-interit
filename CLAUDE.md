@@ -273,7 +273,8 @@ check them with the particle probe in `?debug` (`window.llandeiloDebug.scene`) r
 
 **Performance numbers** (to be filled from a real desktop GPU): first load, scrubbing frame rate,
 terrain recolour time (logged as `dewidebug terrain recolour … in Nms`). Bundle: the main chunk is
-418KB gzipped (428,353 bytes, 2026-09-28; it was 387KB on 2026-09-26). There is **no size limit**
+390KB gzipped (399,487 bytes, 2026-09-28 after merging the atmosphere work; 387KB on 2026-09-26), plus
+chunks fetched only when needed (about 980KB gzipped across all JS). There is **no size limit**
 (Dewi, 2026-09-28; the 450KB CI budget was mine, never his, and is removed, [ADR 0016](docs/adr/0016-no-bundle-size-limit.md)).
 CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*.js | wc -c`.
 
@@ -308,7 +309,9 @@ CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*
   Never stop it, never move it to another port, and never point it at a worktree: it serves `main`'s
   working tree with hot reload, so Dewi sees each change as it lands. Worktrees and e2e use other
   ports (5174+, 4173). Tell Dewi the URL: http://localhost:5051/ (`?debug`, `?year=1282`).
-- **No code comments** (Dewi's global rule): the why goes in commit messages. Tool directives
-  (`// prettier-ignore`) are the only exception.
+- **Comments where they help** (Dewi, 2026-09-28: "yes override the rule for this repo", overriding
+  his global no-comments default here only): a short comment for a non-obvious why, a gotcha, a
+  units or axis convention, or a number tuned by eye. Never narrate what the code does; keep each to
+  a line or two, and put longer reasoning in the commit message or an ADR.
 - **Own the repo.** Take the structurally right option. Surface only decisions that are genuinely
   Dewi's: content or tone choices, trade-offs with no clear default, and anything published.

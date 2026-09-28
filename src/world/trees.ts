@@ -9,14 +9,64 @@ import {
   VertexData,
   type Scene,
 } from './babylon.ts';
+import { snowCover, type SeasonLook } from '../domain/daylight.ts';
 import { hash2 } from '../domain/noise.ts';
 import { COVER_CODE, type Terrain } from './terrain.ts';
+
+type Rgb3 = readonly [number, number, number];
 
 interface Candidate {
   readonly tri: number;
   readonly matrix: Float32Array;
-  readonly colour: readonly [number, number, number];
+  readonly shade: number;
   readonly conifer: boolean;
+  readonly heightM: number;
+  readonly north: number;
+  readonly jitter: number;
+}
+
+const LEAF: Readonly<Record<'spring' | 'summer', Rgb3>> = {
+  spring: [0.4, 0.62, 0.28],
+  summer: [0.28, 0.5, 0.26],
+};
+const CONIFER: Rgb3 = [0.2, 0.42, 0.3];
+const AUTUMN: readonly Rgb3[] = [
+  [0.62, 0.4, 0.16],
+  [0.58, 0.33, 0.13],
+  [0.49, 0.27, 0.13],
+  [0.5, 0.45, 0.19],
+  [0.64, 0.48, 0.18],
+];
+const BARE: Rgb3 = [0.5, 0.45, 0.4];
+const BLOSSOM: readonly Rgb3[] = [
+  [0.97, 0.93, 0.9],
+  [0.96, 0.8, 0.86],
+];
+const SNOW: Rgb3 = [0.93, 0.95, 0.97];
+
+function pick<T>(list: readonly T[], r: number, fallback: T): T {
+  return list[Math.floor(r * list.length) % list.length] ?? fallback;
+}
+
+function mix3(a: Rgb3, b: Rgb3, t: number): Rgb3 {
+  return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+}
+
+function treeColour(c: Candidate, look: SeasonLook): Rgb3 {
+  const snow = snowCover(look, c.heightM, c.north, c.jitter);
+  let base: Rgb3;
+  if (c.conifer) {
+    base = CONIFER;
+  } else {
+    const r = hash2(c.tri, 71, 3);
+    const leaf = look.season === 'spring' ? LEAF.spring : LEAF.summer;
+    if (r < look.bare) base = BARE;
+    else if (r < look.bare + look.turned * (1 - look.bare)) base = pick(AUTUMN, hash2(c.tri, 72, 5), leaf);
+    else if (hash2(c.tri, 73, 7) < look.blossom) base = pick(BLOSSOM, hash2(c.tri, 74, 2), leaf);
+    else base = leaf;
+  }
+  const shaded: Rgb3 = [base[0] * c.shade, base[1] * c.shade, base[2] * c.shade];
+  return snow > 0.01 ? mix3(shaded, SNOW, snow * (c.conifer ? 0.45 : 0.6)) : shaded;
 }
 
 export class Forest {
@@ -46,14 +96,20 @@ export class Forest {
         rot,
         new Vector3((t.cx[i] ?? 0) + jx, (t.cy[i] ?? 0) - 0.3, (t.cz[i] ?? 0) + jz),
       );
-      const g = 0.75 + hash2(i, 12, 4) * 0.35;
-      const conifer = (t.heightM[i] ?? 0) > 330 || hash2(i, 44, 8) > 0.9;
-      const colour: readonly [number, number, number] = conifer
-        ? [0.2 * g, 0.42 * g, 0.3 * g]
-        : [0.28 * g, 0.5 * g, 0.26 * g];
+      const shade = 0.75 + hash2(i, 12, 4) * 0.35;
+      const heightM = t.heightM[i] ?? 0;
+      const conifer = heightM > 330 || hash2(i, 44, 8) > 0.9;
       const arr = new Float32Array(16);
       m.copyToArray(arr);
-      list.push({ tri: i, matrix: arr, colour, conifer });
+      list.push({
+        tri: i,
+        matrix: arr,
+        shade,
+        conifer,
+        heightM,
+        north: t.north[i] ?? 0,
+        jitter: t.mix[i] ?? 0.5,
+      });
     }
     this.candidates = list;
     console.info(`dewidebug forest candidates=${list.length}`);
@@ -63,7 +119,7 @@ export class Forest {
     return [this.broadleaf, this.conifer];
   }
 
-  update(): void {
+  update(look: SeasonLook): void {
     const code = COVER_CODE.wood;
     const broad: Candidate[] = [];
     const con: Candidate[] = [];
@@ -72,17 +128,18 @@ export class Forest {
     }
     const visible = broad.length + con.length;
     console.info(`dewidebug forest visible=${visible}`);
-    apply(this.broadleaf, broad);
-    apply(this.conifer, con);
+    apply(this.broadleaf, broad, look);
+    apply(this.conifer, con, look);
   }
 }
 
-function apply(mesh: Mesh, list: readonly Candidate[]): void {
+function apply(mesh: Mesh, list: readonly Candidate[], look: SeasonLook): void {
   const matrices = new Float32Array(Math.max(1, list.length) * 16);
   const colours = new Float32Array(Math.max(1, list.length) * 4);
   list.forEach((c, i) => {
     matrices.set(c.matrix, i * 16);
-    colours.set([c.colour[0], c.colour[1], c.colour[2], 1], i * 4);
+    const colour = treeColour(c, look);
+    colours.set([colour[0], colour[1], colour[2], 1], i * 4);
   });
   mesh.thinInstanceSetBuffer('matrix', matrices, 16, false);
   mesh.thinInstanceSetBuffer('color', colours, 4, false);

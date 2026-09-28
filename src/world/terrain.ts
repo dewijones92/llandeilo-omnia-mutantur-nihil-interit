@@ -5,6 +5,7 @@ import { hex, type Rgb } from '../domain/colour.ts';
 import { heightToWorld, toGrid, WORLD } from '../domain/geo.ts';
 import { sampleHeight, type Heightfield } from '../domain/heightfield.ts';
 import type { GridRef } from '../domain/model.ts';
+import { seasonKey, snowCover, type SeasonLook } from '../domain/daylight.ts';
 import { fbm, hash2, rng } from '../domain/noise.ts';
 import type { Environment } from '../domain/state.ts';
 import type { RiverLine } from '../platform/assets.ts';
@@ -143,9 +144,9 @@ export class Terrain {
     return sampleHeight(this.heightfield, g);
   }
 
-  applyEnvironment(raw: Environment, clearings: readonly Clearing[] = []): boolean {
+  applyEnvironment(raw: Environment, look: SeasonLook, clearings: readonly Clearing[] = []): boolean {
     const env = quantise(raw);
-    const key = `${env.forest}|${env.farmland}|${env.moor}|${env.mappedWoodland}|${clearings.map((c) => `${Math.round(c.x)},${Math.round(c.z)},${Math.round(c.radius)}`).join(';')}`;
+    const key = `${seasonKey(look)}|${env.forest}|${env.farmland}|${env.moor}|${env.mappedWoodland}|${clearings.map((c) => `${Math.round(c.x)},${Math.round(c.z)},${Math.round(c.radius)}`).join(';')}`;
     if (key === this.lastKey) return false;
     this.lastKey = key;
     const started = performance.now();
@@ -169,6 +170,7 @@ export class Terrain {
       }
       this.cover[i] = COVER_CODE[cover];
       colourInto(col, t, i, cover, env, cold);
+      seasonInto(col, t, i, cover, look);
       const o = i * 12;
       for (let v = 0; v < 3; v++) {
         c[o + v * 4] = col.r;
@@ -291,11 +293,42 @@ function colourInto(
       blend(out, PALETTE.tundra, cold * 0.85);
       break;
   }
-  if (cold > 0.5 && h > 420 && (t.north[i] ?? 0) > 0.12)
-    blend(out, PALETTE.snow, smoothstep(0.5, 1, cold) * smoothstep(420, 560, h));
   out.r *= shade;
   out.g *= shade;
   out.b *= shade;
+}
+
+function seasonInto(
+  out: MutableRgb,
+  t: TerrainTriangles,
+  i: number,
+  cover: LandCover,
+  look: SeasonLook,
+): void {
+  const shade = t.shade[i] ?? 1;
+  const tint = (c: Rgb, amount: number): void => {
+    blend(out, { r: c.r * shade, g: c.g * shade, b: c.b * shade }, amount);
+  };
+  switch (cover) {
+    case 'wood':
+      tint(look.woodFloor, look.woodFloorAmount);
+      break;
+    case 'farm':
+      tint(look.grass, look.grassAmount * 0.7);
+      if (((t.field[i] ?? 0) % 97) / 97 < look.fieldShare) tint(look.fields, 0.55);
+      break;
+    case 'meadow':
+    case 'grass':
+      tint(look.grass, look.grassAmount);
+      break;
+    case 'moor':
+      tint(look.moor, look.moorAmount);
+      break;
+    case 'rock':
+      break;
+  }
+  const snow = snowCover(look, t.heightM[i] ?? 0, t.north[i] ?? 0, t.mix[i] ?? 0.5);
+  if (snow > 0) blend(out, PALETTE.snow, snow * (cover === 'wood' ? 0.6 : 1));
 }
 
 function buildRiverPaths(hf: Heightfield, lines: readonly RiverLine[]): RiverPath[] {

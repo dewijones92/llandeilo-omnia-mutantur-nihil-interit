@@ -27,6 +27,7 @@ e2e tests as not done.)
 ## Next: verify on real hardware
 
 - [ ] Check WebGPU on a real desktop GPU (everything automated uses WebGL2 via SwiftShader)
+- [ ] Open it in desktop Firefox and Safari: every automated check runs in Chromium, and WebGPU support differs
 - [ ] Record performance numbers in CLAUDE.md: first load, scrub frame rate, terrain recolour time
 - [ ] Listen to the ambient sound and voices on real speakers; tune levels
 - [ ] Watch the smoke and the train move at a real frame rate
@@ -63,11 +64,23 @@ e2e tests as not done.)
 **Dewi, 2026-09-28: "I want this app to look amazing"**, with effect trickery from WebGPU or the
 engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 
-- [ ] Time of day: sun path, dawn and dusk colour, night with lit windows and stars
-- [ ] Seasons: spring blossom, summer green, autumn colour, winter frost and snow, per era's climate
-- [ ] Weather: rain, mist in the valley, low cloud on the Black Mountain
-- [ ] Engine effects: ambient occlusion, soft volumetric light shafts, depth-of-field tilt-shift,
-      water with reflections, colour grading per era, gentle wind in the trees
+- [x] Time of day: the real sun path for Llandeilo's latitude, dawn and dusk colour, a twilight
+      afterglow, moonlit night with stars and lit windows, morning mist; a slider, a "let the day
+      pass" button and `?hour=` (2026-09-28, see [`../design/atmosphere.md`](../design/atmosphere.md))
+- [x] Seasons: spring blossom and fresh green, summer hay, autumn leaves and bracken, winter bare
+      trees and a snow line that drops in colder periods (Younger Dryas, Little Ice Age); four
+      buttons and `?season=` (2026-09-28)
+- [ ] Weather: rain, mist in the valley, low cloud on the Black Mountain (morning mist only so far)
+- [x] Engine effects, first pass: depth-of-field tilt-shift, colour grading by light (warm
+      highlights at golden hour, cool shadows at night), night bloom on windows, flowing ripples
+      and sky reflection on the rivers, a sun and moon glow in the sky, smoke that darkens at night,
+      `?fx=low` to switch the costly ones off
+- [ ] Engine effects, still to do: ambient occlusion (no size limit now, ADR 0016; judge its cost on a real GPU), volumetric light shafts, real water reflections, colour grading per era, wind in the trees
+- [x] Firelight at night for roundhouses, hall-houses and mansions, and lit town windows (2026-09-28)
+- [ ] Castles, churches and the abbey lit at night (candles, torches), and a train headlamp
+- [ ] Sound follows the clock: birds at dawn, owls and quiet at night
+- [ ] Conversations and speech bubbles follow the clock: nobody chatting outdoors at 3am
+- [ ] Re-check autumn trees at overview distance by screenshot (the "glitter" fix was never re-shot)
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (today `town.style` only decides which towns get chimney smoke)
@@ -85,6 +98,8 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Purity lint as an allow-list rather than a deny-list (or a separate tsconfig without DOM for domain/content)
 - [ ] Place labels: "(today)" for the Roman forts too; review each place's `namedFrom`
 - [ ] Performance: move land-cover classification to the GPU if recolouring is slow on real hardware
+- [ ] Keyboard help: `?` shows the shortcuts (arrows, PageUp/PageDown, Home/End, Escape, and the compass and follow controls)
+- [ ] Performance: the glTF loader fetches Babylon's PBR material code (~57KB gzipped) though models get our own material; skip it if first load feels slow
 - [ ] Modern Welsh voices: add the standard-accent (not Carmarthenshire) note to modern-Welsh conversations
 
 ## Proposed (under discussion)
@@ -145,6 +160,9 @@ Each needs its research or design first, like everything else. The ideas board k
 - [ ] Visual regression tests: baseline screenshots of key years compared on every push
 
 **More (Dewi, 2026-09-28)**
+- [ ] Animals through time, from before there were any: Ordovician seas, ice-age herds, the wildwood's aurochs, elk, boar, wolves, bears and beavers, farmed animals, deer parks, red kites, salmon, drovers' herds; roaming, grazing, hunted, farmed and disappearing, each only where the research supports it
+- [ ] People arriving from afar, as journeys along the real roads and river: Roman soldiers, English armies in 1282, the canons coming to Talley, merchants and pilgrims, drovers leaving, railway navvies, evacuees, visitors today
+- [ ] A way to support the project: a GitHub Sponsors link in About and the README, no tracking. Waiting on Dewi setting up his Sponsors page
 - [ ] The Tywi's wandering course: where the river ran in each era, from LiDAR old channels (research the dates)
 - [ ] "Nothing perishes" ghosts: faint outlines of vanished buildings and the medieval town over today
 - [ ] Drovers' roads: cattle herds driven along documented routes, followable with the camera
