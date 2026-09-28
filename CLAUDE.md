@@ -95,6 +95,26 @@ so the next reader knows the map was unreliable there.
   Spell them correctly; check Welsh orthography rather than guessing.
 - **When unsure, say so in the content.** "We don't know" is a valid, and interesting, answer.
 
+## Research decisions and outcomes
+
+The summary lives in [`docs/research/findings.md`](docs/research/findings.md), and voice choices in
+[`docs/content/voices.md`](docs/content/voices.md). Standing outcomes that shape every change:
+
+- **Place sites from Coflein or Cadw grid references**, never a research note's approximate lat/lon
+  (the Roman forts were drawn 0.9km out until corrected).
+- **Pollen-zone dates in the notes are uncalibrated**: convert to calendar years before use.
+- **Contested points stay contested in the app** (the 1282 date and leader, the Roman forts' size
+  and dates, Carreg Cennen's builder). Never pick one silently.
+- **Voices**: edge-tts for everything. Latin = `it-IT-DiegoNeural`, plain spelling (Church style),
+  chosen by ear on 2026-09-26; Roman-era Latin lines carry an ⓘ saying Romans pronounced it
+  differently. Brittonic and Old/Middle Welsh are voiced as modern Welsh stand-ins and labelled so.
+- **Research is a draft until independently reviewed.** Each note is `status: draft`; a review pass
+  against the notes is part of shipping new content.
+
+**If in doubt, document it in this repo.** A decision, a research outcome, a correction, a dead end,
+a voice choice: write it into `docs/` (findings, decision log, build log, open questions) in the
+same pass as the change. Chat and memory are not the record; the repo is.
+
 ## Quality bar
 
 ### Unified and DRY, as far as is sensible (the twin laws)

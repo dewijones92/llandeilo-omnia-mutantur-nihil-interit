@@ -2,7 +2,7 @@
 title: Decision log
 kind: log
 status: current
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # Decision log
@@ -43,3 +43,10 @@ this is the history behind it.
 | Settlements clear woodland around them | Historically right, and it makes hillforts visible |
 | Sources extracted into typed citation keys | A missing or mistyped source is a compile error |
 | Procedural ambient audio (planned) | No licence risk, and it can follow the era continuously |
+
+## 2026-09-28
+
+| Decision | Why |
+|---|---|
+| Record research outcomes in `docs/research/findings.md` and voice choices in `docs/content/voices.md`, summarised in CLAUDE.md | Dewi: "if in doubt document it in this repo" |
+| Keep edge-tts for Latin (Diego, plain) as already shipped | Confirmed with Dewi; see `docs/content/voices.md` |

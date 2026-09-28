@@ -12,6 +12,9 @@ following the method in [`process.md`](process.md). The brief each agent was giv
 [`briefs/`](briefs/) so a pass can be repeated, extended or audited. Every note separates what is
 documented, what is reconstructed by analogy, and what is unknown.
 
+**Start with [`findings.md`](findings.md)**: the headline outcomes, the corrections, and the decisions
+the research drove.
+
 | Note | Covers | Status | Brief |
 |---|---|---|---|
 | [timeline-and-earliest-occupation](timeline-and-earliest-occupation.md) | Earliest evidence of people; key dates to today | draft | [brief](briefs/timeline-and-earliest-occupation.md) |
