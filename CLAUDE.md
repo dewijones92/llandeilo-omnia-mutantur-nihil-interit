@@ -157,9 +157,11 @@ same pass as the change. Chat and memory are not the record; the repo is.
   `switch` ending in `assertNever`.
 - **Branded types for domain values** (`Year`, `PlaceId`, `EventId`, `PersonId`, `LangCode`) so an
   id or a year can't be passed where another is expected.
-- **Validate at the boundary, trust inside.** Content files are parsed with a schema library (zod
-  or similar), and the TypeScript types are **inferred from the schema**, so the schema is the one
-  source of truth for both.
+- **Validate at the boundary, trust inside.** Content is written as typed TypeScript data in
+  `src/content/`, so the domain types in `src/domain/model.ts` are the schema and the compiler
+  enforces it, backed by the integrity tests in `tests/content.test.ts`. Runtime data files
+  (`public/data/*`) are checked by hand-written guards in `src/platform/assets.ts`. (Corrected
+  2026-09-28: this line used to say content was parsed with zod; it never was.)
 
 ### Linting and formatting
 
