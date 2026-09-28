@@ -3,20 +3,15 @@ import { assertNever } from '../domain/assert.ts';
 import { hex, mix } from '../domain/colour.ts';
 import type { FeatureKind } from '../domain/model.ts';
 import { rng } from '../domain/noise.ts';
+import { buildPlan, MONUMENT_SCALE, type Ground } from './buildings.ts';
 import { box, cone, cylinder, gable, merge, paint, place } from './meshkit.ts';
 
-export const MONUMENT_SCALE = 2.6;
+export type { Ground };
 
-export type Ground = (x: number, z: number) => number;
-
-const STONE = hex('#b7b0a2');
-const STONE_DARK = hex('#8f887c');
-const RUIN = hex('#a3a192');
 const MOSS = hex('#8a9a6c');
 const THATCH = hex('#d2b172');
 const DAUB = hex('#d4c29a');
 const TIMBER = hex('#7a5a3c');
-const SLATE = hex('#5f6670');
 const TILE = hex('#b5613f');
 const EARTH = hex('#8f935f');
 const RAMPART = hex('#8a7f6e');
@@ -61,15 +56,11 @@ export function buildFeature(
       return { mesh: rampart(scene, kind, ground, ox, oz), casts: true };
     case 'roman-fort':
       return at(romanFort(scene, kind.width * s, kind.length * s, kind.angle, random), 'roman-fort');
-    case 'castle':
-      return at(
-        castle(scene, kind.towers, kind.radius * s, kind.ruined, kind.keep, random),
-        kind.ruined ? 'castle-ruin' : 'castle',
-      );
-    case 'church':
-      return at(church(scene, kind.length * s, kind.tower, kind.angle), 'church');
-    case 'abbey':
-      return at(abbey(scene, kind.ruined, kind.angle, s, random), kind.ruined ? 'abbey-ruin' : 'abbey');
+    case 'building':
+      return {
+        mesh: buildPlan(scene, kind.plan, kind.condition, seed, ground, ox, oz),
+        casts: true,
+      };
     case 'hall-houses': {
       const parts: Mesh[] = [];
       for (let i = 0; i < kind.count; i++) {
@@ -82,12 +73,6 @@ export function buildFeature(
       }
       return at(parts, 'hall-houses');
     }
-    case 'mansion':
-      return at(mansion(scene, kind.width * s, kind.depth * s, kind.angle, kind.turrets), 'mansion');
-    case 'bridge':
-      return at(bridge(scene, kind.span * s * 0.6, kind.angle, kind.arches), 'bridge');
-    case 'tower':
-      return at(folly(scene, kind.height * s), 'tower');
     case 'town':
     case 'countryside':
     case 'railway':
@@ -207,136 +192,6 @@ function romanFort(scene: Scene, w: number, l: number, angle: number, random: ()
   return parts;
 }
 
-function castle(
-  scene: Scene,
-  towers: number,
-  radius: number,
-  ruined: boolean,
-  keep: boolean,
-  random: () => number,
-): Mesh[] {
-  const parts: Mesh[] = [];
-  const stone = ruined ? RUIN : STONE;
-  const wallH = 5.5;
-  const pts: [number, number][] = [];
-  for (let i = 0; i < towers; i++) {
-    const a = (i / towers) * Math.PI * 2 + random() * 0.3;
-    const r = radius * (0.85 + random() * 0.3);
-    pts.push([Math.cos(a) * r, Math.sin(a) * r]);
-  }
-  pts.forEach(([x, z], i) => {
-    const next = pts[(i + 1) % pts.length];
-    if (!next) return;
-    const [nx, nz] = next;
-    const len = Math.hypot(nx - x, nz - z);
-    const rot = -Math.atan2(nz - z, nx - x);
-    if (ruined && random() < 0.3) return;
-    const h = ruined ? wallH * (0.35 + random() * 0.45) : wallH;
-    parts.push(
-      place(box(scene, len, h, 1.3, mix(stone, STONE_DARK, 0.15)), (x + nx) / 2, 0, (z + nz) / 2, rot),
-    );
-    if (!ruined) {
-      for (let k = 0; k < Math.floor(len / 1.6); k++) {
-        const f = (k + 0.5) / Math.floor(len / 1.6);
-        parts.push(place(box(scene, 0.8, 0.8, 1.4, stone), x + (nx - x) * f, h, z + (nz - z) * f, rot));
-      }
-    }
-  });
-  pts.forEach(([x, z]) => {
-    const h = ruined ? 5 + random() * 4 : 8.5;
-    parts.push(place(cylinder(scene, 3.6, h, stone, 10), x, 0, z));
-    if (!ruined) parts.push(place(cylinder(scene, 4.1, 0.9, mix(stone, LIMEWASH, 0.2), 10), x, h, z));
-  });
-  if (keep) {
-    const h = ruined ? 8 + random() * 3 : 13;
-    parts.push(
-      place(cylinder(scene, 6.4, h, mix(stone, LIMEWASH, 0.12), 14), radius * 0.15, 0, -radius * 0.1),
-    );
-    if (!ruined) parts.push(place(cone(scene, 7, 3.2, SLATE, 14), radius * 0.15, h, -radius * 0.1));
-  }
-  if (!ruined) {
-    parts.push(
-      place(
-        box(scene, radius * 0.9, 4.2, radius * 0.45, mix(stone, LIMEWASH, 0.25)),
-        -radius * 0.2,
-        0,
-        radius * 0.25,
-        0.2,
-      ),
-    );
-    parts.push(
-      place(gable(scene, radius * 0.9, radius * 0.5, 2.4, SLATE), -radius * 0.2, 4.2, radius * 0.25, 0.2),
-    );
-  }
-  if (ruined)
-    parts.push(place(box(scene, radius * 1.6, 0.4, radius * 1.6, mix(MOSS, RUIN, 0.4)), 0, -0.1, 0, 0.3));
-  return parts;
-}
-
-function church(scene: Scene, length: number, tower: boolean, angle: number): Mesh[] {
-  const w = length * 0.34;
-  const parts: Mesh[] = [
-    place(box(scene, length, w * 0.8, w, LIMEWASH), 0, 0, 0, angle),
-    place(gable(scene, length, w * 1.1, w * 0.55, SLATE), 0, w * 0.8, 0, angle),
-    place(
-      box(scene, length * 0.35, w * 0.65, w * 0.8, LIMEWASH),
-      Math.cos(-angle) * length * 0.6,
-      0,
-      Math.sin(-angle) * length * 0.6,
-      angle,
-    ),
-  ];
-  if (tower) {
-    const tx = Math.cos(-angle) * -length * 0.58;
-    const tz = Math.sin(-angle) * -length * 0.58;
-    parts.push(place(box(scene, w * 0.9, w * 2.2, w * 0.9, STONE), tx, 0, tz, angle));
-    parts.push(place(box(scene, w, w * 0.2, w, STONE_DARK), tx, w * 2.2, tz, angle));
-  }
-  return parts;
-}
-
-function abbey(scene: Scene, ruined: boolean, angle: number, s: number, random: () => number): Mesh[] {
-  const parts: Mesh[] = [];
-  const stone = ruined ? RUIN : mix(STONE, LIMEWASH, 0.2);
-  const cos = Math.cos(-angle);
-  const sin = Math.sin(-angle);
-  const along = (d: number): [number, number] => [cos * d * s, sin * d * s];
-  const [cx, cz] = along(0);
-  const towerH = (ruined ? 26 : 29) * s;
-  const tw = 9 * s;
-  if (ruined) {
-    parts.push(place(box(scene, tw, towerH, 1.4 * s, stone), cx, 0, cz + tw * 0.45, angle));
-    parts.push(place(box(scene, 1.4 * s, towerH * 0.92, tw, stone), cx + tw * 0.45, 0, cz, angle));
-  } else {
-    parts.push(place(box(scene, tw, towerH, tw, stone), cx, 0, cz, angle));
-    parts.push(place(cone(scene, tw * 1.35, 5 * s, SLATE, 4), cx, towerH, cz, angle + Math.PI / 4));
-  }
-  const chancelH = (ruined ? 5 + random() * 3 : 12) * s;
-  const [chx, chz] = along(12);
-  parts.push(place(box(scene, 15 * s, chancelH, 8 * s, stone), chx, 0, chz, angle));
-  if (!ruined) parts.push(place(gable(scene, 15 * s, 9 * s, 4.5 * s, SLATE), chx, chancelH, chz, angle));
-  for (const side of [-1, 1]) {
-    const tx = cx - sin * side * 11 * s;
-    const tz = cz + cos * side * 11 * s;
-    const h = (ruined ? 3 + random() * 4 : 11) * s;
-    parts.push(place(box(scene, 8 * s, h, 12 * s, stone), tx, 0, tz, angle));
-    if (!ruined) parts.push(place(gable(scene, 12 * s, 9 * s, 4 * s, SLATE), tx, h, tz, angle + Math.PI / 2));
-  }
-  const [nx, nz] = along(-30);
-  parts.push(place(box(scene, 50 * s, 1.2 * s, 18 * s, mix(stone, MOSS, 0.3)), nx, 0, nz, angle));
-  const [clx, clz] = along(-14);
-  parts.push(
-    place(
-      box(scene, 23 * s, ruined ? 1 * s : 6 * s, 1.2 * s, stone),
-      clx - sin * 20 * s,
-      0,
-      clz + cos * 20 * s,
-      angle,
-    ),
-  );
-  return parts;
-}
-
 function longhouse(scene: Scene, x: number, y: number, z: number, rot: number, s: number): Mesh[] {
   const len = 14 * s * 0.8;
   const w = 5.5 * s * 0.8;
@@ -344,68 +199,4 @@ function longhouse(scene: Scene, x: number, y: number, z: number, rot: number, s
     place(box(scene, len, w * 0.45, w, DAUB), x, y, z, rot),
     place(gable(scene, len * 1.05, w * 1.25, w * 0.75, THATCH), x, y + w * 0.45, z, rot),
   ];
-}
-
-function mansion(scene: Scene, w: number, d: number, angle: number, turrets: boolean): Mesh[] {
-  const h = w * 0.42;
-  const parts: Mesh[] = [
-    place(box(scene, w, h, d, hex('#e9e2d2')), 0, 0, 0, angle),
-    place(gable(scene, w * 0.98, d * 1.02, h * 0.28, SLATE), 0, h, 0, angle),
-  ];
-  if (turrets) {
-    for (const [sx, sz] of [
-      [-1, -1],
-      [1, -1],
-      [-1, 1],
-      [1, 1],
-    ] as const) {
-      const lx = (sx * w) / 2;
-      const lz = (sz * d) / 2;
-      const x = lx * Math.cos(-angle) - lz * Math.sin(-angle);
-      const z = lx * Math.sin(-angle) + lz * Math.cos(-angle);
-      parts.push(place(cylinder(scene, d * 0.28, h * 1.25, hex('#e3dccb'), 8), x, 0, z));
-      parts.push(place(cone(scene, d * 0.32, h * 0.3, SLATE, 8), x, h * 1.25, z));
-    }
-  }
-  return parts;
-}
-
-function bridge(scene: Scene, span: number, angle: number, arches: number): Mesh[] {
-  const parts: Mesh[] = [];
-  const w = 1.4;
-  const seg = 10;
-  const rise = arches === 1 ? span * 0.22 : span * 0.08;
-  for (let i = 0; i < seg; i++) {
-    const t0 = i / seg - 0.5;
-    const t1 = (i + 1) / seg - 0.5;
-    const arch = (t: number): number => {
-      const u = arches === 1 ? t * 2 : (((t + 0.5) * arches) % 1) * 2 - 1;
-      return rise * (1 - u * u);
-    };
-    const x0 = t0 * span;
-    const x1 = t1 * span;
-    const y = (arch(t0) + arch(t1)) / 2;
-    const mx = (x0 + x1) / 2;
-    parts.push(
-      place(
-        box(scene, span / seg + 0.1, 1.1, w, STONE),
-        mx * Math.cos(-angle),
-        y,
-        mx * Math.sin(-angle),
-        angle,
-      ),
-    );
-  }
-  return parts;
-}
-
-function folly(scene: Scene, h: number): Mesh[] {
-  const parts: Mesh[] = [place(cylinder(scene, h * 0.34, h, STONE, 6), 0, 0, 0)];
-  for (let i = 0; i < 3; i++) {
-    const a = (i / 3) * Math.PI * 2;
-    const r = h * 0.2;
-    parts.push(place(cylinder(scene, h * 0.16, h * 1.05, STONE, 8), Math.cos(a) * r, 0, Math.sin(a) * r));
-  }
-  parts.push(place(cylinder(scene, h * 0.4, h * 0.08, STONE_DARK, 6), 0, h, 0));
-  return parts;
 }

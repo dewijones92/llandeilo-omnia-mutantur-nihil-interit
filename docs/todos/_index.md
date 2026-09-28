@@ -45,6 +45,8 @@ e2e tests as not done.)
 - [ ] Independent verification of every research note, as conversations-by-class had (it found 13 corrections)
 - [ ] Check every place against its Coflein grid reference (only some were verified)
 - [ ] Human check of the Welsh text (parked)
+      Two new terms need it first: "tyllau taflu" (machicolations) and "bwtresi hedfan" (flying buttresses)
+- [ ] See the building provenance-tier test fail once (it was written after its fix, so it is unproven)
 - [ ] Mark research notes `reviewed` once each has had an independent pass against its sources
 - [ ] Remaining eras filled in: Roman in depth, early medieval, Tudor and Stuart, Georgian, modern
 - [ ] More conversations per era, and the family at more key dates
@@ -80,13 +82,19 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Castles, churches and the abbey lit at night (candles, torches), and a train headlamp
 - [ ] Sound follows the clock: birds at dawn, owls and quiet at night
 - [ ] Conversations and speech bubbles follow the clock: nobody chatting outdoors at 3am
+- [ ] Rivers stay vivid blue at night while the land goes dark; darken them with the sky (seen 2026-09-28)
 - [ ] Re-check autumn trees at overview distance by screenshot (the "glitter" fix was never re-shot)
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (today `town.style` only decides which towns get chimney smoke)
 - [ ] Contact shadows under people and buildings
 - [ ] A low-sun, warmer light option; haze towards the rim
-- [ ] Better castle models from their documented plans (Dinefwr's great round tower, Carreg Cennen's gatehouse)
+- [x] Better castle models from their documented plans (Dinefwr's great round tower, Carreg Cennen's gatehouse):
+      landmark models built phase by phase from the research, 2026-09-28 ([`design/models.md`](../design/models.md))
+- [ ] Close the modelling research gaps listed in [`design/models.md`](../design/models.md) (Coflein plans, Cadw guidebooks)
+- [ ] Decide option B or C for the landmark models (realistic textures), or keep option A
+- [ ] Roman forts and Garn Goch as plans too (they still use the older builders)
+- [ ] The About panel says hills are exaggerated 2.4×; it should also say landmarks are drawn 2.6× larger
 - [ ] The closed 1864 railway to Carmarthen
 
 ## Quality (from the reviews, deferred)

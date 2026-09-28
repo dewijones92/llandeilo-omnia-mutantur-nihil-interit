@@ -1,11 +1,14 @@
-import { Vector3, type AbstractMesh, type Mesh } from './babylon.ts';
+import { Vector3, VertexBuffer, type AbstractMesh, type Mesh } from './babylon.ts';
 import { toGrid, toWorld } from '../domain/geo.ts';
 import type { Feature, FeatureId, RollingStock } from '../domain/model.ts';
 import type { FeaturePresence } from '../domain/state.ts';
 import { hash2 } from '../domain/noise.ts';
+import { hidesFootprint, rotate } from '../domain/plan.ts';
+import { Surface } from '../domain/surface.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
 import { Buildings, lineRibbons, longestLine, Train } from './settlement.ts';
+import { planClearing, planWorldScale } from './buildings.ts';
 import { buildFeature, type Ground } from './structures.ts';
 import type { SmokeSource } from './smoke.ts';
 import type { Clearing } from './terrain.ts';
@@ -22,23 +25,39 @@ interface TownSet {
 
 const TOWN_CORE_RADIUS = 1300;
 
-const CLEARING: Readonly<Record<Feature['kind']['type'], number>> = {
+const CLEARING: Readonly<Record<Exclude<Feature['kind']['type'], 'building'>, number>> = {
   roundhouses: 40,
   hillfort: 85,
   'roman-fort': 60,
-  castle: 45,
-  church: 25,
-  abbey: 45,
   'hall-houses': 45,
   town: 110,
   countryside: 0,
-  mansion: 40,
-  bridge: 0,
   railway: 0,
   train: 0,
   roads: 0,
-  tower: 20,
 };
+
+function clearingOf(kind: Feature['kind']): number {
+  return kind.type === 'building' ? planClearing(kind.plan) : CLEARING[kind.type];
+}
+
+function coveredFootprints(features: readonly Feature[], footprints: BuildingFootprints): Set<number> {
+  const covered = new Set<number>();
+  const plans = features.flatMap((f) =>
+    f.kind.type === 'building' ? [{ at: f.at, plan: f.kind.plan }] : [],
+  );
+  const d = footprints.data;
+  for (let i = 0; i < footprints.count; i++) {
+    const e = d[i * 5] ?? 0;
+    const n = d[i * 5 + 1] ?? 0;
+    const box = { e, n, width: d[i * 5 + 2] ?? 0, depth: d[i * 5 + 3] ?? 0, angle: d[i * 5 + 4] ?? 0 };
+    for (const m of plans) {
+      if (Math.hypot(e - m.at.e, n - m.at.n) > 400) continue;
+      if (hidesFootprint(m.plan, m.at, box)) covered.add(i);
+    }
+  }
+  return covered;
+}
 
 export class FeatureLayer {
   private readonly monuments = new Map<FeatureId, Monument>();
@@ -50,6 +69,7 @@ export class FeatureLayer {
   private stock: RollingStock | undefined;
   private trainFeature: Feature | undefined;
   readonly ground: Ground;
+  private readonly surface: Ground;
 
   constructor(
     world: World,
@@ -61,6 +81,12 @@ export class FeatureLayer {
   ) {
     const scene = world.scene;
     this.ground = (x, z) => world.terrain.heightAt(toGrid({ x, z }));
+    const surface = new Surface(world.terrain.mesh.getVerticesData(VertexBuffer.PositionKind) ?? []);
+    const onSurface: Ground = (x, z) => surface.heightAt(x, z) ?? this.ground(x, z);
+    this.surface = onSurface;
+    console.info(
+      `dewidebug surface vs grid at centre: surface=${surface.heightAt(0, 0)?.toFixed(2) ?? 'none'} grid=${this.ground(0, 0).toFixed(2)}`,
+    );
     this.buildings = new Buildings(scene, footprints, this.ground);
     for (const m of this.buildings.meshes) world.addCaster(m);
     world.addLamp(this.buildings.windowMaterial);
@@ -79,19 +105,22 @@ export class FeatureLayer {
     const main = longestLine(railways);
     this.train = main ? new Train(scene, main, this.ground, trainModels) : undefined;
     const started = performance.now();
+    const covered = coveredFootprints(features, footprints);
+    const visible = (order: Int32Array): Int32Array => order.filter((i) => !covered.has(i));
+    console.info(`dewidebug features hide ${covered.size} OS footprints that are drawn as landmark models`);
     for (const f of features) {
       const { x, z } = toWorld(f.at);
       if (f.kind.type === 'town') {
-        const order = this.buildings.distanceOrder(f.at, f.kind.radius).slice(0, f.kind.nearest);
+        const order = visible(this.buildings.distanceOrder(f.at, f.kind.radius)).slice(0, f.kind.nearest);
         this.towns.set(f.id, { order, target: order.length });
         continue;
       }
       if (f.kind.type === 'countryside') {
-        const order = this.buildings.countrysideOrder(f.at, TOWN_CORE_RADIUS);
+        const order = visible(this.buildings.countrysideOrder(f.at, TOWN_CORE_RADIUS));
         this.towns.set(f.id, { order, target: Math.round(order.length * f.kind.share) });
         continue;
       }
-      const built = buildFeature(scene, f.kind, Math.floor(hash2(x, z, 7) * 1e6), this.ground, x, z);
+      const built = buildFeature(scene, f.kind, Math.floor(hash2(x, z, 7) * 1e6), onSurface, x, z);
       if (!built) continue;
       built.mesh.setEnabled(false);
       built.mesh.receiveShadows = true;
@@ -109,7 +138,7 @@ export class FeatureLayer {
     const out: Clearing[] = [];
     for (const p of present) {
       if (p.presence < 0.35) continue;
-      const r = CLEARING[p.feature.kind.type];
+      const r = clearingOf(p.feature.kind);
       if (r === 0) continue;
       const { x, z } = toWorld(p.feature.at);
       out.push({ x, z, radius: r });
@@ -146,12 +175,16 @@ export class FeatureLayer {
           style: 'hearth',
           fire: false,
         });
-      } else if (k.type === 'mansion') {
+      } else if (k.type === 'building' && k.condition === 'standing' && k.plan.hearth) {
+        const across = planWorldScale(k.plan).across;
+        const [hx, hz] = rotate(k.plan.hearth, k.plan.angle ?? 0);
+        const sx = x + hx * across;
+        const sz = z + hz * across;
         out.push({
           key: p.feature.id,
-          x,
-          y: y + 3,
-          z,
+          x: sx,
+          y: this.surface(sx, sz) + 3,
+          z: sz,
           spread: 1.5,
           density: 0.5,
           style: 'hearth',

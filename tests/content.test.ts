@@ -210,3 +210,68 @@ describe('key-date camera shots', () => {
     expect(outside).toEqual([]);
   });
 });
+
+describe('building plans', () => {
+  const plans = W.features.flatMap((f) =>
+    f.kind.type === 'building' ? [{ id: f.id, plan: f.kind.plan }] : [],
+  );
+  const parts = (id: string) => plans.find((p) => p.id === id)?.plan.parts ?? [];
+
+  it('keeps every platform convex, as the levelling assumes', () => {
+    const bent: string[] = [];
+    for (const { id, plan } of plans)
+      for (const part of plan.parts) {
+        if (part.type !== 'platform') continue;
+        const o = part.outline;
+        const turns = o.map((a, i) => {
+          const b = o[(i + 1) % o.length] ?? a;
+          const c = o[(i + 2) % o.length] ?? a;
+          return Math.sign((b[0] - a[0]) * (c[1] - b[1]) - (b[1] - a[1]) * (c[0] - b[0]));
+        });
+        if (new Set(turns.filter((t) => t !== 0)).size > 1) bent.push(id);
+      }
+    expect(bent).toEqual([]);
+  });
+
+  it('draws the documented dimensions', () => {
+    const cc = parts('carreg-cennen-giffard');
+    const walls = cc.flatMap((p) => (p.type === 'wall' ? p.path : []));
+    const xs = walls.map((p) => p[0]);
+    const ys = walls.map((p) => p[1]);
+    expect(Math.max(...xs) - Math.min(...xs)).toBe(60);
+    expect(Math.max(...ys) - Math.min(...ys)).toBe(60);
+    const inner = parts('carreg-cennen-inner').flatMap((p) => (p.type === 'platform' ? p.outline : []));
+    expect(Math.max(...inner.map((p) => p[0])) - Math.min(...inner.map((p) => p[0]))).toBe(32);
+    expect(Math.max(...inner.map((p) => p[1])) - Math.min(...inner.map((p) => p[1]))).toBe(28);
+    expect(cc.some((p) => p.type === 'tower' && p.shape === 'round' && p.size === 8)).toBe(true);
+    expect(cc.filter((p) => p.type === 'tower' && p.shape === 'octagonal')).toHaveLength(2);
+
+    const bridges = parts('bridge').flatMap((p) => (p.type === 'bridge' ? [p] : []));
+    const bridge = bridges[0];
+    expect(bridge && Math.hypot(bridge.to[0] - bridge.from[0], bridge.to[1] - bridge.from[1])).toBeCloseTo(
+      110.6,
+      1,
+    );
+    expect(bridge?.arches[0]).toMatchObject({ span: 44.2, rise: 12.65 });
+
+    const towers = parts('talley-abbey').flatMap((p) => (p.type === 'tower' ? [p] : []));
+    expect(towers[0]?.height).toBe(29);
+    const ruin = towers[0]?.ruin;
+    expect(ruin && ruin !== 'gone' ? ruin.stands * 29 : 0).toBeCloseTo(26);
+
+    expect(parts('dinefwr-castle').some((p) => p.type === 'tower' && p.size === 12)).toBe(true);
+  });
+
+  it('labels a building reconstructed where the research does not give its form', () => {
+    const guessed = [
+      'clas-church',
+      'carreg-cennen-welsh',
+      'dinefwr-rhys',
+      'newton-house',
+      'newton-house-turrets',
+      'golden-grove-earlier',
+    ];
+    const wrong = W.features.filter((f) => guessed.includes(f.id) && f.provenance.kind !== 'reconstructed');
+    expect(wrong.map((f) => f.id)).toEqual([]);
+  });
+});
