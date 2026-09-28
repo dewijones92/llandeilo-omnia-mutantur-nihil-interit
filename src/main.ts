@@ -5,6 +5,8 @@ import { toWorld } from './domain/geo.ts';
 import { isLang } from './domain/i18n.ts';
 import { STRINGS } from './content/strings.ts';
 import { snapshotAt, snapTarget } from './domain/state.ts';
+import { keySteps, shotFor, type Step } from './domain/steps.ts';
+import type { Framing } from './domain/model.ts';
 import { tAt } from './domain/timeline.ts';
 import { ad, year } from './domain/time.ts';
 import {
@@ -34,6 +36,11 @@ import { World } from './world/scene.ts';
 
 const SNAP_RADIUS = 0.009;
 const MOMENT_RADIUS = 0.01;
+const FRAMING_RADIUS: Readonly<Record<Exclude<Framing, 'valley'>, number>> = {
+  close: 160,
+  site: 420,
+  area: 950,
+};
 
 async function start(): Promise<void> {
   const params = new URLSearchParams(location.search);
@@ -83,6 +90,9 @@ async function start(): Promise<void> {
   if (Number.isFinite(yearParam)) t = tAt(content.timeline, year(yearParam));
   if (!Number.isFinite(t)) t = tAt(content.timeline, ad(1282));
 
+  const places = new Map(content.places.map((p) => [p.id, p]));
+  const steps = keySteps(content.timeline, content.events);
+  let goToShot: (step: Step) => void = () => undefined;
   const timeline = new TimelineBar(content.timeline, content.eras, content.events, store, {
     onScrub(next) {
       t = next;
@@ -91,7 +101,11 @@ async function start(): Promise<void> {
     onRelease(next) {
       const target = snapTarget(content, next, SNAP_RADIUS);
       console.info(`dewidebug slider release t=${next.toFixed(4)} snap=${target?.id ?? 'none'}`);
-      if (target) timeline.animateTo(tAt(content.timeline, target.when.from));
+      const step = target ? steps.find((st) => st.event.id === target.id) : undefined;
+      if (step) timeline.arrive(step);
+    },
+    onArrive(step) {
+      goToShot(step);
     },
   });
   timeline.set(t);
@@ -117,6 +131,18 @@ async function start(): Promise<void> {
     flight.flyHome();
     home.hidden = true;
   });
+  goToShot = (step: Step): void => {
+    const shot = shotFor(step.event, places);
+    console.info(`dewidebug shot event=${step.event.id} framing=${shot?.framing ?? 'valley'}`);
+    if (!shot) {
+      flight.flyHome();
+      home.hidden = true;
+      return;
+    }
+    const { x, z } = toWorld(shot.at);
+    flight.flyTo(new Vector3(x, features.ground(x, z), z), FRAMING_RADIUS[shot.framing], 0.98);
+    home.hidden = false;
+  };
   const labels = new PlaceLabels(world.scene, content.places, features.ground, store, (place, at) => {
     console.info(`dewidebug visit place=${place.id}`);
     flight.flyTo(at, 420, 0.98);
@@ -191,6 +217,11 @@ async function start(): Promise<void> {
   panel.onVisibility = compact;
   info.onVisibility = compact;
   document.addEventListener('keydown', (e) => {
+    if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && document.activeElement === document.body) {
+      e.preventDefault();
+      timeline.step(e.key === 'ArrowRight' ? 1 : -1);
+      return;
+    }
     if (e.key !== 'Escape') return;
     if (document.querySelector('.prov-wrap.open') || document.activeElement?.closest('.prov-wrap')) return;
     if (panel.open) panel.close();

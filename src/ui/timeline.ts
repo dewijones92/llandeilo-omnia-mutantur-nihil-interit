@@ -2,6 +2,7 @@ import { clamp } from '../domain/assert.ts';
 import type { Era, KeyEvent } from '../domain/model.ts';
 import { latestStarting } from '../domain/state.ts';
 import { formatYear } from '../domain/time.ts';
+import { keySteps, stepAt, stepFrom, type Step } from '../domain/steps.ts';
 import { tAt, yearAt, type Timeline } from '../domain/timeline.ts';
 import { h } from './dom.ts';
 import type { LangStore } from './store.ts';
@@ -9,6 +10,7 @@ import type { LangStore } from './store.ts';
 export interface TimelineCallbacks {
   onScrub(t: number): void;
   onRelease(t: number): void;
+  onArrive(step: Step): void;
 }
 
 export class TimelineBar {
@@ -23,6 +25,10 @@ export class TimelineBar {
   private t = 0;
   private dragging = false;
   private animation = 0;
+  private readonly steps: readonly Step[];
+  private readonly prev: HTMLButtonElement;
+  private readonly next: HTMLButtonElement;
+  private readonly counter: HTMLElement;
 
   constructor(
     private readonly timeline: Timeline,
@@ -31,6 +37,16 @@ export class TimelineBar {
     private readonly store: LangStore,
     private readonly cb: TimelineCallbacks,
   ) {
+    this.steps = keySteps(timeline, events);
+    this.prev = h('button', { class: 'tool tl-step', type: 'button' }, `◀ ${store.t('previous')}`);
+    this.next = h('button', { class: 'tool tl-step', type: 'button' }, `${store.t('next')} ▶`);
+    this.counter = h('span', { class: 'tl-counter', 'aria-live': 'polite' });
+    this.prev.addEventListener('click', () => {
+      this.step(-1);
+    });
+    this.next.addEventListener('click', () => {
+      this.step(1);
+    });
     this.yearEl = h('span', { class: 'tl-year' });
     this.eraEl = h('span', { class: 'tl-era' });
     this.bands = h('div', { class: 'tl-bands', 'aria-hidden': 'true' });
@@ -55,7 +71,13 @@ export class TimelineBar {
     this.el = h(
       'section',
       { class: 'timeline panel', 'aria-label': store.t('timeline') },
-      h('div', { class: 'tl-readout' }, this.yearEl, this.eraEl),
+      h(
+        'div',
+        { class: 'tl-readout' },
+        this.yearEl,
+        this.eraEl,
+        h('span', { class: 'tl-nav' }, this.prev, this.counter, this.next),
+      ),
       h('div', { class: 'tl-rail' }, this.track, this.markers),
       this.ticks,
       hint,
@@ -66,6 +88,8 @@ export class TimelineBar {
       this.el.setAttribute('aria-label', store.t('timeline'));
       this.track.setAttribute('aria-label', store.t('timeline'));
       hint.textContent = store.t('sliderHint');
+      this.prev.textContent = `◀ ${store.t('previous')}`;
+      this.next.textContent = `${store.t('next')} ▶`;
       this.render();
       this.set(this.t);
     });
@@ -85,10 +109,35 @@ export class TimelineBar {
     this.eraEl.textContent = era ? era.name[lang] : '';
     this.el.style.setProperty('--era', era?.colour ?? '#667085');
     this.track.setAttribute('aria-valuenow', String(Math.round(this.t * 1000)));
+    this.updateNav();
     this.track.setAttribute(
       'aria-valuetext',
       `${this.yearEl.textContent}${era ? `, ${era.name[lang]}` : ''}`,
     );
+  }
+
+  step(direction: 1 | -1): void {
+    const target = stepFrom(this.steps, this.t, direction);
+    console.info(
+      `dewidebug timeline step dir=${direction} from=${this.t.toFixed(4)} to=${target?.event.id ?? 'none'}`,
+    );
+    if (target) this.arrive(target);
+  }
+
+  arrive(target: Step): void {
+    this.animateTo(target.t, () => {
+      this.cb.onArrive(target);
+    });
+  }
+
+  private updateNav(): void {
+    const here = stepAt(this.steps, this.t);
+    const lang = this.store.lang;
+    this.prev.disabled = !stepFrom(this.steps, this.t, -1);
+    this.next.disabled = !stepFrom(this.steps, this.t, 1);
+    const text = here ? `${here.index + 1} / ${this.steps.length}` : '';
+    if (this.counter.textContent !== text) this.counter.textContent = text;
+    this.counter.title = here ? here.event.title[lang] : '';
   }
 
   animateTo(target: number, done?: () => void): void {
@@ -141,6 +190,11 @@ export class TimelineBar {
         m.style.left = `${t * 100}%`;
         m.addEventListener('click', (e) => {
           e.stopPropagation();
+          const target = this.steps.find((st) => st.event.id === ev.id);
+          if (target) {
+            this.arrive(target);
+            return;
+          }
           this.animateTo(t, () => {
             this.cb.onRelease(t);
           });
@@ -189,13 +243,14 @@ export class TimelineBar {
     this.track.addEventListener('pointerup', end);
     this.track.addEventListener('pointercancel', end);
     this.track.addEventListener('keydown', (e) => {
-      const magnetic = this.events.filter((ev) => ev.magnetic).map((ev) => tAt(this.timeline, ev.when.from));
       let target: number | undefined;
       if (e.key === 'ArrowRight' || e.key === 'ArrowUp') target = this.t + (e.shiftKey ? 0.02 : 0.002);
       else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') target = this.t - (e.shiftKey ? 0.02 : 0.002);
-      else if (e.key === 'PageUp') target = magnetic.find((m) => m > this.t + 0.0005) ?? 1;
-      else if (e.key === 'PageDown') target = [...magnetic].reverse().find((m) => m < this.t - 0.0005) ?? 0;
-      else if (e.key === 'Home') target = 0;
+      else if (e.key === 'PageUp' || e.key === 'PageDown') {
+        e.preventDefault();
+        this.step(e.key === 'PageUp' ? 1 : -1);
+        return;
+      } else if (e.key === 'Home') target = 0;
       else if (e.key === 'End') target = 1;
       if (target === undefined) return;
       e.preventDefault();

@@ -35,6 +35,14 @@ export interface KeyEvent {
   readonly place?: PlaceId;
   readonly magnetic: boolean;
   readonly provenance: Provenance;
+  readonly shot?: Shot;
+}
+
+export type Framing = 'close' | 'site' | 'area' | 'valley';
+
+export interface Shot {
+  readonly at?: GridRef;
+  readonly framing: Framing;
 }
 
 export type LanguageCode =

@@ -16,4 +16,7 @@ Decisions table once agreed, and work items to [`../todos/_index.md`](../todos/_
 | [`timeline-experience.md`](timeline-experience.md) | Previous/next through key dates, the camera going to the action, sound and visual effects per event |
 | [`conversations-by-class.md`](conversations-by-class.md) | Typical conversations at every key date, one per class of people, in the language each class spoke |
 | [`models.md`](models.md) | Realistic models for the important buildings and castles, phase by phase through time |
+| [`sound-and-assets.md`](sound-and-assets.md) | Immersive sound and other assets: generate, use a generative service, or find openly licensed ones |
+| [`feedback.md`](feedback.md) | Visitor feedback and corrections, ideally as GitHub issues: options and a recommendation |
+| [`analytics.md`](analytics.md) | Privacy-friendly analytics and error reporting: options and a recommendation |
 | [`ideas.md`](ideas.md) | A running ideas board: raised, discussed, parked or agreed |

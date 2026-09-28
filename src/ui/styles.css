@@ -936,3 +936,24 @@ button {
   margin-bottom: 0;
   font-size: 17px;
 }
+
+.tl-nav {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tl-step[disabled] {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.tl-counter {
+  min-width: 4.5ch;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}

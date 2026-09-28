@@ -61,6 +61,20 @@ e2e tests as not done.)
 - [ ] Performance: move land-cover classification to the GPU if recolouring is slow on real hardware
 - [ ] Remove or implement the unused `town.style` field
 
+## Proposed (under discussion)
+
+- [ ] In-app feedback: a Feedback button and a "Report a correction" link in every ⓘ, opening a
+      pre-filled GitHub issue, plus issue templates ([`design/feedback.md`](../design/feedback.md));
+      a relay only if family members lack GitHub accounts
+- [ ] Analytics: cookieless usage counts and custom events, plus anonymous load-error reporting
+      ([`design/analytics.md`](../design/analytics.md))
+- [ ] Immersive sound and assets: real recordings, spatial sound, generated or openly licensed
+      assets ([`design/sound-and-assets.md`](../design/sound-and-assets.md))
+- [ ] Conversations by class at every key date ([`design/conversations-by-class.md`](../design/conversations-by-class.md))
+- [ ] Accurate models of the important buildings, phase by phase ([`design/models.md`](../design/models.md))
+- [ ] Effects per event: train smoke and sound first ([`design/timeline-experience.md`](../design/timeline-experience.md))
+- [x] Previous / Next through key dates, with the camera flying to each (2026-09-28)
+
 ## Later phases (agreed)
 
 - [ ] Deep time before people: geology, the Ordovician Llandeilo stage, ice ages ([research](../research/deep-time-and-natural-history.md))

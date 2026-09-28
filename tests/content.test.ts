@@ -112,3 +112,20 @@ describe('assets', () => {
     expect(shipped.filter((f) => !ASSETS.some((a) => a.files.test(f)))).toEqual([]);
   });
 });
+
+describe('key-date camera shots', () => {
+  const places = new Map(W.places.map((p) => [p.id, p]));
+
+  it('frames a real place or asks for the whole valley at every magnetic key date', () => {
+    const unframed = W.events.filter((e) => e.magnetic && !e.shot && !e.place).map((e) => e.id);
+    expect(unframed).toEqual([]);
+  });
+
+  it('only points the camera inside the ten-mile disc', () => {
+    const outside = W.events
+      .map((e) => ({ id: e.id, at: e.shot?.at ?? (e.place ? places.get(e.place)?.at : undefined) }))
+      .filter((x) => x.at && Math.hypot(x.at.e - 262900, x.at.n - 222500) > 16093)
+      .map((x) => x.id);
+    expect(outside).toEqual([]);
+  });
+});

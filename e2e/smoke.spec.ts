@@ -115,3 +115,16 @@ test('switching to Welsh translates the moment card and the labels', async ({ pa
   await expect(page.locator('.label').first()).toHaveAttribute('title', /^Ymweld /);
   await expect(page.getByRole('slider')).toHaveAttribute('aria-label', 'Llinell amser');
 });
+
+test('Next and Previous step through key dates and fly the camera there', async ({ page }) => {
+  await page.goto('./?year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.tl-counter')).toHaveText(/^\d+ \/ \d+$/);
+  const start = await page.locator('.tl-counter').textContent();
+  await page.getByRole('button', { name: /Next/ }).click();
+  await expect(page.locator('.moment h2')).toHaveText('The siege of Dryslwyn');
+  await expect(page.getByRole('button', { name: 'Whole valley' })).toBeVisible();
+  await page.getByRole('button', { name: /Previous/ }).click();
+  await expect(page.locator('.tl-counter')).toHaveText(start ?? '');
+  await expect(page.locator('.moment h2')).toHaveText('Battle of Llandeilo Fawr');
+});

@@ -47,6 +47,8 @@ export const STRINGS = {
   flyTo: { en: 'Visit', cy: 'Ymweld' },
   todayName: { en: 'today', cy: 'heddiw' },
   playAll: { en: 'Play conversation', cy: 'Chwarae’r sgwrs' },
+  previous: { en: 'Previous', cy: 'Blaenorol' },
+  next: { en: 'Next', cy: 'Nesaf' },
   conversation: { en: 'Conversation', cy: 'Sgwrs' },
   imaginedBecause: { en: 'Imagined. Based on', cy: 'Dychmygol. Yn seiliedig ar' },
   keyDates: { en: 'key dates', cy: 'dyddiad allweddol' },

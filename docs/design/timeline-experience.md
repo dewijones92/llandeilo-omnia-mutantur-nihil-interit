@@ -11,6 +11,11 @@ Raised by Dewi, 2026-09-28. **Proposed, not built.**
 
 ## 1. Previous and next
 
+**Built 2026-09-28**: ◀ Previous and Next ▶ with a counter, PageUp/PageDown, and ← → when nothing
+is focused. Every magnetic key date has a camera shot (`shot` on the event: a framing of close, site,
+area or valley, and an optional point), and the camera flies there on Next, Previous, a marker click
+or a snap.
+
 Someone wanting to go through history in order needs **◀ Previous** and **Next ▶** buttons, not
 only a slider to drag.
 
