@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # Open questions
@@ -61,6 +61,13 @@ the app. They are recorded here so the notes and the app do not silently disagre
   (radar/magnetometer) are both partial.
 - **12,500 BC is the Late Upper Palaeolithic**, not the Mesolithic (timeline S1: the Palaeolithic
   ends c. 11,500 BP).
+- **Do the Late Glacial environment keyframes match calendar dates?** `src/content/timeline.ts`
+  draws 12,500 BC as the barest, coldest tundra (forest 0.02), 11,500 BC as a warmer blip and
+  10,900 BC cold again. In calendar years both 12,500 and 11,500 BC sit inside the milder
+  Bølling–Allerød interstadial (c. 12,700–10,900 BC, see findings), with the only cold snap inside
+  it (the Older Dryas) short. The keyframes may be an offset reading of uncalibrated pollen zones.
+  Needs a research pass with a Welsh or British Late Glacial source before changing them. (Raised
+  2026-09-28 by the atmosphere work, whose climate keys now follow the calendar dates.)
 - **St Teilo's west tower** dates from about 1600, so the medieval church is drawn without it.
 - **Longhouses** have no local medieval evidence; the note's claim rests on later mid-Wales
   examples. The Llys Rhosyr citation was wrong and is removed.

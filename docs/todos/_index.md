@@ -49,11 +49,22 @@ e2e tests as not done.)
 **Dewi, 2026-09-28: "I want this app to look amazing"**, with effect trickery from WebGPU or the
 engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 
-- [ ] Time of day: sun path, dawn and dusk colour, night with lit windows and stars
-- [ ] Seasons: spring blossom, summer green, autumn colour, winter frost and snow, per era's climate
-- [ ] Weather: rain, mist in the valley, low cloud on the Black Mountain
-- [ ] Engine effects: ambient occlusion, soft volumetric light shafts, depth-of-field tilt-shift,
-      water with reflections, colour grading per era, gentle wind in the trees
+- [x] Time of day: the real sun path for Llandeilo's latitude, dawn and dusk colour, a twilight
+      afterglow, moonlit night with stars and lit windows, morning mist; a slider, a "let the day
+      pass" button and `?hour=` (2026-09-28, see [`../design/atmosphere.md`](../design/atmosphere.md))
+- [x] Seasons: spring blossom and fresh green, summer hay, autumn leaves and bracken, winter bare
+      trees and a snow line that drops in colder periods (Younger Dryas, Little Ice Age); four
+      buttons and `?season=` (2026-09-28)
+- [ ] Weather: rain, mist in the valley, low cloud on the Black Mountain (morning mist only so far)
+- [x] Engine effects, first pass: depth-of-field tilt-shift, colour grading by light (warm
+      highlights at golden hour, cool shadows at night), night bloom on windows, flowing ripples
+      and sky reflection on the rivers, a sun and moon glow in the sky, smoke that darkens at night,
+      `?fx=low` to switch the costly ones off
+- [ ] Engine effects, still to do: ambient occlusion (SSAO2 costs bundle budget: about 435KB of
+      450KB used), volumetric light shafts, real water reflections, colour grading per era, wind in the trees
+- [x] Firelight at night for roundhouses, hall-houses and mansions, and lit town windows (2026-09-28)
+- [ ] Castles, churches and the abbey lit at night (candles, torches), and a train headlamp
+- [ ] Sound follows the clock: birds at dawn, owls and quiet at night
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (the `town.style` field is not yet read by the renderer)
@@ -94,6 +105,20 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 
 ## 💡 Ideas (not agreed)
 
+From Dewi, 2026-09-28 (raised during the atmosphere work; see [`../design/ideas.md`](../design/ideas.md)):
+
+- 💡 **Animals through time**, from before there were any: Ordovician seas (the Llandeilo stage's
+  fossils), then the ice-age tundra herds, the wildwood's aurochs, elk, boar, wolves, bears and
+  beavers, the first farmed cattle, sheep and pigs, deer parks and hunting, red kites, salmon in the
+  Tywi, drovers' herds. Animals that roam, graze by season, are hunted, farmed and disappear, each
+  one only where the research supports it (the deep-time note has an arrivals and extinctions table)
+- 💡 **People arriving from afar**: Roman soldiers marching to the fort, English armies in 1282,
+  the canons coming to Talley, merchants and pilgrims, drovers leaving for England, railway navvies,
+  evacuees, visitors today. Shown as journeys along the roads and river into the valley, with where
+  they came from
+- 💡 **A way to support the project**: a donation link (platform for Dewi to choose, e.g. GitHub
+  Sponsors or Ko-fi) in the About panel and on the README, with no tracking
+
 The living ideas board, with status per idea, is [`../design/ideas.md`](../design/ideas.md). New
 design proposals from 2026-09-28: previous/next and camera shots per key date, effects per event,
 conversations by class at every key date, realistic landmark models ([`../design/`](../design/README.md)).
@@ -101,7 +126,7 @@ conversations by class at every key date, realistic landmark models ([`../design
 
 - 💡 A guided tour: "play history" that moves the slider through the key dates with narration
 - 💡 Shareable links that keep the camera view, not just the year and place
-- 💡 Seasons and day/night, with weather per era (the Little Ice Age, the Medieval Warm Period)
+- 💡 Weather per era (the seasons and day/night are built; rain, storms and snowfall are not)
 - 💡 "What was here?" click anywhere on the map for the almanac of that spot
 - 💡 Compare two years side by side, or a before/after wipe
 - 💡 A family-tree panel for the imagined bloodline

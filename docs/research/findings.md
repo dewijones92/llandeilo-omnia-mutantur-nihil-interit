@@ -56,6 +56,12 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
 - Pollen-zone dates in the deep-time note are **uncalibrated**; the Younger Dryas is c. 10,900–9,700 BC
   in calendar years, not 8,800–8,300 BC.
 - 12,500 BC is the Late Upper Palaeolithic, not the Mesolithic.
+- 12,500 BC also falls inside the **Late Glacial (Bølling–Allerød) interstadial**, a milder spell
+  of c. 14,690–12,890 BP, about 12,700–10,900 BC (Wikipedia, "Bølling–Allerød warming", read
+  2026-09-28: a lead, not yet a note source; it agrees with the Younger Dryas start of 12,900 BP in
+  the deep-time note's S8). The climate "chill" used for seasons treats it as milder than the
+  Younger Dryas. (Added 2026-09-28, after a review caught a first draft that treated 12,500 BC as
+  the coldest point.)
 - St Teilo's west tower dates from about 1600.
 - Longhouse evidence is later and from mid Wales; the medieval ones in the app are marked imagined.
 

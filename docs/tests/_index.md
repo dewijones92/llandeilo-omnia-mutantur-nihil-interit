@@ -2,7 +2,7 @@
 title: Testing
 kind: index
 status: current
-updated: 2026-09-26
+updated: 2026-09-28
 ---
 
 # Testing
@@ -10,9 +10,9 @@ updated: 2026-09-26
 | Layer | Tool | Covers |
 |---|---|---|
 | Types | `tsc` (strict) | Provenance cannot be documented without a source; citations must exist; feature kinds are exhaustive |
-| Unit | Vitest (`src/**/*.test.ts`) | Timeline mapping, year formatting incl. fractional slider years, heightfield sampling, feature presence windows, half-open era lookup |
+| Unit | Vitest (`src/**/*.test.ts`) | Timeline mapping, year formatting incl. fractional slider years, heightfield sampling, feature presence windows, half-open era lookup; sun position (noon due south, east/west, short winter days), day phases, lighting by hour (warm dusk, moonlit night with stars and windows, mist, smooth changes), season looks and the climate snow line, `?hour=`/`?season=` parsing |
 | Content integrity | Vitest (`tests/content.test.ts`) | Unique ids; every place, person and source reference resolves; documented items have sources; conversations are imagined; an era for every slider position; key dates far enough apart to scrub; an up-to-date voice clip per line and no orphans; a licence record for every shipped file |
-| End to end | Playwright (`e2e/`) | Load and keyboard scrubbing (no snap-back); Welsh switch updating moment, labels and slider label; a conversation from its bubble; almanac, language and sound; the 3D view receiving the mouse through overlays; place flights; provenance popovers with sources and Escape |
+| End to end | Playwright (`e2e/`) | Load and keyboard scrubbing (no snap-back); Welsh switch updating moment, labels and slider label; a conversation from its bubble; almanac, language and sound; the 3D view receiving the mouse through overlays; place flights; provenance popovers with sources and Escape; time of day and season controls (keyboard, URL, Welsh, the lighting reaching the renderer via the debug overlay) and letting the day pass |
 | Visual | Screenshots via `tools/shot.mjs` | Overview and close-ups at chosen years, checked by eye before every deploy |
 | CI | GitHub Actions | Source sync, format, types, lint, unit, knip, build, e2e, then deploy |
 

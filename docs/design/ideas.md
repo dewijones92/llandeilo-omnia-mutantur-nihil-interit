@@ -23,14 +23,18 @@ Add freely; nothing here is a commitment.
 | In-app feedback and corrections, into GitHub issues | 🗣️ discussing | See [`feedback.md`](feedback.md); recommend a pre-filled issue link first |
 | Analytics or usage tracking | 🗣️ discussing | See [`analytics.md`](analytics.md); recommend cookieless (no banner) |
 | Realistic models of important buildings through time | 🗣️ discussing | Conflicts with the agreed low-poly look: see [`models.md`](models.md) |
+| Time of day and seasons, "look amazing" | ✅ agreed | Built 2026-09-28: see [`atmosphere.md`](atmosphere.md) |
+| Animals through time, from before there were any: roaming, grazing, hunted, farmed, dying out | 💭 raised | Needs the deep-time arrivals/extinctions table turned into content; one animal model per kind, not per era |
+| People travelling in from afar (Romans, armies, canons, drovers, navvies, evacuees) | 💭 raised | Journeys along the real roads and river; each group only where a source puts them here |
+| A donation link in the app and on the README | 💭 raised | Dewi to choose the platform; no tracking |
 
 ## From Claude (for discussion)
 
 | Idea | Status | Notes |
 |---|---|---|
 | Guided tour: a play button that steps the key dates with camera, sound and narration | 💭 raised | Builds on Next/Previous and the camera shots |
-| "A day in 1282": morning to night at one key date, with activity changing | 💭 raised | Day/night lighting would help everywhere |
-| Seasons and weather per era (Little Ice Age snow, harvest) | 💭 raised | Needs climate research by period |
+| "A day in 1282": morning to night at one key date, with activity changing | 💭 raised | Day/night lighting is built (2026-09-28); activity by hour is not |
+| Seasons and weather per era (Little Ice Age snow, harvest) | 🗣️ discussing | Seasons built 2026-09-28 with a climate "chill" per period from the deep-time note; weather not yet |
 | Follow the family: a mode that jumps only to the family's scenes | 💭 raised | Plus a family-tree panel |
 | "What was here?": click any spot for its history across time | 💭 raised | Needs per-place data beyond the key sites |
 | Before/after wipe between two years | 💭 raised | Good for the castles |
