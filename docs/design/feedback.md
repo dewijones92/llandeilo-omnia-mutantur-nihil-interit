@@ -44,7 +44,9 @@ That is the deciding question.
 - Issue templates (built 2026-09-29): *Historical correction* (what is wrong, where, a source if
   they have one), *Idea* (labelled `enhancement`), *Bug* (labelled `bug`). The correction form has
   no label until a `correction` label exists.
-- The pre-filled body includes: the item id and provenance, the year, the place, the page URL with
-  `?year=` and `?place=`, the app version (commit), and the language.
+- Issue forms ignore `body=`; each field is pre-filled by its id instead (for example
+  `?template=correction.yml&where=1850,+Garn+Goch&wrong=…`). The pre-filled fields should carry:
+  the item id and provenance, the year, the place, a page URL with `?year=` and `?place=` built from
+  the current view, the app version (commit), and the language.
 - Keep the URL under GitHub's length limit by linking rather than pasting long text.
 - Privacy: the issue is public; the form should say so.

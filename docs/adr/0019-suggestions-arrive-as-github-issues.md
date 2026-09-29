@@ -19,7 +19,7 @@ Google-gated private area (a second committer and a proxy), or giving people pus
 
 ## Decision
 
-- **Issues are the way in, the board stays the record.** `.github/ISSUE_TEMPLATE/` has three forms:
+- **Issues are the way in, the repo stays the record.** `.github/ISSUE_TEMPLATE/` has three forms:
   a historical correction (asks for a source, if they have one), an idea, and a bug. Each says the
   issue is public, as are the person's GitHub name and picture, and asks for no names or details of
   living people. Blank issues are off, so every issue shows that warning.
