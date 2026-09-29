@@ -2,12 +2,21 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-09-28
+updated: 2026-09-29
 ---
 
 # Backlog
 
-The one list of agreed and proposed work. Unagreed ideas live on the ideas board,
+## On the board (pilot, 2026-09-29)
+
+Some items now live on the board: one file per task in [`tasks/`](tasks/), ids `T-NNN`, viewed and
+dragged with `npm run board` (http://127.0.0.1:5052). A card that has not met its column's gates
+fails `npm run check`, the pre-push hook and CI ([ADR 0018](../adr/0018-backlog-as-a-gated-board.md)).
+An item is on the board or in this file, never both; the rest move once the pilot is judged.
+
+## This list
+
+The one list of agreed and proposed work not yet on the board. Unagreed ideas live on the ideas board,
 [`../design/ideas.md`](../design/ideas.md); the "Proposed" section below is under discussion. Tick items off in the same commit that
 does them. (Corrected 2026-09-28: this file had gone stale, still listing the review and the extra
 e2e tests as not done.)
@@ -37,7 +46,6 @@ e2e tests as not done.)
 - [ ] Second research pass on the gaps in [`open-questions.md`](../research/open-questions.md):
       the primary Roman forts report, Brut y Tywysogion on 1282, Gerald of Wales on clothing,
       Victorian wages and prices, Dryslwyn after 1287, a sourced 1588 Bible passage
-- [ ] Talley Abbey: replace Wikipedia coordinates with a Coflein or Cadw grid reference
 - [ ] 1282 moment card: add that the primary annal reads 16 June (keep "sources differ")
 - [ ] Roman forts: use the primary report's 3.85ha and 1.54ha to revisit the "8 vs 12 acres" contradiction
 - [ ] Earliest environment keyframes (12,500–10,900 BC): check they use calendar, not uncalibrated pollen, dates
@@ -50,9 +58,6 @@ e2e tests as not done.)
 - [ ] Mark research notes `reviewed` once each has had an independent pass against its sources
 - [ ] Remaining eras filled in: Roman in depth, early medieval, Tudor and Stuart, Georgian, modern
 - [ ] More conversations per era, and the family at more key dates
-- [ ] **Wild animals through time** (Dewi, 2026-09-28): which wild animals roamed the valley in each
-      era, arriving and dying out (wolf, bear, lynx, beaver, boar, red kite and pine marten returning),
-      shown in the scene and the almanac, each sourced and with its "here or only in Wales" status
 - [ ] **What people did for a living, by class, in each era** (Dewi, 2026-09-28): farming, crafts,
       trades, service, clergy, soldiering, industry (lime burning, woollen mills, the railway), grouped
       by class, in the almanac and grounding the conversations; research first
@@ -82,7 +87,6 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Castles, churches and the abbey lit at night (candles, torches), and a train headlamp
 - [ ] Sound follows the clock: birds at dawn, owls and quiet at night
 - [ ] Conversations and speech bubbles follow the clock: nobody chatting outdoors at 3am
-- [ ] Rivers stay vivid blue at night while the land goes dark; darken them with the sky (seen 2026-09-28)
 - [ ] Re-check autumn trees at overview distance by screenshot (the "glitter" fix was never re-shot)
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
@@ -99,9 +103,6 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 
 ## Quality (from the reviews, deferred)
 
-- [ ] Timeline tick labels overlap at both ends ("12,500 BC" over "8,300 BC", "1950" over "2026")
-- [ ] e2e: give each checkout its own preview port; locally Playwright reuses whatever server is on
-      4173, so a run can silently test another agent's build (seen 2026-09-28)
 - [ ] The train is rigid: carriages cut across curves instead of following the track; judge its speed on a real GPU
 - [ ] Purity lint as an allow-list rather than a deny-list (or a separate tsconfig without DOM for domain/content)
 - [ ] Place labels: "(today)" for the Roman forts too; review each place's `namedFrom`

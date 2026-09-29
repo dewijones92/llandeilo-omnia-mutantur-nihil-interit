@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-09-28
+updated: 2026-09-29
 ---
 
 # Build log
@@ -133,3 +133,54 @@ Milestones and what each one taught us. Newest last.
    Playwright reuses an existing server locally, so the first run tested someone else's code. Rerun
    against this branch's own preview on a private port: 10 passed. Built in a worktree by a parallel agent and merged into main on 2026-09-28.
 
+## 2026-09-29
+
+1. **The backlog became a board** (pilot, [ADR 0018](../adr/0018-backlog-as-a-gated-board.md)):
+   Backlog.md task files in `docs/todos/tasks/`, `npm run board` on :5052, and gates in
+   `tools/todos/rules.ts` run by `npm run check`, pre-push and CI. Five agreed items moved across.
+2. **Proved against the real tool, not its docs.** A summary of Backlog.md claimed it blocks Done
+   while checklist items are open; its source does not. A card pushed past each gate made the check
+   fail for the right reason. An invented `agreed_on:` key survived a save that changed nothing but
+   vanished on a save that did, which is why the validator rejects unknown keys. Removing each gate
+   in turn made its unit test fail.
+3. **`npx backlog` is a different package** (`backlog@1.4.56`); use the repo's own install
+   (`npm run board`, or `npx --no-install backlog`).
+4. **The validator reads the files itself** with `yaml`. The CLI's `task list --json` (one call, 0.37s)
+   leaves out `documentation`, `dependencies` and the raw frontmatter keys, and `task view --json`
+   takes 0.37s per task, about 37s for 100: too slow for the pre-push hook.
+5. **The board only links `http(s)` references**, so a repo path shows as plain text. Links are now
+   GitHub URLs that the validator maps back to repo paths (Dewi chose this over an upstream PR).
+6. **Independent Opus review**: no CRITICAL, 3 IMPORTANT, all fixed. The gates were keyed to the
+   config's column order, so swapping two columns silently moved the research gate (the columns are
+   now pinned, in order); the file parsing had no tests and two gate behaviours none either (moved into
+   `files.ts` and tested); an unagreed idea had been
+   copied onto the board while still on the ideas board (moved back). Also taken: the tool's own
+   checklist pattern, distinct whole years only, `..` paths rejected, malformed fields and YAML reported
+   rather than skipped or thrown, `.locks/` ignored, Node ≥22.18 for running `.ts`.
+7. **Verification review of the fixes**: the gate fixes held; 2 IMPORTANT in the new links, both
+   fixed. The link base was a plain text prefix, so a missing or `git+….git` `repository.url` turned
+   every link into an unchecked "web" link, and so did any other spelling of a link into this repo
+   (another branch, a permalink, `http`, `www`, `raw`), while an `#anchor` could never pass. Links are
+   now parsed as URLs, must be written as the one canonical URL, and a bad `repository` fails the
+   check. `new URL()` resolves `../` and `%2e%2e` by itself, which is why the link is compared as
+   written. Seven changes the reviewer could make without a test failing are now pinned; every rule
+   was then broken once on purpose and a test failed each time (one check turned out redundant with
+   the canonical comparison and was removed).
+8. **The pre-push hook checks the pushed commits** (`check.ts --ref <sha>`, reading the files through
+   `git show`), so an uncommitted drag on the board no longer blocks an unrelated push. An integration
+   test builds a real git repo and shows the commit passing while the working tree fails.
+9. **The whole lifecycle, driven through the board in a browser** (Playwright, a throwaway copy of the
+   repo on its own port): create a `content` card, drag it column by column to Done, link its note,
+   tick its criteria, record its review, running the validator after every step. 16 steps, all as
+   expected. It found two things no unit test could. The board **cannot add Documentation** (it only
+   displays it), so the research gate now reads References too and the notes moved there. And the board
+   writes a long URL as a folded YAML value (`- >-` then the URL on the next line), which only a real
+   YAML parser reads correctly, so the validator must never read these files with a regex.
+10. **Third review round** (the changes after the browser run): no CRITICAL, 2 IMPORTANT, both fixed.
+    Every URL into this repo was read as a file link, so a card citing one of its own issues or pull
+    requests would have blocked every push; only file routes (`blob`, `tree`, `raw`) map to paths now.
+    And the pre-push check failed any pushed commit from before the board existed; it now skips a
+    commit with no `backlog.config.yml`. Also taken: case-exact routes and paths, encoded `/` rejected,
+    a trailing-dot host recognised, the hook reading its push list before anything else runs, and
+    commit-mode tests for a note reviewed on disk but not in the commit and for an uncommitted linked
+    file. Each fix was broken once on purpose and a test failed each time.

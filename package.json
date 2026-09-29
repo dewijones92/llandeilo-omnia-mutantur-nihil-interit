@@ -5,8 +5,12 @@
   "type": "module",
   "description": "Llandeilo and 10 miles around it, through all of human history: an interactive 3D timeline.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit"
+  },
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.18.0"
   },
   "scripts": {
     "dev": "vite --port 5051 --strictPort --host",
@@ -20,13 +24,16 @@
     "test:watch": "vitest",
     "e2e": "playwright test",
     "knip": "knip",
-    "check": "npm run format:check && npm run typecheck && npm run lint && npm run test && npm run knip"
+    "todos": "node tools/todos/check.ts",
+    "board": "backlog browser --no-open",
+    "check": "npm run format:check && npm run typecheck && npm run lint && npm run test && npm run knip && npm run todos"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "1.63",
     "@types/node": "^24.19.0",
     "@vitest/coverage-v8": "^5.0.2",
+    "backlog.md": "1.53.0",
     "eslint": "^10.11.0",
     "globals": "^17.12.0",
     "knip": "^6.38.0",
@@ -34,7 +41,8 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.1",
     "vite": "^8.3.1",
-    "vitest": "^5.0.2"
+    "vitest": "^5.0.2",
+    "yaml": "^2.9.1"
   },
   "dependencies": {
     "@babylonjs/core": "^9.28.0",

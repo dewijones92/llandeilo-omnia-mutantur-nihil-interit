@@ -9,7 +9,7 @@ updated: 2026-09-28
 
 Ideas and guides for how the app should feel, gathered in discussion with Dewi. **Status: proposed.**
 Nothing here is built or agreed yet unless a section says so; decisions move to `CLAUDE.md`'s
-Decisions table once agreed, and work items to [`../todos/_index.md`](../todos/_index.md).
+Decisions table once agreed, and work items to the board or [`../todos/_index.md`](../todos/_index.md).
 
 | Guide | About |
 |---|---|

@@ -2,7 +2,7 @@
 title: Decision log
 kind: log
 status: current
-updated: 2026-09-28
+updated: 2026-09-29
 ---
 
 # Decision log
@@ -62,3 +62,13 @@ with the full context and consequences.
 | Allow short, useful code comments in this repo (a why, a gotcha, a convention, a tuned number), never narration | Dewi: "yes override the rule for this repo" |
 | Confirmed as Dewi's: animals from before people, people arriving from afar, a donation link; the donation platform left to Claude, who picked GitHub Sponsors (no new account, no tracking) | Dewi: "all good, up to u" |
 | Keep 12,500 BC without summer snow (it falls in the milder Late Glacial interstadial in calendar years) | Dewi: "ok" |
+
+## 2026-09-29: the backlog as a gated board
+
+| Decision | Why |
+|---|---|
+| Keep the backlog as task files in the repo, with a board GUI that edits them, rather than making a board (GitHub Projects) the source of truth | Dewi asked "would it make sense to have the kanban board as the source of truth?"; a board's fields cannot enforce gates, the evidence would live in two places, and on a public repo every status change is public. [ADR 0018](../adr/0018-backlog-as-a-gated-board.md) |
+| Use Backlog.md, not a fork of it | Dewi: "does it have what we need?" It has all but the gating, which is ours to write anyway; upstream moves too fast to keep a fork in step |
+| Gate on push and in CI, not at drag time | The tool has no hook that can refuse a move; a blocking hook goes upstream as a PR only if push-time gating proves too late |
+| Pilot with five agreed items first; unagreed ideas stay on the ideas board for now | Dewi: "yes go ahead with the pilot"; where ideas live is for a later discussion |
+| Link repo files from a task as GitHub URLs so the board can open them | Dewi chose option A: the board only links `http(s)` references |
