@@ -6,7 +6,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you. This issue is public, so please leave out anything private about yourself or anyone else.
+        Thank you. Welsh or English is fine.
+
+        This issue is public, and so are your GitHub name and picture on it. Please leave out the names
+        and details of living people, yourself included. You can drag a screenshot into any box.
   - type: textarea
     id: happened
     attributes:
@@ -18,17 +21,12 @@ body:
     attributes:
       label: What did you expect?
   - type: input
-    id: link
+    id: where
     attributes:
-      label: The page link
-      description: Copy it from the address bar; it keeps the year and place.
+      label: What were you looking at?
+      description: The year and the place shown on screen, for example "1850, Garn Goch".
   - type: input
     id: browser
     attributes:
       label: Browser and computer
       description: For example Chrome on Windows, or Safari on a Mac.
-  - type: textarea
-    id: debug
-    attributes:
-      label: Debug readout
-      description: Optional. Add ?debug to the address and paste what the box in the corner says.

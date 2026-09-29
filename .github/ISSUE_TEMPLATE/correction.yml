@@ -5,7 +5,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you. This issue is public, so please leave out anything private about yourself or anyone else.
+        Thank you. Welsh or English is fine.
+
+        This issue is public, and so are your GitHub name and picture on it. Please leave out the names
+        and details of living people, yourself included. You can drag a screenshot into any box.
   - type: textarea
     id: wrong
     attributes:
@@ -17,7 +20,7 @@ body:
     id: where
     attributes:
       label: Where did you see it?
-      description: The year and place, or paste the page link (it keeps the year and place).
+      description: The year and the place shown on screen, for example "1850, Garn Goch".
     validations:
       required: true
   - type: textarea
@@ -27,10 +30,10 @@ body:
   - type: textarea
     id: source
     attributes:
-      label: Your source
-      description: A book with its page, an archive record, a website link, or a person who told you.
-    validations:
-      required: true
+      label: Your source, if you have one
+      description: >-
+        A book with its page, an archive record or a website link. If someone told you, say how you
+        know them ("my grandmother"), not their name.
   - type: dropdown
     id: sure
     attributes:

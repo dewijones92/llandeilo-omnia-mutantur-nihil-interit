@@ -20,11 +20,18 @@ Google-gated private area (a second committer and a proxy), or giving people pus
 ## Decision
 
 - **Issues are the way in, the board stays the record.** `.github/ISSUE_TEMPLATE/` has three forms:
-  a historical correction (asks for a source), an idea, and a bug. Each says the issue is public.
-- **Triage turns an issue into a card in Idea**, with the issue's URL in its References (this repo's
-  issue links are ordinary web links to the validator). It moves on only when Dewi agrees, as any card.
+  a historical correction (asks for a source, if they have one), an idea, and a bug. Each says the
+  issue is public, as are the person's GitHub name and picture, and asks for no names or details of
+  living people. Blank issues are off, so every issue shows that warning.
+- **Triage puts an issue where any unagreed idea goes**: a line on the ideas board
+  ([`../design/ideas.md`](../design/ideas.md)) linking the issue, until Dewi decides whether the
+  board's Idea column replaces the ideas board ([ADR 0018](0018-backlog-as-a-gated-board.md)). When he
+  agrees it, it becomes an Agreed card with the issue's URL in its References (this repo's issue
+  links are ordinary web links to the validator).
+- **Triage copies only the substance**: never a contributor's name, or anyone's personal details, into
+  the repo. The repo is public and its history is permanent, unlike an issue its author can edit.
 - **Anything posted on GitHub needs Dewi's yes each time**: commenting on, labelling or closing an
-  issue is public. Making the card is a local change and does not.
+  issue is public.
 
 ## Consequences
 
@@ -36,6 +43,9 @@ Google-gated private area (a second committer and a proxy), or giving people pus
   `bug` labels.
 - The in-app "Report a correction" link from [`../design/feedback.md`](../design/feedback.md) can now
   open the correction form; it is still a proposal.
+- The app never writes the year or place to the address bar (it only reads `?year=` and `?place=` on
+  load), so the forms ask for them as shown on screen rather than for the page link. The agreed
+  "shareable links" backlog item would change that.
 
 ## Alternatives considered
 

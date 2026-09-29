@@ -6,7 +6,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you. This issue is public, so please leave out anything private about yourself or anyone else.
+        Thank you. Welsh or English is fine.
+
+        This issue is public, and so are your GitHub name and picture on it. Please leave out the names
+        and details of living people, yourself included. You can drag a screenshot into any box.
   - type: textarea
     id: idea
     attributes:

@@ -2,7 +2,7 @@
 title: Ideas board
 kind: design
 status: living
-updated: 2026-09-28
+updated: 2026-09-29
 ---
 
 # Ideas board
@@ -20,7 +20,7 @@ Add freely; nothing here is a commitment.
 | Sound and visual effects per event (train sound, train smoke…) | 🟡 train done; more to come | Must be labelled reconstructed |
 | Typical conversations per class at every key date, in the right language | ✅ agreed, research under way | See [`conversations-by-class.md`](conversations-by-class.md) |
 | Immersive sound and other assets, generated or found online | 🗣️ discussing | See [`sound-and-assets.md`](sound-and-assets.md) |
-| In-app feedback and corrections, into GitHub issues | 🗣️ discussing | See [`feedback.md`](feedback.md); recommend a pre-filled issue link first |
+| In-app feedback and corrections, into GitHub issues | 🟡 issue forms built (2026-09-29, [ADR 0019](../adr/0019-suggestions-arrive-as-github-issues.md)); the in-app button still 🗣️ discussing | See [`feedback.md`](feedback.md); recommend a pre-filled issue link first |
 | Analytics or usage tracking | 🗣️ discussing | See [`analytics.md`](analytics.md); recommend cookieless (no banner) |
 | Realistic models of important buildings through time | ✅ agreed as option A (accurate low-poly), being built | See [`models.md`](models.md) |
 | Time of day and seasons, "look amazing" | ✅ agreed | Built 2026-09-28: see [`atmosphere.md`](atmosphere.md) |

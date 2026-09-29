@@ -114,7 +114,7 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 ## Proposed (under discussion)
 
 - [ ] In-app feedback: a Feedback button and a "Report a correction" link in every ⓘ, opening a
-      pre-filled GitHub issue, plus issue templates ([`design/feedback.md`](../design/feedback.md));
+      pre-filled GitHub issue ([`design/feedback.md`](../design/feedback.md); the issue forms exist, ADR 0019);
       a relay only if family members lack GitHub accounts
 - [ ] Analytics: cookieless usage counts and custom events, plus anonymous load-error reporting
       ([`design/analytics.md`](../design/analytics.md))

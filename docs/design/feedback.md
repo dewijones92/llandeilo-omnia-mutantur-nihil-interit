@@ -24,7 +24,7 @@ public, so a token there could be used by anyone to write to the repo. So the ch
 
 | Option | How it works | Needs a GitHub account? | Cost and upkeep | Spam risk |
 |---|---|---|---|---|
-| **A. Pre-filled "new issue" link** 💡 | A Feedback button opens `github.com/<repo>/issues/new?title=…&body=…&labels=feedback`, pre-filled with the year, place, item id and page link. Issue templates in `.github/ISSUE_TEMPLATE/` shape it (correction / idea / bug). | Yes | None; nothing to run | Low (GitHub's own controls) |
+| **A. Pre-filled "new issue" link** 💡 | A Feedback button opens `github.com/<repo>/issues/new?template=correction.yml&title=…`, pre-filled with the year, place, item id and page link. Issue templates in `.github/ISSUE_TEMPLATE/` shape it (correction / idea / bug). | Yes | None; nothing to run | Low (GitHub's own controls) |
 | B. Relay function | The app posts a form to a small serverless function (e.g. Cloudflare Workers, free tier) that holds a token and creates the issue. Needs a bot check (e.g. Cloudflare Turnstile) and rate limits. | No | A second service and a secret to manage | Real; needs protection |
 | C. Form service | A third-party form (Tally, Google Forms, Formspree) collects feedback; issues are made by hand or by an automation. | No | A third-party account; data leaves GitHub | Moderate |
 | D. Comments on GitHub Discussions (giscus) | An embedded discussion thread per page or era. | Yes | Low | Low |
@@ -41,8 +41,9 @@ That is the deciding question.
 
 ## Details for A
 
-- Issue templates: *Historical correction* (item, what is wrong, a source), *Idea*, *Bug*
-  (with browser and the `?debug` readout), each with a label.
+- Issue templates (built 2026-09-29): *Historical correction* (what is wrong, where, a source if
+  they have one), *Idea* (labelled `enhancement`), *Bug* (labelled `bug`). The correction form has
+  no label until a `correction` label exists.
 - The pre-filled body includes: the item id and provenance, the year, the place, the page URL with
   `?year=` and `?place=`, the app version (commit), and the language.
 - Keep the URL under GitHub's length limit by linking rather than pasting long text.

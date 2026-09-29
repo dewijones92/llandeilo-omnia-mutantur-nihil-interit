@@ -72,4 +72,4 @@ with the full context and consequences.
 | Gate on push and in CI, not at drag time | The tool has no hook that can refuse a move; a blocking hook goes upstream as a PR only if push-time gating proves too late |
 | Pilot with five agreed items first; unagreed ideas stay on the ideas board for now | Dewi: "yes go ahead with the pilot"; where ideas live is for a later discussion |
 | Link repo files from a task as GitHub URLs so the board can open them | Dewi chose option A: the board only links `http(s)` references |
-| Other people add through GitHub issues (three forms), which are triaged into Idea cards; the board stays the record | Dewi: "i'd quite like other people to add to it", then chose option A over a Pi-hosted board or push access. [ADR 0019](../adr/0019-suggestions-arrive-as-github-issues.md) |
+| Other people add through GitHub issues (three forms), triaged onto the ideas board and made cards once agreed; the board stays the record | Dewi: "i'd quite like other people to add to it", then chose option A over a Pi-hosted board or push access. [ADR 0019](../adr/0019-suggestions-arrive-as-github-issues.md) |
