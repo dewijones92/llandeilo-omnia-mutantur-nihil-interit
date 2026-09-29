@@ -21,13 +21,23 @@ const write = (path: string, text: string) => {
   mkdirSync(join(repo, path, '..'), { recursive: true });
   writeFileSync(join(repo, path), text);
 };
-const git = (...args: string[]) => execFileSync('git', args, { cwd: repo, encoding: 'utf8' });
+// Hermetic: its own identity, and none of the machine's git config (CI has no identity at all).
+const env = {
+  ...process.env,
+  GIT_CONFIG_GLOBAL: '/dev/null',
+  GIT_CONFIG_NOSYSTEM: '1',
+  GIT_AUTHOR_NAME: 't',
+  GIT_AUTHOR_EMAIL: 't@t',
+  GIT_COMMITTER_NAME: 't',
+  GIT_COMMITTER_EMAIL: 't@t',
+};
+const git = (...args: string[]) => execFileSync('git', args, { cwd: repo, encoding: 'utf8', env });
 const commit = (message: string) => {
   git('add', '-A');
-  git('-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-qm', message);
+  git('commit', '-qm', message);
 };
 const check = (...args: string[]) => {
-  const run = spawnSync(process.execPath, [CHECK, ...args], { cwd: repo, encoding: 'utf8' });
+  const run = spawnSync(process.execPath, [CHECK, ...args], { cwd: repo, encoding: 'utf8', env });
   return { status: run.status, out: run.stdout + run.stderr };
 };
 
@@ -38,8 +48,7 @@ describe('check.ts on a real git repo', () => {
     write('backlog.config.yml', config);
     write('package.json', pkg);
     write(TASK, card('Agreed'));
-    git('add', '.');
-    git('-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-qm', 'agreed card');
+    commit('agreed card');
   });
   afterAll(() => {
     rmSync(repo, { recursive: true, force: true });
@@ -105,7 +114,7 @@ describe('check.ts on a real git repo', () => {
 
   it('fails a commit that moved the card past its gates', () => {
     write(TASK, card('Done'));
-    git('-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-qam', 'premature done');
+    commit('premature done');
     const pushed = check('--ref', 'HEAD');
     expect(pushed.status).toBe(1);
     expect(pushed.out).toContain('needs a review record at docs/reviews/T-001.md');
