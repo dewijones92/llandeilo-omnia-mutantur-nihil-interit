@@ -2,13 +2,17 @@
 title: Feedback from visitors
 kind: design
 status: proposed
-updated: 2026-09-28
+updated: 2026-09-29
 ---
 
 # Feedback: letting people send corrections and ideas
 
 Raised by Dewi, 2026-09-28. **Proposed.** People should be able to leave feedback and
 constructive criticism from inside the app, ideally ending up as GitHub issues.
+
+**Update 2026-09-29:** the issue templates below exist (correction, idea, bug), and issues are
+triaged into board cards ([ADR 0019](../adr/0019-suggestions-arrive-as-github-issues.md)). The
+in-app button and the pre-filled link are still proposed.
 
 ## The constraint
 

@@ -1,0 +1,34 @@
+name: Something is broken
+description: The app does not load, looks wrong, or does not do what you expected.
+title: 'Bug: '
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. This issue is public, so please leave out anything private about yourself or anyone else.
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+  - type: input
+    id: link
+    attributes:
+      label: The page link
+      description: Copy it from the address bar; it keeps the year and place.
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and computer
+      description: For example Chrome on Windows, or Safari on a Mac.
+  - type: textarea
+    id: debug
+    attributes:
+      label: Debug readout
+      description: Optional. Add ?debug to the address and paste what the box in the corner says.

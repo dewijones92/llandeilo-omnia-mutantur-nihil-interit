@@ -1,0 +1,43 @@
+name: Historical correction
+description: Something in the app is wrong, or says more than the sources do.
+title: 'Correction: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. This issue is public, so please leave out anything private about yourself or anyone else.
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong?
+      description: Quote it if you can.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where did you see it?
+      description: The year and place, or paste the page link (it keeps the year and place).
+    validations:
+      required: true
+  - type: textarea
+    id: should
+    attributes:
+      label: What should it say?
+  - type: textarea
+    id: source
+    attributes:
+      label: Your source
+      description: A book with its page, an archive record, a website link, or a person who told you.
+    validations:
+      required: true
+  - type: dropdown
+    id: sure
+    attributes:
+      label: How sure are you?
+      options:
+        - I have a source I can point to
+        - I remember it, but have no source to hand
+        - Not sure, it just looks wrong
+    validations:
+      required: true

@@ -1,0 +1,25 @@
+name: Idea or suggestion
+description: Something the app could show, a story, a place, a person or a feature.
+title: 'Idea: '
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. This issue is public, so please leave out anything private about yourself or anyone else.
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Which place or time?
+      description: Optional.
+  - type: textarea
+    id: reading
+    attributes:
+      label: Anything we could read about it?
+      description: Optional. Books, links, or who to ask.
