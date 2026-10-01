@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-09-29
+updated: 2026-10-01
 ---
 
 # Build log
@@ -184,3 +184,16 @@ Milestones and what each one taught us. Newest last.
     a trailing-dot host recognised, the hook reading its push list before anything else runs, and
     commit-mode tests for a note reviewed on disk but not in the commit and for an uncommitted linked
     file. Each fix was broken once on purpose and a test failed each time.
+
+## 2026-10-01
+
+1. **The board pilot ended after two days** ([ADR 0022](../adr/0022-one-todo-file.md)). Five task files,
+   the rest of the list in `_index.md` and issue rows on the ideas board made three places to look,
+   and Dewi found it confusing. The lesson: a second home for the same kind of thing costs more in
+   "where does this go?" than its gating saves, unless everything moves at once. The validator and
+   its tests are in git history at `2f5d4a1`.
+2. **Issue forms removed** for plain GitHub issues ([ADR 0020](../adr/0020-plain-github-issues.md)), and
+   **session-start issue triage** set up ([ADR 0021](../adr/0021-issue-triage-at-session-start.md)). Two
+   second-Opus reviews of the triage rule found real holes: a stranger's text could reach the public
+   repo unseen, every subagent reading CLAUDE.md would also triage, and a date compared with a
+   timestamp made our own replies re-trigger triage for ever.

@@ -8,4 +8,3 @@ docs/brief.md
 *.md
 src/content/generated
 .claude
-backlog.config.yml

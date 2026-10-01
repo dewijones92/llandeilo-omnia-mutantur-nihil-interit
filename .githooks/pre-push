@@ -1,14 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
-pushed=$(cat)
 node tools/research/extract-sources.mjs >/dev/null
 git diff --quiet -- src/content/generated || { echo "pre-push: src/content/generated is stale; commit the regenerated sources"; exit 1; }
 npx prettier --check . >/dev/null || { echo "pre-push: run npm run format"; exit 1; }
 npx tsc --noEmit
 npx eslint . --max-warnings 0
 npx knip
-while read -r _local_ref local_sha _remote_ref _remote_sha; do
-  [[ -z "$local_sha" || "$local_sha" =~ ^0+$ ]] || node tools/todos/check.ts --ref "$local_sha"
-done <<<"$pushed"
 npx vitest run --coverage --reporter=dot

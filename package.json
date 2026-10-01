@@ -24,16 +24,13 @@
     "test:watch": "vitest",
     "e2e": "playwright test",
     "knip": "knip",
-    "todos": "node tools/todos/check.ts",
-    "board": "backlog browser --no-open",
-    "check": "npm run format:check && npm run typecheck && npm run lint && npm run test && npm run knip && npm run todos"
+    "check": "npm run format:check && npm run typecheck && npm run lint && npm run test && npm run knip"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "1.63",
     "@types/node": "^24.19.0",
     "@vitest/coverage-v8": "^5.0.2",
-    "backlog.md": "1.53.0",
     "eslint": "^10.11.0",
     "globals": "^17.12.0",
     "knip": "^6.38.0",

@@ -21,7 +21,7 @@ Add freely; nothing here is a commitment.
 | Typical conversations per class at every key date, in the right language | ✅ agreed, research under way | See [`conversations-by-class.md`](conversations-by-class.md) |
 | Immersive sound and other assets, generated or found online | 🗣️ discussing | See [`sound-and-assets.md`](sound-and-assets.md) |
 | In-app feedback and corrections, into GitHub issues | 🟡 plain GitHub issues, triaged into cards ([ADR 0019](../adr/0019-suggestions-arrive-as-github-issues.md), forms removed by [ADR 0020](../adr/0020-plain-github-issues.md)); the in-app button still 🗣️ discussing | See [`feedback.md`](feedback.md); recommend a pre-filled issue link first |
-| Claude looks after the issues: reads new ones, checks them against the research and licence rules, replies with questions, puts them on the ideas board | ✅ agreed and set up 2026-10-01 | At the start of every session; replies, labels and closes go to Dewi as one batch for one yes ([ADR 0021](../adr/0021-issue-triage-at-session-start.md)) |
+| Claude looks after the issues: reads new ones, checks them against the research and licence rules, replies with questions, puts them on the ideas board | ✅ agreed and set up 2026-10-01 | At the start of every session; replies, labels and closes go to Dewi as one batch for one yes ([ADR 0021](../adr/0021-issue-triage-at-session-start.md)); issue rows live in the todo file ([ADR 0022](../adr/0022-one-todo-file.md)) |
 | Analytics or usage tracking | 🗣️ discussing | See [`analytics.md`](analytics.md); recommend cookieless (no banner) |
 | Realistic models of important buildings through time | ✅ agreed as option A (accurate low-poly), being built | See [`models.md`](models.md) |
 | Time of day and seasons, "look amazing" | ✅ agreed | Built 2026-09-28: see [`atmosphere.md`](atmosphere.md) |
@@ -66,13 +66,3 @@ Add freely; nothing here is a commitment.
 | An opening cinematic flight from deep time to today, under the motto | ✅ agreed 2026-09-28, in the backlog | |
 | Real Carmarthenshire voices: St Fagans oral-history clips | ✅ agreed 2026-09-28, in the backlog | Check reuse terms |
 | The 1688 trilobite as an easter egg | ✅ agreed 2026-09-28, in the backlog | Single-source so far |
-
-## From GitHub issues
-
-One row per issue, added by session-start triage once Dewi approves the batch
-([ADR 0021](../adr/0021-issue-triage-at-session-start.md)). The summary is ours, never the author's
-words or name. "Seen" is the issue's `updatedAt` when the row was written; a different value means it has changed
-and is triaged again.
-
-| Issue | Seen | Idea (our summary) | Status | Notes |
-|---|---|---|---|---|

@@ -125,8 +125,7 @@ anything else"). What goes where:
 | A milestone, a bug that taught something, a dead end, a gotcha | [`docs/process/build-log.md`](docs/process/build-log.md) |
 | A measurement (performance, bundle size) | The Performance numbers line in this file, with the date |
 | An idea or proposal not yet agreed | [`docs/design/`](docs/design/README.md) and its ideas board |
-| Agreed work not yet done | A task on the board, `docs/todos/tasks/` ([ADR 0018](docs/adr/0018-backlog-as-a-gated-board.md)); items not yet moved there stay in [`docs/todos/_index.md`](docs/todos/_index.md) |
-| A task's independent review | [`docs/reviews/T-NNN.md`](docs/reviews/README.md) |
+| Agreed work not yet done, and suggestions from GitHub issues | [`docs/todos/_index.md`](docs/todos/_index.md), the one todo file ([ADR 0022](docs/adr/0022-one-todo-file.md)) |
 | How to author content, voices, data | [`docs/content/`](docs/content/authoring.md), [`docs/data/`](docs/data/README.md) |
 
 If a thing fits none of these, add a doc and link it from [`docs/README.md`](docs/README.md). The
@@ -202,8 +201,7 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
   Green unit tests can sit on top of a bug that only the whole picture shows.
 - **Every flow that matters has an e2e test that runs in CI on every push**, not only locally.
 - **Coverage good enough to change things without fear** (Dewi, 2026-09-28: "good test coverage to
-  give u confidence of low risk of regression"). The pure layers (`src/domain`, `src/content`) and the
-  backlog gates (`tools/todos/rules.ts`, `files.ts`) are measured on every `npm test` and CI fails below the floor in `vitest.config.ts` (statements 92%,
+  give u confidence of low risk of regression"). The pure layers (`src/domain`, `src/content`) are measured on every `npm test` and CI fails below the floor in `vitest.config.ts` (statements 92%,
   branches 85%, functions 100%, lines 95%, measured at 94.9 / 89.3 / 100 / 97.3 on 2026-09-28).
   Raise the floor when coverage rises; never lower it to get a change through. The renderer, UI and
   audio are covered by e2e flows instead, so every user-visible behaviour change adds or extends one.
@@ -258,14 +256,12 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
 
 ```bash
 npm run dev                          # the always-on dev server on :5051 (?debug for the overlay, ?year=1282, ?place=garn-goch)
-npm run check                        # format, types, lint, unit tests, knip, backlog gates (the pre-push hook runs the same)
+npm run check                        # format, types, lint, unit tests, knip (the pre-push hook runs the same)
 npx vite build && npx playwright test   # production build and e2e (needs PAGES_BASE to match CI)
 node tools/research/extract-sources.mjs # after any change to docs/research/*.md
 node tools/voices/build-voices.ts    # after any change to conversation text (needs edge-tts)
 tools/terrain/build-terrain.sh && python3 tools/geo/build-osdata.py   # rebuild map data (see docs/data)
 node tools/shot.mjs '<url>' out.png  # screenshot, using the Chromium that works on this WSL box
-npm run board                        # the backlog board on :5052 (drag cards; it edits docs/todos/tasks/)
-npm run todos                        # check every card meets its column's gates (part of npm run check)
 ```
 
 Run `git config core.hooksPath .githooks` once per clone. Local Playwright uses Chromium 136 because
@@ -316,21 +312,18 @@ CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*
   his global no-comments default here only): a short comment for a non-obvious why, a gotcha, a
   units or axis convention, or a number tuned by eye. Never narrate what the code does; keep each to
   a line or two, and put longer reasoning in the commit message or an ADR.
-- **The board** (Dewi, 2026-09-29, [ADR 0018](docs/adr/0018-backlog-as-a-gated-board.md)). Only Dewi
-  agrees work, so never add the `agreed` label or move a card out of Idea without his yes. Create and
-  edit tasks through the tool (`npx --no-install backlog task …`; plain `npx backlog` is a different
-  package), cite `T-NNN` in commits, and use only the tool's own frontmatter fields (it drops any
-  other key on save). Link repo files as GitHub URLs (`…/blob/main/<path>`), because the board only
-  opens `http(s)` links; a bare path fails the check. Link research notes under References, which the
-  board can edit (it only displays Documentation). The gates are `GATES` in `tools/todos/rules.ts`; `npm run todos` says what a
-  card still lacks.
+- **The todo file** (Dewi, 2026-10-01, [ADR 0022](docs/adr/0022-one-todo-file.md)):
+  [`docs/todos/_index.md`](docs/todos/_index.md) is the one list of work, with the path every item
+  goes through at its top. Only Dewi agrees work, so never move an item into the list (out of
+  "Proposed" or "From GitHub issues") without his yes, and tick an item only once it has been
+  through its path.
 - **Suggestions from other people arrive as plain GitHub issues** ([ADR 0019](docs/adr/0019-suggestions-arrive-as-github-issues.md),
-  [0020](docs/adr/0020-plain-github-issues.md), [0021](docs/adr/0021-issue-triage-at-session-start.md)).
+  [0020](docs/adr/0020-plain-github-issues.md), [0021](docs/adr/0021-issue-triage-at-session-start.md), [0022](docs/adr/0022-one-todo-file.md)).
   **At the start of every interactive session with Dewi** (not in subagents, reviews or worktree
   agents), with the dev-server check:
   - `git fetch`, then run `gh issue list --state all --limit 200 --json number,title,state,url,updatedAt`
     (if it returns 200, say so: some were cut off). An issue needs triage if its URL has no row in
-    the "From GitHub issues" table of the **pushed** board (`git show origin/main:docs/design/ideas.md`),
+    the "From GitHub issues" table of the **pushed** todo file (`git show origin/main:docs/todos/_index.md`),
     or its `updatedAt` differs from the timestamp stored in that row. Read each in full with
     `gh issue view N --json title,body,state,comments`.
   - Triage it against `docs/research/` and the provenance and licence rules, and draft its row **in

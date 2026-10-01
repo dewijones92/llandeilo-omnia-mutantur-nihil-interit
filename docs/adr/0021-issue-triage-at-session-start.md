@@ -1,7 +1,7 @@
 ---
 title: "ADR 0021: Claude triages GitHub issues at the start of every session, and posts in one approved batch"
 kind: adr
-status: accepted
+status: accepted, row location superseded
 updated: 2026-10-01
 ---
 
@@ -18,6 +18,8 @@ updated: 2026-10-01
   Dewi's yes; triage runs only in his interactive session; and each issue's row stores its exact
   `updatedAt`, so our own posts do not set off a re-triage. The step-by-step procedure lives in
   CLAUDE.md only.
+- **Row location superseded** by [ADR 0022](0022-one-todo-file.md) the same day: the rows below
+  live in the todo file's "From GitHub issues" table, not on the ideas board.
 
 ## Context
 

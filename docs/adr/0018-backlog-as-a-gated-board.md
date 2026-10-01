@@ -1,13 +1,14 @@
 ---
 title: "ADR 0018: The backlog is a board of task files in the repo, gated by a validator"
 kind: adr
-status: accepted
-updated: 2026-09-29
+status: superseded by 0022
+updated: 2026-10-01
 ---
 
 # ADR 0018: The backlog is a board of task files in the repo, gated by a validator
 
-- **Status:** Accepted, as a pilot (Dewi, 2026-09-29: "yes go ahead with the pilot")
+- **Status:** Superseded by [0022](0022-one-todo-file.md) on 2026-10-01: the pilot ended and the
+  board was removed. Accepted, as a pilot (Dewi, 2026-09-29: "yes go ahead with the pilot")
 - **Date:** 2026-09-29
 
 ## Context
