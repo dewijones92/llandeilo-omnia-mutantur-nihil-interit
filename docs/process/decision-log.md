@@ -79,3 +79,4 @@ with the full context and consequences.
 | Decision | Why |
 |---|---|
 | Remove the three issue forms; people open ordinary GitHub issues, still triaged onto the ideas board | Dewi: "remove the issue tempalte stuff we did the other day please? I want a vanilla github issue thing". [ADR 0020](../adr/0020-plain-github-issues.md) |
+| Claude triages open issues at the start of every session and shows every reply, label and close as one batch for one yes, rather than asking per post | Dewi: "start every session perhaps", chose "c" (Claude does it all), then "yes" to the batch, since every public post must be shown to him first under the account's organisation rule; "now". [ADR 0021](../adr/0021-issue-triage-at-session-start.md) |
