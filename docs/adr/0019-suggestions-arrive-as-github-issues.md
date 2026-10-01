@@ -1,7 +1,7 @@
 ---
 title: "ADR 0019: Other people's suggestions arrive as GitHub issues, and become cards"
 kind: adr
-status: superseded-in-part
+status: accepted, forms superseded
 updated: 2026-10-01
 ---
 

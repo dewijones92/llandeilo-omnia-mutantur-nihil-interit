@@ -324,7 +324,7 @@ CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*
   opens `http(s)` links; a bare path fails the check. Link research notes under References, which the
   board can edit (it only displays Documentation). The gates are `GATES` in `tools/todos/rules.ts`; `npm run todos` says what a
   card still lacks.
-- **Suggestions from other people arrive as GitHub issues** ([ADR 0019](docs/adr/0019-suggestions-arrive-as-github-issues.md)).
+- **Suggestions from other people arrive as GitHub issues** ([ADR 0019](docs/adr/0019-suggestions-arrive-as-github-issues.md); plain issues, no forms, since [ADR 0020](docs/adr/0020-plain-github-issues.md)).
   Triage one onto the ideas board with a link to the issue; it becomes a card only once Dewi agrees
   it. Copy only the substance, never a contributor's name or anyone's personal details. Commenting
   on, labelling or closing the issue is public, so ask Dewi first, every time.
