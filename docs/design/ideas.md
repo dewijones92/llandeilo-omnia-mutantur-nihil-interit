@@ -71,7 +71,8 @@ Add freely; nothing here is a commitment.
 
 One row per issue, added by session-start triage once Dewi approves the batch
 ([ADR 0021](../adr/0021-issue-triage-at-session-start.md)). The summary is ours, never the author's
-words or name. An issue is triaged again when it changes after its row's date.
+words or name. "Seen" is the issue's `updatedAt` when the row was written; a different value means it has changed
+and is triaged again.
 
-| Issue | Triaged | Idea (our summary) | Status | Notes |
+| Issue | Seen | Idea (our summary) | Status | Notes |
 |---|---|---|---|---|
