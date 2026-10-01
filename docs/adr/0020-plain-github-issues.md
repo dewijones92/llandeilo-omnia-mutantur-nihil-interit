@@ -1,13 +1,15 @@
 ---
 title: "ADR 0020: Suggestions arrive as plain GitHub issues, with no issue forms"
 kind: adr
-status: accepted
+status: accepted, posting rule superseded
 updated: 2026-10-01
 ---
 
 # ADR 0020: Suggestions arrive as plain GitHub issues, with no issue forms
 
-- **Status:** Accepted (Dewi, 2026-10-01: "I want a vanilla github issue thing")
+- **Status:** Accepted (Dewi, 2026-10-01: "I want a vanilla github issue thing"). Its "Dewi's yes
+  each time" for posts was replaced the same day by one batch per session,
+  [ADR 0021](0021-issue-triage-at-session-start.md).
 - **Date:** 2026-10-01
 - **Supersedes:** the issue-forms part of [ADR 0019](0019-suggestions-arrive-as-github-issues.md).
   The rest of 0019 stands.

@@ -74,7 +74,7 @@ with the full context and consequences.
 | Link repo files from a task as GitHub URLs so the board can open them | Dewi chose option A: the board only links `http(s)` references |
 | Other people add through GitHub issues (three forms), triaged onto the ideas board and made cards once agreed; the repo stays the record | Dewi: "i'd quite like other people to add to it", then chose option A over a Pi-hosted board or push access. [ADR 0019](../adr/0019-suggestions-arrive-as-github-issues.md) |
 
-## 2026-10-01: plain GitHub issues
+## 2026-10-01: plain GitHub issues, triaged each session
 
 | Decision | Why |
 |---|---|

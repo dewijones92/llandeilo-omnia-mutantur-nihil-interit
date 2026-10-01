@@ -66,3 +66,12 @@ Add freely; nothing here is a commitment.
 | An opening cinematic flight from deep time to today, under the motto | ✅ agreed 2026-09-28, in the backlog | |
 | Real Carmarthenshire voices: St Fagans oral-history clips | ✅ agreed 2026-09-28, in the backlog | Check reuse terms |
 | The 1688 trilobite as an easter egg | ✅ agreed 2026-09-28, in the backlog | Single-source so far |
+
+## From GitHub issues
+
+One row per issue, added by session-start triage once Dewi approves the batch
+([ADR 0021](../adr/0021-issue-triage-at-session-start.md)). The summary is ours, never the author's
+words or name. An issue is triaged again when it changes after its row's date.
+
+| Issue | Triaged | Idea (our summary) | Status | Notes |
+|---|---|---|---|---|

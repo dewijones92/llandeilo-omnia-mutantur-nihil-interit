@@ -10,8 +10,9 @@ updated: 2026-10-01
 Raised by Dewi, 2026-09-28. **Proposed.** People should be able to leave feedback and
 constructive criticism from inside the app, ideally ending up as GitHub issues.
 
-**Update 2026-10-01:** issues are triaged into board cards
-([ADR 0019](../adr/0019-suggestions-arrive-as-github-issues.md)). The issue forms built on 2026-09-29
+**Update 2026-10-01:** issues are triaged onto the ideas board at the start of each session, and
+become cards once Dewi agrees them ([ADR 0019](../adr/0019-suggestions-arrive-as-github-issues.md),
+[ADR 0021](../adr/0021-issue-triage-at-session-start.md)). The issue forms built on 2026-09-29
 were removed in favour of plain issues ([ADR 0020](../adr/0020-plain-github-issues.md)). The in-app
 button and the pre-filled link are still proposed.
 
