@@ -1,13 +1,14 @@
 ---
 title: "ADR 0019: Other people's suggestions arrive as GitHub issues, and become cards"
 kind: adr
-status: accepted
-updated: 2026-09-29
+status: superseded-in-part
+updated: 2026-10-01
 ---
 
 # ADR 0019: Other people's suggestions arrive as GitHub issues, and become cards
 
-- **Status:** Accepted (Dewi, 2026-09-29: "A")
+- **Status:** Accepted (Dewi, 2026-09-29: "A"). The issue forms were removed on 2026-10-01 by
+  [ADR 0020](0020-plain-github-issues.md); the rest stands.
 - **Date:** 2026-09-29
 
 ## Context

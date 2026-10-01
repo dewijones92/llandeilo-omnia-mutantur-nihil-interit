@@ -2,7 +2,7 @@
 title: Architecture decision records
 kind: index
 status: current
-updated: 2026-09-29
+updated: 2026-10-01
 ---
 
 # Architecture decision records
@@ -49,7 +49,8 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0016](0016-no-bundle-size-limit.md) | No bundle size limit | Accepted, supersedes 0004's budget | 2026-09-28 |
 | [0017](0017-hybrid-modelling.md) | Procedural architecture, scripted Blender for props | Accepted | 2026-09-28 |
 | [0018](0018-backlog-as-a-gated-board.md) | The backlog is a board of task files in the repo, gated by a validator | Accepted (pilot) | 2026-09-29 |
-| [0019](0019-suggestions-arrive-as-github-issues.md) | Other people's suggestions arrive as GitHub issues, and become cards | Accepted | 2026-09-29 |
+| [0019](0019-suggestions-arrive-as-github-issues.md) | Other people's suggestions arrive as GitHub issues, and become cards | Accepted; forms superseded by 0020 | 2026-09-29 |
+| [0020](0020-plain-github-issues.md) | Suggestions arrive as plain GitHub issues, with no issue forms | Accepted, supersedes part of 0019 | 2026-10-01 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

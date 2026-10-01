@@ -2,7 +2,7 @@
 title: Decision log
 kind: log
 status: current
-updated: 2026-09-29
+updated: 2026-10-01
 ---
 
 # Decision log
@@ -73,3 +73,9 @@ with the full context and consequences.
 | Pilot with five agreed items first; unagreed ideas stay on the ideas board for now | Dewi: "yes go ahead with the pilot"; where ideas live is for a later discussion |
 | Link repo files from a task as GitHub URLs so the board can open them | Dewi chose option A: the board only links `http(s)` references |
 | Other people add through GitHub issues (three forms), triaged onto the ideas board and made cards once agreed; the repo stays the record | Dewi: "i'd quite like other people to add to it", then chose option A over a Pi-hosted board or push access. [ADR 0019](../adr/0019-suggestions-arrive-as-github-issues.md) |
+
+## 2026-10-01: plain GitHub issues
+
+| Decision | Why |
+|---|---|
+| Remove the three issue forms; people open ordinary GitHub issues, still triaged onto the ideas board | Dewi: "remove the issue tempalte stuff we did the other day please? I want a vanilla github issue thing". [ADR 0020](../adr/0020-plain-github-issues.md) |
