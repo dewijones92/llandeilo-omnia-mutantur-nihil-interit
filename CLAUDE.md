@@ -202,7 +202,7 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
 - **Every flow that matters has an e2e test that runs in CI on every push**, not only locally.
 - **Coverage good enough to change things without fear** (Dewi, 2026-09-28: "good test coverage to
   give u confidence of low risk of regression"). The pure layers (`src/domain`, `src/content`) are measured on every `npm test` and CI fails below the floor in `vitest.config.ts` (statements 92%,
-  branches 85%, functions 100%, lines 95%, measured at 94.9 / 89.3 / 100 / 97.3 on 2026-09-28).
+  branches 85%, functions 100%, lines 95%, measured at 97.1 / 87.2 / 100 / 98.7 on 2026-10-01).
   Raise the floor when coverage rises; never lower it to get a change through. The renderer, UI and
   audio are covered by e2e flows instead, so every user-visible behaviour change adds or extends one.
   A number is not the goal: a test must fail when the behaviour breaks, so check new tests against
@@ -314,9 +314,9 @@ CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*
   a line or two, and put longer reasoning in the commit message or an ADR.
 - **The todo file** (Dewi, 2026-10-01, [ADR 0022](docs/adr/0022-one-todo-file.md)):
   [`docs/todos/_index.md`](docs/todos/_index.md) is the one list of work, with the path every item
-  goes through at its top. Only Dewi agrees work, so never move an item into the list (out of
-  "Proposed" or "From GitHub issues") without his yes, and tick an item only once it has been
-  through its path.
+  goes through at its top. Only Dewi agrees work, so never move a "Proposed" item into the list, or
+  add a list line for an issue (its row stays in "From GitHub issues", marked agreed), without his
+  yes, and tick an item only once it has been through its path.
 - **Suggestions from other people arrive as plain GitHub issues** ([ADR 0019](docs/adr/0019-suggestions-arrive-as-github-issues.md),
   [0020](docs/adr/0020-plain-github-issues.md), [0021](docs/adr/0021-issue-triage-at-session-start.md), [0022](docs/adr/0022-one-todo-file.md)).
   **At the start of every interactive session with Dewi** (not in subagents, reviews or worktree

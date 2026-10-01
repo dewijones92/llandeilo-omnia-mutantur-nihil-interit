@@ -1,7 +1,7 @@
 ---
 title: "ADR 0020: Suggestions arrive as plain GitHub issues, with no issue forms"
 kind: adr
-status: accepted, posting rule superseded
+status: accepted, posting rule and cards superseded
 updated: 2026-10-01
 ---
 
@@ -9,7 +9,8 @@ updated: 2026-10-01
 
 - **Status:** Accepted (Dewi, 2026-10-01: "I want a vanilla github issue thing"). Its "Dewi's yes
   each time" for posts was replaced the same day by one batch per session,
-  [ADR 0021](0021-issue-triage-at-session-start.md).
+  [ADR 0021](0021-issue-triage-at-session-start.md); "becomes a card" now means joining the todo file's
+  list ([ADR 0022](0022-one-todo-file.md)).
 - **Date:** 2026-10-01
 - **Supersedes:** the issue-forms part of [ADR 0019](0019-suggestions-arrive-as-github-issues.md).
   The rest of 0019 stands.

@@ -24,9 +24,11 @@ which Claude keeps in step with them.
 ## Decision
 
 - **`docs/todos/_index.md` is the one list of work.** The five pilot tasks are back in it as
-  ordinary checklist lines, with their acceptance criteria folded in.
-- **Issue rows live in its "From GitHub issues" table**, triaged exactly as ADR 0021 says, and move
-  into the list once Dewi agrees them.
+  ordinary checklist lines, with their acceptance criteria and research links folded in.
+- **Issue rows live in its "From GitHub issues" table**, triaged exactly as ADR 0021 says. A row
+  stays there for good (one row per issue, as ADR 0021 needs); once Dewi agrees it, its status says
+  so and a line in the list links the issue.
+- **"Becomes a card"** in ADRs 0019, 0020 and 0021 now means "joins the todo file's list".
 - **Removed:** the Backlog.md tool and its config, `npm run board`, `npm run todos`, the validator in
   `tools/todos/` and its three test files, the gate in CI and the pre-push hook, the task files, and
   the per-task review records in `docs/reviews/`.

@@ -1,7 +1,7 @@
 ---
 title: "ADR 0019: Other people's suggestions arrive as GitHub issues, and become cards"
 kind: adr
-status: accepted, forms and posting rule superseded
+status: accepted, forms, posting rule and cards superseded
 updated: 2026-10-01
 ---
 
@@ -9,8 +9,9 @@ updated: 2026-10-01
 
 - **Status:** Accepted (Dewi, 2026-09-29: "A"). The issue forms were removed on 2026-10-01 by
   [ADR 0020](0020-plain-github-issues.md), and asking before every post was replaced by one
-  approved batch per session on 2026-10-01 by [ADR 0021](0021-issue-triage-at-session-start.md); the
-  rest stands.
+  approved batch per session on 2026-10-01 by [ADR 0021](0021-issue-triage-at-session-start.md). With
+  the board gone ([ADR 0022](0022-one-todo-file.md)), "becomes a card" now means joining the todo
+  file's list. The rest stands.
 - **Date:** 2026-09-29
 
 ## Context

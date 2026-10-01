@@ -29,8 +29,9 @@ An item is ticked only once it has been through its path, in order:
 Suggestions from other people, triaged at the start of each session
 ([ADR 0021](../adr/0021-issue-triage-at-session-start.md)). One row per issue. The summary is ours,
 never the author's words or name. "Seen" is the issue's `updatedAt` when the row was written; a
-different value means it has changed and is triaged again. A row moves into the list above only
-once Dewi agrees it.
+different value means it has changed and is triaged again. A row stays here for good, so the issue
+is not triaged as new: once Dewi agrees it, its status becomes "✅ agreed" and a line in the list
+below links the issue.
 
 | Issue | Seen | Idea (our summary) | Status | Notes |
 |---|---|---|---|---|
@@ -61,7 +62,8 @@ once Dewi agrees it.
       the primary Roman forts report, Brut y Tywysogion on 1282, Gerald of Wales on clothing,
       Victorian wages and prices, Dryslwyn after 1287, a sourced 1588 Bible passage
 - [ ] Talley Abbey: replace Wikipedia coordinates with a Coflein or Cadw grid reference, cited in the
-      research note, and check its position by screenshot
+      research note ([`era-medieval-to-1282.md`](../research/era-medieval-to-1282.md)), and check its
+      position by screenshot
 - [ ] 1282 moment card: add that the primary annal reads 16 June (keep "sources differ")
 - [ ] Roman forts: use the primary report's 3.85ha and 1.54ha to revisit the "8 vs 12 acres" contradiction
 - [ ] Earliest environment keyframes (12,500–10,900 BC): check they use calendar, not uncalibrated pollen, dates
@@ -76,7 +78,8 @@ once Dewi agrees it.
 - [ ] More conversations per era, and the family at more key dates
 - [ ] **Wild animals through time** (Dewi, 2026-09-28): which wild animals roamed the valley in each
       era, arriving and dying out (wolf, bear, lynx, beaver, boar, red kite and pine marten returning),
-      shown in the scene and the almanac, each sourced and with its "here or only in Wales" status
+      shown in the scene and the almanac, each with a sourced date range and its "here or only in Wales"
+      status ([`deep-time-and-natural-history.md`](../research/deep-time-and-natural-history.md))
 - [ ] **What people did for a living, by class, in each era** (Dewi, 2026-09-28): farming, crafts,
       trades, service, clergy, soldiering, industry (lime burning, woollen mills, the railway), grouped
       by class, in the almanac and grounding the conversations; research first
@@ -106,7 +109,9 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Castles, churches and the abbey lit at night (candles, torches), and a train headlamp
 - [ ] Sound follows the clock: birds at dawn, owls and quiet at night
 - [ ] Conversations and speech bubbles follow the clock: nobody chatting outdoors at 3am
-- [ ] Rivers stay vivid blue at night while the land goes dark; darken them with the sky (seen 2026-09-28)
+- [ ] Rivers stay vivid blue at night while the land goes dark; darken them in step with the land from
+      dusk to night, checked by screenshots at night and at noon in at least two eras (seen 2026-09-28;
+      [`atmosphere.md`](../design/atmosphere.md))
 - [ ] Re-check autumn trees at overview distance by screenshot (the "glitter" fix was never re-shot)
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
@@ -126,7 +131,8 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Timeline tick labels overlap at both ends ("12,500 BC" over "8,300 BC", "1950" over "2026"),
       with a test that fails when two labels overlap
 - [ ] e2e: give each checkout its own preview port; locally Playwright reuses whatever server is on
-      4173, so a run can silently test another agent's build (seen 2026-09-28)
+      4173, so a run can silently test another agent's build (seen 2026-09-28); a run must never test a
+      server it did not start
 - [ ] The train is rigid: carriages cut across curves instead of following the track; judge its speed on a real GPU
 - [ ] Purity lint as an allow-list rather than a deny-list (or a separate tsconfig without DOM for domain/content)
 - [ ] Place labels: "(today)" for the Roman forts too; review each place's `namedFrom`
@@ -228,4 +234,5 @@ Each needs its research or design first, like everything else. The ideas board k
 
 ## 💡 Ideas
 
-See [`../design/ideas.md`](../design/ideas.md), the one ideas list.
+See [`../design/ideas.md`](../design/ideas.md) for our own ideas; suggestions from other people are in
+"From GitHub issues" above.

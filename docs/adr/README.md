@@ -50,10 +50,10 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0016](0016-no-bundle-size-limit.md) | No bundle size limit | Accepted, supersedes 0004's budget | 2026-09-28 |
 | [0017](0017-hybrid-modelling.md) | Procedural architecture, scripted Blender for props | Accepted | 2026-09-28 |
 | [0018](0018-backlog-as-a-gated-board.md) | The backlog is a board of task files in the repo, gated by a validator | Superseded by 0022 | 2026-09-29 |
-| [0019](0019-suggestions-arrive-as-github-issues.md) | Other people's suggestions arrive as GitHub issues, and become cards | Accepted; forms superseded by 0020, posting rule by 0021 | 2026-09-29 |
-| [0020](0020-plain-github-issues.md) | Suggestions arrive as plain GitHub issues, with no issue forms | Accepted; posting rule superseded by 0021 | 2026-10-01 |
-| [0021](0021-issue-triage-at-session-start.md) | Claude triages GitHub issues at the start of every session, and posts in one approved batch | Accepted, supersedes part of 0019 and 0020; row location superseded by 0022 | 2026-10-01 |
-| [0022](0022-one-todo-file.md) | One todo file, no board | Accepted, supersedes 0018 and part of 0021 | 2026-10-01 |
+| [0019](0019-suggestions-arrive-as-github-issues.md) | Other people's suggestions arrive as GitHub issues, and become cards | Accepted; forms superseded by 0020, posting rule by 0021, cards by 0022 | 2026-09-29 |
+| [0020](0020-plain-github-issues.md) | Suggestions arrive as plain GitHub issues, with no issue forms | Accepted; posting rule superseded by 0021, cards by 0022 | 2026-10-01 |
+| [0021](0021-issue-triage-at-session-start.md) | Claude triages GitHub issues at the start of every session, and posts in one approved batch | Accepted, supersedes part of 0019 and 0020; row location and cards superseded by 0022 | 2026-10-01 |
+| [0022](0022-one-todo-file.md) | One todo file, no board | Accepted, supersedes 0018 and part of 0019 and 0021 | 2026-10-01 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.
