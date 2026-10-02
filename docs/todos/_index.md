@@ -265,12 +265,16 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
 
 - [x] **Honest ambience, step one**: every ambient sound bed carries provenance; the medieval church
       bells at AD 800 and 1250 go, since no source records a medieval bell here (event-effects).
-      Done 2026-10-03: a bed level is `{ level, provenance }` (so none sounds without a reason), each
-      reason lives in `src/content/ambience.ts`; bells and the train now start on a new 1857 key (the bells
-      at 1600 and 1850, the train at 1850 and the market at 1250 had no source either); `?debug` lists
-      each sounding bed with its provenance. Red runs: the two content tests, the `environmentAt`
-      beds test and the debug-overlay e2e test. Screenshots at AD 800, 1282, 1900 and 2026. The
-      second-Opus review is still to come
+      Done 2026-10-03: every bed has its own dated track of points in `src/content/ambience.ts`, each
+      heard point with a provenance, and no bed fades in from silence, so none is heard before the
+      date of the point that names it (bells and the train from 20 January 1857; the bells at 800,
+      1250, 1600 and 1850, the train at 1850 and the market at 1250 had no source either); `?debug`
+      lists each sounding bed with its reason, and what it is fading towards
+      ([ADR 0028](../adr/0028-ambient-beds-carry-provenance.md)). Reviewed once by the second Opus:
+      one CRITICAL (bells still faded in from 1851) and six IMPORTANT findings, all fixed. Red runs:
+      the bells-and-train and no-fade-in content tests, the two `soundAt` unit tests, and the
+      debug-overlay e2e test. Screenshots at AD 800, 1282, 1700, 1855, 1900 and 2026. The gaps it
+      left are in [open questions](../research/open-questions.md)
 - [ ] **Honest ambience, step two**: sound shaped by distance and space
 - [ ] **Contested points, shown as contested**: one register of every source disagreement, a
       `Contested<T>` type with exactly one preferred reading, a witnesses card, and a ⇄ switch only

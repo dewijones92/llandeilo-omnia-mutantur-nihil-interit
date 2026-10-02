@@ -110,12 +110,17 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
 - Longhouse evidence is later and from mid Wales; the medieval ones in the app are marked imagined.
 - **The app rang church bells no source records** (corrected 2026-10-03). The environment keys gave
   bells at AD 800, 1250, 1600 and 1850, but the first bells heard at Llandeilo in any source read are
-  the peal for the first train on 20 January 1857 (effects:S7), and no medieval bell is recorded for
-  St Teilo's or Talley ([event-effects](event-effects.md), [soundscapes](soundscapes.md)). The same
-  pass found a train bed on the 1850 key, so the train's level was rising from 1600 (the audio was
-  only saved by needing a visible train), and a market at 1250, before the fair said to date from
-  1291. All three are gone; bells and the train now start on a new 1857 key, and every sounding bed
-  carries a provenance.
+  the peal for the first train on 20 January 1857 (effects:S7, which does not say whose bells), and no
+  medieval bell is recorded for St Teilo's or Talley ([event-effects](event-effects.md),
+  [soundscapes](soundscapes.md)). The same pass found a train bed on the 1850 key and a market at
+  1250, before the fair said to date from 1291. All three are gone. *Corrected again 2026-10-03 (the
+  second-Opus review)*: the first fix still let every bed fade in from silence across the gap before
+  the key that names it, so bells and the train were heard from 1851 and labelled documented, the
+  market from about 1276, chant from the 2nd century and motor traffic from the 1850s. Sound now has
+  its own dated tracks and never fades in from silence, so no bed is heard before the date of the
+  point that names it; and the Tywi, drovers and Ffairfach smithy beds, which rested only on
+  encyclopedia pages, are reconstructed, not documented
+  ([ADR 0028](../adr/0028-ambient-beds-carry-provenance.md)).
 
 ## Decisions the research drove
 

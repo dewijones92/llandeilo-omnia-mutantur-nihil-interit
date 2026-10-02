@@ -197,11 +197,14 @@ export const AMBIENT_BEDS = [
 ] as const;
 export type AmbientBed = (typeof AMBIENT_BEDS)[number];
 
-// A bed is silent unless a keyframe names it, so a level cannot exist without its reason.
-export interface BedLevel {
-  readonly level: number;
-  readonly provenance: Provenance;
-}
+// Each bed has its own dated points, so a sound date never needs a look keyframe. A bed is silent
+// before its first point and after a silent one, and never fades in from silence: a level cannot
+// exist without a heard point's reason, and cannot leak before that point's date.
+export type BedPoint =
+  | { readonly kind: 'heard'; readonly year: Year; readonly level: number; readonly provenance: Provenance }
+  | { readonly kind: 'silent'; readonly year: Year };
+
+export type Soundscape = Readonly<Record<AmbientBed, readonly BedPoint[]>>;
 
 export interface EnvironmentKey {
   readonly year: Year;
@@ -213,5 +216,4 @@ export interface EnvironmentKey {
   readonly sun: string;
   readonly fog: number;
   readonly mappedWoodland: number;
-  readonly ambient: Readonly<Partial<Record<AmbientBed, BedLevel>>>;
 }

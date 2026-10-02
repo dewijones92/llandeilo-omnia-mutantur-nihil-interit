@@ -2,35 +2,6 @@ import type { EnvironmentKey, Era } from '../domain/model.ts';
 import { ad, bc, range } from '../domain/time.ts';
 import { createTimeline } from '../domain/timeline.ts';
 import { eraId } from './ids.ts';
-import {
-  bed,
-  BELLS_SINCE,
-  CASTLE_WORKS,
-  CLAS_SINGING,
-  DROVERS,
-  FAIRS,
-  FARMLAND_BIRDS,
-  FARMSTEAD,
-  FARM_SMITH,
-  FFAIRFACH_SMITHY,
-  FIRST_FARMERS,
-  FIRST_PEAL,
-  FIRST_TRAIN,
-  GERALD_HERDS,
-  ICE_AGE_BIRDS,
-  MARKET_TOWN,
-  MEDIEVAL_BIRDS,
-  MELTWATER,
-  MODERN_BIRDS,
-  MODERN_FARMS,
-  MOTOR_TRAFFIC,
-  PANNIER_TANKS,
-  TYWI,
-  VILLAGE_SMITHY,
-  WILDWOOD_BIRDS,
-  WIND,
-  WOODLAND,
-} from './ambience.ts';
 
 export const TIMELINE = createTimeline([
   { t: 0, year: bc(12500), scale: 'linear' },
@@ -136,11 +107,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f4eee2',
     fog: 0.6,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.8, WIND),
-      river: bed(0.55, MELTWATER),
-      birds: bed(0.2, ICE_AGE_BIRDS),
-    },
   },
   {
     year: bc(11500),
@@ -152,11 +118,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f7efe0',
     fog: 0.6,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.8, WIND),
-      river: bed(0.55, MELTWATER),
-      birds: bed(0.3, ICE_AGE_BIRDS),
-    },
   },
   {
     year: bc(10900),
@@ -168,10 +129,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#eeebe3',
     fog: 0.8,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(1, WIND),
-      river: bed(0.5, MELTWATER),
-    },
   },
   {
     year: bc(9700),
@@ -183,11 +140,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f3eee4',
     fog: 0.7,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.9, WIND),
-      river: bed(0.5, MELTWATER),
-      birds: bed(0.2, ICE_AGE_BIRDS),
-    },
   },
   {
     year: bc(9000),
@@ -199,12 +151,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fbf0dc',
     fog: 0.5,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.55, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.6, WILDWOOD_BIRDS),
-      forest: bed(0.6, WOODLAND),
-    },
   },
   {
     year: bc(7000),
@@ -216,12 +162,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fff1d8',
     fog: 0.4,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.4, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.85, WILDWOOD_BIRDS),
-      forest: bed(0.85, WOODLAND),
-    },
   },
   {
     year: bc(5000),
@@ -233,12 +173,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fff1d6',
     fog: 0.35,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.3, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(1, WILDWOOD_BIRDS),
-      forest: bed(1, WOODLAND),
-    },
   },
   {
     year: bc(3500),
@@ -250,13 +184,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fff0d2',
     fog: 0.35,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.3, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.9, WILDWOOD_BIRDS),
-      forest: bed(0.85, WOODLAND),
-      livestock: bed(0.1, FIRST_FARMERS),
-    },
   },
   {
     year: bc(2000),
@@ -268,13 +195,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fdeccc',
     fog: 0.4,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.45, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.8, WILDWOOD_BIRDS),
-      forest: bed(0.6, WOODLAND),
-      livestock: bed(0.25, FIRST_FARMERS),
-    },
   },
   {
     year: bc(400),
@@ -286,14 +206,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f8e6c8',
     fog: 0.5,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.55, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.7, WILDWOOD_BIRDS),
-      forest: bed(0.45, WOODLAND),
-      livestock: bed(0.4, FARMSTEAD),
-      forge: bed(0.15, FARM_SMITH),
-    },
   },
   {
     year: ad(120),
@@ -305,14 +217,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#faead0',
     fog: 0.45,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.5, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.6, WILDWOOD_BIRDS),
-      forest: bed(0.4, WOODLAND),
-      livestock: bed(0.45, FARMSTEAD),
-      forge: bed(0.2, FARM_SMITH),
-    },
   },
   {
     year: ad(800),
@@ -324,14 +228,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f3e3c9',
     fog: 0.55,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.55, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.6, WILDWOOD_BIRDS),
-      forest: bed(0.35, WOODLAND),
-      livestock: bed(0.5, FARMSTEAD),
-      chant: bed(0.25, CLAS_SINGING),
-    },
   },
   {
     year: ad(1250),
@@ -343,14 +239,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fbe9c8',
     fog: 0.4,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.45, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.6, MEDIEVAL_BIRDS),
-      forest: bed(0.3, WOODLAND),
-      livestock: bed(0.55, GERALD_HERDS),
-      forge: bed(0.35, CASTLE_WORKS),
-    },
   },
   {
     year: ad(1600),
@@ -362,15 +250,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f9ead0',
     fog: 0.4,
     mappedWoodland: 0,
-    ambient: {
-      wind: bed(0.45, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.6, FARMLAND_BIRDS),
-      forest: bed(0.25, WOODLAND),
-      livestock: bed(0.6, GERALD_HERDS),
-      market: bed(0.4, FAIRS),
-      forge: bed(0.3, VILLAGE_SMITHY),
-    },
   },
   {
     year: ad(1850),
@@ -382,39 +261,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f6e4c6',
     fog: 0.55,
     mappedWoodland: 0.25,
-    ambient: {
-      wind: bed(0.4, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.5, FARMLAND_BIRDS),
-      forest: bed(0.2, WOODLAND),
-      livestock: bed(0.6, DROVERS),
-      market: bed(0.55, MARKET_TOWN),
-      forge: bed(0.4, FFAIRFACH_SMITHY),
-    },
-  },
-  // The first train and the first bells in any source, 20 January 1857. Its look lies on the line
-  // from 1850 to 1950, so this key changes only the sound.
-  {
-    year: ad(1857),
-    forest: 0.157,
-    farmland: 0.6214,
-    moor: 0.7944,
-    skyTop: '#95b1cd',
-    skyHorizon: '#eceae3',
-    sun: '#f6e5c8',
-    fog: 0.536,
-    mappedWoodland: 0.2885,
-    ambient: {
-      wind: bed(0.4, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.5, FARMLAND_BIRDS),
-      forest: bed(0.2, WOODLAND),
-      livestock: bed(0.6, DROVERS),
-      bells: bed(0.5, FIRST_PEAL),
-      market: bed(0.55, MARKET_TOWN),
-      forge: bed(0.4, FFAIRFACH_SMITHY),
-      train: bed(0.5, FIRST_TRAIN),
-    },
   },
   {
     year: ad(1950),
@@ -426,16 +272,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fbf0dc',
     fog: 0.35,
     mappedWoodland: 0.8,
-    ambient: {
-      wind: bed(0.35, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.55, MODERN_BIRDS),
-      forest: bed(0.2, WOODLAND),
-      livestock: bed(0.5, MODERN_FARMS),
-      bells: bed(0.35, BELLS_SINCE),
-      traffic: bed(0.3, MOTOR_TRAFFIC),
-      train: bed(0.3, PANNIER_TANKS),
-    },
   },
   {
     year: ad(2026),
@@ -447,14 +283,5 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fff6e6',
     fog: 0.3,
     mappedWoodland: 1,
-    ambient: {
-      wind: bed(0.35, WIND),
-      river: bed(0.5, TYWI),
-      birds: bed(0.6, MODERN_BIRDS),
-      forest: bed(0.25, WOODLAND),
-      livestock: bed(0.45, MODERN_FARMS),
-      bells: bed(0.25, BELLS_SINCE),
-      traffic: bed(0.45, MOTOR_TRAFFIC),
-    },
   },
 ];

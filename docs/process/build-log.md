@@ -289,10 +289,18 @@ Milestones and what each one taught us. Newest last.
 1. **Honest ambience, step one.** The sound beds had no provenance, and that hid three errors: church
    bells from AD 800 (the first bells in any source are the peal for the first train, 20 January
    1857), a train bed on the 1850 key (so its level climbed from 1600; only the need for a visible
-   train kept it silent), and a market at 1250, before the fair said to date from 1291. A bed level is
-   now `{ level, provenance }`, the reasons live in `src/content/ambience.ts`, bells and the train
-   start on a new 1857 key, and `?debug` lists every sounding bed with its provenance
-   ([ADR 0028](../adr/0028-ambient-beds-carry-provenance.md)). Two content tests, a unit test and an
-   e2e test were each seen red first. The debug overlay then grew taller than the space above the
-   timeline and covered Previous and Next; it is now capped like the other side panels, with the
-   sound lines above the long feature list.
+   train kept it silent), and a market at 1250, before the fair said to date from 1291. Every bed now
+   has its own dated track of points in `src/content/ambience.ts`, each heard point with a
+   provenance, and `?debug` lists every sounding bed with its reason
+   ([ADR 0028](../adr/0028-ambient-beds-carry-provenance.md)). The debug overlay then grew taller
+   than the space above the timeline and covered Previous and Next; it is now capped like the other
+   side panels, with the sound lines above the long feature list.
+2. **A fix that only moved the bug.** The first version put the 1857 bells on a new look key and
+   claimed "no bell before 1857", but linear interpolation faded every bed in from silence across
+   the gap before its key: bells from 1851, labelled documented, and the content test that was meant
+   to catch it stopped scanning at 1850. The second-Opus review found it. Lessons: a test of "nothing
+   before date X" must scan right up to X, fractions included; a key list shared by look and sound
+   makes every sound date cost a hand-copied look key; and an in-between year must not wear the next
+   key's reason as its own (`since` and `towards` now). Red runs: the two content tests (bells heard
+   from 1851; 200 fade-in samples across the beds), the two `soundAt` unit tests, and the overlay
+   e2e test (the river still "documented" at 1282).

@@ -234,7 +234,7 @@ async function start(): Promise<void> {
   sound.addEventListener('click', () => {
     soundOn = !soundOn;
     ambience ??= new Ambience();
-    ambience.set(snapshotAt(content, t).environment.ambient);
+    ambience.set(snapshotAt(content, t).sound.levels);
     ambience.enable(soundOn);
     sound.setAttribute('aria-pressed', String(soundOn));
     sound.textContent = store.t(soundOn ? 'soundOn' : 'soundOff');
@@ -381,7 +381,7 @@ async function start(): Promise<void> {
     labels.setFocus(shown?.place);
     debug?.update(snap);
     info.update(snap);
-    ambience?.set(snap.environment.ambient);
+    ambience?.set(snap.sound.levels);
     applyHeavy();
     applyLight();
   };

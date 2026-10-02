@@ -502,15 +502,27 @@ test('a key date whose season and hour a source records sets the sky to match, u
   await expect(page.locator('.sky-note')).toHaveText('Atmosphere only, not a record of this year');
 });
 
-test('the debug overlay names each sounding bed and its provenance: no bells in 1282, the 1857 peal by 1900', async ({
+test('the debug overlay names each sounding bed and its reason: no bells before the 1857 peal, fades labelled as fades', async ({
   page,
 }) => {
-  await page.goto('./?debug&year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   const debug = page.locator('.debug');
-  await expect(debug).toContainText(/sound river 0\.\d\d documented deeptime:S40/);
+  const at = async (y: number): Promise<void> => {
+    await page.goto(`./?debug&year=${String(y)}`);
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  };
+  await at(1282);
+  await expect(debug).toContainText(/sound river 0\.\d\d reconstructed deeptime:S40/);
   await expect(debug).not.toContainText('sound bells');
-  await page.goto('./?debug&year=1900');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  await expect(debug).toContainText(/sound bells 0\.\d\d documented effects:S7/);
+  await at(1855);
+  await expect(debug).toContainText('sound wind');
+  await expect(debug).not.toContainText('sound bells');
+  await expect(debug).not.toContainText('sound train');
+  await at(1700);
+  await expect(debug).toContainText(
+    /sound market 0\.\d\d reconstructed, fading to documented victorian:S41 victorian:S65/,
+  );
+  await at(1900);
+  await expect(debug).toContainText(
+    /sound bells 0\.\d\d documented effects:S7, fading to reconstructed effects:S7/,
+  );
 });

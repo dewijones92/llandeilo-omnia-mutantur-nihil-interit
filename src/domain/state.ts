@@ -5,6 +5,7 @@ import {
   AMBIENT_BEDS,
   type AlmanacEntry,
   type AmbientBed,
+  type BedPoint,
   type Conversation,
   type EnvironmentKey,
   type Era,
@@ -13,6 +14,7 @@ import {
   type LanguageSnapshot,
   type Person,
   type Place,
+  type Soundscape,
 } from './model.ts';
 import type { Provenance, Source } from './provenance.ts';
 import { contains, type TimeRange, type Year } from './time.ts';
@@ -22,6 +24,7 @@ export interface WorldContent {
   readonly timeline: Timeline;
   readonly eras: readonly Era[];
   readonly environment: readonly EnvironmentKey[];
+  readonly soundscape: Soundscape;
   readonly climate: readonly ClimateKey[];
   readonly places: readonly Place[];
   readonly events: readonly KeyEvent[];
@@ -42,14 +45,21 @@ export interface Environment {
   readonly sun: Rgb;
   readonly fog: number;
   readonly mappedWoodland: number;
-  readonly ambient: Readonly<Record<AmbientBed, number>>;
-  readonly beds: readonly SoundingBed[];
 }
 
+// `since` is the reason of the last point that names the bed; `towards` is set only between two
+// points with different reasons, or while fading out, so an in-between year never wears the next
+// point's reason as its own.
 export interface SoundingBed {
   readonly bed: AmbientBed;
   readonly level: number;
-  readonly provenance: readonly Provenance[];
+  readonly since: Provenance;
+  readonly towards?: Provenance | 'silence';
+}
+
+export interface Sound {
+  readonly levels: Readonly<Record<AmbientBed, number>>;
+  readonly beds: readonly SoundingBed[];
 }
 
 export interface FeaturePresence {
@@ -62,6 +72,7 @@ export interface Snapshot {
   readonly year: Year;
   readonly era: Era | undefined;
   readonly environment: Environment;
+  readonly sound: Sound;
   readonly chill: number;
   readonly features: readonly FeaturePresence[];
   readonly conversations: readonly Conversation[];
@@ -102,15 +113,6 @@ export function environmentAt(keys: readonly EnvironmentKey[], y: Year): Environ
     b = k;
   }
   const f = b.year === a.year ? 0 : clamp((y - a.year) / (b.year - a.year), 0, 1);
-  const ambient = everyBed((bed) => lerp(a.ambient[bed]?.level ?? 0, b.ambient[bed]?.level ?? 0, f));
-  const beds = AMBIENT_BEDS.flatMap((bed): SoundingBed[] => {
-    const level = ambient[bed];
-    if (level <= 0) return [];
-    const from = f < 1 ? a.ambient[bed] : undefined;
-    const to = f > 0 ? b.ambient[bed] : undefined;
-    const provenance = [from?.provenance, to?.provenance].filter((p) => p !== undefined);
-    return [{ bed, level, provenance: [...new Set(provenance)] }];
-  });
   return {
     forest: lerp(a.forest, b.forest, f),
     farmland: lerp(a.farmland, b.farmland, f),
@@ -120,9 +122,32 @@ export function environmentAt(keys: readonly EnvironmentKey[], y: Year): Environ
     sun: mix(hex(a.sun), hex(b.sun), f),
     fog: lerp(a.fog, b.fog, f),
     mappedWoodland: lerp(a.mappedWoodland, b.mappedWoodland, f),
-    ambient,
-    beds,
   };
+}
+
+function bedAt(bed: AmbientBed, points: readonly BedPoint[], y: Year): SoundingBed | undefined {
+  let i = -1;
+  while ((points[i + 1]?.year ?? Infinity) <= y) i++;
+  const a = points[i];
+  if (a?.kind !== 'heard') return undefined;
+  const b = points[i + 1];
+  if (!b || a.year === y) return { bed, level: a.level, since: a.provenance };
+  const f = (y - a.year) / (b.year - a.year);
+  if (b.kind === 'silent')
+    return { bed, level: lerp(a.level, 0, f), since: a.provenance, towards: 'silence' };
+  const level = lerp(a.level, b.level, f);
+  return b.provenance === a.provenance
+    ? { bed, level, since: a.provenance }
+    : { bed, level, since: a.provenance, towards: b.provenance };
+}
+
+export function soundAt(soundscape: Soundscape, y: Year): Sound {
+  const beds = AMBIENT_BEDS.flatMap((bed) => {
+    const heard = bedAt(bed, soundscape[bed], y);
+    return heard && heard.level > 0 ? [heard] : [];
+  });
+  const levels = everyBed((bed) => beds.find((b) => b.bed === bed)?.level ?? 0);
+  return { levels, beds };
 }
 
 export function latestStarting<T extends { readonly when: TimeRange }>(
@@ -163,6 +188,7 @@ export function snapshotAt(world: WorldContent, t: number): Snapshot {
     year: y,
     era: latestStarting(world.eras, y),
     environment: environmentAt(world.environment, y),
+    sound: soundAt(world.soundscape, y),
     chill: chillAt(world.climate, y),
     features,
     conversations: world.conversations.filter((c) => contains(c.when, y)),

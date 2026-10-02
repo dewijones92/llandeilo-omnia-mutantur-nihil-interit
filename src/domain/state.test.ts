@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import type { EnvironmentKey } from './model.ts';
+import type { BedPoint, EnvironmentKey, Soundscape } from './model.ts';
 import type { Provenance } from './provenance.ts';
-import { environmentAt, latestStarting, presenceAt } from './state.ts';
+import { environmentAt, latestStarting, presenceAt, soundAt } from './state.ts';
 import { ad, range } from './time.ts';
 import { createTimeline } from './timeline.ts';
 
@@ -45,10 +45,7 @@ describe('latestStarting', () => {
 });
 
 describe('environmentAt', () => {
-  const basis = (en: string): Provenance => ({ kind: 'reconstructed', basis: { en, cy: en }, sources: [] });
-  const early = basis('early');
-  const late = basis('late');
-  const key = (y: number, forest: number, sky: string, river?: number, why = early): EnvironmentKey => ({
+  const key = (y: number, forest: number, sky: string): EnvironmentKey => ({
     year: ad(y),
     forest,
     farmland: 1 - forest,
@@ -58,16 +55,14 @@ describe('environmentAt', () => {
     sun: sky,
     fog: 0.2,
     mappedWoodland: 0,
-    ambient: river === undefined ? {} : { river: { level: river, provenance: why } },
   });
-  const keys = [key(1000, 0.8, '#000000', 1), key(1200, 0.4, '#ffffff')];
+  const keys = [key(1000, 0.8, '#000000'), key(1200, 0.4, '#ffffff')];
 
   it('interpolates between the keyframes either side', () => {
     const e = environmentAt(keys, ad(1100));
     expect(e.forest).toBeCloseTo(0.6);
     expect(e.farmland).toBeCloseTo(0.4);
     expect(e.skyTop.r).toBeCloseTo(0.5, 2);
-    expect(e.ambient.river).toBeCloseTo(0.5);
   });
 
   it('holds the first and last keyframes beyond the ends', () => {
@@ -75,24 +70,69 @@ describe('environmentAt', () => {
     expect(environmentAt(keys, ad(1500)).forest).toBeCloseTo(0.4);
   });
 
-  it('is exactly the keyframe on its own year, and silent for beds it does not name', () => {
-    const e = environmentAt(keys, ad(1200));
-    expect(e.forest).toBe(0.4);
-    expect(e.ambient.river).toBe(0);
-    expect(e.ambient.train).toBe(0);
-  });
-
-  it('names each sounding bed with the provenance of every keyframe it is heard from', () => {
-    const both = [key(1000, 0.8, '#000000', 1, early), key(1200, 0.4, '#ffffff', 0.5, late)];
-    expect(environmentAt(both, ad(1000)).beds).toEqual([{ bed: 'river', level: 1, provenance: [early] }]);
-    expect(environmentAt(both, ad(1100)).beds).toEqual([
-      { bed: 'river', level: 0.75, provenance: [early, late] },
-    ]);
-    expect(environmentAt(keys, ad(1100)).beds).toEqual([{ bed: 'river', level: 0.5, provenance: [early] }]);
-    expect(environmentAt(keys, ad(1200)).beds).toEqual([]);
+  it('is exactly the keyframe on its own year', () => {
+    expect(environmentAt(keys, ad(1200)).forest).toBe(0.4);
   });
 
   it('refuses an empty keyframe list', () => {
     expect(() => environmentAt([], ad(1000))).toThrow();
+  });
+});
+
+describe('soundAt', () => {
+  const basis = (en: string): Provenance => ({ kind: 'reconstructed', basis: { en, cy: en }, sources: [] });
+  const early = basis('early');
+  const late = basis('late');
+  const heard = (y: number, level: number, why: Provenance): BedPoint => ({
+    kind: 'heard',
+    year: ad(y),
+    level,
+    provenance: why,
+  });
+  const silent = (y: number): BedPoint => ({ kind: 'silent', year: ad(y) });
+  const river = (...points: BedPoint[]): Soundscape => ({
+    wind: [],
+    river: points,
+    birds: [],
+    forest: [],
+    livestock: [],
+    forge: [],
+    bells: [],
+    market: [],
+    train: [],
+    traffic: [],
+    chant: [],
+  });
+  const fades = river(heard(1000, 1, early), silent(1200));
+
+  it('interpolates a bed between its points and fades it out to a silent point', () => {
+    expect(soundAt(fades, ad(1100)).levels.river).toBeCloseTo(0.5);
+    expect(soundAt(fades, ad(1200)).levels.river).toBe(0);
+    expect(soundAt(fades, ad(1100)).levels.train).toBe(0);
+  });
+
+  it('is silent before its first point and holds its last', () => {
+    const held = river(heard(1000, 0.4, early));
+    expect(soundAt(held, ad(999)).levels.river).toBe(0);
+    expect(soundAt(held, ad(2000)).levels.river).toBe(0.4);
+  });
+
+  it('names the reason a bed is heard from, and the reason it is fading towards', () => {
+    const both = river(heard(1000, 1, early), heard(1200, 0.5, late));
+    expect(soundAt(both, ad(1000)).beds).toEqual([{ bed: 'river', level: 1, since: early }]);
+    expect(soundAt(both, ad(1100)).beds).toEqual([
+      { bed: 'river', level: 0.75, since: early, towards: late },
+    ]);
+    expect(soundAt(fades, ad(1100)).beds).toEqual([
+      { bed: 'river', level: 0.5, since: early, towards: 'silence' },
+    ]);
+    expect(soundAt(fades, ad(1200)).beds).toEqual([]);
+  });
+
+  it('never fades a bed in from silence: it starts at the point that names it', () => {
+    const starts = river(silent(1000), heard(1200, 0.5, late));
+    expect(soundAt(starts, ad(1100)).levels.river).toBe(0);
+    expect(soundAt(starts, ad(1199.99)).levels.river).toBe(0);
+    expect(soundAt(starts, ad(1200)).levels.river).toBe(0.5);
   });
 });
