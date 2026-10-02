@@ -17,6 +17,8 @@ type Rgb3 = readonly [number, number, number];
 
 interface Candidate {
   readonly tri: number;
+  // Uniform in [0, 1): the tree is drawn when this is below the quality's share.
+  readonly rank: number;
   readonly matrix: Float32Array;
   readonly shade: number;
   readonly conifer: boolean;
@@ -43,6 +45,8 @@ const BLOSSOM: readonly Rgb3[] = [
   [0.96, 0.8, 0.86],
 ];
 const SNOW: Rgb3 = [0.93, 0.95, 0.97];
+
+const TREE_CHANCE = 0.62;
 
 function pick<T>(list: readonly T[], r: number, fallback: T): T {
   return list[Math.floor(r * list.length) % list.length] ?? fallback;
@@ -73,10 +77,12 @@ export class Forest {
   private readonly broadleaf: Mesh;
   private readonly conifer: Mesh;
   private readonly candidates: readonly Candidate[];
+  private look: SeasonLook | undefined;
 
   constructor(
     scene: Scene,
     private readonly terrain: Terrain,
+    private share: number,
   ) {
     const mat = new StandardMaterial('tree-mat', scene);
     mat.specularColor = new Color3(0.03, 0.03, 0.03);
@@ -86,7 +92,7 @@ export class Forest {
     const t = terrain.tris;
     for (let i = 0; i < t.count; i++) {
       const r = hash2(i, 91, 5);
-      if (r > 0.62) continue;
+      if (r > TREE_CHANCE) continue;
       const scale = 1.5 + hash2(i, 17, 2) * 0.9;
       const rot = Quaternion.RotationAxis(Vector3.Up(), hash2(i, 3, 9) * Math.PI * 2);
       const jx = (hash2(i, 5, 1) - 0.5) * 3;
@@ -103,6 +109,7 @@ export class Forest {
       m.copyToArray(arr);
       list.push({
         tri: i,
+        rank: r / TREE_CHANCE,
         matrix: arr,
         shade,
         conifer,
@@ -119,15 +126,22 @@ export class Forest {
     return [this.broadleaf, this.conifer];
   }
 
+  setShare(share: number): void {
+    if (share === this.share) return;
+    this.share = share;
+    if (this.look) this.update(this.look);
+  }
+
   update(look: SeasonLook): void {
+    this.look = look;
     const code = COVER_CODE.wood;
     const broad: Candidate[] = [];
     const con: Candidate[] = [];
     for (const c of this.candidates) {
-      if (this.terrain.cover[c.tri] === code) (c.conifer ? con : broad).push(c);
+      if (c.rank < this.share && this.terrain.cover[c.tri] === code) (c.conifer ? con : broad).push(c);
     }
     const visible = broad.length + con.length;
-    console.info(`dewidebug forest visible=${visible}`);
+    console.info(`dewidebug forest visible=${visible} share=${this.share.toFixed(2)}`);
     apply(this.broadleaf, broad, look);
     apply(this.conifer, con, look);
   }

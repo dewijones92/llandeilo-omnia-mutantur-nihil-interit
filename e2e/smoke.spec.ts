@@ -501,3 +501,43 @@ test('a key date whose season and hour a source records sets the sky to match, u
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('.sky-note')).toHaveText('Atmosphere only, not a record of this year');
 });
+
+test('the Begin card shows the motto in both languages, and Begin opens the valley with sound', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?begin=1');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const card = page.getByRole('dialog', { name: 'Llandeilo' });
+  await expect(card).toBeVisible();
+  await expect(card).toContainText('Omnia mutantur, nihil interit');
+  await expect(card).toContainText('Everything changes, nothing perishes');
+  await expect(card).toContainText('Ovid, Metamorphoses XV');
+  await card.getByRole('button', { name: 'Cymraeg' }).click();
+  await expect(card).toContainText('Mae popeth yn newid, does dim byd yn darfod');
+  await expect(card.getByRole('button', { name: 'Dechrau' })).toBeVisible();
+  await card.getByRole('button', { name: 'English' }).click();
+  await page.screenshot({ path: 'test-results/begin-card.png' });
+  await card.getByRole('button', { name: 'Begin' }).click();
+  await expect(card).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Sound on' })).toHaveAttribute('aria-pressed', 'true');
+  expect(errors).toEqual([]);
+});
+
+test('choosing Low graphics turns the effects off, and the choice is remembered', async ({ page }) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const debug = page.locator('.debug');
+  await expect(debug).toContainText('quality high');
+  const graphics = page.getByRole('group', { name: 'Graphics' });
+  await expect(graphics.getByRole('button', { name: 'High' })).toHaveAttribute('aria-pressed', 'true');
+  await graphics.getByRole('button', { name: 'Low' }).click();
+  await expect(graphics.getByRole('button', { name: 'Low' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(debug).toContainText('quality low');
+  await expect(debug).toContainText('bloom off');
+  await expect(debug).toContainText('dof off');
+  await page.reload();
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.debug')).toContainText('quality low');
+});

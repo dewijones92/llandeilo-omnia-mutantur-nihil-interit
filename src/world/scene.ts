@@ -19,6 +19,7 @@ import {
 import { lerp } from '../domain/assert.ts';
 import type { Direction, Lighting, SeasonLook } from '../domain/daylight.ts';
 import type { Heightfield } from '../domain/heightfield.ts';
+import type { QualitySettings, ShadowFilter } from '../domain/quality.ts';
 import type { Environment } from '../domain/state.ts';
 import type { RiverLine } from '../platform/assets.ts';
 import { Sky } from './sky.ts';
@@ -28,6 +29,11 @@ import { Water } from './water.ts';
 
 const SHADOW_INTERVAL_MS = 90;
 const TILT_SHIFT = 0.026;
+const SHADOW_FILTER: Readonly<Record<ShadowFilter, number>> = {
+  high: ShadowGenerator.QUALITY_HIGH,
+  medium: ShadowGenerator.QUALITY_MEDIUM,
+  low: ShadowGenerator.QUALITY_LOW,
+};
 
 export class World {
   readonly scene: Scene;
@@ -53,7 +59,7 @@ export class World {
     heightfield: Heightfield,
     rivers: readonly RiverLine[],
     woodland: Uint8Array,
-    private readonly effects: boolean,
+    private settings: QualitySettings,
   ) {
     const scene = new Scene(engine);
     this.scene = scene;
@@ -93,9 +99,9 @@ export class World {
     this.sun.shadowMinZ = 10;
     this.sun.shadowMaxZ = 9000;
 
-    this.shadows = new ShadowGenerator(4096, this.sun);
+    this.shadows = new ShadowGenerator(this.shadowMapSize(settings), this.sun);
     this.shadows.usePercentageCloserFiltering = true;
-    this.shadows.filteringQuality = ShadowGenerator.QUALITY_MEDIUM;
+    this.shadows.filteringQuality = SHADOW_FILTER[settings.shadowFilter];
     this.shadows.bias = 0.0008;
     this.shadows.normalBias = 0.6;
     this.shadows.darkness = 0.28;
@@ -107,13 +113,13 @@ export class World {
     this.shadows.addShadowCaster(this.terrain.mesh);
     this.water = new Water(scene, this.terrain.rivers);
     this.lamps.add(this.water.material);
-    this.forest = new Forest(scene, this.terrain);
+    this.forest = new Forest(scene, this.terrain, settings.trees);
     for (const m of this.forest.meshes) this.shadows.addShadowCaster(m);
 
     const pipeline = new DefaultRenderingPipeline('post', true, scene, [camera]);
-    pipeline.samples = 4;
+    pipeline.samples = settings.msaa;
     pipeline.fxaaEnabled = false;
-    pipeline.bloomEnabled = true;
+    pipeline.bloomEnabled = settings.bloom;
     pipeline.bloomThreshold = 0.82;
     pipeline.bloomWeight = 0.18;
     pipeline.bloomKernel = 48;
@@ -125,16 +131,52 @@ export class World {
     pipeline.imageProcessing.vignetteEnabled = true;
     pipeline.imageProcessing.vignetteWeight = 1.1;
     pipeline.imageProcessing.vignetteColor = new Color4(0.15, 0.13, 0.12, 0);
-    pipeline.sharpenEnabled = true;
+    pipeline.sharpenEnabled = settings.sharpen;
     pipeline.sharpen.edgeAmount = 0.18;
-    pipeline.depthOfFieldEnabled = effects;
+    pipeline.depthOfFieldEnabled = settings.depthOfField;
     pipeline.depthOfFieldBlurLevel = DepthOfFieldEffectBlurLevel.Medium;
     pipeline.depthOfField.lensSize = 50;
     pipeline.depthOfField.fStop = 1.4;
-    console.info(`dewidebug world effects=${effects ? 'full' : 'low'}`);
     pipeline.imageProcessing.colorCurvesEnabled = true;
     pipeline.imageProcessing.colorCurves = this.curves;
     this.pipeline = pipeline;
+    this.applyPixelRatio();
+    console.info(`dewidebug world quality=${settings.quality} shadowMap=${String(this.shadows.mapSize)}`);
+  }
+
+  get quality(): QualitySettings {
+    return this.settings;
+  }
+
+  setQuality(next: QualitySettings): void {
+    if (next === this.settings) return;
+    this.settings = next;
+    const size = this.shadowMapSize(next);
+    if (size !== this.shadows.mapSize) {
+      this.shadows.mapSize = size;
+      // Recreating the map resets its refresh rate to every frame; shadows here render on demand.
+      const map = this.shadows.getShadowMap();
+      if (map) map.refreshRate = 0;
+    }
+    this.shadows.filteringQuality = SHADOW_FILTER[next.shadowFilter];
+    this.pipeline.samples = next.msaa;
+    this.pipeline.bloomEnabled = next.bloom;
+    this.pipeline.sharpenEnabled = next.sharpen;
+    this.pipeline.depthOfFieldEnabled = next.depthOfField;
+    this.forest.setShare(next.trees);
+    this.applyPixelRatio();
+    this.refreshShadows();
+    console.info(`dewidebug world quality=${next.quality} shadowMap=${String(this.shadows.mapSize)}`);
+  }
+
+  private shadowMapSize(s: QualitySettings): number {
+    return Math.min(s.shadowMapSize, this.scene.getEngine().getCaps().maxTextureSize);
+  }
+
+  private applyPixelRatio(): void {
+    const ratio = Math.min(window.devicePixelRatio || 1, this.settings.maxPixelRatio);
+    this.scene.getEngine().setHardwareScalingLevel(1 / ratio);
+    console.info(`dewidebug engine pixelRatio=${String(ratio)}`);
   }
 
   addLamp(material: Material): void {
@@ -203,7 +245,7 @@ export class World {
       this.sun.position.set(d.x * 4500, d.y * 4500, d.z * 4500);
       this.refreshShadows();
     }
-    if (this.effects) {
+    if (this.settings.depthOfField) {
       const focus = Math.max(40, this.camera.radius) * 1000;
       this.pipeline.depthOfField.focusDistance = focus;
       this.pipeline.depthOfField.focalLength = focus * TILT_SHIFT;

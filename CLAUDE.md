@@ -35,7 +35,7 @@ so the next reader knows the map was unreliable there.
 | Decision | Choice | Why |
 |---|---|---|
 | Platform ✅ | Web app, static site, **desktop only**. Phones and tablets get a dismissible "best viewed on a desktop" banner and no other support ([ADR 0015](docs/adr/0015-desktop-only.md)) | Dewi, 2026-09-28: "remove the requirement to support mobile and accessibility stuff like screenreaders". Desktop gives us graphics headroom |
-| Hardware ✅ | **Assume a powerful desktop GPU** (Dewi, 2026-10-02: "just assume (when coding the app) that user has beefy gpus"). Default to high quality: rich shadows, post-processing, dense vegetation, particles, real reflections; `?fx=low` stays as the escape hatch, not the default | Dewi's own machines have NVIDIA GPUs; the audience is family on desktops |
+| Hardware ✅ | **Assume a powerful desktop GPU** (Dewi, 2026-10-02: "just assume (when coding the app) that user has beefy gpus"). Default to high quality: rich shadows, post-processing, dense vegetation, particles, real reflections; a Graphics menu (High / Medium / Low, [ADR 0028](docs/adr/0028-one-graphics-quality-setting.md)) is the escape hatch, with `?fx=low` kept as an alias for Low | Dewi's own machines have NVIDIA GPUs; the audience is family on desktops |
 | Stack ✅ | Vite + TypeScript (strict) | Fast dev loop; strict types make bad content data fail at compile time |
 | Rendering ✅ | **Babylon.js**: WebGPU engine where supported, WebGL2 fallback | Dewi's pick over three.js: a fuller engine with more built in (inspector, scene tooling, audio), and WebGPU without writing our own engine |
 | Look ✅ | **Clean low-poly** 3D diorama of the real valley that you can orbit around | Charming, fast, and quick to fill every era; fidelity can be raised per era later |

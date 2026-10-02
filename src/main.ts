@@ -29,6 +29,11 @@ import { FollowChip } from './ui/follow-chip.ts';
 import { desktopBanner } from './ui/desktop-banner.ts';
 import { ConversationPanel } from './ui/conversation.ts';
 import { InfoPanel, type InfoTab } from './ui/info.ts';
+import { langToggle } from './ui/lang-toggle.ts';
+import { OpeningCard } from './ui/opening.ts';
+import { QualityMenu, storedQuality } from './ui/quality.ts';
+import { showsBegin } from './domain/opening.ts';
+import { chooseQuality, QUALITY } from './domain/quality.ts';
 import { Ambience } from './audio/ambience.ts';
 import { h } from './ui/dom.ts';
 import { Shortcuts } from './ui/shortcuts.ts';
@@ -61,18 +66,8 @@ async function start(): Promise<void> {
   const canvas = document.getElementById('scene');
   if (!app || !(canvas instanceof HTMLCanvasElement)) throw new Error('Missing #app or #scene');
 
-  const loader = h(
-    'div',
-    { class: 'loader', role: 'status' },
-    h(
-      'div',
-      { class: 'loader-card' },
-      h('h1', {}, store.t('title')),
-      h('p', {}, store.t('loading')),
-      h('div', { class: 'loader-bar' }, h('span')),
-    ),
-  );
-  document.body.append(loader);
+  const opening = new OpeningCard(store, showsBegin(params, navigator.webdriver));
+  document.body.append(opening.el);
 
   const [{ engine, backend }, heightfield, rivers, woodland, footprints, railways, roads] = await Promise.all(
     [
@@ -85,7 +80,13 @@ async function start(): Promise<void> {
       loadRoads(),
     ],
   );
-  const world = new World(engine, heightfield, rivers, woodland, params.get('fx') !== 'low');
+  const chosen = chooseQuality({
+    param: params.get('quality'),
+    fx: params.get('fx'),
+    stored: storedQuality(),
+  });
+  console.info(`dewidebug quality start=${chosen.quality} from=${chosen.source}`);
+  const world = new World(engine, heightfield, rivers, woodland, QUALITY[chosen.quality]);
   const content = WORLD_CONTENT;
   const trainModels = new Map<RollingStock, LoadedModel>();
   const llanelly = await loadModel(
@@ -103,6 +104,7 @@ async function start(): Promise<void> {
   let smokeSources = features.smokeSources([]);
 
   const debug = params.has('debug') ? new DebugOverlay(engine, backend, world.camera) : undefined;
+  debug?.quality(world.quality);
   let pending = true;
   let t = Number(params.get('t') ?? Number.NaN);
   const yearParam = Number(params.get('year') ?? Number.NaN);
@@ -231,13 +233,17 @@ async function start(): Promise<void> {
   let ambience: Ambience | undefined;
   let soundOn = false;
   const sound = h('button', { class: 'tool', type: 'button', 'aria-pressed': false }, store.t('soundOff'));
-  sound.addEventListener('click', () => {
-    soundOn = !soundOn;
+  // Browsers only start audio from a click, so this must run inside one.
+  const setSound = (on: boolean): void => {
+    soundOn = on;
     ambience ??= new Ambience();
     ambience.set(snapshotAt(content, t).environment.ambient);
     ambience.enable(soundOn);
     sound.setAttribute('aria-pressed', String(soundOn));
     sound.textContent = store.t(soundOn ? 'soundOn' : 'soundOff');
+  };
+  sound.addEventListener('click', () => {
+    setSound(!soundOn);
   });
   const tabButton = (tab: InfoTab): HTMLButtonElement => {
     const b = h('button', { class: 'tool', type: 'button' }, store.t(tab));
@@ -274,7 +280,11 @@ async function start(): Promise<void> {
     sound,
     keysButton,
   );
-  brand.append(row2, skyControls.el);
+  const quality = new QualityMenu(store, chosen.quality, (q) => {
+    world.setQuality(QUALITY[q]);
+    debug?.quality(world.quality);
+  });
+  brand.append(row2, skyControls.el, quality.el);
   brand.querySelector('.brand-row')?.append(home);
   app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el, shortcuts.el);
   const compact = (): void => {
@@ -415,30 +425,12 @@ async function start(): Promise<void> {
     engine.resize();
   });
   await world.scene.whenReadyAsync();
-  loader.classList.add('done');
-  setTimeout(() => {
-    loader.remove();
-  }, 900);
+  opening.ready(() => {
+    setSound(true);
+  });
   if (debug) Object.assign(window, { llandeiloDebug: { scene: world.scene } });
   document.body.dataset['ready'] = 'true';
   console.info(`dewidebug app ready backend=${backend}`);
-}
-
-function langToggle(store: LangStore): HTMLElement {
-  const en = h('button', { type: 'button', 'aria-pressed': store.lang === 'en' }, 'English');
-  const cy = h('button', { type: 'button', 'aria-pressed': store.lang === 'cy' }, 'Cymraeg');
-  const sync = (): void => {
-    en.setAttribute('aria-pressed', String(store.lang === 'en'));
-    cy.setAttribute('aria-pressed', String(store.lang === 'cy'));
-  };
-  en.addEventListener('click', () => {
-    store.set('en');
-  });
-  cy.addEventListener('click', () => {
-    store.set('cy');
-  });
-  store.onChange(sync);
-  return h('div', { class: 'seg', role: 'group', 'aria-label': 'Language / Iaith' }, en, cy);
 }
 
 start().catch((err: unknown) => {

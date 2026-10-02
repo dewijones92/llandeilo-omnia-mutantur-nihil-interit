@@ -1,6 +1,7 @@
 import type { AbstractEngine, ArcRotateCamera } from '../world/babylon.ts';
 import { formatYear } from '../domain/time.ts';
 import type { Clock, Lighting } from '../domain/daylight.ts';
+import { describeQuality, type QualitySettings } from '../domain/quality.ts';
 import type { Snapshot } from '../domain/state.ts';
 import { h } from './dom.ts';
 
@@ -8,6 +9,7 @@ export class DebugOverlay {
   readonly el = h('div', { class: 'debug panel', 'aria-hidden': 'true' });
   private snapshot: Snapshot | undefined;
   private sky = '';
+  private graphics = '';
 
   constructor(
     private readonly engine: AbstractEngine,
@@ -27,6 +29,10 @@ export class DebugOverlay {
     this.sky = `sky ${clock.season} ${clock.hour.toFixed(2)}h sun ${l.elevation.toFixed(1)}° ${l.moon ? 'moon' : 'sun'} ${l.lightIntensity.toFixed(2)} night ${l.night.toFixed(2)} lamps ${l.lamps.toFixed(2)}`;
   }
 
+  quality(s: QualitySettings): void {
+    this.graphics = describeQuality(s);
+  }
+
   private render(): void {
     const c = this.camera.target;
     this.el.dataset['camera'] = `${c.x.toFixed(1)},${c.z.toFixed(1)}`;
@@ -35,6 +41,7 @@ export class DebugOverlay {
     const env = s.environment;
     const lines = [
       `backend ${this.backend}  fps ${this.engine.getFps().toFixed(0)}`,
+      this.graphics,
       `camera x ${c.x.toFixed(0)} z ${c.z.toFixed(0)} r ${this.camera.radius.toFixed(0)}`,
       `t ${s.t.toFixed(4)}  year ${formatYear(s.year, 'en')}  era ${s.era?.id ?? '-'}`,
       `${this.sky}  chill ${s.chill.toFixed(2)}`,

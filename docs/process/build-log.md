@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Build log
@@ -283,3 +283,17 @@ Milestones and what each one taught us. Newest last.
 19. **Two GPU browsers at once can hang one.** A screenshot script and the e2e run shared the D3D12
     GPU path; one e2e page never became ready in 150s, then passed five times out of five alone. Take
     screenshots before or after an e2e run, not during.
+
+## 2026-10-03
+
+1. **A Begin card and a Graphics menu.** The loading card now carries the Ovid motto and, once the
+   valley is ready, becomes a Begin card veiled over the scene; Begin is the click browsers need
+   before they play sound, so it turns the sound on. Links into a year or place skip it, and so do
+   automated browsers (`navigator.webdriver`), so the existing e2e tests and screenshots needed no
+   edits; `?begin=1` brings it back for a test. The graphics level is one table in
+   `src/domain/quality.ts` ([ADR 0028](../adr/0028-one-graphics-quality-setting.md)), applied live,
+   with `?fx=low` kept as an alias. The motto was checked against the Latin Library text of
+   Metamorphoses XV (line 164 there; other editions number it 165, so the card names only the book).
+   First draft of the card left place labels and a speech bubble showing through the motto; the
+   text now sits on its own panel. 8192² shadows cost nothing measurable on SwiftShader (four e2e
+   tests: 1.2 minutes at 8192, 1.3 at 4096), and are unmeasured on a real desktop GPU.
