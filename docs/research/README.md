@@ -2,7 +2,7 @@
 title: Research index
 kind: index
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Research
@@ -35,6 +35,7 @@ the research drove.
 | [music-through-time](music-through-time.md) | Music in and around Llandeilo, by era, class and setting | draft | not yet checked | [brief](briefs/music-through-time.md) |
 | [soundscapes](soundscapes.md) | What the valley sounded like, era by era, and where to get the sounds | draft | not yet checked | [brief](briefs/soundscapes.md) |
 | [hunter-gatherers](hunter-gatherers.md) | Hunter-gatherers from the ice to the first farmers (c. 13,000 to 4000 BC) | draft | not yet checked | [brief](briefs/hunter-gatherers.md) |
+| [light-after-dark](light-after-dark.md) | How homes and streets were lit after dark: hearth, rushlight, oil, gas (1864, streets by 1876), electric (1902), the blackout | draft | not yet checked | none (written inline, 2026-10-03) |
 
 The first six were produced in one pass on 2026-09-26, with WebSearch quota exhausted part way
 through (see [`process.md`](process.md)); `conversations-by-class` was added on 2026-09-28 and the rest

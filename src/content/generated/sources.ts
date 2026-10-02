@@ -2743,6 +2743,114 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/language-by-class.md"
   },
   {
+    "id": "light:S1",
+    "title": "*The Welshman*, 19 August 1864, p. 24 col. \"LLANDILO.—GAS WORKS\"",
+    "url": "https://newspapers.library.wales/view/4352711/4352716/24/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S2",
+    "title": "*The North Wales Chronicle*, 29 October 1864",
+    "url": "https://newspapers.library.wales/view/4447307/4447311/34/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S3",
+    "title": "*The Welshman*, 1 July 1864",
+    "url": "https://newspapers.library.wales/view/4352648/4352652/15/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S4",
+    "title": "*The Welshman*, 29 September 1876",
+    "url": "https://newspapers.library.wales/view/4355793/4355798/18/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S5",
+    "title": "*South Wales Echo*, 26 June 1899",
+    "url": "https://newspapers.library.wales/view/4233580/4233583/95/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S6",
+    "title": "*The Cambrian*, 14 July 1899",
+    "url": "https://newspapers.library.wales/view/3342899/3342906/98/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S7",
+    "title": "*Weekly Mail*, 16 June 1900",
+    "url": "https://newspapers.library.wales/view/3374186/3374191/90/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S8",
+    "title": "*The Carmarthen Weekly Reporter*, 5 September 1902, \"Llandilo Notes\"",
+    "url": "https://newspapers.library.wales/view/3645955/3645956/21/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S9",
+    "title": "*The Carmarthen Weekly Reporter*, 3 October 1902, \"Llandilo Notes\"",
+    "url": "https://newspapers.library.wales/view/3645987/3645988/2/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S10",
+    "title": "*The Carmarthen Journal*, 21 November 1902, \"Electricity for Carmarthenshire\"",
+    "url": "https://newspapers.library.wales/view/3677459/3677464/43/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S11",
+    "title": "*The Carmarthen Weekly Reporter*, 5 December 1902, \"Llandilo Notes\"",
+    "url": "https://newspapers.library.wales/view/3646059/3646061/16/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S12",
+    "title": "*The Welshman*, 4 March 1864, advertisement of J. H. Smith and Co., Carmarthen",
+    "url": "https://newspapers.library.wales/view/4352495/4352499/13/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S13",
+    "title": "Amgueddfa Cymru – Museum Wales, \"Cilewent farmhouse\", Collections Online",
+    "url": "https://museum.wales/collections/historic-buildings/5/Cilewent-Farmhouse/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S14",
+    "title": "Gilbert White, *The Natural History of Selborne*, vol. 2, Letter XXVI to Daines Barrington (1 November 1775), Project Gutenberg ebook 20934",
+    "url": "https://www.gutenberg.org/ebooks/20934",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S15",
+    "title": "Imperial War Museums, \"The Nation at a Standstill: Shutdown in the Second World War\"",
+    "url": "https://www.iwm.org.uk/history/the-nation-at-a-standstill-shutdown-in-the-second-world-war",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S16",
+    "title": "Hansard, HC Deb 5 October 1944 vol 403 cc1111-5, \"Black-out Regulations\"",
+    "url": "https://api.parliament.uk/historic-hansard/commons/1944/oct/05/black-out-regulations",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S17",
+    "title": "Hansard, HC Deb 8 February 1945 vol 407 cc2211-2, \"Lighting Restrictions\"",
+    "url": "https://api.parliament.uk/historic-hansard/commons/1945/feb/08/lighting-restrictions",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S18",
+    "title": "Hansard, HC Deb 12 April 1945 vol 409 c1980, \"Black-out Restrictions\"",
+    "url": "https://api.parliament.uk/historic-hansard/commons/1945/apr/12/black-out-restrictions",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
     "id": "music:S1",
     "title": "*Brut y Tywysogion; or, The Chronicle of the Princes*, ed. John Williams ab Ithel (Rolls Series, 1860), Internet Archive text layer",
     "url": "https://archive.org/details/brutytywysogiono00cara",
