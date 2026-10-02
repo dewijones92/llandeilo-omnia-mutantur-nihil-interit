@@ -9,6 +9,7 @@ import {
   type Scene,
 } from './babylon.ts';
 import { hex } from '../domain/colour.ts';
+import type { LampState } from '../domain/lamplight.ts';
 import { WORLD } from '../domain/geo.ts';
 import type { GridRef, RollingStock } from '../domain/model.ts';
 import { hash2 } from '../domain/noise.ts';
@@ -21,7 +22,11 @@ const WALLS = ['#f3efe6', '#efe6d2', '#e9dfcf', '#f4ecd8', '#e5ded6', '#efe3d8',
   hex,
 );
 
-const LIT_SHARE = 0.62;
+interface TownSelection {
+  readonly id: string;
+  readonly order: Int32Array;
+  readonly count: number;
+}
 
 export class Buildings {
   private readonly walls: Mesh;
@@ -29,12 +34,14 @@ export class Buildings {
   private readonly windows: Mesh;
   readonly windowMaterial: StandardMaterial;
   private readonly glow: Float32Array;
-  private lamps = 0;
+  private lamps: LampState | undefined;
+  private share = 0;
   private litCount = 0;
   private readonly matrices: Float32Array;
   private readonly roofMatrices: Float32Array;
   private readonly colours: Float32Array;
   private lastKey = '';
+  private lastSelections: readonly TownSelection[] | undefined;
 
   constructor(
     scene: Scene,
@@ -78,8 +85,8 @@ export class Buildings {
       );
       const c = WALLS[Math.floor(hash2(i, 7, 3) * WALLS.length)] ?? WALLS[0];
       if (c) this.colours.set([c.r, c.g, c.b, 1], i * 4);
-      const warm = hash2(i, 33, 5);
-      this.glow.set([1, 0.7 + warm * 0.14, 0.36 + warm * 0.16, 1], i * 4);
+      const v = 0.72 + hash2(i, 33, 5) * 0.28;
+      this.glow.set([v, v, v, 1], i * 4);
     }
     this.walls.isVisible = false;
     this.roofs.isVisible = false;
@@ -115,8 +122,9 @@ export class Buildings {
     return Int32Array.from(ids);
   }
 
-  show(selections: readonly { id: string; order: Int32Array; count: number }[]): void {
-    const key = selections.map((s) => `${s.id}:${s.count}`).join('|');
+  show(selections: readonly TownSelection[]): void {
+    this.lastSelections = selections;
+    const key = `${selections.map((s) => `${s.id}:${s.count}`).join('|')}@${this.share.toFixed(2)}`;
     if (key === this.lastKey) return;
     this.lastKey = key;
     const chosen = new Set<number>();
@@ -140,7 +148,7 @@ export class Buildings {
     this.roofs.thinInstanceCount = n;
     this.walls.isVisible = n > 0;
     this.roofs.isVisible = n > 0;
-    const lit = [...chosen].filter((id) => hash2(id, 31, 7) < LIT_SHARE);
+    const lit = [...chosen].filter((id) => hash2(id, 31, 7) < this.share);
     const wm = new Float32Array(Math.max(1, lit.length) * 16);
     const wc = new Float32Array(Math.max(1, lit.length) * 4);
     lit.forEach((id, j) => {
@@ -151,13 +159,18 @@ export class Buildings {
     this.windows.thinInstanceSetBuffer('color', wc, 4, false);
     this.windows.thinInstanceCount = lit.length;
     this.litCount = lit.length;
-    this.setLamps(this.lamps);
+    if (this.lamps) this.setLamps(this.lamps);
   }
 
-  setLamps(level: number): void {
-    this.lamps = level;
-    this.windows.isVisible = level > 0.02 && this.litCount > 0;
-    this.windowMaterial.emissiveColor.set(level, level, level);
+  setLamps(state: LampState): void {
+    this.lamps = state;
+    if (state.windowShare !== this.share) {
+      this.share = state.windowShare;
+      if (this.lastSelections) this.show(this.lastSelections);
+    }
+    const w = state.windows;
+    this.windows.isVisible = w > 0.02 && this.litCount > 0;
+    this.windowMaterial.emissiveColor.set(state.colour.r * w, state.colour.g * w, state.colour.b * w);
   }
 }
 

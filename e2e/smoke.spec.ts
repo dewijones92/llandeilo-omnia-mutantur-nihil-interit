@@ -363,6 +363,25 @@ test('time of day and season controls relight the valley, in both languages', as
   expect(errors).toEqual([]);
 });
 
+test('the night is lit by the light of its time: gas lamps in 1880, the blackout in 1942', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  const debug = page.locator('.debug');
+  await page.goto('./?year=1880&hour=21&season=winter&debug');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(debug).toContainText('light homes oil-lamp street gas since 1876.00 [documented]');
+  await expect(debug).toContainText(/\(windows 0\.[1-9]\d hearth \d\.\d\d street 0\.[1-9]\d\)/);
+  await page.screenshot({ path: 'test-results/light-1880-night.png' });
+  await page.goto('./?year=1942&hour=21&season=winter&debug');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(debug).toContainText('light homes blacked-out street off since 1939.67 [documented]');
+  await expect(debug).toContainText('(windows 0.00 hearth 0.00 street 0.00)');
+  await page.screenshot({ path: 'test-results/light-1942-blackout.png' });
+  expect(errors).toEqual([]);
+});
+
 test('the day passes on its own when asked, and stops when the slider is moved', async ({ page }) => {
   await page.goto('./?year=1880&hour=10');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });

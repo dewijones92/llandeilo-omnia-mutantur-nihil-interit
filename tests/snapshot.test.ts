@@ -48,3 +48,33 @@ describe('snapshotAt: what is on screen and heard in 1282', () => {
     }
   });
 });
+
+describe('snapshotAt: how the night was lit', () => {
+  const at = (y: number) => snapshotAt(WORLD_CONTENT, tAt(WORLD_CONTENT.timeline, ad(y))).lamplight;
+
+  it('has no street lamps before the first documented gas lighting in 1876', () => {
+    const lit: number[] = [];
+    for (let y = -7000; y < 1876; y += 1) if (at(y).streetGlow > 0) lit.push(y);
+    expect(lit).toEqual([]);
+    expect(at(1880).street).toBe('gas');
+  });
+
+  it('lights the streets by electricity from 1902, puts every light out in the blackout, and dims it in 1944', () => {
+    expect(at(1903).street).toBe('electric');
+    const war = at(1942);
+    expect([war.homes, war.street, war.windows, war.streetGlow, war.hearth]).toEqual([
+      'blacked-out',
+      'off',
+      0,
+      0,
+      0,
+    ]);
+    expect(at(1945).street).toBe('dimmed');
+    expect(at(1950).street).toBe('electric');
+  });
+
+  it('lights medieval homes by the hearth alone', () => {
+    expect(at(1282).homes).toBe('hearth');
+    expect(at(1282).street).toBe('none');
+  });
+});

@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Build log
@@ -283,3 +283,25 @@ Milestones and what each one taught us. Newest last.
 19. **Two GPU browsers at once can hang one.** A screenshot script and the e2e run shared the D3D12
     GPU path; one e2e page never became ready in 150s, then passed five times out of five alone. Take
     screenshots before or after an e2e run, not during.
+
+## 2026-10-03
+
+1. **Light after dark: the night is lit by the light of its time.** One time-of-day scalar used to
+   light every window and hearth the same in every era, so the town glowed in 1942. Now dated keys
+   in `src/content/lamplight.ts` (hearth, the medieval court's candles, rushlight from 1750, oil from
+   1864, gas street lamps from 1876, electric street light from September 1902, the blackout from
+   1 September 1939, the dim-out from September 1944, light again by 8 May 1945) resolve into the
+   snapshot, and windows, hearth glow and new street lamps read the result
+   ([ADR 0028](../adr/0028-night-light-as-dated-content-keys.md)). The keys hold rather than blend.
+2. **Welsh Newspapers Online answered what the notes could not.** The Llandilo Gas Company's works were
+   being built in 1864 (not "c. 1860", a single Wikipedia page), the Local Board had the town lamps lit
+   "as heretofore" in 1876, and a 1902 columnist mocked those who saw no difference "now that they are
+   electrically lit than when they were gas lit". The first gas lighting of the streets was not found,
+   so lamps start in 1876 and the gap is in open-questions. The searches also turned up Llandovery's
+   1863 gas lighting and Llandilo-Talybont's electric company, both easy to misfile as Llandeilo.
+3. **Street lamps follow today's roads where the town's houses stand.** Placed within the town
+   feature's radius, the first draft strung lamps out along empty roads into the fields; a screenshot
+   showed it. They now go only on road within about 40m of one of the town's own houses.
+4. **The e2e test reads the lamp state through `?debug`** at 1880 (gas) and 1942 (blackout). Its red
+   run used the old code, exported from HEAD into a scratch folder with the new test copied in, so the
+   worktree was never rolled back; it failed at the first `light homes` assertion.

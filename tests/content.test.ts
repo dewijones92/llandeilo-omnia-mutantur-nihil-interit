@@ -61,6 +61,7 @@ describe('content integrity', () => {
       ...W.almanac,
       ...W.language,
       ...W.climate,
+      ...W.lamplight,
     ];
     for (const item of all)
       for (const s of item.provenance.sources) if (!sources.has(s)) missing.push(`source ${s}`);
@@ -102,6 +103,21 @@ describe('content integrity', () => {
     const years = W.climate.map((k) => k.year);
     expect(years).toEqual([...years].sort((a, b) => a - b));
     expect(W.climate.every((k) => k.chill >= -1 && k.chill <= 1)).toBe(true);
+  });
+
+  it('keeps the night-light keys in time order and in range, with street lamps only where documented', () => {
+    const years = W.lamplight.map((k) => k.year);
+    expect(years).toEqual([...years].sort((a, b) => a - b));
+    const levels = W.lamplight.flatMap((k) => [k.warmth, k.windows, k.glow, k.hearth, k.streetGlow]);
+    expect(levels.every((v) => v >= 0 && v <= 1)).toBe(true);
+    expect(
+      W.lamplight.filter((k) => k.streetGlow > 0 && k.provenance.kind !== 'documented').map((k) => k.year),
+    ).toEqual([]);
+    expect(
+      W.lamplight
+        .filter((k) => (k.street === 'none' || k.street === 'off') !== (k.streetGlow === 0))
+        .map((k) => k.year),
+    ).toEqual([]);
   });
 
   it('never has a documented item without a source', () => {
