@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-09-28
+updated: 2026-10-02
 ---
 
 # Open questions
@@ -82,3 +82,15 @@ the app. They are recorded here so the notes and the app do not silently disagre
 - **Welsh-medium schools before 1962**: a reviewer recalled schools from the 1940s (Llanelli, 1947).
   That is not in the notes yet, so the app no longer credits the 1962 revival with Welsh-medium
   schools. Worth a sourced check.
+- **When is the name "Garn Goch" first recorded?** Not found in the notes or in a quick search
+  (2026-10-02: llandeilo.org, the usual secondary pages and two pages of Lewis's 1849 *Topographical
+  Dictionary of Wales* give none). The oldest use we hold is Hogg's 1974 survey, cited by Coflein
+  (NPRN 100866), so the label says "(today)" before 1974. A tithe map, an early OS name book or an
+  antiquarian account would very likely give a much earlier date.
+- **The bridge before 1848.** A seven-arched bridge preceded the 1848 one; one abutment survives
+  (era-victorian S21, S22). When it was built, whether a ford or an earlier bridge came before it,
+  and what each was called are not in the notes. The app draws it from 1700, a placeholder, and the
+  place name on the moment card says "(today)" before then (the bridge has no map label). It may
+  not fit at all: the event-effects note (S6, a single secondary source) says the flood of
+  10 February 1798 "carried away the temporary wooden bridge", which suggests a wooden bridge, not
+  the seven-arched one, around 1798. When the seven-arched bridge was built is now the open question.

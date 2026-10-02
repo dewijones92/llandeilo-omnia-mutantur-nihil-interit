@@ -1,9 +1,10 @@
 import { Mesh, Vector3, type Scene } from './babylon.ts';
 import { assertNever } from '../domain/assert.ts';
 import { hex, mix } from '../domain/colour.ts';
+import { WORLD } from '../domain/geo.ts';
 import type { FeatureKind } from '../domain/model.ts';
 import { rng } from '../domain/noise.ts';
-import { buildPlan, MONUMENT_SCALE, type Ground } from './buildings.ts';
+import { buildPlan, type Ground } from './buildings.ts';
 import { box, cone, cylinder, gable, merge, paint, place } from './meshkit.ts';
 
 export type { Ground };
@@ -31,7 +32,7 @@ export function buildFeature(
   oz: number,
 ): Built | undefined {
   const random = rng(seed);
-  const s = MONUMENT_SCALE / 10;
+  const s = WORLD.landmarkScale / WORLD.metresPerUnit;
   const baseY = ground(ox, oz);
   const at = (parts: Mesh[], name: string): Built => {
     const m = merge(name, parts);

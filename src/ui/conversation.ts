@@ -163,5 +163,15 @@ export class ConversationPanel {
         ),
       );
     }
+    if (c.lines.some((l) => l.language === 'welsh')) {
+      this.el.append(
+        h(
+          'p',
+          { class: 'convo-note' },
+          h('b', {}, `${this.store.t('aboutVoice')} `),
+          this.store.t('welshAccent'),
+        ),
+      );
+    }
   }
 }

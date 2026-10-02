@@ -2,7 +2,7 @@
 title: Authoring content
 kind: guide
 status: current
-updated: 2026-09-28
+updated: 2026-10-02
 ---
 
 # How research becomes content
@@ -45,9 +45,10 @@ church) that starts on the year its predecessor ends crossfades cleanly. Key dat
   convert lat/lon with `gdaltransform -s_srs EPSG:4326 -t_srs EPSG:27700` only when there is none.
 - Feature kinds are a closed union; the renderer has one builder per kind. Adding a kind means
   adding its builder, and the compiler lists everywhere that needs handling.
-- Landmarks are drawn larger than life (`MONUMENT_SCALE`) so they read on the diorama; very large
-  earthworks (hillforts) use their true footprint; town buildings use real OS footprints at true
-  size, with heights exaggerated. Hills are exaggerated 2.4 times. The About panel says so.
+- Landmarks are drawn larger than life (`WORLD.landmarkScale` in `src/domain/geo.ts`) so they read on
+  the diorama; very large earthworks (hillforts) use their true footprint; town buildings use real OS
+  footprints at true size, with heights exaggerated by `WORLD.verticalExaggeration`, like the hills.
+  The About panel reads both numbers from `WORLD`, so it cannot drift.
 
 ## Building models (`building` features)
 
@@ -74,9 +75,9 @@ There is no per-castle or per-era code.
   summit rather than draping down a 105m-spaced terrain mesh. Walls still reach down to the real
   ground. Its outline must be convex and follow the outer walls.
 - **Scale: one rule, chosen by `setting`.** `landscape` plans (castles, the abbey, country houses,
-  follies) are scaled `MONUMENT_SCALE` (2.6×) in all three axes so they read on the diorama.
+  follies) are scaled `WORLD.landmarkScale` in all three axes so they read on the diorama.
   `map` plans (the church inside the town, the bridges across the drawn Tywi) sit among true-size
-  map data, so they are drawn at **true footprint**, with heights × the terrain's 2.4× vertical
+  map data, so they are drawn at **true footprint**, with heights × the terrain's vertical
   exaggeration. A `map` plan hides any OS building footprint it covers, so the church is not
   drawn twice; any plan hides the OS footprint that contains its grid reference (the landmark's own
   outline), and nothing else.

@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-01
+updated: 2026-10-02
 ---
 
 # Backlog
@@ -23,6 +23,16 @@ An item is ticked only once it has been through its path, in order:
 4. **Built**, with a test that was seen to fail first where it fixes a bug.
 5. **Reviewed** by the second Opus pass, its CRITICAL and IMPORTANT findings fixed.
 6. **Looked at**, for anything visible: screenshots at two or more years on the timeline.
+
+Items ticked on 2026-10-02 were reviewed three times by a second Opus, every IMPORTANT finding fixed.
+Red runs (each failing at the assertion it names): the tick-label overlap test (on a deliberately
+cramped anchor), the Roman forts' "(today)" on the moment card, the labels-under-panels test
+("Garn Goch (today)"), the keys panel (no dialog), the arrows stepping from a focused button, the
+3D view keeping its arrows (it logged a step), the compass overlap, and the `clas-church` tier test.
+The About text and the voice note are text checks in unit and e2e tests that were not run red.
+Screenshots: the keys panel at 1282 and 1880, the voice note at 2020, the moment card at AD 74, the
+rivers at night in 1880 and 1282. The first draft of this paragraph claimed more than that; the
+third review caught it.
 
 ## From GitHub issues
 
@@ -64,15 +74,20 @@ below links the issue.
 - [ ] Talley Abbey: replace Wikipedia coordinates with a Coflein or Cadw grid reference, cited in the
       research note ([`era-medieval-to-1282.md`](../research/era-medieval-to-1282.md)), and check its
       position by screenshot
-- [ ] 1282 moment card: add that the primary annal reads 16 June (keep "sources differ")
+- [x] 1282 moment card: "16 June 1282 by the Welsh annals (some histories say 17 June)", citing the
+      Annales and Pilling (classes S2, S8); its Welsh had also dropped the commander's dismissal (2026-10-02)
 - [ ] Roman forts: use the primary report's 3.85ha and 1.54ha to revisit the "8 vs 12 acres" contradiction
 - [ ] Earliest environment keyframes (12,500–10,900 BC): check they use calendar, not uncalibrated pollen, dates
 - [ ] Railway loose ends: Victoria's weight (18 vs 14 tons), the unconfirmed "Victor" of 1864, the 1858 Beyer Peacock engines
 - [ ] Independent verification of every research note, as conversations-by-class had (it found 13 corrections)
 - [ ] Check every place against its Coflein grid reference (only some were verified)
 - [ ] Human check of the Welsh text (parked)
-      Two new terms need it first: "tyllau taflu" (machicolations) and "bwtresi hedfan" (flying buttresses)
-- [ ] See the building provenance-tier test fail once (it was written after its fix, so it is unproven)
+      New terms need it first: "tyllau taflu" (machicolations), "bwtresi hedfan" (flying buttresses),
+      and the strings added on 2026-10-02: the About panel's scale sentence, the "About the voice"
+      Dyfedeg note, the keys panel (`keys…`, `click…` in `src/content/strings.ts`), and "yr annalau
+      Cymreig" (is "annalau" the usual word?)
+- [x] See the building provenance-tier test fail once: with `clas-church` set to documented it failed
+      at its assertion, naming `clas-church` (2026-10-02)
 - [ ] Mark research notes `reviewed` once each has had an independent pass against its sources
 - [ ] Remaining eras filled in: Roman in depth, early medieval, Tudor and Stuart, Georgian, modern
 - [ ] More conversations per era, and the family at more key dates
@@ -109,9 +124,9 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Castles, churches and the abbey lit at night (candles, torches), and a train headlamp
 - [ ] Sound follows the clock: birds at dawn, owls and quiet at night
 - [ ] Conversations and speech bubbles follow the clock: nobody chatting outdoors at 3am
-- [ ] Rivers stay vivid blue at night while the land goes dark; darken them in step with the land from
-      dusk to night, checked by screenshots at night and at noon in at least two eras (seen 2026-09-28;
-      [`atmosphere.md`](../design/atmosphere.md))
+- [x] Rivers stay vivid blue at night while the land goes dark: already fixed when re-shot on
+      2026-10-02 (1880 summer 23:00, 1282 winter 02:00 and 1880 noon): the rivers go dark navy with
+      the land. No change was needed
 - [ ] Re-check autumn trees at overview distance by screenshot (the "glitter" fix was never re-shot)
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
@@ -123,23 +138,36 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Close the modelling research gaps listed in [`design/models.md`](../design/models.md) (Coflein plans, Cadw guidebooks)
 - [ ] Decide option B or C for the landmark models (realistic textures), or keep option A
 - [ ] Roman forts and Garn Goch as plans too (they still use the older builders)
-- [ ] The About panel says hills are exaggerated 2.4×; it should also say landmarks are drawn 2.6× larger
+- [x] The About panel says hills are exaggerated 2.4×, which models are drawn 2.6× larger and which
+      keep their true footprint, with both numbers read from `WORLD` so they cannot drift (2026-10-02)
 - [ ] The closed 1864 railway to Carmarthen
 
 ## Quality (from the reviews, deferred)
 
-- [ ] Timeline tick labels overlap at both ends ("12,500 BC" over "8,300 BC", "1950" over "2026"),
-      with a test that fails when two labels overlap
-- [ ] e2e: give each checkout its own preview port; locally Playwright reuses whatever server is on
-      4173, so a run can silently test another agent's build (seen 2026-09-28); a run must never test a
-      server it did not start
+- [x] Timeline tick labels overlap at both ends: already gone when re-measured on 2026-10-02 (the
+      anchors had changed since; no overlap at 1024-1920px in either language). The e2e test that
+      fails when two labels overlap was seen to fail on a cramped anchor, then pass
+- [x] e2e: each checkout gets its own preview port, derived from its path, and never reuses a server
+      (2026-10-02, [ADR 0023](../adr/0023-e2e-own-port-never-reused.md); `E2E_PORT` overrides it)
 - [ ] The train is rigid: carriages cut across curves instead of following the track; judge its speed on a real GPU
 - [ ] Purity lint as an allow-list rather than a deny-list (or a separate tsconfig without DOM for domain/content)
-- [ ] Place labels: "(today)" for the Roman forts too; review each place's `namedFrom`
+- [x] Place labels: `namedFrom` is now required ([ADR 0024](../adr/0024-place-names-carry-a-required-date.md));
+      the Roman forts (2003), the bridge (1700, when the first drawn bridge appears) and Garn Goch
+      (1974, the oldest use we hold; see open questions) say "(today)" before then (2026-10-02).
+      The forts and the bridge have no map label, so the rule now lives in one domain function
+      (`namedLater`) used by both the labels and the moment card, which never applied it before
 - [ ] Performance: move land-cover classification to the GPU if recolouring is slow on real hardware
-- [ ] Keyboard help: `?` shows the shortcuts (arrows, PageUp/PageDown, Home/End, Escape, and the compass and follow controls)
+- [x] Keyboard help: `?` or the Keys button shows the shortcuts and the click controls; Escape closes it (2026-10-02)
+- [x] Place labels no longer sit under the panels, the compass or the timeline: they avoid every
+      on-screen panel, using their measured size (found by screenshot, 2026-10-02)
+- [x] The compass no longer covers the conversation, info and debug panels (found by screenshot, 2026-10-02)
+- [ ] Place labels overlap each other on the overview ("Llandeilo" and "Dinefwr" at c. AD 74, seen
+      2026-10-02): labels avoid panels but not one another
 - [ ] Performance: the glTF loader fetches Babylon's PBR material code (~57KB gzipped) though models get our own material; skip it if first load feels slow
-- [ ] Modern Welsh voices: add the standard-accent (not Carmarthenshire) note to modern-Welsh conversations
+- [x] Modern Welsh voices: every conversation with a modern Welsh line shows an "About the voice" note:
+      a standard voice, not southern speech (s next to i as "sh", *moyn*). Research checked on
+      2026-10-02: the first wording had the rule backwards. Four sources were added (language S35-S38),
+      three read directly; they support "southern", not Llandeilo specifically
 
 ## Proposed (under discussion)
 
@@ -150,18 +178,23 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       ([`design/analytics.md`](../design/analytics.md))
 - [ ] Immersive sound and assets: real recordings, spatial sound, generated or openly licensed
       assets ([`design/sound-and-assets.md`](../design/sound-and-assets.md))
-- [ ] Conversations by class at every key date ([`design/conversations-by-class.md`](../design/conversations-by-class.md))
-- [ ] Accurate models of the important buildings, phase by phase ([`design/models.md`](../design/models.md))
 - [x] Train steam trailing from the chimney, and train sound that grows as the camera nears (2026-09-28)
-- [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md))
 - [x] Previous / Next through key dates, with the camera flying to each (2026-09-28)
 - [x] Desktop only, with a dismissible banner on phones and tablets (2026-09-28, [ADR 0015](../adr/0015-desktop-only.md))
 - [x] A researched 1850s train built in Blender, dated 1857–1888 with its own ⓘ; a placeholder after
       the Great Western took over (2026-09-28, [ADR 0017](../adr/0017-hybrid-modelling.md))
 - [x] Compass showing the heading; click to face north (Dewi, 2026-09-28)
 - [x] Tap the train to follow it with the camera; Stop, a flight or Whole valley ends it (Dewi, 2026-09-28)
-- [ ] Research the later trains (Great Western from 1889, British Rail, today's Heart of Wales line)
 - [ ] More things to follow: animals, carts, drovers, boats, once they exist
+
+## Agreed for the weekend run (Dewi, 2026-10-02)
+
+Moved here from "Proposed" when Dewi agreed them. Each goes through the full path above.
+
+- [ ] Conversations by class at every key date ([`design/conversations-by-class.md`](../design/conversations-by-class.md))
+- [ ] Accurate models of the important buildings, phase by phase ([`design/models.md`](../design/models.md))
+- [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md))
+- [ ] Research the later trains (Great Western from 1889, British Rail, today's Heart of Wales line)
 
 ## Agreed ideas (Dewi, 2026-09-28: "add all of them to todo list")
 

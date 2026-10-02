@@ -1,4 +1,8 @@
+import { WORLD } from '../domain/geo.ts';
 import type { Bilingual } from '../domain/i18n.ts';
+
+const HILLS = String(WORLD.verticalExaggeration);
+const LANDMARKS = String(WORLD.landmarkScale);
 
 export const STRINGS = {
   title: { en: 'Llandeilo', cy: 'Llandeilo' },
@@ -72,14 +76,39 @@ export const STRINGS = {
   },
   family: { en: 'the family', cy: 'y teulu' },
   aboutLanguage: { en: 'About the language:', cy: 'Am yr iaith:' },
+  aboutVoice: { en: 'About the voice:', cy: 'Am y llais:' },
+  keys: { en: 'Keys', cy: 'Bysellau' },
+  keysTitle: { en: 'Keys and controls', cy: 'Bysellau a rheolyddion' },
+  keysAnywhere: {
+    en: 'Anywhere but the sliders, tabs and the 3D view',
+    cy: 'Unrhyw le ond y llithryddion, y tabiau a’r olygfa 3D',
+  },
+  keysSlider: { en: 'On the slider', cy: 'Ar y llithrydd' },
+  keysAlways: { en: 'At any time', cy: 'Unrhyw bryd' },
+  keyStep: { en: 'Previous or next key date', cy: 'Y dyddiad allweddol blaenorol neu nesaf' },
+  keyNudge: { en: 'Move a little through time', cy: 'Symud ychydig drwy amser' },
+  keyNudgeMore: { en: 'Move further through time', cy: 'Symud ymhellach drwy amser' },
+  keyEnds: { en: 'The earliest date or today', cy: 'Y dyddiad cynharaf neu heddiw' },
+  keyEscape: { en: 'Close a panel or a popup', cy: 'Cau panel neu naidlen' },
+  keyHelp: { en: 'Show or hide this list', cy: 'Dangos neu guddio’r rhestr hon' },
+  clickCompass: { en: 'Click the compass to face north.', cy: 'Cliciwch y cwmpawd i wynebu’r gogledd.' },
+  clickTrain: {
+    en: 'Click a train to follow it with the camera; Stop ends it.',
+    cy: 'Cliciwch drên i’w ddilyn gyda’r camera; mae Stopio yn dod â hynny i ben.',
+  },
+  clickLabel: { en: 'Click a place name to fly there.', cy: 'Cliciwch enw lle i hedfan yno.' },
+  welshAccent: {
+    en: 'The Welsh voice is a standard one and does not reproduce southern speech, such as the south-west’s own dialect, Dyfedeg: there an "s" next to an "i" can sound as "sh" (mis, "month", as "mish"), and words differ (moyn for "want").',
+    cy: 'Llais safonol yw’r llais Cymraeg, ac nid yw’n atgynhyrchu lleferydd y de, fel tafodiaith y de-orllewin ei hun, Dyfedeg: yno gall "s" wrth ymyl "i" swnio fel "sh" (mis fel "mish"), ac mae geiriau’n wahanol (moyn am "eisiau").',
+  },
   overview: { en: 'Whole valley', cy: 'Y dyffryn cyfan' },
   following: { en: 'Following', cy: 'Yn dilyn' },
   stopFollowing: { en: 'Stop', cy: 'Stopio' },
   faceNorth: { en: 'Compass: face north', cy: "Cwmpawd: wynebu'r gogledd" },
   northLetter: { en: 'N', cy: 'G' },
   aboutBody: {
-    en: 'A diorama of the real landscape within ten miles of Llandeilo, built from Ordnance Survey height data (hills are exaggerated 2.4 times so they read at this scale). Move the slider to travel through time. Every item is labelled: documented, reconstructed, or imagined. Hover or tap a label to see why, and the sources.',
-    cy: "Diorama o'r tirwedd go iawn o fewn deg milltir i Landeilo, wedi'i adeiladu o ddata uchder yr Arolwg Ordnans (mae'r bryniau wedi'u gorliwio 2.4 gwaith er mwyn eu gweld ar y raddfa hon). Symudwch y llithrydd i deithio drwy amser. Mae label ar bopeth: wedi'i gofnodi, wedi'i ail-greu, neu ddychmygol. Hofran neu dapio label i weld pam, a'r ffynonellau.",
+    en: `A diorama of the real landscape within ten miles of Llandeilo, built from Ordnance Survey height data. Hills are exaggerated ${HILLS} times. Castles, the abbey, country houses, Roman forts and early houses are drawn ${LANDMARKS} times larger than life so they read at this scale; hillforts and the town, with its church and bridges, keep their true footprint. Move the slider to travel through time. Every item is labelled: documented, reconstructed, or imagined. Hover or tap a label to see why, and the sources.`,
+    cy: `Diorama o'r dirwedd go iawn o fewn deg milltir i Landeilo, wedi'i adeiladu o ddata uchder yr Arolwg Ordnans. Mae'r bryniau wedi'u gorliwio ${HILLS} gwaith. Mae cestyll, yr abaty, plastai, caerau Rhufeinig a thai cynnar wedi'u lluniadu ${LANDMARKS} gwaith yn fwy na'u maint go iawn er mwyn eu gweld ar y raddfa hon; mae bryngaerau a'r dref, gyda'i heglwys a'i phontydd, yn cadw eu hôl troed go iawn. Symudwch y llithrydd i deithio drwy amser. Mae label ar bopeth: wedi'i gofnodi, wedi'i ail-greu, neu ddychmygol. Hofran neu dapio label i weld pam, a'r ffynonellau.`,
   },
   credits: { en: 'Credits and licences', cy: 'Cydnabyddiaeth a thrwyddedau' },
   timeOfDay: { en: 'Time of day', cy: 'Adeg o’r dydd' },

@@ -38,6 +38,8 @@ export const PLACES: readonly Place[] = [
   },
   {
     id: placeId('roman-forts'),
+    // A modern descriptive name: the forts were only identified by survey in 2003.
+    namedFrom: ad(2003),
     name: 'Caerau Rhufeinig Dinefwr',
     other: 'Dinefwr Roman forts',
     at: { e: 262187, n: 222534 },
@@ -87,6 +89,8 @@ export const PLACES: readonly Place[] = [
   },
   {
     id: placeId('garn-goch'),
+    // The oldest use of the name we hold is Hogg's 1974 survey (via Coflein); see open-questions.
+    namedFrom: ad(1974),
     name: 'Garn Goch',
     other: 'Y Gaer Fawr and Y Gaer Fach',
     at: { e: 269120, n: 224320 },
@@ -99,6 +103,8 @@ export const PLACES: readonly Place[] = [
   },
   {
     id: placeId('bridge'),
+    // From the first bridge we draw here (the seven-arched bridge, from 1700; its build date is unknown).
+    namedFrom: ad(1700),
     name: 'Pont Llandeilo',
     other: 'Llandeilo Bridge',
     at: { e: 262757, n: 222001 },

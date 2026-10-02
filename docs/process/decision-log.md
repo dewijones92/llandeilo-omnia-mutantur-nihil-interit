@@ -89,5 +89,8 @@ with the full context and consequences.
 | Work the agreed backlog unattended in this order: quality fixes and content corrections, then look and feel, then the bigger agreed features | Dewi: "i wanna leave you for days", then picked "fixes first, then build" |
 | Independent research checks may run as subagents, one at a time, on top of the standing commit review; no parallel fan-out and no worktrees | Dewi picked "yes, one at a time" |
 | No self-imposed usage stop: keep going until the plan-limit tripwire stops the run | Dewi picked "run to the tripwire" |
+| Until he says otherwise, Claude may spin up other agents without asking first (this lifts the 2026-09-28 "ask before fanning out" rule for now) | Dewi: "actaully, until i say otherwise, you are permitted to spin up other agents :)" |
+| Agreed four proposed items for the weekend: effects per event, conversations by class at every key date, accurate building models phase by phase, and research into the later trains | Dewi, asked before going away, picked all four |
+| Leave the other project's Android emulator running, though it slows e2e | Dewi picked "leave it running" |
 | Items that need Dewi (real hardware, the Welsh and expert checks, Sponsors, models option B or C, anything "Proposed") wait for him; new GitHub issues are triaged but nothing is posted until he says yes | The existing rules: only Dewi agrees work or approves a public post |
 

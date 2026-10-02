@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSETS } from '../src/content/assets.ts';
+import { STRINGS } from '../src/content/strings.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
@@ -273,5 +274,14 @@ describe('building plans', () => {
     ];
     const wrong = W.features.filter((f) => guessed.includes(f.id) && f.provenance.kind !== 'reconstructed');
     expect(wrong.map((f) => f.id)).toEqual([]);
+  });
+});
+
+describe('the About panel', () => {
+  it('states the real hill exaggeration and landmark scale, in both languages', () => {
+    for (const text of [STRINGS.aboutBody.en, STRINGS.aboutBody.cy]) {
+      expect(text).toContain(` ${String(WORLD.verticalExaggeration)} `);
+      expect(text).toContain(` ${String(WORLD.landmarkScale)} `);
+    }
   });
 });

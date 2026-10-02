@@ -411,10 +411,11 @@ Carmarthenshire Welsh belongs to the traditional dialect group called **Dyfedeg*
 (sometimes "Demetian," after the Demetae), one of four traditional Welsh dialect groupings,
 spoken across Ceredigion, Pembrokeshire and Carmarthenshire, and historically noted as
 closely connected to the neighbouring Gwenhwyseg dialect of southeast Wales [S28]. A
-specific, cross-checkable feature of southern Welsh dialects generally, including this
-area, located in this research pass: **palatalisation of "s"** before high front vowels —
-standard *mis* ('month'), pronounced [miːs], is realised as [miːʃ] in parts of the south
-[S34-Welsh-dialects]. There is also lexical/grammatical divergence from the north in
+specific, cross-checkable feature of southern Welsh dialects, located in this research pass:
+**palatalisation of "s"** next to *i* — standard *mis* ('month'), pronounced [miːs], is realised
+as [miːʃ] in parts of the south [S34-Welsh-dialects][S35][S36]. *Corrected 2026-10-02:* this said
+"before high front vowels" and "including this area"; the sources put the *s* after (or next to)
+the *i*, and none places the feature in Carmarthenshire specifically. There is also lexical/grammatical divergence from the north in
 everyday phrases: "Do you want a cuppa?" is *"Ych chi'n moyn dishgled?"* in the south of
 Dyfed, versus northern *"Dach chi isio paned?"* — showing the characteristically southern
 verb **moyn** ('to want'), against northern **isio**, and the southern noun **dishgled**
@@ -592,9 +593,14 @@ this research pass.)
   specific area**: standard/broadcast Welsh TTS voices are usually closer to a northern or
   neutral educated register. Two concretely sourced local features a period-farmer/labourer
   character's speech should reflect, and that a generic voice will likely miss or
-  regularise: (1) palatalisation of *s* → *sh* before front vowels in casual southern speech
-  (*mis* → 'mish'-like) [S34-Welsh-dialects]; (2) the southern verb **moyn** for 'to want'
-  and forms like **dishgled** rather than northern equivalents [S34-Welsh-dialects]. Where
+  regularise: (1) palatalisation of *s* → *sh* next to *i* in casual southern speech
+  (*mis* → 'mish') [S34-Welsh-dialects][S35][S36]; (2) the southern verb **moyn** for 'to want'
+  and forms like **dishgled** rather than northern equivalents [S34-Welsh-dialects]; *moyn*
+  cross-checked [S37] (S38 is a lead only). *Corrected 2026-10-02:* this line said "before front vowels", which its
+  own example contradicts (in *mis* the *s* follows the *i*); S35 and S36 give "before or after the
+  vowel *i*". None of these sources ties the feature to Carmarthenshire specifically, only to
+  southern Welsh (S35: "some southern accents"; S36 describes it for Gwentian), so the app says
+  "southern" and does not claim it for Llandeilo. Where
   precise phonetic control over the TTS voice is not possible, the ⓘ should flag this
   mismatch rather than silently presenting standard-Welsh-accented audio as authentically
   local.
@@ -777,6 +783,20 @@ this research pass.)
   (*mis* [miːs]→[miːʃ]), the *moyn*/*dishgled* vs *isio*/*paned* north-south vocabulary
   contrast; cites Alan R. Thomas, *Linguistic Geography of Wales* (1973) and Beth Thomas &
   Peter Wynn Thomas, *Cymraeg, Cymrâg, Cymrêg: Cyflwyno'r Tafodieithoedd* (1989).
+- [S35] Wikipedia, "Welsh phonology." https://en.wikipedia.org/wiki/Welsh_phonology — "in some
+  southern accents" /s/ is palatalised after /ɪ/ or /iː/, e.g. *mis* [miːʃ]. Read directly,
+  2026-10-02: "In some southern accents it is produced when /s/ follows /ɪ/ or /iː/, e.g.
+  *mis* [miːʃ] ('month')."
+- [S36] Cymru-Catalonia (kimkat.org), "Dysgu Gwenhwyseg / Learning Gwentian".
+  http://www.kimkat.org/amryw/1_gwenhwyseg/dysgu-gwenhwyseg-01_0277e.htm — "palatalisation of 's'
+  before or after the vowel 'i'... s [s] becomes sh [ʃ]": *mis* > *mish*, *llais* > *llaish*. For the
+  Gwentian (south-east) dialect. No named author. Read directly, 2026-10-02.
+- [S37] Parallel.cymru, "Ask Dr Gramadeg: Gallu, Moyn & Eisiau".
+  https://parallel.cymru/ask-dr-gramadeg-gallu-moyn-and-eisiau/?lang=en — *moyn* as the southern
+  word for 'want' alongside *eisiau*: "both used in South Wales", only *eisiau* in the north. No
+  author or date. Read directly, 2026-10-02.
+- [S38] Wiktionary, "moyn". https://en.wiktionary.org/wiki/moyn — spoken form of *ymofyn*, used for
+  *isio* in parts of South Wales. Read via search summary only, so a lead, not a citation.
 
 **Note on sourcing quality**: this pass relied heavily on Wikipedia as an entry point, per
 the brief's instruction that "Wikipedia only as a lead" — most claims above were

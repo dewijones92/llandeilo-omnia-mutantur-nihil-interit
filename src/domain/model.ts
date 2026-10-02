@@ -24,7 +24,9 @@ export interface Place {
   readonly description: Bilingual;
   readonly provenance: Provenance;
   readonly visitable: boolean;
-  readonly namedFrom?: Year;
+  // Before this year the name shows "(today)": the earliest record of the name, or, where none is
+  // found, a late bound (the oldest use we can cite, or when the thing we draw begins).
+  readonly namedFrom: Year;
 }
 
 export interface KeyEvent {

@@ -55,6 +55,7 @@ describe('shotFor', () => {
   const place: Place = {
     id: mint<PlaceId>('p'),
     name: 'P',
+    namedFrom: ad(1000),
     at: { e: 1, n: 2 },
     description: { en: '', cy: '' },
     provenance: { kind: 'reconstructed', basis: { en: '', cy: '' }, sources: [] },

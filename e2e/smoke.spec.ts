@@ -42,7 +42,22 @@ test('a conversation opens from its bubble and lists its lines', async ({ page }
   await expect(panel.locator('.line')).toHaveCount(6);
   await expect(panel.locator('.prov-imagined')).toBeVisible();
   await expect(panel.locator('.line-quote')).toContainText('Peryf ap Cedifor');
+  await expect(panel.locator('.convo-note', { hasText: 'About the voice' })).toHaveCount(0);
+  const [p, c] = [await panel.boundingBox(), await page.locator('.compass').boundingBox()];
+  expect(p && c && p.y < c.y + c.height && p.x + p.width > c.x).toBe(false);
   await page.screenshot({ path: 'test-results/conversation-1282.png' });
+});
+
+test('a conversation in modern Welsh says the voice has a standard accent, not the local dialect', async ({
+  page,
+}) => {
+  await page.goto('./?place=llandeilo&year=1843&radius=200');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.locator('.bubble').filter({ visible: true }).first().click();
+  const note = page.locator('.convo .convo-note', { hasText: 'About the voice' });
+  await expect(note).toContainText('Dyfedeg');
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await expect(page.locator('.convo .convo-note', { hasText: 'Am y llais' })).toContainText('Dyfedeg');
 });
 
 test('the almanac, language and sound controls work for the chosen year', async ({ page }) => {
@@ -79,13 +94,25 @@ test('arrow keys move the slider without snapping back to a key date', async ({ 
   await expect(page.locator('.moment')).toBeVisible();
 });
 
-test('the 3D view receives the mouse through the overlay layers', async ({ page }) => {
+test('the 3D view receives the mouse through the overlay layers, and keeps its arrow keys', async ({
+  page,
+}) => {
+  const steps: string[] = [];
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug timeline step')) steps.push(m.text());
+  });
   await page.goto('./?year=1282');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   const target = await page.evaluate(
     () => document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2)?.id ?? '',
   );
   expect(target).toBe('scene');
+  await page.mouse.click(1100, 150);
+  await expect(page.locator('#scene')).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  // The counter redraws only on a rendered frame (about 1fps here), so check the logged decision.
+  await page.waitForTimeout(1000);
+  expect(steps).toEqual([]);
 });
 
 test('a place label flies the camera in and offers the whole valley back', async ({ page }) => {
@@ -115,13 +142,20 @@ test('a provenance badge explains itself and lists its sources', async ({ page }
 test('switching to Welsh translates the moment card and the labels', async ({ page }) => {
   await page.goto('./?year=1282');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const note = (name: RegExp) => page.locator('.label', { hasText: name }).locator('.label-note');
+  await expect(note(/^Garn Goch/)).toHaveText(' (today)');
+  await expect(note(/^Dinefwr/)).toHaveText('');
   await page.getByRole('button', { name: 'Cymraeg' }).click();
+  await expect(note(/^Garn Goch/)).toHaveText(' (heddiw)');
   await expect(page.locator('.moment h2')).toHaveText('Brwydr Llandeilo Fawr');
   await expect(page.locator('.label').first()).toHaveAttribute('title', /^Ymweld /);
   await expect(page.getByRole('slider', { name: /Timeline|Llinell amser/ })).toHaveAttribute(
     'aria-label',
     'Llinell amser',
   );
+  await page.goto('./?year=74');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.moment-place')).toHaveText('Caerau Rhufeinig Dinefwr (today)');
 });
 
 test('Next and Previous step through key dates and fly the camera there', async ({ page }) => {
@@ -339,4 +373,82 @@ test('the day passes on its own when asked, and stops when the slider is moved',
   await page.getByRole('slider', { name: 'Time of day' }).fill('6');
   await expect(play).toHaveAttribute('aria-pressed', 'false');
   await expect(page.locator('.sky-readout')).toHaveText('Morning 06:00');
+});
+
+test('the timeline year labels never overlap, at any desktop width, in either language', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const overlaps = async (): Promise<string[]> =>
+    page.$$eval('.tl-tick', (els) => {
+      const boxes = els
+        .map((e) => ({ text: e.textContent, box: e.getBoundingClientRect() }))
+        .filter(({ box }) => box.width > 0);
+      const bad: string[] = [];
+      for (let i = 1; i < boxes.length; i++) {
+        const a = boxes[i - 1];
+        const b = boxes[i];
+        if (a && b && b.box.left < a.box.right + 4) bad.push(`${a.text} / ${b.text}`);
+      }
+      return bad;
+    });
+  for (const lang of ['English', 'Cymraeg']) {
+    await page.getByRole('button', { name: lang, exact: true }).click();
+    await expect(page.locator('.tl-tick').first()).toContainText(lang === 'English' ? 'BC' : 'CC');
+    for (const width of [1024, 1280, 1920]) {
+      await page.setViewportSize({ width, height: 860 });
+      expect(await overlaps(), `${lang} at ${String(width)}px`).toEqual([]);
+    }
+  }
+});
+
+test('place labels never sit under the panels, the compass or the timeline', async ({ page }) => {
+  await page.goto('./?year=1880&place=llandeilo');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.label').filter({ visible: true }).first()).toBeVisible();
+  const covered = async (): Promise<(string | null)[]> =>
+    page.evaluate(() => {
+      const panels = [
+        ...document.querySelectorAll<HTMLElement>(
+          '.brand, .timeline, .compass, .moment, .shortcuts, .info, .convo, .follow-chip, .debug',
+        ),
+      ]
+        .filter((el) => !el.hidden)
+        .map((el) => el.getBoundingClientRect())
+        .filter((r) => r.width > 0);
+      return [...document.querySelectorAll<HTMLElement>('.label')]
+        .filter((el) => el.style.display !== 'none')
+        .filter((el) => {
+          const r = el.getBoundingClientRect();
+          return panels.some(
+            (p) => r.left < p.right && r.right > p.left && r.top < p.bottom && r.bottom > p.top,
+          );
+        })
+        .map((el) => el.textContent);
+    });
+  expect(await covered()).toEqual([]);
+  await page.locator('body').press('?');
+  await expect(page.getByRole('dialog', { name: 'Keys and controls' })).toBeVisible();
+  await expect.poll(covered).toEqual([]);
+});
+
+test('the keys panel opens with ? or its button, and closes with Escape, in both languages', async ({
+  page,
+}) => {
+  await page.goto('./');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const dialog = page.getByRole('dialog', { name: 'Keys and controls' });
+  await page.locator('body').press('?');
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText('PageUp');
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await page.getByRole('button', { name: 'Bysellau', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Bysellau a rheolyddion' })).toBeVisible();
+  await page.getByRole('button', { name: 'Bysellau', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Bysellau a rheolyddion' })).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Bysellau', exact: true })).toBeFocused();
+  const before = await page.locator('.tl-counter').textContent();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('.tl-counter')).not.toHaveText(before ?? '');
 });

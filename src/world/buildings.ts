@@ -23,12 +23,10 @@ import {
 } from '../domain/plan.ts';
 import { rect, ring, Sculpt, type V2, type V3 } from './sculpt.ts';
 
-export const MONUMENT_SCALE = 2.6;
-
 export type Ground = (x: number, z: number) => number;
 
 const SCALE: Readonly<Record<Setting, { readonly across: number; readonly up: number }>> = {
-  landscape: { across: MONUMENT_SCALE, up: MONUMENT_SCALE },
+  landscape: { across: WORLD.landmarkScale, up: WORLD.landmarkScale },
   map: { across: 1, up: WORLD.verticalExaggeration },
 };
 

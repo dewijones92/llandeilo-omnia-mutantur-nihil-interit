@@ -2,7 +2,7 @@
 title: Voices and text-to-speech
 kind: guide
 status: current
-updated: 2026-09-28
+updated: 2026-10-02
 ---
 
 # Voices and text-to-speech
@@ -52,14 +52,15 @@ Paid services (ElevenLabs) were considered overkill for a family project.
 From [`../research/language-by-class.md`](../research/language-by-class.md), "Pronunciation notes for TTS":
 
 - A modern Welsh voice reading Old or Middle Welsh spelling is a significant approximation.
-- Standard Welsh TTS misses local southern (Dyfedeg) features such as *s* → *sh* before front
-  vowels and words like *moyn* and *dishgled*.
+- Standard Welsh TTS misses southern features such as *s* → *sh* next to *i* (*mis* as "mish")
+  and words like *moyn* and *dishgled*.
 - A modern French voice would impose modern phonology on Anglo-Norman.
 
 Any conversation with a line in an old language must carry a `languageNote` saying which of these
 applies; `tests/content.test.ts` enforces that, and that nothing before about AD 500 is labelled
-"Welsh". Not yet done: the notes do not yet mention the standard-accent mismatch for modern
-Welsh (tracked in the backlog).
+"Welsh". Every conversation with a line in modern Welsh also shows an "About the voice" note
+(`welshAccent` in the string table): a standard accent, not the local Dyfedeg dialect, with its
+*s* → *sh* and *moyn* examples (2026-10-02).
 
 ## Privacy
 

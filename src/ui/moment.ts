@@ -1,4 +1,5 @@
 import type { KeyEvent, Place } from '../domain/model.ts';
+import { namedLater } from '../domain/places.ts';
 import type { Source } from '../domain/provenance.ts';
 import { formatYear } from '../domain/time.ts';
 import { h } from './dom.ts';
@@ -37,7 +38,13 @@ export class MomentCard {
         'div',
         { class: 'moment-meta' },
         h('span', { class: 'moment-date' }, `${from}${to}`),
-        place ? h('span', { class: 'moment-place' }, place.name) : null,
+        place
+          ? h(
+              'span',
+              { class: 'moment-place' },
+              namedLater(place, ev.when.from) ? `${place.name} (${this.store.t('todayName')})` : place.name,
+            )
+          : null,
       ),
       h('h2', {}, ev.title[lang]),
       h('p', {}, ev.summary[lang]),

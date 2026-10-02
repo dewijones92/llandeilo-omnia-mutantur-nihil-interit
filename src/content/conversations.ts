@@ -179,7 +179,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
     ],
     provenance: imagined(
       'In June 1282 an English force returning from sacking Carreg Cennen was ambushed near Llandeilo and William de Valence the younger was killed. No source we have read names the Welsh leader. The family, priest and poet are invented; only the poem line is real.',
-      "Ym mis Mehefin 1282 ymosodwyd ar lu Seisnig ger Llandeilo ar ei ffordd yn ôl o ysbeilio Carreg Cennen. Does dim un ffynhonnell a ddarllenwyd gennym yn enwi arweinydd y Cymry. Mae'r teulu, yr offeiriad a'r bardd wedi'u dyfeisio; dim ond llinell y gerdd sy'n go iawn.",
+      "Ym mis Mehefin 1282 ymosodwyd ar lu Seisnig ger Llandeilo ar ei ffordd yn ôl o ysbeilio Carreg Cennen, a lladdwyd William de Valence yr ieuengaf. Does dim un ffynhonnell a ddarllenwyd gennym yn enwi arweinydd y Cymry. Mae'r teulu, yr offeiriad a'r bardd wedi'u dyfeisio; dim ond llinell y gerdd sy'n go iawn.",
       ['medieval:S27', 'medieval:S28', 'medieval:S29', 'language:S10'],
     ),
     languageNote: STAND_IN_WELSH(

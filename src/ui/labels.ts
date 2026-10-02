@@ -1,6 +1,7 @@
 import { Matrix, Vector3, type Scene } from '../world/babylon.ts';
 import { toWorld } from '../domain/geo.ts';
 import type { Place } from '../domain/model.ts';
+import { namedLater } from '../domain/places.ts';
 import { h } from './dom.ts';
 import type { LangStore } from './store.ts';
 
@@ -9,6 +10,8 @@ interface Label {
   readonly el: HTMLButtonElement;
   readonly world: Vector3;
   readonly note: HTMLElement;
+  // Measured size in CSS px, cleared when the text changes; the label is centred above its anchor.
+  size: { readonly width: number; readonly height: number } | undefined;
 }
 
 export class PlaceLabels {
@@ -36,7 +39,7 @@ export class PlaceLabels {
       el.addEventListener('click', () => {
         onVisit(place, new Vector3(x, ground(x, z), z));
       });
-      this.labels.push({ place, el, world, note });
+      this.labels.push({ place, el, world, note, size: undefined });
       store.onChange(() => {
         el.title = `${store.t('flyTo')} ${place.name}`;
         const y = this.lastYear;
@@ -45,16 +48,23 @@ export class PlaceLabels {
       });
       this.el.append(el);
     }
+    // Sizes taken before the web font arrives are in the fallback font, so measure again after it.
+    void document.fonts.ready.then(() => {
+      for (const l of this.labels) l.size = undefined;
+    });
   }
 
   setYear(year: number): void {
     if (year === this.lastYear) return;
     this.lastYear = year;
     for (const l of this.labels) {
-      const early = l.place.namedFrom !== undefined && year < l.place.namedFrom;
+      const early = namedLater(l.place, year);
       l.el.classList.toggle('anachronistic', early);
       const text = early ? ` (${this.store.t('todayName')})` : '';
-      if (l.note.textContent !== text) l.note.textContent = text;
+      if (l.note.textContent !== text) {
+        l.note.textContent = text;
+        l.size = undefined;
+      }
     }
   }
 
@@ -72,9 +82,14 @@ export class PlaceLabels {
       const visible = p.z > 0 && p.z < 1 && p.x > 0 && p.x < w && p.y > 0 && p.y < hgt;
       const sx = p.x * scale;
       const sy = p.y * scale;
-      const halfWidth = l.place.name.length * 4.2 + 30;
+      if (!l.size && l.el.style.display === '' && l.el.offsetWidth > 0) {
+        l.size = { width: l.el.offsetWidth, height: l.el.offsetHeight };
+      }
+      // Until measured, estimate from the text: about 8px a character plus the padding.
+      const size = l.size ?? { width: l.el.textContent.length * 8 + 24, height: 26 };
+      const half = size.width / 2;
       const covered = avoid.some(
-        (b) => sx + halfWidth > b.left && sx - halfWidth < b.right && sy > b.top && sy - 26 < b.bottom,
+        (b) => sx + half > b.left && sx - half < b.right && sy > b.top && sy - size.height < b.bottom,
       );
       const display = visible && !covered ? '' : 'none';
       if (l.el.style.display !== display) l.el.style.display = display;

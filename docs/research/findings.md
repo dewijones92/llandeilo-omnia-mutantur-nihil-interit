@@ -67,7 +67,8 @@ overstatement, two misattributions, two unsupported "cross-checked" labels); the
   in June 1282 (corrected by the verification pass). Newton, the English borough beside Dinefwr, is
   first mentioned in 1297.
 - **The primary annal gives 16 June 1282** ("XVI Kalendas Julii"); Morris's 17 June looks like a
-  counting slip. The app keeps "16 or 17 June" and should note the primary reading.
+  counting slip. Since 2026-10-02 the app says "16 June 1282 by the Welsh annals (some histories say
+  17 June)".
 - **Talley's first canons came from St-Jean, Amiens.** Gerald of Wales mentions its "canons and
   brothers" and servants, writing after 1200 (corrected from "c. 1193–1205"); nothing says where the
   brothers came from or what they spoke.

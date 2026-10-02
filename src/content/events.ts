@@ -227,13 +227,20 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: false,
     title: { en: 'Battle of Llandeilo Fawr', cy: 'Brwydr Llandeilo Fawr' },
     summary: {
-      en: 'On 16 or 17 June 1282 (sources differ), Welsh fighters ambushed an English force returning from sacking Carreg Cennen. William de Valence the younger was killed, and the English commander was stripped of his post weeks later. No source we have read names the Welsh leader.',
-      cy: "Ar 16 neu 17 Mehefin 1282 (mae'r ffynonellau'n gwahaniaethu), ymosododd ymladdwyr Cymreig ar lu Seisnig a oedd yn dychwelyd ar ôl ysbeilio Carreg Cennen. Lladdwyd William de Valence yr ieuengaf. Does dim un ffynhonnell a ddarllenwyd gennym yn enwi arweinydd y Cymry.",
+      en: 'On 16 June 1282 by the Welsh annals (some histories say 17 June), Welsh fighters ambushed an English force returning from sacking Carreg Cennen. William de Valence the younger was killed, and the English commander was stripped of his post weeks later. No source we have read names the Welsh leader.',
+      cy: "Ar 16 Mehefin 1282 yn ôl yr annalau Cymreig (mae rhai haneswyr yn dweud 17 Mehefin), ymosododd ymladdwyr Cymreig ar lu Seisnig a oedd yn dychwelyd ar ôl ysbeilio Carreg Cennen. Lladdwyd William de Valence yr ieuengaf, a thynnwyd y cadlywydd Seisnig o'i swydd ymhen ychydig wythnosau. Does dim un ffynhonnell a ddarllenwyd gennym yn enwi arweinydd y Cymry.",
     },
     magnetic: true,
     shot: { framing: 'area' },
     place: placeId('llandeilo'),
-    provenance: documented('timeline:S30', 'timeline:S31', 'timeline:S32', 'medieval:S28'),
+    provenance: documented(
+      'timeline:S30',
+      'timeline:S31',
+      'timeline:S32',
+      'medieval:S28',
+      'classes:S2',
+      'classes:S8',
+    ),
   },
   {
     id: eventId('dryslwyn-siege'),

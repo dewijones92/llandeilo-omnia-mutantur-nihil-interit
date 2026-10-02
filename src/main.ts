@@ -31,6 +31,7 @@ import { ConversationPanel } from './ui/conversation.ts';
 import { InfoPanel, type InfoTab } from './ui/info.ts';
 import { Ambience } from './audio/ambience.ts';
 import { h } from './ui/dom.ts';
+import { Shortcuts } from './ui/shortcuts.ts';
 import { SkyControls } from './ui/sky.ts';
 import { LangStore } from './ui/store.ts';
 import { TimelineBar } from './ui/timeline.ts';
@@ -236,6 +237,18 @@ async function start(): Promise<void> {
   store.onChange(() => {
     sound.textContent = store.t(soundOn ? 'soundOn' : 'soundOff');
   });
+  const shortcuts = new Shortcuts(store);
+  const keysButton = h(
+    'button',
+    { class: 'tool', type: 'button', 'aria-keyshortcuts': '?' },
+    store.t('keys'),
+  );
+  keysButton.addEventListener('click', () => {
+    shortcuts.toggle();
+  });
+  store.onChange(() => {
+    keysButton.textContent = store.t('keys');
+  });
   const row2 = h(
     'div',
     { class: 'brand-row' },
@@ -243,10 +256,11 @@ async function start(): Promise<void> {
     tabButton('language'),
     tabButton('about'),
     sound,
+    keysButton,
   );
   brand.append(row2, skyControls.el);
   brand.querySelector('.brand-row')?.append(home);
-  app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el);
+  app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el, shortcuts.el);
   const compact = (): void => {
     moment.el.classList.toggle('compact', panel.open !== undefined || info.isOpen);
   };
@@ -256,15 +270,21 @@ async function start(): Promise<void> {
     const stepKey = e.key === 'ArrowRight' || e.key === 'ArrowLeft';
     const modified = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     const focus = document.activeElement;
-    const inTimeline = focus?.closest('.timeline') && !focus.classList.contains('tl-track');
-    if (stepKey && !modified && (focus === document.body || inTimeline)) {
+    if (stepKey && !modified && !ownsArrows(focus)) {
       e.preventDefault();
       timeline.step(e.key === 'ArrowRight' ? 1 : -1);
       return;
     }
+    const typing = focus instanceof HTMLInputElement && focus.type !== 'range';
+    if (e.key === '?' && !typing && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      shortcuts.toggle();
+      return;
+    }
     if (e.key !== 'Escape') return;
     if (document.querySelector('.prov-wrap.open') || document.activeElement?.closest('.prov-wrap')) return;
-    if (panel.open) panel.close();
+    if (shortcuts.isOpen) shortcuts.close();
+    else if (panel.open) panel.close();
     else if (info.isOpen) info.close();
   });
   const startPlace = content.places.find((p) => p.id === params.get('place'));
@@ -280,6 +300,8 @@ async function start(): Promise<void> {
     flight.turnTo(northAlpha(world.camera.alpha));
   });
   app.append(compass.el, followChip.el);
+  const chrome = [brand, moment.el, timeline.el, compass.el, followChip.el, panel.el, info.el, shortcuts.el];
+  if (debug) chrome.push(debug.el);
   const banner = desktopBanner(store);
   if (banner) app.append(banner);
   if (debug) app.append(debug.el);
@@ -351,7 +373,7 @@ async function start(): Promise<void> {
     );
     world.scene.render();
     bubbles.update(active, now);
-    labels.update(bubbles.visible);
+    labels.update([...bubbles.visible, ...onScreen(chrome)]);
   });
   window.addEventListener('resize', () => {
     engine.resize();
@@ -394,3 +416,24 @@ start().catch((err: unknown) => {
   msg.textContent = `${STRINGS.loadingFailed[lang]} ${err instanceof Error ? err.message : String(err)}`;
   document.body.append(msg);
 });
+
+// The slider, the info tabs, form fields and the 3D view (camera turning) use the arrow keys
+// themselves; everywhere else they step.
+function ownsArrows(focus: Element | null): boolean {
+  if (!focus) return false;
+  if (focus instanceof HTMLCanvasElement) return true;
+  if (
+    focus instanceof HTMLInputElement ||
+    focus instanceof HTMLTextAreaElement ||
+    focus instanceof HTMLSelectElement
+  )
+    return true;
+  return focus.classList.contains('tl-track') || focus.getAttribute('role') === 'tab';
+}
+
+function onScreen(elements: readonly HTMLElement[]): DOMRect[] {
+  return elements
+    .filter((el) => !el.hidden)
+    .map((el) => el.getBoundingClientRect())
+    .filter((r) => r.width > 0 && r.height > 0);
+}

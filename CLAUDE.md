@@ -202,7 +202,7 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
 - **Every flow that matters has an e2e test that runs in CI on every push**, not only locally.
 - **Coverage good enough to change things without fear** (Dewi, 2026-09-28: "good test coverage to
   give u confidence of low risk of regression"). The pure layers (`src/domain`, `src/content`) are measured on every `npm test` and CI fails below the floor in `vitest.config.ts` (statements 92%,
-  branches 85%, functions 100%, lines 95%, measured at 97.1 / 87.2 / 100 / 98.7 on 2026-10-01).
+  branches 85%, functions 100%, lines 95%, measured at 97.3 / 87.2 / 100 / 98.9 on 2026-10-02).
   Raise the floor when coverage rises; never lower it to get a change through. The renderer, UI and
   audio are covered by e2e flows instead, so every user-visible behaviour change adds or extends one.
   A number is not the goal: a test must fail when the behaviour breaks, so check new tests against
@@ -306,8 +306,8 @@ CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*
   `nohup npm run dev > ~/claude-tasks/llandeilo-dev-5051.log 2>&1 &` (the port is set in
   `package.json`).
   Never stop it, never move it to another port, and never point it at a worktree: it serves `main`'s
-  working tree with hot reload, so Dewi sees each change as it lands. Worktrees and e2e use other
-  ports (5174+, 4173). Tell Dewi the URL: http://localhost:5051/ (`?debug`, `?year=1282`).
+  working tree with hot reload, so Dewi sees each change as it lands. Worktrees use other
+  ports (5174+); e2e starts its own preview on a port derived from the checkout's path (4200-4999). Tell Dewi the URL: http://localhost:5051/ (`?debug`, `?year=1282`).
 - **Comments where they help** (Dewi, 2026-09-28: "yes override the rule for this repo", overriding
   his global no-comments default here only): a short comment for a non-obvious why, a gotcha, a
   units or axis convention, or a number tuned by eye. Never narrate what the code does; keep each to

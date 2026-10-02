@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-01
+updated: 2026-10-02
 ---
 
 # Build log
@@ -197,3 +197,50 @@ Milestones and what each one taught us. Newest last.
    second-Opus reviews of the triage rule found real holes: a stranger's text could reach the public
    repo unseen, every subagent reading CLAUDE.md would also triage, and a date compared with a
    timestamp made our own replies re-trigger triage for ever.
+
+## 2026-10-02
+
+1. **A todo item can be already done by something else.** "Timeline tick labels overlap" named
+   "8,300 BC", an anchor that no longer exists; re-measured at 1024-1920px in both languages, nothing
+   overlapped. The overlap test was still worth adding, and a deliberately cramped anchor (10,000 BC
+   at t=0.03) proved it fails at its assertion. Its first red run failed in the wrong place: a
+   `getByRole('button', { name: 'English' })` also matched two timeline markers ("…to the English"),
+   so language buttons need `exact: true`.
+2. **e2e no longer reuses a server.** The preview port is derived from the checkout's path, so two
+   clones cannot collide, and `reuseExistingServer` is off, so a run only ever tests the build it
+   started ([ADR 0023](../adr/0023-e2e-own-port-never-reused.md)).
+3. **The scale factors in the About text come from `WORLD`**: the landmark scale moved from the
+   renderer (`MONUMENT_SCALE`, now removed) into `src/domain/geo.ts` beside the hill exaggeration.
+   The review caught the first wording, "castles, abbeys and forts", as wrong: hillforts are drawn at
+   true footprint, so the text now names what is enlarged and what is not.
+4. **`Place.namedFrom` is required** ([ADR 0024](../adr/0024-place-names-carry-a-required-date.md)).
+   The first draft gave Garn Goch AD 800 as a lower bound, which the review rightly called backwards:
+   a lower bound on a name's first use, applied as "named from", shows the name as in use for 1,200
+   years with no record. When unsure, the bound must err towards "(today)", so it is 1974, the
+   oldest use we can cite.
+5. **SwiftShader e2e is slow when the machine is shared**: with another project's emulator on ten
+   cores, a page took over 150s to become ready once. A timeout at `data-ready` is load, not a failure
+   of the test's own step.
+6. **A rule that lives in one view misses the others.** "(today)" for the Roman forts did nothing on
+   the map, because only visitable places get a label; their name appears on the moment card, which
+   had its own copy of the place name and no rule. One domain function, `namedLater`, now answers
+   it for both. The e2e test written against the labels failed for exactly this reason.
+7. **Labels hid under the compass.** A screenshot showed "Garn Goch (today)" half under it: labels
+   only dodged speech bubbles, and estimated their width from the name alone, missing the note.
+   They now avoid every on-screen panel, using their measured size.
+8. **The compass sat on top of every right-hand panel.** The conversation, info and debug panels
+   were all at `top: 16px; right: 16px`, the compass's own corner, so it covered the conversation's
+   close button. Found by a screenshot taken for a different change. They now share one
+   `--below-compass` token.
+9. **A test that watches the screen can pass while the bug happens.** The test for "arrows in the
+   3D view do not step the timeline" first watched the key-date counter and passed on the buggy
+   build: at SwiftShader's 1fps the counter had not redrawn two seconds after a step. A probe showed
+   the step in the log (`dewidebug timeline step … to=dryslwyn-siege`), so the test now asserts on
+   that logged decision and fails on the old build. Two quick key presses even left the counter
+   unchanged on the buggy build.
+10. **Three second-Opus reviews of one batch.** The first caught three accuracy errors (hillforts
+   enlarged, the bridge's date, Garn Goch's bound). The second caught the keys help promising more
+   than the code did, the dialect rule written backwards, and ticks claiming steps that had not
+   happened. The third caught the fix for the keys (arrows now double-fired with the 3D camera) and
+   the paragraph above overclaiming in the todo file. Each review found something in the previous
+   fixes.
