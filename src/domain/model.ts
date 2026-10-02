@@ -197,6 +197,12 @@ export const AMBIENT_BEDS = [
 ] as const;
 export type AmbientBed = (typeof AMBIENT_BEDS)[number];
 
+// A bed is silent unless a keyframe names it, so a level cannot exist without its reason.
+export interface BedLevel {
+  readonly level: number;
+  readonly provenance: Provenance;
+}
+
 export interface EnvironmentKey {
   readonly year: Year;
   readonly forest: number;
@@ -207,5 +213,5 @@ export interface EnvironmentKey {
   readonly sun: string;
   readonly fog: number;
   readonly mappedWoodland: number;
-  readonly ambient: Readonly<Partial<Record<AmbientBed, number>>>;
+  readonly ambient: Readonly<Partial<Record<AmbientBed, BedLevel>>>;
 }

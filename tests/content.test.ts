@@ -7,10 +7,11 @@ import { STRINGS } from '../src/content/strings.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
-import { latestStarting } from '../src/domain/state.ts';
+import { AMBIENT_BEDS } from '../src/domain/model.ts';
+import { environmentAt, latestStarting } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
-import { contains } from '../src/domain/time.ts';
+import { ad, bc, contains, year } from '../src/domain/time.ts';
 import { tAt, yearAt } from '../src/domain/timeline.ts';
 
 const root = join(import.meta.dirname, '..');
@@ -129,6 +130,45 @@ describe('content integrity', () => {
       .sort((a, b) => a - b);
     const tooClose = ts.filter((t, i) => i > 0 && t - (ts[i - 1] ?? 0) < 0.004);
     expect(tooClose.length).toBeLessThan(3);
+  });
+});
+
+describe('ambient sound beds', () => {
+  const sources = new Set(W.sources.map((s) => s.id));
+  const beds = W.environment.flatMap((k) =>
+    AMBIENT_BEDS.flatMap((bed) => {
+      const b = k.ambient[bed];
+      return b === undefined ? [] : [{ key: `${String(k.year)} ${bed}`, bed, year: k.year, b }];
+    }),
+  );
+
+  it('gives every sounding bed in every environment key a level and a provenance', () => {
+    expect(beds.length).toBeGreaterThan(0);
+    const bad = beds.filter(
+      ({ b }) =>
+        !(b.level > 0 && b.level <= 1) ||
+        typeof b.provenance !== 'object' ||
+        (b.provenance.kind === 'documented' && b.provenance.sources.length === 0) ||
+        (b.provenance.kind === 'reconstructed' &&
+          (b.provenance.basis.en === '' || b.provenance.basis.cy === '')) ||
+        b.provenance.sources.some((s) => !sources.has(s)),
+    );
+    expect(bad.map((x) => x.key)).toEqual([]);
+  });
+
+  it('rings no bell and runs no train before the railway opened in January 1857 (effects:S7)', () => {
+    expect(
+      beds.filter((x) => (x.bed === 'bells' || x.bed === 'train') && x.year < ad(1857)).map((x) => x.key),
+    ).toEqual([]);
+    const heard: string[] = [];
+    for (let y: number = bc(12500); y <= 1850; y += 5) {
+      const a = environmentAt(W.environment, year(y)).ambient;
+      if (a.bells > 0 || a.train > 0) heard.push(String(y));
+    }
+    expect(heard).toEqual([]);
+    const first = beds.find((x) => x.bed === 'bells');
+    expect(first?.year).toBe(ad(1857));
+    expect(first?.b.provenance.sources).toContain('effects:S7');
   });
 });
 

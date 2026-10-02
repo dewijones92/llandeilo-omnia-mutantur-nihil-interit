@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Research findings and decisions
@@ -108,6 +108,14 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
 - St Teilo's west tower is contested: 15th century (Cadw listing, models:S29; Coflein, models:S28) or about 1600 (Coflein, the same record); the app draws it from c. 1600, with the text giving both. *Corrected 2026-10-02*: this line said it dates from about 1600,
   as if settled.
 - Longhouse evidence is later and from mid Wales; the medieval ones in the app are marked imagined.
+- **The app rang church bells no source records** (corrected 2026-10-03). The environment keys gave
+  bells at AD 800, 1250, 1600 and 1850, but the first bells heard at Llandeilo in any source read are
+  the peal for the first train on 20 January 1857 (effects:S7), and no medieval bell is recorded for
+  St Teilo's or Talley ([event-effects](event-effects.md), [soundscapes](soundscapes.md)). The same
+  pass found a train bed on the 1850 key, so the train's level was rising from 1600 (the audio was
+  only saved by needing a visible train), and a market at 1250, before the fair said to date from
+  1291. All three are gone; bells and the train now start on a new 1857 key, and every sounding bed
+  carries a provenance.
 
 ## Decisions the research drove
 

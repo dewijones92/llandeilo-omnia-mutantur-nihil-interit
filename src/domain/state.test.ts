@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { EnvironmentKey } from './model.ts';
+import type { Provenance } from './provenance.ts';
 import { environmentAt, latestStarting, presenceAt } from './state.ts';
 import { ad, range } from './time.ts';
 import { createTimeline } from './timeline.ts';
@@ -44,7 +45,10 @@ describe('latestStarting', () => {
 });
 
 describe('environmentAt', () => {
-  const key = (y: number, forest: number, sky: string, river?: number): EnvironmentKey => ({
+  const basis = (en: string): Provenance => ({ kind: 'reconstructed', basis: { en, cy: en }, sources: [] });
+  const early = basis('early');
+  const late = basis('late');
+  const key = (y: number, forest: number, sky: string, river?: number, why = early): EnvironmentKey => ({
     year: ad(y),
     forest,
     farmland: 1 - forest,
@@ -54,7 +58,7 @@ describe('environmentAt', () => {
     sun: sky,
     fog: 0.2,
     mappedWoodland: 0,
-    ambient: river === undefined ? {} : { river },
+    ambient: river === undefined ? {} : { river: { level: river, provenance: why } },
   });
   const keys = [key(1000, 0.8, '#000000', 1), key(1200, 0.4, '#ffffff')];
 
@@ -76,6 +80,16 @@ describe('environmentAt', () => {
     expect(e.forest).toBe(0.4);
     expect(e.ambient.river).toBe(0);
     expect(e.ambient.train).toBe(0);
+  });
+
+  it('names each sounding bed with the provenance of every keyframe it is heard from', () => {
+    const both = [key(1000, 0.8, '#000000', 1, early), key(1200, 0.4, '#ffffff', 0.5, late)];
+    expect(environmentAt(both, ad(1000)).beds).toEqual([{ bed: 'river', level: 1, provenance: [early] }]);
+    expect(environmentAt(both, ad(1100)).beds).toEqual([
+      { bed: 'river', level: 0.75, provenance: [early, late] },
+    ]);
+    expect(environmentAt(keys, ad(1100)).beds).toEqual([{ bed: 'river', level: 0.5, provenance: [early] }]);
+    expect(environmentAt(keys, ad(1200)).beds).toEqual([]);
   });
 
   it('refuses an empty keyframe list', () => {

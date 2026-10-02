@@ -501,3 +501,16 @@ test('a key date whose season and hour a source records sets the sky to match, u
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('.sky-note')).toHaveText('Atmosphere only, not a record of this year');
 });
+
+test('the debug overlay names each sounding bed and its provenance: no bells in 1282, the 1857 peal by 1900', async ({
+  page,
+}) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const debug = page.locator('.debug');
+  await expect(debug).toContainText(/sound river 0\.\d\d documented deeptime:S40/);
+  await expect(debug).not.toContainText('sound bells');
+  await page.goto('./?debug&year=1900');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(debug).toContainText(/sound bells 0\.\d\d documented effects:S7/);
+});

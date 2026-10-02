@@ -1,19 +1,20 @@
 import { clamp, lerp, smoothstep } from './assert.ts';
 import { chillAt, type ClimateKey } from './climate.ts';
 import { hex, mix, type Rgb } from './colour.ts';
-import type {
-  AlmanacEntry,
-  AmbientBed,
-  Conversation,
-  EnvironmentKey,
-  Era,
-  Feature,
-  KeyEvent,
-  LanguageSnapshot,
-  Person,
-  Place,
+import {
+  AMBIENT_BEDS,
+  type AlmanacEntry,
+  type AmbientBed,
+  type Conversation,
+  type EnvironmentKey,
+  type Era,
+  type Feature,
+  type KeyEvent,
+  type LanguageSnapshot,
+  type Person,
+  type Place,
 } from './model.ts';
-import type { Source } from './provenance.ts';
+import type { Provenance, Source } from './provenance.ts';
 import { contains, type TimeRange, type Year } from './time.ts';
 import { tAt, yearAt, type Timeline } from './timeline.ts';
 
@@ -42,6 +43,13 @@ export interface Environment {
   readonly fog: number;
   readonly mappedWoodland: number;
   readonly ambient: Readonly<Record<AmbientBed, number>>;
+  readonly beds: readonly SoundingBed[];
+}
+
+export interface SoundingBed {
+  readonly bed: AmbientBed;
+  readonly level: number;
+  readonly provenance: readonly Provenance[];
 }
 
 export interface FeaturePresence {
@@ -94,7 +102,15 @@ export function environmentAt(keys: readonly EnvironmentKey[], y: Year): Environ
     b = k;
   }
   const f = b.year === a.year ? 0 : clamp((y - a.year) / (b.year - a.year), 0, 1);
-  const ambient = everyBed((bed) => lerp(a.ambient[bed] ?? 0, b.ambient[bed] ?? 0, f));
+  const ambient = everyBed((bed) => lerp(a.ambient[bed]?.level ?? 0, b.ambient[bed]?.level ?? 0, f));
+  const beds = AMBIENT_BEDS.flatMap((bed): SoundingBed[] => {
+    const level = ambient[bed];
+    if (level <= 0) return [];
+    const from = f < 1 ? a.ambient[bed] : undefined;
+    const to = f > 0 ? b.ambient[bed] : undefined;
+    const provenance = [from?.provenance, to?.provenance].filter((p) => p !== undefined);
+    return [{ bed, level, provenance: [...new Set(provenance)] }];
+  });
   return {
     forest: lerp(a.forest, b.forest, f),
     farmland: lerp(a.farmland, b.farmland, f),
@@ -105,6 +121,7 @@ export function environmentAt(keys: readonly EnvironmentKey[], y: Year): Environ
     fog: lerp(a.fog, b.fog, f),
     mappedWoodland: lerp(a.mappedWoodland, b.mappedWoodland, f),
     ambient,
+    beds,
   };
 }
 

@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Build log
@@ -283,3 +283,16 @@ Milestones and what each one taught us. Newest last.
 19. **Two GPU browsers at once can hang one.** A screenshot script and the e2e run shared the D3D12
     GPU path; one e2e page never became ready in 150s, then passed five times out of five alone. Take
     screenshots before or after an e2e run, not during.
+
+## 2026-10-03
+
+1. **Honest ambience, step one.** The sound beds had no provenance, and that hid three errors: church
+   bells from AD 800 (the first bells in any source are the peal for the first train, 20 January
+   1857), a train bed on the 1850 key (so its level climbed from 1600; only the need for a visible
+   train kept it silent), and a market at 1250, before the fair said to date from 1291. A bed level is
+   now `{ level, provenance }`, the reasons live in `src/content/ambience.ts`, bells and the train
+   start on a new 1857 key, and `?debug` lists every sounding bed with its provenance
+   ([ADR 0028](../adr/0028-ambient-beds-carry-provenance.md)). Two content tests, a unit test and an
+   e2e test were each seen red first. The debug overlay then grew taller than the space above the
+   timeline and covered Previous and Next; it is now capped like the other side panels, with the
+   sound lines above the long feature list.

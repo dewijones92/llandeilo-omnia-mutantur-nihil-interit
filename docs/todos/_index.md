@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Backlog
@@ -263,9 +263,15 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
 From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full notes in
 [`../design/ideas-2026-10-02-ranked.json`](../design/ideas-2026-10-02-ranked.json)). Same path as any item.
 
-- [ ] **Honest ambience**: every ambient sound bed carries provenance; the medieval church bells at
-      AD 800 and 1250 go, since no source records a medieval bell here (event-effects); then sound
-      shaped by distance and space
+- [x] **Honest ambience, step one**: every ambient sound bed carries provenance; the medieval church
+      bells at AD 800 and 1250 go, since no source records a medieval bell here (event-effects).
+      Done 2026-10-03: a bed level is `{ level, provenance }` (so none sounds without a reason), each
+      reason lives in `src/content/ambience.ts`; bells and the train now start on a new 1857 key (the bells
+      at 1600 and 1850, the train at 1850 and the market at 1250 had no source either); `?debug` lists
+      each sounding bed with its provenance. Red runs: the two content tests, the `environmentAt`
+      beds test and the debug-overlay e2e test. Screenshots at AD 800, 1282, 1900 and 2026. The
+      second-Opus review is still to come
+- [ ] **Honest ambience, step two**: sound shaped by distance and space
 - [ ] **Contested points, shown as contested**: one register of every source disagreement, a
       `Contested<T>` type with exactly one preferred reading, a witnesses card, and a ⇄ switch only
       where the readings draw differently (Dryslwyn's middle ward, St Teilo's tower, 1403)
