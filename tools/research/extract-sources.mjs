@@ -13,6 +13,10 @@ const PREFIX = {
   'deep-time-and-natural-history': 'deeptime',
   'conversations-by-class': 'classes',
   'railway-locomotives': 'railway',
+  'event-effects': 'effects',
+  'railway-later': 'railwaylater',
+  'anglo-norman-and-middle-english': 'anglonorman',
+  'building-models': 'models',
 };
 
 const entries = [];
