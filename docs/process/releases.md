@@ -16,6 +16,8 @@ Corrections to history are called out: when we get something wrong, we say so.
 **History corrected.** Every research note behind the app's three main eras was re-read against its
 sources by an independent check, and what was wrong is now fixed in the app:
 
+![The 1282 key date, with the corrected account of the battle](../images/releases/v0.2.0/battle-1282.jpg)
+
 - **1282, the Battle of Llandeilo Fawr:** the date is 16 June by the Welsh annals (some histories say
   17 June). The English force had not sacked Carreg Cennen: the army re-occupied walls the Welsh had
   already burnt, and the ambushed men were a plundering party from an army mostly of Welsh levies.
@@ -35,17 +37,28 @@ sources by an independent check, and what was wrong is now fixed in the app:
 - **Talley Abbey** stands on its real spot (Coflein's grid reference) and is drawn as it was built,
   about 49m long rather than the 73m planned, with only four bays of nave. After 1536 its east end
   serves as the parish church until 1773, while the rest decays.
+
+  ![Talley Abbey in 1300, the finished church and cloister](../images/releases/v0.2.0/talley-1300.jpg)
+  ![Talley in 1700: the tower and roofed east end serve the parish; the rest is ruin](../images/releases/v0.2.0/talley-1700.jpg)
 - **Dryslwyn Castle** grows ward by ward: the first ward of the 1220s, the middle ward in the
   mid-13th century, then the outer ward and gatehouse before the siege of 1287.
+
+  ![Dryslwyn in 1300, with all three wards](../images/releases/v0.2.0/dryslwyn-1300.jpg)
 
 **Easier to use.**
 
 - Press **?** or **Keys** for every shortcut and control.
+
+  ![The keys panel](../images/releases/v0.2.0/keys.jpg)
+
 - Arrow keys step between key dates from almost anywhere.
 - Place names no longer hide under panels or sit on each other, and the place a key date is about
   wins.
 - A name that is anachronistic says "(today)", now on the key-date card too (the Roman forts' name is
   modern).
+
+  ![c. AD 74: the card names "Caerau Rhufeinig Dinefwr (today)", a modern name](../images/releases/v0.2.0/roman-forts-today.jpg)
+
 - The About panel says exactly what is drawn larger than life.
 - Welsh conversations say that the voice has a standard accent, not the local southern speech.
 
