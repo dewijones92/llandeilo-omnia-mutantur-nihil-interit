@@ -142,6 +142,55 @@ export const STRINGS = {
   evening: { en: 'Evening', cy: 'Noswaith' },
   dusk: { en: 'Dusk', cy: 'Cyfnos' },
   playDay: { en: 'Let the day pass', cy: 'Gadael i’r dydd fynd heibio' },
+  whenAreWe: { en: 'When are we?', cy: 'Pryd ydyn ni?' },
+  guessIntro: {
+    en: 'Look around the valley: the land, the woods, the buildings. Then drag the marker along the timeline to when you think this is.',
+    cy: 'Edrychwch o gwmpas y dyffryn: y tir, y coed, yr adeiladau. Yna llusgwch y marciwr ar hyd y llinell amser i’r adeg rydych chi’n meddwl yw hi.',
+  },
+  guessRound: { en: 'Round', cy: 'Rownd' },
+  guessOf: { en: 'of', cy: 'o' },
+  guessLock: { en: 'Make my guess', cy: 'Gwneud fy nyfaliad' },
+  guessPlaceFirst: {
+    en: 'Drag the marker on the timeline first.',
+    cy: 'Llusgwch y marciwr ar y llinell amser yn gyntaf.',
+  },
+  guessStop: { en: 'Stop the game', cy: 'Gorffen y gêm' },
+  guessYours: { en: 'Your guess', cy: 'Eich dyfaliad' },
+  guessAnswer: { en: 'The answer', cy: 'Yr ateb' },
+  guessPoints: { en: 'points', cy: 'pwynt' },
+  guessClues: { en: 'How you could have known', cy: 'Sut y gallech chi fod wedi gwybod' },
+  guessFirm: { en: 'Firm clue', cy: 'Cliw cadarn' },
+  guessProbable: { en: 'Probable clue', cy: 'Cliw tebygol' },
+  guessInScene: { en: 'in the scene', cy: 'yn yr olygfa' },
+  guessFrom: { en: 'from', cy: 'o' },
+  guessTo: { en: 'to', cy: 'hyd' },
+  guessShowMe: { en: 'Show me', cy: 'Dangos i mi' },
+  guessColder: {
+    en: 'A colder climate than today, seen in the snow on the hills',
+    cy: 'Hinsawdd oerach na heddiw, i’w gweld yn yr eira ar y bryniau',
+  },
+  guessWarmer: {
+    en: 'A warmer climate than today, seen in less snow on the hills',
+    cy: 'Hinsawdd gynhesach na heddiw, i’w gweld yn llai o eira ar y bryniau',
+  },
+  guessClimateModel: {
+    en: 'This comes from our reconstructed climate model, not from a record of these years.',
+    cy: 'Daw hyn o’n model hinsawdd wedi’i ail-greu, nid o gofnod o’r blynyddoedd hyn.',
+  },
+  guessNoFirm: {
+    en: 'Nothing here is dated firmly by a record: every clue is a reconstruction.',
+    cy: 'Does dim yma wedi’i ddyddio’n bendant gan gofnod: ail-greadau yw pob cliw.',
+  },
+  guessSameScene: {
+    en: 'From what is drawn, your guess and the answer look the same: the scene cannot tell them apart.',
+    cy: 'O’r hyn sydd wedi’i luniadu, mae eich dyfaliad a’r ateb yn edrych yr un fath: ni all yr olygfa wahaniaethu rhyngddynt.',
+  },
+  guessNext: { en: 'Next round', cy: 'Rownd nesaf' },
+  guessFinish: { en: 'See my score', cy: 'Gweld fy sgôr' },
+  guessTotal: { en: 'Your score', cy: 'Eich sgôr' },
+  guessBest: { en: 'Best in this browser', cy: 'Gorau yn y porwr hwn' },
+  guessNewBest: { en: 'Your best yet!', cy: 'Eich gorau eto!' },
+  guessAgain: { en: 'Play again', cy: 'Chwarae eto' },
 } as const satisfies Record<string, Bilingual>;
 
 export type StringKey = keyof typeof STRINGS;

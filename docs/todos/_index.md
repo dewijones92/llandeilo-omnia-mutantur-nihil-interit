@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Backlog
@@ -270,7 +270,11 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
       `Contested<T>` type with exactly one preferred reading, a witnesses card, and a ⇄ switch only
       where the readings draw differently (Dryslwyn's middle ward, St Teilo's tower, 1403)
 - [ ] **When are we?** a guess-the-year game: hidden clues, read the landscape, a reveal that explains
-      which features gave it away and how firmly, by provenance
+      which features gave it away and how firmly, by provenance. Built 2026-10-03
+      ([ADR 0028](../adr/0028-guess-game-hides-giveaways-by-one-root-class.md)): `src/domain/guess.ts`
+      (clue ranking seen red, then green), `src/ui/guess.ts`, one e2e flow (seen red with the hiding
+      rule removed), screenshots at 800 BC, 1287 and 1987. Not ticked: the second-Opus review has not
+      run yet
 - [ ] **Light after dark**: hearth, rushlight, candle, gas, electric light and the blackout, as content
       keys like the climate, each sourced
 - [ ] **When did we find out?** a discovery rail and a "found" line on every ⓘ (the forts in 2003,

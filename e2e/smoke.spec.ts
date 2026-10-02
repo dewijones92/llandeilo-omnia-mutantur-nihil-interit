@@ -501,3 +501,50 @@ test('a key date whose season and hour a source records sets the sky to match, u
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('.sky-note')).toHaveText('Atmosphere only, not a record of this year');
 });
+
+test('When are we? hides the year, takes a guess on the timeline, then reveals it with clues', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.getByRole('button', { name: 'When are we?' }).click();
+  const game = page.locator('.guess');
+  await expect(game).toContainText('Round 1 of 5');
+  for (const giveaway of ['.tl-year', '.tl-era', '.tl-thumb', '.moment', '.labels', '.bubbles']) {
+    await expect(page.locator(giveaway)).toBeHidden();
+  }
+  await expect(page.locator('.tl-marker').first()).toBeHidden();
+  await expect(page.locator('.tl-band').first()).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Almanac' })).toBeHidden();
+  const lock = game.getByRole('button', { name: 'Make my guess' });
+  await expect(lock).toBeDisabled();
+
+  const slider = page.getByRole('slider', { name: 'Timeline' });
+  const hidden = await slider.getAttribute('aria-valuenow');
+  const box = await slider.boundingBox();
+  if (!box) throw new Error('The timeline has no box');
+  const y = box.y + box.height / 2;
+  await page.mouse.move(box.x + box.width * 0.6, y);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.7, y, { steps: 5 });
+  await page.mouse.up();
+  await expect(page.locator('.tl-ghost-flag')).toHaveText('Your guess');
+  // Dragging moved only the guess, not time.
+  expect(await slider.getAttribute('aria-valuenow')).toBe(hidden);
+  await page.screenshot({ path: 'test-results/guess-taking.png' });
+
+  await lock.click();
+  await expect(page.locator('.tl-year')).toBeVisible();
+  await expect(game.locator('.guess-score')).toContainText('points');
+  await expect(slider).toHaveAttribute('aria-valuenow', hidden ?? '');
+  const clue = game.locator('.guess-clues li').first();
+  await expect(clue.locator('.guess-strength')).toHaveText(/Firm clue|Probable clue/);
+  const info = clue.locator('.prov');
+  await expect(info).toBeVisible();
+  await info.click();
+  await expect(clue.locator('.prov-pop')).toBeVisible();
+  await page.screenshot({ path: 'test-results/guess-reveal.png' });
+  expect(errors).toEqual([]);
+});

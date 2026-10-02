@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Build log
@@ -283,3 +283,16 @@ Milestones and what each one taught us. Newest last.
 19. **Two GPU browsers at once can hang one.** A screenshot script and the e2e run shared the D3D12
     GPU path; one e2e page never became ready in 150s, then passed five times out of five alone. Take
     screenshots before or after an e2e run, not during.
+
+## 2026-10-03
+
+1. **"When are we?", a guess-the-year game** ([ADR 0028](../adr/0028-guess-game-hides-giveaways-by-one-root-class.md)).
+   Five rounds from the 19 key dates that have something drawn to date them by; the viewer drags a
+   ghost marker on the timeline, and the reveal sweeps from the guess to the answer and lists the
+   clues with their ⓘ and a "Show me" flight. Two things the first draft got wrong, both caught before
+   any UI existed: probing the real content showed features fading in or out offered as clues whose
+   dates did not include the year (Carreg Cennen's 1287 inner ward at 1282), and a unit fixture
+   showed the climate clue naming its period by its keys' years rather than the years the model
+   keeps the chill visible, so it could fall outside the year (it now reads c. 1456 to 1887 for the
+   Little Ice Age, and AD 933 to 1275 for the warm period).
+   Playwright treats a zero-width element as hidden, so the ghost is checked by its flag.

@@ -7,6 +7,8 @@ import { tAt, yearAt, type Timeline } from '../domain/timeline.ts';
 import { h } from './dom.ts';
 import type { LangStore } from './store.ts';
 
+const GHOST_START = 0.5;
+
 export interface TimelineCallbacks {
   onScrub(t: number): void;
   onRelease(t: number): void;
@@ -29,6 +31,9 @@ export class TimelineBar {
   private readonly next: HTMLButtonElement;
   private readonly counter: HTMLElement;
   private destination: number | undefined;
+  private readonly ghost: HTMLElement;
+  private ghostT: number | undefined;
+  private onGuess: ((t: number) => void) | undefined;
 
   constructor(
     private readonly timeline: Timeline,
@@ -39,6 +44,11 @@ export class TimelineBar {
     private readonly cb: TimelineCallbacks,
   ) {
     this.prev = h('button', { class: 'tool tl-step', type: 'button' }, `◀ ${store.t('previous')}`);
+    this.ghost = h(
+      'div',
+      { class: 'tl-ghost', hidden: true, 'aria-hidden': 'true' },
+      h('span', { class: 'tl-ghost-flag' }, store.t('guessYours')),
+    );
     this.next = h('button', { class: 'tool tl-step', type: 'button' }, `${store.t('next')} ▶`);
     this.counter = h('span', { class: 'tl-counter', 'aria-live': 'polite' });
     this.prev.addEventListener('click', () => {
@@ -47,11 +57,16 @@ export class TimelineBar {
     this.next.addEventListener('click', () => {
       this.step(1);
     });
-    this.yearEl = h('span', { class: 'tl-year' });
-    this.eraEl = h('span', { class: 'tl-era' });
+    // reveals-when: hidden while a guess-the-year round is being played (see styles.css).
+    this.yearEl = h('span', { class: 'tl-year reveals-when' });
+    this.eraEl = h('span', { class: 'tl-era reveals-when' });
     this.bands = h('div', { class: 'tl-bands', 'aria-hidden': 'true' });
-    this.markers = h('div', { class: 'tl-markers' });
-    this.thumb = h('div', { class: 'tl-thumb', 'aria-hidden': 'true' }, h('span', { class: 'tl-knob' }));
+    this.markers = h('div', { class: 'tl-markers reveals-when' });
+    this.thumb = h(
+      'div',
+      { class: 'tl-thumb reveals-when', 'aria-hidden': 'true' },
+      h('span', { class: 'tl-knob' }),
+    );
     this.track = h(
       'div',
       {
@@ -65,6 +80,7 @@ export class TimelineBar {
       },
       this.bands,
       this.thumb,
+      this.ghost,
     );
     const hint = h('span', { id: 'tl-hint', class: 'sr-only' }, store.t('sliderHint'));
     this.ticks = h('div', { class: 'tl-ticks', 'aria-hidden': 'true' });
@@ -76,7 +92,7 @@ export class TimelineBar {
         { class: 'tl-readout' },
         this.yearEl,
         this.eraEl,
-        h('span', { class: 'tl-nav' }, this.prev, this.counter, this.next),
+        h('span', { class: 'tl-nav reveals-when' }, this.prev, this.counter, this.next),
       ),
       h('div', { class: 'tl-rail' }, this.track, this.markers),
       this.ticks,
@@ -90,6 +106,7 @@ export class TimelineBar {
       hint.textContent = store.t('sliderHint');
       this.prev.textContent = `◀ ${store.t('previous')}`;
       this.next.textContent = `${store.t('next')} ▶`;
+      this.ghost.firstElementChild?.replaceChildren(store.t('guessYours'));
       this.render();
       this.set(this.t);
     });
@@ -120,7 +137,36 @@ export class TimelineBar {
     return this.destination ?? this.t;
   }
 
+  // While a guess is being taken the track moves the ghost marker instead of time, and stepping
+  // between key dates is off, so neither can reveal the hidden year.
+  takeGuess(onGuess: ((t: number) => void) | undefined): void {
+    this.onGuess = onGuess;
+    this.el.classList.toggle('taking-guess', onGuess !== undefined);
+    console.info(`dewidebug timeline guess capture=${String(onGuess !== undefined)}`);
+  }
+
+  jump(t: number): void {
+    this.settle();
+    this.set(t);
+    this.cb.onScrub(this.t);
+  }
+
+  showGhost(t: number | undefined): void {
+    this.ghostT = t;
+    this.ghost.hidden = t === undefined;
+    if (t !== undefined) this.ghost.style.left = `${clamp(t, 0, 1) * 100}%`;
+  }
+
+  private moveGhost(t: number): void {
+    this.showGhost(clamp(t, 0, 1));
+    this.onGuess?.(clamp(t, 0, 1));
+  }
+
   step(direction: 1 | -1): void {
+    if (this.onGuess) {
+      console.info('dewidebug timeline step ignored: a guess is being taken');
+      return;
+    }
     const target = stepFrom(this.steps, this.settled, direction);
     console.info(
       `dewidebug timeline step dir=${direction} at=${this.t.toFixed(4)} from=${this.settled.toFixed(4)} to=${target?.event.id ?? 'none'}`,
@@ -184,7 +230,7 @@ export class TimelineBar {
       ...this.eras.map((era) => {
         const a = tAt(this.timeline, era.when.from);
         const b = tAt(this.timeline, era.when.to);
-        const band = h('div', { class: 'tl-band', title: era.name[lang] });
+        const band = h('div', { class: 'tl-band reveals-when', title: era.name[lang] });
         band.style.left = `${a * 100}%`;
         band.style.width = `${(b - a) * 100}%`;
         band.style.background = era.colour;
@@ -236,6 +282,12 @@ export class TimelineBar {
 
   private bind(): void {
     this.track.addEventListener('pointerdown', (e) => {
+      if (this.onGuess) {
+        this.dragging = true;
+        this.track.setPointerCapture(e.pointerId);
+        this.moveGhost(this.tFromPointer(e.clientX));
+        return;
+      }
       this.settle();
       this.dragging = true;
       this.track.setPointerCapture(e.pointerId);
@@ -245,6 +297,10 @@ export class TimelineBar {
     });
     this.track.addEventListener('pointermove', (e) => {
       if (!this.dragging) return;
+      if (this.onGuess) {
+        this.moveGhost(this.tFromPointer(e.clientX));
+        return;
+      }
       this.set(this.tFromPointer(e.clientX));
       this.cb.onScrub(this.t);
     });
@@ -253,6 +309,7 @@ export class TimelineBar {
       this.dragging = false;
       this.el.classList.remove('dragging');
       if (this.track.hasPointerCapture(e.pointerId)) this.track.releasePointerCapture(e.pointerId);
+      if (this.onGuess) return;
       this.cb.onRelease(this.t);
     };
     this.track.addEventListener('pointerup', end);
@@ -269,6 +326,13 @@ export class TimelineBar {
       else if (e.key === 'End') target = 1;
       if (target === undefined) return;
       e.preventDefault();
+      if (this.onGuess) {
+        // Arrows nudge the ghost from where it is (the middle if not yet placed), never from the
+        // hidden time itself, which would give it away.
+        const nudge = e.key.startsWith('Arrow');
+        this.moveGhost(nudge ? (this.ghostT ?? GHOST_START) + (target - this.t) : target);
+        return;
+      }
       const final = clamp(target, 0, 1);
       if (e.key.startsWith('Arrow')) {
         this.settle();
