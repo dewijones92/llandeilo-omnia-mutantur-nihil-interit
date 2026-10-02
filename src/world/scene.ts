@@ -19,7 +19,12 @@ import {
 import { lerp } from '../domain/assert.ts';
 import type { Direction, Lighting, SeasonLook } from '../domain/daylight.ts';
 import type { Heightfield } from '../domain/heightfield.ts';
-import type { QualitySettings, ShadowFilter } from '../domain/quality.ts';
+import {
+  SHADOW_FILTERS,
+  type GraphicsState,
+  type QualitySettings,
+  type ShadowFilter,
+} from '../domain/quality.ts';
 import type { Environment } from '../domain/state.ts';
 import type { RiverLine } from '../platform/assets.ts';
 import { Sky } from './sky.ts';
@@ -113,7 +118,7 @@ export class World {
     this.shadows.addShadowCaster(this.terrain.mesh);
     this.water = new Water(scene, this.terrain.rivers);
     this.lamps.add(this.water.material);
-    this.forest = new Forest(scene, this.terrain, settings.trees);
+    this.forest = new Forest(scene, this.terrain, settings.treeDensity);
     for (const m of this.forest.meshes) this.shadows.addShadowCaster(m);
 
     const pipeline = new DefaultRenderingPipeline('post', true, scene, [camera]);
@@ -144,10 +149,6 @@ export class World {
     console.info(`dewidebug world quality=${settings.quality} shadowMap=${String(this.shadows.mapSize)}`);
   }
 
-  get quality(): QualitySettings {
-    return this.settings;
-  }
-
   setQuality(next: QualitySettings): void {
     if (next === this.settings) return;
     this.settings = next;
@@ -163,10 +164,25 @@ export class World {
     this.pipeline.bloomEnabled = next.bloom;
     this.pipeline.sharpenEnabled = next.sharpen;
     this.pipeline.depthOfFieldEnabled = next.depthOfField;
-    this.forest.setShare(next.trees);
+    this.forest.setDensity(next.treeDensity);
     this.applyPixelRatio();
     this.refreshShadows();
     console.info(`dewidebug world quality=${next.quality} shadowMap=${String(this.shadows.mapSize)}`);
+  }
+
+  graphics(): GraphicsState {
+    const filter = this.shadows.filteringQuality;
+    return {
+      quality: this.settings.quality,
+      shadowMapSize: this.shadows.mapSize,
+      shadowFilter: SHADOW_FILTERS.find((f) => SHADOW_FILTER[f] === filter) ?? 'other',
+      msaa: this.pipeline.samples,
+      bloom: this.pipeline.bloomEnabled,
+      depthOfField: this.pipeline.depthOfFieldEnabled,
+      sharpen: this.pipeline.sharpenEnabled,
+      treesDrawn: this.forest.treesDrawn,
+      pixelRatio: 1 / this.scene.getEngine().getHardwareScalingLevel(),
+    };
   }
 
   private shadowMapSize(s: QualitySettings): number {

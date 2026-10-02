@@ -14,11 +14,13 @@ export class OpeningCard {
   private readonly bar = h('div', { class: 'loader-bar' }, h('span'));
   private readonly beginButton = h('button', { class: 'begin', type: 'button', hidden: true });
   private readonly note = h('p', { class: 'begin-note', hidden: true });
+  private waiting: boolean;
 
   constructor(
     private readonly store: LangStore,
     private readonly begin: boolean,
   ) {
+    this.waiting = begin;
     const card = h(
       'div',
       { class: 'loader-card' },
@@ -46,6 +48,11 @@ export class OpeningCard {
     console.info(`dewidebug opening card begin=${String(begin)}`);
   }
 
+  // While the Begin card waits, the app's own keys (timeline arrows, ?, Escape) must not act behind it.
+  get isWaiting(): boolean {
+    return this.waiting;
+  }
+
   ready(onBegin: () => void): void {
     if (!this.begin) {
       this.dismiss();
@@ -58,6 +65,7 @@ export class OpeningCard {
     this.el.classList.add('ready');
     this.beginButton.addEventListener('click', () => {
       console.info('dewidebug opening begin pressed');
+      this.waiting = false;
       onBegin();
       this.dismiss();
     });

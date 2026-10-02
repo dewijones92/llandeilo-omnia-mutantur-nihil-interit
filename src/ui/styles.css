@@ -470,12 +470,11 @@ button {
   -webkit-backdrop-filter: blur(3px);
 }
 
+/* Solid: a see-through card let place labels and speech bubbles show through the motto. */
 .loader.ready .loader-card {
   padding: 30px 48px 26px;
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: blur(14px) saturate(1.2);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: var(--panel-solid);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
@@ -500,9 +499,9 @@ button {
   margin-top: 6px;
   padding: 10px 34px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radius);
   background: var(--ink);
-  color: #fff;
+  color: var(--panel-solid);
   font-weight: 700;
   font-size: 18px;
   letter-spacing: 0.02em;

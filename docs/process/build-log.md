@@ -291,9 +291,20 @@ Milestones and what each one taught us. Newest last.
    before they play sound, so it turns the sound on. Links into a year or place skip it, and so do
    automated browsers (`navigator.webdriver`), so the existing e2e tests and screenshots needed no
    edits; `?begin=1` brings it back for a test. The graphics level is one table in
-   `src/domain/quality.ts` ([ADR 0028](../adr/0028-one-graphics-quality-setting.md)), applied live,
-   with `?fx=low` kept as an alias. The motto was checked against the Latin Library text of
-   Metamorphoses XV (line 164 there; other editions number it 165, so the card names only the book).
-   First draft of the card left place labels and a speech bubble showing through the motto; the
-   text now sits on its own panel. 8192² shadows cost nothing measurable on SwiftShader (four e2e
-   tests: 1.2 minutes at 8192, 1.3 at 4096), and are unmeasured on a real desktop GPU.
+   `src/domain/quality.ts` ([ADR 0031](../adr/0031-one-graphics-quality-setting.md)), applied live,
+   with `?fx=low` kept as an alias. The motto was checked in two texts of Metamorphoses XV, both
+   line 165 ([findings](../research/findings.md); *corrected the same day*: this entry first said
+   the Latin Library numbers it 164). First draft of the card left place labels and a speech bubble
+   showing through the motto; the text now sits on its own panel. 8192² shadows cost nothing
+   measurable on SwiftShader (four e2e tests: 1.2 minutes at 8192, 1.3 at 4096), and are unmeasured
+   on a real desktop GPU.
+2. **The second-Opus review of that work found the fix had not fixed it.** The card's own panel was
+   86% opaque and its backdrop blur did not reach the labels (probably because its parent's own
+   backdrop-filter made the parent the backdrop root; not proven), so "News of the ambush" and
+   "Garn Goch (today)" still read through the motto in the screenshots said to show the fix. The card is solid now, and the e2e test checks
+   its computed background. Two more lessons: the debug quality line printed the *table*, so the
+   Low test would have stayed green with every apply line deleted; it now reads the renderer back
+   (shadow map, pipeline flags, the forest's drawn count), and the test went red with the forest or
+   the bloom line removed. And keys pressed with the Begin card up stepped the timeline behind it.
+   High's trees went from 0.62 to 0.9 of woodland triangles (34,056 drawn at 1282, against 23,449
+   at Medium); the ADR was renumbered 0031 because two other branches had already taken 0028.

@@ -2,7 +2,7 @@
 title: Atmosphere: time of day, seasons and effects
 kind: design
 status: built
-updated: 2026-09-28
+updated: 2026-10-03
 ---
 
 # Atmosphere: time of day, seasons and effects
@@ -19,7 +19,7 @@ seasons of year?? time of day???"*. **Built 2026-09-28** (first pass).
 - **Season**: four buttons and `?season=spring|summer|autumn|winter`.
 - **Default**: a summer evening, 17:30, with the sun low in the west behind the default camera.
 - **Graphics**: a High / Medium / Low menu in the brand card (High by default), also `?quality=`;
-  `?fx=low` is kept as an alias for Low ([ADR 0028](../adr/0028-one-graphics-quality-setting.md)).
+  `?fx=low` is kept as an alias for Low ([ADR 0031](../adr/0031-one-graphics-quality-setting.md)).
 
 All of it is atmosphere, not a record: the group's tooltip says so in both languages. Nothing about
 a particular day in a particular year is claimed.
@@ -62,7 +62,7 @@ a particular day in a particular year is claimed.
 | Sun and moon glow | Painted into the sky gradient by the true angle between each pixel's view ray and the sun (or moon): a bright core and a wide aureole, hidden behind the land like the rest of the sky | Part of the gradient repaint |
 | Tilt-shift | The pipeline's depth of field, focused on the camera target, with the focal length scaled to the distance so the miniature look holds at every zoom | Several blur passes; off at Medium and Low |
 | Colour grading | Colour curves: warm highlights at golden hour, cool desaturated shadows at night | Negligible (already in the pipeline) |
-| Night glow | Lit windows on about 60% of town buildings, fewer in the small hours; a soft firelight pool at open hearths (roundhouses, hall-houses, mansions), floated above the highest ground under it; bloom threshold drops at night | Thin instances |
+| Night glow | Lit windows on about 60% of town buildings, fewer in the small hours; a soft firelight pool at open hearths (roundhouses, hall-houses, mansions), floated above the highest ground under it; bloom threshold drops at night (bloom is on at High only, so Medium and Low show the lit windows without the bloom halo) | Thin instances |
 | Water | A procedural ripple normal map (wrapping, so it covers every river's whole length) flowing downstream, and an emissive tint reflecting the sky | 128×128 texture |
 | Morning mist | Fog thickens around dawn, most in autumn | None |
 

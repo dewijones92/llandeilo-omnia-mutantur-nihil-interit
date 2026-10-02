@@ -1,6 +1,7 @@
 export const QUALITIES = ['high', 'medium', 'low'] as const;
 export type Quality = (typeof QUALITIES)[number];
-export type ShadowFilter = 'high' | 'medium' | 'low';
+export const SHADOW_FILTERS = ['high', 'medium', 'low'] as const;
+export type ShadowFilter = (typeof SHADOW_FILTERS)[number];
 
 export interface QualitySettings {
   readonly quality: Quality;
@@ -10,8 +11,8 @@ export interface QualitySettings {
   readonly bloom: boolean;
   readonly depthOfField: boolean;
   readonly sharpen: boolean;
-  // Share (0-1) of the possible trees that are drawn.
-  readonly trees: number;
+  // Share (0-1) of woodland ground triangles that carry a tree. 0.62 was the only density before 2026-10-03.
+  readonly treeDensity: number;
   readonly maxPixelRatio: number;
 }
 
@@ -27,7 +28,7 @@ export const QUALITY: Readonly<Record<Quality, QualitySettings>> = {
     bloom: true,
     depthOfField: true,
     sharpen: true,
-    trees: 1,
+    treeDensity: 0.9,
     maxPixelRatio: 2,
   },
   medium: {
@@ -38,7 +39,7 @@ export const QUALITY: Readonly<Record<Quality, QualitySettings>> = {
     bloom: false,
     depthOfField: false,
     sharpen: true,
-    trees: 1,
+    treeDensity: 0.62,
     maxPixelRatio: 1.5,
   },
   low: {
@@ -49,13 +50,13 @@ export const QUALITY: Readonly<Record<Quality, QualitySettings>> = {
     bloom: false,
     depthOfField: false,
     sharpen: false,
-    trees: 0.5,
+    treeDensity: 0.31,
     maxPixelRatio: 1,
   },
 };
 
 export function isQuality(value: string): value is Quality {
-  return value === 'high' || value === 'medium' || value === 'low';
+  return QUALITIES.some((q) => q === value);
 }
 
 export type QualitySource = 'url' | 'fx' | 'stored' | 'default';
@@ -77,7 +78,22 @@ export function chooseQuality({ param, fx, stored }: QualityInputs): {
   return { quality: DEFAULT_QUALITY, source: 'default' };
 }
 
-export function describeQuality(s: QualitySettings): string {
+export const MAX_TREE_DENSITY = Math.max(...QUALITIES.map((q) => QUALITY[q].treeDensity));
+
+// What the renderer is actually doing, read back from it rather than from the table above.
+export interface GraphicsState {
+  readonly quality: Quality;
+  readonly shadowMapSize: number;
+  readonly shadowFilter: ShadowFilter | 'other';
+  readonly msaa: number;
+  readonly bloom: boolean;
+  readonly depthOfField: boolean;
+  readonly sharpen: boolean;
+  readonly treesDrawn: number;
+  readonly pixelRatio: number;
+}
+
+export function describeGraphics(g: GraphicsState): string {
   const onOff = (b: boolean): string => (b ? 'on' : 'off');
-  return `quality ${s.quality}  shadows ${String(s.shadowMapSize)}/${s.shadowFilter}  msaa ${String(s.msaa)}  bloom ${onOff(s.bloom)}  dof ${onOff(s.depthOfField)}  sharpen ${onOff(s.sharpen)}  trees ${s.trees.toFixed(2)}  pixels<=${String(s.maxPixelRatio)}`;
+  return `quality ${g.quality}  shadows ${String(g.shadowMapSize)}/${g.shadowFilter}  msaa ${String(g.msaa)}  bloom ${onOff(g.bloom)}  dof ${onOff(g.depthOfField)}  sharpen ${onOff(g.sharpen)}  trees ${String(g.treesDrawn)}  pixels ${g.pixelRatio.toFixed(2)}`;
 }

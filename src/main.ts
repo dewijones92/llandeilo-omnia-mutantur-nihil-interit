@@ -103,8 +103,9 @@ async function start(): Promise<void> {
   world.addLamp(firelight.material);
   let smokeSources = features.smokeSources([]);
 
-  const debug = params.has('debug') ? new DebugOverlay(engine, backend, world.camera) : undefined;
-  debug?.quality(world.quality);
+  const debug = params.has('debug')
+    ? new DebugOverlay(engine, backend, world.camera, () => world.graphics())
+    : undefined;
   let pending = true;
   let t = Number(params.get('t') ?? Number.NaN);
   const yearParam = Number(params.get('year') ?? Number.NaN);
@@ -282,7 +283,6 @@ async function start(): Promise<void> {
   );
   const quality = new QualityMenu(store, chosen.quality, (q) => {
     world.setQuality(QUALITY[q]);
-    debug?.quality(world.quality);
   });
   brand.append(row2, skyControls.el, quality.el);
   brand.querySelector('.brand-row')?.append(home);
@@ -293,6 +293,10 @@ async function start(): Promise<void> {
   panel.onVisibility = compact;
   info.onVisibility = compact;
   document.addEventListener('keydown', (e) => {
+    if (opening.isWaiting) {
+      console.info(`dewidebug key ${e.key} ignored while the Begin card waits`);
+      return;
+    }
     const stepKey = e.key === 'ArrowRight' || e.key === 'ArrowLeft';
     const modified = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     const focus = document.activeElement;

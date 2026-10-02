@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Research findings and decisions
@@ -108,6 +108,16 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
 - St Teilo's west tower is contested: 15th century (Cadw listing, models:S29; Coflein, models:S28) or about 1600 (Coflein, the same record); the app draws it from c. 1600, with the text giving both. *Corrected 2026-10-02*: this line said it dates from about 1600,
   as if settled.
 - Longhouse evidence is later and from mid Wales; the medieval ones in the app are marked imagined.
+
+- **The motto** on the Begin card, *omnia mutantur, nihil interit*, is Ovid, *Metamorphoses* XV,
+  in Pythagoras's speech. Checked 2026-10-03 in two online texts, both of which number it line 165:
+  The Latin Library (https://www.thelatinlibrary.com/ovid/ovid.met15.shtml) and Latin Wikisource
+  (https://la.wikisource.org/wiki/Metamorphoses_(Ovidius)/Liber_XV). Both are transcriptions of
+  unnamed editions, not a critical edition. The card names only the book, so a numbering difference
+  between editions cannot make it wrong. *Corrected 2026-10-03*: the first build-log entry said the
+  Latin Library numbers it 164; it numbers it 165. The English ("everything changes, nothing
+  perishes") is the project's own rendering, and the Welsh ("Mae popeth yn newid, does dim byd yn
+  darfod", and "Ofydd" for Ovid) is Claude's, awaiting the parked human Welsh check.
 
 ## Decisions the research drove
 

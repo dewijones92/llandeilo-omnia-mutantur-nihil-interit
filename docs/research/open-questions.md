@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Open questions
@@ -54,6 +54,9 @@ for the next pass. Each note's own "Open questions" section has the full list an
   2026-10-02, era-victorian S7, not yet shown in the app.)
 - **Dryslwyn after 1287**: when the castle fell out of use is not researched (the app shows an
   approximate date and says so).
+- **The Begin card's Welsh** (the motto's meaning, "Ofydd", the Begin note and the Graphics menu's
+  Graffeg / Uchel / Canolig / Isel) is Claude's and waits for the parked human Welsh check (added
+  2026-10-03).
 - **Early Modern Welsh**: no passage of the 1588 Bible was sourced for a sample phrase.
 - **Local pollen evidence** for the Tywi valley itself; forest cover is inferred from the Godwin
   pollen zones and sites outside the radius.
