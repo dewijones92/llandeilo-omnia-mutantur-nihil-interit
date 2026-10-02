@@ -29,10 +29,11 @@ export default defineConfig({
   timeout: 180_000,
   expect: { timeout: 30_000 },
   retries: 0,
-  // Each test loads its own page, so tests in the one spec file can run side by side. Two workers suit
-  // GitHub's 4-core runner; every worker renders WebGL on the CPU, so more only contend.
+  // Each test loads its own page, so tests in the one spec file can run side by side. Locally on the
+  // GPU two workers halve the run; in CI every worker renders WebGL on the CPU and two starve each other
+  // into timeouts (seen 2026-10-03), so CI uses one.
   fullyParallel: true,
-  workers: Math.max(1, Number.parseInt(process.env['E2E_WORKERS'] ?? '', 10) || 2),
+  workers: Math.max(1, Number.parseInt(process.env['E2E_WORKERS'] ?? '', 10) || (process.env['CI'] ? 1 : 2)),
   reporter: [['list']],
   outputDir: 'test-results',
   use: {

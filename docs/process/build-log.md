@@ -283,3 +283,6 @@ Milestones and what each one taught us. Newest last.
 19. **Two GPU browsers at once can hang one.** A screenshot script and the e2e run shared the D3D12
     GPU path; one e2e page never became ready in 150s, then passed five times out of five alone. Take
     screenshots before or after an e2e run, not during.
+20. **Two e2e workers broke CI.** On GitHub's 4-core runner SwiftShader renders on the CPU, so two
+    workers starved each other: three slow tests hit the 3-minute timeout and the run still took 22.6
+    minutes. CI is back to one worker; local runs on the GPU keep two.
