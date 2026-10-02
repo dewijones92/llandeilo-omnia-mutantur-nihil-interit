@@ -2,8 +2,10 @@
 title: Medieval Llandeilo and the Tywi valley, to 1282-83
 kind: research
 status: draft
-updated: 2026-09-26
+updated: 2026-10-02
 ---
+
+Independently checked 2026-10-02 (see [reviews/era-medieval-to-1282-check-2026-10-02.md](reviews/era-medieval-to-1282-check-2026-10-02.md)); corrections applied.
 
 ## Summary
 
@@ -18,7 +20,9 @@ Abbey, and hosted the 1176 Cardigan gathering usually called the first eisteddfo
 grandsons, and the valley filled with castles built by rival members of the same family —
 Dryslwyn, and the earliest phase at Carreg Cennen — while Anglo-Norman power pressed in
 from the Marches [S17][S22][S25]. Edward I's wars of 1276-77 and 1282-83 ended native rule:
-south Wales submitted piecemeal, an English column was ambushed and mauled near Llandeilo
+south Wales submitted piecemeal, a column of Gilbert de Clare's army (*Corrected 2026-10-02
+(independent check)*: the army was mostly Welsh levies, so not simply "English" [S28]) was
+ambushed and mauled near Llandeilo
 Fawr on 16 or 17 June 1282 (a real Welsh tactical success, murkily recorded), and by 1283
 Dinefwr, Carreg Cennen and (after a further revolt in 1287) Dryslwyn were all in English
 hands [S27][S28][S29][S30]. Carmarthenshire was created as an English-administered county
@@ -33,69 +37,76 @@ as the sources allow, with every genuinely open question flagged rather than smo
 | c.550-600 (trad.) | St Teilo, said to have travelled Wales and Brittany, founds a religious community at Llandeilo and is buried there | Traditional/documented by later sources; Llandaff Cathedral disputes the burial claim [S3][S1] |
 | by 8th century | Llandeilo Fawr is the centre of a bishopric, "mother church" of a large area of north-east Carmarthenshire | Documented (secondary), single clear primary trace | [S1] |
 | c.730 (one scholarly dating) | The gospel book later called the Lichfield/Llandeilo/St Chad Gospels is made, likely in a scriptorium linked to Lindisfarne's tradition | Contested dating; art historian Peter Lord's date, not universal | [S7] |
-| early–mid 9th century | The gospels are at Llandeilo Fawr; Gelli buys it "for the price of a good horse" and gives it to St Teilo's church; the Surexit memorandum and other marginalia are added, some in Welsh — the earliest surviving connected Welsh text | Documented, cross-checked across sources, but the memorandum's exact decade within the 9th century is debated | [S6][S7][S8] |
+| early–mid 9th century | The gospels are at Llandeilo Fawr; Gelli buys it "for the price of a good horse" and gives it to St Teilo's church; the Surexit memorandum and other marginalia are added, some in Welsh — the earliest surviving connected Welsh text | Documented, cross-checked across sources. *Corrected 2026-10-02 (independent check)*: the specialist reading is Jenkins and Owen's 830-50 for the Surexit (via Willis [S58]), also "mid-9th century" in S6 and S7; S8 (early 8th century, possibly copying an older text) and S1 (end of the 8th century) are minority readings | [S6][S7][S8][S58] |
 | late 10th century | The gospel book is at Lichfield Cathedral; how/when it left Wales is unknown | Documented arrival, unknown transit — open question | [S7] |
-| 1078-1093 | Rhys ap Tewdwr rules Deheubarth; submits to William I in 1081; killed near Brecon, 1093, by Norman forces (Bernard de Neufmarché) | Cross-checked | [S46][S47] |
+| 1078-1093 | Rhys ap Tewdwr rules Deheubarth; in 1081 "it seems likely he came to an arrangement" with William I (*Corrected 2026-10-02 (independent check)*: S46 hedges this, it does not state a submission); killed near Brecon, 1093, by Norman forces (Bernard de Neufmarché) | Reign and death cross-checked; the 1081 arrangement is probable, not certain | [S46][S47] |
 | after 1093 | Normans occupy much of Deheubarth; castles at Carmarthen and elsewhere pass to Anglo-Norman lords | Documented | [S46][S9] |
-| 1146 | Rhys ap Gruffudd, aged c.14, fights at the storming of Llansteffan Castle | Documented | [S15] |
+| 1146 | Rhys ap Gruffudd, aged 13 or 14, fights at the storming of Llansteffan Castle | Documented; *Corrected 2026-10-02 (independent check)*: S15 says fourteen, S14 "a youth of 13" | [S15][S14] |
 | 1151 | First recorded castle at Dinefwr, associated with Maredudd and Rhys ap Gruffudd (jointly, before Rhys's sole rule) | Single clear primary trace; nature of this castle (timber motte vs stone) is not established | [S12] |
 | 1155 | Rhys becomes sole ruler of Deheubarth on his brother Maredudd's death | Cross-checked | [S15][S9] |
 | 1158 | Henry II invades; Rhys reduced to Cantref Mawr | Documented | [S15] |
+| 1163 | Henry II invades again; Rhys is stripped of all his lands and imprisoned | Documented, single source (*Corrected 2026-10-02 (independent check)*: added, the note had omitted it) | [S15] |
 | 1164-65 | Welsh uprising; Rhys recovers territory after Henry II's 1165 campaign fails (bad weather) | Documented | [S15] |
-| 1171 | Rhys makes peace with Henry II; recognised as "justice of Deheubarth" for the crown | Cross-checked | [S15][S14] |
-| c.1155-1197 (sometime in reign) | Rhys builds "a castle in the new style" at Dinefwr and rebuilds Cardigan Castle in stone (the earliest recorded native-built stone castle in Wales) | Documented (DWB), some imprecision on exact Dinefwr date | [S14][S15] |
+| 1171 | Rhys makes peace with Henry II; recognised as the crown's justice (*Corrected 2026-10-02 (independent check)*: S14 "justice of South Wales"; S15 "Justiciar of South Wales" in 1171 and "justice on his behalf in all Deheubarth" in 1172) | Cross-checked | [S15][S14] |
+| after 1171-72 (per DWB) | Rhys builds "a castle in the new style" at Dinefwr and rebuilds Cardigan Castle in stone (the earliest recorded native-built stone castle in Wales) | Documented (DWB). *Corrected 2026-10-02 (independent check)*: S14 places the Dinefwr "new style" castle after the 1171-72 settlement, not anywhere in 1155-97 | [S14][S15] |
 | 1176, Christmas | Rhys holds a bardic and musical gathering at his newly stone-built Cardigan Castle — announced a year ahead across Wales, England, Ireland, Scotland and further afield; usually cited as the first eisteddfod | Cross-checked (Brut y Tywysogion via secondary retelling) | [S16] |
 | 1180s (often given as c.1184-85) | Rhys founds Talley Abbey (Talyllychau) for Premonstratensian canons — the only house of that order in Wales | Cross-checked | [S17][S18] |
 | 1194 | Rhys imprisoned briefly by his own sons Maelgwn and Hywel at Nevern | Documented | [S15] |
 | 28 April 1197 | Rhys ap Gruffudd dies; buried at St Davids Cathedral; Deheubarth fragments in the succession dispute between his sons | Cross-checked | [S14][S15] |
 | early 13th century | Llywelyn ap Iorwerth (Llywelyn the Great) forces Rhys Gryg (Rhys ap Gruffudd's son) to dismantle Dinefwr Castle; it is later rebuilt | Single clear source, worth independent confirmation | [S12] |
-| 1220s | Dryslwyn Castle built, probably by Rhys Gryg, for his son Maredudd ap Rhys Gryg | Documented, "probably" in the source itself | [S22] |
-| 1248 | Matilda de Braose (regent for her son Rhys Fychan) hands Carreg Cennen to the English "to spite her son"; Rhys Fychan recaptures it | Documented | [S25] |
+| 1220s (second quarter of the 13th century) | Dryslwyn Castle built, probably by Rhys Gryg; S22 says possibly as legacies "for his two sons" (*Corrected 2026-10-02 (independent check)*: the note said "for his son Maredudd", which S22 does not say); the two outer courts were added in the later 13th century | Documented, "probably" in the source itself | [S22][S55] |
+| 1248 | Matilda de Braose (regent for her son Rhys Fychan) grants Carreg Cennen to the English "to spite her son"; Rhys Fychan seizes it first, before the English take possession (*Corrected 2026-10-02 (independent check)*: not a recapture) | Documented | [S25] |
 | 1276-77 | Edward I's first war; Deheubarth's princes submit and pay tribute/homage by 1278 | Cross-checked | [S35] |
 | 1277 | Local Welsh lords side with Edward against Llywelyn ap Gruffudd; Carreg Cennen passes to English control | Cross-checked | [S25] |
-| 1282, spring | Dafydd ap Gruffudd attacks English-held territory; Llywelyn ap Gruffudd joins; general revolt, supported in the south by exiled Deheubarth princes including Rhys Wyndod, Rhys Ieuanc and the sons of Maredudd ab Owain | Cross-checked | [S33][S35] |
+| 1282, spring | Dafydd ap Gruffudd attacks English-held territory; Llywelyn ap Gruffudd joins; general revolt. *Corrected 2026-10-02 (independent check)*: S33 puts Rhys Wyndod, Rhys Ieuanc and the sons of Maredudd ab Owain with Dafydd in Snowdonia (Dolwyddelan) from January 1283, not in the south in spring 1282 | Cross-checked for the revolt; the princes' 1282 whereabouts are not established | [S33][S35] |
 | 1282, spring | Carreg Cennen's local Welsh lords rejoin the rebellion and seize the castle | Documented | [S25] |
-| 1282, 16 or 17 June | Gilbert de Clare's force, having taken and sacked Carreg Cennen, is ambushed near Llandeilo Fawr; William de Valence the younger and Richard de Argentein killed; heavy English losses | Cross-checked across 4+ sources, but date and Welsh command disputed — see below | [S27][S28][S29][S52] |
+| 1282, 16 or 17 June | Gilbert de Clare's army, mostly Welsh levies, re-occupies Carreg Cennen, which the Welsh had recently burnt; a detachment returning from a plundering raid is ambushed near Llandeilo Fawr; William de Valence the younger and Richard de Argentein killed; heavy losses (*Corrected 2026-10-02 (independent check)*: S28 and S29 say Clare re-occupied the burnt-out castle; only S27 says he "captured" and "sacked" it, a contradiction) | Cross-checked across 4+ sources, but date and Welsh command disputed — see below | [S27][S28][S29][S52] |
 | 1282, 6 July | Edward I removes Gilbert de Clare from command in the south, replacing him with William de Valence the elder | Cross-checked | [S28][S52] |
 | 1282, 11 December | Llywelyn ap Gruffudd killed near Builth (Battle of Orewin Bridge) | Documented (general historiography) | [S35] |
 | 1283 | Carreg Cennen back in English hands | Documented | [S25] |
-| 1283, October | Edward I forces Rhys ap Maredudd to "quitclaim" (formally surrender) Dryslwyn Castle | Cross-checked | [S30][S31] |
-| 1283-84 | Edward refuses to restore Dinefwr Castle to Rhys ap Maredudd despite his loyalty in the war | Cross-checked | [S30][S31] |
+| 1283, October | Edward I forces Rhys ap Maredudd to "quitclaim" (formally surrender) a castle (*Corrected 2026-10-02 (independent check)*: not Dryslwyn, which S31 and S22 have him keeping until 1287; S30 does not name it, and from context it is most probably Dinefwr, pending Griffiths 1966) | Single source (S30); which castle is an open question | [S30] |
+| 1283-84 | Edward refuses to restore Dinefwr Castle to Rhys ap Maredudd despite his loyalty in the war | Single source (*Corrected 2026-10-02 (independent check)*: S31 does not support this, so it is dropped from the citation) | [S30] |
 | 1284 | Statute of Rhuddlan restructures conquered Wales; Carmarthen/Cardigan (already crown-held since 1240 under a Justiciar of South Wales) continue as the basis of English administration in the south-west; Welsh criminal law replaced by English common law, some civil custom retained | Documented | [S36] |
 | 1287, 8 June | Rhys ap Maredudd revolts; captures most of Ystrad Tywi including Dinefwr and Carreg Cennen | Cross-checked | [S30][S31] |
-| 1287, 16 July–5 September | Siege of Dryslwyn: English royal forces (11,000+, trebuchet, mining) retake the castle; a mine collapse kills several besiegers including the Earl of Stafford | Cross-checked, detailed | [S22][S23] |
+| 1287, 16 July (writs); siege from on or just after 15 August; fallen by 5 September | Siege of Dryslwyn: English royal forces (11,000+, trebuchet, mining) retake the castle; a mine collapse kills several besiegers including Nicholas de Stafford (*Corrected 2026-10-02 (independent check)*: 16 July was the date of the writs, not the start of the siege; S23's "Earl of Stafford" is an anachronism, there was no earldom until 1351 [S59][S60]) | Cross-checked, detailed | [S22][S23] |
 | 1287-88 (winter) | Second phase of the revolt; siege of Newcastle Emlyn ends January 1288 | Documented | [S30] |
-| 1289 or 1291 (sources differ) | Rhys ap Maredudd captured | Single-source-each, dates disagree — open question | [S30]/[S31] |
+| 1290 or 1291 (sources differ) | Rhys ap Maredudd captured | *Corrected 2026-10-02 (independent check)*: S30 says 1291; S31 gives no capture year, only that he was in flight in 1289, and cites Brut y Tywysogion (Peniarth 20) under 1290 for his betrayal in the woods of Mallaen. The note had "1289 or 1291" and the attribution the wrong way round — open question | [S30]/[S31] |
 | 1292 | Rhys ap Maredudd executed at York | Cross-checked | [S30][S31] |
-| 1287 (per Cadw) | Dinefwr "eventually fell into English control" — note this appears to conflict with the 1282-83 narrative above; treat as unresolved, see Open questions | Contradicts other sources | [S9] |
+| 1287 (per Cadw) | Dinefwr "eventually fell into English control" — this appears to conflict with the 1282-83 narrative above. *Corrected 2026-10-02 (independent check)*: S12's HER text says "From 1276 onwards, the castle was largely kept in English hands", which supports reading 1287 as the end of a brief Welsh recapture; see Open questions | Cadw's wording contradicts other sources; S12 largely reconciles them | [S9][S12] |
 
 ## Places
 
 ### Llandeilo Fawr — the clas and St Teilo's Church
 
 - **Welsh name:** Llandeilo Fawr ("Great church of [St] Teilo")
-- **Approx. location:** 51.883° N, −3.996° W (present town centre; exact footprint of the
-  early medieval clas enclosure is not established from the sources gathered here)
+- **Location:** St Teilo's Church, Coflein NPRN 100867, **SN 62930 22236** (*Corrected 2026-10-02 (independent check)*: Coflein
+  grid reference replaces the note's approximate 51.883° N, −3.996° W; place sites from Coflein,
+  not from these approximations) [S57]. The exact footprint of the early medieval clas enclosure
+  is not established from the sources gathered here
 - **Description:** A native ecclesiastical settlement (*clas*) said to have been founded by
   St Teilo, sited "on or near a Roman road" giving it good east-west communications [S1]. A
   clas was typically a single main church within a *llan* enclosure, run communally by a
   group of clergy under an abbot, not a Norman-style multi-building monastery [S2]. By the
-  8th century it was a bishopric and by the early 9th century the seat of a "Bishop-Abbot"
-  [S1]. Wendy Davies's survey (cited via Wikipedia) counts perhaps 150-200 clasau across
-  Wales and the Marches, concentrated in the diocese of Llandaff — Llandeilo is one of the
+  8th century it was "the centre of a bishopric", and "there was a bishop at Llandeilo Fawr in
+  the ninth century" [S1] (*Corrected 2026-10-02 (independent check)*: the note said "the seat of a Bishop-Abbot"; neither S1 page
+  nor S2 uses "bishop-abbot"). Wendy Davies identified 36 clasau in the Llandaff charters
+  (about 50 in total there); the 150-200 across Wales and the Marches is Wikipedia's own
+  extrapolation [S2] (*Corrected 2026-10-02 (independent check)*: the note gave 150-200 as Davies's count). Llandeilo is one of the
   named examples [S2].
 - **Phases/3D details:** No source gathered here gives a physical description of the early
   clas buildings (almost certainly timber, per the general absence of pre-14th-century
   Welsh domestic/ecclesiastical stone remains noted below). The present St Teilo's Church
   has medieval fabric on a much older site but was substantially rebuilt in the early 18th
-  century and again to completion in 1850; a late-medieval tower is mentioned in one search
-  summary but this could not be independently confirmed by direct reading of the source —
-  **treat the tower date as unverified** [S3]. For 1282-era rendering, the safest approach
+  century [S3] and again to completion in 1850 [S1] (*Corrected 2026-10-02 (independent check)*: the 1850 date is from S1's church
+  page, not S3; Coflein describes the 1848 demolition and Scott's 1848-51 rebuild [S57]).
+  **The tower date is a sourced contradiction** (*Corrected 2026-10-02 (independent check)*: no longer "unverified"): Coflein 100867
+  says both "a double nave and fifteenth century west tower" and "The tower is thought to date
+  to around 1600" [S57], and S1's church page says "the tower is late medieval" [S1]. For 1282-era rendering, the safest approach
   is a timber-and-earlier-stone parish church of unknown exact form, not the current
   building.
-- **Sources:** [S1] llandeilo.org (archaeology page, read via search summary only — direct
-  fetch 404'd); [S2] Wikipedia, *Clas (ecclesiastical settlement)*; [S3] Wikipedia, *St
-  Teilo's Church, Llandeilo*.
+- **Sources:** [S1] llandeilo.org (archaeology and St Teilo's church pages, read directly
+  2026-10-02); [S2] Wikipedia, *Clas (ecclesiastical settlement)*; [S3] Wikipedia, *St
+  Teilo's Church, Llandeilo*; [S57] Coflein, *St Teilo's Church* (NPRN 100867).
 
 ### The Llandeilo/Lichfield Gospels
 
@@ -105,8 +116,9 @@ as the sources allow, with every genuinely open question flagged rather than smo
 - **History relevant to Llandeilo:** For roughly two centuries from the early 9th century it
   belonged to the clas community at Llandeilo Fawr. A Welshman named Gelli bought it "for
   the price of a good horse" and gave it to St Teilo's church; a scribe recorded this gift
-  on the last page of Matthew's Gospel [S7]. Nine or so marginal entries in Latin and Old
-  Welsh were added over the 9th century [S6]. One entry, beginning with the Latin word
+  on the last page of Matthew's Gospel [S7]. Eight marginal entries in Latin and Old
+  Welsh were added over the 9th century [S6][S58] (*Corrected 2026-10-02 (independent check)*: the note said "nine or so"; the nine
+  in S6 are dry-point glosses of Anglo-Saxon names). One entry, beginning with the Latin word
   *Surexit* ("he arose") but continuing mostly in Welsh with Latin legal terms, records the
   settlement of a land dispute between Gelli's family and a man called Tutfwlch — this is
   the earliest surviving connected document in the Welsh language [S6][S7][S8]. The
@@ -117,16 +129,20 @@ as the sources allow, with every genuinely open question flagged rather than smo
 - **Dating dispute:** one art-historical account (Peter Lord, as summarised) places its
   making at c.730, between Lindisfarne and Kells; this is presented as one scholar's view,
   not universal consensus, and should be treated as single-source pending a specialist
-  palaeographic source [S7].
+  palaeographic source [S7]. S6 gives a style range of 698-800.
+- **Surexit date** (*Corrected 2026-10-02 (independent check)*: added): the specialist reading is Jenkins and Owen's **830-50**
+  (via Willis [S58]), matching "mid-9th century" in S6 and S7. The early-8th-century date in
+  S8 (and language:S4), possibly copying a 6th/7th-century text, and S1's "end of the 8th
+  century" are minority readings, recorded here rather than treated as equal.
 - **Sources:** [S6] Wikipedia, *Lichfield Gospels*; [S7] llandeilofawr.org.uk, *The
-  Llandeilo Fawr Gospels*; [S8] Wikipedia, *Old Welsh*.
+  Llandeilo Fawr Gospels*; [S8] Wikipedia, *Old Welsh*; [S58] Willis, *Old and Middle Welsh*.
 
 ### Dinefwr Castle
 
 - **Welsh name:** Castell Dinefwr
-- **Approx. location:** 51.881° N, −4.016° W, on a wooded limestone ridge above the Tywi,
-  within what is now Dinefwr Park (National Trust) — coordinates approximate, for
-  development use, not independently sourced to a survey document
+- **Location:** Coflein NPRN 425, **SN 61150 21731**, on a wooded limestone ridge above the
+  Tywi, within what is now Dinefwr Park (National Trust) [S11] (*Corrected 2026-10-02 (independent check)*: the note's approximate
+  51.881° N, −4.016° W was about 490m out)
 - **Description:** The traditional chief seat of the Dinefwr dynasty of Deheubarth, and by
   the 12th century the capital from which Rhys ap Gruffudd ruled [S9][S13]. Sited to
   command the Tywi valley.
@@ -151,30 +167,33 @@ as the sources allow, with every genuinely open question flagged rather than smo
     tower at the north angle; ruined "towered lodgings" along the north-east curtain
     [S11][S12].
   - After the 1282-83 war Dinefwr was withheld from Rhys ap Maredudd despite his loyalty to
-    Edward I [S30][S31]; it was briefly retaken by Rhys ap Maredudd in his 1287 revolt, then
-    lost again [S30]. Cadw's own visitor text states baldly that Dinefwr "eventually fell
+    Edward I [S30] (*Corrected 2026-10-02 (independent check)*: S31 dropped, it does not say this); it was briefly retaken by Rhys
+    ap Maredudd in his 1287 revolt, then lost again [S30]. Cadw's own visitor text states baldly that Dinefwr "eventually fell
     into English control in 1287" [S9] — this appears to conflict with the narrative
     (constructed from Wikipedia and the DWB) that Dinefwr was already denied to/held from
-    the Welsh from 1277-82 onward and was only briefly Welsh again in 1287. **This
-    contradiction is unresolved — see Open questions.**
+    the Welsh from 1277-82 onward and was only briefly Welsh again in 1287. *Corrected 2026-10-02 (independent check)*: S12's HER
+    text says "From 1276 onwards, the castle was largely kept in English hands", which
+    largely resolves this in favour of 1287 as the end of a brief Welsh recapture; Cadw's
+    wording is still recorded as it stands. See Open questions.
   - It later became a Tudor-period residence under Sir Rhys ap Thomas, then a picturesque
     ruin (its great tower's top replaced by an 18th/19th-century summerhouse) within the
-    designed parkland now cared for by the National Trust [S12][S13].
+    designed parkland now cared for by the National Trust [S11][S12] (*Corrected 2026-10-02 (independent check)*: S13 dropped; it
+    says nothing about the Tudor residence, the stump or the summerhouse).
 - **3D details:** limestone ridge-top site; round towers of the described dimensions;
   deep rock-cut ditches; barbican approach; no specific stone colour is given in the
   sources gathered — Carreg Cennen's geology note (below) suggests Old Red Sandstone is
   common locally in the wider Tywi valley, but this has **not** been confirmed specifically
   for Dinefwr's own masonry and should not be assumed without a source.
-- **Sources:** [S9] Cadw, *Castell Dinefwr*; [S11] Coflein record summary (site/NPRN 425,
-  read via search snippet — a direct fetch attempt returned the wrong site, Penrhyn
-  Castle, in error); [S12] Gatehouse Gazetteer, *Dinefwr Castle*; [S13] National Trust,
-  *History of Dinefwr*.
+- **Sources:** [S9] Cadw, *Castell Dinefwr*; [S11] Coflein record (NPRN 425, read directly
+  2026-10-02, when it resolved to Dinefwr; the earlier fetch had returned Penrhyn Castle);
+  [S12] Gatehouse Gazetteer, *Dinefwr Castle*; [S13] National Trust, *History of Dinefwr*.
 
 ### Carreg Cennen Castle
 
 - **Welsh name:** Castell Carreg Cennen
-- **Approx. location:** 51.849° N, −3.941° W, on a limestone crag above the Afon Cennen,
-  south-east of Llandeilo — coordinates approximate for development use
+- **Location:** Coflein NPRN 103970, **SN 66789 19075**, on a limestone crag above the Afon
+  Cennen, south-east of Llandeilo [S56] (*Corrected 2026-10-02 (independent check)*: the note's approximate 51.849° N, −3.941° W was
+  about 700m out)
 - **Description:** Dramatically sited on an isolated block of Carboniferous limestone
   "trapped within two faults", standing out from the surrounding Old Red Sandstone
   countryside [S25]. Possibly an Iron Age hillfort before any castle; a cave in the rock
@@ -182,8 +201,9 @@ as the sources allow, with every genuinely open question flagged rather than smo
 - **Earliest (Welsh) phase:** Probably built in the second half of the 12th century on the
   initiative of Rhys ap Gruffudd (the Lord Rhys) [S24][S25]. Nothing of this castle
   survives above ground — it was "subsumed by later English work" [S25]. By 1248 it was
-  contested: Matilda de Braose, acting for her son Rhys Fychan, handed it to the English
-  "to spite her son"; Rhys Fychan recaptured it [S25]. In 1277, at the outset of Edward I's
+  contested: Matilda de Braose, acting for her son Rhys Fychan, granted it to the English
+  "to spite her son", but "before the English took possession of it" Rhys Fychan seized it
+  first [S25] (*Corrected 2026-10-02 (independent check)*: the note said he "recaptured" it). In 1277, at the outset of Edward I's
   first war, local Welsh lords sided with Edward and the castle passed to English control;
   it was briefly seized back by rebels in 1282 but was in English hands again by 1283
   [S24][S25].
@@ -199,63 +219,91 @@ as the sources allow, with every genuinely open question flagged rather than smo
   form" or post-1283 view, but NOT for 1282):** upper ward c.32m×28m; outer ward c.60m×60m;
   east/north curtain walls up to 2.8m thick, thinner walls on the cliff-protected
   south/west; a cylindrical north-west tower 8m diameter with cruciform arrowslits; a
-  larger (c.9m×9m) north-east tower with a fireplace, latrine and garrison quarters; a
-  four-sided south-east "Chapel Tower" with a small vaulted chapel; a twin-octagonal-towered
-  gatehouse with double drawbridges, portcullis and machicolations; a residential range with
-  kitchen, hall (with a massive central stone pillar), and a "King's Chamber"; an outer ward
-  with half-timbered stables, forge, storerooms, a lime kiln and bread ovens, walls c.1.7m
-  thick (probably early 14th century); a vaulted passage over 46m long leading from a
+  larger north-east tower, polygonal with cut corners, about 9m a side, with a fireplace and
+  latrine, "used for residential purposes"; a small four-sided tower at the south-east corner,
+  and a separate smaller four-sided "Chapel Tower" with a small vaulted chapel in the middle of
+  the east curtain; a gatehouse between towers "in the shape of elongated halves of octagons",
+  with three drawbridges, two portcullises and a corbel that "could support" a machicolation;
+  a residential range with kitchen, hall (with a massive central stone pillar), and a "King's
+  Chamber"; bread ovens in the upper-ward courtyard by the gatehouse; an outer ward with
+  half-timbered stables, forge, storerooms and a lime kiln, walls c.1.7m thick (probably early
+  14th century) (*Corrected 2026-10-02 (independent check)*: the Chapel Tower is mid-way along the east curtain, not at the south-east
+  corner; the NE tower is polygonal, not square, and "garrison quarters" is not in S26; the
+  gatehouse towers are half-octagons; three drawbridges, not two; the bread ovens are in the
+  upper ward, not the outer ward); a vaulted passage over 46m long leading from a
   postern to a natural cave with a freshwater spring, also used as a dovecote [S26].
 - **Sources:** [S24] Cadw, *More about Carreg Cennen*; [S25] Wikipedia, *Carreg Cennen
-  Castle*; [S26] medievalheritage.eu, *Carreg Cennen*.
+  Castle*; [S26] medievalheritage.eu, *Carreg Cennen*; [S56] Coflein, *Carreg Cennen Castle*
+  (NPRN 103970).
 
 ### Dryslwyn Castle
 
 - **Welsh name:** Castell Dryslwyn
-- **Approx. location:** 51.868° N, −4.103° W, on an isolated hill in the Tywi valley
-  between Llandeilo and Carmarthen — coordinates approximate for development use
-- **Description:** Built in the 1220s, probably by Rhys Gryg (Rhys ap Gruffudd's son) for
-  his own son Maredudd ap Rhys Gryg, as an important Deheubarth seat [S21][S22].
-  Uniquely among native Welsh castles it has **three wards** (inner, middle, outer),
-  arranged on a polygonal plan following the hilltop [S22]. The inner ward held a round
+- **Location:** Coflein NPRN 100682, **SN 55387 20288**, on an isolated hill in the Tywi
+  valley between Llandeilo and Carmarthen [S55] (*Corrected 2026-10-02 (independent check)*: Coflein grid reference replaces the
+  note's approximate 51.868° N, −4.103° W)
+- **Description:** Built in the 1220s ("second quarter of the thirteenth century" per Coflein
+  [S55]), probably by Rhys Gryg (Rhys ap Gruffudd's son), perhaps as one of the legacies "for
+  his two sons", as an important Deheubarth seat [S21][S22] (*Corrected 2026-10-02 (independent check)*: the note said "for his own
+  son Maredudd", which S22 does not say). Uniquely among native Welsh castles it has **three
+  wards** (inner, middle, outer), arranged on a polygonal plan following the hilltop [S22];
+  but "In the later thirteenth century two further walled courts were added" [S55], so the
+  three wards are not 1220s work (*Corrected 2026-10-02 (independent check)*: added). It was "decommissioned in the early fifteenth
+  century" [S55]. The inner ward held a round
   tower (original keep) with a flared base, a curtain wall, a great hall with adjoining
   kitchen, a small enclosed room possibly a prison, and a garderobe; the gatehouse was
   remodelled in the 13th century [S22].
 - **1287 siege (detailed, cross-checked):** After Rhys ap Maredudd's revolt (8 June 1287),
-  royal forces mustered from Carmarthen; a force of c.4,000 under Earl Edmund of Cornwall
-  set out 9 August, joined by c.6,700 more from Chester, giving a combined besieging army
-  of over 11,000 [S23]. A purpose-built trebuchet costing £14 (20 quarrymen and 24 carters
+  writs went out on 16 July; a force of c.4,000 under Earl Edmund of Cornwall
+  set out from Carmarthen on 9 August, joined by c.6,700 more from Chester, giving a combined
+  besieging army of over 11,000, and the siege began "on or just after the 15 August" [S23]
+  (*Corrected 2026-10-02 (independent check)*: 16 July was the date of the writs, not the start of the siege; S21 says "two weeks",
+  S22 "a three-week siege"). A purpose-built trebuchet costing £14 (20 quarrymen and 24 carters
   employed to shape/move stone shot) bombarded the walls; miners also tunnelled under the
-  curtain, and a collapse killed several besieging nobles including the Earl of Stafford,
-  Sir William de Monte Caniso and Sir John de Bonvillars [S22][S23]. The castle fell by 5
-  September 1287; Rhys ap Maredudd escaped but his wife and son were captured [S21][S22].
+  curtain, and a collapse killed several besieging nobles including Nicholas de Stafford,
+  Sir William de Monte Caniso and Sir John de Bonvillars [S22][S23] (*Corrected 2026-10-02 (independent check)*: S23, following the
+  Cadw guide, says "earl of Stafford", an anachronism: the barony dates from 1299 and the
+  earldom from 1351 [S59][S60]). The castle had fallen by 5 September 1287 ("captured by 5
+  September" [S23]; "c. 5 September" [S31]); Rhys ap Maredudd escaped but his wife and son
+  were captured [S23] (*Corrected 2026-10-02 (independent check)*: the wife and son are in S23, not S21 or S22 as cited).
   Excavations (2 stone shot >16 inches across, 100+ arrowheads including armour-piercing
   bodkins, mail links, a spearhead) confirm the intensity of the assault [S23].
   Archaeological excavation by Chris Caple, 1980-1995, established most of what is visible
   today [S22].
 - **Aftermath:** Rhys ap Maredudd's revolt petered out through the winter (Newcastle Emlyn
-  fell January 1288); he himself was not captured until 1289 or 1291 (sources disagree) and
-  was executed at York in 1292 [S30][S31].
+  fell January 1288); he himself was not captured until 1290 or 1291 (S30 says 1291; S31
+  cites Brut y Tywysogion under 1290 for his betrayal) and was executed at York in 1292
+  [S30][S31] (*Corrected 2026-10-02 (independent check)*: the note had "1289 or 1291").
 - **Sources:** [S21] Cadw, *Castell Dryslwyn*; [S22] Wikipedia, *Dryslwyn Castle*; [S23]
-  castlewales.com (citing the Cadw guidebook), *The 1287 Siege of Dryslwyn Castle*.
+  castlewales.com (citing the Cadw guidebook), *The 1287 Siege of Dryslwyn Castle*; [S55]
+  Coflein, *Dryslwyn Castle* (NPRN 100682); [S59] Wikipedia, *Earl of Stafford*; [S60]
+  Wikipedia, *Edmund Stafford, 1st Baron Stafford*.
 
 ### Talley Abbey (Talyllychau)
 
 - **Welsh name:** Talyllychau ("head of the lakes", from two reservoirs/lakes just north of
   the site)
-- **Approx. location:** 51.980° N, −4.014° W, in the Cothi valley north of Llandeilo —
-  coordinates approximate for development use
-- **Description:** Founded by Rhys ap Gruffudd in the 1180s (commonly given as c.1184-85)
+- **Location:** Coflein NPRN 92750, **SN 63281 32772** (the point is on the surviving tower),
+  in the Cothi valley north of Llandeilo [S54] (*Corrected 2026-10-02 (independent check)*: Coflein grid reference replaces the note's
+  approximate 51.980° N, −4.014° W)
+- **Description:** Founded by Rhys ap Gruffudd in the 1180s (commonly given as c.1184-85;
+  Coflein and S19 give 1184-89 [S54][S19])
   for canons of the Premonstratensian order — the only house of that order in Wales, and
   described by Rhys's DWB entry as "his special and unique foundation" [S14][S17][S18].
   The Premonstratensians ("White Canons" for their habit colour) were founded in 1120 by
-  Norbert of Xanten at Prémontré, France; unlike monks, canons regular also did pastoral
-  work in nearby parishes; they reached England around 1143 [S20].
+  Norbert of Xanten at Prémontré, France; they reached England around 1143 [S20]. (*Corrected 2026-10-02 (independent check)*: the
+  note also said canons regular did pastoral work in nearby parishes; that is not in S20 as
+  read. Coflein says Talley drew income from "the canons' spiritualities" [S54].) Coflein adds
+  that Talley was endowed with much of the wealth of the old Llandeilo Fawr clas and
+  appropriated St Teilo's around 1215 [S54].
 - **Architecture (rich detail, useful for 3D):** Designed as a cruciform, aisled, eight-bay
   basilica about 73m long, with two transepts, a rectangular east chancel, and a tower over
-  the crossing — but **only the eastern end (chancel, transepts, crossing tower) was ever
-  finished**; the west end of the nave stops at footings, showing the ambition outran the
-  abbey's funds [S18][S19]. The crossing tower was originally square/quadrangular, about
+  the crossing — but the church was **completed "in a more modest (shorter) form" in the
+  early 13th century**, and only "the western four bays of the central nave and the southern
+  aisle reached a height not much higher than the foundations", showing the ambition outran
+  the abbey's funds [S19][S54] (*Corrected 2026-10-02 (independent check)*: the note said only the eastern end was ever finished and
+  the nave stops at footings; Coflein: "straitened circumstances reduced the nave to a
+  relatively modest size when the church was completed"). The crossing tower was originally square/quadrangular, about
   29m high on four massive pillars with plain pointed arcades; two of its walls survive to
   about 26m today, the most prominent ruin on the site [S18][S19]. Each transept opened
   into three chapels (six total) with pointed barrel vaults for private masses [S19]. The
@@ -264,11 +312,14 @@ as the sources allow, with every genuinely open question flagged rather than smo
   floor tiles [S19]. The cloister measured about 23m×23m, arranged in the standard
   Premonstratensian way (chapter house/dormitory to the east, refectory to the south,
   service ranges to the west) [S19]. Talley "never enjoyed the wealth and success" of
-  Wales's Cistercian houses [S17]. After Henry VIII's dissolution, villagers quarried the
-  ruins for stone, reusing it to build much of the present village [S18].
+  Wales's Cistercian houses [S17], though it later "achieved a quiet prosperity" [S54]. It was
+  dissolved in 1536; the choir and presbytery "were retained to serve as a parish church after
+  1536 and were not completely forsaken until 1772-3" [S54] (*Corrected 2026-10-02 (independent check)*: added; the note implied the
+  whole church was abandoned at the dissolution). Villagers quarried the ruins for stone,
+  reusing it to build much of the present village [S18].
 - **Sources:** [S17] Cadw, *Talley Abbey*; [S18] Wikipedia, *Talley Abbey*; [S19]
   medievalheritage.eu, *Talley — Premonstratensian Abbey*; [S20] Wikipedia,
-  *Premonstratensians*.
+  *Premonstratensians*; [S54] Coflein, *Talley Abbey* (NPRN 92750).
 
 ### Cantref Mawr and the commotes (administrative geography)
 
@@ -277,15 +328,15 @@ as the sources allow, with every genuinely open question flagged rather than smo
   and made up of seven commotes (*cwmydau*) — unusually many for a Welsh cantref [S37][S38].
   Its dense scrub and difficult terrain made it "a secure refuge" for Deheubarth's rulers
   against invaders [S38]. One of its commotes was **Maenordeilo** (the commote/later
-  hundred containing Llandeilo itself), which remained part of the independent lordship of
-  Cantref Mawr until the county of Carmarthenshire was created in 1284 — this specific
-  detail comes from a single search-summary source and was not independently
-  cross-checked by direct reading [S39]. Carmarthen and Cardigan had already been
+  hundred containing Llandeilo itself): S39, now read directly, lists "Mallaen, Caeo, Maenor
+  Deilo, Cetheiniog, Widigada, Mabelfyw, and Mabudrud" [S39]. (*Corrected 2026-10-02 (independent check)*: the note also said
+  Maenordeilo stayed in the lordship of Cantref Mawr until Carmarthenshire was created in
+  1284; that is not in S39 as read, so it is unsourced.) Carmarthen and Cardigan had already been
   crown-held "honours" under a royal Justiciar of South Wales since 1240, well before the
   1282-83 war and the Statute of Rhuddlan [S36].
 - **Sources:** [S37]/[S38] Wikipedia, *Cantref Mawr* (marked by Wikipedia itself as a
-  stub — thin coverage); [S39] GENUKI, *A History of Carmarthenshire* (Lloyd), read via
-  search summary only, not independently confirmed; [S36] Wikipedia, *Statute of Rhuddlan*.
+  stub — thin coverage); [S39] GENUKI, *A History of Carmarthenshire* (Lloyd), read
+  directly 2026-10-02; [S36] Wikipedia, *Statute of Rhuddlan*.
 
 ## People
 
@@ -295,14 +346,18 @@ as the sources allow, with every genuinely open question flagged rather than smo
   traditions, not settled fact [S1][S3]. No contemporary written source for his life
   survives from his own century; everything is later hagiography.
 - **Rhys ap Tewdwr** (c.1040-1093), king of Deheubarth 1078-93, of the Dinefwr dynasty.
-  Paid homage to William I in 1081; killed near Brecon in 1093 by Norman forces under
+  In 1081 "it seems likely he came to an arrangement" with William I (*Corrected 2026-10-02 (independent check)*: the note said
+  he paid homage, which S46 does not state); killed near Brecon in 1093 by Norman forces under
   Bernard de Neufmarché, opening the way to deeper Norman penetration of the kingdom
   [S46][S47].
-- **Rhys ap Gruffudd, "the Lord Rhys" / Yr Arglwydd Rhys** (c.1132-1197). Sole ruler of
-  Deheubarth from 1155; submitted to Henry II in 1158 and again made peace in 1171,
-  becoming the crown's "justice" for south Wales while remaining the leading native ruler;
+- **Rhys ap Gruffudd, "the Lord Rhys" / Yr Arglwydd Rhys** (c.1132-1197). Fought at
+  Llansteffan in 1146 aged 13 (S14) or 14 (S15). Sole ruler of
+  Deheubarth from 1155; submitted to Henry II in 1158, was stripped of all his lands and
+  imprisoned after Henry's 1163 invasion [S15], and again made peace in 1171,
+  becoming the crown's "justice of South Wales" (S14) while remaining the leading native ruler;
   rebuilt Cardigan Castle in stone (called the earliest recorded native-built stone castle
-  in Wales) and is credited with a "new style" castle at Dinefwr; hosted the celebrated
+  in Wales) and is credited with a "new style" castle at Dinefwr, which DWB places after the
+  1171-72 settlement [S14] (*Corrected 2026-10-02 (independent check)*: age, title, the 1163 invasion and the castle's placing added); hosted the celebrated
   1176 Cardigan gathering of poets and musicians; patron of Whitland and (heavily) Strata
   Florida abbeys, and founder of Talley Abbey as "his special and unique foundation" and of
   Llanllŷr nunnery; died 28 April 1197 and is buried at St Davids Cathedral; his last years
@@ -310,35 +365,45 @@ as the sources allow, with every genuinely open question flagged rather than smo
   [S14][S15][S16][S17]. **Documented in real detail** — good candidate for a labelled,
   non-invented-quote appearance, e.g. presiding at Cardigan in 1176.
 - **Rhys Gryg** ("Rhys the Hoarse", d.1234), son of the Lord Rhys. Associated with building
-  Dryslwyn for his own son Maredudd, and with Dinefwr's forced dismantling under pressure
-  from Llywelyn ap Iorwerth [S22][S12].
+  Dryslwyn, perhaps as one of the legacies "for his two sons" (*Corrected 2026-10-02 (independent check)*: S22 does not name
+  Maredudd), and with Dinefwr's forced dismantling under pressure from Llywelyn ap Iorwerth
+  [S22][S12].
 - **Maredudd ap Rhys Gryg** (d.1271), prince of Deheubarth, held Dryslwyn [S22].
-- **Rhys Fychan ap Rhys Mechyll** (fl. 1240s-50s), regained Carreg Cennen in 1248 after his
-  mother handed it to the English [S25]. Father of Rhys Wyndod.
+- **Rhys Fychan ap Rhys Mechyll** (fl. 1240s-50s), seized Carreg Cennen in 1248 after his
+  mother granted it to the English, before they took possession [S25] (*Corrected 2026-10-02 (independent check)*: not "regained").
+  Father of Rhys Wyndod.
 - **Rhys Wyndod ap Rhys Fychan** (1252-1302, per one genealogical database, not
   independently verified against an academic source [S34]). A Deheubarth royal named
   by Wikipedia as one of the "royal refugees from Powys Fadog and Deheubarth" who
-  supported Dafydd ap Gruffudd's rebellion in 1282, alongside Rhys Ieuanc and the sons of
-  Maredudd ab Owain [S33]. **No source read in this session directly places him at the
+  supported Dafydd ap Gruffudd's rebellion, alongside Rhys Ieuanc and the sons of
+  Maredudd ab Owain [S33]. *Corrected 2026-10-02 (independent check)*: S33 places them with Dafydd at Dolwyddelan, in Snowdonia,
+  from January 1283, not in the south in spring 1282. **No source read in this session directly places him at the
   Battle of Llandeilo Fawr** — that link, and a further claim (found only in an
   unconfirmed search snippet, not verified by direct reading of any page in this session)
   that he later surrendered Dinefwr to Edward I and that the castle was given into the
   custody of one Bogo de Knovil, should be treated as **unverified** pending a source that
   can be read directly. Flagged clearly in Open questions.
-- **Rhys ap Maredudd** (c.1250-1292), lord of Dryslwyn, grandson of Maredudd ap Rhys Gryg.
+- **Rhys ap Maredudd** (c.1250-1292), lord of Dryslwyn, son of Maredudd ap Rhys Gryg
+  (d.1271), whom he succeeded in 1271 [S30][S31] (*Corrected 2026-10-02 (independent check)*: the note said "grandson").
   Submitted to Edward I in 1276-77, surrendering Dinefwr but keeping Dryslwyn [S31]. During
   the 1282-83 war he **did not join** Llywelyn and Dafydd's revolt — he actively helped
   Edward I, including in an attack on Llanbadarn and by patrolling Ceredigion [S30][S31].
-  Despite this loyalty, Edward withheld Dinefwr from him and in October 1283 forced him to
-  formally surrender ("quitclaim") Dryslwyn too, recognising him only as "dominus de
-  Estretewy" (lord of Ystrad Tywi) [S30][S31]. This grievance, plus a feud with the Giffards
+  Despite this loyalty, Edward withheld Dinefwr from him [S30] and in October 1283 forced
+  him to formally surrender ("quitclaim") a castle [S30], recognising him only as "dominus de
+  Estretewy" (lord of Ystrad Tywi) [S30][S31]. *Corrected 2026-10-02 (independent check)*: the note said the quitclaimed castle was
+  Dryslwyn, but S31 ("allowed to retain Dryslwyn") and S22 have him keeping Dryslwyn until
+  1287. S30 does not name the castle, after a sentence about Dinefwr, so it is most probably
+  Dinefwr, pending Griffiths, *The revolt of Rhys ap Maredudd* (Welsh History Review 3:2,
+  1966). S31 supports neither the withholding nor the quitclaim. This grievance, plus a feud with the Giffards
   of Iscennen, led him to revolt on 8 June 1287, briefly capturing Dinefwr and Carreg
   Cennen before being besieged out of Dryslwyn (September 1287) and Newcastle Emlyn
-  (January 1288); he evaded capture until 1289 or 1291 (sources disagree) and was executed
-  at York in 1292 [S30][S31].
+  (January 1288); he evaded capture until 1290 or 1291 (S30: 1291; S31: in flight in 1289,
+  citing Brut y Tywysogion under 1290 for his betrayal) and was executed at York on 2 June
+  1292 [S30][S31] (*Corrected 2026-10-02 (independent check)*: the note had "1289 or 1291").
 - **Gilbert de Clare, 6th Earl of Hertford / Earl of Gloucester** (1243-1295). Commanded
-  the English force that took and sacked Carreg Cennen in June 1282, then was ambushed near
-  Llandeilo Fawr; removed from his southern command by Edward I on 6 July 1282 and replaced
+  an army, mostly Welsh levies, that re-occupied Carreg Cennen in June 1282, "recently burnt
+  out by the Welsh" [S28][S29]; part of it was then ambushed near Llandeilo Fawr (*Corrected 2026-10-02 (independent check)*: the
+  note said he "took and sacked" it, which only S27 says); removed from his southern command by Edward I on 6 July 1282 and replaced
   by William de Valence the elder [S27][S28][S52].
 - **William de Valence the younger**, son of William de Valence, 1st Earl of Pembroke (the
   king's uncle). Led the raiding column ambushed near Llandeilo Fawr and was killed there,
@@ -354,26 +419,33 @@ as the sources allow, with every genuinely open question flagged rather than smo
 ## The 1282 battle (Battle of Llandeilo Fawr) — detail and disagreements
 
 **What is agreed across sources:** In June 1282, as part of the general Welsh uprising
-against Edward I, an English force under Gilbert de Clare, Earl of Gloucester/Hertford,
-captured and sacked Carreg Cennen Castle. A detachment under William de Valence the
-younger — the king's young kinsman — separated from the main force, apparently to move
-plunder or raid further, and was ambushed by Welsh forces near Llandeilo Fawr. The
+against Edward I, an army under Gilbert de Clare, Earl of Gloucester/Hertford, mostly Welsh
+levies (about 8,000 infantry; "The only Englishmen present were a tiny band of miners from
+the Forest of Dean" [S28]), re-occupied Carreg Cennen Castle: Clare "occupied the bare walls
+of Carreg Cennen and Llandovery, recently burnt out by the Welsh" [S28], and "His only
+achievement of note was to re-occupy the castle at Carreg Cennen" [S29]. (*Corrected 2026-10-02 (independent check)*: the note said
+he "captured and sacked" it. Only S27 says that, so it is a contradiction between S27 and
+S28/S29, not an agreed point.) A detachment under William de Valence the
+younger — the king's young kinsman — separated from the main force on a plundering raid
+("a raiding party led by William Valence junior" [S28]; men "giving attention to taking
+plunders" [S29]) and was ambushed by Welsh forces near Llandeilo Fawr as it returned. The
 ambush was severe: William de Valence and Richard de Argentein (a knight) were killed, and
 multiple English chronicles describe very heavy losses, with one summarised as "hardly any
 men escaped by flight, but most were cruelly killed" [S27][S28][S29]. Edward I removed
 Clare from his southern command on 6 July 1282, replacing him with William de Valence the
 elder [S28][S52]. The engagement is recorded in at least five separate English monastic
 chronicles (Trivet, the Oseney annals, Wykes, Rishanger, and the Annals of Chester)
-[S28][S52] as well as, presumably, Brut y Tywysogion, though no source read in this session
-quoted its actual Welsh-language wording for this specific event — **that is a gap**, worth
-closing with a direct reading of a Brut y Tywysogion translation before writing final
-game content.
+[S28][S52], and S29 prints all five passages plus the Welsh *Annales Cambriae*, which says
+Valence was "killed in Ystrad Tywi on 16 June" [S29] (*Corrected 2026-10-02 (independent check)*: added). Brut y Tywysogion's own
+wording for this event was not read — **that is a gap**, worth closing with a direct reading
+of a Brut y Tywysogion translation before writing final game content.
 
 **What is disputed or unclear, and should NOT be flattened into a single confident story:**
 
 1. **The date.** Wikipedia's own Battle of Llandeilo Fawr article gives **17 June**;
    a fandom military-history summary citing the Annals of Chester gives **16 June**
-   [S27][S52]. Both cannot be exactly right; the true date is most likely 16 or 17 June
+   [S27][S52], as does S28; and the Welsh *Annales Cambriae* (via S29) gives **16 June**, the
+   primary Welsh date [S29] (*Corrected 2026-10-02 (independent check)*: Annales Cambriae and S28 added). Both cannot be exactly right; the true date is most likely 16 or 17 June
    1282 and should be shown in-game with that uncertainty rather than picked arbitrarily.
 2. **Who actually commanded the Welsh side.** Wikipedia's Battle of Llandeilo Fawr article
    names **Rhys ap Maredudd** as the Welsh commander [S27]. But Rhys ap Maredudd's own
@@ -387,7 +459,12 @@ game content.
    was Llywelyn's or any named leader's men [S28][S29]. Given Rhys Wyndod is independently
    documented as a Deheubarth royal actively supporting Dafydd's revolt that same year
    [S33], he is a plausible candidate for local leadership, but **no source found in this
-   session places him at this battle by name**. **The safest, honestly-sourced game
+   session places him at this battle by name**, and S33 puts him with Dafydd in Snowdonia
+   from January 1283 (*Corrected 2026-10-02 (independent check)*: added). Trivet and Rishanger (printed in S29) say the prince
+   devastated the lands of Rhys son of Maredudd, "who had stayed with the king against the
+   prince", which further contradicts S27 [S29]. S28 separately suggests that Gruffudd and
+   Cynan ap Maredudd (the sons of Maredudd ab Owain) "may" have led the Welsh at Llandeilo,
+   a better-sourced lead than Rhys Wyndod [S28] (*Corrected 2026-10-02 (independent check)*: added). **The safest, honestly-sourced game
    treatment: show the ambush as carried out by unnamed local Welsh fighters (very possibly
    including men loyal to Rhys Wyndod or the sons of Maredudd ab Owain, given they were
    the named Deheubarth rebels of that year), and mark "who led it" as an open question —
@@ -396,13 +473,14 @@ game content.
 3. **Troop numbers.** One summary (paraphrasing Wikipedia) gives the English force as
    c.1,600 infantry and 100 cavalry [S27]; a fandom summary gives "approximately 8,000
    Welsh infantry and 200 cavalry" under de Clare, with only a small contingent of Forest of
-   Dean miners as actual English troops [S52] — this second figure is plausible in a
+   Dean miners as actual English troops [S52], and so does S28, which was read directly
+   (*Corrected 2026-10-02 (independent check)*: the 8,000 figure is not only in S52) [S28] — this second figure is plausible in a
    different sense, since Edward's armies regularly conscripted large numbers of Welsh
    foot soldiers from already-subdued areas of Wales to fight elsewhere in Wales, but the
    two figures as given are **not obviously the same claim** and should not be merged
    without a primary source. Present both, sourced separately.
 4. **Who "won".** English chronicles record de Clare's expedition as nominally successful
-   up to the sack of Carreg Cennen, but the ambush inflicted such losses, and produced so
+   up to the re-occupation of Carreg Cennen (*Corrected 2026-10-02 (independent check)*: not a sack, see above), but the ambush inflicted such losses, and produced so
    little strategic gain, that at least one secondary source calls it "considered to be a
    great victory for the Welsh, despite the English technically winning the battle"
    [S27] — a framing itself worth showing in-game as interpretation, not settled fact.
@@ -415,14 +493,18 @@ Gruffudd*.
 ## Society, law and class
 
 Wales before 1284 was governed by native Welsh law, **Cyfraith Hywel**, attributed to the
-10th-century king Hywel Dda and preserved in over 40 manuscripts from the mid-13th century
-onward [S41]. Cross-checked structure of society (Wikipedia's summary of the Iorwerth
+10th-century king Hywel Dda; "The earliest surviving manuscripts ... are in Latin, date from
+the early 13th century" [S41] (*Corrected 2026-10-02 (independent check)*: the note said "over 40 manuscripts from the mid-13th
+century"; S41 gives no count of 40). S41 also says the Blegywryd redaction "is associated
+with Deheubarth", so it is the text most relevant to Llandeilo, rather than the Iorwerth
+redaction summarised below. Cross-checked structure of society (Wikipedia's summary of the Iorwerth
 redaction, itself citing the primary law texts) [S41]:
 
 1. **Rulers** (*rhi*/*brenin*) and lords holding fiefs.
 2. **Free Welsh** — pedigreed aristocracy (*boneddigion*/*uchelwyr*, sing. *bonheddig*, "one
    having a pedigree") and free yeomen; a higher noble rank within this group was the
-   *breyr* (Latin *optimas*), with stronger legal protections [S41][S42].
+   *breyr* (Latin *optimas*), with stronger legal protections [S41][S42]. S42 adds that
+   *breyr* "is never used in the North Welsh books", so it is a southern term.
 3. **Unfree Welsh** — *taeogion*/*ailltion*/*bileiniaid* (serfs/villeins). These occupied
    designated *trefi* (townships/hamlets), owed food-renders and labour service to their
    lords, but were the most privileged unfree class and could gain freedom (e.g. by
@@ -435,7 +517,8 @@ redaction, itself citing the primary law texts) [S41]:
 Women had rights markedly different from, and in some ways stronger than, contemporary
 Anglo-Norman law: a wife could divorce a husband after his third infidelity; on separation
 after seven years a woman kept half the marital property; specific payments structured
-marriage and its dissolution (*amobr*, a fee to her lord on marriage; *cowyll*, morning
+marriage and its dissolution (*amobr*, a fee to her lord due "on the loss of her virginity,
+whether on marriage or otherwise" [S41] (*Corrected 2026-10-02 (independent check)*: not only on marriage); *cowyll*, morning
 gift; *agweddi*, dower; *argyfrau*, household goods) [S41]. Land generally passed by
 **cyfran** — equal partition among all sons, legitimate and illegitimate alike, with the
 youngest son dividing the estate and each brother choosing a share in turn — directly
@@ -457,8 +540,10 @@ the source used here is from Carmarthenshire in 1540 [S41][S36].
 **Money:** Deheubarth's Wikipedia entry names two coin-values used, "ceiniog cyfreith"
 (legal penny) and "ceiniog cwta" (curt/short penny), without further explanation [S37]; the
 Laws of Hywel Dda glossary (via Wikisource) confirms these — "keinhawc kyfreith" (legal
-penny) vs "keinhawc cotta" (curt penny, worth a third less), with 240 legal pence equal to
-"Charlemagne's pound" [S42]. This suggests Wales used a mixed system valuing goods and
+penny) vs "keinhawc cotta" (curt penny, worth a third less) [S42]. S42 gives the
+equivalence of 240 legal pence to "the pound of the nova moneta of Charlemagne" only as Dr
+Seebohm's conjecture ("If, as Dr. Seebohm thinks probable ...") (*Corrected 2026-10-02 (independent check)*: the note stated it as
+fact). This suggests Wales used a mixed system valuing goods and
 fines partly in terms drawn from a wider European (Carolingian-derived) monetary standard,
 even where no local mint existed — treat any claim about actual coins circulating in
 1282 Llandeilo as **unconfirmed**; no source here describes physical coin finds for this
@@ -487,8 +572,9 @@ reconstructed picture (never asserted as directly attested for Llandeilo specifi
   of Wales, though the specific examples found in sources here (Nannerth-ganol,
   Hafodygarreg) are later in date and in mid-Wales, so this is an **analogy, not a direct
   attestation for 13th-century Llandeilo** [general search summary].
-- **Elite/princely homes:** the only systematically excavated pre-conquest Welsh princely
-  court (*llys*) is **Llys Rhosyr** in Anglesey (Gwynedd, not Deheubarth) — a stone-and-timber
+- **Elite/princely homes:** **Llys Rhosyr** in Anglesey (Gwynedd, not Deheubarth) is "the
+  only royal court of Gwynedd whose site has so far been excavated" [S51] (*Corrected 2026-10-02 (independent check)*: the note said
+  the only excavated Welsh princely court) — a stone-and-timber
   hall-and-chamber complex within a walled enclosure about 137m×91m, with barns, active
   until a 1332 sandstorm buried much of the site [S51]. This is **useful only as an
   out-of-region analogy** for what a Welsh prince's residence might contain (hall, private
@@ -527,11 +613,12 @@ like at Llandeilo in 1282" claim is written into game content.
 
 ## Food and farming
 
-- Gerald of Wales, touring Wales in 1188, wrote that "the whole population lives almost
-  entirely on oats and the produce of their herds — milk, cheese, and butter" [general
-  search-summary source, cross-checked loosely against the Laws of Hywel Dda's own implied
-  diet of "beer, bread, meat and dairy products, with few vegetables beyond cabbages and
-  leeks"].
+- Gerald of Wales, touring Wales in 1188, wrote: "Almost all the people live upon the
+  produce of their herds, with oats, milk, cheese, and butter; eating flesh in larger
+  proportions than bread" (*The Description of Wales*, Book I ch. 8) [S53] (*Corrected 2026-10-02 (independent check)*: now cited to
+  Gerald's own text, not a search summary; the "eating flesh" clause added). The note's
+  "beer, bread, meat and dairy products, with few vegetables beyond cabbages and leeks",
+  attributed to the Laws of Hywel Dda, is not in S41 and **has no source found**.
 - Oats dominated upland cultivation (climate-driven); lowland areas nearer the Tywi could
   grow barley and wheat. **Bara ceirch** (oat bread/oatcake) and **llymru** (an oatmeal
   dish, later anglicised as "flummery") are both attested traditional dishes.
@@ -574,9 +661,11 @@ like at Llandeilo in 1282" claim is written into game content.
   1193/94, is the single richest 12th-century eyewitness for Welsh appearance and
   manners, though the Wikipedia summary read in this session covers mainly character,
   music, poetry, hospitality, table manners, sleeping habits, dental/facial grooming, and
-  military bearing — **it does not give the specific clothing descriptions** that would be
-  needed for a costume reference, so **a direct reading of a translation of the Description
-  of Wales itself is a clear follow-up task**, not something this session completed [S44].
+  military bearing — **it does not give the specific clothing descriptions** [S44]. *Corrected 2026-10-02 (independent check)*: Gerald's own text,
+  now read, says that "at all seasons they defend themselves from the cold only by a thin
+  cloak and tunic", and that the bed is covered with "a coarse kind of cloth ... called
+  brychan" [S53]. This partly closes the clothing follow-up; fuller costume detail still
+  needs a source.
 - Lord Rhys himself is credited by his Dictionary of Welsh Biography entry with "adopting
   Norman ways in dress and domestic manners, as well as in matters of State" — a
   documented, specific claim that at least the highest Welsh elite were visibly
@@ -588,18 +677,19 @@ like at Llandeilo in 1282" claim is written into game content.
   main building rather than a multi-building monastic complex, administered locally and
   autonomously — Llandeilo Fawr is one of the specifically named examples in the Wikipedia
   summary drawn from Wendy Davies's research [S2].
-- By the 8th-9th centuries Llandeilo Fawr was a bishopric seat ("Bishop-Abbot"), suggesting
-  a genuinely significant ecclesiastical status within Wales, not merely a local parish
-  [S1].
+- By the 8th century Llandeilo Fawr was "the centre of a bishopric", with a bishop recorded
+  in the 9th century, suggesting a genuinely significant ecclesiastical status within Wales,
+  not merely a local parish [S1] (*Corrected 2026-10-02 (independent check)*: "Bishop-Abbot" removed; no source uses it).
 - The 12th century brought new, Continental-style monasticism into the same valley system:
   Cistercians at Whitland and (heavily) Strata Florida, both patronised by Lord Rhys, and — 
   uniquely for Wales — Premonstratensian canons at Talley, founded by Rhys as his "special
   and unique foundation" [S14][S17]. This represents a real, documented shift from the
   native clas model toward European monastic orders within Rhys's own lifetime, i.e.
   exactly the generation before 1282.
-- No source gathered in this session directly addresses parish structure, saints' cults
-  beyond Teilo, or specifically Llandeilo's own diocesan status (St Davids?) in the run-up
-  to 1282 — flagged as a follow-up.
+- No source gathered in this session directly addresses parish structure or saints' cults
+  beyond Teilo. On diocesan status (*Corrected 2026-10-02 (independent check)*: partly answered), Coflein says the church "may
+  originally have been a possession of the bishops of Llandaff, but had passed to St Davids by
+  the twelfth century" [S57]; and Talley appropriated St Teilo's around 1215 [S54].
 
 ## Language by class
 
@@ -609,7 +699,8 @@ like at Llandeilo in 1282" claim is written into game content.
   the Mabinogion tales and much of the surviving Welsh law manuscript tradition [S49].
   **Old Welsh** itself (roughly 9th-early 12th centuries) is directly attested locally by
   the Llandeilo Gospels marginalia, including the earliest connected Welsh sentence
-  (the *Surexit* memorandum, mid-9th century) [S6][S8].
+  (the *Surexit* memorandum, mid-9th century; 830-50 per Jenkins and Owen, via Willis)
+  [S6][S8][S58].
 - **Latin** was the language of the clas clergy and of formal legal record — even the
   Surexit memorandum, overwhelmingly in Welsh, uses Latin for its opening word and for key
   legal terms, showing Latin's role as the prestige/technical register laid over
@@ -662,10 +753,10 @@ attested sound recordings or descriptions, and should be labelled accordingly in
 
 | Item | Fact | Provenance | Source(s) |
 |---|---|---|---|
-| Food | Oats + dairy (milk, cheese, butter) formed the core diet per a named 1188 eyewitness (Gerald of Wales) | Documented (single named eyewitness), general-Wales not Llandeilo-specific | general search summary, cross-referenced against Cyfraith Hywel's "beer, bread, meat, dairy" |
+| Food | The people live on the produce of their herds, with oats, milk, cheese and butter, eating more meat than bread, per a named 1188 eyewitness (Gerald of Wales) | Documented (single named eyewitness), general-Wales not Llandeilo-specific | S53 (*Corrected 2026-10-02 (independent check)*: Gerald's text read directly; the "beer, bread, meat, dairy" line has no source) |
 | Clothing | Linen + wool body garments, a cloak, hose and shoes were the legally-assumed standard wear | Documented via Welsh law itself | single-source (Heather Rose Jones FAQ, via search summary — re-verify by direct read) |
 | Homes | Longhouse form (people one end, cattle the other) is the best-attested general south/mid-Wales rural vernacular type | Reconstructed by regional analogy, not site-dated to 1282 | general search summary |
-| Religion | Llandeilo Fawr was a clas / episcopal seat by the 8th-9th centuries | Documented | S1 |
+| Religion | Llandeilo Fawr was a clas, the centre of a bishopric by the 8th century, with a bishop recorded in the 9th (*Corrected 2026-10-02 (independent check)*: wording follows S1) | Documented | S1 |
 | Money | Two penny values existed, "legal" and "curt" (short), the curt worth a third less | Documented (law-text glossary) | S37, S42 |
 | Health | No dedicated source consulted this session | Open — flagged for follow-up | — |
 | Travel | Llandeilo sat on/near a Roman road, giving east-west links | Documented, single clear source | S1 |
@@ -696,8 +787,10 @@ be presented as a real quotation from a documented person:
    scene with named commanders on the Welsh side. This is the safest way to depict the
    battle honestly given the state of the sources.
 5. A Premonstratensian canon at newly-founded Talley Abbey in the 1180s, describing the
-   ambitious unfinished building plan to a visitor — grounded in the real, sourced fact
-   that the abbey was never fully built to its intended scale [S18][S19].
+   ambitious building plan to a visitor — grounded in the real, sourced fact that the church
+   was completed in a shorter form than planned, with the western four bays of the nave and
+   the south aisle never rising much above their foundations [S19][S54] (*Corrected 2026-10-02 (independent check)*: not "only the
+   eastern end").
 
 ## Open questions / contradictions
 
@@ -705,7 +798,8 @@ be presented as a real quotation from a documented person:
   Llandeilo in the 9th century, documented at Lichfield by the late 10th century; no
   source read here explains the transit [S7].
 - **Battle of Llandeilo Fawr: date is 16 or 17 June 1282**, not settled between sources
-  [S27][S52].
+  [S27][S52]. *Corrected 2026-10-02 (independent check)*: S28 and the Welsh *Annales Cambriae* (via S29) both give 16 June; only S27
+  gives 17 June.
 - **Battle of Llandeilo Fawr: no source read here reliably names a Welsh commander.**
   Wikipedia's own battle article names Rhys ap Maredudd, but this directly contradicts his
   own, better-sourced, biography (which has him assisting Edward I that summer, not
@@ -715,27 +809,33 @@ be presented as a real quotation from a documented person:
 - **Troop numbers for the battle are given very differently** in different summaries
   (c.1,600+100 vs c.8,000+200), and it is not clear the two figures describe the same
   thing (e.g. total English-led force including conscripted Welsh levies, vs a narrower
-  "English" contingent) [S27] vs [S52].
+  "English" contingent) [S27] vs [S28][S52] (*Corrected 2026-10-02 (independent check)*: the 8,000 is in S28, read directly, as
+  well as S52).
 - **Dinefwr's fall to the English is dated inconsistently.** Cadw's own visitor text says
   "eventually fell into English control in 1287" [S9], but the wider, cross-checked
   narrative from Wikipedia/DWB has Dinefwr already surrendered/withheld from Welsh control
   from 1276-77 onward, then briefly recaptured by Rhys ap Maredudd in 1287 before being
   lost again — i.e. 1287 marks a Welsh *recapture*, not the original English capture, in
-  the fuller narrative [S30][S31]. **This is a real, unresolved contradiction that should
-  not be silently resolved either way without checking a specialist castle-history source
-  (e.g. a Cadw guidebook rather than the summary visitor webpage).**
+  the fuller narrative [S30][S31]. *Corrected 2026-10-02 (independent check)*: S12's HER text, "From 1276 onwards, the castle was
+  largely kept in English hands", largely resolves this in favour of the recapture reading.
+  Both sides stay recorded; a Cadw guidebook would settle it.
 - **The claim that Rhys Wyndod surrendered Dinefwr and that it was placed in the custody of
   a "Bogo de Knovil"** appeared only in a search-tool summary whose underlying page could
   not be independently re-read in this session (the source could not be reached directly;
   see People section). **Treat as unverified until a directly-readable source confirms
   it.**
-- **Rhys ap Maredudd's capture date**: 1289 (one source) vs 1291 (another) [S30] vs [S31].
-- **St Teilo's Church, Llandeilo — the "12th century" and "late medieval tower" claims**
-  both appeared only in an AI-generated search summary that could not be reconciled with
-  the direct Wikipedia fetch (which gives only "medieval origins... rebuilt in the early
-  18th century... completed 1850", with no tower date) [S3]. **Needs a proper architectural
-  source (e.g. Cadw listed building description) before any specific date is used in
-  content.**
+- **Rhys ap Maredudd's capture date**: 1290 or 1291 (*Corrected 2026-10-02 (independent check)*: the note had "1289 (one source)
+  vs 1291 (another)", mis-attributed). S30 says 1291. S31 gives no capture year: he was "in
+  flight in 1289", and S31's sources cite Brut y Tywysogion (Peniarth 20) under 1290 for his
+  betrayal in the woods of Mallaen [S30][S31]. Needs a direct reading of Brut y Tywysogion.
+- **Which castle did Rhys ap Maredudd quitclaim in October 1283?** S30 says only "the
+  castle", after a sentence about Dinefwr; S31 and S22 have him keeping Dryslwyn until 1287.
+  Most probably Dinefwr, pending Griffiths, *The revolt of Rhys ap Maredudd* (Welsh History
+  Review 3:2, 1966) (*Corrected 2026-10-02 (independent check)*: added).
+- **St Teilo's Church, Llandeilo — the tower date** is now a sourced contradiction (*Corrected 2026-10-02 (independent check)*: no
+  longer unverified): Coflein 100867 says both "fifteenth century west tower" and "thought to
+  date to around 1600" [S57]; S1's church page says "late medieval" [S1]. It stays contested.
+  The "12th century" claim is still unsourced.
 - **Homes and clothing sections in particular rest on general-Wales sources, not
   Llandeilo/Deheubarth-specific ones**, and on at least one page (Heather Rose Jones's
   Medieval Welsh FAQs) that was read only via a search-engine summary, not a direct fetch,
@@ -746,16 +846,47 @@ be presented as a real quotation from a documented person:
   in the Tywi valley, (c) find population estimates for medieval Deheubarth/Carmarthenshire,
   (d) find a source on medieval Welsh health/disease, and (e) directly read a translation
   of Gerald of Wales's Description of Wales for clothing detail rather than relying on a
-  Wikipedia summary of it.
+  Wikipedia summary of it (*Corrected 2026-10-02 (independent check)*: (e) is partly done, see S53 and the Clothing section).
+- **Unsourced claims found by the 2026-10-02 check:** the *bardd teulu* as one of the 24
+  officers (not in S41); the "cabbages and leeks" diet line; Premonstratensian pastoral work
+  (not in S20); Maenordeilo staying in Cantref Mawr until 1284 (not in S39). Each needs a
+  source before use.
+- **For the owner's decision (from the 2026-10-02 check; not applied here):**
+  - **Dinefwr's "castle in the new style" date.** The app's Dinefwr castle event and feature
+    start at 1163, from the timeline note's archaeology, but the quoted phrase is DWB's and DWB
+    places it after the 1171-72 settlement [S14]. Keep 1163 for the archaeology and drop the
+    quotation, or move the quotation to the 1170s.
+    *Decided 2026-10-02:* the timeline check found no source for 1163 at all, so the app's castle
+    phase starts at the 1151 record and the key date is c. 1172, with the quotation (decision log).
+  - **Talley and Dryslwyn models:** whether to change the 3D plans (Talley's nave bays;
+    Talley's choir in use as the parish church to 1772-3; Dryslwyn's outer wards only from the
+    later 13th century) or only the text [S19][S54][S55].
+    *Decided 2026-10-02:* both plans were rebuilt to the research (`design/models.md`).
+  - **St Teilo's tower:** 15th century or c.1600. It stays contested in the app either way,
+    but which date the model follows is a choice [S57][S1].
+    *Decided 2026-10-02:* the text says sources differ; the model keeps the tower from c.1600.
+  - **Surexit date in the app:** keep c.830 (Jenkins and Owen, the specialist reading [S58])
+    or show 8th-9th century because S8 and language:S4 say early 8th.
+    *Decided 2026-10-02:* keep c.830, the specialist reading.
+  - **Status of this note:** with the corrections applied it could move from `draft`, but the
+    1283 quitclaim and the capture year still need Griffiths (1966) and a direct reading of
+    Brut y Tywysogion.
+  - **Talley's map point** is about 85m from Coflein's (which is on the surviving tower);
+    check against the OS footprint before moving it [S54].
+    *Done 2026-10-02:* Talley's model now has its origin on the tower and stands on Coflein's point.
 
 ## Sources
 
-- [S1] "Llandeilo History - Archaeology" (llandeilo.org), read via search-engine summary
-  only (direct fetch returned 404). https://www.llandeilo.org/archeology.php — early clas
-  history, St Teilo, Roman-road siting, 8th/9th-century bishopric status.
+- [S1] "Llandeilo History - Archaeology" (llandeilo.org, a Cambria Archaeology heritage audit
+  extract, 2004), with the site's St Teilo's church page. https://www.llandeilo.org/archeology.html
+  and https://www.llandeilo.org/ch_st-teilos.html, both read directly 2026-10-02 (*Corrected 2026-10-02 (independent check)*: the
+  old https://www.llandeilo.org/archeology.php 404'd and was read only via a search summary) —
+  early clas history, 8th-century bishopric and 9th-century bishop, St Teilo, Roman-road siting
+  (church page), 1850 completion and "late medieval" tower (church page).
 - [S2] Wikipedia, "Clas (ecclesiastical settlement)". https://en.wikipedia.org/wiki/Clas_(ecclesiastical_settlement) —
-  definition of a clas, single-building/abbot-led structure, Wendy Davies's count of
-  150-200 clasau, names Llandeilo as an example.
+  definition of a clas, single-building/abbot-led structure, Wendy Davies's 36 clasau in the
+  Llandaff charters and Wikipedia's own extrapolation to 150-200 (*Corrected 2026-10-02 (independent check)*), names Llandeilo as an
+  example.
 - [S3] Wikipedia, "St Teilo's Church, Llandeilo". https://en.wikipedia.org/wiki/St_Teilo%27s_Church,_Llandeilo —
   medieval origins on an older site, rebuilt early 18th century, completed 1850, Grade II
   listed 1966, notes the Llandaff dispute over St Teilo's burial place.
@@ -773,11 +904,11 @@ be presented as a real quotation from a documented person:
 - [S9] Cadw, "Castell Dinefwr". https://cadw.gov.wales/visit/places-to-visit/castell-dinefwr —
   visitor-facing history: Lord Rhys's possession, post-Rhys turbulence, "fell into English
   control in 1287", Glyndŵr's failed 1403 attempt.
-- [S11] Coflein site record for Dinefwr Castle (NPRN 425), read via search-engine summary
-  only. https://coflein.gov.uk/en/site/425/details/dinefwr-castle-llandeilo — two
+- [S11] Coflein site record for Dinefwr Castle (NPRN 425), read directly 2026-10-02.
+  https://coflein.gov.uk/en/site/425/details/dinefwr-castle-llandeilo — SN 61150 21731; two
   ditch-cut enclosures, barbican, great round tower (~12m), smaller north tower, towered
-  lodgings; a direct WebFetch of this URL erroneously returned Penrhyn Castle content and
-  was not used.
+  lodgings (*Corrected 2026-10-02 (independent check)*: an earlier WebFetch had returned Penrhyn Castle; the record now resolves
+  correctly).
 - [S12] Gatehouse Gazetteer, "Dinefwr Castle". http://www.gatehouse-gazetteer.info/Welshsites/216.html —
   1151 first record (Maredudd & Rhys ap Gruffudd), possible early dismantling by Llywelyn
   ap Iorwerth's pressure on Rhys Gryg, visible remains mostly 13th-early 14th century,
@@ -854,7 +985,7 @@ be presented as a real quotation from a documented person:
 - [S30] Wikipedia, "Rhys ap Maredudd". https://en.wikipedia.org/wiki/Rhys_ap_Maredudd —
   1276-77 submission and surrender of Dinefwr, non-participation in the 1282 revolt and
   active help to Edward I, Edward's refusal to grant Dinefwr, October 1283 forced
-  quitclaim of Dryslwyn, 1285 marriage to Ada de Hastings/Newcastle Emlyn, 8 June 1287
+  quitclaim of "the castle" (unnamed; most probably Dinefwr, not Dryslwyn, *Corrected 2026-10-02 (independent check)*), 1285 marriage to Ada de Hastings/Newcastle Emlyn, 8 June 1287
   revolt and its course, capture and 1292 execution at York, named uncertainties (Ireland
   flight unconfirmed, son's imprisonment to 1340, late-genealogical-only children).
 - [S31] Dictionary of Welsh Biography, "RHYS ap MAREDUDD (died 1292)".
@@ -886,10 +1017,9 @@ be presented as a real quotation from a documented person:
 - [S38] Wikipedia, "Cantref Mawr". https://en.wikipedia.org/wiki/Cantref_Mawr — seven
   commotes (unusually many), Tywi/Teifi/Gwili boundary, "secure refuge" description
   (explicitly flagged by Wikipedia itself as a stub article).
-- [S39] GENUKI, "A History of Carmarthenshire" (Lloyd), read via search-engine summary
-  only. https://www.genuki.org.uk/big/wal/CMN/Lloyd2 — Maenordeilo as a commote/hundred
-  of Cantref Mawr until the 1284 county of Carmarthenshire; **not independently
-  re-verified by direct reading in this session.**
+- [S39] GENUKI, "A History of Carmarthenshire" (Lloyd), read directly 2026-10-02.
+  https://www.genuki.org.uk/big/wal/CMN/Lloyd2 — the seven commotes of Cantref Mawr,
+  including Maenor Deilo (*Corrected 2026-10-02 (independent check)*: the "until the 1284 county" detail is not in it).
 - [S41] Wikipedia, "Cyfraith Hywel". https://en.wikipedia.org/wiki/Cyfraith_Hywel — five
   social classes, women's legal rights (divorce, property, marriage payments), cyfran
   partible inheritance, the 24 court officers, survival/modification after 1284 and final
@@ -925,10 +1055,19 @@ be presented as a real quotation from a documented person:
   (citing Annals of Chester), ~8,000 infantry/200 cavalry under Clare (mostly Welsh
   levies, few actual English troops), names casualties, 6 July replacement of Clare,
   five chronicles cited (Trivet, Oseney, Wykes, Rishanger + Chester).
+- [S53] Gerald of Wales, *The Description of Wales*, trans. Sir Richard Colt Hoare, Project Gutenberg ebook 1092. https://www.gutenberg.org/ebooks/1092 — Book I ch. 8, read directly 2026-10-02: "Almost all the people live upon the produce of their herds, with oats, milk, cheese, and butter; eating flesh in larger proportions than bread"; "at all seasons they defend themselves from the cold only by a thin cloak and tunic". Added by the independent check of 2026-10-02.
+- [S54] Coflein, "Talley Abbey" (NPRN 92750), read 2026-10-02 by the independent check. https://coflein.gov.uk/en/site/92750/ — SN 63281 32772; founded 1184-89; nave reduced "to a relatively modest size when the church was completed"; endowed with much of the old Llandeilo Fawr clas's wealth; appropriated St Teilo's c.1215; dissolved 1536; choir and presbytery a parish church until 1772-3; "half of a shattered 26m high tower".
+- [S55] Coflein, "Dryslwyn Castle" (NPRN 100682), read 2026-10-02 by the independent check. https://coflein.gov.uk/en/site/100682/ — SN 55387 20288; "second quarter of the thirteenth century"; "In the later thirteenth century two further walled courts were added"; "decommissioned in the early fifteenth century".
+- [S56] Coflein, "Carreg Cennen Castle" (NPRN 103970), read 2026-10-02 by the independent check. https://coflein.gov.uk/en/site/103970/ — SN 66789 19075; owned by the Giffards from 1283, built 1287-1321; the cave passage.
+- [S57] Coflein, "St Teilo's Church, Llandeilo" (NPRN 100867), read 2026-10-02 by the independent check. https://coflein.gov.uk/en/site/100867/ — SN 62930 22236; "fifteenth century west tower" and "thought to date to around 1600" (self-contradictory); 1848 demolition and 1848-51 Scott rebuild; "may originally have been a possession of the bishops of Llandaff, but had passed to St Davids by the twelfth century".
+- [S58] David Willis, "Old and Middle Welsh" (chapter draft, davidwillis.net), read 2026-10-02 by the independent check. https://davidwillis.net/old_and_middle_welsh.pdf — the Surexit Memorandum is "one of eight additional entries" in the Book of St Chad, recording a dispute between Tudfwlch son of Llywyd and Elgu son of Gelli; "Jenkins and Owen date the text to the period 830-50" (citing Jenkins and Owen 1983/84).
+- [S59] Wikipedia, "Earl of Stafford", read 2026-10-02 by the independent check. https://en.wikipedia.org/wiki/Earl_of_Stafford — the earldom created 1351, so there was no Earl of Stafford in 1287.
+- [S60] Wikipedia, "Edmund Stafford, 1st Baron Stafford", read 2026-10-02 by the independent check. https://en.wikipedia.org/wiki/Edmund_Stafford,_1st_Baron_Stafford — son of Nicholas de Stafford (killed at Dryslwyn, 1287); summoned as Baron Stafford in 1299.
 
 **Sources found as leads but not read in this session** (should be prioritised in any
-follow-up pass): Coflein direct records for Dryslwyn, Talley Abbey and Carreg Cennen
-(only Dinefwr's was attempted, and that attempt mis-resolved to Penrhyn Castle); Archwilio
+follow-up pass): (*Corrected 2026-10-02 (independent check)*: the Coflein records for Dryslwyn, Talley, Carreg Cennen, St Teilo's and
+Dinefwr, and Gerald's Description of Wales, were read on 2026-10-02 and are S11, S53-S57)
+Archwilio
 (Dyfed Archaeological Trust HER); a direct translation of Brut y Tywysogion for its own
 wording on 1282; a direct reading of Gerald of Wales's Description of Wales/Itinerary
 through Wales rather than a Wikipedia summary of them; the Heather Rose Jones Medieval

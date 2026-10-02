@@ -11,6 +11,8 @@ import {
   DINEFWR_RHYS,
   DINEFWR_SUMMERHOUSE,
   DRYSLWYN,
+  DRYSLWYN_FIRST,
+  DRYSLWYN_TWO_WARDS,
   GOLDEN_GROVE,
   GOLDEN_GROVE_EARLIER,
   LLANDEILO_BRIDGE,
@@ -22,6 +24,8 @@ import {
   PAXTONS_TOWER,
   SCOTT_CHURCH,
   TALLEY,
+  TALLEY_ABANDONED,
+  TALLEY_PARISH,
   TOWER_CHURCH,
 } from './buildings.ts';
 import { featureId, placeId, src, type SourceKey } from './ids.ts';
@@ -74,7 +78,8 @@ const LLANDEILO_CHURCH = { e: 262930, n: 222236 };
 const DINEFWR_CASTLE = { e: 261155, n: 221729 };
 const CARREG_CENNEN_CASTLE = { e: 266801, n: 219083 };
 const DRYSLWYN_CASTLE = { e: 255390, n: 220294 };
-const TALLEY_ABBEY = { e: 263199, n: 232800 };
+// Coflein NPRN 92750's grid reference, on the surviving tower, which is the plan's origin.
+const TALLEY_ABBEY = { e: 263281, n: 232772 };
 const NEWTON_HOUSE = { e: 261432, n: 222534 };
 const LLANDEILO_BRIDGE_AT = { e: 262757, n: 222001 };
 
@@ -212,7 +217,7 @@ export const FEATURES: readonly Feature[] = [
     provenance: documented(
       ['timeline:S15', 'ironage:S14', 'ironage:S15'],
       'Built in the AD 70s (Coflein); sources disagree on its size (8 or 12 acres) and founding date. When it gave way to the smaller fort is not known, so its end date here is approximate. The internal layout is a standard Roman plan.',
-      "Codwyd yn yr 70au OC (Coflein); mae ffynonellau'n anghytuno ar ei maint a'i dyddiad sefydlu. Ni wyddys pryd y daeth y gaer lai yn ei lle, felly bras yw'r dyddiad gorffen. Cynllun Rhufeinig safonol yw'r trefniant mewnol.",
+      "Codwyd yn yr 70au OC (Coflein); mae ffynonellau'n anghytuno ar ei maint (8 neu 12 erw) a'i dyddiad sefydlu. Ni wyddys pryd y daeth y gaer lai yn ei lle, felly bras yw'r dyddiad gorffen. Cynllun Rhufeinig safonol yw'r trefniant mewnol.",
     ),
     place: 'roman-forts',
   }),
@@ -269,8 +274,8 @@ export const FEATURES: readonly Feature[] = [
       cy: 'Eglwys Teilo Sant, gyda’i thŵr gorllewinol newydd',
     },
     provenance: reconstructed(
-      'The double-naved church with a west tower thought to date from about 1600, the battlemented tower that still stands. The naves’ size is not recorded. One source says the church was substantially rebuilt in the early 18th century; the more detailed Coflein record describes only the 1848 rebuild, so that claim is treated as doubtful and no 18th-century change is shown.',
-      "Yr eglwys â chorff dwbl a thŵr gorllewinol o tua 1600 mae'n debyg, y tŵr â bylchfuriau sy'n dal i sefyll. Ni chofnodwyd maint y cyrff. Mae un ffynhonnell yn dweud i'r eglwys gael ei hailadeiladu'n sylweddol yn gynnar yn y 18fed ganrif; dim ond ailadeiladu 1848 y mae cofnod manylach Coflein yn ei ddisgrifio, felly ystyrir yr honiad hwnnw'n amheus ac ni ddangosir newid yn y 18fed ganrif.",
+      'The double-naved church with its west tower, the battlemented tower that still stands. Sources differ on the tower’s date: Coflein gives both the 15th century and about 1600, so it is shown from 1600. The naves’ size is not recorded. One source says the church was substantially rebuilt in the early 18th century; the more detailed Coflein record describes only the 1848 rebuild, so that claim is treated as doubtful and no 18th-century change is shown.',
+      "Yr eglwys â chorff dwbl a'i thŵr gorllewinol, y tŵr â bylchfuriau sy'n dal i sefyll. Mae'r ffynonellau'n gwahaniaethu ar ddyddiad y tŵr: mae Coflein yn rhoi'r 15fed ganrif a thua 1600, felly fe'i dangosir o 1600. Ni chofnodwyd maint y cyrff. Mae un ffynhonnell yn dweud i'r eglwys gael ei hailadeiladu'n sylweddol yn gynnar yn y 18fed ganrif; dim ond ailadeiladu 1848 y mae cofnod manylach Coflein yn ei ddisgrifio, felly ystyrir yr honiad hwnnw'n amheus ac ni ddangosir newid yn y 18fed ganrif.",
       ['victorian:S23', 'medieval:S3'],
     ),
     place: 'llandeilo',
@@ -296,12 +301,12 @@ export const FEATURES: readonly Feature[] = [
     id: 'dinefwr-rhys',
     kind: { type: 'building', plan: DINEFWR_RHYS, condition: 'standing' },
     at: DINEFWR_CASTLE,
-    from: ad(1163),
+    from: ad(1151),
     to: ad(1220),
     label: { en: 'Dinefwr, the Lord Rhys’s castle', cy: 'Dinefwr, castell yr Arglwydd Rhys' },
     provenance: reconstructed(
-      'The Lord Rhys founded the first castle here with archaeological evidence after 1163, “a castle in the new style”. Its form is not known: it is drawn on the later plan, two enclosures cut off by rock-cut ditches, with lower walls, a hall and a timber fence, and no great tower. The masonry that survives is later, so the end date is approximate.',
-      "Sefydlodd yr Arglwydd Rhys y castell cyntaf yma y mae tystiolaeth archaeolegol iddo ar ôl 1163, “castell yn y dull newydd”. Ni wyddys ei ffurf: fe'i darlunnir ar y cynllun diweddarach, dau glos wedi'u torri i ffwrdd gan ffosydd yn y graig, gyda muriau is, neuadd a ffens bren, a dim tŵr mawr. Mae'r gwaith maen sydd wedi goroesi yn ddiweddarach, felly bras yw'r dyddiad gorffen.",
+      'A castle is first recorded here in 1151; the Lord Rhys later began “a castle in the new style”, after his peace with Henry II in 1171–72. Its form is not known: it is drawn on the later plan, two enclosures cut off by rock-cut ditches, with lower walls, a hall and a timber fence, and no great tower. The masonry that survives is later, so the end date is approximate.',
+      "Cofnodir castell yma gyntaf yn 1151; yn ddiweddarach dechreuodd yr Arglwydd Rhys “gastell yn y dull newydd”, ar ôl ei heddwch â Harri II yn 1171–72. Ni wyddys ei ffurf: fe'i darlunnir ar y cynllun diweddarach, dau glos wedi'u torri i ffwrdd gan ffosydd yn y graig, gyda muriau is, neuadd a ffens bren, a dim tŵr mawr. Mae'r gwaith maen sydd wedi goroesi yn ddiweddarach, felly bras yw'r dyddiad gorffen.",
       ['timeline:S26', 'timeline:S27', 'timeline:S34', 'medieval:S12'],
     ),
     place: 'dinefwr',
@@ -315,8 +320,8 @@ export const FEATURES: readonly Feature[] = [
     label: { en: 'Dinefwr Castle', cy: 'Castell Dinefwr' },
     provenance: documented(
       ['timeline:S26', 'timeline:S27', 'medieval:S9', 'medieval:S11', 'medieval:S12'],
-      'Modelled from the descriptions: two enclosures cut off by rock-cut ditches, a high inner curtain reached through a lower walled barbican, a great round tower about 12m across, a smaller round tower at the north angle and towered lodgings on the north-east curtain. The enclosures’ size, the heights and where the great tower stands are approximate. The masonry is of the early 13th and 14th centuries, so the start date is approximate. It was still a residence under Sir Rhys ap Thomas (d. 1525) and ruinous by 1660; the end date is approximate. The layout is set on the ridge as the OS terrain shows it, with the inner ward above the cliff; where the barbican and outer enclosure lie is approximate.',
-      "Wedi'i fodelu o'r disgrifiadau: dau glos wedi'u torri i ffwrdd gan ffosydd yn y graig, llenfur mewnol uchel a gyrhaeddir drwy farbican isel â muriau, tŵr crwn mawr tua 12m ar draws, tŵr crwn llai ar yr ongl ogleddol a llety â thyrau ar y llenfur gogledd-ddwyreiniol. Bras yw maint y closydd, yr uchderau a lleoliad y tŵr mawr. Mae'r gwaith maen o ddechrau'r 13eg a'r 14eg ganrif, felly bras yw'r dyddiad dechrau. Roedd yn dal yn gartref dan Syr Rhys ap Thomas (m. 1525) ac yn adfail erbyn 1660; bras yw'r dyddiad gorffen. Mae'r cynllun wedi'i osod ar y grib fel y dengys tir yr Arolwg Ordnans, gyda'r ward fewnol uwchben y clogwyn; bras yw lleoliad y barbican a'r clos allanol.",
+      'Modelled from the descriptions: two enclosures cut off by rock-cut ditches, a high inner curtain reached through a lower walled barbican, a great round tower about 12m across, a smaller round tower at the north angle and towered lodgings on the north-east curtain. The enclosures’ size, the heights and where the great tower stands are approximate. The masonry is of the 13th and earlier 14th centuries, so the start date is approximate. It was still a residence under Sir Rhys ap Thomas (d. 1525) and ruinous by 1660; the end date is approximate. The layout is set on the ridge as the OS terrain shows it, with the inner ward above the cliff; where the barbican and outer enclosure lie is approximate.',
+      "Wedi'i fodelu o'r disgrifiadau: dau glos wedi'u torri i ffwrdd gan ffosydd yn y graig, llenfur mewnol uchel a gyrhaeddir drwy farbican isel â muriau, tŵr crwn mawr tua 12m ar draws, tŵr crwn llai ar yr ongl ogleddol a llety â thyrau ar y llenfur gogledd-ddwyreiniol. Bras yw maint y closydd, yr uchderau a lleoliad y tŵr mawr. Mae'r gwaith maen o'r 13eg ganrif a dechrau'r 14eg, felly bras yw'r dyddiad dechrau. Roedd yn dal yn gartref dan Syr Rhys ap Thomas (m. 1525) ac yn adfail erbyn 1660; bras yw'r dyddiad gorffen. Mae'r cynllun wedi'i osod ar y grib fel y dengys tir yr Arolwg Ordnans, gyda'r ward fewnol uwchben y clogwyn; bras yw lleoliad y barbican a'r clos allanol.",
     ),
     place: 'dinefwr',
   }),
@@ -328,7 +333,7 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'Dinefwr Castle, a ruin', cy: 'Castell Dinefwr, yn adfail' },
     provenance: documented(
-      ['timeline:S45', 'timeline:S46', 'medieval:S13', 'medieval:S12'],
+      ['timeline:S45', 'timeline:S46', 'medieval:S11', 'medieval:S12'],
       'The great round tower survives as a two-storey stump. How high the other walls stand is approximate.',
       "Mae'r tŵr crwn mawr wedi goroesi fel bonyn deulawr. Bras yw uchder y muriau eraill.",
     ),
@@ -347,7 +352,7 @@ export const FEATURES: readonly Feature[] = [
     provenance: reconstructed(
       'The top of the great tower was replaced by a summerhouse, whose remains still sit on the stump. Its date is disputed: one source gives 1660 and says it burned in the 18th century, others call it 17th/18th or 18th/19th century. It is shown from 1660, and its form is approximate.',
       "Rhoddwyd tŷ haf yn lle pen y tŵr mawr, ac mae ei weddillion yn dal ar y bonyn. Mae dadl am ei ddyddiad: mae un ffynhonnell yn rhoi 1660 ac yn dweud iddo losgi yn y 18fed ganrif, mae eraill yn ei alw'n 17eg/18fed neu'n 18fed/19eg ganrif. Fe'i dangosir o 1660, a bras yw ei ffurf.",
-      ['medieval:S11', 'medieval:S12', 'medieval:S13', 'victorian:S25'],
+      ['medieval:S11', 'medieval:S12', 'victorian:S25'],
     ),
     place: 'dinefwr',
   }),
@@ -380,8 +385,8 @@ export const FEATURES: readonly Feature[] = [
     },
     provenance: documented(
       ['medieval:S24', 'medieval:S25', 'medieval:S26', 'timeline:S37'],
-      'John Giffard built the inner ward and gatehouse first. Modelled from the measured description: an upper ward about 32m by 28m, curtains up to 2.8m thick on the east and north and thinner above the cliffs to the south and west, a round north-west tower 8m across, a north-east tower about 9m square, the south-east Chapel Tower and a gatehouse between two octagonal towers. Heights, the gatehouse’s side and the hall range’s place are approximate, and so is the date the outer ward began. The masonry is dated 1287–1321 by Coflein, although the castle was granted to Giffard in 1283. The layout is approximate, with the outer ward on the gentler north and east slopes.',
-      "Adeiladodd John Giffard y ward fewnol a'r porthdy yn gyntaf. Wedi'i fodelu o'r disgrifiad mesuredig: ward uchaf tua 32m wrth 28m, llenfuriau hyd at 2.8m o drwch ar y dwyrain a'r gogledd ac yn deneuach uwchben y clogwyni i'r de a'r gorllewin, tŵr crwn gogledd-orllewinol 8m ar draws, tŵr gogledd-ddwyreiniol tua 9m sgwâr, Tŵr y Capel yn y de-ddwyrain a phorthdy rhwng dau dŵr wythonglog. Bras yw'r uchderau, ochr y porthdy a lleoliad y neuadd, a'r dyddiad y dechreuwyd y ward allanol hefyd. Mae Coflein yn dyddio'r gwaith maen i 1287–1321, er i'r castell gael ei roi i Giffard yn 1283. Bras yw'r cynllun, gyda'r ward allanol ar lethrau mwynach y gogledd a'r dwyrain.",
+      'John Giffard built the inner ward and gatehouse first. Modelled from the measured description: an upper ward about 32m by 28m, curtains up to 2.8m thick on the east and north and thinner above the cliffs to the south and west, a round north-west tower 8m across, a polygonal north-east tower about 9m across, a small square tower at the south-east corner, a chapel tower in the middle of the east curtain, and a gatehouse between two half-octagonal towers. Heights, the gatehouse’s side and the hall range’s place are approximate, and so is the date the outer ward began. The masonry is dated 1287–1321 by Coflein, although the castle was granted to Giffard in 1283. The layout is approximate, with the outer ward on the gentler north and east slopes.',
+      "Adeiladodd John Giffard y ward fewnol a'r porthdy yn gyntaf. Wedi'i fodelu o'r disgrifiad mesuredig: ward uchaf tua 32m wrth 28m, llenfuriau hyd at 2.8m o drwch ar y dwyrain a'r gogledd ac yn deneuach uwchben y clogwyni i'r de a'r gorllewin, tŵr crwn gogledd-orllewinol 8m ar draws, tŵr amlochrog gogledd-ddwyreiniol tua 9m ar draws, tŵr sgwâr bach yn y gornel dde-ddwyreiniol, tŵr capel yng nghanol y llenfur dwyreiniol, a phorthdy rhwng dau dŵr hanner-wythonglog. Bras yw'r uchderau, ochr y porthdy a lleoliad y neuadd, a'r dyddiad y dechreuwyd y ward allanol hefyd. Mae Coflein yn dyddio'r gwaith maen i 1287–1321, er i'r castell gael ei roi i Giffard yn 1283. Bras yw'r cynllun, gyda'r ward allanol ar lethrau mwynach y gogledd a'r dwyrain.",
     ),
     place: 'carreg-cennen',
   }),
@@ -417,16 +422,44 @@ export const FEATURES: readonly Feature[] = [
     place: 'carreg-cennen',
   }),
   feature({
+    id: 'dryslwyn-first',
+    kind: { type: 'building', plan: DRYSLWYN_FIRST, condition: 'standing' },
+    at: DRYSLWYN_CASTLE,
+    from: ad(1225),
+    to: ad(1250),
+    label: { en: 'Dryslwyn Castle, the first ward', cy: 'Castell Dryslwyn, y ward gyntaf' },
+    provenance: documented(
+      ['models:S1', 'models:S3', 'models:S4', 'models:S6', 'medieval:S21'],
+      'The first castle, built by Rhys Gryg in the 1220s: a polygonal walled court on the summit with a round keep about 12m across on its east side, beside the gate, and a great hall on the south side. The shape follows the hilltop as the OS terrain shows it; heights are approximate, and so is the date the middle ward was added.',
+      "Y castell cyntaf, a godwyd gan Rys Gryg yn yr 1220au: clos amlochrog â mur o'i amgylch ar y copa, gyda gorthwr crwn tua 12m ar draws ar ei ochr ddwyreiniol, wrth y porth, a neuadd fawr ar yr ochr ddeheuol. Mae'r siâp yn dilyn pen y bryn fel y dengys tir yr Arolwg Ordnans; bras yw'r uchderau, a'r dyddiad yr ychwanegwyd y ward ganol hefyd.",
+    ),
+    place: 'dryslwyn',
+  }),
+  feature({
+    id: 'dryslwyn-two-wards',
+    kind: { type: 'building', plan: DRYSLWYN_TWO_WARDS, condition: 'standing' },
+    at: DRYSLWYN_CASTLE,
+    from: ad(1250),
+    to: ad(1280),
+    label: { en: 'Dryslwyn Castle, with its middle ward', cy: 'Castell Dryslwyn, gyda’i ward ganol' },
+    provenance: documented(
+      ['models:S1', 'models:S3', 'models:S4', 'models:S5', 'models:S6'],
+      'A middle ward was added on the north-east slope in the mid-13th century, and a great chamber beside the hall. Who built it is contested: Maredudd ap Rhys (Cadw listing) or Rhys ap Maredudd (medievalheritage). Coflein dates both outer courts to the later 13th century, against the Cadw plan’s mid-13th century for this one. Its size is about 55m by 30m measured from the Cadw plan, against 70m by 30m in the same site’s text; and the overall size measured from the plan (about 119m by 107m) does not fit the ward sizes, which add up to a longer castle. It is drawn from the ward sizes, larger like every landmark; the dates of this phase are approximate.',
+      "Ychwanegwyd ward ganol ar lethr y gogledd-ddwyrain yng nghanol y 13eg ganrif, a siambr fawr wrth y neuadd. Mae dadl ynghylch pwy a'i cododd: Maredudd ap Rhys (rhestriad Cadw) neu Rhys ap Maredudd (medievalheritage). Mae Coflein yn dyddio'r ddau glos allanol i ddiwedd y 13eg ganrif, yn erbyn canol y 13eg ganrif ar gynllun Cadw ar gyfer hwn. Mae ei maint tua 55m wrth 30m wedi'i fesur o gynllun Cadw, yn erbyn 70m wrth 30m yn nhestun yr un wefan; ac nid yw'r maint cyffredinol a fesurwyd o'r cynllun (tua 119m wrth 107m) yn cyd-fynd â maint y wardiau, sy'n adio i gastell hirach. Fe'i darlunnir o faint y wardiau, yn fwy fel pob tirnod; bras yw dyddiadau'r cyfnod hwn.",
+    ),
+    place: 'dryslwyn',
+  }),
+  feature({
     id: 'dryslwyn-castle',
     kind: { type: 'building', plan: DRYSLWYN, condition: 'standing' },
     at: DRYSLWYN_CASTLE,
-    from: ad(1225),
+    from: ad(1280),
     to: ad(1430),
     label: { en: 'Dryslwyn Castle', cy: 'Castell Dryslwyn' },
     provenance: documented(
-      ['medieval:S21', 'medieval:S22', 'timeline:S13'],
-      'Three wards on a polygonal plan that follows the hilltop, unique among native Welsh castles: a round keep with a flared base, a curtain, a great hall with its kitchen, a small room that may have been a prison, and a gatehouse. The wards are laid along the ridge as the OS terrain shows it; their size, and when each was added, are not in our research. Built in the 1220s; when it fell out of use is not in our research yet, so the end date is approximate.',
-      "Tair ward ar gynllun amlochrog sy'n dilyn pen y bryn, yn unigryw ymysg cestyll brodorol Cymru: gorthwr crwn â gwaelod ar ledu, llenfur, neuadd fawr a'i chegin, ystafell fach a allai fod yn garchar, a phorthdy. Mae'r wardiau wedi'u gosod ar hyd y grib fel y dengys tir yr Arolwg Ordnans; nid yw eu maint, na phryd yr ychwanegwyd pob un, yn ein hymchwil. Codwyd yn yr 1220au; nid yw pryd y peidiodd â chael ei ddefnyddio yn ein hymchwil eto, felly bras yw'r dyddiad gorffen.",
+      ['models:S1', 'models:S3', 'models:S4', 'models:S6', 'medieval:S21', 'medieval:S22'],
+      'Three wards, unique among native Welsh castles. The outer ward, running north-north-east to a gatehouse at its north end over a ditch, an apartment block outside the south curtain and a chapel tower at the south-east corner were added in the later 13th century, probably by Rhys ap Maredudd after 1271, so the castle besieged in 1287 had all three wards. Coflein and the Cadw listing say this was Welsh work before 1287; medievalheritage names no builder and records repairs after the siege. It is drawn from about 1280 (the Cadw listing says perhaps after the war of 1282–3), and decommissioned in the early 15th century; both dates are approximate.',
+      "Tair ward, yn unigryw ymysg cestyll brodorol Cymru. Ychwanegwyd y ward allanol, sy'n rhedeg i'r gogledd-gogledd-ddwyrain at borthdy yn ei phen gogleddol dros ffos, bloc o ystafelloedd y tu allan i'r llenfur deheuol a thŵr capel yn y gornel dde-ddwyreiniol yn ddiweddarach yn y 13eg ganrif, gan Rys ap Maredudd ar ôl 1271 mae'n debyg, felly roedd gan y castell dan warchae yn 1287 y tair ward. Mae Coflein a rhestriad Cadw yn dweud mai gwaith Cymreig cyn 1287 oedd hwn; nid yw medievalheritage yn enwi adeiladydd ac mae'n cofnodi atgyweirio ar ôl y gwarchae. Fe'i darlunnir o tua 1280 (mae rhestriad Cadw yn dweud efallai ar ôl rhyfel 1282–3), ac fe'i datgomisiynwyd yn gynnar yn y 15fed ganrif; bras yw'r ddau ddyddiad.",
     ),
     place: 'dryslwyn',
   }),
@@ -449,12 +482,46 @@ export const FEATURES: readonly Feature[] = [
     kind: { type: 'building', plan: TALLEY, condition: 'standing' },
     at: TALLEY_ABBEY,
     from: ad(1185),
-    to: ad(1537),
+    to: ad(1536),
     label: { en: 'Talley Abbey', cy: 'Abaty Talyllychau' },
     provenance: documented(
-      ['medieval:S17', 'medieval:S18', 'medieval:S19'],
-      'Modelled from the plan: a cruciform church designed about 73m long, with a crossing tower about 29m high on four pillars, transepts each opening into three chapels, and a chancel with three tall pointed windows. Only the east end was finished; the nave stops at its footings, and whether any of its bays stood is not in our research. The cloister was about 23m square, with ranges to the east, south and west. Widths and heights of the ranges are approximate. It was dissolved in the 1530s; the exact year is not in our research. The church is drawn east–west with the cloister to the south, the usual arrangement; its exact line, the widths and the crossing tower’s roof are approximate.',
-      "Wedi'i fodelu o'r cynllun: eglwys ar ffurf croes a gynlluniwyd tua 73m o hyd, gyda thŵr croesi tua 29m o uchder ar bedair colofn, croesfeydd sy'n agor i dri chapel yr un, a changell â thair ffenestr bigfain uchel. Dim ond y pen dwyreiniol a orffennwyd; mae'r corff yn gorffen wrth ei sylfeini, ac nid yw a safodd unrhyw rai o'i gilfachau yn ein hymchwil. Roedd y clawstr tua 23m sgwâr, gydag adeiladau i'r dwyrain, y de a'r gorllewin. Bras yw lled ac uchder yr adeiladau hynny. Fe'i diddymwyd yn yr 1530au; nid yw'r union flwyddyn yn ein hymchwil. Mae'r eglwys wedi'i darlunio o'r dwyrain i'r gorllewin â'r clawstr i'r de, y trefniant arferol; bras yw ei hunion linell, y lledau a tho'r tŵr croesi.",
+      ['models:S10', 'models:S12', 'models:S13', 'models:S16', 'models:S17', 'medieval:S19'],
+      'Modelled from the Cadw-derived plans. Designed as an aisled cruciform church about 73m long, it was finished in a shorter form, probably in the earlier 13th century: about 49m, with a four-bay nave, an aisle on the south side only and a solid north wall on the arcade line. The four western bays never rose above their footings. A crossing tower about 29m high on four piers, transepts each opening into three chapels, a square-ended presbytery with three tall east windows, and a cloister about 23m across to the south with ranges round it. Widths are measured from the plans; heights and the ranges’ size are approximate, and the church is drawn due east–west. Dissolved in 1536.',
+      "Wedi'i fodelu o'r cynlluniau sy'n seiliedig ar rai Cadw. Fe'i cynlluniwyd fel eglwys ar ffurf croes ag eiliau, tua 73m o hyd, ond fe'i gorffennwyd ar ffurf fyrrach, yn gynnar yn y 13eg ganrif mae'n debyg: tua 49m, gyda chorff pedair cilfach, eil ar yr ochr ddeheuol yn unig a mur gogleddol solet ar linell yr arcêd. Ni chododd y pedair cilfach orllewinol uwchlaw eu sylfeini. Tŵr croesi tua 29m o uchder ar bedair colofn, croesfeydd sy'n agor i dri chapel yr un, cangell sgwâr ei phen â thair ffenestr ddwyreiniol uchel, a chlawstr tua 23m ar draws i'r de gydag adeiladau o'i gwmpas. Mesurwyd y lledau o'r cynlluniau; bras yw'r uchderau a maint yr adeiladau, ac mae'r eglwys wedi'i darlunio o'r dwyrain i'r gorllewin yn union. Fe'i diddymwyd yn 1536.",
+    ),
+    place: 'talley',
+  }),
+  feature({
+    id: 'talley-parish-church',
+    kind: { type: 'building', plan: TALLEY_PARISH, condition: 'standing' },
+    at: TALLEY_ABBEY,
+    from: ad(1536),
+    to: ad(1773),
+    label: {
+      en: 'Talley parish church, in the abbey’s east end',
+      cy: 'Eglwys plwyf Talyllychau, ym mhen dwyreiniol yr abaty',
+    },
+    provenance: reconstructed(
+      'After the Dissolution in 1536 the choir and presbytery were kept as the parish church until St Michael’s was built in 1772–3 (Coflein). Sources differ on how much was used: another Coflein record says the church was 150ft long in 1710, nearly the whole shortened church. It is drawn as the roofed east end and crossing tower; whether the tower stood whole all that time is not known.',
+      "Ar ôl y Diddymiad yn 1536 cadwyd y côr a'r gangell yn eglwys y plwyf nes codi eglwys Mihangel yn 1772–3 (Coflein). Mae'r ffynonellau'n gwahaniaethu ar faint a ddefnyddiwyd: mae cofnod Coflein arall yn dweud bod yr eglwys yn 150 troedfedd o hyd yn 1710, bron yr eglwys fyrrach gyfan. Fe'i darlunnir fel y pen dwyreiniol â tho a'r tŵr croesi; ni wyddys a safodd y tŵr yn gyfan drwy'r holl amser hwnnw.",
+      ['models:S10', 'models:S11', 'models:S12'],
+    ),
+    place: 'talley',
+  }),
+  feature({
+    id: 'talley-abandoned',
+    kind: { type: 'building', plan: TALLEY_ABANDONED, condition: 'ruin' },
+    at: TALLEY_ABBEY,
+    from: ad(1536),
+    to: ad(1773),
+    label: {
+      en: 'Talley Abbey, the abandoned nave and cloister',
+      cy: 'Abaty Talyllychau, y corff a’r clawstr wedi’u gadael',
+    },
+    provenance: reconstructed(
+      'The nave, transepts and cloister ranges fell out of use at the Dissolution while the east end served the parish. How fast they decayed is not known, so their heights are approximate.',
+      "Peidiwyd â defnyddio'r corff, y croesfeydd ac adeiladau'r clawstr adeg y Diddymiad tra oedd y pen dwyreiniol yn gwasanaethu'r plwyf. Ni wyddys pa mor gyflym y dadfeiliasant, felly bras yw eu huchder.",
+      ['models:S10', 'models:S12'],
     ),
     place: 'talley',
   }),
@@ -462,16 +529,16 @@ export const FEATURES: readonly Feature[] = [
     id: 'talley-ruin',
     kind: { type: 'building', plan: TALLEY, condition: 'ruin' },
     at: TALLEY_ABBEY,
-    from: ad(1537),
+    from: ad(1773),
     to: NOW,
     label: {
       en: 'Talley Abbey, quarried for the village',
       cy: 'Abaty Talyllychau, wedi’i chwarela ar gyfer y pentref',
     },
     provenance: documented(
-      ['medieval:S18', 'medieval:S19', 'timeline:S38'],
-      'Two walls of the crossing tower survive to about 26m; much of the rest was quarried to build the village. Which two walls, and the height of the low walls, are approximate.',
-      "Mae dau fur o'r tŵr croesi wedi goroesi i tua 26m; chwarelwyd llawer o'r gweddill i godi'r pentref. Bras yw pa ddau fur, ac uchder y muriau isel.",
+      ['models:S10', 'models:S15', 'models:S16', 'medieval:S18', 'timeline:S38'],
+      'The north and east walls of the crossing tower survive to about 26m; much of the rest was quarried, St Michael’s church of 1772–3 among it, and part of the walls fell in 1845. Most surviving walls stand about 1.5m or less; the heights of the low walls are approximate.',
+      "Mae muriau gogleddol a dwyreiniol y tŵr croesi wedi goroesi i tua 26m; chwarelwyd llawer o'r gweddill, gan gynnwys ar gyfer eglwys Mihangel yn 1772–3, a chwympodd rhan o'r muriau yn 1845. Mae'r rhan fwyaf o'r muriau sy'n weddill tua 1.5m neu lai; bras yw uchder y muriau isel.",
     ),
     place: 'talley',
   }),
@@ -640,7 +707,7 @@ export const FEATURES: readonly Feature[] = [
     label: { en: 'Llandeilo, a Georgian market town', cy: 'Llandeilo, tref farchnad Sioraidd' },
     provenance: reconstructed(
       'The size is a guess below the 1858 count. Buildings use today’s OS footprints nearest the church, so the layout is approximate.',
-      "Dyfaliad yw'r maint, yn llai na chyfrif 1858. Mae'r adeiladau'n defnyddio amlinellau adeiladau'r Arolwg Ordnans heddiw agosaf at yr eglwys.",
+      "Dyfaliad yw'r maint, yn llai na chyfrif 1858. Mae'r adeiladau'n defnyddio amlinellau adeiladau'r Arolwg Ordnans heddiw agosaf at yr eglwys, felly bras yw'r cynllun.",
       ['victorian:S39'],
     ),
     place: 'llandeilo',
@@ -657,7 +724,7 @@ export const FEATURES: readonly Feature[] = [
     },
     provenance: reconstructed(
       'The 1858 count is documented. Buildings use today’s OS footprints nearest the church, so which buildings stood then is approximate.',
-      "Mae cyfrif 1858 wedi'i gofnodi. Mae'r adeiladau'n defnyddio amlinellau adeiladau'r Arolwg Ordnans heddiw agosaf at yr eglwys.",
+      "Mae cyfrif 1858 wedi'i gofnodi. Mae'r adeiladau'n defnyddio amlinellau adeiladau'r Arolwg Ordnans heddiw agosaf at yr eglwys, felly bras yw pa adeiladau oedd yn sefyll bryd hynny.",
       ['timeline:S55', 'timeline:S20'],
     ),
     place: 'llandeilo',

@@ -123,6 +123,7 @@ anything else"). What goes where:
 | A research outcome, a correction, a source contradiction | [`docs/research/findings.md`](docs/research/findings.md) and the topic note |
 | An unanswered question or gap | [`docs/research/open-questions.md`](docs/research/open-questions.md) |
 | A milestone, a bug that taught something, a dead end, a gotcha | [`docs/process/build-log.md`](docs/process/build-log.md) |
+| What a release changed, for family and visitors | [`docs/process/releases.md`](docs/process/releases.md), published as the GitHub release |
 | A measurement (performance, bundle size) | The Performance numbers line in this file, with the date |
 | An idea or proposal not yet agreed | [`docs/design/`](docs/design/README.md) and its ideas board |
 | Agreed work not yet done, and suggestions from GitHub issues | [`docs/todos/_index.md`](docs/todos/_index.md), the one todo file ([ADR 0022](docs/adr/0022-one-todo-file.md)) |
@@ -294,6 +295,19 @@ CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*
     visible there, not only locally.
   - **Commit and push regularly**: small, coherent commits at each green state, pushed to `main`
     straight away. Pushing to `main` is pre-approved for this repo.
+  - **Release at each visible milestone, with release notes** (Dewi, 2026-10-02: "at sensible
+    intervals I want there to be a 'release' with release notes"; he chose milestones, and that Claude
+    publishes them, [ADR 0025](docs/adr/0025-releases-at-visible-milestones.md)). A milestone is a set
+    of changes he would notice in the app (a feature, a rebuilt model set, a batch of corrections),
+    landed on `main` with CI and the deploy green. Then: bump `version` in `package.json` (the one
+    place it lives; minor for features, patch for corrections only), add the notes at the top of
+    [`docs/process/releases.md`](docs/process/releases.md), commit, tag `v<version>`, push, and
+    publish the GitHub release from that same section (`gh release create`), so the notes exist once.
+    The notes are for family and visitors: what is new or corrected in the app, in plain words, with
+    the corrections to history called out, not commit messages. **Include screenshots** (Dewi,
+    2026-10-02) of what changed, at the years that show it, saved under
+    `docs/images/releases/v<version>/`, embedded in `releases.md` and attached to the GitHub release.
+    Publishing releases is pre-approved; tell Dewi the link.
 - **Ask Dewi before fanning out parallel agents or worktrees** (Dewi, 2026-09-28: "ask me first
   before you do this, as sometimes I wanna not use all my tokens"). Say what you would run, how many
   agents and roughly what it costs, and wait for a yes. The one standing exception is the single

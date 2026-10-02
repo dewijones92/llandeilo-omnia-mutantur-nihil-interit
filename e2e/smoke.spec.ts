@@ -452,3 +452,30 @@ test('the keys panel opens with ? or its button, and closes with Escape, in both
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('.tl-counter')).not.toHaveText(before ?? '');
 });
+
+test('place labels never overlap one another on the overview', async ({ page }) => {
+  await page.goto('./?year=74');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.label').filter({ visible: true }).first()).toBeVisible();
+  const clashes = async (): Promise<string[]> =>
+    page.evaluate(() => {
+      const shown = [...document.querySelectorAll<HTMLElement>('.label')]
+        .filter((el) => el.style.display !== 'none')
+        .map((el) => ({ text: el.textContent, r: el.getBoundingClientRect() }));
+      const out: string[] = [];
+      shown.forEach((a, i) => {
+        for (const b of shown.slice(i + 1)) {
+          if (a.r.left < b.r.right && a.r.right > b.r.left && a.r.top < b.r.bottom && a.r.bottom > b.r.top)
+            out.push(`${a.text} / ${b.text}`);
+        }
+      });
+      return out;
+    });
+  await expect.poll(clashes).toEqual([]);
+  // At a key date the label of the moment's own place wins any clash.
+  await page.goto('./?year=1172');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.moment-place')).toHaveText('Dinefwr');
+  await expect(page.locator('.label', { hasText: /^Dinefwr/ })).toBeVisible();
+  await expect.poll(clashes).toEqual([]);
+});

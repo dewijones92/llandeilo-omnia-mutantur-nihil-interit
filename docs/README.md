@@ -2,7 +2,7 @@
 title: Knowledge base map
 kind: index
 status: current
-updated: 2026-10-01
+updated: 2026-10-02
 ---
 
 # Knowledge base
@@ -24,6 +24,7 @@ showing it. Everything here is plain markdown so it outlives any particular app.
 | [`adr/`](adr/README.md) | Architecture decision records: one per technical decision, with context, consequences and rejected options |
 | [`process/decision-log.md`](process/decision-log.md) | How and why each product and content decision was made, dated |
 | [`process/build-log.md`](process/build-log.md) | Milestones, what broke, and what we learned |
+| [`process/releases.md`](process/releases.md) | Release notes for each version, newest first, for family and visitors |
 | [`design/`](design/README.md) | Design guides and the ideas board (proposed, not yet agreed) |
 | [`todos/`](todos/_index.md) | The one todo file: agreed and proposed work, and suggestions from GitHub issues |
 | [`tests/_index.md`](tests/_index.md) | Testing strategy and what is covered |

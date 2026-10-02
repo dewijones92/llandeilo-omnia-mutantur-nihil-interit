@@ -89,6 +89,10 @@ Coflein NPRN 100682, **SN 55387 20288** [S1]; the app point (255390, 220294) is 
 | Borough | On the lower summit north and north-east of the castle [S1][S2][S3]. Ditch about 5m wide and 2.5m deep, a stone wall, a west gatehouse [S3]; two gates [S2]. 34 burgages inside by the mid-14th century and 14 outside in "Briggestrete" [S2]; at least 34 houses [S3]. Houses 10-11m long and 4.6m wide, stone footings with timber-framed upper walls [S3] | [S2][S3] | High (burgages); medium (house size) |
 | Ruin today | Inner curtain survives "at no more than 1m high"; middle and outer wards only near their gates [S6]. "Otherwise the castle is mostly reduced to footings" [S1] | [S1][S6] | High |
 
+**Overall size against ward sizes** (found by the second review, 2026-10-02): the whole castle is
+measured at about 119 x 107m, but the middle ward (55m to the north-east) and the outer ward (60m to
+the north-north-east) add up to roughly 102 x 132m. The app draws the ward sizes and says so.
+
 **Contradictions.** Middle ward builder: Maredudd ap Rhys [S6] or Rhys ap Maredudd [S3]. Middle
 ward size: 70 x 30m in text [S3] against about 55 x 30m measured from the same site's plan [S5]
 (the text may include the walls running down to the outer gate). Borough walls: after 1287 [S1] or

@@ -112,7 +112,7 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     ...IRON,
     'homes',
     'Roundhouses: a timber frame, wattle-and-daub or stone-footed walls, a conical thatched roof, and usually one door facing east or south-east. Castell Henllys gives real diameters of 6–10m.',
-    "Tai crwn: ffrâm bren, waliau plethwaith a chlai neu sylfeini cerrig, to gwellt crwn, ac un drws fel arfer yn wynebu'r dwyrain neu'r de-ddwyrain.",
+    "Tai crwn: ffrâm bren, waliau plethwaith a chlai neu sylfeini cerrig, to gwellt crwn, ac un drws fel arfer yn wynebu'r dwyrain neu'r de-ddwyrain. Mae Castell Henllys yn rhoi diamedrau go iawn o 6–10m.",
     rec(
       'General Britain, with Castell Henllys dimensions.',
       'Prydain yn gyffredinol, gyda mesuriadau Castell Henllys.',
@@ -125,7 +125,7 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     ...IRON,
     'religion',
     'Most of what is said about druids comes from Tacitus, a Roman writing about the attack on Anglesey. Real offerings of weapons and chariots were placed in the lake at Llyn Cerrig Bach.',
-    "Daw'r rhan fwyaf o'r hyn a ddywedir am dderwyddon gan Tacitus, Rhufeiniwr yn ysgrifennu am yr ymosodiad ar Fôn. Rhoddwyd offrymau go iawn yn Llyn Cerrig Bach.",
+    "Daw'r rhan fwyaf o'r hyn a ddywedir am dderwyddon gan Tacitus, Rhufeiniwr yn ysgrifennu am yr ymosodiad ar Fôn. Rhoddwyd offrymau go iawn o arfau a cherbydau rhyfel yn y llyn yn Llyn Cerrig Bach.",
     rec(
       'North Wales evidence; local practice is not known.',
       'Tystiolaeth o ogledd Cymru; ni wyddys beth oedd yr arfer lleol.',
@@ -162,8 +162,8 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     ad(700),
     ad(1100),
     'religion',
-    'Llandeilo Fawr is a clas, a church community under an abbot, and by the early 9th century the seat of a bishop-abbot (one source).',
-    "Mae Llandeilo Fawr yn glas, cymuned eglwysig dan abad, ac erbyn dechrau'r 9fed ganrif yn sedd esgob-abad (un ffynhonnell).",
+    'Llandeilo Fawr is a clas, a church community under an abbot, the centre of a bishopric by the 8th century, with a bishop recorded in the 9th (one source).',
+    "Mae Llandeilo Fawr yn glas, cymuned eglwysig dan abad, yn ganolfan esgobaeth erbyn yr 8fed ganrif, gydag esgob wedi'i gofnodi yn y 9fed (un ffynhonnell).",
     doc('medieval:S1', 'medieval:S2'),
   ),
   entry(
@@ -180,14 +180,9 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     ad(1100),
     ad(1400),
     'food',
-    'Oats and dairy (milk, cheese and butter) are the core of the Welsh diet, according to Gerald of Wales, who toured in 1188.',
-    'Ceirch a llaeth, caws a menyn yw craidd deiet y Cymry, yn ôl Gerallt Gymro, a deithiodd yma yn 1188.',
-    rec(
-      'Gerald of Wales’s account, known here through a summary that has not been re-read against his text.',
-      'Adroddiad Gerallt Gymro, drwy grynodeb nad yw wedi’i ddarllen eto yn erbyn ei destun.',
-      'medieval:S44',
-      'medieval:S41',
-    ),
+    'Almost all the Welsh live on their herds, with oats, milk, cheese and butter, eating more meat than bread, according to Gerald of Wales, who toured Wales in 1188.',
+    'Mae bron pob un o’r Cymry’n byw ar eu gyrroedd, gyda cheirch, llaeth, caws a menyn, gan fwyta mwy o gig na bara, yn ôl Gerallt Gymro, a deithiodd o gwmpas Cymru yn 1188.',
+    doc('medieval:S53'),
   ),
   entry(
     'medieval-money',
@@ -260,7 +255,7 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     ad(1844),
     'money',
     'Carting lime to improve the land means crossing three turnpike trusts, with tolls reported at 30% of the cost of the lime itself.',
-    "Mae cario calch i wella'r tir yn golygu croesi tair ymddiriedolaeth dyrpeg, gyda'r tollau'n 30% o gost y calch ei hun.",
+    "Mae cario calch i wella'r tir yn golygu croesi tair ymddiriedolaeth dyrpeg, gyda'r tollau, yn ôl adroddiadau, yn 30% o gost y calch ei hun.",
     doc('victorian:S7'),
   ),
   entry(
@@ -268,7 +263,7 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     ...VICTORIAN,
     'travel',
     'Before 1857, Llandeilo is reached by road. From January 1857 the railway runs to Llanelli, and from April 1858 on to Llandovery.',
-    "Cyn 1857, ar y ffordd yn unig y ceir i Landeilo. O fis Ionawr 1857 mae'r rheilffordd yn rhedeg i Lanelli, ac o Ebrill 1858 ymlaen i Lanymddyfri.",
+    "Cyn 1857, ar y ffordd y ceir i Landeilo. O fis Ionawr 1857 mae'r rheilffordd yn rhedeg i Lanelli, ac o Ebrill 1858 ymlaen i Lanymddyfri.",
     doc('victorian:S29', 'victorian:S31'),
   ),
   entry(
@@ -319,7 +314,7 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     ad(2026),
     'nature',
     'The Tywi is reputed to produce more big sewin (sea trout) than any other British river, and is still fished from coracles.',
-    "Mae'r Tywi yn enwog am gynhyrchu mwy o sewin mawr nag unrhyw afon arall ym Mhrydain, ac mae'n dal i gael ei physgota o gyryglau.",
+    "Dywedir bod y Tywi yn cynhyrchu mwy o sewin mawr nag unrhyw afon arall ym Mhrydain, ac mae'n dal i gael ei physgota o gyryglau.",
     doc('deeptime:S40', 'deeptime:S41b'),
   ),
   entry(

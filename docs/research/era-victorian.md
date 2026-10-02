@@ -2,8 +2,10 @@
 title: Late Georgian to Victorian Llandeilo (c. 1830–1901)
 kind: research
 status: draft
-updated: 2026-09-26
+updated: 2026-10-02
 ---
+
+Independently checked 2026-10-02 (see [reviews/event-effects-check-2026-10-02.md](reviews/event-effects-check-2026-10-02.md), which checked the event-effects work that found this correction); corrections applied.
 
 ## Summary
 
@@ -74,7 +76,7 @@ analogy, and what remains a genuine, flagged gap.
 | 1842–43 | County-wide agricultural depression sharpens: D.J.V. Jones's "conservative estimate" is that rents rose by at least 100% across Carmarthenshire/Cardiganshire/Pembrokeshire between 1793 and 1843, while farm produce prices fell | Carmarthenshire (regional) | documented (academic) | single-source (peer-reviewed) | [S4] |
 | 10 July 1843 | Llandilo-rwnws gate and the Mansel's Arms toll-house destroyed again; **Llanfihangel gate, "on the mail road to Llandilo, near Golden Grove, seat of Earl Cawdor," also destroyed the same night** — the clearest confirmed Rebecca gate genuinely on the approach to Llandeilo | near Golden Grove, on the Llandeilo mail road | documented | single-source (contemporary newspaper) | [S6] |
 | 11 August 1843 | *The Welshman* publishes a detailed local report: farmers taking lime to burn from Llandeilo to kilns six miles away pass through **three toll bars** (Ffairfach; a second gate one mile out on the Llandovery side, whose name is uncertain in the OCR'd source; and Rhydyffynnon near the kilns), crossing **three separate, uncoordinated trusts** (the Main Trust, the Llandebie Trust, the Three Commotts Trust); toll burden estimated at 30% of the lime's cost. Names two reformist local landlords: Rev. Mr Pugh (rector, returned half his tithe) and David Pugh (chairman of quarter sessions, returned 20% of tenants' rents) | Llandeilo | documented (primary newspaper source) | single-source | [S7] |
-| ~4–9 August 1843 | **The Walk Gate, Llandeilo** (on the Carmarthen road, between "the Walk" and "Lower Walk") destroyed; two men captured with yeomanry assistance. Monmouthshire Merlin headline: "Destruction of the Walk Gate at Llandiloifawr" | Llandeilo | documented | single-source (contemporary newspaper), corroborated in outline by a local-history site citing 1868/1932/1986 works | [S8][S9] |
+| night of 7 to 8 August 1843 (newspapers) **or** 9 August 1843 (Jenkins's diary as transcribed) | **The Walk Gate, Llandeilo** (on the Carmarthen road, between "the Walk" and "Lower Walk") destroyed. Monmouthshire Merlin headline: "Destruction of the Walk Gate at Llandiloifawr". *Corrected 2026-10-02 (independent check)*: the row said "two men captured with yeomanry assistance"; that capture belongs to the Plain Dealings gate near Narberth, reported just before the Walk Gate item in the same Merlin column, and no capture is reported at the Walk Gate (the dragoons "found nothing there but the ruins") [effects:S8][effects:S9]. The date is now recorded side by side: The Welshman (11 August) has "Tuesday morning", i.e. the night of Monday 7 to Tuesday 8 August [effects:S8], and the Merlin (12 August) a night whose weekday is unclear in the OCR (Sunday or Monday) [effects:S9]; Jenkins's diary as transcribed, and S9 here, give 9 August [S9][S16] | Llandeilo | documented | the destruction cross-checked (two contemporary newspapers and a diary); the date contested | [S8][S9][S16][effects:S8][effects:S9] |
 | Night of 27 August 1843 | Porthyrhyd toll-house (a few miles from Llandeilo, Three Commotts Trust) demolished by 300–400 people; landlady forced to serve (paid-for) beer; shots fired at a farmer's house; an apology note sent to a nearby inn for incidental damage, offering payment | Porthyrhyd | documented (full deposition text read) | single-source | [S10] |
 | 30 August & 8 September 1843 | Wheat mows and corn stacks burned on the **Dynevor (Dinefwr) estate** itself — "not even the powerful Dynevor family could escape the wrath of Rebecca" | Dinefwr | documented (academic, citing Carmarthen Journal 1 Sept 1843 and The Welshman 15 Sept 1843) | single-source | [S4] |
 | September 1843 | Rioters dig a grave within sight of Dinefwr Castle and announce that **Colonel George Rice-Trevor** (heir to the barony, Vice-Lieutenant of Carmarthenshire) will occupy it by 10 October 1843. He survives, guarded by soldiers | Dinefwr | documented | cross-checked (three independent write-ups, though likely tracing to the same Home Office correspondence) | [S4][S11][S12] |
@@ -979,6 +981,11 @@ project's ⓘ marker; none should be presented as a real quotation from a real n
     could not be reached at all. journals.library.wales's search is JavaScript-rendered and did not
     return usable content via WebFetch. These are tooling limitations, not findings that the
     underlying sources don't exist.
+12. **The Walk Gate date** (*Corrected 2026-10-02 (independent check)*: added): the night of 7 to 8 August 1843 (The Welshman's "Tuesday
+    morning"; the Merlin's weekday is unclear in the OCR) [effects:S8][effects:S9], against 9 August
+    in Jenkins's diary as transcribed [S16] and on llandeilo.org [S9]. Both are kept; a look at the
+    Merlin page image would settle the newspapers' night. `effects:` citations point into
+    [`event-effects.md`](event-effects.md).
 
 ## Sources
 

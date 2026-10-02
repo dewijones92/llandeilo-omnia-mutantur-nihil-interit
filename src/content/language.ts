@@ -57,7 +57,7 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
         'Pawb',
         'unknown',
         'Scholars disagree whether a Celtic language was spoken in Wales this early. Some argue it spread from the Atlantic west in the Bronze Age; others place it later.',
-        'Mae ysgolheigion yn anghytuno a oedd iaith Geltaidd yn cael ei siarad yng Nghymru mor gynnar â hyn.',
+        "Mae ysgolheigion yn anghytuno a oedd iaith Geltaidd yn cael ei siarad yng Nghymru mor gynnar â hyn. Mae rhai'n dadlau iddi ledu o arfordir yr Iwerydd yn y gorllewin yn Oes yr Efydd; mae eraill yn ei gosod yn ddiweddarach.",
       ),
     ],
     {

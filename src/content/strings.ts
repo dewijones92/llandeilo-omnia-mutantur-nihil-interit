@@ -18,7 +18,7 @@ export const STRINGS = {
   timeline: { en: 'Timeline', cy: 'Llinell amser' },
   sliderHint: {
     en: 'Drag through time. Let go near a marked date to jump to it.',
-    cy: 'Llusgwch drwy amser. Gollyngwch ger dyddiad i neidio ato.',
+    cy: 'Llusgwch drwy amser. Gollyngwch ger dyddiad wedi’i farcio i neidio ato.',
   },
   documented: { en: 'Documented', cy: 'Wedi’i gofnodi' },
   reconstructed: { en: 'Reconstructed', cy: 'Wedi’i ail-greu' },

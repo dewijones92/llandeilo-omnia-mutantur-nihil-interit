@@ -71,7 +71,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
     ],
     provenance: imagined(
       'Spelt and cattle were staples of Iron Age Wales, rotary querns were in use from about 400 BC, and Y Gaer Fach next door was left unfinished part way through a rebuild. The people and their words are invented.',
-      "Roedd sbelt a gwartheg yn hanfodol yng Nghymru Oes yr Haearn, roedd breuanau cylchdro yn cael eu defnyddio o tua 400 CC, a gadawyd Y Gaer Fach drws nesaf heb ei gorffen. Mae'r bobl a'u geiriau wedi'u dyfeisio.",
+      "Roedd sbelt a gwartheg yn hanfodol yng Nghymru Oes yr Haearn, roedd breuanau cylchdro yn cael eu defnyddio o tua 400 CC, a gadawyd Y Gaer Fach drws nesaf heb ei gorffen, hanner ffordd drwy ei hailadeiladu. Mae'r bobl a'u geiriau wedi'u dyfeisio.",
       ['ironage:S27', 'ironage:S38', 'ironage:S2'],
     ),
     languageNote: {
@@ -178,9 +178,9 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ),
     ],
     provenance: imagined(
-      'In June 1282 an English force returning from sacking Carreg Cennen was ambushed near Llandeilo and William de Valence the younger was killed. No source we have read names the Welsh leader. The family, priest and poet are invented; only the poem line is real.',
-      "Ym mis Mehefin 1282 ymosodwyd ar lu Seisnig ger Llandeilo ar ei ffordd yn ôl o ysbeilio Carreg Cennen, a lladdwyd William de Valence yr ieuengaf. Does dim un ffynhonnell a ddarllenwyd gennym yn enwi arweinydd y Cymry. Mae'r teulu, yr offeiriad a'r bardd wedi'u dyfeisio; dim ond llinell y gerdd sy'n go iawn.",
-      ['medieval:S27', 'medieval:S28', 'medieval:S29', 'language:S10'],
+      'In June 1282 a plundering party from the Earl of Gloucester’s army, returning after the army re-occupied Carreg Cennen, was ambushed near Llandeilo and William de Valence the younger was killed. No chronicle names the Welsh leader. The family, priest and poet are invented; only the poem line is real.',
+      "Ym mis Mehefin 1282 ymosodwyd ger Llandeilo ar fintai ysbeilio o fyddin Iarll Caerloyw, ar ei ffordd yn ôl ar ôl i'r fyddin ailfeddiannu Carreg Cennen, a lladdwyd William de Valence yr ieuengaf. Does dim cronicl yn enwi arweinydd y Cymry. Mae'r teulu, yr offeiriad a'r bardd wedi'u dyfeisio; dim ond llinell y gerdd sy'n go iawn.",
+      ['medieval:S28', 'medieval:S29', 'language:S10'],
     ),
     languageNote: STAND_IN_WELSH(
       'Middle Welsh, which a Welsh speaker today can mostly follow',
@@ -235,7 +235,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
     ],
     provenance: imagined(
       'Llandeilo lime farmers crossed three turnpike trusts, with tolls reported at 30% of the cost of the lime; the Walk Gate on the Carmarthen road was destroyed in August 1843; dragoons were billeted at the Cawdor Arms during the unrest (exactly when they arrived is not known). The couple, the agent and their words are invented.',
-      "Croesai ffermwyr calch Llandeilo dair ymddiriedolaeth dyrpeg, gyda'r tollau'n 30% o gost y calch; dinistriwyd Gât y Walk yn Awst 1843; lletywyd dragwniaid yn y Cawdor Arms yn ystod yr helynt (ni wyddys pryd yn union y cyrhaeddon nhw). Mae'r cwpl, yr asiant a'u geiriau wedi'u dyfeisio.",
+      "Croesai ffermwyr calch Llandeilo dair ymddiriedolaeth dyrpeg, gyda'r tollau, yn ôl adroddiadau, yn 30% o gost y calch; dinistriwyd Gât y Walk ar ffordd Caerfyrddin yn Awst 1843; lletywyd dragwniaid yn y Cawdor Arms yn ystod yr helynt (ni wyddys pryd yn union y cyrhaeddon nhw). Mae'r cwpl, yr asiant a'u geiriau wedi'u dyfeisio.",
       ['victorian:S7', 'victorian:S8', 'victorian:S9', 'victorian:S16'],
     ),
     languageNote: {

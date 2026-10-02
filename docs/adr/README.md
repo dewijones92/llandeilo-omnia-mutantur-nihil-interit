@@ -56,6 +56,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0022](0022-one-todo-file.md) | One todo file, no board | Accepted, supersedes 0018 and part of 0019 and 0021 | 2026-10-01 |
 | [0023](0023-e2e-own-port-never-reused.md) | Each checkout runs e2e on its own port, and never reuses a server | Accepted | 2026-10-02 |
 | [0024](0024-place-names-carry-a-required-date.md) | Every place name carries a required date | Accepted | 2026-10-02 |
+| [0025](0025-releases-at-visible-milestones.md) | Releases at visible milestones, with notes kept in the repo | Accepted | 2026-10-02 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

@@ -459,149 +459,177 @@ export const DINEFWR_SUMMERHOUSE = landscape([
   },
 ]);
 
-export const DRYSLWYN = landscape(
-  [
-    {
-      type: 'platform',
-      face: 'turf',
-      outline: [
-        [-24, -10],
-        [-6, -15],
-        [22, -15],
-        [48, -12],
-        [62, -6],
-        [64, 6],
-        [50, 11],
-        [24, 13],
-        [-8, 14],
-        [-22, 8],
-      ],
-    },
-    {
-      type: 'wall',
-      path: [
-        [-24, -10],
-        [-6, -15],
-        [10, -11],
-        [12, 9],
-        [-8, 14],
-        [-22, 8],
-      ],
-      closed: true,
-      height: 8,
-      thickness: 2,
-      top: 'battlements',
-      material: 'rubble',
-      ruin: { stands: 0.3 },
-    },
-    {
-      type: 'tower',
-      at: [-18, 0],
-      shape: 'round',
-      size: 11,
-      height: 14,
-      batter: true,
-      top: 'battlements',
-      material: 'rubble',
-      ruin: { stands: 0.35 },
-    },
-    {
-      type: 'hall',
-      at: [-3, -8],
-      length: 16,
-      width: 7,
-      angle: 12,
-      height: 7,
-      roof: 'gable',
-      openings: [{ side: 'n', count: 4 }],
-      material: 'rubble',
-      ruin: { stands: 0.4 },
-    },
-    {
-      type: 'hall',
-      at: [5, 4],
-      length: 8,
-      width: 6,
-      angle: 0,
-      height: 5,
-      roof: 'gable',
-      material: 'rubble',
-      ruin: { stands: 0.25 },
-    },
-    {
-      type: 'hall',
-      at: [-10, 9],
-      length: 4.5,
-      width: 4,
-      angle: 15,
-      height: 4,
-      roof: 'gable',
-      material: 'rubble',
-      ruin: { stands: 0.3 },
-    },
-    {
-      type: 'tower',
-      at: [11, -1],
-      shape: 'square',
-      size: 7,
-      angle: 5,
-      height: 10,
-      top: 'battlements',
-      material: 'rubble',
-      ruin: { stands: 0.3 },
-    },
-    {
-      type: 'wall',
-      path: [
-        [10, -11],
-        [22, -15],
-        [34, -12],
-        [37, 9],
-        [24, 13],
-        [12, 9],
-      ],
-      height: 6,
-      thickness: 1.6,
-      top: 'battlements',
-      material: 'rubble',
-      ruin: { stands: 0.2 },
-    },
-    {
-      type: 'wall',
-      path: [
-        [34, -12],
-        [48, -12],
-        [62, -6],
-        [64, 6],
-        [50, 11],
-        [37, 9],
-      ],
-      height: 5,
-      thickness: 1.4,
-      top: 'battlements',
-      material: 'rubble',
-      ruin: { stands: 0.15 },
-    },
-    {
-      type: 'tower',
-      at: [63, 0],
-      shape: 'square',
-      size: 6,
-      angle: 80,
-      height: 8,
-      top: 'battlements',
-      material: 'rubble',
-      ruin: { stands: 0.2 },
-    },
-  ],
-  { angle: 40, hearth: [-3, -8] },
-);
+// Phases from building-models.md: inner ward 1220s; middle ward mid-13th century; outer ward,
+// apartment block and chapel tower late 13th century, all Welsh work before the 1287 siege.
+// The plan turns 40° anticlockwise, so plan +x points north-east and a plan bearing of 28° (the outer
+// ward) points north-north-east.
+const DRYSLWYN_INNER: readonly Part[] = [
+  {
+    type: 'platform',
+    face: 'turf',
+    outline: [
+      [-24, -10],
+      [-6, -17],
+      [14, -12],
+      [14, 10],
+      [-8, 16],
+      [-22, 8],
+    ],
+  },
+  {
+    type: 'wall',
+    path: [
+      [-24, -10],
+      [-6, -17],
+      [14, -12],
+      [14, 10],
+      [-8, 16],
+      [-22, 8],
+    ],
+    closed: true,
+    height: 8,
+    thickness: 2,
+    top: 'battlements',
+    material: 'rubble',
+    ruin: { stands: 0.12 },
+  },
+  {
+    type: 'tower',
+    at: [12, -10],
+    shape: 'round',
+    size: 12,
+    height: 14,
+    batter: true,
+    top: 'battlements',
+    material: 'rubble',
+    ruin: { stands: 0.3 },
+  },
+  {
+    type: 'hall',
+    at: [-13, -11.5],
+    length: 16,
+    width: 7,
+    angle: -21,
+    height: 7,
+    roof: 'gable',
+    openings: [{ side: 'n', count: 4 }],
+    material: 'rubble',
+    ruin: { stands: 0.35 },
+  },
+];
 
+const DRYSLWYN_MIDDLE: readonly Part[] = [
+  {
+    type: 'hall',
+    at: [-5, -7],
+    length: 7,
+    width: 6,
+    angle: 69,
+    height: 6,
+    roof: 'gable',
+    material: 'rubble',
+    ruin: { stands: 0.25 },
+  },
+  {
+    type: 'wall',
+    path: [
+      [14, -12],
+      [30, -18],
+      [50, -16],
+      [64, -8],
+      [64, 12],
+      [46, 17],
+      [26, 16],
+      [14, 10],
+    ],
+    height: 6,
+    thickness: 1.6,
+    top: 'battlements',
+    material: 'rubble',
+    ruin: { stands: 0.15 },
+  },
+];
+
+const DRYSLWYN_OUTER: readonly Part[] = [
+  {
+    type: 'hall',
+    at: [-20, -14.5],
+    length: 14,
+    width: 6,
+    angle: -21,
+    height: 8,
+    roof: 'gable',
+    openings: [{ side: 's', count: 3, rows: 2 }],
+    material: 'rubble',
+    ruin: { stands: 0.55 },
+  },
+  {
+    type: 'tower',
+    at: [-1, -16],
+    shape: 'square',
+    size: 7,
+    angle: -21,
+    height: 10,
+    top: 'battlements',
+    material: 'rubble',
+    ruin: { stands: 0.25 },
+  },
+  {
+    type: 'wall',
+    path: [
+      [64, -8],
+      [112, 14],
+      [107, 41],
+      [64, 12],
+    ],
+    height: 5,
+    thickness: 1.8,
+    top: 'battlements',
+    material: 'rubble',
+    ruin: { stands: 0.12 },
+  },
+  {
+    type: 'tower',
+    at: [110, 27],
+    shape: 'square',
+    size: 8,
+    angle: 28,
+    height: 9,
+    top: 'battlements',
+    material: 'rubble',
+    ruin: { stands: 0.2 },
+  },
+  {
+    type: 'ditch',
+    path: [
+      [117, 12],
+      [111, 46],
+    ],
+    width: 4,
+  },
+];
+
+const DRYSLWYN_ANGLE = 40;
+
+export const DRYSLWYN_FIRST = landscape(DRYSLWYN_INNER, { angle: DRYSLWYN_ANGLE, hearth: [-13, -11.5] });
+
+export const DRYSLWYN_TWO_WARDS = landscape([...DRYSLWYN_INNER, ...DRYSLWYN_MIDDLE], {
+  angle: DRYSLWYN_ANGLE,
+  hearth: [-13, -11.5],
+});
+
+export const DRYSLWYN = landscape([...DRYSLWYN_INNER, ...DRYSLWYN_MIDDLE, ...DRYSLWYN_OUTER], {
+  angle: DRYSLWYN_ANGLE,
+  hearth: [-13, -11.5],
+});
+
+// Talley from building-models.md (measured from the Cadw-derived plans): the plan's origin is the
+// crossing tower, which is Coflein's grid reference. East is +x, north is +y.
 const TALLEY_CHAPELS = (y: number): Part => ({
   type: 'hall',
-  at: [26, y],
-  length: 4,
-  width: 3.8,
+  at: [8.3, y],
+  length: 5,
+  width: 4,
   angle: 0,
   height: 6.5,
   roof: 'gable',
@@ -628,96 +656,150 @@ const TALLEY_RANGE = (at: Pt, length: number, width: number, angle: number, heig
 
 export const TALLEY_TOWER_HEIGHT = 29;
 
-export const TALLEY = landscape(
-  [
-    {
-      type: 'hall',
-      at: [30, 0],
-      length: 12,
-      width: 9,
-      angle: 0,
-      height: 13,
-      roof: 'gable',
-      pitch: 0.55,
-      openings: [
-        { side: 'e', count: 3, tall: true },
-        { side: 'n', count: 2, tall: true },
-        { side: 's', count: 2, tall: true },
-      ],
-      material: 'rubble',
-      ruin: { stands: 0.3 },
-    },
-    {
-      type: 'tower',
-      at: [19.5, 0],
-      shape: 'square',
-      size: 9,
-      height: TALLEY_TOWER_HEIGHT,
-      top: 'pyramid',
-      material: 'rubble',
-      ruin: { stands: 26 / TALLEY_TOWER_HEIGHT, sides: ['n', 'e'] },
-    },
-    ...[11, -11].map((y): Part => ({
-      type: 'hall',
-      at: [19.5, y],
-      length: 13,
-      width: 9,
-      angle: 90,
-      height: 12,
-      roof: 'gable',
-      pitch: 0.55,
-      openings: [{ side: y > 0 ? 'e' : 'w', count: 1, tall: true }],
-      material: 'rubble',
-      ruin: { stands: 0.22 },
-    })),
-    ...[7, 11, 15, -7, -11, -15].map(TALLEY_CHAPELS),
-    {
-      type: 'wall',
-      path: [
-        [15, -9],
-        [-37, -9],
-        [-37, 9],
-        [15, 9],
-      ],
-      height: 0.8,
-      thickness: 1.6,
-      top: 'plain',
-      material: 'rubble',
-      ruin: { stands: 0.8 },
-    },
-    ...[-4.5, 4.5].map((y): Part => ({
-      type: 'wall',
-      path: [
-        [15, y],
-        [-37, y],
-      ],
-      height: 0.6,
-      thickness: 1.4,
-      top: 'plain',
-      material: 'rubble',
-      ruin: { stands: 0.8 },
-    })),
-    {
-      type: 'wall',
-      path: [
-        [-14, -32],
-        [9, -32],
-        [9, -9],
-        [-14, -9],
-      ],
-      closed: true,
-      height: 3,
-      thickness: 0.8,
-      top: 'plain',
-      material: 'rubble',
-      ruin: { stands: 0.2 },
-    },
-    TALLEY_RANGE([12.25, -24.5], 31, 6.5, 90, 8),
-    TALLEY_RANGE([-2.5, -36], 23, 8, 0, 8),
-    TALLEY_RANGE([-18, -24.5], 31, 8, 90, 7),
-  ],
-  { hearth: [-2.5, -36] },
-);
+// The choir and presbytery: the part kept as the parish church after 1536.
+const TALLEY_EAST: readonly Part[] = [
+  {
+    type: 'hall',
+    at: [12.7, 0],
+    length: 15.8,
+    width: 11.7,
+    angle: 0,
+    height: 13,
+    roof: 'gable',
+    pitch: 0.55,
+    openings: [
+      { side: 'e', count: 3, tall: true },
+      { side: 'n', count: 2, tall: true },
+      { side: 's', count: 2, tall: true },
+    ],
+    material: 'rubble',
+    ruin: { stands: 0.3 },
+  },
+  {
+    type: 'tower',
+    at: [0, 0],
+    shape: 'square',
+    size: 12,
+    height: TALLEY_TOWER_HEIGHT,
+    top: 'pyramid',
+    material: 'rubble',
+    ruin: { stands: 26 / TALLEY_TOWER_HEIGHT, sides: ['n', 'e'] },
+  },
+];
+
+const TALLEY_REST: readonly Part[] = [
+  ...[12.1, -12.1].map((y): Part => ({
+    type: 'hall',
+    at: [0, y],
+    length: 12.2,
+    width: 11.6,
+    angle: 90,
+    height: 12,
+    roof: 'gable',
+    pitch: 0.55,
+    openings: [{ side: y > 0 ? 'e' : 'w', count: 1, tall: true }],
+    material: 'rubble',
+    ruin: { stands: 0.22 },
+  })),
+  ...[8, 12.1, 16.2, -8, -12.1, -16.2].map(TALLEY_CHAPELS),
+  // The four built bays of the nave, its north wall on the arcade line, and the south aisle.
+  {
+    type: 'hall',
+    at: [-17.25, 0],
+    length: 22.5,
+    width: 11,
+    angle: 0,
+    height: 12,
+    roof: 'gable',
+    pitch: 0.55,
+    openings: [
+      { side: 'n', count: 4 },
+      { side: 'w', count: 1, tall: true },
+    ],
+    material: 'rubble',
+    ruin: { stands: 0.12 },
+  },
+  {
+    type: 'hall',
+    at: [-17.25, -8.2],
+    length: 22.5,
+    width: 5.4,
+    angle: 0,
+    height: 6,
+    roof: 'gable',
+    pitch: 0.3,
+    openings: [{ side: 's', count: 4 }],
+    material: 'rubble',
+    ruin: { stands: 0.15 },
+  },
+  // The four western bays were never built above their footings.
+  {
+    type: 'wall',
+    path: [
+      [-28.5, 10.75],
+      [-51.5, 10.75],
+      [-51.5, -10.75],
+      [-28.5, -10.75],
+    ],
+    height: 0.8,
+    thickness: 1.5,
+    top: 'plain',
+    material: 'rubble',
+    ruin: { stands: 0.8 },
+  },
+  ...[-4.85, 4.85].map((y): Part => ({
+    type: 'wall',
+    path: [
+      [-28.5, y],
+      [-51.5, y],
+    ],
+    height: 0.6,
+    thickness: 1.4,
+    top: 'plain',
+    material: 'rubble',
+    ruin: { stands: 0.8 },
+  })),
+  // The planned north aisle beside the built nave stayed at its footings too.
+  {
+    type: 'wall',
+    path: [
+      [-6, 10.75],
+      [-28.5, 10.75],
+    ],
+    height: 0.8,
+    thickness: 1.5,
+    top: 'plain',
+    material: 'rubble',
+    ruin: { stands: 0.8 },
+  },
+  {
+    type: 'wall',
+    path: [
+      [-28.5, -33.6],
+      [-6.7, -33.6],
+      [-6.7, -10.8],
+      [-28.5, -10.8],
+    ],
+    closed: true,
+    height: 3,
+    thickness: 0.8,
+    top: 'plain',
+    material: 'rubble',
+    ruin: { stands: 0.2 },
+  },
+  // The east range starts at the south transept's end; the west range's existence is uncertain.
+  TALLEY_RANGE([-3.45, -29.6], 22.8, 6.5, 90, 8),
+  TALLEY_RANGE([-17.6, -37.6], 21.8, 8, 0, 8),
+  TALLEY_RANGE([-32.5, -26.5], 29, 8, 90, 7),
+];
+
+const TALLEY_HEARTH: Pt = [-17.6, -37.6];
+
+export const TALLEY = landscape([...TALLEY_EAST, ...TALLEY_REST], { hearth: TALLEY_HEARTH });
+
+export const TALLEY_PARISH = landscape(TALLEY_EAST);
+
+export const TALLEY_ABANDONED = landscape(TALLEY_REST);
 
 const TEILO_TOWER: Part = {
   type: 'tower',

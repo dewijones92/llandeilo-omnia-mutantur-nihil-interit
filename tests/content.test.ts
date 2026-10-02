@@ -9,6 +9,7 @@ import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { latestStarting } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
+import { rotate } from '../src/domain/plan.ts';
 import { contains } from '../src/domain/time.ts';
 import { tAt, yearAt } from '../src/domain/timeline.ts';
 
@@ -261,6 +262,74 @@ describe('building plans', () => {
     expect(ruin && ruin !== 'gone' ? ruin.stands * 29 : 0).toBeCloseTo(26);
 
     expect(parts('dinefwr-castle').some((p) => p.type === 'tower' && p.size === 12)).toBe(true);
+  });
+
+  it('draws Talley as finished (about 49m), with its tower on the Coflein point and dated to 1536', () => {
+    const tower = parts('talley-abbey').find((p) => p.type === 'tower');
+    expect(tower?.type === 'tower' && tower.at).toEqual([0, 0]);
+    // The church: the presbytery and the built nave, both on the main axis (the ranges lie south of it).
+    const xs = parts('talley-abbey').flatMap((p) =>
+      p.type === 'hall' && p.angle === 0 && p.at[1] === 0
+        ? [p.at[0] - p.length / 2, p.at[0] + p.length / 2]
+        : [],
+    );
+    expect(xs).toHaveLength(4);
+    const length = Math.max(...xs) - Math.min(...xs);
+    expect(length).toBeGreaterThan(48.5);
+    expect(length).toBeLessThan(50.5);
+    const talley = W.places.find((p) => p.id === 'talley');
+    const abbey = W.features.find((f) => f.id === 'talley-abbey');
+    expect(abbey?.at).toEqual(talley?.at);
+    expect(abbey?.when.to).toBe(1536);
+    expect(W.features.find((f) => f.id === 'talley-parish-church')?.when).toEqual({ from: 1536, to: 1773 });
+  });
+
+  it('grows Dryslwyn ward by ward, each phase containing the one before', () => {
+    const ids = ['dryslwyn-first', 'dryslwyn-two-wards', 'dryslwyn-castle'];
+    const phases = ids.map((id) => parts(id));
+    for (let i = 1; i < phases.length; i++) {
+      for (const part of phases[i - 1] ?? []) expect(phases[i]).toContain(part);
+      expect(phases[i]?.length).toBeGreaterThan(phases[i - 1]?.length ?? 0);
+    }
+    const spans = ids.map((id) => W.features.find((f) => f.id === id)?.when);
+    expect(spans.map((w) => w?.from)).toEqual([1225, 1250, 1280]);
+    expect(spans.map((w) => w?.to)).toEqual([1250, 1280, 1430]);
+    expect(phases[0]?.some((p) => p.type === 'tower' && p.shape === 'round' && p.size === 12)).toBe(true);
+  });
+
+  it('lays Dryslwyn out as the research describes, each part on its own side', () => {
+    const plan = W.features.find((f) => f.id === 'dryslwyn-castle');
+    if (plan?.kind.type !== 'building') throw new Error('dryslwyn-castle is not a building');
+    const { parts: all, angle = 0 } = plan.kind.plan;
+    const centre = (pts: readonly (readonly [number, number])[]): [number, number] => [
+      pts.reduce((a, p) => a + p[0], 0) / pts.length,
+      pts.reduce((a, p) => a + p[1], 0) / pts.length,
+    ];
+    const bearing = (from: readonly [number, number], to: readonly [number, number]): number => {
+      const [x, y] = rotate([to[0] - from[0], to[1] - from[1]], angle);
+      return (90 - (Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+    };
+    const walls = all.flatMap((p) => (p.type === 'wall' ? [p.path] : []));
+    const [inner, middle, outer] = walls.map(centre);
+    const find = (test: (p: (typeof all)[number]) => boolean): [number, number] => {
+      const part = all.find(test);
+      if (!part || !('at' in part)) throw new Error('part missing');
+      return [part.at[0], part.at[1]];
+    };
+    const keep = find((p) => p.type === 'tower' && p.shape === 'round');
+    const chapel = find((p) => p.type === 'tower' && p.shape === 'square' && p.size === 7);
+    const gatehouse = find((p) => p.type === 'tower' && p.shape === 'square' && p.size === 8);
+    const hall = find((p) => p.type === 'hall' && p.length === 16);
+    const apartments = find((p) => p.type === 'hall' && p.length === 14);
+    if (!inner || !middle || !outer) throw new Error('wards missing');
+    const within = (b: number, lo: number, hi: number): boolean => b > lo && b < hi;
+    expect(within(bearing(inner, middle), 30, 70)).toBe(true);
+    expect(within(bearing(middle, outer), 5, 45)).toBe(true);
+    expect(within(bearing(outer, gatehouse), 0, 45)).toBe(true);
+    expect(within(bearing(inner, keep), 60, 110)).toBe(true);
+    expect(within(bearing(inner, hall), 150, 210)).toBe(true);
+    expect(within(bearing(inner, chapel), 100, 160)).toBe(true);
+    expect(within(bearing(inner, apartments), 160, 240)).toBe(true);
   });
 
   it('labels a building reconstructed where the research does not give its form', () => {

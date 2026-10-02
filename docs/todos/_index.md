@@ -71,15 +71,22 @@ below links the issue.
 - [ ] Second research pass on the gaps in [`open-questions.md`](../research/open-questions.md):
       the primary Roman forts report, Brut y Tywysogion on 1282, Gerald of Wales on clothing,
       Victorian wages and prices, Dryslwyn after 1287, a sourced 1588 Bible passage
-- [ ] Talley Abbey: replace Wikipedia coordinates with a Coflein or Cadw grid reference, cited in the
-      research note ([`era-medieval-to-1282.md`](../research/era-medieval-to-1282.md)), and check its
-      position by screenshot
+- [x] Talley Abbey: placed on Coflein NPRN 92750's grid reference (SN 63281 32772, on the surviving
+      tower, now the model's origin), cited in the research notes, and checked by screenshot (2026-10-02)
 - [x] 1282 moment card: "16 June 1282 by the Welsh annals (some histories say 17 June)", citing the
       Annales and Pilling (classes S2, S8); its Welsh had also dropped the commander's dismissal (2026-10-02)
 - [ ] Roman forts: use the primary report's 3.85ha and 1.54ha to revisit the "8 vs 12 acres" contradiction
 - [ ] Earliest environment keyframes (12,500–10,900 BC): check they use calendar, not uncalibrated pollen, dates
 - [ ] Railway loose ends: Victoria's weight (18 vs 14 tons), the unconfirmed "Victor" of 1864, the 1858 Beyer Peacock engines
-- [ ] Independent verification of every research note, as conversations-by-class had (it found 13 corrections)
+- [ ] Independent verification of every research note, as conversations-by-class had (it found 13 corrections).
+      Done 2026-10-02: era-medieval-to-1282, event-effects, railway-later, anglo-norman-and-middle-english
+      (reports in `docs/research/reviews/`), corrections applied to content and notes. Still to do:
+      deep-time, railway-locomotives (era-iron-age, era-victorian and timeline-and-earliest-occupation were
+      checked on 2026-10-02 too; their corrections are the next batch),
+      language-by-class. building-models was checked the same day (74 claims, 57 confirmed); its
+      corrections are used in the rebuilt Talley and Dryslwyn models
+- [x] Every English/Welsh text pair audited for dropped facts: 16 meaning gaps and 7 small ones fixed,
+      all in the same direction (the Welsh had lost caveats and numbers) (2026-10-02)
 - [ ] Check every place against its Coflein grid reference (only some were verified)
 - [ ] Human check of the Welsh text (parked)
       New terms need it first: "tyllau taflu" (machicolations), "bwtresi hedfan" (flying buttresses),
@@ -161,8 +168,10 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [x] Place labels no longer sit under the panels, the compass or the timeline: they avoid every
       on-screen panel, using their measured size (found by screenshot, 2026-10-02)
 - [x] The compass no longer covers the conversation, info and debug panels (found by screenshot, 2026-10-02)
-- [ ] Place labels overlap each other on the overview ("Llandeilo" and "Dinefwr" at c. AD 74, seen
-      2026-10-02): labels avoid panels but not one another
+- [x] Place labels overlap each other on the overview ("Llandeilo" and "Dinefwr" at c. AD 74, seen
+      2026-10-02): now placed in priority order (the current moment's place first, then names in use
+      at that date, then content order); a label that would overlap an earlier one waits until
+      the camera separates them (e2e test seen failing first)
 - [ ] Performance: the glTF loader fetches Babylon's PBR material code (~57KB gzipped) though models get our own material; skip it if first load feels slow
 - [x] Modern Welsh voices: every conversation with a modern Welsh line shows an "About the voice" note:
       a standard voice, not southern speech (s next to i as "sh", *moyn*). Research checked on
@@ -192,7 +201,11 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 Moved here from "Proposed" when Dewi agreed them. Each goes through the full path above.
 
 - [ ] Conversations by class at every key date ([`design/conversations-by-class.md`](../design/conversations-by-class.md))
-- [ ] Accurate models of the important buildings, phase by phase ([`design/models.md`](../design/models.md))
+- [ ] Accurate models of the important buildings, phase by phase ([`design/models.md`](../design/models.md)).
+      2026-10-02: researched and checked (`research/building-models.md`); Talley and Dryslwyn rebuilt
+      in phases. Still to do from the same research: Dinefwr (keep in the south-east angle, ward 34-38m,
+      north-west tower only from the later 13th century), Carreg Cennen (gatehouse centred on the north
+      wall, barbican route, second cross wall), the bridge (a stone bridge by 1577)
 - [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md))
 - [ ] Research the later trains (Great Western from 1889, British Rail, today's Heart of Wales line)
 

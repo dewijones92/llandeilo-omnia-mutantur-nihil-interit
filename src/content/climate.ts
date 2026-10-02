@@ -7,7 +7,7 @@ const INTERSTADIAL: Provenance = {
   kind: 'reconstructed',
   basis: {
     en: 'The Late Glacial interstadial, c.12,700–10,900 BC in calendar years: milder, with park tundra and birch in the pollen, before the Younger Dryas.',
-    cy: 'Cyfnod mwyn diwedd Oes yr Iâ, tua 12,700–10,900 CC: mwynach, gyda thwndra agored a bedw yn y paill, cyn y Dryas Diweddar.',
+    cy: 'Cyfnod mwyn diwedd Oes yr Iâ, tua 12,700–10,900 CC mewn blynyddoedd calendr: mwynach, gyda thwndra agored a bedw yn y paill, cyn y Dryas Diweddar.',
   },
   sources: [src('deeptime:S10'), src('deeptime:S8')],
 };
@@ -16,7 +16,7 @@ const YOUNGER_DRYAS: Provenance = {
   kind: 'reconstructed',
   basis: {
     en: 'The Younger Dryas (Loch Lomond Stadial), c.10,900–9,700 BC: 2–6°C colder, glaciers back in the high cwms.',
-    cy: 'Y Dryas Diweddar, tua 10,900–9,700 CC: 2–6°C yn oerach, rhewlifoedd yn ôl yn y cymoedd uchel.',
+    cy: 'Y Dryas Diweddar (Stadial Loch Lomond), tua 10,900–9,700 CC: 2–6°C yn oerach, rhewlifoedd yn ôl yn y cymoedd uchel.',
   },
   sources: [src('deeptime:S8'), src('deeptime:S1')],
 };
@@ -25,7 +25,7 @@ const HOLOCENE_WARMING: Provenance = {
   kind: 'reconstructed',
   basis: {
     en: 'After c.9700 BC the climate warmed steadily and woodland closed in.',
-    cy: 'Ar ôl tua 9700 CC cynhesodd yr hinsawdd yn gyson a thyfodd y coed.',
+    cy: 'Ar ôl tua 9700 CC cynhesodd yr hinsawdd yn gyson a chaeodd y coetir dros y tir.',
   },
   sources: [src('deeptime:S10')],
 };

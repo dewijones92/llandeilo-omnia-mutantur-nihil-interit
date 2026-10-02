@@ -341,9 +341,10 @@ async function start(): Promise<void> {
     if (open && !active.has(open.id)) panel.close();
     labels.setYear(Math.round(snap.year));
     const near = snap.nearestEvent;
-    moment.show(
-      near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined,
-    );
+    const shown =
+      near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined;
+    moment.show(shown);
+    labels.setFocus(shown?.place);
     debug?.update(snap);
     info.update(snap);
     ambience?.set(snap.environment.ambient);

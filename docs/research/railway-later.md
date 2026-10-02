@@ -5,6 +5,8 @@ status: draft
 updated: 2026-10-02
 ---
 
+Independently checked 2026-10-02 (see [reviews/railway-later-check-2026-10-02.md](reviews/railway-later-check-2026-10-02.md)); corrections applied.
+
 # The later railway at Llandeilo, 1889 to today
 
 Research for the trains after the first ones (see [`railway-locomotives.md`](railway-locomotives.md)
@@ -22,30 +24,39 @@ the researcher. That is a reading of a picture, not a caption, and is labelled s
   Towy line north to Llandovery became joint GWR and London and North Western Railway (LNWR) from
   1884. The Carmarthen branch was LNWR property, sold to it on 1 July 1891. [S11][S1][S27]
   **Cross-checked.**
-- **The through trains were LNWR, then LMS, never Great Western.** The LNWR ran Shrewsbury to Swansea
+- **The Shrewsbury to Swansea through trains were LNWR, then LMS.** The LNWR ran Shrewsbury to Swansea
   Victoria using running powers over the GWR section south of Llandeilo. After 1923 they were London,
   Midland and Scottish (LMS) trains, and from 1948 British Railways Western Region. [S1][S11][S13]
-  **Cross-checked.** So a model of a 1900s or 1930s express at Llandeilo is an LNWR or LMS train,
-  with GWR engines on local trains only.
+  **Cross-checked.** So a model of a 1900s or 1930s Shrewsbury–Swansea express at Llandeilo is an LNWR
+  or LMS train. *Corrected 2026-10-02 (independent check)*: the note said "never Great Western" and "GWR engines on local trains only"; no
+  source says either, and S10 says the GWR ran "just a few trains between Llanelli and Llandovery",
+  which pass through Llandeilo, so a GWR passenger train at Llandeilo heading north before 1948 is
+  historically possible.
 - **Dated 1950s photographs give real engines at Llandeilo and the next stations south**: Black Five
   4-6-0s 45190 and 45283 on the Shrewsbury to Swansea trains, Fowler 2-6-4 tanks 42307 and 42388, and
-  GWR pannier tanks 3641, 9645 and 9788 on local and Carmarthen trains (1958–60). [S2][S3] Their
+  GWR pannier tanks 3641, 9645 and 9788 on local and Carmarthen trains (1958–60). [S2][S3] (S2 and
+  S3 are one author, Terry Norman; *Corrected 2026-10-02 (independent check)*) Their
   classes are confirmed by shed records. [S4][S5] **Cross-checked.**
 - **The Carmarthen branch closed on 9 September 1963** [S1][S11][S14][S15][S22], though one source
   gives 6 September [S16]. **Cross-checked, with one dissent.**
-- **Steam ended on the line in June 1964.** The last steam passenger trains between Llanelli and
-  Llandeilo ran on 13 June 1964 [S2]; through freight north of Llandovery and Llandovery shed both
-  ended on 10 August 1964 [S1][S4][S11].
+- **Steam passenger trains ended on 13 June 1964** [S2] (single source): the last between Llanelli and
+  Llandeilo. Steam freight and banking engines remained at Llandovery until 10 August 1964, when
+  through freight north of Llandovery and Llandovery shed both ended [S1][S4][S11]. (*Corrected 2026-10-02 (independent check)*: the note
+  said "Steam ended on the line in June 1964"; S4 lists steam at Llandovery on 5 August 1964. S11
+  says "Steam operation on the Llanelly network ceased in 1963": see Contradictions.)
 - **Glanrhyd, 19 October 1987.** The bridge over the Tywi between Llandeilo and Llangadog collapsed
   in flood and the 05.27 Swansea to Shrewsbury, a two-car Class 108 diesel unit, fell into the river.
   Four people died: the driver and three passengers. The line reopened on 30 October 1988 on a new
   single-span steel bridge. [S8][S9][S12][S33] **Cross-checked.**
 - **Today**: Transport for Wales (since 7 February 2021) runs Class 153 single-car units, usually
   coupled in pairs, in grey and red. [S37][S38][S39][S41] About five trains each way on weekdays,
-  two on Sundays, with an extra one added in December 2025. [S19][S20][S40] **Cross-checked**, but
-  the exact daily count differs between sources (see Contradictions).
+  two on Sundays, with an extra one added in December 2025. [S19][S20][S40][S10] **Cross-checked**,
+  but the exact daily count differs between sources (see Contradictions).
 - **"Llandeilo Junction" is not at Llandeilo.** It is the junction with the West Wales main line just
-  east of Llanelli, near the Trostre steelworks, about 29 miles south. [S12][S18][S32][S11] A model or
+  east of Llanelli, near the Trostre steelworks, about 18 to 19 miles south. [S12][S18][S32][S11]
+  [S1][S2] (*Corrected 2026-10-02 (independent check)*: the note said "about 29 miles"; 29 miles 24 chains is the distance from the junction
+  to **Llandovery** [S18]. Llandeilo is "19¼ miles from Llanelli" [S1], "the 18 mile Llanelli to
+  Llandeilo route" [S2]. The Trostre detail rests on S32, which the check could not read.) A model or
   label must not put it in Llandeilo. The station at Llandeilo was signed "Llandilo, junction for
   Carmarthen line" in 1959 (observed in [S2]).
 - **A source correction.** The page cited as [S2] in `railway-locomotives.md` ("Terry Norman,
@@ -67,7 +78,10 @@ the researcher. That is a reading of a picture, not a caption, and is labelled s
   for the dates; Llandilo Bridge station's trains were shown as not stopping from 1 April to 1 June
   1880 "due to a dispute with the London North Western Railway" [S14], which fits.
 - 28 July 1884: the Vale of Towy line (Llandeilo to Llandovery), opened 1 April 1858 and leased in
-  turn under Acts of 1858, 1860 and 1868 [S53], vested jointly in the GWR and LNWR. [S11] Ben Brooksbank's captions call it "Joint GW&LNW" and the line south of Llandeilo "ex-GWR".
+  turn under Acts of 1858, 1860 and 1868 [S53], vested jointly in the GWR and LNWR. [S11] *Corrected 2026-10-02 (independent check)*: it was
+  already **leased jointly** before 1884 (the 1868 Act for a lease "jointly with the Llanelly Railway
+  and Dock Company" [S53]; S11 "converted to full joint ownership" in 1884), so joint working predates
+  the 1884 vesting. Ben Brooksbank's captions call it "Joint GW&LNW" and the line south of Llandeilo "ex-GWR".
   [S27] **Cross-checked.**
 - 1 July 1889: the Llanelly Railway and Dock Company fully absorbed by the GWR (Act of 24 June 1889).
   [S11][S1] **Cross-checked.**
@@ -79,8 +93,9 @@ the researcher. That is a reading of a picture, not a caption, and is labelled s
 - 1923: most of the route went to the LMS, "though GWR retained control of the line between
   Llandeilo and Pontarddulais". [S1] The LNWR became part of the LMS. [S11] **Cross-checked.**
 - 1 January 1948: all of it under the Western Region of British Railways, a takeover "greatly
-  opposed by local interests" and by "the predominantly LMS/LNWR staff". [S1][S12][S52]
-  **Cross-checked** for the region; the staff feeling is single-source [S1], echoed in [S52].
+  opposed by local interests" and by "the predominantly LMS/LNWR staff". [S1][S52]
+  **Cross-checked** for the region; the staff feeling is single-source [S1], echoed in [S52]. (*Corrected 2026-10-02 (independent check)*: S12
+  dropped from this citation; it does not mention the Western Region.)
 - Who owned **Llandeilo station** itself under this split is not stated in anything read. A gap.
 
 ## Period 1: the GWR and LNWR years, 1889–1922
@@ -88,7 +103,10 @@ the researcher. That is a reading of a picture, not a caption, and is labelled s
 **Through trains.** By the LNWR, Shrewsbury to Swansea Victoria. The LNWR "became main passenger
 operator; GWR ran limited Llanelli–Llandovery services" (Wikipedia, unreferenced there). [S10] The
 service at Llangammarch, further up the same line, was "between five and seven passenger trains each
-way". [S52] **Regional, not Llandeilo-specific**, and single-source.
+way". [S52] **Regional, not Llandeilo-specific**, and single-source. S52 also says that in the early
+twentieth century "through carriages were available from Llangammarch to Manchester, Liverpool, York,
+Birmingham and London Euston", which bears on what a through train looked like (regional,
+single-source; *Corrected 2026-10-02 (independent check)*: added).
 
 **Engines, LNWR.** Gittins names 2-2-2 tender engines built at Crewe on the first trains north of
 Llandrindod in 1865, "gradually replaced by the 2-4-0 Precedent class". [S1] Those were the northern
@@ -106,7 +124,9 @@ south of the station. [S4]
   **Cross-checked.**
 - LNWR carriages: "plum and off-white (nicknamed Plum and Spilt Milk)". [S47] A search summary of a
   modellers' forum described carmine lake lower panels and white upper panels; that page was not
-  read. **Single-source.**
+  read. **Single-source, and indirect**: S47 mentions the colours only as a 1948 BR trial livery for
+  corridor stock, and does not say which colour sat lower or upper (*Corrected 2026-10-02 (independent check)*: "carmine lake" and the
+  lower/upper split are unsourced; confidence low).
 - GWR engines: "dark holly green" at first, then "middle chrome or Brunswick green for most of its
   existence", frames chocolate brown or Indian red at first and black in the twentieth century,
   polished brass number plates, copper-capped chimneys. [S45] **Single-source.**
@@ -170,7 +190,7 @@ Dated photographs with captions, all on the line through Llandeilo:
 | 25 July 1958 | Llandybïe | 3641 | the 5.35 from Swansea, terminating at Llandybïe | [S2] |
 | 25 July 1958 | Llandybïe | 42388 | the 2.50 from Shrewsbury | [S2] |
 | 29 July 1958 | Pantyffynnon | 42307 | the 10.48 to Swansea, from Shrewsbury, "a 4½ hour trip" | [S2] |
-| 29 Aug 1959 | Llandilo, bay platform | 9645 | the 3.25 to Carmarthen | [S2][S3] |
+| 29 Aug 1959 | Llandilo, bay platform | 9645 | the 3.25 to Carmarthen | [S2] (also on [S3], the same author's caption, so not a cross-check; *Corrected 2026-10-02 (independent check)*) |
 | 29 Aug 1959 | Llandilo | 45190 | the 12 noon from Shrewsbury to Swansea | [S2] |
 | 25 July 1960 | Ffairfach | 9788 | the 5.53 to Llandovery | [S2] |
 | Aug 1962 | Carmarthen | 7439 | the 11.35 passenger to Llandeilo | [S6] |
@@ -221,7 +241,9 @@ siding [S3]; the Cilyrychen lime quarries near Llandybïe "were once served by t
 Llanwrda handled "10,000 tons of goods" [S3]. Goods to Derwydd Road ended on 14 March 1966. [S26]
 
 **Liveries (BR, all single-source in one article [S47] unless noted).**
-- Steam engines: "black, often with a thin red, cream and grey trim". [S47]
+- Steam engines: "black, often with a thin red, cream and grey trim", said of "most British Railways
+  steam locomotives" [S47]; but for tank engines "unlined black soon became the standard" [S49], so
+  the pannier tanks on the local trains should be **unlined black** (*Corrected 2026-10-02 (independent check)*: added).
 - Corridor carriages: crimson and cream ("blood and custard") from 1949, all-over crimson for
   non-corridor stock; from 1956, maroon "similar to crimson lake". A few Western Region express sets
   went back to chocolate and cream, but "regular former GWR coaches carried maroon". [S47]
@@ -231,36 +253,46 @@ Llanwrda handled "10,000 tons of goods" [S3]. Goods to Derwydd Road ended on 14 
 - 18 August 1958: passenger trains withdrawn on the Pantyffynnon to Brynaman branch. [S1][S11]
   **Cross-checked.** (Outside the radius; it leaves the line at Pantyffynnon.)
 - 1962: the Western Region proposed closing the whole route; the Minister refused, at the cost of
-  closing Swansea Victoria and the line from Pontarddulais. [S1] Wikipedia instead says "The 1963
+  closing Swansea Victoria and the line from Pontarddulais. [S1] S52 also gives "an attempt to close
+  the whole line in 1962" [S52] (*Corrected 2026-10-02 (independent check)*: added). Wikipedia instead says "The 1963
   Beeching Report proposed that the entire Central Wales line be closed but this was refused by the
   Ministry of Transport". [S12] Swansea Victoria was "listed in the Report on the Reshaping of
   British Railways". [S13] See Contradictions.
 - 9 September 1963: the Carmarthen branch closed to passengers and goods. [S1][S11][S14][S15]
   Brooksbank's captions give "closed 9/9/63" for Llanarthney, Llandilo Bridge (Ffairfach), Golden
   Grove and Abergwili, and call it the "ex-LNW Llandilo – Carmarthen branch". [S22][S23][S24][S25]
-  Dryslwyn's page says 6 September 1963. [S16]
+  Dryslwyn's page says 6 September 1963. [S16] *Corrected 2026-10-02 (independent check)*: S14, S15 and S16 all cite the same book (Quick
+  2002), so the 6 versus 9 September dissent is inside one source. 6 September 1963 was a Friday and
+  9 September a Monday: possibly last trains against official closure, not verified.
 - 3 May 1964: Derwydd Road station closed to passengers. [S26] Terry Norman says it "was closed down in
   1963". [S2]
 - 13 June 1964: the last steam-hauled passenger trains on the Llanelli to Llandeilo route, the 7.35am
-  and the 5pm. [S2] Single-source.
+  and the 5pm. [S2] Single-source. Steam was not over: S4 lists steam at Llandovery on 5 August 1964
+  (8Fs 48444, 48328, 48471 and BR 4MT 2-6-4T 80134) [S4] (*Corrected 2026-10-02 (independent check)*: added).
 - 15 June 1964: Pontarddulais to Swansea Victoria closed to passengers; trains ran from Llanelli
   instead. [S11] Brooksbank gives "closed 27/6/64". [S27]
 - 10 August 1964: through freight north of Llandovery withdrawn [S1][S11], and Llandovery shed
-  closed [S4]. **Cross-checked.** Local freight on the line ended in 1968. [S11] Single-source.
+  closed [S4]. **Cross-checked.** Local freight on the line ended in 1968 [S11], or "a limited pick-up
+  goods service ... lingered until 1970" [S52] (*Corrected 2026-10-02 (independent check)*: was given as 1968, single-source; now a
+  contradiction, see below).
 
 ## Period 4: diesel units and the fight to survive, 1964–1986
 
 - "Swindon cross-country sets took over all passenger workings" between Shrewsbury and Llanelli.
   [S1] These are the Class 120 three-car units built at Swindon from 1958, mostly for the Western
-  Region. [S34] **Single-source** for their use here.
+  Region. [S34] **Single-source** for their use here. *Corrected 2026-10-02 (independent check)*: S52 says the post-1964 service was "just
+  four trains each way between Shrewsbury and Llanelli. These were formed of two-car diesel rail
+  cars, although by 1970 the service was increased to five trains" [S52]. So the unit length is
+  contested (two cars against three); see Contradictions.
 - Terry Norman says the steam engines were "replaced afterwards by 1750 horse-power diesels" [S2];
   Gittins says freight went mainly to "English Electric type '3' diesel-electric locomotives assisted
   by Brush Type '4's". [S1] These may describe freight and passenger work respectively; not resolved.
 - 1967: a second closure proposal; the Minister took almost two years, and it was "rumoured" that
   George Thomas, Secretary of State for Wales, pointed out the line "ran through a number of marginal
-  constituencies". [S1] Wikipedia: it "passed through six marginal constituencies". [S12] Grant aid of
-  £370,000 a year followed, and passengers doubled to 180,000 in the year to May 1971. [S1]
-  **Cross-checked** for the marginal seats; the figures are single-source.
+  constituencies". [S1] Wikipedia: it "passed through six marginal constituencies". [S12] S52: five.
+  [S52] Grant aid of £370,000 a year followed, and passengers doubled to 180,000 in the year to May
+  1971. [S1] The marginal seats are **contested** in number (a number, six or five); the figures are
+  single-source (*Corrected 2026-10-02 (independent check)*: the note called the marginal seats cross-checked).
 - 1972: operated under a light railway order since then. [S12] Single-source.
 - 1980: the Heart of Wales Line Travellers' Association was formed. [S52] Single-source.
 - Signalling: "No Signalman Token Remote" working was introduced in 1986 [S12]; over half a million
@@ -273,7 +305,9 @@ Llanwrda handled "10,000 tons of goods" [S3]. Goods to Derwydd Road ended on 14 
   Llandeilo; the body colour looks pale blue-grey in the photograph, which fits BR blue and grey but
   cannot be confirmed from the image. Rail Blue was introduced in 1965, with yellow ends; "Non-corridor
   coaching stock and other multiple units received all-over Rail Blue until about 1980, when most
-  received the same blue/grey livery". [S47]
+  received the same blue/grey livery". [S47] S47 also says "From 1974, some diesel multiple unit sets,
+  after being refurbished, were painted white with a wide blue band", a possibility for refurbished
+  units here (*Corrected 2026-10-02 (independent check)*: added).
 
 ## Period 5: Glanrhyd, Sprinters and privatisation, 1987–2021
 
@@ -289,15 +323,18 @@ Llanwrda handled "10,000 tons of goods" [S3]. Goods to Derwydd Road ended on 14 
 - A bus linked Llandeilo and Llandovery until "a single span steel girder bridge on new foundations
   was erected and the line re-opened to rail services on 30 October 1988".
 - The night before, a light engine returning to Pantyffynnon found flood water "running above the
-  level of the rails" just outside Llandeilo, and a supervisor parked "actually on the platform at
-  Llandeilo station". Useful detail for a scene; the report is a primary source.
+  level of the rails" just outside Llandeilo, and the "On-call" operating manager parked "actually
+  on the platform at Llandeilo station" (*Corrected 2026-10-02 (independent check)*: the note said "a supervisor"; the report names him, and
+  this note does not). Useful detail for a scene; the report is a primary source.
 - Cross-checks: the Railways Archive summary (4 killed, flood) [S9]; Wikipedia on the line and on the
   Class 108 [S12][S33]; Doughty's 1996 guide ("killing three passengers and the driver", "The present
   bridge was built in 1988") [S3]. **Cross-checked.**
 
 **Units.** The Class 108 was built at Derby 1958–61 with an aluminium body. [S33] The Class 153
 single cars were converted from Class 155 units in 1991–92. [S35] Brooksbank photographed a Class 153
-northbound at Ammanford in 1994. [S27] Class 150 two-car units also work the line. [S12][S36]
+northbound at Ammanford in 1994. [S27] Class 150 two-car units are said to work the line [S12], but
+that line carries "citation needed" and S36 (Class 150) does not mention the Heart of Wales line at
+all (*Corrected 2026-10-02 (independent check)*: was cited to S12 and S36 as fact). Do not model a 150 at Llandeilo without another source.
 **Cross-checked** for the 153s by 1994.
 
 **Operators.** Wales and West took over the passenger service in 1996 [S52]; the Class 150 history
@@ -329,14 +366,18 @@ machines; the second was reinstated in May 2010 with new points. [S10][S12] **Cr
   red.
 - **Train length**: two cars as the norm. [S39]
 - **Service**: five trains a day to Shrewsbury from Monday to Saturday (plus a sixth to Llandovery),
-  six south, two each way on Sundays (the Ffairfach and Llandybïe pages, undated). [S19][S20] A new
+  six south, two each way on Sundays (the Ffairfach and Llandybïe pages, both citing "GB eNRT December
+  2025 Edition, Table 130"; *Corrected 2026-10-02 (independent check)*: not undated). [S19][S20] The station page (also December 2025): "five
+  through trains a day in each direction ... One additional through service each way was reinstated in
+  December 2025". [S10] The TfW Rail page's table gives 4 trains a day Shrewsbury to Swansea [S37]. A new
   midday service each way from 14 December 2025 was announced as "the fifth on the line". [S40] The
   Llandovery page says an extra weekday departure each way "was reintroduced at the winter 2025
   timetable change". [S18] Wikipedia's line page says six a day to Shrewsbury and five to Swansea.
   [S12] See Contradictions.
 - **Working**: single track with a passing loop at Llandeilo; drivers take a token from equipment on
-  the platform under a signaller at Pantyffynnon, whose 1892 GWR box still works with semaphores. [S3]
-  [S8][S12]
+  the platform under a signaller at Pantyffynnon [S8][S12][S18]. The 1892 GWR box "still working" with
+  semaphores is from Doughty's 1996 guide [S3]; its status today was not checked (*Corrected 2026-10-02 (independent check)*: the note
+  presented it as today).
 
 ## The station at Llandeilo
 
@@ -347,9 +388,13 @@ machines; the second was reinstated in May 2010 with new points. [S10][S12] **Cr
 - **Platforms**: Terry Norman: "There were two platforms at Llandilo to serve each line until the
   Carmarthen line was closed completely in 1963." [S2] The Llandeilo history site: "three platforms ...
   numbers one and two serving the up and down lines on the Swansea to Shrewsbury route, and the third
-  was for the Carmarthen branch". [S3] A search summary (no page found to cite) said four. Today there
-  are two. [S10] The 1959 photograph of the Carmarthen train standing in a bay beside the through line
-  fits three (observed, [S2]).
+  was for the Carmarthen branch". [S3] Wikipedia: "In its heyday, the station had four platforms"
+  (unreferenced). [S10] Today there are two. [S10] *Corrected 2026-10-02 (independent check)*: the note said "four" came only from an
+  unciteable search summary; S10 says it. And S2 and S3 are **one author**, not two: llandeilo.org
+  says "The website is a collaborative venture by local historian Terry Norman", and its 1959 caption
+  repeats S2's almost word for word, so two against three is one man's two wordings. The count (two,
+  three or four) is **unresolved**. The 1959 photographs show a bay plus two through faces (observed,
+  [S2]); a station model should follow them and label the count as reconstructed.
 - **Buildings, observed in the 1959 photographs** [S2]: a long gabled canopy with a deep valance over
   one platform; on the other, a stone building with tall chimneys, slate roof and a flat canopy; a
   lattice-girder footbridge across the tracks; tall lamp posts; a water column at the platform end;
@@ -365,9 +410,10 @@ machines; the second was reinstated in May 2010 with new points. [S10][S12] **Cr
 - **Today**: a concrete store shed survives (photographed 2025, [S30] series); shelters on both
   platforms; a level crossing at one end (Commons file names, not read in detail).
 - **The station's owner and builder after 1873, and the date of its buildings, are not known.** A
-  photographs-list entry says the Carmarthen branch stations were by the contractors Watson & Overend,
-  1865, like those on the Mid Wales line [S7], which is a lead for Llandilo Bridge and the others, not
-  for Llandeilo itself.
+  photographs-list entry about **Penclawdd** says it was "Built by the contractors Watson & Overend in
+  1865" and has "distinct similarities" with stations by the same contractor "on the Mid Wales and
+  Llandilo-Carmarthen lines" [S7] (*Corrected 2026-10-02 (independent check)*: the entry does not date the Carmarthen-line stations), which is
+  a lead for Llandilo Bridge and the others, not for Llandeilo itself.
 
 ## The line south to Llandybïe and Ammanford
 
@@ -384,7 +430,7 @@ Opened to goods 14 November 1864 and to passengers 1 June 1865 [S1][S14][S15], f
 Llandeilo across the Tywi and west along the south side of the valley: Llandilo Bridge, Golden Grove,
 Dryslwyn, Llanarthney Halt, Nantgaredig, Abergwili, Abergwili Junction, Carmarthen. [S2][S3] LNWR from
 1891, LMS from 1923, Western Region from 1948, closed 9 September 1963 (see above). In 1959 its
-Llandeilo train was a GWR pannier tank in the bay [S2][S3], and in 1962 a 7400 class pannier from
+Llandeilo train was a GWR pannier tank in the bay [S2] (S3 repeats the same author), and in 1962 a 7400 class pannier from
 Llanelly shed [S6][S4]. What the LNWR and LMS ran on it is **not found**.
 
 ## What a modeller needs
@@ -394,31 +440,35 @@ single-source, or cross-checked but regional; **low** = reconstructed by analogy
 
 | Period | Train at Llandeilo | Engine or unit | Colours | Length | Confidence |
 |---|---|---|---|---|---|
-| 1889–1922 through | LNWR Shrewsbury–Swansea | Not identified at Llandeilo; LNWR 4-6-2 "Prince of Wales" tanks used on the route from the 1910s [S51] | Engine black ("blackberry black") [S43][S44]; coaches plum (carmine lake) lower, white upper [S47] | Unknown | Livery high for the engine, medium for coaches; class low |
+| 1889–1922 through | LNWR Shrewsbury–Swansea | Not identified at Llandeilo; LNWR 4-6-2 "Prince of Wales" tanks used on the route from the 1910s [S51] | Engine black ("blackberry black") [S43][S44]; coaches "plum and off-white" [S47] (indirect: a 1948 BR trial livery; *Corrected 2026-10-02 (independent check)*: "carmine lake" lower and white upper removed, unsourced) | Unknown | Livery high for the engine, low for coaches; class low |
 | 1889–1922 local | GWR to Llanelli | Not found | Engine Brunswick green, black frames, copper chimney cap; coaches all-over brown or red 1908–22 [S45] | Unknown | Livery medium; class gap |
 | 1923–1947 through | LMS Shrewsbury–Swansea | Regional shed records: Black Fives, Fowler and Stanier 2-6-4 tanks, 8Fs, LNWR 0-8-0s [S4] | Coaches crimson lake [S46][S47]; Black Fives black [S48] | Unknown | Medium (regional) |
 | 1923–1947 local | GWR | Not found; 57xx panniers likely by analogy with 1958 [S2][S5] | GWR green, chocolate and cream [S45] | Unknown | Low |
 | 1948–1964 through | BR (Western Region) | Black Five 45190 (1959), Fowler 2-6-4T 42307/42388 (1958), BR Standard 5 by 1961 [S1][S2][S4] | BR black with thin lining; coaches crimson and cream, then maroon from 1956 [S47] | Unknown | High for engines; medium for colours |
-| 1948–1964 local and Carmarthen | BR | GWR 57xx panniers 9645, 9788, 3641; 7400 class 7439 [S2][S4][S5][S6] | BR black [S47] | 3–4 bogie coaches (observed 1959) [S2] | High for engines; medium for colours |
-| 1964–c. 1986 | BR diesel units | Swindon cross-country (Class 120) [S1][S34]; first-generation DMU observed 1983 [S28] | Green to the mid 1960s, then Rail Blue with yellow ends, then blue and grey from about 1980 [S47] | 2–3 cars (Class 120 sets were 3 cars [S34]) | Medium |
+| 1948–1964 local and Carmarthen | BR | GWR 57xx panniers 9645, 9788, 3641; 7400 class 7439 [S2][S4][S5][S6] | Unlined BR black for tank engines [S49] (*Corrected 2026-10-02 (independent check)*: not the lined black of S47) | 3–4 bogie coaches (observed 1959) [S2] | High for engines; medium for colours |
+| 1964–c. 1986 | BR diesel units | Swindon cross-country (Class 120) [S1][S34], or "two-car diesel rail cars" [S52]; first-generation DMU observed 1983 [S28] | Green to the mid 1960s, then Rail Blue with yellow ends, then blue and grey from about 1980; refurbished sets white with a wide blue band from 1974 [S47] | 2 or 3 cars, contested: two-car [S52] against Class 120 three-car sets [S1][S34] (*Corrected 2026-10-02 (independent check)*: no default of three) | Medium |
 | 1987 | BR | Class 108, two cars, car 52037 [S8] | Not stated in the report | 2 cars | High |
-| c. 1991–2021 | Regional Railways, Wales and West, Arriva Trains Wales | Class 153, Class 150 [S12][S27][S35][S36] | Yellow cab front, dark turquoise-green sides in 2015 (observed) [S29] | 1–2 cars | Medium |
+| c. 1991–2021 | Regional Railways, Wales and West, Arriva Trains Wales | Class 153 [S27][S35]; Class 150 only on a "citation needed" line [S12], so not to be modelled without another source (*Corrected 2026-10-02 (independent check)*) | Yellow cab front, dark turquoise-green sides in 2015 (observed) [S29] | 1–2 cars | Medium |
 | 2021–today | Transport for Wales | Class 153 pairs [S39] | Grey and red, yellow cab front [S38][S30][S31] | 2 cars | High |
 
 ## Contradictions, side by side
 
 | Point | One source | Another |
 |---|---|---|
-| Carmarthen branch closure | 9 September 1963 [S1][S11][S14][S15][S22] | 6 September 1963 [S16] |
+| Carmarthen branch closure | 9 September 1963 [S1][S11][S14][S15][S22] | 6 September 1963 [S16] (S14, S15 and S16 all cite Quick 2002, so the dissent is inside one book; *Corrected 2026-10-02 (independent check)*) |
 | Pontarddulais–Swansea Victoria closure | 15 June 1964 [S11]; last steam trains 13 June 1964 [S2] | 27 June 1964 [S27] |
 | Derwydd Road closure | 3 May 1964 [S26] | 1963 [S2] |
-| Who proposed closure, and when | Western Region, 1962 [S1] | The Beeching Report, 1963 [S12] |
-| Platforms at Llandeilo | "two ... to serve each line" [S2] | three [S3]; four (search summary only) |
+| Who proposed closure, and when | Western Region, 1962 [S1]; "an attempt to close the whole line in 1962" [S52] | The Beeching Report, 1963 [S12] |
+| Platforms at Llandeilo | "two ... to serve each line" [S2] | three [S3] (the same author as S2); four [S10] (*Corrected 2026-10-02 (independent check)*: four is in S10, not only a search summary) |
 | 7439's class | "57xx Pannier tank" [S6] | 7400 class [S4][S6 itself][S50] |
 | Stanier 2-6-2 tanks | "Stanier class '2'" [S1] | class 3MT [S4] |
 | BR Standard 5s on the line | "from 1960 onwards" [S1] | at Swansea Victoria by 1954 [S4] |
-| Daily trains today | five each way plus extras [S19][S20]; fifth added Dec 2025 [S40] | six to Shrewsbury, five to Swansea [S12] |
+| Daily trains today | five each way plus extras [S19][S20] (December 2025); five through trains each way [S10]; fifth added Dec 2025 [S40] | six to Shrewsbury, five to Swansea [S12]; 4 a day Shrewsbury to Swansea [S37] (*Corrected 2026-10-02 (independent check)*: S37 added) |
 | Signalling modernised | 1986 [S12] | investment in 1985 [S52] |
+| When steam ended (*Corrected 2026-10-02 (independent check)*: added) | passenger steam 13 June 1964 [S2]; steam at Llandovery to 10 August 1964 [S4] | "Steam operation on the Llanelly network ceased in 1963" [S11] |
+| Local freight ended (*Corrected 2026-10-02 (independent check)*: added) | 1968 [S11] | "a limited pick-up goods service, which lingered until 1970" [S52] |
+| Marginal constituencies, 1967-69 (*Corrected 2026-10-02 (independent check)*: added) | "a number" [S1]; six [S12] | five [S52] |
+| Unit length after 1964 (*Corrected 2026-10-02 (independent check)*: added) | Swindon cross-country sets [S1], Class 120 three-car [S34] | "two-car diesel rail cars" [S52] |
 | Who reached Llandeilo in 1857 | the Llanelly Railway [S11][S1] | "the London Midland Service (LMS)" [S2], which is wrong: the LMS did not exist until 1923 |
 
 ## Open questions
@@ -445,17 +495,17 @@ single-source, or cross-checked but regional; **low** = reconstructed by analogy
 ## Sources
 
 - [S1] Rob Gittins and Dorian Spencer Davies, *Heart of Wales Railway Line: A Brief History* (Gomer Press, 1985), pp. 2–14, as transcribed on Terry Norman's Ammanford site (updated 26 Nov 2010) – http://www.users.ic24.net/~terrynorm/heart%20of%20wales%20history.htm – fetched with curl: GWR lease 1873 and absorption 1889; 1923 grouping, GWR keeping Llandeilo–Pontarddulais; 1924 Lampeter scheme abandoned; Western Region 1948; Brynaman passengers ended 18 Aug 1958; Paxton Street closed 31 Aug 1959; ex-LNWR engines reduced, Stanier 2-6-2s, Black Fives replaced by BR Standard 5s from 1960; 1962 closure proposal; Carmarthen branch closed 9 Sept 1963; through freight north of Llandovery withdrawn 10 Aug 1964; Swindon cross-country sets; English Electric type 3 and Brush type 4 freight; 1967 proposal, George Thomas, £370,000 grant, 180,000 passengers to May 1971. Secondary, published line history.
-- [S2] Terry Norman, "Railway stations: Pantyffynnon to Llandeilo", Ammanford, Carmarthenshire web site (updated 1 Oct 2010) – http://www.terrynorm.ic24.net/photo%20railways%20llandeilo.htm – dated captioned photographs 1958–60 (42307, 45283, 3641, 42388, 9788, 9645, 45190, with train times); last steam passenger trains 13 June 1964; "1750 horse-power diesels"; platforms; the "Refresh" pub demolished mid-1990s; Ffairfach milk siding; wrongly says the LMS reached Llandeilo in 1857. Photographs viewed. Secondary, no references, photographs uncredited.
-- [S3] Llandeilo History (llandeilo.org), "Heart of Wales Railway", including Audrey Doughty's 1996 "Heart of Wales Travel Guide" – https://llandeilo.org/pl_heart.html – 9645 to Carmarthen 1959; three platforms; token working from Pantyffynnon; the 1892 Pantyffynnon box; cut-backs of 1964; Ffairfach creamery; Cilyrychen lime quarries; refreshment room and footmuffs; Glanrhyd 1987 and 1988 bridge; Llangadog creamery; Llanwrda 10,000 tons in 1923; banking engines at Llandovery. Secondary, local history.
+- [S2] Terry Norman, "Railway stations: Pantyffynnon to Llandeilo", Ammanford, Carmarthenshire web site (updated 1 Oct 2010) – http://www.terrynorm.ic24.net/photo%20railways%20llandeilo.htm – dated captioned photographs 1958–60 (42307, 45283, 3641, 42388, 9788, 9645, 45190, with train times); last steam passenger trains 13 June 1964; "1750 horse-power diesels"; platforms; the "Refresh" pub demolished mid-1990s; Ffairfach milk siding; wrongly says the LMS reached Llandeilo in 1857. Photographs viewed. Secondary, no references, photographs uncredited. Same author as S3 (llandeilo.org is "a collaborative venture by local historian Terry Norman"), so S2 and S3 are not independent.
+- [S3] Llandeilo History (llandeilo.org), "Heart of Wales Railway", including Audrey Doughty's 1996 "Heart of Wales Travel Guide" – https://llandeilo.org/pl_heart.html – 9645 to Carmarthen 1959; three platforms; token working from Pantyffynnon; the 1892 Pantyffynnon box; cut-backs of 1964; Ffairfach creamery; Cilyrychen lime quarries; refreshment room and footmuffs; Glanrhyd 1987 and 1988 bridge; Llangadog creamery; Llanwrda 10,000 tons in 1923; banking engines at Llandovery; the 1892 box "still working" as of 1996. Secondary, local history, by the same author as S2.
 - [S4] Shed Bash UK, "Swansea Victoria (Paxton Street) and subsheds 1938 – 1964" (2017) – http://shedbashuk.blogspot.com/2017/10/swansea-victoria-paxton-street-and.html – compiled shed visits and allocations: classes and numbers 1938–59 including 42307, 42388, 45190, 7439, 73018; Paxton Street LNWR 1882, closed 31 Aug 1959; Llandovery LNWR 1901, brick 4-road, sub-shed of 4B/87K then 87F, closed 10 Aug 1964; 1946 photo of 770, 2320, 8325 by Ben Brooksbank. Secondary compilation.
 - [S5] Shed Bash UK, "Llanelly 1938 – 1965" (2017) – http://shedbashuk.blogspot.com/2017/11/llanelly-1938-1965.html – GWR shed opened 1925, two roundhouses; 1938–51 visits listing 57xx 9788; inherited Swansea Victoria's duties in 1959; closed 14 Sept 1965. Secondary compilation.
 - [S6] Disused Stations, "Carmarthen (2nd) Station" – http://www.disused-stations.org.uk/c/carmarthen_second/index.shtml – caption: "The 11.35am passenger service to Llandeilo leaves Carmarthen station in August 1962", calling 7439 a 57xx and the last of a class of 50; GWR station description. Secondary.
-- [S7] Photos from the Fifties, list GLA, November 2020 (PDF) – https://photosfromthefifties.co.uk/wp-content/uploads/2021/07/GLA-November-2020.pdf – C2630: "BR class 4 2-6-4T leaving Pantyffynnon with a Shrewsbury to Swansea train", 15 June 1963; 5836A: Watson & Overend built stations on the Llandilo–Carmarthen line. Catalogue of photographs, not viewed.
+- [S7] Photos from the Fifties, list GLA, November 2020 (PDF) – https://photosfromthefifties.co.uk/wp-content/uploads/2021/07/GLA-November-2020.pdf – C2630: "BR class 4 2-6-4T leaving Pantyffynnon with a Shrewsbury to Swansea train", 15 June 1963; 5836A: Penclawdd station, built by Watson & Overend in 1865, with "distinct similarities" to the contractor's stations on the Mid Wales and Llandilo–Carmarthen lines (*Corrected 2026-10-02 (independent check)*: it does not date the Carmarthen-line stations). Catalogue of photographs, not viewed.
 - [S8] Department of Transport, *Railway Accident: Report on the Collapse of Glanrhyd Bridge on 19th October 1987 in the Western Region of British Railways* (HMSO, 31 January 1990) – https://www.railwaysarchive.co.uk/documents/DoT_Glanrhyd1987.pdf – read in part (text extracted): the train, the Class 108 cars, the deaths, the token system and loops, the bus link, reopening 30 Oct 1988, flooding at Llandeilo the night before. Primary.
 - [S9] The Railways Archive, "Accident at Glanrhyd on 19th October 1987" – https://www.railwaysarchive.co.uk/eventsummary.php?eventID=226 – 4 killed, cause flood, report date. Secondary index.
 - [S10] Wikipedia, "Llandeilo railway station" – https://en.wikipedia.org/wiki/Llandeilo_railway_station – LNWR main passenger operator, GWR limited services (unreferenced); branch closed 1963; building demolished; one platform 2008–2010 (citing Caton 2018); TfW, code LLL. Lead.
 - [S11] Wikipedia, "Llanelly Railway" (including the Central Wales and Carmarthen Junction Railway section) – https://en.wikipedia.org/wiki/Llanelly_Railway – the 1871 split; GWR from 1 Jan 1873; LNWR purchases 1873 and 1891; Vale of Towy joint 1884; absorption 1 July 1889; Neele's account; 1913 Llandilo Junction works; closures 1958, 1963, 15 June 1964, 10 Aug 1964, 1968. Lead; references not checked.
-- [S12] Wikipedia, "Heart of Wales line" – https://en.wikipedia.org/wiki/Heart_of_Wales_line – Beeching 1963, six marginal constituencies, light railway order 1972, NSTR signalling 1986, loops, Glanrhyd 1987, Llandeilo Junction east of Llanelli, Class 150 and 153, TfW, trains per day. Lead.
+- [S12] Wikipedia, "Heart of Wales line" – https://en.wikipedia.org/wiki/Heart_of_Wales_line – Beeching 1963, six marginal constituencies, light railway order 1972, NSTR signalling 1986, loops, Glanrhyd 1987, Llandeilo Junction east of Llanelli, Class 150 ("citation needed") and 153, TfW, trains per day; does not mention the Western Region. Lead.
 - [S13] Wikipedia, "Swansea Victoria railway station" – https://en.wikipedia.org/wiki/Swansea_Victoria_railway_station – owners in turn, LNWR 1873–1922, LMS, BR; closed June 1964 after the Beeching Report. Lead.
 - [S14] Wikipedia, "Llandilo Bridge railway station" – https://en.wikipedia.org/wiki/Llandilo_Bridge_railway_station – opened 1 June 1865; not served April–June 1880 in a dispute with the LNWR; closed 9 Sept 1963. Lead.
 - [S15] Wikipedia, "Golden Grove railway station" – https://en.wikipedia.org/wiki/Golden_Grove_railway_station – opened 1 June 1865, closed to passengers and goods 9 Sept 1963. Lead.
@@ -480,7 +530,7 @@ single-source, or cross-checked but regional; **low** = reconstructed by analogy
 - [S34] Wikipedia, "British Rail Class 120" – https://en.wikipedia.org/wiki/British_Rail_Class_120 – Swindon-built three-car cross-country DMU, 1958 and 1961 batches for the Western Region. Lead.
 - [S35] Wikipedia, "British Rail Class 153" – https://en.wikipedia.org/wiki/British_Rail_Class_153 – converted 1991–92; TfW use on the Heart of Wales line; eight bought June 2021; Active Travel units from 19 Feb 2025. Lead.
 - [S36] Wikipedia, "British Rail Class 150" – https://en.wikipedia.org/wiki/British_Rail_Class_150 – Wales & Borders, Arriva Trains Wales from Dec 2003, KeolisAmey Wales 14 Oct 2018, TfW 7 Feb 2021. Lead.
-- [S37] Wikipedia, "Transport for Wales Rail" – https://en.wikipedia.org/wiki/Transport_for_Wales_Rail – state-owned, operating from 7 Feb 2021; eight Class 153s kept for the Heart of Wales line. Lead.
+- [S37] Wikipedia, "Transport for Wales Rail" – https://en.wikipedia.org/wiki/Transport_for_Wales_Rail – state-owned, operating from 7 Feb 2021; a table giving 4 trains a day Shrewsbury to Swansea (*Corrected 2026-10-02 (independent check)*: it does not contain the "eight Class 153s kept for the Heart of Wales line" statement, which is S35's). Lead.
 - [S38] Transport for Wales, "Transport for Wales completes Class 153 refurbishment" (13 July 2022) – https://news.tfw.wales/news/transport-for-wales-completes-class-153-refurbishment – 26 units "rebranded into TfW's grey and red livery", operating on the Heart of Wales line.
 - [S39] Transport for Wales, "Introducing our new trains: frequently asked questions" (3 June 2024) – https://news.tfw.wales/blog/cyflwyno-ein-trenau-newydd-cwestiynau-cyffredin – Class 153s retained for the Heart of Wales line; six converted for cycles; "two-carriage trains on all Heart of Wales services".
 - [S40] Welsh Government, "Additional train service for Heart of Wales line" (27 Nov 2025) – https://www.gov.wales/additional-train-service-heart-wales-line – a midday service each way from 14 Dec 2025, "the fifth on the line".

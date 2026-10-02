@@ -5,6 +5,8 @@ status: draft
 updated: 2026-10-02
 ---
 
+Independently checked 2026-10-02 (see [reviews/event-effects-check-2026-10-02.md](reviews/event-effects-check-2026-10-02.md)); corrections applied.
+
 # Effects per key event
 
 Research for the "Sound and effects per event" idea in
@@ -24,15 +26,19 @@ an effect, so the app should show nothing beyond the ordinary era scene. Citatio
 
 - **Six events have documented, local, moment-specific effects**: the 1287 siege of Dryslwyn
   (siege engine, undermining, a wall falling on the besiegers, late summer); Glyndŵr in July 1403
-  (Llandeilo and Newton burned, a flood on the Tywi, rebels lodged in the town at night); the Walk
+  (Llandeilo and Newton burned "lately" by about 13 July, an inundation on an unnamed river, Owain
+  lodged in the town on the night of 3 July; *Corrected 2026-10-02 (independent check)*: the burning is not tied to that night, and the
+  river is not named); the Walk
   Gate in August 1843 (a night attack by about 60 disguised men, over in 15 to 20 minutes); the
-  bridge (the Tywi in winter flood carrying off the timber centring, 9 pm, 30 January 1848); the
+  bridge (the Tywi in winter flood carrying off the already-lowered timber centring, 9 pm, 30
+  January 1848; *Corrected 2026-10-02 (independent check)*: the arch was standing); the
   church reopening (Thursday 10 October 1850: shops shut, streets quiet, nearly 2,000 in church);
   and the railway (Tuesday 20 January 1857: rain and sleet, then sun on snow-capped hills, cannon,
   bells, bands, flags, a procession).
-- **Two more have documented but thin effects**: the 1282 ambush (mid June; the English attacked
-  "from the hiding places of the woods and the marshes" while busy with plunder, "in a certain
-  narrow way") and the 1462 slighting of Carreg Cennen (500 men, picks and crowbars, four months).
+- **Two more have documented but thin effects**: the 1282 ambush (mid June; one chronicle
+  tradition has the English attacked "from the hiding places of the woods and the marshes" while
+  busy with plunder, the other "in a certain narrow way"; *Corrected 2026-10-02 (independent check)*: single-tradition per detail, and the
+  woods-and-marsh phrase is a stock phrase, so the topography is reconstructed) and the 1462 slighting of Carreg Cennen (500 men, picks and crowbars, four months).
 - **The prehistoric events can carry documented climate and landscape** (Younger Dryas cold and
   cirque glaciers; heath fires at Waun Fignen Felen), but no moment-specific effect.
 - **Everything else should show nothing special.** Founding a church or castle, a charter, an Act,
@@ -44,10 +50,12 @@ an effect, so the app should show nothing beyond the ordinary era scene. Citatio
   12th-century legend [S18]. A local claim that Talley's great bell became Exeter's "Great Tom" [S19]
   does not survive a check: the curfew bell called Great Tom is at Christ Church, Oxford, and came from
   Osney Abbey [S20].
-- **Corrections found in passing** (not edited; for whoever owns those files): the "two men
+- **Corrections found in passing** (for whoever owns those files): the "two men
   captured with yeomanry assistance" in `era-victorian.md`'s Walk Gate row belong to a different gate
-  near Narberth in the same newspaper column [S9]; two newspapers put the Walk Gate attack on the night
-  of Monday 7 to Tuesday 8 August 1843, not 9 August [S8][S9]; the 1287 "tunnel collapse" in
+  near Narberth in the same newspaper column [S9] (applied to `era-victorian.md` on 2026-10-02); two
+  newspapers put the Walk Gate attack on the night of 7 to 8 August 1843, not 9 August [S8][S9] (that
+  note now records both dates; *Corrected 2026-10-02 (independent check)*: only the Welshman pins it to Monday to Tuesday, the Merlin may say
+  Sunday); the 1287 "tunnel collapse" in
   `events.ts` is, in the sources, a wall that fell on men inspecting the undermining [S16a][medieval:S23];
   and Coflein says Glyndŵr *took* Carreg Cennen in 1403 [S17], where `events.ts` says "the castles held".
 
@@ -59,30 +67,30 @@ silent, not that the app must leave them unset; it may keep its defaults.
 | Event id | Proposed effect | Season, time of day | Tier | Sources |
 |---|---|---|---|---|
 | `people-return` | None for the moment. Late-glacial landscape only (open, cold, sparse) | Unknown | Not supportable (as an effect) | [timeline:S1] |
-| `younger-dryas` | Cold: snow cover, small glaciers in the high north-facing cwms of the Black Mountain, tundra. Wind and drifting snow on a given day are reconstructed | Winter look is a fair default; no day is recorded | Documented (climate); reconstructed (weather) | [deeptime:S1][deeptime:S8] |
-| `mesolithic-burning` | Smoke from heath and birch fires on the Black Mountain plateau, at the eastern edge | Unknown | Documented (the burning); reconstructed (how the smoke looked) | [deeptime:S12] |
+| `younger-dryas` | Cold (about 5 degrees colder in Britain): snow cover, small cirque glaciers in the high cwms of the Black Mountain (Llyn y Fan Fach), lowland permafrost. Wind and drifting snow on a given day are reconstructed (*Corrected 2026-10-02 (independent check)*: 2 to 6 degrees is Europe's figure; "north-facing" and tundra dropped as unsourced) | Winter look is a fair default; no day is recorded | Documented (climate); reconstructed (weather) | [deeptime:S1][deeptime:S8] |
+| `mesolithic-burning` | Smoke from heath and birch fires at Waun Fignen Felen, distant on the eastern horizon, about 4 km outside the circle (*Corrected 2026-10-02 (independent check)*: 20.1 km from the map centre, not "at the eastern edge") | Unknown | Documented (the burning); reconstructed (how the smoke looked) | [deeptime:S12] |
 | `garn-goch-cairn` | None | Unknown | Not supportable | [timeline:S4][timeline:S5] |
 | `bronze-cairns` | None | Unknown | Not supportable | [timeline:S7] |
 | `garn-goch-fort` | Hearth smoke from roundhouses (already built) | Unknown | Reconstructed (from roundhouse archaeology elsewhere; Garn Goch is unexcavated) | [ironage:S1][timeline:S10] |
 | `roman-forts` | None special. A garrison's smoke and noise would be reconstructed only | Unknown | Not supportable (as an event effect) | [timeline:S15] |
 | `st-teilo` | At most a handbell, labelled as legend: the 12th-century Life gives Teilo a bell that "sounded every hour, without any one moving it" | Unknown | Reconstructed (legend, written 600 years later) | [S18][timeline:S19] |
 | `surexit` | None | Unknown | Not supportable | [medieval:S6] |
-| `rhys-ap-tewdwr` | None at Llandeilo (he died near Brecon). The Brut's next entry says the French then devastated the Vale of Tywi; burned farms would be a documented-but-undated aftermath | Unknown; the Brut gives no date for his death | Not supportable (moment); documented, single-source (aftermath) | [S13][timeline:S28] |
+| `rhys-ap-tewdwr` | None at Llandeilo (he died near Brecon). The Brut's entry two years on (filed 1093; *Corrected 2026-10-02 (independent check)*: not "the next entry") says the French devastated the Vale of Tywi; burned farms would be a documented-but-undated aftermath | Unknown; the Brut gives no date for his death | Not supportable (moment); documented, single-source (aftermath) | [S13][timeline:S28] |
 | `dinefwr-castle` | Building work (masons, timber scaffold) if wanted | Unknown | Reconstructed (the building is documented, not how it sounded) | [timeline:S34] |
 | `talley` | Building work; plainchant. No bell is recorded | Unknown | Reconstructed (from the canons' documented presence) | [medieval:S17][S19][S20] |
 | `dryslwyn` | Building work, as above | Unknown | Reconstructed | [medieval:S21][medieval:S22] |
 | `english-1277` | None | Unknown | Not supportable | [timeline:S26][timeline:S37] |
-| `battle-1282` | Restrained distant fighting: men breaking out of woods and marsh onto a narrow road, horses, shouting, a rout. No dust: no weather is recorded | Summer (16 June by the Welsh annals); time of day unknown | Documented (ambush from woods and marshes, narrow way, heavy losses); reconstructed (the sound) | [S14][S15][classes:S2][medieval:S28] |
+| `battle-1282` | Restrained distant fighting: men breaking out of cover onto a narrow road, horses, shouting, a rout. No dust: no weather is recorded | Summer (16 June by the Welsh annals); time of day unknown | Documented, cross-checked: an ambush with heavy losses and Valence's son killed. Single-tradition per detail: the narrow way (Chester), plunder (Oseney only), woods and marshes (Wykes/Oseney, a stock phrase, so the ground is reconstructed); reconstructed (the sound). *Corrected 2026-10-02 (independent check)*: was "documented" for every detail | [S14][S15][classes:S2][medieval:S28] |
 | `dryslwyn-siege` | Trebuchet throwing stone shot (balls over 16 inches found), undermining at the walls, a section of wall falling, arrows | Late summer: from about 1 August (Welsh annals) or 15 August (Cadw guidebook) to 5 September 1287; time unknown | Documented, cross-checked (machine, mining, collapse) | [S16a][medieval:S21][medieval:S23][classes:S2] |
 | `carreg-cennen-giffard` | Building work | Unknown | Reconstructed | [timeline:S37] |
-| `glyndwr` | Llandeilo and Newton burning (smoke over the town); the Tywi in flood; a rebel host camped round Dinefwr; rebels lodged in Llandeilo overnight | Summer, early July 1403; night of Tuesday 3 July for the lodging | Documented (letters written that week) | [S11][S12] |
-| `carreg-cennen-slighted` | Men with picks and crowbars, falling masonry, dust | Unknown (months not recorded) | Documented, single-organisation (Cadw; Wikipedia cites Lewis 2006 for the 500 men) | [S17b][timeline:S36] |
+| `glyndwr` | Llandeilo and Newton burning (smoke over the town), some time in the first half of July; an inundation (river not named; a Tywi flood is reconstructed); a rebel host besieging Dinefwr from Monday 2 July; Owain lodged in Llandeilo on the night of Tuesday 3 July. *Corrected 2026-10-02 (independent check)*: the burning is not tied to that night, and the 300 rebels were left round Llandovery castle, not Dinefwr | Summer, early July 1403; night of Tuesday 3 July for the lodging only | Documented (letters written that month) | [S11][S12] |
+| `carreg-cennen-slighted` | Men with picks and crowbars, falling masonry, dust | Unknown (months not recorded) | Documented, single-organisation (Cadw; Wikipedia cites Lewis 2006 for the 500 men). Cadw has capture by Sir Roger Vaughan in 1462; Wikipedia has surrender forced by Mortimer's Cross, 1461 (citing Morgan 2008) (*Corrected 2026-10-02 (independent check)*: added) | [S17b][timeline:S36][timeline:S37] |
 | `bosworth` | None locally | Summer (22 August 1485), but the event is elsewhere | Not supportable | [timeline:S44] |
 | `acts-of-union` | None | Unknown | Not supportable | [timeline:S42] |
 | `newton-house` | Building work if wanted | Unknown | Reconstructed | [timeline:S45] |
 | `paxtons-tower` | Building work if wanted | Unknown | Reconstructed | [timeline:S52] |
-| `rebecca` | Night. A band of about 60 disguised, armed men at the Walk Gate; axes and bars; gate and toll-house down in 15 to 20 minutes; the keeper running to an inn; dragoons riding out too late to ruins. No fire at this gate. Ricks burning on the Dynevor estate later the same month | Summer; night of Monday 7 to Tuesday 8 August 1843 (newspapers) or 9 August (diary) | Documented, cross-checked (night, numbers, speed, dragoons); not supportable (torches, flames at this gate) | [S8][S9][S1][victorian:S9][victorian:S4] |
-| `bridge` | The Tywi in flood at night sweeping away the bridge's wooden centring. Earlier floods took part of it with five men aboard (October 1846) | Winter; 9 pm, Sunday 30 January 1848 | Documented, single-source for the day (Jenkins's diary); contradicted on the date by a secondary history | [S2][S5][S6] |
+| `rebecca` | Night. A band of about 60 disguised, armed men at the Walk Gate; axes and bars; gate and toll-house down in 15 to 20 minutes; the keeper running to an inn; dragoons riding out too late to ruins. No fire at this gate. Ricks burning on the Dynevor estate later the same month | Summer; night of Monday 7 to Tuesday 8 August 1843 (the Welshman; the Merlin's OCR may read Sunday) or 9 August (diary) (*Corrected 2026-10-02 (independent check)*: only the Welshman pins Monday to Tuesday) | Documented, cross-checked (night, numbers, speed, dragoons); not supportable (torches, flames at this gate); the quick, quiet scene is reconstructed by analogy from Samuel's general description | [S8][S9][S1][victorian:S9][victorian:S4] |
+| `bridge` | The Tywi in flood at night sweeping off the bridge's already-struck wooden centring, the new arch standing. Earlier floods took part of it with five men aboard (October 1846) | Winter; 9 pm, Sunday 30 January 1848 | Documented, single-source for the day (Jenkins's diary), dated 30 January by S5 too. *Corrected 2026-10-02 (independent check)*: not contradicted by Hughes, who gives no date; his "three days later" matches the diary's 27 to 30 January | [S2][S5][S6] |
 | `church-rebuilt` | A quiet, crowded town on a holy day: shops shut, no revelry, gentry and clergy arriving, nearly 2,000 in church; services at 11, 2.30 and 6, in English and Welsh. No bells reported | Autumn; Thursday 10 October 1850, all day | Documented, single-source (one newspaper) | [S10][victorian:S23] |
 | `railway` | Heavy rain then sleet, clearing to sunshine as the train arrives; hills lightly snow-capped, rainbows, swollen streams, bare trees. Two engines wreathed in laurel, 13 crowded carriages. Cheers, cannon, pealing bells, bands, banners, a procession in sashes, two arches, crowds in holiday clothes. A ball until the small hours | Winter; Tuesday 20 January 1857, early afternoon arrival (the train left Llanelli at 12.30) | Documented (newspaper); the date and the public breakfast cross-checked with Jenkins's diary | [S7][S4][victorian:S29] |
 | `guardianship` | None | Unknown | Not supportable | [timeline:S37] |
@@ -94,12 +102,18 @@ silent, not that the app must leave them unset; it may keep its defaults.
 ### Prehistory: `people-return`, `younger-dryas`, `mesolithic-burning`, `garn-goch-cairn`, `bronze-cairns`, `garn-goch-fort`
 
 Written from the existing notes, without new search. The deep-time note documents the Younger
-Dryas (Loch Lomond Stadial, about 12,900 to 11,700 years ago) as a cooling of 2 to 6 degrees in
-Britain, with small glaciers reforming only in the high cwms, permafrost and tundra elsewhere
-[deeptime:S1][deeptime:S8]. That supports a cold, snowy look for the whole span; a particular
+Dryas (Loch Lomond Stadial, about 12,900 to 11,700 years ago) as a cooling, with small glaciers
+reforming only in the high cwms [deeptime:S1][deeptime:S8]. *Corrected 2026-10-02 (independent check)*: the 2 to 6 degrees is the
+source's figure for Europe; for Great Britain it has "Icefields and glaciers formed in upland
+areas ... while many lowland areas developed permafrost, implying a cooling of −5 °C"; tundra is
+not stated for Britain. The named cirque moraines include "the features around Llyn y Fan Fach",
+on the Black Mountain, dated "between 12,900 and 11,500 years ago"; "north-facing" is not in the
+source and is dropped. That supports a cold, snowy look for the whole span; a particular
 blizzard is weather, and weather on any one day is reconstructed. At Waun Fignen Felen,
 "dated palaeoecological evidence" shows heath and birchwood being burned in the Mesolithic
-[deeptime:S12]. The fires are documented; their season and the look of the smoke are not. The
+[deeptime:S12]. The fires are documented; their season and the look of the smoke are not.
+*Corrected 2026-10-02 (independent check)*: the site (Coflein SN 82500 17840) is 20.1 km from the map centre, about 4 km outside the
+16.1 km circle, so the smoke belongs distant on the eastern horizon, not "at the eastern edge". The
 cairns are undated and unexcavated [timeline:S4][timeline:S5][timeline:S7]: there is no event to
 show. Garn Goch is unexcavated too, so roundhouse hearth smoke there rests on analogy with
 excavated roundhouses elsewhere [ironage:S1].
@@ -121,15 +135,17 @@ bells") [S18], which is evidence for Llandaff then, not Llandeilo in the 6th cen
 reconstructed, shown as legend.**
 
 When St Teilo's tower first had bells is not recorded in anything read. The tower is dated c. 1600
-[victorian:S23]. The first bells heard at Llandeilo in a source read here are those that pealed for
+[victorian:S23]; *Corrected 2026-10-02 (independent check)*: the same Coflein record also calls it a "fifteenth century west tower", so the
+date is contested (15th century or c. 1600) [medieval:S57]. The first bells heard at Llandeilo in a source read here are those that pealed for
 the first train on 20 January 1857 [S7]. The 1850 reopening report mentions no bells [S10].
 
 ### `surexit`, `rhys-ap-tewdwr`, `english-1277`
 
 Nothing visible or audible is recorded for the writing of the Surexit memorandum. Rhys ap Tewdwr died
 near Brecon, outside the circle. The 1860 Rolls Series Brut (its years run behind; it files his death
-under 1091) gives no day or season for his death. Its next entry says: "The ensuing year, the French
-devastated Gower, Cydweli, and the Vale of Tywi" [S13]. That is a documented, if undated, aftermath
+under 1091) gives no day or season for his death. Its entry two years on (filed 1093, after the 1092
+entry on William Rufus in Normandy) says: "The ensuing year, the French devastated Gower, Cydweli,
+and the Vale of Tywi" [S13] (*Corrected 2026-10-02 (independent check)*: the note said "its next entry"). That is a documented, if undated, aftermath
 in this valley, **single-source**, and worth a note rather than an effect. (A manuscript variant on
 the same page, "a little before the calends of May", belongs to Cadwgan's raid on Dyfed, not to
 Rhys's death.) For 1277 no source read describes anything seen or heard locally. The Rolls Series
@@ -144,7 +160,11 @@ recorded** in anything read. A local-history page says that "at the Dissolution 
 1533 the great bell of the Abbey had been taken away to Exeter Cathedral where, as 'Great Tom', it
 still rings curfew" [S19]. The curfew bell known as Great Tom is at Christ Church, Oxford, and "was
 removed from Osney Abbey in 1546" (National Archives catalogue title, seen as a search result only)
-[S20]. The Talley claim looks garbled and is **not supportable** without a better source.
+[S20]; Wikipedia's *Tom Tower* agrees it was "moved from the 12th-century Osney Abbey after the
+dissolution of the monasteries" [S23]. Exeter Cathedral's own page says its great bell is "Peter",
+"re-cast in the late 17th century, to replace one given by Bishop Peter Courtenay in the 1480s"
+[S22] (*Corrected 2026-10-02 (independent check)*: added as further evidence against the Talley claim). The Talley claim looks garbled and
+is **not supportable** without a better source.
 
 ### `battle-1282`
 
@@ -165,9 +185,14 @@ What the primary chronicles read here actually say:
   rest barely escaping by flight, many however being inhumanly killed" [S15]. Neither text names
   Llandeilo in this passage.
 
-So: **documented** that it was an ambush from woods and marsh on a narrow road, against men burdened
-with plunder, ending in a rout. **Cross-checked** across two independent chronicle traditions
-(Chester; Wykes/Oseney). Season: **summer, mid June**. Time of day and weather: **not recorded** in
+So: **documented, cross-checked** across two chronicle traditions (Chester; Wykes/Oseney) only that
+William de Valence's son was killed with heavy losses. *Corrected 2026-10-02 (independent check)*: the note called the whole picture
+cross-checked; each detail is single-tradition. The narrow way is Chester's alone; woods and marsh
+are Wykes/Oseney's (two related texts); the plunder is Oseney's alone (Wykes has none). "De latibulis
+silvarum et paludibus" is also the Oseney chronicler's stock phrase: he uses it almost word for word
+for the 1257 defeat at Cymerau ("qui de latibulis silvarum et paludibus inopinate prosiluerunt"), so
+a wooded, marshy ambush ground is **reconstructed**, not documented topography. Neither Wykes nor
+Oseney places the fight in South Wales. Season: **summer, mid June**. Time of day and weather: **not recorded** in
 anything read, so "dust on the road" in the design table is unsupported and should go. The sound
 (shouts, horses, a rout heard from a distance) is reconstructed, and the design's "kept restrained"
 fits the evidence.
@@ -202,7 +227,8 @@ about three weeks from 15 August to 5 September (guidebook). The victim: the gui
 Stafford" is Nicholas de Stafford, whom a search summary of genealogy pages says died "1 August
 1287" while "inspecting a mine" [S21]; the Annales Cambriae names only William de Montchensy. The
 earldom of Stafford was later (1351, per the same search summary), so "earl" is probably the
-guidebook's slip; unverified. And `events.ts` says "a tunnel collapse": both primary and guidebook
+guidebook's slip; unverified here (the medieval note's independent check of 2026-10-02 confirms the
+1351 earldom from Wikipedia [medieval:S59][medieval:S60]; S21 itself was not re-checked). And `events.ts` says "a tunnel collapse": both primary and guidebook
 say a **wall** fell on men at the mine. The effect should show a wall section coming down, not a
 tunnel caving in.
 
@@ -216,37 +242,58 @@ Letters written that week, printed with translations in Hingeston's *Royal and H
   plain country ... and have laid siege to the said Castle [Dinefwr] with a great force of rebels".
   Men at Llandovery report that Glyndŵr "was at Llandovery on Tuesday", and "three hundred of the
   rebels were at their ease, lying round the siege of the same Castle, and at night were lodged at
-  Llandeilo".
+  Llandeilo". *Corrected 2026-10-02 (independent check)*: the French ("le Mardy fuist a Llamendevery ... et CCC de les rebelles ad lesse
+  gisantz entour la sege de mesme le Chastiell et le noet fuist loggez a Landeilo") has singular
+  verbs: Owain was at Llandovery on Tuesday, **left** 300 rebels round the siege of Llandovery
+  castle, and was himself lodged at Llandeilo that night. The 300 were not round Dinefwr; the siege
+  of Dinefwr rests on Havard's report of Monday 2 July (Rhys ap Gruffudd, Henry Dwnn and others).
+  Griffiths reads it as "Glyndwr and 300 rebels had surprised Llandovery's garrison ... and that night
+  they lodged at Llandeilo" [S12].
 - **Hugh de Waterton to the king**: the bearer of a letter from Llandovery reported "that your rebels
   in those parts have lately burned the towns of Llandeilo and Newtown, and have made a great
   destruction in those parts ... as far as your Lordships of Iskennen and Kidwelly, ... and were about
   to have entry to destroy your said Lordships, but that they were impeded by an inundation" ("un
-  cretyn de ewe", a flood).
+  cretyn de ewe", a flood). Hingeston dates this letter "13 (?) July, 1403" [S11], so the burning
+  was reported "lately" by about 13 July; *Corrected 2026-10-02 (independent check)*: it is not tied to the night of 3 July. No river is
+  named; the flood stopped the rebels entering Iskennen and Kidwelly.
 - **John Scudamore**, writing "at the Castel of Carreckennen, the V. day of Juil": Glyndŵr lay the
   night before at Dryslwyn, and refused Scudamore a safe-conduct to send away his wife and her mother
   (quoted in the editor's preface).
 
-Ralph Griffiths's history, quoted on a local-history site, gives the same story from the same letters:
-Glyndŵr appeared on 2 July, the towns of Llandovery and Newton were burned, "only severe flooding was
-temporarily hindering their progress", the besiegers numbered "about 8,240 spears", and the towns of
-Llandeilo Fawr and Newton were "largely destroyed in July 1403" [S12].
+Ralph Griffiths's history, quoted on a local-history site, tells the story from the same letters:
+Glyndŵr appeared on 2 July, "the towns of Llandovery and Newton had been burned by the rebels",
+"only severe flooding was temporarily hindering their progress", the besiegers numbered "about 8,240
+spears", the towns of Llandeilo Fawr and Newton were "largely destroyed in July 1403", and "Dinefwr
+castle does not seem to have fallen" [S12]. **Discrepancy, side by side** (*Corrected 2026-10-02 (independent check)*: added): Griffiths has
+"the towns of Llandovery and Newton had been burned" [S12]; Waterton's letter has "burez les villes
+de Landylo et Newtoun" (Llandeilo and Newtown) [S11]. Griffiths's own closing line names Llandeilo
+Fawr, so both readings are in S12.
 
 **Tier: documented**, from contemporary letters; the burning of Llandeilo is in one letter reporting
 a messenger's word, with Griffiths as the secondary reading (not independent of the letters). Season:
-**summer, early July**, and a summer flood on the Tywi. Time of day: rebels lodged at Llandeilo **at
-night** on Tuesday 3 July. The proposed effect is smoke from a burning town, a swollen river, and a
-host's camp fires round Dinefwr. Note that the strongest local evidence is about **Dinefwr and
+**summer, first half of July**, and an inundation (river not named; a Tywi flood is
+**reconstructed**). Time of day: Owain lodged at Llandeilo **at night** on Tuesday 3 July; the
+burning has no recorded night or day. The proposed effect is smoke from a burning town, a swollen
+river, and a host's camp fires round Dinefwr (*Corrected 2026-10-02 (independent check)*: the burning is no longer set at the night of 3
+July, and the river is labelled reconstructed). Note that the strongest local evidence is about **Dinefwr and
 Llandeilo**, while the event is filed under Carreg Cennen.
 
 **Contradiction: did Carreg Cennen fall?** Coflein: "In 1403 Carreg Cennen was taken by Owain
-Glyndwr" [S17]. Wikipedia, citing Lewis 2006: the besiegers, "although inflicting severe damage to the
-walls, failed to take the castle" [timeline:S37]. Scudamore was still writing from inside it on 5 July
-[S11]. `events.ts` says "The castles held", which takes one side silently.
+Glyndwr", and the record's stated source is Lewis, J.M. 2006, *Carreg Cennen Castle* [S17]. Wikipedia:
+the besiegers, "although inflicting severe damage to the walls, failed to take the castle"
+[timeline:S37]. *Corrected 2026-10-02 (independent check)*: that Wikipedia sentence carries **no citation** (the Lewis 2006 citation sits
+after the later sentence on £500 of repairs) and has a hidden editor's comment, "contradicts Lewis
+(2006)". The point stays contested, but the "held" side is weaker than the note said. Scudamore was
+still writing from inside it on 5 July [S11]. `events.ts` says "The castles held", which takes one
+side silently; Griffiths supports "held" for Dinefwr only [S12]. No letter read describes a siege
+**of** Carreg Cennen in early July, though the event is titled so.
 
 ### `carreg-cennen-slighted`
 
 Cadw: "After its capture by Sir Roger Vaughan in 1462 a force of 500 men took four laborious months to
 dismantle the castle with picks and crowbars" [S17b]. Wikipedia gives the 500 men, citing Lewis 2006
+[timeline:S37]. **Side by side** (*Corrected 2026-10-02 (independent check)*: added): Cadw has capture by Sir Roger Vaughan in 1462 [S17b];
+Wikipedia instead has the surrender forced after Mortimer's Cross, 1461, citing Morgan 2008
 [timeline:S37]. Coflein says only that it "was rendered unusable in 1462 by Yorkists" [S17]. **Tier:
 documented**, effectively single-source for the tools and duration. Months and season: **not
 recorded**.
@@ -258,7 +305,7 @@ administrative acts. **Not supportable.**
 
 ### `rebecca`
 
-Three accounts of the Walk Gate, two of them that week:
+Three accounts of the Walk Gate, two of them that week, and one general description (*Corrected 2026-10-02 (independent check)*):
 
 - **The Welshman, Friday 11 August 1843**: "On Tuesday morning the Llandilo Walk Gate and toll-house,
   situated on the mail road from Carmarthen to Llandilo, were demolished by the Rebeccaites, although
@@ -278,19 +325,23 @@ Three accounts of the Walk Gate, two of them that week:
 - **Thomas Jenkins's diary, Llandeilo**: "Aug 9 The Walk Gate and house was taken down to the ground by
   the Rebeccaites with soldiers billeted at The White Hart and Walk on both sides, so much for soldier
   vigilance" [S1].
-- **William Samuel, *Llandeilo Present and Past* (1868)**, quoted on llandeilo.org: Rebecca came
+- **William Samuel, *Llandeilo Present and Past* (1868)**, quoted on llandeilo.org, on Rebecca's
+  raids round Llandeilo in general (not this gate): Rebecca came
   "suddenly, rapidly, and no more seen than a clap of thunder, and infinitely less audible. Before the
   trumpeter could rouse to horse ... the deed was done, and behold, all around was still as night"
   [victorian:S9].
 
 **Tier: documented, cross-checked**: night, about 60 disguised and armed men, a gate and toll-house
 pulled down in 15 to 20 minutes, dragoons close by and too late. Season: **summer, August**. Time:
-**night**, very likely the small hours of Tuesday 8 August (the Welshman's "Tuesday morning" and the
-Merlin's "night" agree; Jenkins dates it 9 August). **Not supportable for this gate**: torches,
+**night**, very likely the small hours of Tuesday 8 August on the Welshman's "Tuesday morning";
+Jenkins dates it 9 August. *Corrected 2026-10-02 (independent check)*: only the Welshman pins it to Monday to Tuesday. The Merlin's OCR
+reads "Sw°nday", which begins with S and could be Sunday 6 August, so it does not confirm Monday. **Not supportable for this gate**: torches,
 flames, a burning toll-house, or men in women's clothes. "Disguised" is all the local reports say;
 women's clothing is documented for Rebecca generally (llandeilo.org summarising the literature)
-[victorian:S9], so a Rebecca in a gown is reconstructed for Llandeilo. Samuel's line argues for a
-quick, quiet scene rather than a roaring one, with the dragoons' trumpet as the loudest sound.
+[victorian:S9], so a Rebecca in a gown is reconstructed for Llandeilo. Samuel's passage describes
+Rebecca's raids round Llandeilo in general, not the Walk Gate (*Corrected 2026-10-02 (independent check)*: the note presented it as an
+account of this gate), so the quick, quiet scene, with the dragoons' trumpet as the loudest sound,
+is **reconstructed by analogy** for this gate.
 Fire **is** documented on the Dynevor estate: wheat mows and corn stacks burned on 30 August and 8
 September 1843 [victorian:S4] (times of day not checked: the Rees PDF URL returned 404 on 2026-10-02).
 
@@ -328,12 +379,15 @@ the bridge, both on llandeilo.org:
 **No opening ceremony was found**: a Welsh Newspapers Online search of 1847 to 1849 turned up a row
 over the bridge's cost, not a celebration. **Tier: documented, single-source** for the flood of 30
 January 1848 (one diary). Season: **winter**; time **9 pm**. The strongest effect is the Tywi in winter
-flood at night, tearing the centring away from under the new arch.
+flood at night sweeping off the timber centring, which had been "lowered from under the arch" three
+days before, "baulks and all" [S2][S6]; the new arch stands (*Corrected 2026-10-02 (independent check)*: the note had the flood "tearing the
+centring away from under the new arch", as if it were still under load).
 
-**Contradiction.** Hughes says the centring was carried off by a flood "three days later" than the
-keystone, so late November 1847, using Jenkins's own phrase [S6]. Jenkins's diary puts the lowering
-on 27 January and the flood on 30 January 1848 [S2]. The diary is the primary source and its weekday
-checks out. Separately, the foundation stone: Jenkins, under 1844, "Dec 3 The foundation stone was
+**Not a contradiction** (*Corrected 2026-10-02 (independent check)*: the note recorded one). Hughes's "three days later" follows his
+account of the struggle to strike the centring after the keystone (saws and fire failed), not the
+keystone itself, and he gives no date [S6]. Jenkins's diary puts the lowering on 27 January and the
+flood on 30 January 1848, exactly three days [S2], and S5 also dates the flood to 30 January. The
+diary is the primary source and its weekday checks out. Separately, the foundation stone: Jenkins, under 1844, "Dec 3 The foundation stone was
 laid this evening at 3:15 p.m. 4 lbs of beef and 1 pint of ale and ½ oz of tobacco given to each
 workman to the number of 40" [S1]; Hughes has "3 pm on December 3, 1845", and puts the beef, beer and
 tobacco at the signing of the contract instead [S6].
@@ -379,7 +433,8 @@ celebration was on "Tuesday last" (20 January 1857). What it says:
   arches and no decorations whatever": a plain one at the station, and an "artistic" one from the
   Castle Hotel across the street inscribed "Prosperity to the Llandilo Railway, and Long Life to Mr.
   Hutchings and Family". A banner over a street read "Welcome Hutchins".
-- **After.** A déjeuner in the Town Hall under a banner reading "Heddwch a Llwyddiant i Wlad fy
+- **After.** A déjeuner in the Town Hall (Jenkins calls the room the Shire Hall [S4]; whether they
+  are the same building is not verified, *Corrected 2026-10-02 (independent check)*) under a banner reading "Heddwch a Llwyddiant i Wlad fy
   Ngenedigaeth", catered by the Cawdor Arms; then "a Public Ball ... at the Cawdor Arms Assembly Room
   ... dancing kept up with enthusiasm until an early hour next morning" to a quadrille band.
 
@@ -405,7 +460,7 @@ Recorded here so the app could bind weather or effects to them later. None is ag
 | 1316 | Llandeilo burned during Llywelyn Bren's revolt, and the townsfolk were later spared a tax | [S12] | Single secondary source |
 | 10 February 1798 | "The largest flood ever remembered by the oldest inhabitant of the town" carried away the temporary wooden bridge | [S6] | Single secondary source |
 | 18 February 1843 | "Very stormy with hard frost, the wind un-roofed part of my workshop" | [S1] | Diary |
-| 5 February 1853 | "The mountains covered with snow to a depth of 10 inches" | [S3] | Diary |
+| 5 February 1853 | "The mountains covered with snow to a depth of 10 inches", seen on a trip at dusk to Cellan, not stated to be at Llandeilo (*Corrected 2026-10-02 (independent check)*) | [S3] | Diary |
 | 6 to 7 December 1858 | Lord Dynevor's homecoming: town illuminated, Militia Band, fireworks, an arch at the park gate; next evening "Dynevor Castle [Newton House] took fire at 8 p.m." | [S4] | Diary |
 | 10 March 1863 | £15 16s of fireworks on the Castle field at 8 pm for the Prince of Wales's wedding | [S4] | Diary |
 | 13 February 1868 | Viscount Emlyn's coming of age: "Seven bonfires, firing of cannon, fireworks" | [S4] | Diary |
@@ -434,11 +489,16 @@ Recorded here so the app could bind weather or effects to them later. None is ag
   date) would settle it.
 - **Talley's bell.** Did Talley have one, and where did it go at the Dissolution? The Exeter "Great
   Tom" claim needs its source.
-- **The Walk Gate date**: night of 7 to 8 August (two newspapers) or 9 August (diary as transcribed)?
-  A look at the Merlin page image would settle "Sunday" or "Monday".
+- **The Walk Gate date**: night of 7 to 8 August (the Welshman; *Corrected 2026-10-02 (independent check)*: not "two newspapers", the
+  Merlin may say Sunday 6 to 7 August) or 9 August (diary as transcribed)? A look at the Merlin page
+  image would settle "Sunday" or "Monday".
 - **Weather in June 1282 and August 1287.** No chronicle read gives any. The Annales Cambriae records a
   great murrain of sheep around 1281 [classes:S2], not checked here.
-- **1403**: did Carreg Cennen fall (Coflein) or hold (Wikipedia, Lewis 2006)? Lewis 2006 was not read.
+- **1403**: did Carreg Cennen fall (Coflein, citing Lewis 2006) or hold (Wikipedia, uncited and
+  editor-flagged as contradicting Lewis 2006; *Corrected 2026-10-02 (independent check)*)? Lewis 2006 was not read.
+- **1403**: which river flooded? The letter says only "an inundation"; the Tywi is a likely reading.
+- **1403**: Griffiths's "Llandovery and Newton" against the letter's "Llandeilo and Newtown"
+  [S11][S12]: a misprint, or a reading of another letter?
 - **The 1462 slighting**: which months? The Cadw text gives none.
 - **Rhydyffynnon gate** was destroyed the same night as the Walk Gate [S8]; it is inside the circle and
   could join the Rebecca scene if the map has it.
@@ -446,6 +506,8 @@ Recorded here so the app could bind weather or effects to them later. None is ag
 - **The Dynevor estate rick-burnings**: times of day, from Rees (2011) or the *Carmarthen Journal* of 1
   September 1843 and *The Welshman* of 15 September 1843 that Rees cites [victorian:S4].
 - **The foundation stone of the bridge**: 3 December 1844 (diary) or 1845 (Hughes).
+- **Breakfast room for the railway opening**: the Welshman's Town Hall and Jenkins's Shire Hall
+  [S7][S4]: the same building?
 
 ## Sources
 
@@ -469,6 +531,8 @@ Recorded here so the app could bind weather or effects to them later. None is ag
 - [S17] Coflein (RCAHMW), "Carreg Cennen Castle", NPRN 103970 - https://coflein.gov.uk/en/sites/103970 - read via a fetch summary: construction 1287-1321; "In 1403 Carreg Cennen was taken by Owain Glyndwr"; "rendered unusable in 1462 by Yorkists".
 - [S17b] Cadw, "More about Carreg Cennen" - https://cadw.gov.wales/more-about-carreg-cennen - read via a fetch summary: "After its capture by Sir Roger Vaughan in 1462 a force of 500 men took four laborious months to dismantle the castle with picks and crowbars"; nothing on 1403. Same page as medieval:S24.
 - [S18] W. J. Rees (ed. and trans.), *The Liber Landavensis, Llyfr Teilo* (1840), Life of St Teilo - https://archive.org/details/liberlandavensi00reesgoog - full text searched: Teilo's bell, "more famous than great ... it sounded every hour, without any one moving it"; bells in Llandaff ritual ("sounding bells", "inverted bells"). A 12th-century text; legend.
-- [S19] llandeilo.org, "Concise history" - https://llandeilo.org/concise_history.html - downloaded and read: "At the Dissolution of the Monasteries in 1533 the great bell of the Abbey had been taken away to Exeter Cathedral where, as 'Great Tom', it still rings curfew." Unsourced; contradicted by S20.
+- [S19] llandeilo.org, "Concise history" - https://llandeilo.org/concise_history.html - downloaded and read: "At the Dissolution of the Monasteries in 1533 the great bell of the Abbey had been taken away to Exeter Cathedral where, as 'Great Tom', it still rings curfew." Unsourced; contradicted by S20, S22 and S23.
 - [S20] The National Archives, Discovery catalogue record titled "The 7 ton bell known as 'Great Tom', housed in Tom Tower and rung 101 times every night ... The bell was removed from Osney Abbey in 1546" - https://discovery.nationalarchives.gov.uk/details/r/f75a993a-39b3-4d90-ae07-23d00172af44 - seen as a search-result title only, not opened; the same search returned Christ Church's own bells page (not opened).
 - [S21] Search-engine summary of genealogy pages for Nicholas de Stafford (WikiTree "Stafford-406" and similar) - https://www.wikitree.com/wiki/Stafford-406 - summary only, not opened: died "1 August 1287", "killed whilst inspecting a mine" at Dryslwyn; earldom of Stafford created later for Ralph Stafford. Weak.
+- [S22] Exeter Cathedral, "Peter Bell & Dog Whippers" - https://www.exeter-cathedral.org.uk/interpretation/peter-bell/ - read by the independent check of 2026-10-02: the cathedral's great bell is "Peter", "re-cast in the late 17th century, to replace one given by Bishop Peter Courtenay in the 1480s". Further evidence against the Talley "Great Tom" claim.
+- [S23] Wikipedia, "Tom Tower" - https://en.wikipedia.org/wiki/Tom_Tower - read as wikitext by the independent check of 2026-10-02: Great Tom was "moved from the 12th-century Osney Abbey after the dissolution of the monasteries" (citing GCNA).

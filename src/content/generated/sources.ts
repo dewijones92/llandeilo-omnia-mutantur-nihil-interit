@@ -1160,8 +1160,8 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "medieval:S1",
-    "title": "\"Llandeilo History - Archaeology\" (llandeilo.org), read via search-engine summary only (direct fetch returned 404).",
-    "url": "https://www.llandeilo.org/archeology.php",
+    "title": "\"Llandeilo History - Archaeology\" (llandeilo.org, a Cambria Archaeology heritage audit extract, 2004), with the site's St Teilo's church page.",
+    "url": "https://www.llandeilo.org/archeology.html",
     "doc": "docs/research/era-medieval-to-1282.md"
   },
   {
@@ -1202,7 +1202,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "medieval:S11",
-    "title": "Coflein site record for Dinefwr Castle (NPRN 425), read via search-engine summary only.",
+    "title": "Coflein site record for Dinefwr Castle (NPRN 425), read directly 2026-10-02.",
     "url": "https://coflein.gov.uk/en/site/425/details/dinefwr-castle-llandeilo",
     "doc": "docs/research/era-medieval-to-1282.md"
   },
@@ -1364,7 +1364,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "medieval:S39",
-    "title": "GENUKI, \"A History of Carmarthenshire\" (Lloyd), read via search-engine summary only.",
+    "title": "GENUKI, \"A History of Carmarthenshire\" (Lloyd), read directly 2026-10-02.",
     "url": "https://www.genuki.org.uk/big/wal/CMN/Lloyd2",
     "doc": "docs/research/era-medieval-to-1282.md"
   },
@@ -1420,6 +1420,54 @@ export const SOURCE_SEEDS = [
     "id": "medieval:S52",
     "title": "military-history.fandom.com, \"Battle of Llandeilo Fawr\".",
     "url": "https://military-history.fandom.com/wiki/Battle_of_Llandeilo_Fawr",
+    "doc": "docs/research/era-medieval-to-1282.md"
+  },
+  {
+    "id": "medieval:S53",
+    "title": "Gerald of Wales, *The Description of Wales*, trans. Sir Richard Colt Hoare, Project Gutenberg ebook 1092.",
+    "url": "https://www.gutenberg.org/ebooks/1092",
+    "doc": "docs/research/era-medieval-to-1282.md"
+  },
+  {
+    "id": "medieval:S54",
+    "title": "Coflein, \"Talley Abbey\" (NPRN 92750), read 2026-10-02 by the independent check.",
+    "url": "https://coflein.gov.uk/en/site/92750/",
+    "doc": "docs/research/era-medieval-to-1282.md"
+  },
+  {
+    "id": "medieval:S55",
+    "title": "Coflein, \"Dryslwyn Castle\" (NPRN 100682), read 2026-10-02 by the independent check.",
+    "url": "https://coflein.gov.uk/en/site/100682/",
+    "doc": "docs/research/era-medieval-to-1282.md"
+  },
+  {
+    "id": "medieval:S56",
+    "title": "Coflein, \"Carreg Cennen Castle\" (NPRN 103970), read 2026-10-02 by the independent check.",
+    "url": "https://coflein.gov.uk/en/site/103970/",
+    "doc": "docs/research/era-medieval-to-1282.md"
+  },
+  {
+    "id": "medieval:S57",
+    "title": "Coflein, \"St Teilo's Church, Llandeilo\" (NPRN 100867), read 2026-10-02 by the independent check.",
+    "url": "https://coflein.gov.uk/en/site/100867/",
+    "doc": "docs/research/era-medieval-to-1282.md"
+  },
+  {
+    "id": "medieval:S58",
+    "title": "David Willis, \"Old and Middle Welsh\" (chapter draft, davidwillis.net), read 2026-10-02 by the independent check.",
+    "url": "https://davidwillis.net/old_and_middle_welsh.pdf",
+    "doc": "docs/research/era-medieval-to-1282.md"
+  },
+  {
+    "id": "medieval:S59",
+    "title": "Wikipedia, \"Earl of Stafford\", read 2026-10-02 by the independent check.",
+    "url": "https://en.wikipedia.org/wiki/Earl_of_Stafford",
+    "doc": "docs/research/era-medieval-to-1282.md"
+  },
+  {
+    "id": "medieval:S60",
+    "title": "Wikipedia, \"Edmund Stafford, 1st Baron Stafford\", read 2026-10-02 by the independent check.",
+    "url": "https://en.wikipedia.org/wiki/Edmund_Stafford,_1st_Baron_Stafford",
     "doc": "docs/research/era-medieval-to-1282.md"
   },
   {
@@ -1924,6 +1972,18 @@ export const SOURCE_SEEDS = [
     "id": "effects:S21",
     "title": "Search-engine summary of genealogy pages for Nicholas de Stafford (WikiTree \"Stafford-406\" and similar)",
     "url": "https://www.wikitree.com/wiki/Stafford-406",
+    "doc": "docs/research/event-effects.md"
+  },
+  {
+    "id": "effects:S22",
+    "title": "Exeter Cathedral, \"Peter Bell & Dog Whippers\"",
+    "url": "https://www.exeter-cathedral.org.uk/interpretation/peter-bell/",
+    "doc": "docs/research/event-effects.md"
+  },
+  {
+    "id": "effects:S23",
+    "title": "Wikipedia, \"Tom Tower\"",
+    "url": "https://en.wikipedia.org/wiki/Tom_Tower",
     "doc": "docs/research/event-effects.md"
   },
   {

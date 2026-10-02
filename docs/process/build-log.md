@@ -244,3 +244,24 @@ Milestones and what each one taught us. Newest last.
    happened. The third caught the fix for the keys (arrows now double-fired with the 3D camera) and
    the paragraph above overclaiming in the todo file. Each review found something in the previous
    fixes.
+11. **Independent checks of four research notes, the medieval note first.** 127 of its claims were
+    re-read against their sources: 91 confirmed, 8 contradicted. The worst was in the app's own 1282
+    card: the English force did not sack Carreg Cennen, it re-occupied the bare walls the Welsh had
+    burnt, and the ambushed men were a plundering party from an army that was mostly Welsh levies. Also
+    corrected in content: the 1287 "tunnel collapse" was a mined wall falling on the men inspecting the
+    mine; "The castles held" in 1403 took one side of a contradiction; Gerald of Wales's oats quote was
+    cited to two Wikipedia pages that do not contain it, and is now cited to his own text.
+12. **The Welsh had been quietly losing facts.** An audit of every English/Welsh pair found 16 places
+    where the Welsh dropped a fact, a number or a caveat ("reported", "probably", "in calendar
+    years"), and none where it added one. Translation drift only ever went one way: towards less
+    hedging. All 23 fixed (24 edits); the human Welsh check is still parked.
+13. **Talley and Dryslwyn rebuilt from checked research.** Talley's plan now has its origin on the
+    crossing tower, so the Coflein grid reference places it exactly, and it is drawn as built (about
+    49m with a four-bay nave and one aisle), not as designed. After 1536 it splits into a roofed east
+    end serving the parish and an abandoned rest, until 1773. Dryslwyn grows in three phases that each
+    contain the last, so a unit test can hold the order. The slider cross-fades features over about
+    20 years in this part of the timeline, so a phase is half-visible ten years before its date: that
+    is the morphing working, not two castles at once.
+14. **CI ran out of time.** With 24 e2e tests the GitHub job passed its 25-minute limit and the deploy
+    of 97cfad9 was cancelled; the limit is now 45 minutes (5aa8465). The real cost is one SwiftShader
+    page load per test.

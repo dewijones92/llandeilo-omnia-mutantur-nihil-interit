@@ -5,6 +5,8 @@ status: draft
 updated: 2026-10-02
 ---
 
+Independently checked 2026-10-02 (see [reviews/anglo-norman-and-middle-english-check-2026-10-02.md](reviews/anglo-norman-and-middle-english-check-2026-10-02.md)); corrections applied.
+
 # Anglo-Norman French and Middle English for 1282 and 1185
 
 Research for writing the English garrison at Dinefwr and a magnate's retinue in June 1282, and the
@@ -28,7 +30,9 @@ written without search.
   (inference, see point 1). **Cross-checked.**
 - **The knights were probably English speakers who also used French.** Two scholars working 70
   years apart read Walter of Bibbesworth's French primer for gentry children as showing that
-  English was the gentry's first language by the later 13th century [S9][S11]. A third argues
+  English was the gentry's first language: Menger for the late 13th century [S9] and Rothwell for
+  c. 1250 [S11] (*Corrected 2026-10-02 (independent check)*: the note had both "by the later 13th century"; Rothwell dates the treatise
+  "about 1250"). A third argues
   French was still acquired naturally, in schools and noble households, until about 1400 [S12].
   Robert of Gloucester, writing c. 1300 in Gloucestershire, says "heiemen" keep French and "lowe
   men" keep English [S4]. All agree knights could speak both; they disagree on which came first.
@@ -39,11 +43,13 @@ written without search.
   greetings and a famous passage on French and English [S4].
 - **The right Middle English is south-western.** Plukenet's horse at Dinefwr were Somerset and
   Devon men [S1], and masons and carpenters from Wiltshire, Somerset and Dorset were sent to
-  Carmarthen and Dinefwr in 1277 [S1]. Their English voiced initial *f* and *s* as *v* and *z*
-  [S13], which the texts show (*vor* "for", *vaire* "fair") [S4][S5][S6]. **Cross-checked.**
+  Carmarthen and Dinefwr in 1277 [S1]. Their English voiced initial *f* and *s* as *v* and *z* in
+  native words only [S13], which the texts show (*vor* "for", *vaire* "fair") [S4][S5][S6].
+  **Cross-checked.** (*Corrected 2026-10-02 (independent check)*: Wright says the voicing is "almost exclusively confined to native words",
+  so French loans are not voiced.)
 - **Talley's canons spoke Picard, not Anglo-Norman** (inference). Talley's mother house was St-Jean
-  at Amiens (`classes:S13`, `classes:S15`), in Picardy. Old Picard kept *k* where Paris French had
-  *ch* (*keval* for *cheval*) [S17]. So "Anglo-Norman for the Talley canons" in the design outline
+  at Amiens (`classes:S13`, `classes:S15`), in Picardy. Picard kept *k* where central French had
+  *ch* (*keval* for *cheval*) [S17] (*Corrected 2026-10-02 (independent check)*: the source says "Picard", not "Old Picard"; single-source). So "Anglo-Norman for the Talley canons" in the design outline
   should read "Old French, probably Picard".
 - **The voices will be approximations, and must say so.** A modern French voice will drop final
   consonants and final *-e*, nasalise *-aun*, use a uvular *r* and read *oi* as "wa"; a modern
@@ -84,10 +90,12 @@ written without search.
 Evidence for each line:
 
 - **Latin for records.** The pay-roll Morris used is a Latin roll: the English foot at Carmarthen in
-  1287 are "retenti ad vadia regis" (retained at the king's wages) [S1, p. 207], and at the 1287
-  siege of Newcastle Emlyn the roll pays £10 "ad opus peditum ex Cardigan qui permanserunt in
+  1287 are "retenti ad vadia regis" (retained at the king's wages) [S1, p. 208], and at the 1287-8
+  siege of Newcastle Emlyn (December 1287 to January 1288; the castle fell by 20 January 1288) the
+  roll pays £10 "ad opus peditum ex Cardigan qui permanserunt in
   obsessione novi castri sine vadiis" (for the foot of Cardigan who stayed at the siege of the new
-  castle without wages) [S1, pp. 216–217]. The Welsh Rolls are calendared from Latin writs (Tibetot appointed "captain
+  castle without wages) [S1, pp. 216–217] (*Corrected 2026-10-02 (independent check)*: the page was 207, and the siege was not 1287 alone).
+  The Welsh Rolls are calendared from Latin writs (Tibetot appointed "captain
   in West Wales", 1282) [S3, pp. 212–213]. **Cross-checked** (two record series).
 - **French for letters between the great.** William de Valence to his steward, 1278, and Roger
   Lestrange to Edward I, December 1282, are both in French [S2]. Peckham wrote to the king in
@@ -98,9 +106,12 @@ Evidence for each line:
   aristocracy who might wish to learn French ... points toward English and not French as the mother
   tongue of the English aristocracy of the time" [S9, pp. 1–2]. Rothwell (1976): "French was a
   language needing to be learned by very many Englishmen, not a vernacular in almost universal use
-  in England at the opening of the thirteenth century" [S11]. Bibbesworth himself writes "the
-  proper way to speak and answer that every gentleman needs to know", so the children will "not
-  [be] made fun of by others" [S10, Dalby's translation].
+  in England at the opening of the thirteenth century" [S11]; that sentence is about England c.
+  1200, not the later 13th century (*Corrected 2026-10-02 (independent check)*). Rothwell reads Bibbesworth as written for a patroness of
+  "English speech", c. 1250 [S11]. Bibbesworth himself writes, in his preface, "the proper way to
+  speak and answer that every gentleman needs to know", and in the treatise's opening verses that
+  the children are "To be better taught in speech and not made fun of by others" [S10, Dalby's
+  translation] (*Corrected 2026-10-02 (independent check)*: the "made fun of" line is from the opening verses, not the preface).
 - **A different reading.** Ingham (2009) calls the "second, acquired language" view an "internet
   myth", and says French was acquired naturally: "English speakers used French at school until c.
   mid-C14 as a vehicle language through which to learn Latin", and "French was frequently used in
@@ -114,16 +125,18 @@ Evidence for each line:
   Bridlington who wrote his chronicle in French verse, writes of the 1282 war "si nos Englays
   eusent eu espye / Entre les Galais" (if we English had had a spy among the Welsh) [S8, vol. 2].
 
-**Contradiction, side by side.** Menger and Rothwell: French was by then a learned, second language,
-even for the gentry. Ingham: it was still acquired naturally in childhood by the gentry. Robert of
+**Contradiction, side by side.** Menger (for the late 13th century) and Rothwell (for c. 1250): French
+was by then a learned, second language, even for the gentry (*Corrected 2026-10-02 (independent check)*: Rothwell's dating). Ingham: it was still acquired naturally in childhood by the gentry. Robert of
 Gloucester: the high men "hold" French. For writing, the difference matters little: a knight
 of 1282 can speak either, and should speak French in formal or written matters and to a magnate,
 and English to his own men. *The choice per line is ours, and is labelled imagined.*
 
 **Bibbesworth's date is uncertain.** Menger: "toward the end of the thirteenth century" [S9];
-Rothwell: "the later years of the thirteenth century" [S11]; a text quoted (and in other respects
-rebutted) by Ingham gives "1250x1260" [S12]; a search summary gave "mid-13th century" (not relied
-on). Unresolved here.
+Rothwell: "By the middle of the thirteenth century ... Walter of Bibbesworth had written his
+*Tretiz*", with a note giving "about 1250" [S11] (*Corrected 2026-10-02 (independent check)*: the note had Rothwell as "the later years of
+the thirteenth century", from a summarising fetch; read in full, he sides with the earlier date); a
+text quoted (and in other respects rebutted) by Ingham gives "1250x1260" [S12]. So Menger stands
+alone for the late date. Unresolved here.
 
 ## 2. Attested phrases
 
@@ -150,8 +163,10 @@ the father of the young William de Valence killed in the Tywi valley in June 128
 **Roger Lestrange to Edward I, after 11 December 1282** (the official despatch on Llywelyn's death)
 [S2, p. 507]:
 
-- *"A son trenoble seignur Edward par la grace Deu Roy de Engleterre, seignur de Yrlaund, e Duc de
-  Guyene, Rog[er] le Estraunge si li plest saluz honurs et reverences"* "To his most noble lord
+- *"A son trenoble seign[u]r Edward par la grace Deu Roy de Engleterre, seign[u]r de Yrlaund, ['t,
+  probably e] Duc de Guyene, Rog[er] le Estraunge si li plest saluz honurs et reverences"* (*Corrected 2026-10-02 (independent check)*: the
+  edition prints the abbreviation *seignr* twice and "'t" (OCR) for the conjunction; the expansions
+  are now bracketed as editorial) "To his most noble lord
   Edward, by the grace of God king of England, lord of Ireland and duke of Guyenne, Roger Lestrange,
   if it please him, greeting, honours and reverence."
 - *"Sachez, sire, ke vos bones gens ... se combatirent av Leweln le finz Griffin en le paes de
@@ -179,7 +194,9 @@ dating; text from Stimming's edition as printed by Menger) [S9, pp. 26, 161–16
 - *"Beau sire emperur"* "Fair lord emperor"; *"Fol, kar vus teisez!"* "Fool, be quiet!"
 - *"Dount venez vus, beau fiz, si fortement hastaunt?"* "Where are you coming from, fair son, in
   such a hurry?" (the OCR reads "yus" for *vus*).
-- *"par le men ascient"* "to my knowledge, I swear"; *"jure par dampnedeu"* "swears by the Lord God".
+- *"par le men ascient"* "to my knowledge" (no oath: *ascient* is knowledge or opinion); and in the
+  narration, not a spoken line, *"jure par dampnedeu"* "[he] swears by the Lord God" (*Corrected 2026-10-02 (independent check)*: the note
+  had "to my knowledge, I swear" and presented both as speech).
 
 **A 1292 petition** (quoted by Ingham) [S12]: *"E pout adunke aver change sy yl vousit, e ne fit nent"*
 "And he could then have changed if he wished, and did nothing".
@@ -223,7 +240,9 @@ Short lines from the same chronicle:
 
 - **A drinking greeting.** Vol. 1, lines 2514–2519 (p. 179): *"Louerd king washayl"* ("Lord king,
   wassail", i.e. be in health); the king answers *"Drink hail"*. The OCR has "lo sede" for the
-  speaker ("she said"); the variants give *heo*, *sche*. **Cross-checked** with Laȝamon (below).
+  speaker ("she said"); the variants give *heo*, *sche*. Also in Laȝamon (below), but both tell the
+  same Rowena legend, so the second text confirms the literary formula, not independent everyday use
+  (*Corrected 2026-10-02 (independent check)*: the note called it cross-checked).
 - **Speech before battle, Evesham 1265** (the writer says he saw the darkness that day), vol. 2,
   lines 11,701–11,703 (p. 763): *"Vr soules he sede abbe god • vor vr bodies beþ hore"* "God have our
   souls, he said, for our bodies are theirs"; *"Sir henri he sede to is sone • þis haþ imad þi prute"*
@@ -233,12 +252,13 @@ Short lines from the same chronicle:
   (quoted in vol. 1, p. xi, from line 11,746): weather talk with the south-western *v*.
 
 **Laȝamon's *Brut*** (by a priest at "Ernleȝe", Lower Arley on the Severn in Worcestershire; Madden
-argued for a date about 1205), vol. 2, vv. 14,295–14,342, p. 174 onward [S5]:
+argued for a date about 1205), vol. 2, vv. 14,295–14,342, pp. 174–175 [S5]:
 
 - *"Lauerd king wæs hæil, for þine kime ich æm uæin"* "Lord king, wassail; for your coming I am
   glad".
-- *"Leoue freond wæs hail ... þe oþer seið drinc hail"* "'Dear friend, wassail!' The other says
-  'drink hail!'" (Madden's translation gives "Dear friend, wassail! ... Drinchail!").
+- *"Leofue freond wæs hail ... þe oðer saið drinc hail"* "'Dear friend, wassail!' The other says
+  'drink hail!'" (Madden's translation gives "Dear friend, wassail! ... Drinchail!"), on p. 175 (*Corrected 2026-10-02 (independent check)*:
+  the note had *Leoue* and p. 174).
 
 **The Owl and the Nightingale** (southern; Wells accepted "about 1220" but noted the debate) [S6,
 lines 1–4 and 19]: *"Ich was in one sumere dale, / in one suþe diȝele hale, / iherde ich holde grete
@@ -246,11 +266,12 @@ tale / an hule and one niȝtingale"* "I was in a summer valley, in a very hidden
 and a nightingale hold a great debate". And *"Ho was þe gladur uor þe rise"* "She was the gladder for
 the branch".
 
-**A soldiers' and partisans' song, after Lewes (1264)**, copied in the Ludlow manuscript Harley 2253
-(West Midland, c. 1340) [S7, pp. 69–70]: *"Sitteth alle stille ant herkneth to me"* "Sit all still and
+**A partisans' song, after Lewes (1264)**, "of the adherents of Simon de Montfort" in Wright's words,
+copied in MS Harley 2253, which Wright dates "of the reign of Edw. II" [S7, pp. 69–70] (*Corrected 2026-10-02 (independent check)*:
+"soldiers'" dropped, and "Ludlow" and "c. 1340" are not in S7 and need their own source): *"Sitteth alle stille ant herkneth to me"* "Sit all still and
 listen to me" (the OCR reads "rue"); *"bi mi leauté"* "by my loyalty" (an oath with a French word);
 *"Let him habbe, ase he brew, bale to dryng"* "Let him have, as he brewed, sorrow to drink". The copy
-is about 75 years after the song and its spelling (*ant* for *and*) is the Ludlow scribe's.
+is some decades after the song and its spelling (*ant* for *and*) is the scribe's.
 
 **Not found:** any Middle English sentence written in south-west Wales in the 1280s, or any order or
 oath given in English by an English soldier there. The English lines above are from Gloucestershire,
@@ -270,7 +291,8 @@ place and class. What they and the descriptions show:
   **Cross-checked** (description and letters).
 - **ei and e, not oi.** Insular French reduced *ai* and *ei* to *e* (*faire/fere*) [S18], and Menger
   says *ei, ai, e* are "the real Anglo-Norman products" while *oi* "was an imitation of continental
-  usage" [S9, p. 50]. The letters write *seyt*, *seyent*, *esteyt*. **Cross-checked.**
+  usage" [S9, p. 50]. Valence's letter writes *seyt*, *seyent* [S2, p. 507]. **Cross-checked.** (*Corrected 2026-10-02 (independent check)*:
+*esteyt*, also listed here, is in neither letter, so it is removed.)
 - **Pronouns and verbs.** *jo* (Valence), *je* (Peckham to the queen), *vus/vous*, *nus*; first person
   plural in *-um/-uns/-oms* (*nus priums*, *savums* in Peckham; "-om -um -oun and -oms ... for SMF
   -ons", [S18]).
@@ -298,9 +320,13 @@ Use Robert of Gloucester [S4] as the model: right date, right region, the right 
   (*ido*, *ibrott*, *isei*, *imad*, *islawe*) [S4]; negative *ne* (*ne couþe*) [S4].
 - **The south-western v and z.** Wright: "The initial voiceless spirants f, s, þ became the voiced
   spirants v, z, ð ... in Kentish and the southern, especially the south-western dialects, as vader,
-  vat, vlesch, vrend; zaule ... zinne", still alive in "Glo., ... Wil., Som., and Dev." and in "s.
-  Pem." [S13, § 236]. The texts write it: *vor*, *uor* "for", *vaire* "fair", *vewe* "few", *velle*
-  "fell" [S4][S6]; *uæin* "fain" [S5]. **Cross-checked.** Spell a Somerset soldier's "for" as *vor*.
+  vat, vlesch, vrend; zaule ... zinne", "still in general use in ... parts of Glo., west Brks., Wil.,
+  Som., and Dev." and "obsolescent in s. Pem." [S13, § 236]. It is "almost exclusively confined to
+  native words" [S13, § 236], so do **not** voice French loans (*sire*, *feste*, *fol*, *faire* as a
+  French word) in a Somerset soldier's speech (*Corrected 2026-10-02 (independent check)*: the native-words limit added, and south
+  Pembrokeshire is "obsolescent", not "still alive"). The texts write it: *vor*, *uor* "for", *vaire*
+  "fair", *vewe* "few", *velle* "fell" [S4][S6]; *uæin* "fain" [S5]. **Cross-checked.** Spell a
+  Somerset soldier's "for" as *vor*.
 - **Rounded vowels.** Wright lists front rounded vowels among Middle English sounds, with spellings
   such as *horte* (heart), *huden* (hide), *fur* (fire) [S13, § 23]. Which dialects kept them was not
   checked in this pass, so do not rely on them for Somerset.
@@ -320,13 +346,20 @@ Use Robert of Gloucester [S4] as the model: right date, right region, the right 
 
 What the period sound was, and what the voice will do instead:
 
-- **Final -e** was sounded [ə] (`classes:S39`); the voice drops it, so *lettre*, *grevouse*, *guere*
-  lose a syllable. Single-source for the period value (Wikipedia, read in the earlier pass).
+- **Final -e.** *Corrected 2026-10-02 (independent check)*: the note said final *-e* was sounded [ə] in 1282. **Contradiction, side by
+  side**: `classes:S39` (Wikipedia, on continental Old French) has it sounded [ə]; Menger, for
+  Anglo-Norman, says post-tonic *e* after a vowel had been lost "in the course of the twelfth
+  century", and after a consonant its loss "becomes frequent only toward the end of the thirteenth
+  century", first after *r* (*sir*), then *l* (*nul* for *nule*), then *m*, *n* (*dam*, *un*) [S9,
+  pp. 63–64]. So in 1282 it was **sometimes still heard** after consonants and silent after vowels.
+  The voice drops it everywhere, so *lettre*, *grevouse*, *guere* may lose a syllable they sometimes
+  still had.
 - **Final consonants.** The earlier note quotes Old French as pronouncing all written final
   consonants "except for s preceding non-stop consonants and t in et" (`classes:S39`). **Menger
   contradicts this for Anglo-Norman**: "Final t lost. This is the most frequent of all the
   phenomena", from the earliest texts (*es* = *est*, *ai* = *ait*), and "the value of final s ...
-  apparently, was not stable" [S9, pp. 97, 114]. Both are recorded; the ⓘ should say final consonants
+  apparently, was not stable" [S9, pp. 97, 114]; Menger says this of flexional *-s* after *p, b, v,
+  c* in certain words (*nefs*, *sacs*, *colps*), not of final *s* in general (*Corrected 2026-10-02 (independent check)*). Both are recorded; the ⓘ should say final consonants
   were "often" sounded, not "always".
 - **ch and j** were [tʃ] and [dʒ] (`classes:S37`, `classes:S39`); the voice says [ʃ] and [ʒ]. Menger
   confirms the three sounds k, ch and ts were all used and spelt variously [S9, p. 98].
@@ -335,8 +368,9 @@ What the period sound was, and what the voice will do instead:
 - **ei** was a diphthong or [e], never "wa" [S9][S18]; the voice reads *oi* as "wa" and *ei* as [ɛ].
 - **r** was trilled (`classes:S39`); the voice uses the uvular r.
 - **Honest ⓘ text (draft):** "Modern French voice. In 1282 Anglo-Norman French was spoken in
-  England with its own accent: final -e was sounded, ch was said as in English 'church', r was
-  rolled, and many final consonants were still heard."
+  England with its own accent: final -e was sometimes still heard, ch was said as in English
+  'church', r was rolled, and many final consonants were still heard." (*Corrected 2026-10-02 (independent check)*: was "final -e was
+  sounded".)
 
 ### Middle English read by `en-GB-RyanNeural` / `SoniaNeural`
 
@@ -351,7 +385,9 @@ What the period sound was, and what the voice will do instead:
   ("by about the middle of the thirteenth century"), "latest of all in the southern dialects"; "In
   the southern dialects the final -e ceased to be pronounced in all forms in the second half of the
   fourteenth century" [S13, § 141]. **Cross-checked** with `classes:S46` ("By Chaucer's time, this
-  vowel was silent in normal speech"). This firms up the earlier note's inference.
+  vowel was silent in normal speech"). This firms up the earlier note's inference. Nuance (*Corrected 2026-10-02 (independent check)*:
+  added): the loss started earlier in short-stem words, and in nouns and verbs than in adjectives
+  [S13, § 141], so "sounded in 1282" holds for most forms, not all.
 - **kn-, wr-** were sounded (`classes:S46`); not re-checked in Wright.
 - **v and z** for initial f and s in Somerset speech, as above [S13, § 236].
 
@@ -419,9 +455,12 @@ which supports Morris's "Somerset and Devon tenants". **Cross-checked.**
   (Monastic Wales) and "was founded from the monastery of St. John's, Amiens" (VCH Notts) (`classes:S13`,
   `classes:S15`, both read in the earlier pass). **Cross-checked.**
 - **So their French was not Anglo-Norman.** Amiens is in Picardy, and *Amiénois* is listed as a
-  Picard dialect [S17]. Old Picard kept *k* and *g* where central Old French had [tʃ] and [dʒ]:
+  Picard dialect [S17]. Picard kept *k* and *g* where central Old French had [tʃ] and [dʒ]:
   "Picard *keval* ~ Old French *cheval*", "*gambe* ~ *jambe*", "*kief* ~ *chef*", and Picard *cachier*
-  for *chacier* (to hunt) [S17]. Menger notes the "graphic signs of Central French and of South
+  for *chacier* (to hunt) [S17]. And the reverse: Picard writes *ch* where central French has *c*
+  [ts] before *e* and *i* (*cherf* for *cerf*) [S17], so a Picard canon's *ch* is not always a
+  central-French *ch* (*Corrected 2026-10-02 (independent check)*: "Old Picard" became "Picard", as the source says, and the *cherf*/*cerf*
+  point was added). Menger notes the "graphic signs of Central French and of South
   Norman by the side of those of Picard and North Norman" in Anglo-Norman manuscripts, by
   "immigrants from different provinces of France" [S9, p. 98], which confirms the distinction exists
   but not these words. **Single-source** for the Picard details (Wikipedia, a lead); that the canons
@@ -435,9 +474,10 @@ which supports Morris's "Somerset and Devon tenants". **Cross-checked.**
 
 | Question | One source | Another | Status |
 |---|---|---|---|
-| Was French the gentry's first language c. 1280? | No: learned, English was the mother tongue (Menger [S9]; Rothwell [S11]) | Acquired naturally in school and household until c. 1400 (Ingham [S12]); high men "hold" French (Robert of Gloucester [S4]) | Open; write knights as bilingual |
+| Was French the gentry's first language c. 1280? | No: learned, English was the mother tongue (Menger [S9], late 13th century; Rothwell [S11], c. 1250) | Acquired naturally in school and household until c. 1400 (Ingham [S12]); high men "hold" French (Robert of Gloucester [S4]) | Open; write knights as bilingual |
 | Were final consonants pronounced in Anglo-Norman? | All written finals pronounced, with two exceptions (Old French, `classes:S39`) | Final t "most frequently" lost; final s "not stable" (Menger [S9]) | Open; say "often" |
-| Date of Bibbesworth's treatise | End of the 13th century [S9][S11] | 1250x1260 (as quoted in [S12]) | Open |
+| Date of Bibbesworth's treatise | End of the 13th century [S9] | About 1250, by the middle of the 13th century (Rothwell [S11]); 1250x1260 (as quoted in [S12]) (*Corrected 2026-10-02 (independent check)*: Rothwell moved to this side) | Open |
+| Was Anglo-Norman final -e sounded in 1282? (*Corrected 2026-10-02 (independent check)*: added) | Sounded [ə] (Old French, `classes:S39`) | Lost after vowels in the 12th century, being lost after consonants in the later 13th (Menger [S9, pp. 63–64]) | Say "sometimes still heard" |
 
 ## Open questions
 
@@ -447,8 +487,10 @@ which supports Morris's "Somerset and Devon tenants". **Cross-checked.**
 - **The Middle English Dictionary** blocked automated access, so no MED entry (e.g. *arblaster*,
   *wassail*) was checked.
 - **No Middle English from south-west Wales of the 1280s**: still none found (as in `classes:`).
-  South Pembrokeshire kept the south-western *v/z* into Wright's day [S13], which hints at the
-  settlers' speech there, but nothing contemporary was read.
+  In south Pembrokeshire the south-western *v/z* was "obsolescent" in Wright's day [S13] (*Corrected 2026-10-02 (independent check)*: not
+  "kept"), which hints at the settlers' speech there, but nothing contemporary was read.
+- **Harley 2253**: "Ludlow" and "c. 1340" for the manuscript need a source; S7 says only "of the
+  reign of Edw. II".
 - **How the voices sound**: an A/B listening test by Dewi (plain spelling against respelling, for
   both languages), as was done for Latin. Not done.
 - **Show one spelling, voice another?** If respelling is used, the content model needs a separate
@@ -463,7 +505,7 @@ which supports Morris's "Somerset and Devon tenants". **Cross-checked.**
 
 ## Sources
 
-- [S1] John E. Morris, *The Welsh Wars of Edward I* (Oxford, 1901), Internet Archive full text. https://archive.org/details/welshwarsofedwar00morr. Read 2026-10-02 in the text layer: Gascons 1282-3 (pp. 35–36); crossbowmen's wages, vintenars (p. 88); county levies, centenars and vintenars (pp. 92–93); masons and carpenters from Wiltshire, Somerset and Dorset to Carmarthen and Dynevor, 1277 (p. 139); Plukenet's table of troop leaders (p. 163); 11–17 June 1282, Plukenet holds Dynevor, Somerset and Devon tenants (pp. 164–168); 700 Kidwelly men and seventy English, wages (p. 170); Stephen de Frankton (p. 184); Latin pay-roll phrases of 1287 (pp. 207, 216–217).
+- [S1] John E. Morris, *The Welsh Wars of Edward I* (Oxford, 1901), Internet Archive full text. https://archive.org/details/welshwarsofedwar00morr. Read 2026-10-02 in the text layer: Gascons 1282-3 (pp. 35–36); crossbowmen's wages, vintenars (p. 88); county levies, centenars and vintenars (pp. 92–93); masons and carpenters from Wiltshire, Somerset and Dorset to Carmarthen and Dynevor, 1277 (p. 139); Plukenet's table of troop leaders (p. 163); 11–17 June 1282, Plukenet holds Dynevor, Somerset and Devon tenants (pp. 164–168); 700 Kidwelly men and seventy English, wages (p. 170); Stephen de Frankton (p. 184); Latin pay-roll phrases of 1287-8 (pp. 208, 216–217).
 - [S2] J. E. Morris, "Two documents relating to the conquest of Wales", *English Historical Review* 14:55 (July 1899), pp. 506–507, Internet Archive full text. https://archive.org/details/sim_english-historical-review_1899-07_14_55. Prints in Anglo-Norman William de Valence's letter to Henry de Bray (1278, Llanbadarn works, money to Carmarthen) and Roger Lestrange's despatch to Edward I on Llywelyn's death (11 December 1282); notes on Stephen de Frankton.
 - [S3] *Calendar of Various Chancery Rolls: Supplementary Close Rolls, Welsh Rolls, Scutage Rolls, 1277–1326* (HMSO, 1912), Internet Archive full text. https://archive.org/details/cu31924026113880. Welsh Rolls of 1282, membrane 10 (pp. 212–213): writs calendared in English from Latin, e.g. Robert Tibotot "captain in West Wales", then subordinate to the earl of Gloucester; index entries for Dynevor.
 - [S4] *The Metrical Chronicle of Robert of Gloucester*, ed. William Aldis Wright (Rolls Series, 1887), 2 vols, Internet Archive full text. https://archive.org/details/metricalchronicl01robe and https://archive.org/details/metricalchronic02robe. Vol. 1 preface (pp. xi–xii): written about 1300, Gloucestershire dialect, Cotton MS nearly contemporary, the writer saw the Evesham darkness; John Giffard of Brimpsfield. Vol. 1 lines 2514–2519 (washayl, drink hail). Vol. 2 lines 7537–7547 (French and English); lines 11,684–11,703 (Evesham speech).
@@ -472,10 +514,10 @@ which supports Morris's "Somerset and Devon tenants". **Cross-checked.**
 - [S7] Thomas Wright (ed.), *The Political Songs of England, from the Reign of John to that of Edward II* (Camden Society, 1839), Internet Archive full text. https://archive.org/details/bub_gb_oxml_pGWYqoC. "Song against the King of Almaigne" (after Lewes, 1264), from MS Harley 2253, pp. 69–70, with Wright's translation.
 - [S8] *The Chronicle of Pierre de Langtoft*, ed. Thomas Wright (Rolls Series, 1866–68), 2 vols, Internet Archive full text. https://archive.org/details/chronicleofpierr02pete and https://archive.org/details/chronicleofpierr01pete. Vol. 2: the war of 1282 (pp. 176–178), "Grevouse est la guère", "nos Englays", "Baskles e Gascons", English taunt rhymes of 1296. Vol. 1 preface: Langtoft a canon of Bridlington; Robert of Brunne's "On Frankis stile".
 - [S9] Louis Emil Menger, *The Anglo-Norman Dialect: a Manual of its Phonology and Morphology* (Columbia University Press, 1904), Internet Archive full text. https://archive.org/details/anglonormandiale00menguoft. General considerations (pp. 1–5: French never the language of the populace; Bibbesworth; individual irregularity); Boeve dated first half of the 13th century (p. 26); aun from 1266 (pp. 47–48); ei, ai, e versus oi (pp. 50–51); final t lost (p. 97); k, ch, ts and Picard signs (p. 98); final s unstable (p. 114); Boeve specimen (pp. 161–162).
-- [S10] Walter of Bibbesworth, *The Treatise / Le Tretiz*, Anglo-Norman text established by William Rothwell, translated by Andrew Dalby (Prospect Books, 2012), publisher's extract PDF. https://prospectbooks.co.uk/wp-content/uploads/2021/09/extract-Treatise-W-Bibbesworth.pdf. Preface (MS G) and dedication (MS T) with translation: French for "every gentleman"; children "not made fun of by others".
-- [S11] William Rothwell, "The Role of French in Thirteenth-Century England", *Bulletin of the John Rylands University Library of Manchester* 58:2 (1976), pp. 445–466, reprinted on the Anglo-Norman Dictionary site. https://anglo-norman.net/the-role-of-french-in-thirteenth-century-england/. French "needing to be learned by very many Englishmen"; Bibbesworth written "in the later years of the thirteenth century" for Dionisie de Munchensi's children to run their estates. Read via WebFetch (summarised quotations).
+- [S10] Walter of Bibbesworth, *The Treatise / Le Tretiz*, Anglo-Norman text established by William Rothwell, translated by Andrew Dalby (Prospect Books, 2012), publisher's extract PDF. https://prospectbooks.co.uk/wp-content/uploads/2021/09/extract-Treatise-W-Bibbesworth.pdf. Preface (MS G) and dedication (MS T) with translation: French for "every gentleman"; and, in the treatise's opening verses, children "not made fun of by others".
+- [S11] William Rothwell, "The Role of French in Thirteenth-Century England", *Bulletin of the John Rylands University Library of Manchester* 58:2 (1976), pp. 445–466, reprinted on the Anglo-Norman Dictionary site. https://anglo-norman.net/the-role-of-french-in-thirteenth-century-england/. French "needing to be learned by very many Englishmen" (of England "at the opening of the thirteenth century"); Bibbesworth had written his *Tretiz* "By the middle of the thirteenth century" (note 20: "about 1250"), for Dionisie de Munchensi's children to run their estates. Read in full by the independent check of 2026-10-02 (*Corrected 2026-10-02 (independent check)*: first read via WebFetch, whose summary gave "the later years of the thirteenth century").
 - [S12] Richard Ingham, "Middle English and Anglo-Norman in Contact", handout, English Literary Society of Japan conference, Tokyo, May 2009. https://www.elsj.org/before2020/meeting/81st/81s10ingham.pdf. Rebuts the "second, acquired language" view; French at school until mid-14th century and in noble households until c. 1400; Bibbesworth "teaches lexis, not syntax"; the 1292 petition; OV word-order rates. Text extracted with pdftotext.
-- [S13] Joseph Wright and Elizabeth Mary Wright, *An Elementary Middle English Grammar* (Oxford, 1923), Internet Archive full text. https://archive.org/details/in.ernet.dli.2015.213674. § 23 vowel values; § 24 consonants (gh as German ch, initial h); § 141 loss of final -e, latest in the south (second half of the 14th century); § 236 voicing of initial f, s, þ in the south-west, surviving in Glos., Wilts., Som., Dev. and south Pembrokeshire.
+- [S13] Joseph Wright and Elizabeth Mary Wright, *An Elementary Middle English Grammar* (Oxford, 1923), Internet Archive full text. https://archive.org/details/in.ernet.dli.2015.213674. § 23 vowel values; § 24 consonants (gh as German ch, initial h); § 141 loss of final -e, latest in the south (second half of the 14th century); § 236 voicing of initial f, s, þ in the south-west, "almost exclusively confined to native words", in general use in parts of Glos., west Berks., Wilts., Som. and Dev., "obsolescent" in south Pembrokeshire.
 - [S14] Anglo-Norman Dictionary (AND2 online), entries *arblaster*, *garnisun* and *centener*. https://anglo-norman.net/entry/arblaster (and /entry/garnisun, /entry/centener). Senses, forms and dated citations; surnames Geoffrey Arbalister (1198), Peter le Arblaster (1278); garnisun as "garrison, body of soldiers stationed in a castle"; centeners and vinteners (1336).
 - [S15] Anglo-Norman Dictionary, Bibliography of source texts, letter T. https://anglo-norman.net/bibliography/T. "Two Docs Wales": two documents from The National Archives, Royal Letters, ed. J. E. Morris, EHR (1899), dated 1278 and 1282.
 - [S16] F. H. Dickinson (ed.), *Kirby's Quest for Somerset ... Exchequer Lay Subsidies 169/5, a tax roll for Somerset of the first year of Edward III*, Somerset Record Society 3 (1889), Internet Archive full text. https://archive.org/details/kirbysquestforso00grearich. The 1327 roll's names (counted from the OCR); the editor's preface on odd names and on the Courtenay, Montague, Mohun and Beauchamp holdings (pp. xxxi–xxxii).

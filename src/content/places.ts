@@ -79,7 +79,7 @@ export const PLACES: readonly Place[] = [
     namedFrom: ad(1185),
     name: 'Talyllychau',
     other: 'Talley',
-    at: { e: 263199, n: 232800 },
+    at: { e: 263281, n: 232772 },
     description: {
       en: 'The only Premonstratensian abbey in Wales, at the head of two lakes.',
       cy: 'Yr unig abaty Premonstratensaidd yng Nghymru, ym mhen dau lyn.',
