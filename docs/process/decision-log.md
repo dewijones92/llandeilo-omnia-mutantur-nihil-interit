@@ -2,7 +2,7 @@
 title: Decision log
 kind: log
 status: current
-updated: 2026-10-01
+updated: 2026-10-02
 ---
 
 # Decision log
@@ -81,3 +81,13 @@ with the full context and consequences.
 | Remove the three issue forms; people open ordinary GitHub issues, still triaged onto the ideas board | Dewi: "remove the issue tempalte stuff we did the other day please? I want a vanilla github issue thing". [ADR 0020](../adr/0020-plain-github-issues.md) |
 | Claude triages open issues at the start of every session and shows every reply, label and close as one batch for one yes, rather than asking per post | Dewi: "start every session perhaps", chose "c" (Claude does it all), then "yes" to the batch, since every public post must be shown to him first under the account's organisation rule; "now". [ADR 0021](../adr/0021-issue-triage-at-session-start.md) |
 | Drop the board pilot: one todo file (`docs/todos/_index.md`) plus GitHub issues, with issue rows in the todo file | Dewi: "we have a todo md?? lets just use that?? and github issues???", then "yes please". [ADR 0022](../adr/0022-one-todo-file.md) |
+
+## 2026-10-02: a multi-day autonomous run
+
+| Decision | Why |
+|---|---|
+| Work the agreed backlog unattended in this order: quality fixes and content corrections, then look and feel, then the bigger agreed features | Dewi: "i wanna leave you for days", then picked "fixes first, then build" |
+| Independent research checks may run as subagents, one at a time, on top of the standing commit review; no parallel fan-out and no worktrees | Dewi picked "yes, one at a time" |
+| No self-imposed usage stop: keep going until the plan-limit tripwire stops the run | Dewi picked "run to the tripwire" |
+| Items that need Dewi (real hardware, the Welsh and expert checks, Sponsors, models option B or C, anything "Proposed") wait for him; new GitHub issues are triaged but nothing is posted until he says yes | The existing rules: only Dewi agrees work or approves a public post |
+
