@@ -96,17 +96,18 @@ export const ERAS: readonly Era[] = [
 ];
 
 export const ENVIRONMENT: readonly EnvironmentKey[] = [
+  // Calendar years: the warm early Late Glacial interstadial, grass and juniper scrub with at most patches of birch (deeptime:S47).
   {
     year: bc(12500),
-    forest: 0.02,
+    forest: 0.05,
     farmland: 0,
-    moor: 0.95,
-    skyTop: '#a9bccb',
-    skyHorizon: '#e3e7e9',
-    sun: '#f1ede4',
-    fog: 0.75,
+    moor: 0.9,
+    skyTop: '#a0b9ce',
+    skyHorizon: '#e4e9ea',
+    sun: '#f4eee2',
+    fog: 0.6,
     mappedWoodland: 0,
-    ambient: { wind: 1, river: 0.55 },
+    ambient: { wind: 0.8, river: 0.55, birds: 0.2 },
   },
   {
     year: bc(11500),

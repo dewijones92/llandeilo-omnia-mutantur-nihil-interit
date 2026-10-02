@@ -24,8 +24,8 @@ export const EVENTS: readonly KeyEvent[] = [
       cy: 'Pobl yn dychwelyd i Gymru ar ôl Oes yr Iâ',
     },
     summary: {
-      en: 'Wales was free of ice by about 18,000 years ago and people were back by about 14,500 years ago. No dated site inside these ten miles yet shows exactly when they first reached this stretch of the Tywi.',
-      cy: "Roedd Cymru'n rhydd o iâ tua 18,000 o flynyddoedd yn ôl, ac roedd pobl yn ôl tua 14,500 o flynyddoedd yn ôl. Does dim safle wedi'i ddyddio o fewn y deg milltir hyn eto yn dangos yn union pryd y cyrhaeddon nhw'r rhan hon o'r Tywi.",
+      en: 'The ice began to retreat from Wales about 18,000 years ago, and archaeologists believe people were back by about 14,500 years ago. No dated site inside these ten miles yet shows exactly when they first reached this stretch of the Tywi.',
+      cy: "Dechreuodd yr iâ gilio o Gymru tua 18,000 o flynyddoedd yn ôl, a chred archaeolegwyr fod pobl yn ôl erbyn tua 14,500 o flynyddoedd yn ôl. Does dim safle wedi'i ddyddio o fewn y deg milltir hyn eto yn dangos yn union pryd y cyrhaeddon nhw'r rhan hon o'r Tywi.",
     },
     magnetic: true,
     shot: { framing: 'valley' },
@@ -50,8 +50,8 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: true,
     title: { en: 'Hunters burn the high heath', cy: 'Helwyr yn llosgi’r rhos uchel' },
     summary: {
-      en: 'At Waun Fignen Felen on the Black Mountain, just beyond the eastern edge of this map, pollen and charcoal show Mesolithic people deliberately burning heath and birch to manage game, from about 8,000 years ago.',
-      cy: 'Yn Waun Fignen Felen ar y Mynydd Du, ychydig y tu hwnt i ymyl ddwyreiniol y map hwn, mae paill a golosg yn dangos pobl Oes Ganol y Cerrig yn llosgi rhos a bedw yn fwriadol i reoli helfilod, o tua 8,000 o flynyddoedd yn ôl.',
+      en: 'At Waun Fignen Felen on the Black Mountain, just beyond the eastern edge of this map, dated environmental evidence shows Mesolithic people deliberately burning heath and open birch woodland to encourage large game, from about 8,000 years ago.',
+      cy: 'Yn Waun Fignen Felen ar y Mynydd Du, ychydig y tu hwnt i ymyl ddwyreiniol y map hwn, mae tystiolaeth amgylcheddol wedi’i dyddio yn dangos pobl Oes Ganol y Cerrig yn llosgi rhos a choetir bedw agored yn fwriadol i ddenu helfilod mawr, o tua 8,000 o flynyddoedd yn ôl.',
     },
     magnetic: false,
     shot: { framing: 'valley' },
@@ -63,17 +63,18 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: true,
     title: { en: 'A long cairn on Garn Goch', cy: 'Carnedd hir ar Garn Goch' },
     summary: {
-      en: 'A 55m stone long cairn on the summit of Garn Goch is the earliest monument attributed to people inside these ten miles. It looks Neolithic, but it has never been dated.',
-      cy: "Carnedd hir 55m o gerrig ar gopa Garn Goch yw'r heneb gynharaf o fewn y deg milltir hyn a briodolir i bobl. Mae'n edrych yn Neolithig, ond does neb erioed wedi'i dyddio.",
+      en: 'A 55m stone long cairn on the summit of Garn Goch may be the earliest monument attributed to people inside these ten miles. Coflein says it looks Neolithic; the Cadw schedule calls it probably Bronze Age. It has never been dated.',
+      cy: "Carnedd hir 55m o gerrig ar gopa Garn Goch efallai yw'r heneb gynharaf o fewn y deg milltir hyn a briodolir i bobl. Mae Coflein yn dweud ei bod yn edrych yn Neolithig; mae rhestr Cadw yn ei galw'n Oes yr Efydd, mae'n debyg. Does neb erioed wedi'i dyddio.",
     },
     magnetic: true,
     shot: { framing: 'site' },
     place: placeId('garn-goch'),
     provenance: reconstructed(
-      'Dated by its shape alone: no excavation, no radiocarbon date.',
-      "Wedi'i dyddio yn ôl ei siâp yn unig: dim cloddio, dim dyddiad radiocarbon.",
+      'Dated by its shape alone: no excavation, no radiocarbon date. Drawn at about 3500 BC, the Neolithic reading; the Cadw schedule’s Bronze Age reading would put it after 2300 BC.',
+      "Wedi'i dyddio yn ôl ei siâp yn unig: dim cloddio, dim dyddiad radiocarbon. Fe'i dangosir tua 3500 CC, y darlleniad Neolithig; byddai darlleniad Oes yr Efydd rhestr Cadw yn ei rhoi ar ôl 2300 CC.",
       'timeline:S4',
       'timeline:S5',
+      'ironage:S7',
     ),
   },
   {
@@ -95,13 +96,13 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: true,
     title: { en: 'The great hillfort of Garn Goch', cy: 'Bryngaer fawr Garn Goch' },
     summary: {
-      en: 'Y Gaer Fawr, 720m long with stone ramparts once about 10m high, is one of the largest hillforts in Wales. It has been surveyed but never excavated, so who lived there, and how, is inference.',
-      cy: "Mae'r Gaer Fawr, 720m o hyd gyda rhagfuriau cerrig a oedd unwaith tua 10m o uchder, yn un o'r bryngaerau mwyaf yng Nghymru. Mae wedi'i harolygu ond erioed wedi'i chloddio, felly mater o gasglu yw pwy oedd yn byw yno, a sut.",
+      en: 'Y Gaer Fawr, 720m long (680m in the Cadw schedule, as published by Ancient Monuments UK) with stone ramparts once about 10m high, is one of the largest hillforts in Wales. It has been surveyed, but no excavation is recorded, so who lived there, and how, is inference.',
+      cy: "Mae'r Gaer Fawr, 720m o hyd (680m yn rhestr Cadw, fel y'i cyhoeddir gan Ancient Monuments UK) gyda rhagfuriau cerrig a oedd unwaith tua 10m o uchder, yn un o'r bryngaerau mwyaf yng Nghymru. Mae wedi'i harolygu, ond does dim cloddio wedi'i gofnodi, felly mater o gasglu yw pwy oedd yn byw yno, a sut.",
     },
     magnetic: true,
     shot: { framing: 'area' },
     place: placeId('garn-goch'),
-    provenance: documented('ironage:S1', 'ironage:S4', 'ironage:S7', 'timeline:S10'),
+    provenance: documented('ironage:S1', 'ironage:S4', 'ironage:S7'),
   },
   {
     id: eventId('roman-forts'),
@@ -109,13 +110,13 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: true,
     title: { en: 'Rome builds forts at Dinefwr', cy: 'Rhufain yn codi caerau yn Ninefwr' },
     summary: {
-      en: 'Two overlapping Roman forts stood in what is now Dinefwr Park, holding perhaps a thousand soldiers or more. Sources disagree on their sizes and whether the first dates from the 50s or the 70s AD. Both were abandoned in the early 2nd century.',
-      cy: "Roedd dwy gaer Rufeinig yn gorgyffwrdd yn yr hyn sydd bellach yn Barc Dinefwr, ac efallai mil o filwyr neu ragor ynddynt. Mae ffynonellau'n anghytuno ar eu maint ac a godwyd y gyntaf yn y 50au neu'r 70au OC. Cawsant eu gadael yn gynnar yn yr 2il ganrif.",
+      en: 'Two Roman forts, one after the other, stood in what is now Dinefwr Park. The first, about 3.8ha, held more than a thousand soldiers and was probably built soon after AD 74, though an earlier date cannot be ruled out. The smaller second fort was in use into the early 2nd century, and the site was abandoned by about AD 140.',
+      cy: "Safai dwy gaer Rufeinig, y naill ar ôl y llall, yn yr hyn sydd bellach yn Barc Dinefwr. Roedd y gyntaf, tua 3.8ha, yn dal mwy na mil o filwyr, ac mae'n debyg iddi gael ei chodi yn fuan ar ôl 74 OC, er na ellir diystyru dyddiad cynharach. Roedd yr ail gaer, lai, yn cael ei defnyddio hyd ddechrau'r 2il ganrif, a gadawyd y safle erbyn tua 140 OC.",
     },
     magnetic: true,
     shot: { framing: 'site' },
     place: placeId('roman-forts'),
-    provenance: documented('timeline:S15', 'ironage:S14', 'ironage:S15'),
+    provenance: documented('timeline:S15', 'classes:S19', 'ironage:S15'),
   },
   {
     id: eventId('st-teilo'),
@@ -142,13 +143,13 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: true,
     title: { en: 'The first written Welsh', cy: 'Y Gymraeg ysgrifenedig gyntaf' },
     summary: {
-      en: 'In the margin of the great gospel book kept at Llandeilo, a scribe recorded the settlement of a land dispute over Tir Telych. The note, starting with the Latin “Surexit”, is the earliest surviving connected text in Welsh. It was written in the 9th century (the exact decade is debated), perhaps copying an older text. The book later went to Lichfield, by a route nobody recorded.',
-      cy: "Ar ymyl yr efengyl fawr a gadwyd yn Llandeilo, cofnododd ysgrifydd setliad anghydfod tir dros Dir Telych. Y nodyn, sy'n dechrau â'r gair Lladin “Surexit”, yw'r testun Cymraeg cysylltiedig cynharaf sydd wedi goroesi. Fe'i hysgrifennwyd yn y 9fed ganrif (mae'r union ddegawd yn destun dadl), gan gopïo testun hŷn efallai. Aeth y llyfr i Gaerlwytgoed yn ddiweddarach, ar hyd llwybr na chofnododd neb.",
+      en: 'In the margin of the great gospel book kept at Llandeilo, a scribe recorded the settlement of a land dispute over Tir Telych. The note, starting with the Latin “Surexit”, is the earliest surviving document in Welsh (an inscribed stone at Tywyn may be older). It was written in the 9th century (the exact decade is debated), perhaps copying an older text. The book later went to Lichfield, by a route nobody recorded.',
+      cy: "Ar ymyl yr efengyl fawr a gadwyd yn Llandeilo, cofnododd ysgrifydd setliad anghydfod tir dros Dir Telych. Y nodyn, sy'n dechrau â'r gair Lladin “Surexit”, yw'r ddogfen Gymraeg gynharaf sydd wedi goroesi (efallai fod carreg arysgrifedig yn Nhywyn yn hŷn). Fe'i hysgrifennwyd yn y 9fed ganrif (mae'r union ddegawd yn destun dadl), gan gopïo testun hŷn efallai. Aeth y llyfr i Gaerlwytgoed yn ddiweddarach, ar hyd llwybr na chofnododd neb.",
     },
     magnetic: true,
     shot: { framing: 'close' },
     place: placeId('llandeilo'),
-    provenance: documented('medieval:S6', 'medieval:S7', 'language:S4', 'timeline:S24'),
+    provenance: documented('medieval:S6', 'medieval:S7', 'language:S4', 'language:S5'),
   },
   {
     id: eventId('rhys-ap-tewdwr'),
@@ -210,7 +211,7 @@ export const EVENTS: readonly KeyEvent[] = [
     magnetic: true,
     shot: { framing: 'site' },
     place: placeId('dryslwyn'),
-    provenance: documented('timeline:S13', 'medieval:S21', 'medieval:S22'),
+    provenance: documented('timeline:S13', 'medieval:S21'),
   },
   {
     id: eventId('english-1277'),
@@ -226,7 +227,7 @@ export const EVENTS: readonly KeyEvent[] = [
     },
     magnetic: false,
     shot: { framing: 'valley' },
-    provenance: documented('timeline:S26', 'timeline:S37'),
+    provenance: documented('timeline:S26', 'timeline:S37', 'medieval:S9'),
   },
   {
     id: eventId('battle-1282'),
@@ -240,6 +241,14 @@ export const EVENTS: readonly KeyEvent[] = [
     magnetic: true,
     shot: { framing: 'area' },
     place: placeId('llandeilo'),
+    recordedSky: {
+      season: 'summer',
+      note: {
+        en: '16 June, by the Welsh annals; the time of day is not recorded.',
+        cy: '16 Mehefin, yn ôl yr annalau Cymreig; ni chofnodwyd adeg y dydd.',
+      },
+      sources: [src('classes:S2')],
+    },
     provenance: documented(
       'timeline:S30',
       'timeline:S31',
@@ -247,7 +256,6 @@ export const EVENTS: readonly KeyEvent[] = [
       'medieval:S28',
       'medieval:S29',
       'classes:S2',
-      'classes:S8',
     ),
   },
   {
@@ -262,6 +270,14 @@ export const EVENTS: readonly KeyEvent[] = [
     magnetic: true,
     shot: { framing: 'site' },
     place: placeId('dryslwyn'),
+    recordedSky: {
+      season: 'summer',
+      note: {
+        en: 'August to early September 1287; the time of day is not recorded.',
+        cy: 'Awst i ddechrau Medi 1287; ni chofnodwyd adeg y dydd.',
+      },
+      sources: [src('medieval:S23'), src('classes:S2')],
+    },
     provenance: documented('timeline:S35', 'medieval:S22', 'medieval:S23'),
   },
   {
@@ -279,7 +295,7 @@ export const EVENTS: readonly KeyEvent[] = [
     magnetic: false,
     shot: { framing: 'site' },
     place: placeId('carreg-cennen'),
-    provenance: documented('timeline:S36', 'timeline:S37', 'medieval:S24'),
+    provenance: documented('timeline:S36', 'timeline:S37'),
   },
   {
     id: eventId('glyndwr'),
@@ -293,8 +309,16 @@ export const EVENTS: readonly KeyEvent[] = [
     magnetic: true,
     shot: { framing: 'site' },
     place: placeId('carreg-cennen'),
+    recordedSky: {
+      season: 'summer',
+      note: {
+        en: 'Early July 1403; the time of day is not recorded.',
+        cy: 'Dechrau Gorffennaf 1403; ni chofnodwyd adeg y dydd.',
+      },
+      sources: [src('effects:S11')],
+    },
     provenance: documented(
-      'timeline:S36',
+      'medieval:S56',
       'timeline:S37',
       'timeline:S26',
       'effects:S11',
@@ -368,7 +392,7 @@ export const EVENTS: readonly KeyEvent[] = [
     },
     magnetic: false,
     shot: { framing: 'close', feature: featureId('paxtons-tower') },
-    provenance: documented('timeline:S52', 'victorian:S45'),
+    provenance: documented('timeline:S52'),
   },
   {
     id: eventId('rebecca'),
@@ -376,12 +400,21 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: false,
     title: { en: 'Rebecca comes to Llandeilo', cy: 'Beca yn dod i Landeilo' },
     summary: {
-      en: 'In August 1843 the Walk Gate on Llandeilo’s Carmarthen road was destroyed. Local lime farmers paid tolls on three overlapping turnpike trusts, reported as 30% of the cost of the lime itself. Crops on the Dynevor estate were burned, and dragoons were billeted in the town for nearly two years.',
-      cy: 'Ym mis Awst 1843 dinistriwyd Gât y Walk ar ffordd Caerfyrddin yn Llandeilo. Talai ffermwyr calch lleol dollau i dair ymddiriedolaeth dyrpeg a oedd yn gorgyffwrdd, a dywedwyd bod y tollau’n 30% o gost y calch ei hun. Llosgwyd cnydau ar ystâd Dinefwr, a lletywyd dragwniaid yn y dref am bron i ddwy flynedd.',
+      en: 'In August 1843 the Walk Gate on Llandeilo’s Carmarthen road was destroyed. Local lime farmers paid tolls on three overlapping turnpike trusts, reported as 30% of the cost of the lime itself. Crops on the Dynevor estate were burned, and troops were stationed in the town for nearly two years: dragoons from July 1843, then infantry.',
+      cy: 'Ym mis Awst 1843 dinistriwyd Gât y Walk ar ffordd Caerfyrddin yn Llandeilo. Talai ffermwyr calch lleol dollau i dair ymddiriedolaeth dyrpeg a oedd yn gorgyffwrdd, a dywedwyd bod y tollau’n 30% o gost y calch ei hun. Llosgwyd cnydau ar ystâd Dinefwr, a bu milwyr yn y dref am bron i ddwy flynedd: dragwniaid o fis Gorffennaf 1843, ac yna milwyr traed.',
     },
     magnetic: true,
     shot: { framing: 'area' },
     place: placeId('llandeilo'),
+    recordedSky: {
+      season: 'summer',
+      hour: { kind: 'chosen', value: 23.5 },
+      note: {
+        en: 'A night in August 1843; the hour is not recorded.',
+        cy: 'Noson ym mis Awst 1843; ni chofnodwyd yr awr.',
+      },
+      sources: [src('effects:S8'), src('effects:S9')],
+    },
     provenance: documented('victorian:S7', 'victorian:S8', 'victorian:S4', 'victorian:S9', 'victorian:S16'),
   },
   {
@@ -396,7 +429,16 @@ export const EVENTS: readonly KeyEvent[] = [
     magnetic: true,
     shot: { framing: 'close' },
     place: placeId('bridge'),
-    provenance: documented('timeline:S54', 'victorian:S21', 'victorian:S22'),
+    recordedSky: {
+      season: 'winter',
+      hour: { kind: 'recorded', value: 21 },
+      note: {
+        en: '9 pm on Sunday 30 January 1848, the night the flood swept away the timber centring from under the new arch (Thomas Jenkins’s diary); no opening day is recorded.',
+        cy: '9 yr hwyr ddydd Sul 30 Ionawr 1848, y noson y sgubodd y llif y canolwaith pren o dan y bwa newydd (dyddiadur Thomas Jenkins); ni chofnodwyd diwrnod agor.',
+      },
+      sources: [src('effects:S2')],
+    },
+    provenance: documented('timeline:S54', 'victorian:S22'),
   },
   {
     id: eventId('church-rebuilt'),
@@ -410,6 +452,15 @@ export const EVENTS: readonly KeyEvent[] = [
     magnetic: false,
     shot: { framing: 'close' },
     place: placeId('llandeilo'),
+    recordedSky: {
+      season: 'autumn',
+      hour: { kind: 'recorded', value: 11 },
+      note: {
+        en: 'Thursday 10 October 1850; the first service was at 11.',
+        cy: 'Dydd Iau 10 Hydref 1850; roedd y gwasanaeth cyntaf am 11.',
+      },
+      sources: [src('effects:S10')],
+    },
     provenance: documented('victorian:S23', 'timeline:S25'),
   },
   {
@@ -424,7 +475,16 @@ export const EVENTS: readonly KeyEvent[] = [
     magnetic: true,
     shot: { framing: 'site', feature: featureId('railway') },
     place: placeId('llandeilo'),
-    provenance: documented('timeline:S55', 'victorian:S29', 'victorian:S31', 'victorian:S30', 'timeline:S20'),
+    recordedSky: {
+      season: 'winter',
+      hour: { kind: 'chosen', value: 13 },
+      note: {
+        en: 'Tuesday 20 January 1857: rain and sleet, then sun; the hour of arrival is not recorded.',
+        cy: 'Dydd Mawrth 20 Ionawr 1857: glaw ac eirlaw, yna haul; ni chofnodwyd awr y cyrraedd.',
+      },
+      sources: [src('effects:S7')],
+    },
+    provenance: documented('timeline:S55', 'victorian:S29', 'victorian:S31', 'timeline:S20'),
   },
   {
     id: eventId('guardianship'),

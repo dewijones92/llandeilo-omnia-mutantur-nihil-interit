@@ -2,7 +2,7 @@
 title: Immersive sound and other assets
 kind: design
 status: proposed
-updated: 2026-09-28
+updated: 2026-10-02
 ---
 
 # Immersive sound and other assets: generate, synthesise, or find
@@ -16,14 +16,14 @@ and the rules any asset must pass before it ships.
 |---|---|---|---|
 | **1. Claude generates it** | Procedural sound (Web Audio), scripted 3D models (Blender, installed), voices (edge-tts), terrain from OS data | All current ambient sound, all models, all 28 voices | Our own work; edge-tts audio is generated from our text |
 | **2. A generative service makes it** | Realistic sound effects, 3D models, textures, concept images | Not used | Varies by service and plan; must allow reuse, and the output is labelled |
-| **3. Find it on the internet** | Real recordings (steam trains, church bells, rivers, birds), scanned castles, photographic textures | Not used | Only CC0, CC-BY, public domain or OGL, recorded in the asset manifest |
+| **3. Find it on the internet** | Real recordings (steam trains, church bells, rivers, birds), scanned castles, photographic textures | Not used | Any open licence, NC and SA included, never all-rights-reserved ([ADR 0026](../adr/0026-open-licences-including-nc.md)), recorded in the asset manifest. *Corrected 2026-10-02: this cell said "only CC0, CC-BY, public domain or OGL"* |
 
 ## Candidates to check (licences to verify before use)
 
 These are leads from memory, not verified. Each must be checked against its current licence terms
 before anything is downloaded.
 
-- **Sound**: Freesound (per-file CC0 / CC-BY; avoid NC), Wikimedia Commons audio, the BBC Sound
+- **Sound**: Freesound (per-file licence; NC is allowed since ADR 0026, *corrected 2026-10-02* from "avoid NC"), Wikimedia Commons audio, the BBC Sound
   Effects archive (its licence is not CC; check whether it allows this use), public-domain
   archive recordings (e.g. steam locomotives).
 - **3D**: Sketchfab downloadable models with CC-BY or CC0 (some Welsh castles may have scans),
@@ -45,7 +45,9 @@ before anything is downloaded.
 
 ## Rules every asset must pass
 
-1. **Licence first**: CC0, CC-BY, public domain or OGL, and nothing "found online" without one.
+1. **Licence first**: any open licence, NC and SA included, and nothing "all rights reserved" or
+   "found online" without one ([ADR 0026](../adr/0026-open-licences-including-nc.md); *corrected
+   2026-10-02*: this rule said "CC0, CC-BY, public domain or OGL" only).
    Its source, author, licence and URL go in `src/content/assets.ts`; the build fails without it,
    and the credits page is generated from it.
 2. **Honesty label**: an asset that stands for the past is *reconstructed* (a modern recording of a

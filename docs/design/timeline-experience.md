@@ -2,7 +2,7 @@
 title: Timeline experience
 kind: design
 status: partly built
-updated: 2026-09-28
+updated: 2026-10-02
 ---
 
 # Timeline experience: stepping through history
@@ -81,6 +81,7 @@ Rules that follow from the project's first law:
   train ran, not how it sounded that day), and the ⓘ says so.
 - **Only what the research supports**: a trebuchet at Dryslwyn is documented; battle noise at the
   1282 ambush is reconstructed and kept restrained because almost nothing is known.
-- Sources: generated in the browser (as the ambient beds are now), or CC0/CC-BY recordings with
+- Sources: generated in the browser (as the ambient beds are now), or recordings under any open licence
+  ([ADR 0026](../adr/0026-open-licences-including-nc.md); corrected 2026-10-02 from "CC0/CC-BY") with
   their licences in the asset manifest.
 - Effects play only near the event in time and in view, and respect the Sound toggle.

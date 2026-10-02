@@ -479,3 +479,25 @@ test('place labels never overlap one another on the overview', async ({ page }) 
   await expect(page.locator('.label', { hasText: /^Dinefwr/ })).toBeVisible();
   await expect.poll(clashes).toEqual([]);
 });
+
+test('a key date whose season and hour a source records sets the sky to match, until you change it', async ({
+  page,
+}) => {
+  await page.goto('./?year=1850&hour=17&season=summer');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.locator('.tl-marker[aria-label^="1857"]').first().click();
+  await expect(page.locator('.sky-note')).toContainText(
+    'Season from the record, hour chosen: Tuesday 20 January 1857',
+  );
+  await expect(page.locator('.sky-note .prov')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Winter' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sky-readout')).toContainText('13:00');
+  await page.getByRole('button', { name: 'Summer' }).click();
+  await expect(page.locator('.sky-note')).toHaveText('Atmosphere only, not a record of this year');
+  // Arriving again and then moving the slider away drops the caption too.
+  await page.locator('.tl-marker[aria-label^="1857"]').first().click();
+  await expect(page.locator('.sky-note')).toContainText('from the record', { ignoreCase: true });
+  await page.getByRole('slider', { name: 'Timeline' }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('.sky-note')).toHaveText('Atmosphere only, not a record of this year');
+});

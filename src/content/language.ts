@@ -27,6 +27,23 @@ const snap = (
   provenance,
 });
 
+const AFTER_CONQUEST_RULERS: readonly LanguageUse[] = [
+  use(
+    'Marcher lords and royal officials',
+    "Arglwyddi'r Mers a swyddogion y brenin",
+    'anglo-norman',
+    'French at first, shifting to English by the 14th and 15th centuries.',
+    "Ffrangeg i ddechrau, gan symud i'r Saesneg erbyn y 14eg a'r 15fed ganrif.",
+  ),
+  use(
+    'Church and courts',
+    'Yr eglwys a’r llysoedd',
+    'latin',
+    'Latin for the written record.',
+    'Lladin ar gyfer y cofnod ysgrifenedig.',
+  ),
+];
+
 export const LANGUAGE: readonly LanguageSnapshot[] = [
   snap(
     'pre-celtic',
@@ -75,11 +92,11 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
         'Everyone, of every rank',
         'Pawb, o bob gradd',
         'brittonic',
-        'Common Brittonic, the Celtic ancestor of Welsh, Cornish and Breton. No sentence of it survives from here.',
-        'Y Frythoneg, hynafiad Celtaidd y Gymraeg, y Gernyweg a’r Llydaweg. Does dim brawddeg ohoni wedi goroesi o’r fan hon.',
+        'Common Brittonic, the Celtic ancestor of Welsh, Cornish and Breton, probably spoken across Britain by about 500 BC. No sentence of it survives from here.',
+        'Y Frythoneg, hynafiad Celtaidd y Gymraeg, y Gernyweg a’r Llydaweg, a siaredid ledled Prydain erbyn tua 500 CC yn ôl pob tebyg. Does dim brawddeg ohoni wedi goroesi o’r fan hon.',
       ),
     ],
-    doc('language:S32', 'language:S30'),
+    doc('language:S32', 'language:S30', 'language:S1'),
   ),
   snap(
     'roman',
@@ -104,23 +121,45 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
     doc('language:S29', 'language:S30', 'language:S3'),
   ),
   snap(
-    'primitive-welsh',
+    'late-brittonic',
     ad(410),
-    ad(799),
+    ad(549),
     [
       use(
         'Everyone',
         'Pawb',
-        'old-welsh',
-        'Brittonic changes into early Welsh, losing its word endings.',
-        "Mae'r Frythoneg yn newid yn Gymraeg gynnar, gan golli terfyniadau ei geiriau.",
+        'brittonic',
+        'Late Brittonic, already changing into early Welsh as it loses its word endings.',
+        'Brythoneg Ddiweddar, sydd eisoes yn newid yn Gymraeg gynnar wrth golli terfyniadau ei geiriau.',
       ),
       use(
         'Clergy',
         'Clerigwyr',
         'latin',
-        'Latin is still the only written language.',
-        "Lladin yw'r unig iaith ysgrifenedig o hyd.",
+        'Latin is still the main written language.',
+        "Lladin yw'r brif iaith ysgrifenedig o hyd.",
+      ),
+    ],
+    doc('language:S5', 'language:S20'),
+  ),
+  snap(
+    'primitive-welsh',
+    ad(550),
+    ad(799),
+    [
+      use(
+        'Everyone',
+        'Pawb',
+        'primitive-welsh',
+        'Primitive Welsh: Brittonic has become early Welsh, without its old word endings.',
+        "Cymraeg Cyntefig: mae'r Frythoneg wedi troi'n Gymraeg gynnar, heb ei hen derfyniadau.",
+      ),
+      use(
+        'Clergy',
+        'Clerigwyr',
+        'latin',
+        'Latin is still the main written language, though a few short Welsh inscriptions may date from now.',
+        "Lladin yw'r brif iaith ysgrifenedig o hyd, er y gall ambell arysgrif Gymraeg fer ddyddio o'r cyfnod hwn.",
       ),
     ],
     doc('language:S5', 'language:S20'),
@@ -134,8 +173,8 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
         'Everyone',
         'Pawb',
         'old-welsh',
-        'Old Welsh. Its earliest connected written text is a note in the gospel book kept at Llandeilo.',
-        'Hen Gymraeg. Nodyn yn yr efengyl a gadwyd yn Llandeilo yw ei thestun ysgrifenedig cysylltiedig cynharaf.',
+        'Old Welsh. The earliest surviving document in Welsh is a note in the gospel book kept at Llandeilo.',
+        'Hen Gymraeg. Nodyn yn yr efengyl a gadwyd yn Llandeilo yw’r ddogfen Gymraeg gynharaf sydd wedi goroesi.',
       ),
       use(
         'The clas clergy',
@@ -179,7 +218,7 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
   snap(
     'after-conquest',
     ad(1283),
-    ad(1499),
+    ad(1399),
     [
       use(
         'The Welsh population and lower clergy',
@@ -188,22 +227,25 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
         'Welsh stays the language of daily life.',
         'Y Gymraeg yw iaith bywyd bob dydd o hyd.',
       ),
-      use(
-        'Marcher lords and royal officials',
-        "Arglwyddi'r Mers a swyddogion y brenin",
-        'anglo-norman',
-        'French at first, shifting to English by the 14th and 15th centuries.',
-        "Ffrangeg i ddechrau, gan symud i'r Saesneg erbyn y 14eg a'r 15fed ganrif.",
-      ),
-      use(
-        'Church and courts',
-        'Yr eglwys a’r llysoedd',
-        'latin',
-        'Latin for the written record.',
-        'Lladin ar gyfer y cofnod ysgrifenedig.',
-      ),
+      ...AFTER_CONQUEST_RULERS,
     ],
     doc('language:S12', 'language:S13'),
+  ),
+  snap(
+    'late-medieval',
+    ad(1400),
+    ad(1499),
+    [
+      use(
+        'The Welsh population and lower clergy',
+        "Y boblogaeth Gymreig a'r clerigwyr is",
+        'welsh',
+        'Welsh stays the language of daily life; from the early 15th century it is counted as Early Modern Welsh.',
+        "Y Gymraeg yw iaith bywyd bob dydd o hyd; o ddechrau'r 15fed ganrif fe'i cyfrifir yn Gymraeg Modern Cynnar.",
+      ),
+      ...AFTER_CONQUEST_RULERS,
+    ],
+    doc('language:S12', 'language:S13', 'language:S20'),
   ),
   snap(
     'early-modern',
@@ -247,11 +289,11 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
         "Saesneg ar gyfer y gyfraith, ystadau a'r llywodraeth.",
       ),
       use(
-        'Schoolchildren after 1847',
-        'Plant ysgol ar ôl 1847',
+        'Schoolchildren',
+        'Plant ysgol',
         'english',
-        'Schools push English, sometimes with the Welsh Not; how widely it was used is debated.',
-        "Mae ysgolion yn gwthio Saesneg, weithiau gyda'r Welsh Not; mae dadl ynghylch pa mor eang y'i defnyddiwyd.",
+        'Day schools teach in English, and some teachers punish Welsh with the Welsh Not, most often in the early and mid 1800s. It was never government policy, and whether it caused Welsh to decline is doubted.',
+        "Mae ysgolion dyddiol yn dysgu drwy'r Saesneg, ac mae rhai athrawon yn cosbi'r Gymraeg â'r Welsh Not, gan amlaf ar ddechrau ac yng nghanol y 1800au. Nid oedd erioed yn bolisi'r llywodraeth, ac mae amheuaeth a achosodd ddirywiad y Gymraeg.",
       ),
     ],
     doc('language:S17', 'language:S18', 'language:S26'),
@@ -272,11 +314,11 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
         'Wales as a whole',
         'Cymru gyfan',
         'english',
-        'A steady shift to English, then a political revival from 1962, followed by S4C (1982) and legal status for Welsh (1993).',
-        'Symudiad cyson at y Saesneg, yna adfywiad gwleidyddol o 1962, ac yna S4C (1982) a statws cyfreithiol i’r Gymraeg (1993).',
+        'A steady shift to English, then a political revival from 1962, followed by S4C (1982) and the Welsh Language Act (1993), which said Welsh and English should be treated equally in public life.',
+        'Symudiad cyson at y Saesneg, yna adfywiad gwleidyddol o 1962, ac yna S4C (1982) a Deddf yr Iaith Gymraeg (1993), a ddywedodd y dylid trin y Gymraeg a’r Saesneg yn gyfartal mewn bywyd cyhoeddus.',
       ),
     ],
-    doc('language:S26', 'language:S20', 'language:S21'),
+    doc('language:S26', 'language:S20', 'language:S21', 'language:S22'),
   ),
   snap(
     'today',
@@ -287,8 +329,8 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
         'Llandeilo',
         'Llandeilo',
         'welsh',
-        'About half the town speaks Welsh: 55.1% in 2001, 50.3% in 2011.',
-        'Mae tua hanner y dref yn siarad Cymraeg: 55.1% yn 2001, 50.3% yn 2011.',
+        'Welsh speakers in the Llandeilo ward fell from 55.1% in 2001 to 50.3% in 2011, and to about 45% in 2021.',
+        'Gostyngodd siaradwyr Cymraeg yn ward Llandeilo o 55.1% yn 2001 i 50.3% yn 2011, ac i tua 45% yn 2021.',
       ),
       use(
         'Carmarthenshire',
@@ -298,6 +340,6 @@ export const LANGUAGE: readonly LanguageSnapshot[] = [
         'Gostyngodd siaradwyr Cymraeg i 39.9% erbyn 2021, y cwymp mwyaf o unrhyw sir yng Nghymru.',
       ),
     ],
-    doc('language:S23', 'language:S24', 'language:S25'),
+    doc('language:S23', 'language:S39', 'language:S24', 'language:S25'),
   ),
 ];

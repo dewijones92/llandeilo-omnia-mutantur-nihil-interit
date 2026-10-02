@@ -53,10 +53,12 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0019](0019-suggestions-arrive-as-github-issues.md) | Other people's suggestions arrive as GitHub issues, and become cards | Accepted; forms superseded by 0020, posting rule by 0021, cards by 0022 | 2026-09-29 |
 | [0020](0020-plain-github-issues.md) | Suggestions arrive as plain GitHub issues, with no issue forms | Accepted; posting rule superseded by 0021, cards by 0022 | 2026-10-01 |
 | [0021](0021-issue-triage-at-session-start.md) | Claude triages GitHub issues at the start of every session, and posts in one approved batch | Accepted, supersedes part of 0019 and 0020; row location and cards superseded by 0022 | 2026-10-01 |
-| [0022](0022-one-todo-file.md) | One todo file, no board | Accepted, supersedes 0018 and part of 0019 and 0021 | 2026-10-01 |
+| [0022](0022-one-todo-file.md) | One todo file, no board | Accepted, supersedes 0018 and part of 0019 and 0021; who agrees items amended by 0027 | 2026-10-01 |
 | [0023](0023-e2e-own-port-never-reused.md) | Each checkout runs e2e on its own port, and never reuses a server | Accepted | 2026-10-02 |
 | [0024](0024-place-names-carry-a-required-date.md) | Every place name carries a required date | Accepted | 2026-10-02 |
 | [0025](0025-releases-at-visible-milestones.md) | Releases at visible milestones, with notes kept in the repo | Accepted | 2026-10-02 |
+| [0026](0026-open-licences-including-nc.md) | Any open licence, the non-commercial ones included | Accepted | 2026-10-02 |
+| [0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md) | Claude proposes and builds its own ideas, under a proactive mandate | Accepted, amends 0022 | 2026-10-02 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

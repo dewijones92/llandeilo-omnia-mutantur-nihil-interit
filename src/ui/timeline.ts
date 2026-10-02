@@ -132,8 +132,8 @@ export class TimelineBar {
     this.visit(target.event);
   }
 
-  snapTo(target: Step): void {
-    this.animateTo(target.t);
+  snapTo(target: Step, done?: () => void): void {
+    this.animateTo(target.t, done);
   }
 
   private visit(event: KeyEvent): void {

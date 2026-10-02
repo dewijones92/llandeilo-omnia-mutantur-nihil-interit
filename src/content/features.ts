@@ -84,8 +84,8 @@ const NEWTON_HOUSE = { e: 261432, n: 222534 };
 const LLANDEILO_BRIDGE_AT = { e: 262757, n: 222001 };
 
 const FARMSTEAD_BASIS = {
-  en: 'Enclosed farmsteads were the commonest kind of Iron Age settlement in Wales. These spots are illustrative, not known sites.',
-  cy: "Ffermydd caeedig oedd y math mwyaf cyffredin o anheddiad yn Oes yr Haearn yng Nghymru. Mae'r mannau hyn yn enghreifftiau, nid safleoedd hysbys.",
+  en: 'Small enclosed farmsteads were the commonest kind of Iron Age settlement in west Wales. These spots are illustrative, not known sites.',
+  cy: "Ffermydd bach caeedig oedd y math mwyaf cyffredin o anheddiad yn Oes yr Haearn yng ngorllewin Cymru. Mae'r mannau hyn yn enghreifftiau, nid safleoedd hysbys.",
 };
 
 const LONGHOUSE_BASIS = {
@@ -111,8 +111,8 @@ export const FEATURES: readonly Feature[] = [
     label: { en: 'Y Gaer Fawr, Garn Goch', cy: 'Y Gaer Fawr, Garn Goch' },
     provenance: documented(
       ['ironage:S1', 'ironage:S7'],
-      'Surveyed, never excavated. The ramparts are drawn as a simplified oval.',
-      "Wedi'i harolygu, erioed wedi'i chloddio. Mae'r rhagfuriau wedi'u darlunio fel hirgrwn syml.",
+      'Surveyed; no excavation is recorded. Coflein gives 720m by up to 230m, the Cadw schedule (as published by Ancient Monuments UK) 680m by 130–190m; the ramparts are drawn from Coflein’s figures as a simplified oval.',
+      "Wedi'i harolygu; does dim cloddio wedi'i gofnodi. Mae Coflein yn rhoi 720m wrth hyd at 230m, a rhestr Cadw (fel y'i cyhoeddir gan Ancient Monuments UK) 680m wrth 130–190m; mae'r rhagfuriau wedi'u darlunio o ffigurau Coflein fel hirgrwn syml.",
     ),
     place: 'garn-goch',
   }),
@@ -143,8 +143,8 @@ export const FEATURES: readonly Feature[] = [
     at: { e: 268546, n: 224271 },
     from: bc(700),
     to: NOW,
-    label: { en: 'Y Gaer Fach, left unfinished', cy: 'Y Gaer Fach, heb ei gorffen' },
-    provenance: documented(['ironage:S2']),
+    label: { en: 'Y Gaer Fach, apparently unfinished', cy: 'Y Gaer Fach, heb ei gorffen, mae’n debyg' },
+    provenance: documented(['ironage:S2', 'ironage:S4']),
     place: 'garn-goch',
   }),
   feature({
@@ -163,28 +163,28 @@ export const FEATURES: readonly Feature[] = [
   }),
   feature({
     id: 'fan-camp',
-    kind: { type: 'hillfort', length: 170, width: 120, angle: 0.3, rings: 2, stone: false, ruined: false },
-    at: { e: 267400, n: 231400 },
+    kind: { type: 'hillfort', length: 170, width: 120, angle: 0.3, rings: 1, stone: false, ruined: false },
+    at: { e: 267510, n: 231450 },
     from: bc(800),
     to: ad(74),
     label: { en: 'Fan Camp hillfort, Llansadwrn', cy: 'Bryngaer Fan, Llansadwrn' },
     provenance: documented(
-      ['ironage:S19'],
-      'Classified Iron Age by its form; never excavated.',
-      "Wedi'i dosbarthu fel Oes yr Haearn yn ôl ei ffurf; erioed wedi'i chloddio.",
+      ['ironage:S19', 'ironage:S50'],
+      'Classified Iron Age by its form; no excavation is recorded. A single rampart with outer banks on the west (not drawn); its size here is a guess.',
+      "Wedi'i dosbarthu fel Oes yr Haearn yn ôl ei ffurf; does dim cloddio wedi'i gofnodi. Un rhagfur gyda chloddiau allanol ar y gorllewin (heb eu darlunio); dyfaliad yw ei maint yma.",
     ),
   }),
   feature({
     id: 'grongar',
-    kind: { type: 'hillfort', length: 130, width: 110, angle: 0, rings: 1, stone: false, ruined: true },
-    at: { e: 257300, n: 221500 },
+    kind: { type: 'hillfort', length: 140, width: 110, angle: 0, rings: 1, stone: false, ruined: true },
+    at: { e: 257340, n: 221600 },
     from: bc(600),
     to: NOW,
     label: { en: 'Grongar Hill, the “round fort”', cy: 'Bryn Grongaer, y “gaer gron”' },
     provenance: reconstructed(
-      'Known mainly from its name, Welsh for round fort, and a thin record. Size and date are guesses.',
-      "Yn hysbys yn bennaf o'i enw a chofnod tenau. Dyfaliadau yw'r maint a'r dyddiad.",
-      ['ironage:S18', 'timeline:S12'],
+      'Named from the Welsh for round fort: a single rampart about 110m by 90–140m (Coflein). Its date is a guess.',
+      "Wedi'i henwi o'r Gymraeg am gaer gron: un rhagfur tua 110m wrth 90–140m (Coflein). Dyfaliad yw ei dyddiad.",
+      ['ironage:S18', 'ironage:S51', 'timeline:S12'],
     ),
   }),
   ...(
@@ -209,29 +209,29 @@ export const FEATURES: readonly Feature[] = [
   ),
   feature({
     id: 'roman-fort-a',
-    kind: { type: 'roman-fort', width: 200, length: 230, angle: 0.12 },
+    kind: { type: 'roman-fort', width: 160, length: 240, angle: 0.12 },
     at: { e: 262187, n: 222534 },
     from: ad(74),
-    to: ad(95),
+    to: ad(83),
     label: { en: 'The larger Roman fort', cy: 'Y gaer Rufeinig fwyaf' },
     provenance: documented(
-      ['timeline:S15', 'ironage:S14', 'ironage:S15'],
-      'Built in the AD 70s (Coflein); sources disagree on its size (8 or 12 acres) and founding date. When it gave way to the smaller fort is not known, so its end date here is approximate. The internal layout is a standard Roman plan.',
-      "Codwyd yn yr 70au OC (Coflein); mae ffynonellau'n anghytuno ar ei maint (8 neu 12 erw) a'i dyddiad sefydlu. Ni wyddys pryd y daeth y gaer lai yn ei lle, felly bras yw'r dyddiad gorffen. Cynllun Rhufeinig safonol yw'r trefniant mewnol.",
+      ['timeline:S15', 'classes:S19', 'ironage:S15'],
+      'Probably built soon after AD 74, though an earlier date cannot be ruled out: about 3.8ha inside its defences (240m by 160m), one of the largest forts in Wales. It may have been given up between AD 78 and 83, but that is not proven, so it is shown until 83. The internal layout is a standard Roman plan.',
+      "Mae'n debyg iddi gael ei chodi yn fuan ar ôl 74 OC, er na ellir diystyru dyddiad cynharach: tua 3.8ha o fewn ei hamddiffynfeydd (240m wrth 160m), un o'r caerau mwyaf yng Nghymru. Efallai iddi gael ei gadael rhwng 78 ac 83 OC, ond nid yw hynny wedi'i brofi, felly fe'i dangosir tan 83. Cynllun Rhufeinig safonol yw'r trefniant mewnol.",
     ),
     place: 'roman-forts',
   }),
   feature({
     id: 'roman-fort-b',
-    kind: { type: 'roman-fort', width: 100, length: 150, angle: 0.12 },
+    kind: { type: 'roman-fort', width: 110, length: 140, angle: 0.12 },
     at: { e: 262215, n: 222505 },
-    from: ad(90),
+    from: ad(83),
     to: ad(125),
     label: { en: 'The smaller Roman fort', cy: 'Y gaer Rufeinig lai' },
     provenance: documented(
-      ['timeline:S15', 'ironage:S14', 'ironage:S15'],
-      'About 150m by 100m, in use into the early 2nd century (Coflein). When it was built is disputed, so its start date here is approximate.',
-      "Tua 150m wrth 100m, yn cael ei defnyddio hyd ddechrau'r 2il ganrif (Coflein). Mae dadl ynghylch pryd y'i codwyd, felly bras yw'r dyddiad dechrau yma.",
+      ['timeline:S15', 'classes:S19', 'ironage:S15'],
+      'About 140m by 110m inside (1.54ha), in use into the early 2nd century; the site was abandoned by about AD 140. When it was built is disputed, so its start date here is approximate.',
+      "Tua 140m wrth 110m y tu mewn (1.54ha), yn cael ei defnyddio hyd ddechrau'r 2il ganrif; gadawyd y safle erbyn tua 140 OC. Mae dadl ynghylch pryd y'i codwyd, felly bras yw'r dyddiad dechrau yma.",
     ),
     place: 'roman-forts',
   }),
@@ -274,8 +274,8 @@ export const FEATURES: readonly Feature[] = [
       cy: 'Eglwys Teilo Sant, gyda’i thŵr gorllewinol newydd',
     },
     provenance: reconstructed(
-      'The double-naved church with its west tower, the battlemented tower that still stands. Sources differ on the tower’s date: Coflein gives both the 15th century and about 1600, so it is shown from 1600. The naves’ size is not recorded. One source says the church was substantially rebuilt in the early 18th century; the more detailed Coflein record describes only the 1848 rebuild, so that claim is treated as doubtful and no 18th-century change is shown.',
-      "Yr eglwys â chorff dwbl a'i thŵr gorllewinol, y tŵr â bylchfuriau sy'n dal i sefyll. Mae'r ffynonellau'n gwahaniaethu ar ddyddiad y tŵr: mae Coflein yn rhoi'r 15fed ganrif a thua 1600, felly fe'i dangosir o 1600. Ni chofnodwyd maint y cyrff. Mae un ffynhonnell yn dweud i'r eglwys gael ei hailadeiladu'n sylweddol yn gynnar yn y 18fed ganrif; dim ond ailadeiladu 1848 y mae cofnod manylach Coflein yn ei ddisgrifio, felly ystyrir yr honiad hwnnw'n amheus ac ni ddangosir newid yn y 18fed ganrif.",
+      'The double-naved church with its west tower, the tower that still stands (its battlements are 19th-century, so its top before 1848 is not known). Sources differ on the tower’s date: Coflein gives both the 15th century and about 1600, so it is shown from 1600. The naves’ size is not recorded. One source says the church was substantially rebuilt in the early 18th century; the more detailed Coflein record describes only the 1848 rebuild, so that claim is treated as doubtful and no 18th-century change is shown.',
+      "Yr eglwys â chorff dwbl a'i thŵr gorllewinol, y tŵr sy'n dal i sefyll (o'r 19eg ganrif y daw ei fylchfuriau, felly ni wyddys sut olwg oedd ar ei ben cyn 1848). Mae'r ffynonellau'n gwahaniaethu ar ddyddiad y tŵr: mae Coflein yn rhoi'r 15fed ganrif a thua 1600, felly fe'i dangosir o 1600. Ni chofnodwyd maint y cyrff. Mae un ffynhonnell yn dweud i'r eglwys gael ei hailadeiladu'n sylweddol yn gynnar yn y 18fed ganrif; dim ond ailadeiladu 1848 y mae cofnod manylach Coflein yn ei ddisgrifio, felly ystyrir yr honiad hwnnw'n amheus ac ni ddangosir newid yn y 18fed ganrif.",
       ['victorian:S23', 'medieval:S3'],
     ),
     place: 'llandeilo',
@@ -333,7 +333,7 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'Dinefwr Castle, a ruin', cy: 'Castell Dinefwr, yn adfail' },
     provenance: documented(
-      ['timeline:S45', 'timeline:S46', 'medieval:S11', 'medieval:S12'],
+      ['timeline:S27', 'medieval:S11', 'medieval:S12'],
       'The great round tower survives as a two-storey stump. How high the other walls stand is approximate.',
       "Mae'r tŵr crwn mawr wedi goroesi fel bonyn deulawr. Bras yw uchder y muriau eraill.",
     ),
@@ -352,7 +352,7 @@ export const FEATURES: readonly Feature[] = [
     provenance: reconstructed(
       'The top of the great tower was replaced by a summerhouse, whose remains still sit on the stump. Its date is disputed: one source gives 1660 and says it burned in the 18th century, others call it 17th/18th or 18th/19th century. It is shown from 1660, and its form is approximate.',
       "Rhoddwyd tŷ haf yn lle pen y tŵr mawr, ac mae ei weddillion yn dal ar y bonyn. Mae dadl am ei ddyddiad: mae un ffynhonnell yn rhoi 1660 ac yn dweud iddo losgi yn y 18fed ganrif, mae eraill yn ei alw'n 17eg/18fed neu'n 18fed/19eg ganrif. Fe'i dangosir o 1660, a bras yw ei ffurf.",
-      ['medieval:S11', 'medieval:S12', 'victorian:S25'],
+      ['medieval:S11', 'medieval:S12'],
     ),
     place: 'dinefwr',
   }),
@@ -401,7 +401,7 @@ export const FEATURES: readonly Feature[] = [
       cy: 'Carreg Cennen, wedi’i ailadeiladu gan John Giffard',
     },
     provenance: documented(
-      ['timeline:S36', 'timeline:S37', 'medieval:S26', 'medieval:S24'],
+      ['timeline:S36', 'timeline:S37', 'medieval:S26'],
       'Then came the barbican and the outer ward, about 60m by 60m with walls about 1.7m thick, probably early 14th century, holding half-timbered stables, a forge, stores and a lime kiln. The layout, heights and the barbican’s route are approximate.',
       "Yna daeth y barbican a'r ward allanol, tua 60m wrth 60m â muriau tua 1.7m o drwch, o ddechrau'r 14eg ganrif mae'n debyg, gyda stablau ffrâm bren, gefail, storfeydd ac odyn galch. Bras yw'r cynllun, yr uchderau a llwybr y barbican.",
     ),
@@ -415,7 +415,7 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'Carreg Cennen, slighted and ruined', cy: 'Carreg Cennen, wedi’i chwalu' },
     provenance: documented(
-      ['timeline:S36', 'timeline:S51', 'medieval:S24'],
+      ['timeline:S36', 'timeline:S51'],
       'Slighted in 1462 by about 500 men over four months, and never refortified. Which walls stand, and how high, is approximate; the Earl Cawdor’s Victorian repairs are not shown.',
       "Fe'i chwalwyd yn 1462 gan tua 500 o ddynion dros bedwar mis, ac ni chafodd ei ailgadarnhau. Bras yw pa furiau sy'n sefyll, a pha mor uchel; ni ddangosir atgyweiriadau Fictoraidd Iarll Cawdor.",
     ),
@@ -485,7 +485,7 @@ export const FEATURES: readonly Feature[] = [
     to: ad(1536),
     label: { en: 'Talley Abbey', cy: 'Abaty Talyllychau' },
     provenance: documented(
-      ['models:S10', 'models:S12', 'models:S13', 'models:S16', 'models:S17', 'medieval:S19'],
+      ['models:S10', 'models:S12', 'models:S13', 'models:S16', 'models:S17'],
       'Modelled from the Cadw-derived plans. Designed as an aisled cruciform church about 73m long, it was finished in a shorter form, probably in the earlier 13th century: about 49m, with a four-bay nave, an aisle on the south side only and a solid north wall on the arcade line. The four western bays never rose above their footings. A crossing tower about 29m high on four piers, transepts each opening into three chapels, a square-ended presbytery with three tall east windows, and a cloister about 23m across to the south with ranges round it. Widths are measured from the plans; heights and the ranges’ size are approximate, and the church is drawn due east–west. Dissolved in 1536.',
       "Wedi'i fodelu o'r cynlluniau sy'n seiliedig ar rai Cadw. Fe'i cynlluniwyd fel eglwys ar ffurf croes ag eiliau, tua 73m o hyd, ond fe'i gorffennwyd ar ffurf fyrrach, yn gynnar yn y 13eg ganrif mae'n debyg: tua 49m, gyda chorff pedair cilfach, eil ar yr ochr ddeheuol yn unig a mur gogleddol solet ar linell yr arcêd. Ni chododd y pedair cilfach orllewinol uwchlaw eu sylfeini. Tŵr croesi tua 29m o uchder ar bedair colofn, croesfeydd sy'n agor i dri chapel yr un, cangell sgwâr ei phen â thair ffenestr ddwyreiniol uchel, a chlawstr tua 23m ar draws i'r de gydag adeiladau o'i gwmpas. Mesurwyd y lledau o'r cynlluniau; bras yw'r uchderau a maint yr adeiladau, ac mae'r eglwys wedi'i darlunio o'r dwyrain i'r gorllewin yn union. Fe'i diddymwyd yn 1536.",
     ),
@@ -570,8 +570,8 @@ export const FEATURES: readonly Feature[] = [
     to: ad(1770),
     label: { en: 'Newton House', cy: 'Plas Dinefwr' },
     provenance: reconstructed(
-      'Newton House was built in 1660–70. Its size and form before the later changes are not in our research, so it is drawn as a plain three-storey house with a hipped roof, lined up with the OS outline of the house and its ranges.',
-      "Codwyd Plas Dinefwr yn 1660–70. Nid yw ei faint na'i ffurf cyn y newidiadau diweddarach yn ein hymchwil, felly fe'i darlunnir fel tŷ tri llawr plaen â tho ar oledd ar bob ochr, yn unol ag amlinell yr Arolwg Ordnans o'r tŷ a'i adeiladau.",
+      'Newton House was built in 1660–70. Coflein describes a three-storey house over vaulted cellars, with a symmetrical seven-bay front and a central entrance; its size and roof are approximate. It is lined up with the OS outline of the house and its ranges.',
+      "Codwyd Plas Dinefwr yn 1660–70. Mae Coflein yn disgrifio tŷ tri llawr uwchben selerydd cromennog, â ffrynt cymesur o saith bae a mynedfa ganolog; bras yw ei faint a'i do. Mae'n unol ag amlinell yr Arolwg Ordnans o'r tŷ a'i adeiladau.",
       ['timeline:S46', 'victorian:S25', 'victorian:S26'],
     ),
     place: 'dinefwr',
@@ -584,9 +584,9 @@ export const FEATURES: readonly Feature[] = [
     to: ad(1856),
     label: { en: 'Newton House, with turrets', cy: 'Plas Dinefwr, gyda thyredau' },
     provenance: reconstructed(
-      'Turrets and battlements were added in 1760–80 (a single source). Their form is not described, so the square corner turrets are a guess; the house’s size and line are as in the earlier phase.',
-      "Ychwanegwyd tyredau a bylchfuriau yn 1760–80 (un ffynhonnell). Ni ddisgrifir eu ffurf, felly dyfalu yw'r tyredau sgwâr ar y corneli; mae maint a llinell y tŷ fel yn y cyfnod cynt.",
-      ['timeline:S46'],
+      'Turrets and battlements were added in 1760–80; an engraving of 1773 shows small corner turrets and battlements. Their exact form is a guess; the house’s size and line are as in the earlier phase.',
+      'Ychwanegwyd tyredau a bylchfuriau yn 1760–80; mae engrafiad o 1773 yn dangos tyredau bach ar y corneli a bylchfuriau. Dyfalu yw eu hunion ffurf; mae maint a llinell y tŷ fel yn y cyfnod cynt.',
+      ['timeline:S46', 'victorian:S25'],
     ),
     place: 'dinefwr',
   }),
@@ -598,9 +598,9 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'Newton House, recased in Gothic', cy: 'Plas Dinefwr, â gwisg Gothig' },
     provenance: documented(
-      ['victorian:S25', 'victorian:S26', 'victorian:S27', 'timeline:S46'],
-      'R. K. Penson’s Gothic recasing of 1856–57: diagonal corner turrets with machicolations and battlements, a large porch, a pierced parapet and a Gothic stone verandah on the west front, in grey shale with pale sandstone dressings. The size and the porch’s side are approximate; the flying buttresses and pinnacles are not shown. Its line follows the OS outline of the house and its ranges.',
-      "Gwisg Othig R. K. Penson o 1856–57: tyredau croeslin ar y corneli â pheiriannau tyllog a bylchfuriau, porth mawr, parapet tyllog a feranda garreg Othig ar y ffrynt gorllewinol, mewn siâl llwyd â cherrig nadd tywodfaen golau. Bras yw'r maint ac ochr y porth; ni ddangosir y bwtresi hedfan na'r pinaclau. Mae ei linell yn dilyn amlinell yr Arolwg Ordnans o'r tŷ a'i adeiladau.",
+      ['victorian:S25', 'victorian:S26', 'victorian:S27', 'victorian:S62', 'timeline:S46'],
+      'R. K. Penson’s Gothic recasing of 1856–57: diagonal corner turrets with machicolations and battlements, a large porch, a pierced parapet and a Gothic stone verandah on the west front, in grey shale with pale sandstone dressings. The size and the porch’s side are approximate; the flying buttresses and pinnacles are not shown, nor the steep turret roofs it had until 1934 or the billiard room added in 1896. Its line follows the OS outline of the house and its ranges.',
+      "Gwisg Othig R. K. Penson o 1856–57: tyredau croeslin ar y corneli â pheiriannau tyllog a bylchfuriau, porth mawr, parapet tyllog a feranda garreg Othig ar y ffrynt gorllewinol, mewn siâl llwyd â cherrig nadd tywodfaen golau. Bras yw'r maint ac ochr y porth; ni ddangosir y bwtresi hedfan na'r pinaclau, na'r toeon serth ar y tyredau a oedd ganddo tan 1934 na'r ystafell filiards a ychwanegwyd yn 1896. Mae ei linell yn dilyn amlinell yr Arolwg Ordnans o'r tŷ a'i adeiladau.",
     ),
     place: 'dinefwr',
   }),
@@ -625,7 +625,7 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'Golden Grove, seat of the Earls Cawdor', cy: 'Gelli Aur, sedd Ieirll Cawdor' },
     provenance: documented(
-      ['timeline:S53', 'victorian:S35'],
+      ['timeline:S53'],
       'Sir Jeffry Wyatville’s house of 1827–34, in Llangyndeyrn limestone, the local “black marble”, with a service wing. Its turrets and size are approximate. Its line follows the OS outline of the house and its ranges.',
       "Tŷ Syr Jeffry Wyatville o 1827–34, o galchfaen Llangyndeyrn, y “marmor du” lleol, gydag adain gwasanaeth. Bras yw ei dyredau a'i faint. Mae ei linell yn dilyn amlinell yr Arolwg Ordnans o'r tŷ a'i adeiladau.",
     ),
@@ -638,8 +638,8 @@ export const FEATURES: readonly Feature[] = [
     to: ad(1830),
     label: { en: 'The earlier Golden Grove mansions', cy: 'Plastai cynharach y Gelli Aur' },
     provenance: reconstructed(
-      'The first mansion of about 1560 burned; a second, neoclassical house with a Doric portico followed in 1754. No plan or size of either is in our research, so one plain house stands in for both.',
-      "Llosgodd y plasty cyntaf o tua 1560; codwyd ail dŷ, neoglasurol â phortico Dorig, yn 1754. Nid oes cynllun na maint y naill na'r llall yn ein hymchwil, felly mae un tŷ plaen yn cynrychioli'r ddau.",
+      'The first mansion of about 1560 burned; a second, neoclassical house with a Doric portico followed in 1754. No plan or size of either is in our research, so one plain house stands in for both. The earlier house stood about 700 yards north-east of today’s; its exact site is not yet placed.',
+      "Llosgodd y plasty cyntaf o tua 1560; codwyd ail dŷ, neoglasurol â phortico Dorig, yn 1754. Nid oes cynllun na maint y naill na'r llall yn ein hymchwil, felly mae un tŷ plaen yn cynrychioli'r ddau. Safai'r tŷ cynharach tua 700 llath i'r gogledd-ddwyrain o'r un presennol; nid yw ei union safle wedi'i leoli eto.",
       ['timeline:S53'],
     ),
   }),
@@ -651,9 +651,9 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'Paxton’s Tower', cy: 'Tŵr Paxton' },
     provenance: documented(
-      ['timeline:S52', 'victorian:S45', 'victorian:S46'],
-      'Triangular in plan with corner turrets, 36 feet high, with a hexagonal prospect room at the top. Its orientation is approximate.',
-      'Trionglog ei gynllun â thyredau ar y corneli, 36 troedfedd o uchder, gydag ystafell olygfa chweonglog ar y brig. Bras yw ei gyfeiriad.',
+      ['timeline:S52', 'victorian:S46', 'victorian:S63'],
+      'Triangular in plan with round corner turrets, crowned by a smaller hexagonal lookout. One source gives its height as 36 feet. Its orientation is approximate.',
+      'Trionglog ei gynllun â thyredau crwn ar y corneli, a gwylfa chweonglog lai ar ei ben. Mae un ffynhonnell yn rhoi ei uchder fel 36 troedfedd. Bras yw ei gyfeiriad.',
     ),
   }),
   feature({
@@ -666,7 +666,7 @@ export const FEATURES: readonly Feature[] = [
     provenance: reconstructed(
       'A seven-arched bridge stood here before 1848, and one abutment still survives on the north bank, downstream of today’s bridge. When it was built, the size of its arches and its exact line are not in our research.',
       "Roedd pont saith bwa yma cyn 1848, ac mae un ategwaith wedi goroesi ar y lan ogleddol, i lawr yr afon o'r bont heddiw. Nid yw pryd y codwyd hi, maint ei bwâu na'i hunion linell yn ein hymchwil.",
-      ['victorian:S21', 'timeline:S54'],
+      ['victorian:S21'],
     ),
     place: 'bridge',
   }),
@@ -692,9 +692,9 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'Llandeilo Bridge', cy: 'Pont Llandeilo' },
     provenance: documented(
-      ['timeline:S54', 'victorian:S21', 'victorian:S22'],
-      'Modelled from the Cadw listing: one elliptical arch spanning 44.2m with a rise of 12.65m, 14.3m high and 110.64m long with its abutments, and a flood arch through the south abutment. Drawn at true size across the Tywi, on the line of the road in OS data; its width and the flood arch’s size are approximate.',
-      "Wedi'i fodelu o restriad Cadw: un bwa eliptig yn rhychwantu 44.2m ag esgyniad o 12.65m, 14.3m o uchder a 110.64m o hyd gyda'i ategweithiau, a bwa llifogydd drwy'r ategwaith deheuol. Wedi'i darlunio yn ei maint go iawn ar draws Tywi, ar linell y ffordd yn nata'r Arolwg Ordnans; bras yw ei lled a maint y bwa llifogydd.",
+      ['timeline:S54', 'victorian:S22'],
+      'Modelled from the Cadw listing: one elliptical arch spanning 44.2m with a rise of 12.65m, 14.3m high and 110.64m long with its abutments, and a flood arch through the south abutment. Drawn at true size across the Tywi, on the line of the road in OS data; it is 26 feet (7.9m) wide (Coflein); the flood arch’s size is approximate.',
+      "Wedi'i fodelu o restriad Cadw: un bwa eliptig yn rhychwantu 44.2m ag esgyniad o 12.65m, 14.3m o uchder a 110.64m o hyd gyda'i ategweithiau, a bwa llifogydd drwy'r ategwaith deheuol. Wedi'i darlunio yn ei maint go iawn ar draws Tywi, ar linell y ffordd yn nata'r Arolwg Ordnans; mae'n 26 troedfedd (7.9m) o led (Coflein); bras yw maint y bwa llifogydd.",
     ),
     place: 'bridge',
   }),
@@ -708,7 +708,7 @@ export const FEATURES: readonly Feature[] = [
     provenance: reconstructed(
       'The size is a guess below the 1858 count. Buildings use today’s OS footprints nearest the church, so the layout is approximate.',
       "Dyfaliad yw'r maint, yn llai na chyfrif 1858. Mae'r adeiladau'n defnyddio amlinellau adeiladau'r Arolwg Ordnans heddiw agosaf at yr eglwys, felly bras yw'r cynllun.",
-      ['victorian:S39'],
+      ['timeline:S20', 'models:S31'],
     ),
     place: 'llandeilo',
   }),
@@ -725,7 +725,7 @@ export const FEATURES: readonly Feature[] = [
     provenance: reconstructed(
       'The 1858 count is documented. Buildings use today’s OS footprints nearest the church, so which buildings stood then is approximate.',
       "Mae cyfrif 1858 wedi'i gofnodi. Mae'r adeiladau'n defnyddio amlinellau adeiladau'r Arolwg Ordnans heddiw agosaf at yr eglwys, felly bras yw pa adeiladau oedd yn sefyll bryd hynny.",
-      ['timeline:S55', 'timeline:S20'],
+      ['timeline:S20', 'models:S31'],
     ),
     place: 'llandeilo',
   }),
@@ -737,7 +737,7 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'Llandeilo today', cy: 'Llandeilo heddiw' },
     provenance: documented(
-      ['timeline:S9'],
+      ['models:S31'],
       'Buildings from OS Open Map Local.',
       'Adeiladau o OS Open Map Local.',
     ),
@@ -753,7 +753,7 @@ export const FEATURES: readonly Feature[] = [
     provenance: reconstructed(
       'Many of today’s farms stand on older sites. A share of today’s rural buildings stands in for them.',
       "Mae llawer o ffermydd heddiw ar safleoedd hŷn. Mae cyfran o adeiladau gwledig heddiw yn cynrychioli'r rheini.",
-      ['victorian:S39'],
+      ['models:S31'],
     ),
   }),
   feature({
@@ -764,7 +764,7 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'Villages and farms today', cy: 'Pentrefi a ffermydd heddiw' },
     provenance: documented(
-      ['timeline:S9'],
+      ['models:S31'],
       'Buildings from OS Open Map Local.',
       'Adeiladau o OS Open Map Local.',
     ),
@@ -777,9 +777,9 @@ export const FEATURES: readonly Feature[] = [
     to: NOW,
     label: { en: 'The railway through Llandeilo', cy: 'Y rheilffordd drwy Landeilo' },
     provenance: documented(
-      ['victorian:S29', 'victorian:S28'],
-      'Drawn on today’s track. The 1864 line to Carmarthen, since closed, is not shown.',
-      "Wedi'i darlunio ar y trac heddiw. Nid yw lein 1864 i Gaerfyrddin, sydd wedi cau, yn cael ei dangos.",
+      ['victorian:S29', 'victorian:S28', 'victorian:S36'],
+      'Drawn on today’s track. The 1864–65 line to Carmarthen, since closed, is not shown.',
+      "Wedi'i darlunio ar y trac heddiw. Nid yw lein 1864–65 i Gaerfyrddin, sydd wedi cau, yn cael ei dangos.",
     ),
   }),
   feature({
@@ -787,24 +787,24 @@ export const FEATURES: readonly Feature[] = [
     kind: { type: 'train', stock: 'llanelly-1850s' },
     at: { e: 263266, n: 222361 },
     from: ad(1857),
-    to: ad(1888),
+    to: ad(1872),
     label: { en: 'A Llanelly Railway train', cy: 'Trên Rheilffordd Llanelli' },
     provenance: reconstructed(
-      'The engine follows the one Llanelly Railway engine described in detail, a six-coupled Hackworth engine of 1841 (Board of Trade report, 1858). Which engine hauled Llandeilo’s trains is not known; the colours, tender and carriages are guesses. The company ran the line until the Great Western took it over in 1889.',
-      "Mae'r injan yn dilyn yr unig injan o Reilffordd Llanelli sydd wedi'i disgrifio'n fanwl, injan chwe olwyn gyplysedig gan Hackworth o 1841 (adroddiad y Bwrdd Masnach, 1858). Nid yw'n hysbys pa injan oedd yn tynnu trenau Llandeilo; dyfalu yw'r lliwiau, y tendr a'r cerbydau. Y cwmni oedd yn rhedeg y lein nes i'r Great Western ei chymryd drosodd yn 1889.",
-      ['railway:S1', 'railway:S2', 'victorian:S29'],
+      'The engine follows the one Llanelly Railway engine described in detail, a six-coupled Hackworth engine of 1841 (Board of Trade report, 1858). Which engine hauled Llandeilo’s trains is not known; the colours, tender and carriages are guesses. The company worked the line until the Great Western took it over on 1 January 1873; the two companies merged fully in 1889.',
+      "Mae'r injan yn dilyn yr unig injan o Reilffordd Llanelli sydd wedi'i disgrifio'n fanwl, injan chwe olwyn gyplysedig gan Hackworth o 1841 (adroddiad y Bwrdd Masnach, 1858). Nid yw'n hysbys pa injan oedd yn tynnu trenau Llandeilo; dyfalu yw'r lliwiau, y tendr a'r cerbydau. Y cwmni oedd yn gweithio'r lein nes i'r Great Western ei chymryd drosodd ar 1 Ionawr 1873; unodd y ddau gwmni'n llwyr yn 1889.",
+      ['railway:S1', 'railway:S2', 'railway:S3', 'victorian:S29'],
     ),
   }),
   feature({
     id: 'train-later',
     kind: { type: 'train', stock: 'generic' },
     at: { e: 263266, n: 222361 },
-    from: ad(1889),
+    from: ad(1873),
     to: NOW,
     label: { en: 'A later train', cy: 'Trên diweddarach' },
     provenance: imagined(
-      'A placeholder. The engines and carriages that ran here after the Great Western took over in 1889 have not been researched yet.',
-      "Dalfan. Nid oes ymchwil eto i'r injans a'r cerbydau a oedd yn rhedeg yma ar ôl i'r Great Western gymryd drosodd yn 1889.",
+      'A placeholder. The engines and carriages that ran here after the Great Western took over in 1873 have not been researched yet.',
+      "Dalfan. Nid oes ymchwil eto i'r injans a'r cerbydau a oedd yn rhedeg yma ar ôl i'r Great Western gymryd drosodd yn 1873.",
       ['victorian:S29'],
     ),
   }),
@@ -815,6 +815,6 @@ export const FEATURES: readonly Feature[] = [
     from: ad(1930),
     to: NOW,
     label: { en: 'Main roads', cy: 'Prif ffyrdd' },
-    provenance: documented(['timeline:S9'], 'Roads from OS Open Map Local.', 'Ffyrdd o OS Open Map Local.'),
+    provenance: documented(['models:S38'], 'Roads from OS Open Map Local.', 'Ffyrdd o OS Open Map Local.'),
   }),
 ];

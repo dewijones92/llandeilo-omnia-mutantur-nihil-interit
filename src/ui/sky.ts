@@ -8,6 +8,9 @@ import {
   type LightInput,
   type Season,
 } from '../domain/daylight.ts';
+import type { RecordedSky } from '../domain/model.ts';
+import type { Source } from '../domain/provenance.ts';
+import { provenanceBadge } from './provenance.ts';
 import { h } from './dom.ts';
 import type { LangStore } from './store.ts';
 
@@ -30,12 +33,14 @@ export class SkyControls {
   private labelKey = '';
   private readonly seasons = new Map<Season, HTMLButtonElement>();
   private clock: Clock;
+  private recorded: RecordedSky | undefined;
   private playing = false;
   private trackKey = '';
 
   constructor(
     private readonly store: LangStore,
     initial: Clock,
+    private readonly sources: ReadonlyMap<string, Source>,
     private readonly onChange: (clock: Clock) => void,
   ) {
     this.clock = initial;
@@ -92,6 +97,29 @@ export class SkyControls {
     return this.clock;
   }
 
+  // Arriving at a key date whose season (and hour) a source records sets the sky to match, until the
+  // viewer changes it.
+  adopt(sky: RecordedSky): void {
+    this.stop();
+    console.info(
+      `dewidebug sky from the record season=${sky.season} hour=${sky.hour ? `${String(sky.hour.value)} (${sky.hour.kind})` : 'kept'}`,
+    );
+    this.set({ season: sky.season, hour: sky.hour?.value ?? this.clock.hour });
+    this.recorded = sky;
+    this.labelKey = '';
+    this.label();
+  }
+
+  // Leaving the key date (any scrub, or a key date with no recorded sky) drops the "from the record"
+  // caption but keeps the sky as it is.
+  forget(): void {
+    if (!this.recorded) return;
+    console.info('dewidebug sky from the record forgotten');
+    this.recorded = undefined;
+    this.labelKey = '';
+    this.label();
+  }
+
   tick(dtMs: number): void {
     if (!this.playing) return;
     this.set({ ...this.clock, hour: wrapHour(this.clock.hour + (dtMs / 1000) * HOURS_PER_SECOND) });
@@ -117,6 +145,7 @@ export class SkyControls {
 
   private set(next: Clock): void {
     const seasonChanged = next.season !== this.clock.season;
+    this.recorded = undefined;
     this.clock = next;
     if (document.activeElement !== this.slider) this.slider.value = String(next.hour);
     if (seasonChanged) console.info(`dewidebug sky season=${next.season}`);
@@ -128,7 +157,7 @@ export class SkyControls {
     const t = (k: Parameters<LangStore['t']>[0]): string => this.store.t(k);
     const phase = t(phaseOf(this.clock));
     const time = formatHour(this.clock.hour);
-    const key = `${this.store.lang}|${phase}|${time}|${this.clock.season}`;
+    const key = `${this.store.lang}|${phase}|${time}|${this.clock.season}|${this.recorded ? 'r' : ''}`;
     if (key === this.labelKey) return;
     this.labelKey = key;
     this.readout.replaceChildren(h('strong', {}, phase), ` ${time}`);
@@ -136,8 +165,15 @@ export class SkyControls {
     this.slider.setAttribute('aria-valuetext', `${phase}, ${time}`);
     this.body.setAttribute('aria-label', `${t('timeOfDay')} / ${t('season')}`);
     this.summary.textContent = `${phase} ${time} · ${t(this.clock.season)}`;
-    this.el.title = t('skyNote');
-    this.note.textContent = t('skyCaption');
+    this.el.title = this.recorded ? t('skyRecordedNote') : t('skyNote');
+    const r = this.recorded;
+    if (r) {
+      this.note.replaceChildren(
+        `${t(r.hour?.kind === 'chosen' ? 'skyRecordedChosen' : 'skyRecorded')} ${r.note[this.store.lang]} `,
+        provenanceBadge({ kind: 'documented', sources: r.sources }, this.store, this.sources),
+      );
+    } else this.note.textContent = t('skyCaption');
+    this.note.classList.toggle('recorded', this.recorded !== undefined);
     this.play.setAttribute('aria-label', t('playDay'));
     this.play.title = t('playDay');
     this.group.setAttribute('aria-label', t('season'));

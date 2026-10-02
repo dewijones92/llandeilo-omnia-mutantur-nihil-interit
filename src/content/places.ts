@@ -20,7 +20,7 @@ export const PLACES: readonly Place[] = [
       en: 'A market town on a bluff above the Tywi, named after St Teilo.',
       cy: 'Tref farchnad ar glogwyn uwchben y Tywi, wedi’i henwi ar ôl Teilo Sant.',
     },
-    provenance: cite('timeline:S9', 'victorian:S39'),
+    provenance: cite('timeline:S9'),
     visitable: true,
   },
   {
@@ -71,7 +71,7 @@ export const PLACES: readonly Place[] = [
       en: 'The only native Welsh castle with three wards, on an isolated hill in the Tywi valley.',
       cy: 'Yr unig gastell Cymreig brodorol â thair ward, ar fryn unig yn Nyffryn Tywi.',
     },
-    provenance: cite('timeline:S13', 'medieval:S22'),
+    provenance: cite('timeline:S13'),
     visitable: true,
   },
   {
@@ -98,7 +98,7 @@ export const PLACES: readonly Place[] = [
       en: 'One of the largest Iron Age hillforts in Wales, on a sandstone ridge above Bethlehem.',
       cy: 'Un o fryngaerau mwyaf Oes yr Haearn yng Nghymru, ar grib o dywodfaen uwchben Bethlehem.',
     },
-    provenance: cite('ironage:S1', 'ironage:S2'),
+    provenance: cite('ironage:S1', 'ironage:S2', 'ironage:S3'),
     visitable: true,
   },
   {

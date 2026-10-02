@@ -1,7 +1,9 @@
 import type { Brand } from './brand.ts';
+import type { Season } from './daylight.ts';
 import type { Bilingual } from './i18n.ts';
 import type { Condition, Plan } from './plan.ts';
-import type { Provenance } from './provenance.ts';
+import type { NonEmptyArray } from './assert.ts';
+import type { Provenance, SourceId } from './provenance.ts';
 import type { TimeRange, Year } from './time.ts';
 
 export type PlaceId = Brand<string, 'PlaceId'>;
@@ -39,6 +41,17 @@ export interface KeyEvent {
   readonly magnetic: boolean;
   readonly provenance: Provenance;
   readonly shot?: Shot;
+  // The season, and sometimes the hour, that a source gives for this moment.
+  readonly recordedSky?: RecordedSky;
+}
+
+export interface RecordedSky {
+  readonly season: Season;
+  // A recorded hour comes from the source; a chosen one only fits what the source says (by day,
+  // at night) and the note must say the hour itself is not recorded.
+  readonly hour?: { readonly kind: 'recorded' | 'chosen'; readonly value: number };
+  readonly note: Bilingual;
+  readonly sources: NonEmptyArray<SourceId>;
 }
 
 export type Framing = 'close' | 'site' | 'area';
@@ -51,6 +64,7 @@ export type LanguageCode =
   | 'unknown'
   | 'brittonic'
   | 'latin'
+  | 'primitive-welsh'
   | 'old-welsh'
   | 'middle-welsh'
   | 'welsh'

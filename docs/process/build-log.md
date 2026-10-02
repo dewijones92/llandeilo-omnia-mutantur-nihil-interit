@@ -265,3 +265,21 @@ Milestones and what each one taught us. Newest last.
 14. **CI ran out of time.** With 24 e2e tests the GitHub job passed its 25-minute limit and the deploy
     of 97cfad9 was cancelled; the limit is now 45 minutes (5aa8465). The real cost is one SwiftShader
     page load per test.
+15. **The first real-GPU numbers found a bug SwiftShader hid.** At about 1fps everywhere, nothing
+    looked slower than anything else. On the NVIDIA GPU (through WSL's D3D12 layer) the app idles at
+    41fps but scrubbed at 2fps: each slider step recoloured all 153,944 terrain triangles, rebuilt the
+    forest buffers and re-rendered the 4096² shadow map, and back-to-back steps queued GPU work until
+    each took about a second. Throttling that heavy pass to every 150ms (with a final pass when the
+    slider stops) gave about 15fps. Per-stage timings are now logged every two seconds
+    (`dewidebug apply cost`).
+16. **Four lenses and two refuters each.** Batch 4 was reviewed by a workflow: accuracy, Welsh,
+    code and docs, every CRITICAL or IMPORTANT finding attacked by two independent refuters. 18
+    survived and 2 were refuted. The critical one: the "From the record" sky caption stayed on screen
+    after leaving its key date, so 1857's weather could sit over AD 600. Recorded skies now carry
+    their own sources, say when an hour was chosen rather than recorded, and clear on any scrub.
+17. **One page cited twice passed for two sources** on 17 items (a Wikipedia, Cadw or Coflein page
+    filed under two notes' keys). A content test now rejects it.
+18. **e2e on the GPU:** 26 tests in 2.7 minutes, against 9-12 on SwiftShader.
+19. **Two GPU browsers at once can hang one.** A screenshot script and the e2e run shared the D3D12
+    GPU path; one e2e page never became ready in 150s, then passed five times out of five alone. Take
+    screenshots before or after an e2e run, not during.

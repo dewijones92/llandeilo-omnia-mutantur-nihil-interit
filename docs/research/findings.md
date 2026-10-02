@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-09-28
+updated: 2026-10-02
 ---
 
 # Research findings and decisions
@@ -25,15 +25,23 @@ because of it. The detail and sources are in each note; this is the summary a ne
 ## Headline findings
 
 - **Earliest people**: no dated Palaeolithic or Mesolithic site inside the ten miles. The earliest
-  attributed monument, the Garn Goch long cairn, is Neolithic by shape only. Wales was resettled
-  from about 14,500 years ago. ([timeline](timeline-and-earliest-occupation.md))
-- **Garn Goch** is one of the largest hillforts in Wales and has **never been excavated**, only
-  surveyed; its purpose is openly unresolved. A local "rebuilt by the Romans AD 47–78" story is
-  single-source and not used. ([iron age](era-iron-age.md))
-- **The Dinefwr Roman forts** (two, overlapping) were identified in 2003 and excavated in 2005.
-  Sources disagree on their size and dates. ([iron age](era-iron-age.md))
-- **The Llandeilo Gospels' "Surexit" note** is the earliest surviving connected text in Welsh,
-  recorded at Llandeilo; its exact date is debated. ([language](language-by-class.md))
+  attributed monument, the Garn Goch long cairn, is Neolithic by shape only, and that is contested:
+  Coflein says Neolithic by appearance, Cadw's schedule "probably ... Bronze Age" (both typological;
+  added 2026-10-02, [ironage:S7], timeline S10). The ice began to retreat
+  about 18,000 years ago, and people are believed to have been back in Wales by about 14,500 years
+  ago, though the source does not say whether that is calendar or radiocarbon years (corrected
+  2026-10-02). ([timeline](timeline-and-earliest-occupation.md))
+- **Garn Goch** is one of the largest hillforts in Wales; **no excavation of it is recorded**, only
+  survey; its purpose is openly unresolved. A local story that its people "rebuilt and strengthened"
+  it against Rome in AD 47–78 is single-source and not used (corrected 2026-10-02: it is not a Roman
+  rebuild). ([iron age](era-iron-age.md))
+- **The Dinefwr Roman forts** (two, one after the other) were identified in 2003 and excavated in
+  2005. The primary report gives the first as 3.84–3.85ha, probably soon after AD 74, and the second
+  as 1.54ha; the site was abandoned by about AD 140 (2026-10-02; the old size and date dispute is
+  closed). ([iron age](era-iron-age.md))
+- **The Llandeilo Gospels' "Surexit" note** is called "the earliest surviving document in the Welsh
+  language", recorded at Llandeilo; the Cadfan Stone at Tywyn may be older as a text, and the note's
+  exact date is debated. ([language](language-by-class.md))
 - **The Battle of Llandeilo Fawr, 1282** is real: 16 or 17 June (sources differ). **No source read so
   far names the Welsh leader**: two secondary analyses say the primary chronicles do not, and Brut y
   Tywysogion has not yet been read directly. Wikipedia's claim that Rhys ap Maredudd led it
@@ -45,12 +53,16 @@ because of it. The detail and sources are in each note; this is the summary a ne
   Glamorgan parish. ([victorian](era-victorian.md))
 - **Welsh costume** was everyday wear into the mid-19th century and was revived from the 1880s as
   a symbol. Lady Llanover did not invent it.
-- **Welsh speakers in Llandeilo**: 55.1% (2001) and 50.3% (2011). The 2021 ward figure was not
-  found.
-- **Deep time**: Llandeilo gave its name to an Ordovician stage (now obsolete) and the Llandeilo
-  Flags Formation (BGS). The first written record of a trilobite was a find probably made near
-  Dinefwr, recorded in 1688, and wolves died out in Wales in 1166; both rest on Wikipedia pages
-  only so far (single-source). ([deep time](deep-time-and-natural-history.md))
+- **Welsh speakers in Llandeilo**: the ward was 55.1% (2001), 50.3% (2011) and about 45% (2021); the
+  community (the town) was 53.5% (2001) and 48.7% (2011). Corrected 2026-10-02: the ward figures had
+  been called the town's. ([language](language-by-class.md))
+- **The Great Western took over the Llanelly line on 1 January 1873**, not 1889 (the companies merged
+  in 1889). The app's trains now change in 1873. ([railway](railway-locomotives.md))
+- **Deep time**: Llandeilo gave its name to an Ordovician stage (now obsolete; Murchison's "Llandeilo
+  flags", per Lyell 1871) and the Llandeilo Flags Formation (BGS). The first written record of a
+  trilobite was a find probably made near Dinefwr, in a letter of **1698** (corrected 2026-10-02 from
+  1688). **1166 is the last written mention of a wolf in Wales**, not the date wolves died out, which
+  was probably the 13th or 14th century (corrected 2026-10-02). ([deep time](deep-time-and-natural-history.md))
 
 ## Conversations by class (2026-09-28)
 
@@ -87,12 +99,14 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   in calendar years, not 8,800–8,300 BC.
 - 12,500 BC is the Late Upper Palaeolithic, not the Mesolithic.
 - 12,500 BC also falls inside the **Late Glacial (Bølling–Allerød) interstadial**, a milder spell
-  of c. 14,690–12,890 BP, about 12,700–10,900 BC (Wikipedia, "Bølling–Allerød warming", read
-  2026-09-28: a lead, not yet a note source; it agrees with the Younger Dryas start of 12,900 BP in
-  the deep-time note's S8). The climate "chill" used for seasons treats it as milder than the
-  Younger Dryas. (Added 2026-09-28, after a review caught a first draft that treated 12,500 BC as
-  the coldest point.)
-- St Teilo's west tower dates from about 1600.
+  of c. 14,690–12,890 BP, about 12,700–10,900 BC (now deep-time S48). At Llanilid in south Wales its
+  early part was the warmest, July about 20°C with juniper scrub, before cooling steps from about
+  11,150 BC (Walker et al. 2003, deep-time S47). On 2026-10-02 the 12,500 BC environment keyframe was
+  moved off the old uncalibrated "coldest tundra" reading to match, and the climate keys made milder
+  at 12,500 BC and colder by 11,000 BC. (A review of 2026-09-28 first caught the coldest-point error in
+  the climate keys.)
+- St Teilo's west tower is contested: 15th century (Cadw listing, models:S29; Coflein, models:S28) or about 1600 (Coflein, the same record); the app draws it from c. 1600, with the text giving both. *Corrected 2026-10-02*: this line said it dates from about 1600,
+  as if settled.
 - Longhouse evidence is later and from mid Wales; the medieval ones in the app are marked imagined.
 
 ## Decisions the research drove
@@ -102,7 +116,7 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
 | The 1282 scene shows villagers hearing news, not a staged battle with named Welsh leaders | No source read so far names the leader |
 | Brittonic is voiced as modern Welsh and labelled so | No connected Brittonic sentence reconstruction was found; only fragments and place-name elements |
 | Latin read in Church style, with an ⓘ on Roman lines | No Latin TTS voice; Church style fits medieval clergy ([voices](../content/voices.md)) |
-| Garn Goch's interior is marked reconstructed; farmsteads imagined | Never excavated |
+| Garn Goch's interior is marked reconstructed; farmsteads imagined | No excavation recorded |
 | Forest cover per era follows the pollen zones, blended to today's OS woodland from the 1850s | No local Tywi pollen core |
 | Towns use today's OS building footprints nearest the church; the Victorian town is sized to the documented 1858 count, the Georgian town is a guess below it | 1858 count documented; which buildings stood is not |
 

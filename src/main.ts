@@ -117,13 +117,24 @@ async function start(): Promise<void> {
     onScrub(next) {
       t = next;
       pending = true;
+      skyControls.forget();
     },
     onRelease(next) {
       const target = nearestStep(steps, next, SNAP_RADIUS);
       console.info(
         `dewidebug slider release t=${next.toFixed(4)} snap=${target?.event.id ?? 'none'} camera=stays`,
       );
-      if (target) timeline.snapTo(target);
+      // A snap leaves the camera where it is, but the sky still follows the record.
+      const sky = target?.event.recordedSky;
+      if (target)
+        timeline.snapTo(
+          target,
+          sky
+            ? () => {
+                skyControls.adopt(sky);
+              }
+            : undefined,
+        );
     },
     onArrive(event) {
       goToShot(event);
@@ -134,11 +145,15 @@ async function start(): Promise<void> {
   let clock = parseClock(params.get('hour'), params.get('season'));
   let lightPending = true;
   console.info(`dewidebug sky start hour=${clock.hour} season=${clock.season}`);
-  const skyControls = new SkyControls(store, clock, (next) => {
+  const sourceMap = new Map(content.sources.map((s) => [s.id, s]));
+  const skyControls = new SkyControls(store, clock, sourceMap, (next) => {
     if (next.season !== clock.season) pending = true;
     clock = next;
     lightPending = true;
   });
+  // Opening a link at a key date shows its recorded sky, unless the link sets its own.
+  const openedAt = nearestStep(steps, t, 1e-6)?.event.recordedSky;
+  if (openedAt && !params.has('hour') && !params.has('season')) skyControls.adopt(openedAt);
   const brand = h(
     'header',
     { class: 'brand panel' },
@@ -149,7 +164,7 @@ async function start(): Promise<void> {
   store.onChange(() => {
     brand.querySelector('p')?.replaceChildren(store.t('subtitle'));
   });
-  const moment = new MomentCard(store, new Map(content.sources.map((s) => [s.id, s])), places);
+  const moment = new MomentCard(store, sourceMap, places);
   const flight = new Flight(world.camera);
   const home = h('button', { class: 'tool home', type: 'button', hidden: true }, store.t('overview'));
   home.addEventListener('click', () => {
@@ -157,6 +172,8 @@ async function start(): Promise<void> {
     home.hidden = true;
   });
   goToShot = (event: KeyEvent): void => {
+    if (event.recordedSky) skyControls.adopt(event.recordedSky);
+    else skyControls.forget();
     const shot = shotFor(event, places, featureMap);
     console.info(`dewidebug shot event=${event.id} framing=${shot?.framing ?? 'valley'}`);
     if (!shot) {
@@ -176,7 +193,6 @@ async function start(): Promise<void> {
   store.onChange(() => {
     home.textContent = store.t('overview');
   });
-  const sourceMap = new Map(content.sources.map((s) => [s.id, s]));
   const panel = new ConversationPanel(store, new Map(content.people.map((p) => [p.id, p])), sourceMap);
   const info = new InfoPanel(store, sourceMap, {
     sources: content.sources.length,
@@ -320,21 +336,39 @@ async function start(): Promise<void> {
     skyControls.paintTrack(snap.environment);
     debug?.light(clock, light);
   };
-  const apply = (): void => {
-    if (!pending) {
-      applyLight();
-      return;
-    }
-    pending = false;
-    lightPending = true;
-    snap = snapshotAt(content, t);
+  const applyCost = new StageCost(['snapshot', 'features', 'environment']);
+  // Recolouring the terrain, rebuilding the forest and re-rendering the shadow map cost a frame or
+  // more, so while the slider moves they run at most this often, and once more when it stops.
+  const HEAVY_INTERVAL_MS = 150;
+  let heavyDue = false;
+  let heavyAt = Number.NEGATIVE_INFINITY;
+  const applyHeavy = (): void => {
+    const now = performance.now();
+    if (!heavyDue || now - heavyAt < HEAVY_INTERVAL_MS) return;
+    heavyDue = false;
+    heavyAt = now;
     world.applyEnvironment(
       snap.environment,
       seasonLook(clock.season, snap.chill),
       features.clearings(snap.features),
     );
-    features.apply(snap.features);
     world.refreshShadows();
+    applyCost.add(0, 0, performance.now() - now);
+  };
+  const apply = (): void => {
+    if (!pending) {
+      applyHeavy();
+      applyLight();
+      return;
+    }
+    pending = false;
+    lightPending = true;
+    heavyDue = true;
+    const t0 = performance.now();
+    snap = snapshotAt(content, t);
+    const t1 = performance.now();
+    features.apply(snap.features);
+    applyCost.add(t1 - t0, performance.now() - t1, 0);
     smokeSources = features.smokeSources(snap.features);
     active = new Set(snap.conversations.map((c) => c.id));
     const open = panel.open;
@@ -348,6 +382,7 @@ async function start(): Promise<void> {
     debug?.update(snap);
     info.update(snap);
     ambience?.set(snap.environment.ambient);
+    applyHeavy();
     applyLight();
   };
   apply();
@@ -437,4 +472,36 @@ function onScreen(elements: readonly HTMLElement[]): DOMRect[] {
     .filter((el) => !el.hidden)
     .map((el) => el.getBoundingClientRect())
     .filter((r) => r.width > 0 && r.height > 0);
+}
+
+// Sums the cost of each stage of a time change and logs one line every two seconds while it is busy.
+class StageCost {
+  private readonly total: number[];
+  private readonly worst: number[];
+  private count = 0;
+  private since = performance.now();
+
+  constructor(private readonly names: readonly string[]) {
+    this.total = names.map(() => 0);
+    this.worst = names.map(() => 0);
+  }
+
+  add(...ms: number[]): void {
+    ms.forEach((v, i) => {
+      this.total[i] = (this.total[i] ?? 0) + v;
+      this.worst[i] = Math.max(this.worst[i] ?? 0, v);
+    });
+    this.count++;
+    const now = performance.now();
+    if (now - this.since < 2000) return;
+    const parts = this.names.map(
+      (n, i) =>
+        `${n} avg=${((this.total[i] ?? 0) / this.count).toFixed(1)} max=${(this.worst[i] ?? 0).toFixed(1)}`,
+    );
+    console.info(`dewidebug apply cost n=${String(this.count)} ${parts.join(' ')} (ms)`);
+    this.total.fill(0);
+    this.worst.fill(0);
+    this.count = 0;
+    this.since = now;
+  }
 }

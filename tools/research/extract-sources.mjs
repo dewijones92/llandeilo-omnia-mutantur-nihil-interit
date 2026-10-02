@@ -17,6 +17,12 @@ const PREFIX = {
   'railway-later': 'railwaylater',
   'anglo-norman-and-middle-english': 'anglonorman',
   'building-models': 'models',
+  'roman-arrival': 'roman',
+  soundscapes: 'sound',
+  'ripples-from-afar': 'ripples',
+  'music-through-time': 'music',
+  'invasions-and-raids': 'invasions',
+  'hunter-gatherers': 'hunters',
 };
 
 const entries = [];

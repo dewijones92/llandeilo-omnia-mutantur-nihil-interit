@@ -25,7 +25,8 @@ that same section. Minor versions for new features, patch versions for correctio
 written for family and visitors, not developers, and call out corrections to history. They include
 screenshots of what changed, at the years that show it (Dewi: "in each release notes include things
 like screenshots"), kept in `docs/images/releases/v<version>/`, embedded in the notes and attached to
-the GitHub release so they show there too.
+the GitHub release so they show there too. Each release's notes open with a link to the app (Dewi:
+"at the top I want a url to the app, same each time").
 
 ## Consequences
 

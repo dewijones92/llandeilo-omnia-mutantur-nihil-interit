@@ -16,32 +16,54 @@ for the next pass. Each note's own "Open questions" section has the full list an
 |---|---|---|
 | Date of the Battle of Llandeilo Fawr | 16 June vs 17 June 1282; the primary annal reads XVI Kal. Jul. = 16 June, so 17 looks like a slip (2026-09-28) | [medieval](era-medieval-to-1282.md), [classes](conversations-by-class.md) |
 | Who led the Welsh in 1282 | Wikipedia's battle page names Rhys ap Maredudd; his own biography puts him on the English side; no chronicle names anyone | [medieval](era-medieval-to-1282.md) |
-| Size and date of the Dinefwr Roman forts | 8 vs 12 acres; AD 57/58 vs late 70s | [iron age](era-iron-age.md) |
-| Garn Goch's area | 11.2ha (fort) vs 16.6ha (with annexe), probably two definitions | [iron age](era-iron-age.md) |
+| Garn Goch's length | 720m by up to 230m (Coflein) vs 680m by 130–190m (Cadw) (2026-10-02; the area question is closed: Coflein says 16.6ha is fort plus annexe, 11ha the fort) | [iron age](era-iron-age.md) |
+| Whether Glyndŵr took Carreg Cennen in 1403 | Coflein "taken" vs Wikipedia "failed to take" | [timeline](timeline-and-earliest-occupation.md) |
+| When the larger Dinefwr Roman fort was given up | Coflein suggests AD 78–83; the park's Wikipedia page "both ... early in the 2nd Century" (size and founding date closed 2026-10-02 by the primary report) | [iron age](era-iron-age.md) |
+| Llandeilo's bridge in 1750 | Gwilym Teilo (1858) "four narrow stone arches" vs seven arches in Cadw and the 1790s drawings | [victorian](era-victorian.md) |
+| Victoria's weight (the 1841 engine) | 18 tons (Board of Trade, 1858) vs 14 tons working weight (1985 history) | [railway](railway-locomotives.md) |
+| The red kite's 1930s low point | fewer than ten pairs (BTO) vs a single known nest (Aberystwyth University) | [deep time](deep-time-and-natural-history.md) |
+| Where Cymdeithas yr Iaith was founded | Pontarddulais vs Pontardawe (two Wikipedia pages) | [language](language-by-class.md) |
 | When Dinefwr fell to English control | 1277 vs 1287 framings | [medieval](era-medieval-to-1282.md) |
 | Cost of Llandeilo Bridge | £22,000 (Cadw) vs "over £12,000" (Coflein) | [victorian](era-victorian.md) |
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
+| St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02) | [buildings](building-models.md), [victorian](era-victorian.md) |
 | Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
+| The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
 
 ## Gaps worth a dedicated pass
 
 - **Earliest people in the radius**: no dated Palaeolithic or Mesolithic site; the Garn Goch long
-  cairn is Neolithic by shape only. The Waun Fignen Felen evidence lies just outside the disc.
-- ~~**The primary Roman forts report**~~ was read on 2026-09-28: Fort 1 is 3.85ha, probably soon after
-  AD 74, Fort 2 is 1.54ha, abandoned by about AD 140; the unit is unknown
-  ([classes](conversations-by-class.md)). The app's "8 vs 12 acres" contradiction can now be revisited.
+  cairn is Neolithic by shape only, and Cadw's schedule says "probably ... Bronze Age" instead. The Waun Fignen Felen evidence lies about 4km outside the disc.
+  The museum source for "people back by 14,500 years ago" (timeline S1) does not say whether its
+  dates are calendar or radiocarbon years (its Paviland date is the radiocarbon age); if radiocarbon,
+  the app's 12,500 BC "people return" date would move (2026-10-02).
+- ~~**The Dinefwr Roman forts' size and date, and the primary report**~~ Closed. The primary report
+  was read on 2026-09-28 ([classes](conversations-by-class.md)), and the Iron Age independent check
+  of 2026-10-02 applied it: Fort 1 is 240m by 160m inside (3.84–3.85ha), probably soon after AD 74
+  (earlier not ruled out), Fort 2 about 140m by 110m (1.54ha); the site was abandoned by about AD 140;
+  the unit is unknown. The 12 acres and AD 57/58 were roman-britain.co.uk's speculation; the app now
+  follows the report. Only when the larger fort was given up stays
+  contested (see the table above).
 - **Brut y Tywysogion's own wording** for 1282: the Rolls Series edition read on 2026-09-28 stops at
   25 March 1282. The Peniarth 20 version is still unread.
-- **Talley Abbey's position**: Monastic Wales gives SN6328132772 (2026-09-28), about 90m from the
-  Wikipedia point the app uses. Confirm against Coflein or Cadw, then move it.
+- ~~**Talley Abbey's position**~~: closed 2026-10-02. Coflein NPRN 92750 confirms SN 63281 32772 (on
+  the surviving tower), and the app's model now has its origin there.
 - **Gerald of Wales on Welsh clothing**: the Description of Wales itself was not read.
-- **Local wages, prices and food** for the Victorian period: no Carmarthenshire figures found.
+- **Local prices and food** for the Victorian period: no Carmarthenshire figures found. (Wages: the
+  Times reporter's 1843 Llandilo dispatch gives 7s a week, or 8d–9d a day with food; found
+  2026-10-02, era-victorian S7, not yet shown in the app.)
 - **Dryslwyn after 1287**: when the castle fell out of use is not researched (the app shows an
   approximate date and says so).
 - **Early Modern Welsh**: no passage of the 1588 Bible was sourced for a sample phrase.
 - **Local pollen evidence** for the Tywi valley itself; forest cover is inferred from the Godwin
   pollen zones and sites outside the radius.
 - **The 1851 religious census** attendance figures for Llandeilo.
+- **Llandeilo's 2021 Welsh speakers**: answered 2026-10-02: about 45% (1,307 of 2,895) in the two
+  LSOAs that cover the Llandeilo ward (language S39). A 2021 figure for the community itself is open.
+- **Trains through Llandeilo after 1868 and from 1873**: the Great Western took over on 1 January 1873
+  (the app's trains now change then), but the LNWR had running powers from about 1868 and "became the
+  main passenger operator" (railway-locomotives, era-victorian S28). Whose trains to draw from 1873 is
+  open.
 - **Mapped coordinates**: several lat/lon values came from aggregators and should be checked
   against Coflein or Cadw grid references before precise placement.
 
@@ -69,14 +91,15 @@ the app. They are recorded here so the notes and the app do not silently disagre
   (radar/magnetometer) are both partial.
 - **12,500 BC is the Late Upper Palaeolithic**, not the Mesolithic (timeline S1: the Palaeolithic
   ends c. 11,500 BP).
-- **Do the Late Glacial environment keyframes match calendar dates?** `src/content/timeline.ts`
-  draws 12,500 BC as the barest, coldest tundra (forest 0.02), 11,500 BC as a warmer blip and
-  10,900 BC cold again. In calendar years both 12,500 and 11,500 BC sit inside the milder
-  Bølling–Allerød interstadial (c. 12,700–10,900 BC, see findings), with the only cold snap inside
-  it (the Older Dryas) short. The keyframes may be an offset reading of uncalibrated pollen zones.
-  Needs a research pass with a Welsh or British Late Glacial source before changing them. (Raised
-  2026-09-28 by the atmosphere work, whose climate keys now follow the calendar dates.)
-- **St Teilo's west tower** dates from about 1600, so the medieval church is drawn without it.
+- ~~**Do the Late Glacial environment keyframes match calendar dates?**~~ Answered 2026-10-02 by the
+  timeline independent check: no, the 12,500 BC frame was left on uncalibrated pollen zone Ia. In
+  calendar years 12,500 BC (about 14,450 cal BP) is the early Late Glacial interstadial, at Llanilid in
+  south Wales its warmest part (July about 20°C, juniper scrub), before cooling steps (the second
+  around 11,150 BC) cut back juniper and birch (Walker et al. 2003, deeptime S47). The 12,500 BC frame
+  now shows grass and juniper scrub under warm summers, the 12,500 BC climate key is milder and the
+  11,000 BC key colder; the 11,500 and 10,900 BC frames were consistent and are unchanged.
+- **St Teilo's west tower** is contested: 15th century (Cadw listing, models:S29; Coflein, models:S28) or about 1600 (Coflein, the same record); the app draws it from c. 1600, with the text giving both, so the medieval church is drawn without it. *Corrected
+  2026-10-02*: this line said it dates from about 1600, as if settled.
 - **Longhouses** have no local medieval evidence; the note's claim rests on later mid-Wales
   examples. The Llys Rhosyr citation was wrong and is removed.
 - **Welsh-medium schools before 1962**: a reviewer recalled schools from the 1940s (Llanelli, 1947).

@@ -35,6 +35,7 @@ so the next reader knows the map was unreliable there.
 | Decision | Choice | Why |
 |---|---|---|
 | Platform ✅ | Web app, static site, **desktop only**. Phones and tablets get a dismissible "best viewed on a desktop" banner and no other support ([ADR 0015](docs/adr/0015-desktop-only.md)) | Dewi, 2026-09-28: "remove the requirement to support mobile and accessibility stuff like screenreaders". Desktop gives us graphics headroom |
+| Hardware ✅ | **Assume a powerful desktop GPU** (Dewi, 2026-10-02: "just assume (when coding the app) that user has beefy gpus"). Default to high quality: rich shadows, post-processing, dense vegetation, particles, real reflections; `?fx=low` stays as the escape hatch, not the default | Dewi's own machines have NVIDIA GPUs; the audience is family on desktops |
 | Stack ✅ | Vite + TypeScript (strict) | Fast dev loop; strict types make bad content data fail at compile time |
 | Rendering ✅ | **Babylon.js**: WebGPU engine where supported, WebGL2 fallback | Dewi's pick over three.js: a fuller engine with more built in (inspector, scene tooling, audio), and WebGPU without writing our own engine |
 | Look ✅ | **Clean low-poly** 3D diorama of the real valley that you can orbit around | Charming, fast, and quick to fill every era; fidelity can be raised per era later |
@@ -42,7 +43,7 @@ so the next reader knows the map was unreliable there.
 | Slider ✅ | Both: smooth morphing while dragging, **and** magnetic key dates that snap with a short "moment" | Continuous feel without losing the landmarks |
 | Conversations ✅ | Both: short snippets appear automatically while scrubbing, **and** you can click a person for the full conversation with voice | The world feels alive, with depth on demand |
 | Voices ✅ | `edge-tts` neural voices (Welsh, English, Italian, French); **no robotic TTS** | Natural sound. **Latin = `it-IT-DiegoNeural` reading plain Latin** (Church Latin pronunciation), chosen by ear 2026-09-26 over a classical respelling. Fits medieval clergy; Roman-era lines carry an ⓘ saying Romans pronounced it differently |
-| Ambient sound ✅ | A sound bed per era, crossfaded as you scrub; CC0/CC-BY audio with tracked credits | Atmosphere |
+| Ambient sound ✅ | A sound bed per era, crossfaded as you scrub; openly licensed audio with tracked credits ([ADR 0026](docs/adr/0026-open-licences-including-nc.md)) | Atmosphere |
 | Language layer ✅ | Show how spoken language changed over time and **by class** (e.g. Welsh farmers vs Norman lords vs Latin clergy), with unknowns shown as unknown | Dewi's request, and a natural fit for the ⓘ model |
 | Almanac layer ✅ | Panel for the current time: food, clothing, homes, religion, money, health, travel, population | "Not just language": more ways into daily life |
 | Family bloodline ✅ | One imagined family recurring in every era, always ⓘ | Makes it personal |
@@ -51,7 +52,7 @@ so the next reader knows the map was unreliable there.
 | Content ✅ | Data files in the repo, written ahead of time; **no live AI at runtime** | Reviewable, citable, testable; no runtime AI cost or invented "facts" |
 | v1 scope ✅ | **Vertical slice**: 3 eras done properly end to end before filling in the rest: **Iron Age** (e.g. Garn Goch), **Medieval up to 1282** (Dinefwr, Deheubarth), **Victorian** (gentry vs tenants, Rebecca Riots, railway). Specific sites and dates to be confirmed by research | A thin sweep of 12,000 years would look empty everywhere |
 | Deep time ✅ (later phase) | Extend the slider **before humans**: geology (the rocks, incl. the Ordovician 'Llandeilo' stage), ice ages shaping the Tywi valley, and how animals, plants, climate and landscape changed, carried on as a **natural-history layer** through every human era too | Dewi, 2026-09-26. The timeline scale must stretch to millions of years without a rewrite (piecewise, with a log segment for deep time) |
-| Ripples from afar ✅ (later phase) | A layer for **distant events that reached this valley**: e.g. volcanic eruptions far away causing cold years and failed harvests, pandemics, wars, trade and technology arriving. Each shows what happened elsewhere and the evidence for its effect _here_ | Dewi, 2026-09-26. Keep the claim honest: a global event is only linked to Llandeilo where a source supports the local effect, otherwise it's marked as the likely regional impact |
+| Ripples from afar ✅ (brought forward 2026-10-02 as "black-swan events") | A layer for **distant events that reached this valley**: e.g. volcanic eruptions far away causing cold years and failed harvests, pandemics, wars, trade and technology arriving. Each shows what happened elsewhere and the evidence for its effect _here_ | Dewi, 2026-09-26. Keep the claim honest: a global event is only linked to Llandeilo where a source supports the local effect, otherwise it's marked as the likely regional impact |
 | Hosting ✅ | **GitHub Pages**, deployed by GitHub Actions from the **public** GitHub repo | Free, no extra accounts |
 | Offline ✅ | Not needed (no PWA) | |
 | Audience ✅ | Dewi and family, **no young kids** | Tell history honestly, including the grim parts |
@@ -103,8 +104,8 @@ The summary lives in [`docs/research/findings.md`](docs/research/findings.md), a
 - **Place sites from Coflein or Cadw grid references**, never a research note's approximate lat/lon
   (the Roman forts were drawn 0.9km out until corrected).
 - **Pollen-zone dates in the notes are uncalibrated**: convert to calendar years before use.
-- **Contested points stay contested in the app** (the 1282 date and leader, the Roman forts' size
-  and dates, Carreg Cennen's builder). Never pick one silently.
+- **Contested points stay contested in the app** (the 1282 date and leader, when the larger Roman
+  fort was given up, Carreg Cennen in 1403, Carreg Cennen's builder). Never pick one silently.
 - **Voices**: edge-tts for everything. Latin = `it-IT-DiegoNeural`, plain spelling (Church style),
   chosen by ear on 2026-09-26; Roman-era Latin lines carry an ⓘ saying Romans pronounced it
   differently. Brittonic and Old/Middle Welsh are voiced as modern Welsh stand-ins and labelled so.
@@ -220,9 +221,14 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
 
 ### Assets and licences
 
-- **Only use assets we're allowed to use:** CC0, CC-BY, public domain, or the Open Government
-  Licence (e.g. Welsh Government LiDAR). No "found it online" images, models, textures, sounds or
-  data.
+- **Gather assets freely from the internet** (Dewi, 2026-10-02: "feel free to gather assets from the
+  internet ... dont worry about licensing"), under any open licence, the non-commercial and
+  share-alike ones included: CC0, CC-BY, CC-BY-SA, CC-BY-NC, CC-BY-NC-SA, public domain, or the Open
+  Government Licence. This is a non-commercial family project, so NC terms fit (revisit if a
+  donation link goes live). Don't ask per asset; just record it. The one line that stays: nothing
+  "all rights reserved" (commercial music, most YouTube audio, stock photos, broadcaster archives),
+  because the repo and the site are public and that invites a takedown of the whole site.
+  ([ADR 0026](docs/adr/0026-open-licences-including-nc.md))
 - **Every asset records its source, author and licence** in one place (the asset manifest, per the
   DRY law). An in-app credits page is generated from that manifest. An asset with no licence
   record fails the build.
@@ -265,14 +271,22 @@ tools/terrain/build-terrain.sh && python3 tools/geo/build-osdata.py   # rebuild 
 node tools/shot.mjs '<url>' out.png  # screenshot, using the Chromium that works on this WSL box
 ```
 
+**Local GPU:** WSL can render WebGL on the laptop's NVIDIA GPU: launch Chromium with the env
+`GALLIUM_DRIVER=d3d12 MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA` and flags `--use-angle=gl
+--ignore-gpu-blocklist`, and add `?webgl` (WebGPU through WSL stalls). CI has no GPU and keeps
+SwiftShader.
+
 Run `git config core.hooksPath .githooks` once per clone. Local Playwright uses Chromium 136 because
 newer Chromium cannot navigate on this WSL machine; CI uses the bundled browser. Everything
 automated renders with WebGL2 through SwiftShader at about 1fps, so **WebGPU and real frame rates
 are not measured yet** (a gap, tracked in docs/todos). Particle effects barely advance at 1fps, so
 check them with the particle probe in `?debug` (`window.llandeiloDebug.scene`) rather than by eye.
 
-**Performance numbers** (to be filled from a real desktop GPU): first load, scrubbing frame rate,
-terrain recolour time (logged as `dewidebug terrain recolour … in Nms`). Bundle: the main chunk is
+**Performance numbers** (2026-10-02, WebGL on an NVIDIA RTX 2000 Ada laptop GPU through WSL's D3D12
+layer, 1920×1080, `?webgl`): ready in 17s from a warm dev server; idle 41fps; scrubbing 2fps before
+the heavy pass was throttled, about 15fps after (median frame 16.8ms, p90 52ms); terrain recolour about
+30ms for 153,944 triangles when idle, far more when frames queue (`dewidebug terrain recolour`,
+`dewidebug apply cost`). Local runs can use the GPU: see the WSL recipe in Build & test. Bundle: the main chunk is
 390KB gzipped (399,487 bytes, 2026-09-28 after merging the atmosphere work; 387KB on 2026-09-26), plus
 chunks fetched only when needed (about 980KB gzipped across all JS). There is **no size limit**
 (Dewi, 2026-09-28; the 450KB CI budget was mine, never his, and is removed, [ADR 0016](docs/adr/0016-no-bundle-size-limit.md)).
@@ -307,12 +321,14 @@ CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*
     the corrections to history called out, not commit messages. **Include screenshots** (Dewi,
     2026-10-02) of what changed, at the years that show it, saved under
     `docs/images/releases/v<version>/`, embedded in `releases.md` and attached to the GitHub release.
+    **Every release's notes open with the app's URL** (Dewi, 2026-10-02: "same each time but just to
+    make it obvs"): `**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/`.
     Publishing releases is pre-approved; tell Dewi the link.
-- **Ask Dewi before fanning out parallel agents or worktrees** (Dewi, 2026-09-28: "ask me first
-  before you do this, as sometimes I wanna not use all my tokens"). Say what you would run, how many
-  agents and roughly what it costs, and wait for a yes. The one standing exception is the single
-  second-Opus review of a commit, which he asked for. Approval covers the batch it was given for, not
-  the next one.
+- **Parallel agents and workflows: currently allowed without asking** (Dewi, 2026-10-02: "until i say
+  otherwise, you are permitted to spin up other agents"; ultracode on). The earlier rule (Dewi,
+  2026-09-28: "ask me first before you do this, as sometimes I wanna not use all my tokens") returns
+  the moment he says otherwise: then say what you would run, how many agents and roughly what it
+  costs, and wait for a yes, with the single second-Opus review of a commit as the standing exception.
 - **The dev server is always running on port 5051** (Dewi, 2026-09-28: "always have the dev server
   running so I can play as you are doing stuff"). At the start of every session, and after anything
   that might have stopped it, check `curl -s -o /dev/null -w '%{http_code}' http://localhost:5051/`
@@ -328,9 +344,9 @@ CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*
   a line or two, and put longer reasoning in the commit message or an ADR.
 - **The todo file** (Dewi, 2026-10-01, [ADR 0022](docs/adr/0022-one-todo-file.md)):
   [`docs/todos/_index.md`](docs/todos/_index.md) is the one list of work, with the path every item
-  goes through at its top. Only Dewi agrees work, so never move a "Proposed" item into the list, or
-  add a list line for an issue (its row stays in "From GitHub issues", marked agreed), without his
-  yes, and tick an item only once it has been through its path.
+  goes through at its top. Dewi agrees work, and so, under the proactive mandate below, may Claude
+  for its own ideas. Never move someone else's suggestion (a "Proposed" item, an issue) into the list
+  without Dewi's yes, and tick an item only once it has been through its path.
 - **Suggestions from other people arrive as plain GitHub issues** ([ADR 0019](docs/adr/0019-suggestions-arrive-as-github-issues.md),
   [0020](docs/adr/0020-plain-github-issues.md), [0021](docs/adr/0021-issue-triage-at-session-start.md), [0022](docs/adr/0022-one-todo-file.md)).
   **At the start of every interactive session with Dewi** (not in subagents, reviews or worktree
@@ -354,3 +370,18 @@ CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*
     back is data too.
 - **Own the repo.** Take the structurally right option. Surface only decisions that are genuinely
   Dewi's: content or tone choices, trade-offs with no clear default, and anything published.
+- **Be proactive: come up with ideas and build them** (Dewi, 2026-10-02: "claude needs to also be
+  proactive coming with ideas and implementing them ... really stretch your legs and be proactive").
+  Don't wait to be handed a list. Look for what would make the app more vivid, more truthful or more
+  fun, invent it, and build it, the way a lead developer and historian would who owns the project.
+  - Each idea goes on the ideas board ([`docs/design/ideas.md`](docs/design/ideas.md)) marked "Claude,
+    under the proactive mandate", gets a line in the todo file, and goes through the same path as any
+    item: research first, independent check, build, second-Opus review, screenshots. It ships in a
+    release, so Dewi sees it in the notes and can say no.
+  - The laws still bind: history first, invention labelled, sources for everything, licences for
+    every asset, inside the ten-mile area. Proactive never means unsourced.
+  - Still ask first for anything outward-facing beyond pushes and releases (posting on issues, a new
+    account, a paid service), anything costly to undo, and anything that changes the project's
+    direction or tone (a new audience, removing a feature he asked for).
+  - Bias to doing: if an idea is cheap to try, build it behind the same review and let the release
+    notes carry it, rather than asking.

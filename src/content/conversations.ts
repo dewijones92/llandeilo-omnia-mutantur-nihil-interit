@@ -27,7 +27,7 @@ const people = (...ids: string[]): readonly PersonId[] => ids.map(personId);
 
 const STAND_IN_WELSH = (period: string, periodCy: string): { en: string; cy: string } => ({
   en: `They spoke ${period}. It is shown here in modern Welsh as a stand-in, with a modern Welsh voice.`,
-  cy: `Roedden nhw'n siarad ${periodCy}. Mae'n cael ei ddangos yma mewn Cymraeg modern yn ei le, gyda llais Cymraeg modern.`,
+  cy: `Roedden nhw'n siarad ${periodCy}. Mae'n cael ei dangos yma mewn Cymraeg modern yn ei lle, gyda llais Cymraeg modern.`,
 });
 
 export const CONVERSATIONS: readonly Conversation[] = [
@@ -70,9 +70,9 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ),
     ],
     provenance: imagined(
-      'Spelt and cattle were staples of Iron Age Wales, rotary querns were in use from about 400 BC, and Y Gaer Fach next door was left unfinished part way through a rebuild. The people and their words are invented.',
-      "Roedd sbelt a gwartheg yn hanfodol yng Nghymru Oes yr Haearn, roedd breuanau cylchdro yn cael eu defnyddio o tua 400 CC, a gadawyd Y Gaer Fach drws nesaf heb ei gorffen, hanner ffordd drwy ei hailadeiladu. Mae'r bobl a'u geiriau wedi'u dyfeisio.",
-      ['ironage:S27', 'ironage:S38', 'ironage:S2'],
+      'Spelt and cattle were staples of Iron Age Wales, rotary querns were in use in Britain from about 400 BC, and Y Gaer Fach next door seems to have been left unfinished, perhaps part way through a rebuild. The people and their words are invented.',
+      "Roedd sbelt a gwartheg yn hanfodol yng Nghymru Oes yr Haearn, roedd breuanau cylchdro yn cael eu defnyddio ym Mhrydain o tua 400 CC, ac mae'n ymddangos i'r Gaer Fach drws nesaf gael ei gadael heb ei gorffen, efallai hanner ffordd drwy ei hailadeiladu. Mae'r bobl a'u geiriau wedi'u dyfeisio.",
+      ['ironage:S27', 'ironage:S29', 'ironage:S55', 'ironage:S4'],
     ),
     languageNote: {
       en: 'They spoke Brittonic, the ancestor of Welsh. Only scattered words and short inscriptions survive from Britain, and we found no reliable reconstruction of a whole sentence, so it is shown and voiced in modern Welsh, its descendant.',
@@ -183,8 +183,8 @@ export const CONVERSATIONS: readonly Conversation[] = [
       ['medieval:S28', 'medieval:S29', 'language:S10'],
     ),
     languageNote: STAND_IN_WELSH(
-      'Middle Welsh, which a Welsh speaker today can mostly follow',
-      'Cymraeg Canol, y gall siaradwr Cymraeg heddiw ei deall gan mwyaf',
+      'Middle Welsh, which a Welsh speaker today can follow with some effort',
+      'Cymraeg Canol, y gall siaradwr Cymraeg heddiw ei dilyn gydag ychydig o ymdrech',
     ),
   },
   {
@@ -234,8 +234,8 @@ export const CONVERSATIONS: readonly Conversation[] = [
       line('dafydd', 'welsh', 'Fel arfer.', 'As ever.', 'Fel arfer.'),
     ],
     provenance: imagined(
-      'Llandeilo lime farmers crossed three turnpike trusts, with tolls reported at 30% of the cost of the lime; the Walk Gate on the Carmarthen road was destroyed in August 1843; dragoons were billeted at the Cawdor Arms during the unrest (exactly when they arrived is not known). The couple, the agent and their words are invented.',
-      "Croesai ffermwyr calch Llandeilo dair ymddiriedolaeth dyrpeg, gyda'r tollau, yn ôl adroddiadau, yn 30% o gost y calch; dinistriwyd Gât y Walk ar ffordd Caerfyrddin yn Awst 1843; lletywyd dragwniaid yn y Cawdor Arms yn ystod yr helynt (ni wyddys pryd yn union y cyrhaeddon nhw). Mae'r cwpl, yr asiant a'u geiriau wedi'u dyfeisio.",
+      'Llandeilo lime farmers crossed three turnpike trusts, with tolls reported at 30% of the cost of the lime; the Walk Gate on the Carmarthen road was destroyed in August 1843; dragoons were billeted at the Cawdor Arms from July 1843 (a Llandeilo diarist records a detachment arriving on 9 July). The couple, the agent and their words are invented.',
+      "Croesai ffermwyr calch Llandeilo dair ymddiriedolaeth dyrpeg, gyda'r tollau, yn ôl adroddiadau, yn 30% o gost y calch; dinistriwyd Gât y Walk ar ffordd Caerfyrddin yn Awst 1843; lletywyd dragwniaid yn y Cawdor Arms o fis Gorffennaf 1843 (mae dyddiadurwr o Landeilo yn cofnodi mintai'n cyrraedd ar 9 Gorffennaf). Mae'r cwpl, yr asiant a'u geiriau wedi'u dyfeisio.",
       ['victorian:S7', 'victorian:S8', 'victorian:S9', 'victorian:S16'],
     ),
     languageNote: {
@@ -320,15 +320,15 @@ export const CONVERSATIONS: readonly Conversation[] = [
       line(
         'osian',
         'welsh',
-        "A'r caerau Rhufeinig! Doedd neb yn gwybod amdanyn nhw tan 2003.",
-        'And the Roman forts! Nobody knew about them until 2003.',
-        "A'r caerau Rhufeinig! Doedd neb yn gwybod amdanyn nhw tan 2003.",
+        "A'r caerau Rhufeinig! Doedd neb yn gwybod ble roedden nhw tan 2003.",
+        'And the Roman forts! Nobody knew where they were until 2003.',
+        "A'r caerau Rhufeinig! Doedd neb yn gwybod ble roedden nhw tan 2003.",
       ),
     ],
     provenance: imagined(
-      'About half of people in Llandeilo speak Welsh (50.3% in 2011), and "shwmae" is the south Wales greeting. Dinefwr keeps White Park cattle, and its Roman forts were found in 2003. The family is invented.',
-      "Mae tua hanner pobl Llandeilo yn siarad Cymraeg (50.3% yn 2011), a “shwmae” yw cyfarchiad y de. Mae gwartheg gwynion yn Ninefwr, a darganfuwyd y caerau Rhufeinig yn 2003. Mae'r teulu wedi'i ddyfeisio.",
-      ['language:S23', 'deeptime:S35', 'timeline:S15'],
+      'Just under half of people in and around Llandeilo speak Welsh (50.3% in 2011, about 45% in 2021). Dinefwr keeps White Park cattle, and its Roman forts were found in 2003. The family is invented.',
+      "Mae ychydig o dan hanner pobl Llandeilo a'r cyffiniau yn siarad Cymraeg (50.3% yn 2011, tua 45% yn 2021). Mae gwartheg gwynion yn Ninefwr, a darganfuwyd y caerau Rhufeinig yn 2003. Mae'r teulu wedi'i ddyfeisio.",
+      ['language:S23', 'language:S39', 'deeptime:S35', 'timeline:S15'],
     ),
   },
 ];

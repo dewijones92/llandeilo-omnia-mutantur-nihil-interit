@@ -64,7 +64,38 @@ describe('content integrity', () => {
     ];
     for (const item of all)
       for (const s of item.provenance.sources) if (!sources.has(s)) missing.push(`source ${s}`);
+    for (const e of W.events)
+      for (const s of e.recordedSky?.sources ?? []) if (!sources.has(s)) missing.push(`sky source ${s}`);
     expect(missing).toEqual([]);
+  });
+
+  it('keeps every recorded sky honest: a real hour, a documented event, and a chosen hour said to be chosen', () => {
+    const skies = W.events.flatMap((e) => (e.recordedSky ? [{ e, sky: e.recordedSky }] : []));
+    expect(skies.length).toBeGreaterThan(0);
+    const bad = skies.flatMap(({ e, sky }) => [
+      ...(sky.hour && (sky.hour.value < 0 || sky.hour.value >= 24) ? [`${e.id}: hour out of range`] : []),
+      ...(e.provenance.kind !== 'documented' ? [`${e.id}: not documented`] : []),
+      ...(sky.hour?.kind === 'chosen' && !sky.note.en.includes('not recorded')
+        ? [`${e.id}: chosen hour not flagged`]
+        : []),
+      ...(sky.hour?.kind === 'chosen' && !sky.note.cy.includes('ni chofnodwyd')
+        ? [`${e.id}: chosen hour not flagged in Welsh`]
+        : []),
+    ]);
+    expect(bad).toEqual([]);
+  });
+
+  it('never cites one page twice under different keys, which would pass for two sources', () => {
+    const url = new Map(
+      W.sources.map((s) => [s.id, s.url.replace(/^https?:\/\/(www\.)?/, '').replace(/[/#]+$/, '')]),
+    );
+    const all = [...W.events, ...W.features, ...W.places, ...W.conversations, ...W.almanac, ...W.language];
+    const twice = all.flatMap((item) => {
+      const pages = item.provenance.sources.map((s) => url.get(s) ?? s).filter((u) => u !== '');
+      const dup = pages.filter((u, i) => pages.indexOf(u) !== i);
+      return dup.length > 0 ? [`${item.id}: ${[...new Set(dup)].join(', ')}`] : [];
+    });
+    expect(twice).toEqual([]);
   });
 
   it('keeps the climate keyframes in time order, within range', () => {

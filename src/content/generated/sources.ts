@@ -337,6 +337,12 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/building-models.md"
   },
   {
+    "id": "models:S38",
+    "title": "Ordnance Survey, OS OpenMap Local, tile SN, Road layer (Open Government Licence; local copy in ~/code/data/llandeilo/oml, downloaded 2026-09-26)",
+    "url": "https://api.os.uk/downloads/v1/products/OpenMapLocal/downloads?area=SN&format=ESRI%C2%AE+Shapefile&redirect",
+    "doc": "docs/research/building-models.md"
+  },
+  {
     "id": "classes:S1",
     "title": "John E. Morris, *The Welsh Wars of Edward I* (Oxford, 1901), Internet Archive full text.",
     "url": "https://archive.org/details/welshwarsofedwar00morr",
@@ -865,6 +871,48 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/deep-time-and-natural-history.md"
   },
   {
+    "id": "deeptime:S42",
+    "title": "Daily Post (North Wales Live), \"Hunting the truth about an animal that once terrorised large parts of Wales\", 7 April 2024,",
+    "url": "https://www.dailypost.co.uk/news/north-wales-news/hunting-truth-animal-once-terrorised-28930293",
+    "doc": "docs/research/deep-time-and-natural-history.md"
+  },
+  {
+    "id": "deeptime:S43",
+    "title": "Amgueddfa Cymru, Lucy McCobb, \"Trilobites in Wales\" (blog, 27 August 2024),",
+    "url": "https://museum.wales/blog/2662/--Trilobites-in-Wales/",
+    "doc": "docs/research/deep-time-and-natural-history.md"
+  },
+  {
+    "id": "deeptime:S44",
+    "title": "BTO BirdFacts, \"Red Kite\",",
+    "url": "https://www.bto.org/learn/about-birds/birdfacts/red-kite",
+    "doc": "docs/research/deep-time-and-natural-history.md"
+  },
+  {
+    "id": "deeptime:S45",
+    "title": "Aberystwyth University news, March 2015 (Welsh red kite genetics),",
+    "url": "https://www.aber.ac.uk/en/news/archive/2015/03/title-164261-en.html",
+    "doc": "docs/research/deep-time-and-natural-history.md"
+  },
+  {
+    "id": "deeptime:S46",
+    "title": "Charles Lyell, *The Student's Elements of Geology* (1871), ch. 26, Project Gutenberg ebook 3772,",
+    "url": "https://www.gutenberg.org/files/3772/old/3772-h/files/ch26.html",
+    "doc": "docs/research/deep-time-and-natural-history.md"
+  },
+  {
+    "id": "deeptime:S47",
+    "title": "M. J. C. Walker, G. R. Coope, C. Sheldrick, C. S. M. Turney, J. J. Lowe, S. P. E. Blockley and D. D. Harkness, \"Devensian Lateglacial environmental changes in Britain: a multi-proxy environmental record from Llanilid,…",
+    "url": "https://eprints.gla.ac.uk/746/",
+    "doc": "docs/research/deep-time-and-natural-history.md"
+  },
+  {
+    "id": "deeptime:S48",
+    "title": "\"Bølling–Allerød Interstadial,\" Wikipedia,",
+    "url": "https://en.wikipedia.org/wiki/B%C3%B8lling%E2%80%93Aller%C3%B8d_Interstadial",
+    "doc": "docs/research/deep-time-and-natural-history.md"
+  },
+  {
     "id": "ironage:S1",
     "title": "\"Y Gaer Fawr, Garn Goch\" (NPRN 100866), Coflein (RCAHMW).",
     "url": "https://coflein.gov.uk/en/site/100866",
@@ -926,7 +974,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "ironage:S11",
-    "title": "\"Dinefwr Castle,\" Wikipedia — \"no archaeological remains have been dated\" to a pre-medieval fortification on the castle hill.",
+    "title": "\"Dinefwr Castle,\" Wikipedia — \"no archaeological remains have been dated from this period\", said of Rhodri the Great's castle, not of prehistory (*Corrected 2026-10-02 (independent check)*).",
     "url": "",
     "doc": "docs/research/era-iron-age.md"
   },
@@ -962,7 +1010,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "ironage:S17",
-    "title": "Multiple tourism/history sources on Dryslwyn (cross-checked) — explicit statement that no evidence supports pre-medieval fortification.",
+    "title": "Multiple tourism/history sources on Dryslwyn — explicit statement that no evidence supports pre-medieval fortification. *Corrected 2026-10-02 (independent check)*: no source is named, so this is not a citable source; …",
     "url": "",
     "doc": "docs/research/era-iron-age.md"
   },
@@ -992,7 +1040,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "ironage:S22",
-    "title": "\"Merlin's Hill\" / Bryn Myrddin, Wikipedia and associated visitor-attraction sources — hillfort dimensions, c. 400 BC dating, proximity to Moridunum.",
+    "title": "\"Merlin's Hill\" / Bryn Myrddin, Wikipedia and associated visitor-attraction sources — hillfort dimensions, c. 400 BC dating, proximity to Moridunum. Unreadable on 2026-10-02: the Wikipedia article \"Merlin's Hill\" does…",
     "url": "",
     "doc": "docs/research/era-iron-age.md"
   },
@@ -1156,6 +1204,42 @@ export const SOURCE_SEEDS = [
     "id": "ironage:S49",
     "title": "\"What Was Life Like in Iron Age Britain?,\" worldhistoryedu.com — general daily-life/settlement-comparator summary (secondary, used only for ambient/sound reconstruction ideas, not as a documented-fact source).",
     "url": "",
+    "doc": "docs/research/era-iron-age.md"
+  },
+  {
+    "id": "ironage:S50",
+    "title": "\"Y Fan hillfort\" (Fan Camp), NPRN 303896, Coflein (RCAHMW).",
+    "url": "https://coflein.gov.uk/en/site/303896/",
+    "doc": "docs/research/era-iron-age.md"
+  },
+  {
+    "id": "ironage:S51",
+    "title": "\"Grongaer hillfort\", NPRN 303981, Coflein (RCAHMW).",
+    "url": "https://coflein.gov.uk/en/site/303981/",
+    "doc": "docs/research/era-iron-age.md"
+  },
+  {
+    "id": "ironage:S52",
+    "title": "\"Carreg Cennen castle cave\", NPRN 84030, Coflein (RCAHMW).",
+    "url": "https://coflein.gov.uk/en/site/84030/",
+    "doc": "docs/research/era-iron-age.md"
+  },
+  {
+    "id": "ironage:S53",
+    "title": "H. Mytum and J. Meek, \"Experimental archaeology and roundhouse excavated signatures: the investigation of two reconstructed Iron Age buildings at Castell Henllys, Wales\", *Archaeological and Anthropological Sciences* …",
+    "url": "https://livrepository.liverpool.ac.uk/3077192/1/Mytum-Meek2020_Article_ExperimentalArchaeologyAndRoun.pdf",
+    "doc": "docs/research/era-iron-age.md"
+  },
+  {
+    "id": "ironage:S54",
+    "title": "\"Castell Henllys Iron Age Fort\", Historic UK.",
+    "url": "https://www.historic-uk.com/HistoryMagazine/DestinationsUK/Castell-Henllys-Iron-Age-Fort/",
+    "doc": "docs/research/era-iron-age.md"
+  },
+  {
+    "id": "ironage:S55",
+    "title": "Cambridge Archaeology Field Group, \"Querns and quern stones\" (March 2019).",
+    "url": "https://www.cafg.net/docs/articles/querns%20and%20quern%20stones.pdf",
     "doc": "docs/research/era-iron-age.md"
   },
   {
@@ -1837,6 +1921,54 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/era-victorian.md"
   },
   {
+    "id": "victorian:S62",
+    "title": "Cadw, Full Report on the Grade II* listing of Plas Dinefwr (id=11098)",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?id=11098",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S63",
+    "title": "Cadw, Full Report on the listing of Paxton's Tower (id=9384)",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?id=9384",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S64",
+    "title": "Coflein (RCAHMW), \"Ebeneser Welsh Baptist Church, Llandeilo,\" NPRN 6331",
+    "url": "https://coflein.gov.uk/en/site/6331",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S65",
+    "title": "llandeilo.org, \"A concise history of Llandeilo\"",
+    "url": "https://llandeilo.org/concise_history.html",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S66",
+    "title": "llandeilo.org, \"The good old days\"",
+    "url": "https://llandeilo.org/good_old_days.html",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S67",
+    "title": "GENUKI, \"Llandilo Fawr, Carmarthenshire\" (Lewis's *Topographical Dictionary of Wales* transcription)",
+    "url": "https://www.genuki.org.uk/big/wal/CMN/LlandeiloFawr",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S68",
+    "title": "Vision of Britain, Bartholomew's *Gazetteer of the British Isles* (1887), \"Llandilo\"",
+    "url": "https://www.visionofbritain.org.uk/place/263",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S69",
+    "title": "llandeilo.org, \"Llandeilo Bridge: history\"",
+    "url": "https://llandeilo.org/bge_history.html",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
     "id": "effects:S1",
     "title": "Thomas Jenkins of Llandeilo, diary 1840-1845, as transcribed on llandeilo.org (Terry Norman and Andy Mabbutt), \"Caves, Castles, Rebecca Riots, Leeches and Scarlet Fever\", from *The Diary of Thomas Jenkins of Llandeilo…",
     "url": "https://llandeilo.org/tj_caves.html",
@@ -1987,6 +2119,390 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/event-effects.md"
   },
   {
+    "id": "hunters:S1",
+    "title": "Heneb Historic Environment Record (via Archwilio), \"Lithic Scatter; Love Lodge Farm\", PRN 109220, Dyffryn Cennen (M. Shiner after Hourihan, Long and Simpson 2015)",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT109220&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S2",
+    "title": "Heneb HER, \"Crug-glas\", PRN 913, Llangadog",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT913&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S3",
+    "title": "Heneb, Historic Landscape Characterisation, Towy Valley Area 226 \"Garn-wen\"",
+    "url": "https://heneb.org.uk/hcla/towy-valley/226-garn-wen/",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S4",
+    "title": "Llangadog, Capel Gwynfe and Bethlehem Community website, \"History\"",
+    "url": "https://llangadog.com/history.html",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S5",
+    "title": "Heneb HER, \"Glyneiddian\", PRN 1756, Llanegwad",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT1756&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S6",
+    "title": "Heneb HER, \"Glyneiddian\", PRN 1757, Llanegwad",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT1757&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S7",
+    "title": "G. J. Wainwright (1963), \"A Reinterpretation of the Microlithic Industries of Wales\", Proceedings of the Prehistoric Society 29",
+    "url": "https://www.cambridge.org/core/journals/proceedings-of-the-prehistoric-society/article/abs/reinterpretation-of-the-microlithic-industries-of-wales/9A1C6D3747B8311961C2FA8D054BAF33",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S8",
+    "title": "Heneb HER, \"Cave Occupation; Carreg Cennen Castle Cave 1\", PRN 3999 (M. Bell 2017, C. Enright 2018, after Davies 1981 and 1995, Campbell 1977, Oldham 1990)",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT3999&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S9",
+    "title": "Coflein (RCAHMW), \"Carreg Cennen Cave\", NPRN 84030 (John Wiles, 2007)",
+    "url": "https://coflein.gov.uk/en/sites/84030",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S10",
+    "title": "Heneb HER, \"Craig Derwyddon; Pant-y-llyn\", PRN 815",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT815&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S11",
+    "title": "Heneb HER, \"Dinas\", PRN 7522, Llandybïe",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT7522&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S12",
+    "title": "Heneb HER, \"Llyn-y-fan-fach\", PRN 7740, Llanddeusant",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT7740&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S13",
+    "title": "Heneb HER, PRN 14760, Llandeilo",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT14760&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S14",
+    "title": "Heneb HER, \"Towi River\", PRN 735, Llanarthne",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT735&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S15",
+    "title": "Heneb HER, \"Carn Goch\", PRN 906, Llangadog",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT906&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S16",
+    "title": "Heneb HER, \"Landscape; Banc Wernwgan - Foel Fraith Quarries\", PRN 40293",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT40293&dbname=dat&tbname=core",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S17",
+    "title": "Coflein (RCAHMW), \"Waun Fignen Felen, Mesolithic and Environmental Sampling Site\", NPRN 401580 (Leighton and Wiles, 2009)",
+    "url": "https://coflein.gov.uk/en/sites/401580",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S18",
+    "title": "R. N. E. Barton, P. J. Berridge, M. J. C. Walker and R. E. Bevins (1995), \"Persistent Places in the Mesolithic Landscape: an Example from the Black Mountain Uplands of South Wales\", Proceedings of the Prehistoric Soci…",
+    "url": "https://doi.org/10.1017/S0079497X00003042",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S19",
+    "title": "A. G. Smith and E. W. Cloutman (1988), \"Reconstruction of Holocene vegetation history in three dimensions at Waun-Fignen-Felen, an upland site in South Wales\", Philosophical Transactions of the Royal Society B 322",
+    "url": "https://doi.org/10.1098/rstb.1988.0124",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S20",
+    "title": "Heneb (Dyfed Archaeological Trust), \"Exploring the submerged landscapes of Prehistoric Wales: Mesolithic Wales\"",
+    "url": "https://heneb.org.uk/archive/dyfed/lostlandscapes/mesolithic.html",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S21",
+    "title": "Heneb, \"Exploring the submerged landscapes of Prehistoric Wales: Modern Humans\"",
+    "url": "https://heneb.org.uk/archive/dyfed/lostlandscapes/modernhumans.html",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S22",
+    "title": "Heneb, \"Exploring the submerged landscapes of Prehistoric Wales: Submerged Forests\"",
+    "url": "https://heneb.org.uk/archive/dyfed/lostlandscapes/submergedforests.html",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S23",
+    "title": "Heneb, \"Exploring the submerged landscapes of Prehistoric Wales: Tracks across a living landscape\"",
+    "url": "https://heneb.org.uk/archive/dyfed/lostlandscapes/tracks.html",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S24",
+    "title": "Amgueddfa Cymru – Museum Wales blog, \"After the Ice Age... The Mesolithic (Middle Stone Age)\" (11 May 2007)",
+    "url": "https://museum.wales/blog/1318/After-the-Ice-Age/",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S25",
+    "title": "S. Charlton, S. Brace, M. Hajdinjak et al. (2022), \"Dual ancestries and ecologies of the Late Glacial Palaeolithic in Britain\", Nature Ecology & Evolution 6, 1658-1668",
+    "url": "https://www.nature.com/articles/s41559-022-01883-z",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S26",
+    "title": "M. J. C. Walker, G. R. Coope, C. Sheldrick et al. (2003), \"Devensian Lateglacial environmental changes in Britain: a multi-proxy environmental record from Llanilid, South Wales, UK\", Quaternary Science Reviews 22",
+    "url": "https://eprints.gla.ac.uk/746/",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S27",
+    "title": "R. Peterson, D. Case, E. A. Walker, S. Aldhouse-Green et al. (2026), \"Little Hoyle Cave, Tenby, Pembrokeshire: Stephen Aldhouse-Green's excavations 1984-1990\", Proceedings of the University of Bristol Spelaeological S…",
+    "url": "https://ubss.org.uk/resources/proceedings/vol30/UBSS_Proc_30_2_133-204.pdf",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S28",
+    "title": "University of Bristol news, \"U-series dating suggests Welsh reindeer is Britain's oldest rock art\" (29 June 2012)",
+    "url": "https://www.bristol.ac.uk/news/2012/8606.html",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S29",
+    "title": "Coflein (RCAHMW), \"Cathole Cave\", NPRN 305612",
+    "url": "https://coflein.gov.uk/en/sites/305612",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S30",
+    "title": "R. J. Schulting (2020), \"Claddedigaethau mewn ogofâu: prehistoric human remains (mainly) from the caves of Wales\", Proceedings of the University of Bristol Spelaeological Society 28(2), 185-219",
+    "url": "https://ora.ox.ac.uk/objects/uuid:03fa666b-a348-4006-a2cc-57c32f4e7815/files/s9019s272w",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S31",
+    "title": "University of Bristol Spelaeological Society, Cave Burial gazetteer, \"Ogof-yr-Ychen\" (Graham Mullan)",
+    "url": "https://caveburial.ubss.org.uk/gazetteer/wales/ogofyrychen/",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S32",
+    "title": "Coflein (RCAHMW), \"The Nab Head, Site I\", NPRN 308819 (after A. David 2007, BAR British Series 448)",
+    "url": "https://coflein.gov.uk/en/sites/308819",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S33",
+    "title": "M. Bell, T. Walker and A. Turner, \"Fleeting finds: investigating intertidal discoveries in the Severn Estuary\", Current Archaeology (The Past)",
+    "url": "https://the-past.com/feature/fleeting-finds-investigating-intertidal-discoveries-in-the-severn-estuary/",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S34",
+    "title": "Current Archaeology 408 (The Past news), \"Mesolithic fish trap found in the Severn Estuary\" (27 January 2024)",
+    "url": "https://the-past.com/news/mesolithic-fish-trap-found-in-the-severn-estuary/",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S35",
+    "title": "K. Barr (2018), \"Prehistoric avian, mammalian and H. sapiens footprint-tracks from intertidal sediments as evidence of human palaeoecology\", PhD thesis, University of Reading",
+    "url": "https://centaur.reading.ac.uk/83015/",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S36",
+    "title": "C. Waddington, G. Bailey, A. Bayliss et al. (2003), \"A Mesolithic settlement site at Howick, Northumberland: a preliminary report\", Archaeologia Aeliana",
+    "url": "https://eprints.whiterose.ac.uk/id/eprint/1195/1/waddington_bailey_et_al_AA0032_0.pdf",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S37",
+    "title": "J. H. Sachers, \"The Dawn of Archery: Mesolithic Bows from Denmark and Northern Europe\", Bow International (4 March 2022)",
+    "url": "https://www.bow-international.com/features/the-dawn-of-archery-mesolithic-bows-from-denmark-and-northern-europe/",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S38",
+    "title": "Wikipedia, \"History of archery\"",
+    "url": "https://en.wikipedia.org/wiki/History_of_archery",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S39",
+    "title": "Wikipedia, \"Holmegaard bow\"",
+    "url": "https://en.wikipedia.org/wiki/Holmegaard_bow",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S40",
+    "title": "M. Degerbøl (1961), \"On a find of a Preboreal domestic dog (Canis familiaris L.) from Star Carr, Yorkshire, with remarks on other Mesolithic dogs\", Proceedings of the Prehistoric Society 27",
+    "url": "https://www.cambridge.org/core/journals/proceedings-of-the-prehistoric-society/article/abs/on-a-find-of-a-preboreal-domestic-dog-canis-familiaris-l-from-star-carr-yorkshire-with-remarks-on-other-mesolithic-dogs/5AD182C21A7D3D0A2E9949D00F6C7F53",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S41",
+    "title": "\"Skeleton of a Late Glacial Elk associated with Barbed Points from Poulton-le-Fylde, Lancashire\", Nature 232, 488-489 (1971)",
+    "url": "https://www.nature.com/articles/232488a0",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S42",
+    "title": "Poulton Historical and Civic Society, \"The Highfurlong Elk\"",
+    "url": "https://plf-hcs.org.uk/the-highfurlong-elk/",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S43",
+    "title": "Wikipedia, \"Creswellian culture\"",
+    "url": "https://en.wikipedia.org/wiki/Creswellian_culture",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "hunters:S44",
+    "title": "P. Reimer et al. (2020), \"The IntCal20 Northern Hemisphere radiocarbon age calibration curve (0-55 cal kBP)\", Radiocarbon 62",
+    "url": "https://intcal.org/curves/intcal20.14c",
+    "doc": "docs/research/hunter-gatherers.md"
+  },
+  {
+    "id": "invasions:S1",
+    "title": "*Brut y Tywysogion, or The Chronicle of the Princes*, ed. and trans. John Williams ab Ithel (Rolls Series, 1860)",
+    "url": "https://archive.org/details/brutytywysogiono00cara",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S2",
+    "title": "*Annales Cambriae*, ed. John Williams ab Ithel (Rolls Series, 1860)",
+    "url": "https://archive.org/details/annalescambri20will",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S3",
+    "title": "Henry W. Gough-Cooper (transcr.), *Annales Cambriae: the B text, from London, National Archives, MS E164/1, pp. 2-26*, first edition (Welsh Chronicles Research Group, 2015)",
+    "url": "https://archive.org/details/ac-b-first-edition",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S4",
+    "title": "J. E. Lloyd, *A History of Wales from the Earliest Times to the Edwardian Conquest*, vol. 1 (Longmans, 1911)",
+    "url": "https://archive.org/details/historyofwalesfr01lloyuoft",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S5",
+    "title": "J. E. Lloyd, *A History of Wales*, vol. 2 (Longmans, 1911)",
+    "url": "https://archive.org/details/historyofwalesfr02lloyuoft",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S6",
+    "title": "W. H. Stevenson (ed.), *Asser's Life of King Alfred* (Oxford, 1904)",
+    "url": "https://archive.org/details/asserslifekinga00stevgoog",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S7",
+    "title": "Chris E. Smith, *1257 Battle of Coed Llathen & Cymerau, Llandeilo, Carmarthenshire: Battlefield Survey*, Archaeology Wales report 1258, prepared for RCAHMW (July 2014), quoting Adam Chapman, *Welsh Battlefields Histor…",
+    "url": "https://coflein.gov.uk/media/225/516/664710.pdf",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S8",
+    "title": "BabelStone blog, \"The Ogham Stones of Wales\" (2010)",
+    "url": "https://www.babelstone.co.uk/Blog/2010/03/ogham-stones-of-wales.html",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S9",
+    "title": "Wikipedia, \"The Expulsion of the Déisi\"",
+    "url": "https://en.wikipedia.org/wiki/The_Expulsion_of_the_D%C3%A9isi",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S10",
+    "title": "Dictionary of Welsh Biography, \"VAUGHAN family, of Golden Grove, Carmarthenshire\", by Sir James Frederick Rees",
+    "url": "https://biography.wales/article/s-VAUG-GEL-1500",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S11",
+    "title": "BCW Project, \"Civil War in South Wales, 1644-5\"",
+    "url": "https://bcw-project.org.uk/military/english-civil-war/wales-marches/south-wales-1644-5",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S12",
+    "title": "Wikipedia, \"Battle of Fishguard\"",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Fishguard",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S13",
+    "title": "Jemima Fawr (blog), \"British Forces at Fishguard, 1797 (Part 2)\" (2018)",
+    "url": "https://www.jemimafawr.co.uk/2018/04/25/british-forces-at-fishguard-1797-part-2/",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S14",
+    "title": "Search-engine summary of Wikipedia, \"Battle of Cadfan\"",
+    "url": "https://en.wikipedia.org/wiki/Battle_of_Cadfan",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S15",
+    "title": "Coflein (RCAHMW), Battlefields Inventory, \"Battle of Coed Llathen\", NPRN 403587 (January 2017)",
+    "url": "https://coflein.gov.uk/en/site/403587/",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S16",
+    "title": "Coflein (RCAHMW), Battlefields Inventory, \"Battle of Cymerau\", NPRN 404717 (January 2017)",
+    "url": "https://coflein.gov.uk/en/site/404717/",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S17",
+    "title": "Matthew Paris, *Chronica Majora*, vol. 5, ed. H. R. Luard (Rolls Series)",
+    "url": "https://archive.org/details/matthiparisiensi05pari",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S18",
+    "title": "Wikipedia, \"Stephen Bauzan\" - URL not recorded by the check - says he was killed in 1257. A lead only. Added 2026-10-02 by the independent check.",
+    "url": "",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S19",
+    "title": "Heneb (Dyfed Archaeological Trust), Historic Landscape Character Area 253, \"Dyffryn Cothi\"",
+    "url": "https://heneb.org.uk/hcla/dolaucothi/area-253-dyffryn-cothi/",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
+    "id": "invasions:S20",
+    "title": "GENUKI, extracts from J. E. Lloyd, *A History of Carmarthenshire* (1935), Talley",
+    "url": "https://www.genuki.org.uk/big/wal/CMN/Talley/Lloyd",
+    "doc": "docs/research/invasions-and-raids.md"
+  },
+  {
     "id": "language:S1",
     "title": "Multiple works summarised via search (Wikipedia *Prehistoric Britain*, *Pictish language*; general prehistoric-linguistics consensus), on pre-Celtic language in Britain being unknown, the Vasconic substratum hypothesi…",
     "url": "",
@@ -2030,13 +2546,13 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "language:S8",
-    "title": "Wikipedia, \"Medieval Welsh literature\" — overview of Gogynfeirdd active 1100–1350 and their poetic output (praise, elegy, religious verse).",
+    "title": "Wikipedia, \"Medieval Welsh literature\" — overview of Gogynfeirdd, \"Poets of the Princes (c. 1100 - c. 1300)\", and their poetic output (praise, elegy, religious verse).",
     "url": "",
     "doc": "docs/research/language-by-class.md"
   },
   {
     "id": "language:S9",
-    "title": "National Library of Wales Archives and Manuscripts subject pages, \"Gogynfeirdd (Welsh poets)\" and related; Wikipedia \"Hendregadredd Manuscript\" — manuscript witnesses (Black Book of Carmarthen c.1250, Hendregadredd MS…",
+    "title": "National Library of Wales Archives and Manuscripts subject pages, \"Gogynfeirdd (Welsh poets)\" and related; Wikipedia \"Hendregadredd Manuscript\" — manuscript witnesses (Black Book of Carmarthen mid-13th century, Hendre…",
     "url": "",
     "doc": "docs/research/language-by-class.md"
   },
@@ -2060,7 +2576,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "language:S13",
-    "title": "Wikipedia, \"Dinefwr Castle\"; \"Rhys ap Tewdwr.\" Lord Rhys's rebuilding of Dinefwr, Rhys ap Tewdwr's death (1093), the 1282–83 English refortification of Dinefwr, and the Statute of Rhuddlan's creation of Carmarthenshire.",
+    "title": "Wikipedia, \"Dinefwr Castle\"; \"Rhys ap Tewdwr.\" Lord Rhys's rebuilding of Dinefwr, Rhys ap Tewdwr's death (1093), the 1282–83 English refortification of Dinefwr (*Corrected 2026-10-02 (independent check)*: no longer in…",
     "url": "",
     "doc": "docs/research/language-by-class.md"
   },
@@ -2078,7 +2594,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "language:S16",
-    "title": "Wikipedia, \"Laws in Wales Acts 1535 and 1542\"; WJEC GCSE History resource, \"1.3.5 The Acts of Union, 1536 and 1543\" (resource.download.wjec.co.uk). The language clause, Section 20, gentry support for the Acts, repeal …",
+    "title": "Wikipedia, \"Laws in Wales Acts 1535 and 1542\"; WJEC GCSE History resource, \"1.3.5 The Acts of Union, 1536 and 1543\" (resource.download.wjec.co.uk). The language clause, gentry support for the Acts. *Corrected 2026-10-…",
     "url": "",
     "doc": "docs/research/language-by-class.md"
   },
@@ -2090,7 +2606,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "language:S18",
-    "title": "Wikipedia, \"Welsh Not.\" Mechanism, date range (c.1790 onward, most common early-to- mid 19th century, declining after 1850), and the scholarly-contested question of its actual causal role in language decline (citing M…",
+    "title": "Wikipedia, \"Welsh Not.\" Mechanism, date range (first evidence around the 1790s, most common early-to- mid 19th century, less common in the late 19th century, evidence into the early 20th), \"not a government policy\", a…",
     "url": "",
     "doc": "docs/research/language-by-class.md"
   },
@@ -2138,7 +2654,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "language:S26",
-    "title": "Wikipedia, \"Carmarthenshire.\" Historical Welsh-speaker percentages: 1911 (84.9%), 1931 (82.3%), 1951 (75.2%), plus 2001/2011/2021 figures consistent with S23–S25; note on Carmarthenshire being the last historic county…",
+    "title": "Wikipedia, \"Carmarthenshire.\" Historical Welsh-speaker percentages: 1911 (84.9%), 1931 (82.3%), 1951 (75.2%), plus 2001/2011/2021 figures consistent with S23–S25; note on Carmarthenshire being \"the most populous of th…",
     "url": "",
     "doc": "docs/research/language-by-class.md"
   },
@@ -2168,13 +2684,13 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "language:S31",
-    "title": "Heneb (Dyfed Archaeological Trust historic landscape characterisation), \"222 Carn Goch - Historic Landscape Character Area\" (heneb.org.uk/hcla/towy-valley/222-carn-goch/). Garn Goch hillfort scale (16.6ha), dating (La…",
+    "title": "Heneb (Dyfed Archaeological Trust historic landscape characterisation), \"222 Carn Goch - Historic Landscape Character Area\" (heneb.org.uk/hcla/towy-valley/222-carn-goch/). Garn Goch hillfort scale (15 ha, \"Carmarthens…",
     "url": "",
     "doc": "docs/research/language-by-class.md"
   },
   {
     "id": "language:S32",
-    "title": "Wikipedia, \"Common Brittonic.\" Dating (c.6th c. BC – mid-6th c. AD), Tacitus on British/Gaulish similarity, the Bath curse tablet inscription, place-name reconstruction method, the *Gwener*/Venus case-stem borrowing d…",
+    "title": "Wikipedia, \"Common Brittonic.\" Dating (c.6th c. BC – mid-6th c. AD), Tacitus on British/Gaulish similarity, the Bath curse tablet inscription, place-name reconstruction method (*Corrected 2026-10-02 (independent check…",
     "url": "",
     "doc": "docs/research/language-by-class.md"
   },
@@ -2207,6 +2723,258 @@ export const SOURCE_SEEDS = [
     "title": "Wiktionary, \"moyn\".",
     "url": "https://en.wiktionary.org/wiki/moyn",
     "doc": "docs/research/language-by-class.md"
+  },
+  {
+    "id": "language:S39",
+    "title": "M. Roberts and C. Ó Giollagáin, *Prosiect BRO: Compendium of Language Statistics based on Census 2021 data* (Welsh Government, August 2024), Tables 3.10–3.12, PDF on gov.wales under publications/2024-08 (the full file…",
+    "url": "",
+    "doc": "docs/research/language-by-class.md"
+  },
+  {
+    "id": "language:S40",
+    "title": "Census of England and Wales 1901, General Report, via Vision of Britain.",
+    "url": "https://www.visionofbritain.org.uk/census/EW1901GEN/13",
+    "doc": "docs/research/language-by-class.md"
+  },
+  {
+    "id": "language:S41",
+    "title": "Census of England and Wales 1911, report on the Welsh language, via Vision of Britain.",
+    "url": "https://www.visionofbritain.org.uk/census/EW1911WEL/4",
+    "doc": "docs/research/language-by-class.md"
+  },
+  {
+    "id": "music:S1",
+    "title": "*Brut y Tywysogion; or, The Chronicle of the Princes*, ed. John Williams ab Ithel (Rolls Series, 1860), Internet Archive text layer",
+    "url": "https://archive.org/details/brutytywysogiono00cara",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S2",
+    "title": "Wikipedia, \"1176 Cardigan eisteddfod\"",
+    "url": "https://en.wikipedia.org/wiki/1176_Cardigan_eisteddfod",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S3",
+    "title": "*Ancient Laws and Institutes of Wales*, ed. and trans. Aneurin Owen (1841), Internet Archive text layer",
+    "url": "https://archive.org/details/bub_gb_4_qi_6p1ZucC",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S4",
+    "title": "Giraldus Cambrensis, *The Description of Wales*, trans. Sir Richard Colt Hoare, J. M. Dent 1912, Project Gutenberg ebook 1092",
+    "url": "https://www.gutenberg.org/ebooks/1092",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S5",
+    "title": "Dictionary of Welsh Biography, \"GRUFFUDD ap NICOLAS (fl. 1415-1460)\", Evan David Jones (1959)",
+    "url": "https://biography.wales/article/s-GRUF-APN-1425.html",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S6",
+    "title": "Dictionary of Welsh Biography, \"LEWIS GLYN COTHI or LLYWELYN Y GLYN (fl. 1447-1486)\", Evan David Jones (1959)",
+    "url": "https://biography.wales/article/s-LEWI-GLY-1447.html",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S7",
+    "title": "Coflein (RCAHMW), \"Cwrt Bryn-y-Beirdd\", NPRN 103976",
+    "url": "https://coflein.gov.uk/en/site/103976",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S8",
+    "title": "Edward Jones, *Musical and Poetical Relicks of the Welsh Bards* (1794 edition), Internet Archive text layer",
+    "url": "https://archive.org/details/bim_eighteenth-century_musical-and-poetical-rel_jones-edward_1794",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S9",
+    "title": "Archdale King, *Liturgies of the Religious Orders* (Bruce, 1953), ch. 3 \"The Premonstratensian Rite\", reproduced by permission",
+    "url": "https://bethlehempriorydogs.com/documents/ricvera-library/premonstratensian-rite/69-a-king-the-premonstratensian-rite1/file",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S10",
+    "title": "Norbertines UK, \"Liturgy\"",
+    "url": "https://www.norbertines.org.uk/the-order/liturgy",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S11",
+    "title": "Paul Dooley, \"manuscript\" (ap Huw pages, 2004)",
+    "url": "http://pauldooley.com/aphuw_pages/manuscript.html",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S12",
+    "title": "Wikipedia, \"Robert ap Huw\" (citing Davies et al., *Welsh Academy Encyclopaedia of Wales*, 2008; Dart)",
+    "url": "https://en.wikipedia.org/wiki/Robert_ap_Huw",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S13",
+    "title": "Crossref record for Thurston Dart, \"Robert ap Huw's Manuscript of Welsh Harp Music (c. 1613)\", *The Galpin Society Journal* 21 (March 1968), p. 52, doi 10.2307/841428",
+    "url": "https://api.crossref.org/works/10.2307/841428",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S14",
+    "title": "Greg Lindahl, \"The Robert ap Huw manuscript (B. M. Addl. MS 14905)\": introduction, bibliography and facsimile",
+    "url": "http://www.pbm.com/~lindahl/ap_huw/biblio.html",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S15",
+    "title": "IMSLP, \"The Robert ap Huw Manuscript (Anonymous)\"",
+    "url": "https://imslp.org/wiki/The_Robert_ap_Huw_Manuscript_(Anonymous",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S16",
+    "title": "Bill Taylor, \"Medieval Welsh Bardic Music: Interpreting the Robert ap Huw MS.\"",
+    "url": "https://www.billtaylor.eu/index.asp?pageid=74247",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S17",
+    "title": "Peter Greenhill, *The Robert ap Huw Manuscript: An Exploration of its Possible Solutions*, Synopsis (1995), hosted at Cambridge Computer Laboratory",
+    "url": "https://www.cl.cam.ac.uk/archive/rja14/musicfiles/manuscripts/aphuw/aphuw-s.pdf",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S18",
+    "title": "Dictionary of Welsh Biography, \"PRYS, EDMWND (1544 - 1623)\", John Wyn Roberts and William Llewelyn Davies",
+    "url": "https://biography.wales/article/s-PRYS-EDM-1544.html",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S19",
+    "title": "Mary Morgan, *A Tour to Milford Haven, in the Year 1791* (London, 1795), Internet Archive text layer",
+    "url": "https://archive.org/details/bim_eighteenth-century_a-tour-to-milford-haven-_morgan-mary-mrs_1795",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S20",
+    "title": "Michael Freeman, *Early Tourists in Wales*, \"harpers, Carmarthenshire\"",
+    "url": "https://sublimewales.wordpress.com/material-culture/harpers/harpers-carmarthenshire/",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S21",
+    "title": "Dictionary of Welsh Biography, \"JONES, DAFYDD (1711 - 1777), hymn-writer\", Gomer Morgan Roberts (1959)",
+    "url": "https://biography.wales/article/s-JONE-DAF-1711.html",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S22",
+    "title": "Dictionary of Welsh Biography, \"LEWIS, THOMAS (1759 - 1842); hymn-writer\", Gomer Morgan Roberts (1959)",
+    "url": "https://biography.wales/article/s-LEWI-THO-1759.html",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S23",
+    "title": "Jerry Hunter, \"Yr Hen Iaith part sixty-eight: Singing and selling: the rise of the baled in the eighteenth century\", Nation.Cymru, 17 August 2025",
+    "url": "https://nation.cymru/feature/yr-hen-iaith-part-sixty-eight-singing-and-selling-the-rise-of-the-baled-in-the-eighteenth-century/",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S24",
+    "title": "National Library of Wales, \"Welsh Ballads\" (Welsh Ballads Online)",
+    "url": "https://www.library.wales/ballads",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S25",
+    "title": "*The Welshman*, 20 November 1857, district news (Llandilo Allhallowtide fair; \"Llandilo Harmonic Society\"), Welsh Newspapers Online",
+    "url": "https://newspapers.library.wales/view/4349660/4349663/9/",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S26",
+    "title": "*The Welshman*, 2 June 1865, \"Llandilo Eisteddfod\", pp. 3 and continuation, Welsh Newspapers Online",
+    "url": "https://newspapers.library.wales/view/4353080/4353083/13/",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S27",
+    "title": "Welsh Newspapers Online, phrase searches \"Llandilo Brass Band\", \"Llandilo Town Band\", \"Llandilo Volunteer Band\", \"Llandilo Choral Society\", \"Llandilo Male Voice\", 2 October 2026",
+    "url": "https://newspapers.library.wales/search?query=%22Llandilo%20Brass%20Band%22",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S28",
+    "title": "National Library of Wales Archives, \"Crugybar\", reference P2/6",
+    "url": "https://archives.library.wales/index.php/crugybar",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S29",
+    "title": "Hymnary.org, \"Tune: CRUGYBAR\"",
+    "url": "https://hymnary.org/tune/crugybar_13333",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S30",
+    "title": "National Eisteddfod of Wales, \"Eisteddfod locations\"",
+    "url": "https://eisteddfod.wales/about/eisteddfod-locations",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S31",
+    "title": "People's Collection Wales, \"Photograph of a National Eisteddfod Ceremony, Llandeilo, 1996\"",
+    "url": "https://www.peoplescollection.wales/items/2058666",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S32",
+    "title": "Cantorion Llandeilo Singers, \"About Us\"",
+    "url": "https://llandeilosingers.wixsite.com/llandeilo-singers/biography",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S33",
+    "title": "Steven Birch, \"Case Study: High Pasture Cave\", Highland Archaeological Research Framework (ScARF)",
+    "url": "https://scarf.scot/regional/higharf/highland-archaeological-research-framework-case-studies/high-pasture-cave/",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S34",
+    "title": "Dig It! Scotland, \"Unearthing Scotland's Musical Past Through Archaeology\"",
+    "url": "https://www.digitscotland.com/unearthing-scotlands-musical-past-through-archaeology/",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S35",
+    "title": "Amgueddfa Cymru, Collections Online, \"Iron Age copper alloy trumpet\", 44.32/74",
+    "url": "https://museum.wales/collections/online/object/8b9be422-c1c7-3133-88b2-4e99a55e0a37/Iron-Age-copper-alloy-trumpet/",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S36",
+    "title": "Wikimedia Commons, \"Category:Audio files by Sain (Records) Ltd\" and the file page \"Calon Lan - Llanelli Male Voice Choir.ogg\"",
+    "url": "https://commons.wikimedia.org/wiki/Category:Audio_files_by_Sain_(Records",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S37",
+    "title": "Wikimedia Commons, \"Ar Hyd Y Nos Madge Breese.ogg\"",
+    "url": "https://commons.wikimedia.org/wiki/File:Ar_Hyd_Y_Nos_Madge_Breese.ogg",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S38",
+    "title": "Wikimedia Commons, \"Handel - Messiah, Part 3 (Scherchen) - 54. Worthy is the Lamb. Amen.ogg\"",
+    "url": "https://commons.wikimedia.org/wiki/File:Handel_-_Messiah,_Part_3_(Scherchen",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S39",
+    "title": "Wikimedia Commons, \"Carnyx.ogg\"",
+    "url": "https://commons.wikimedia.org/wiki/File:Carnyx.ogg",
+    "doc": "docs/research/music-through-time.md"
   },
   {
     "id": "railwaylater:S1",
@@ -2534,7 +3302,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "railway:S2",
-    "title": "\"Heart of Wales railway line: history\", Terry Norman (personal site)",
+    "title": "Rob Gittins and Dorian Spencer Davies, *Heart of Wales Railway Line: A Brief History* (Gomer Press, 1985), pp. 2–14, transcribed on Terry Norman's personal site",
     "url": "http://www.users.ic24.net/~terrynorm/heart%20of%20wales%20history.htm",
     "doc": "docs/research/railway-locomotives.md"
   },
@@ -2561,6 +3329,810 @@ export const SOURCE_SEEDS = [
     "title": "Michael Denman, *The Llanelly Railway and Dock Company* (2012), bookseller listing",
     "url": "https://www.branchstow.co.uk/thellanellyrailwayanddockcompanymichaeldenman/",
     "doc": "docs/research/railway-locomotives.md"
+  },
+  {
+    "id": "railway:S7",
+    "title": "Amgueddfa Cymru – Museum Wales, \"Llanelly Railway & Dock Company locomotive photograph\", Collections Online item 38.17/3",
+    "url": "https://museum.wales/collections/online/object/129d97ea-b31d-36d8-a9c7-4a038c5b6843/Llanelly-Railway--Dock-Company-locomotive-photograph/",
+    "doc": "docs/research/railway-locomotives.md"
+  },
+  {
+    "id": "railway:S8",
+    "title": "Wikipedia, \"Fossick & Hackworth\"",
+    "url": "https://en.wikipedia.org/wiki/Fossick_%26_Hackworth",
+    "doc": "docs/research/railway-locomotives.md"
+  },
+  {
+    "id": "railway:S9",
+    "title": "Wikipedia, \"Locomotives of the Great Western Railway\"",
+    "url": "https://en.wikipedia.org/wiki/Locomotives_of_the_Great_Western_Railway",
+    "doc": "docs/research/railway-locomotives.md"
+  },
+  {
+    "id": "railway:S10",
+    "title": "Wikipedia, \"Llandeilo railway station\"",
+    "url": "https://en.wikipedia.org/wiki/Llandeilo_railway_station",
+    "doc": "docs/research/railway-locomotives.md"
+  },
+  {
+    "id": "ripples:S1",
+    "title": "*Annales Cambriae*, selected entries in English, Internet Medieval Sourcebook (Fordham University)",
+    "url": "https://sourcebooks.fordham.edu/source/annalescambriae.asp",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S2",
+    "title": "*Annales Cambriae* A text (Harleian MS 3859), Latin, after Egerton Phillimore, *Y Cymmrodor* 9 (1888), on Latin Wikisource",
+    "url": "https://la.wikisource.org/wiki/Annales_Cambriae_A",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S3",
+    "title": "Ulf Büntgen et al., \"Cooling and societal change during the Late Antique Little Ice Age from 536 to around 660 AD\", *Nature Geoscience* 9 (2016) 231-236",
+    "url": "https://www.blogs.uni-mainz.de/fb09climatology/files/2012/03/Buentgen_2016_NatureGeo.pdf",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S4",
+    "title": "Marcel Keller et al., \"Ancient Yersinia pestis genomes from across Western Europe reveal early diversification during the First Pandemic (541-750)\", *PNAS* (2019), abstract via Europe PMC",
+    "url": "https://doi.org/10.1073/pnas.1820447116",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S5",
+    "title": "W. J. Rees (ed. and trans.), *The Liber Landavensis, Llyfr Teilo* (1840), Life of St Teilo",
+    "url": "https://archive.org/details/liberlandavensi00reesgoog",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S6",
+    "title": "John Williams ab Ithel (ed. and trans.), *Brut y Tywysogion, or The Chronicle of the Princes* (Rolls Series, 1860)",
+    "url": "https://archive.org/details/brutytywysogiono00cara",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S7",
+    "title": "Franck Lavigne et al., \"Source of the great A.D. 1257 mystery eruption unveiled, Samalas volcano, Rinjani Volcanic Complex, Indonesia\", *PNAS* (2013), abstract via Europe PMC",
+    "url": "https://doi.org/10.1073/pnas.1307520110",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S8",
+    "title": "Philip Slavin, \"Market failure during the Great Famine in England and Wales (1315-1317)\", paper to the Economic History Association (2012), summary on Medievalists.net",
+    "url": "https://www.medievalists.net/2012/11/market-failure-during-the-great-famine-in-england-and-wales-1315-7/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S9",
+    "title": "William Rees, \"The Black Death in Wales\", *Transactions of the Royal Historical Society*, vol. 3 (1920), read 13 May 1920",
+    "url": "https://archive.org/details/royal-historical-society-london-england-transactions_1920_3",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S10",
+    "title": "Sam White et al., \"The 1600 Huaynaputina Eruption as Possible Trigger for Persistent Cooling in the North Atlantic Region\", *Climate of the Past* discussion preprint (2021)",
+    "url": "https://doi.org/10.5194/cp-2021-82",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S11",
+    "title": "William Andrews, *Famous Frosts and Frost Fairs in Great Britain* (1887), Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/55375",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S12",
+    "title": "Thorvaldur Thordarson and Stephen Self, \"Atmospheric and environmental effects of the 1783-1784 Laki eruption: A review and reassessment\", *Journal of Geophysical Research* 108 (D1) 4011 (2003)",
+    "url": "https://website.whoi.edu/gfd/wp-content/uploads/sites/14/2018/10/Thordarson_and_Self_2003_49078.pdf",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S13",
+    "title": "Claire Witham and Clive Oppenheimer, \"Mortality in England during the 1783-4 Laki Craters eruption\", *Bulletin of Volcanology* 67 (2004)",
+    "url": "https://doi.org/10.1007/s00445-004-0357-7",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S14",
+    "title": "GENUKI, \"Corn Riots in Wales, 1793-1801\", a summary of D. J. V. Jones, *Before Rebecca: Popular Protests in Wales 1793-1835* (1973)",
+    "url": "https://www.genuki.org.uk/big/wal/CornRiots",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S15",
+    "title": "Christoph Raible et al., \"Tambora 1815 as a test case for high impact volcanic eruptions: Earth system effects\", *WIREs Climate Change* 7 (2016) 569-589, abstract via Europe PMC",
+    "url": "https://doi.org/10.1002/wcc.407",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S16",
+    "title": "*The Cambrian* (Swansea), 27 July 1816, p. 3",
+    "url": "https://newspapers.library.wales/view/3323815/3323818/10/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S17",
+    "title": "*North Wales Gazette*, 1 August 1816",
+    "url": "https://newspapers.library.wales/view/3873245/3873248/11/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S18",
+    "title": "*The Cambrian*, 31 August 1816",
+    "url": "https://newspapers.library.wales/view/3323840/3323843/10/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S19",
+    "title": "*The Cambrian*, 28 September 1816",
+    "url": "https://newspapers.library.wales/view/3323860/3323864/14/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S20",
+    "title": "*North Wales Gazette*, 15 August 1816, reprinting a London paper",
+    "url": "https://newspapers.library.wales/view/3873255/3873257/4/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S21",
+    "title": "*The Cambrian*, \"Average prices of grain in Wales\", 2, 9, 23 and 30 November and 14 December 1816",
+    "url": "https://newspapers.library.wales/view/3323895/3323899/14/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S22",
+    "title": "*The Cambrian*, 8 November 1817, markets",
+    "url": "https://newspapers.library.wales/view/3324000/3324004/15/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S23",
+    "title": "*The Cambrian*, 22 January 1820 and 14 October 1820, markets",
+    "url": "https://newspapers.library.wales/view/3324550/3324554/18/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S24",
+    "title": "*The Welshman* (Carmarthen), 21 December 1849, \"Llandilo\"",
+    "url": "https://newspapers.library.wales/view/4347024/4347026/11/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S25",
+    "title": "*The Welshman*, 27 July 1849, Carmarthenshire",
+    "url": "https://newspapers.library.wales/view/4346919/4346922/12/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S26",
+    "title": "*The Welshman*, 6 July 1849",
+    "url": "https://newspapers.library.wales/view/4346904/4346907/11/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S27",
+    "title": "*The Cambrian*, 17 November 1832, deaths",
+    "url": "https://newspapers.library.wales/view/3327855/3327858/16/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S28",
+    "title": "*The Welshman*, 5 September 1845, local intelligence",
+    "url": "https://newspapers.library.wales/view/4364541/4364543/6/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S29",
+    "title": "*Pembrokeshire Herald*, 9 October 1846",
+    "url": "https://newspapers.library.wales/view/3052308/3052311/25/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S30",
+    "title": "*Pembrokeshire Herald*, 2 July 1847, Pembrokeshire Quarter Sessions",
+    "url": "https://newspapers.library.wales/view/3052498/3052500/9/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S31",
+    "title": "*The Welshman*, 27 October 1865",
+    "url": "https://newspapers.library.wales/view/4353269/4353273/21/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S32",
+    "title": "*Pembrokeshire Herald*, 24 August 1866, notices",
+    "url": "https://newspapers.library.wales/view/3056116/3056119/22/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S33",
+    "title": "*The Cambrian*, 21 December 1883, \"The foreglow and afterglow\"",
+    "url": "https://newspapers.library.wales/view/3337060/3337065/37/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S34",
+    "title": "*Wrexham and Denbighshire Advertiser*, 14 December 1883, \"Great gale and storm\"",
+    "url": "https://newspapers.library.wales/view/4590352/4590360/61/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S35",
+    "title": "Royal Society Krakatoa Committee (G. J. Symons, ed.), *The Eruption of Krakatoa, and Subsequent Phenomena* (1888)",
+    "url": "https://archive.org/details/eruptionofkrakat00roya",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S36",
+    "title": "*Carmarthen Weekly Reporter*, 1 November 1918, \"Llandilo News\"",
+    "url": "https://newspapers.library.wales/view/3716485/3716488/28/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S37",
+    "title": "*Amman Valley Chronicle*, 31 October 1918, \"Llandilo\"",
+    "url": "https://newspapers.library.wales/view/4014130/4014133/24/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S38",
+    "title": "*Amman Valley Chronicle*, 21 November 1918, \"Llandilo\"",
+    "url": "https://newspapers.library.wales/view/4014154/4014157/31/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S39",
+    "title": "*Herald of Wales*, 23 November 1918, local news",
+    "url": "https://newspapers.library.wales/view/4116010/4116012/31/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S40",
+    "title": "*Cambria Daily Leader*, 14 November 1918, \"Llandilo\"",
+    "url": "https://newspapers.library.wales/view/4105832/4105836/85/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S41",
+    "title": "Hansard (House of Lords), \"Chernobyl Accident: Movement of Sheep\", 20 June 1986",
+    "url": "https://api.parliament.uk/historic-hansard/lords/1986/jun/20/chernobyl-accident-movement-of-sheep",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S42",
+    "title": "Thomas Jenkins's diary 1846-1850, llandeilo.org, \"Crickets, Premonitions, Birth, Death and Romance\"",
+    "url": "https://llandeilo.org/tj_crickets.html",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S43",
+    "title": "*Carmarthen Journal*, 15 November 1918, \"Ammanford Urban Council\", and 20 December 1918, \"Cwmdu, Llandilo\"",
+    "url": "https://newspapers.library.wales/view/3679245/3679246/14/",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "ripples:S44",
+    "title": "Wikipedia, \"Llanllwch\"",
+    "url": "https://en.wikipedia.org/wiki/Llanllwch",
+    "doc": "docs/research/ripples-from-afar.md"
+  },
+  {
+    "id": "roman:S1",
+    "title": "Gwilym Hughes, *The Llandeilo Roman Forts: Archaeological Investigations 2003-2007* (Cambria Archaeology report 2006/38, December 2007), PDF on Heneb.",
+    "url": "https://heneb.org.uk/wp-content/uploads/2025/09/llandeiloromanforts2003-2007.pdf",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S2",
+    "title": "Coflein (RCAHMW), \"Roman Fort Complex, Dynevor Park, Llandeilo\", NPRN 402271.",
+    "url": "https://coflein.gov.uk/en/site/402271/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S3",
+    "title": "Tacitus, *De vita Iulii Agricolae*, Latin text, The Latin Library.",
+    "url": "https://www.thelatinlibrary.com/tacitus/tac.agri.shtml",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S4",
+    "title": "Tacitus, *Agricola* 17, English (Church and Brodribb, ed. Sara Bryant), Perseus.",
+    "url": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0081%3Achapter%3D17",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S5",
+    "title": "Tacitus, *Agricola* 18, English, Perseus.",
+    "url": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0081%3Achapter%3D18",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S6",
+    "title": "Tacitus, *Agricola* 20, English, Perseus.",
+    "url": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0081%3Achapter%3D20",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S7",
+    "title": "Tacitus, *Annals* XII, Latin text, The Latin Library.",
+    "url": "https://www.thelatinlibrary.com/tacitus/tac.ann12.shtml",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S8",
+    "title": "Tacitus, *Annals* XIV, Latin text, The Latin Library.",
+    "url": "https://www.thelatinlibrary.com/tacitus/tac.ann14.shtml",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S9",
+    "title": "Ptolemy, *Geography* 2.2 (Britain), translation on Lacus Curtius.",
+    "url": "https://penelope.uchicago.edu/Thayer/E/Gazetteer/Periods/Roman/_Texts/Ptolemy/2/2*.html",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S10",
+    "title": "Murray K. Dahm, *The Career and Writings of Sextus Julius Frontinus* (MA thesis, University of Auckland, 1997), on Lacus Curtius.",
+    "url": "https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Frontinus/MKDahm**/body.html",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S11",
+    "title": "Wikipedia, \"Frontinus\".",
+    "url": "https://en.wikipedia.org/wiki/Frontinus",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S12",
+    "title": "Wikipedia, \"Quintus Petillius Cerialis\".",
+    "url": "https://en.wikipedia.org/wiki/Quintus_Petillius_Cerialis",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S13",
+    "title": "Wikipedia, \"Gnaeus Julius Agricola\".",
+    "url": "https://en.wikipedia.org/wiki/Gnaeus_Julius_Agricola",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S14",
+    "title": "Coflein (RCAHMW), \"Alabum; Alabvm, Roman Fort, Llanfair ar y Bryn; Llandovery Roman Fort\", NPRN 92853.",
+    "url": "https://coflein.gov.uk/en/site/92853/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S15",
+    "title": "roman-britain.co.uk, \"Llandovery (Alabum) Roman Fort\".",
+    "url": "https://www.roman-britain.co.uk/places/llandovery/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S16",
+    "title": "Wikipedia, \"Alabum\".",
+    "url": "https://en.wikipedia.org/wiki/Alabum",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S17",
+    "title": "Coflein (RCAHMW), \"Tywi Valley Roman Road; Roman Road Between Llandovery and Carmarthen (Part of Rr623)\", NPRN 400971.",
+    "url": "https://coflein.gov.uk/en/site/400971/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S18",
+    "title": "Coflein (RCAHMW), \"Llandeilo, Parchmark of Roman Road\", NPRN 423995.",
+    "url": "https://coflein.gov.uk/en/site/423995/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S19",
+    "title": "Coflein (RCAHMW), \"Tywi Valley Roman Road; Via Julia Roman Road, Manordeilo Segment\", NPRN 86914.",
+    "url": "https://coflein.gov.uk/en/site/86914/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S20",
+    "title": "Coflein (RCAHMW), \"Tywi Valley Roman Road; Via Julia Roman Road, Ashfield Row Segment\", NPRN 86915.",
+    "url": "https://coflein.gov.uk/en/site/86915/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S21",
+    "title": "Coflein (RCAHMW), \"Tywi Valley Roman Road; Via Julia Roman Road, Segment SW of Llanwrda\", NPRN 86916.",
+    "url": "https://coflein.gov.uk/en/site/86916/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S22",
+    "title": "Coflein (RCAHMW), \"Tywi Valley Roman Road; Via Julia Roman Road, Segment S of Llanwrda\", NPRN 86917.",
+    "url": "https://coflein.gov.uk/en/site/86917/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S23",
+    "title": "Coflein (RCAHMW), \"Tywi Valley Roman Road; Via Julia Roman Road, Segment E of Llanwrda\", NPRN 86918.",
+    "url": "https://coflein.gov.uk/en/site/86918/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S24",
+    "title": "Coflein (RCAHMW), \"Tywi Valley Roman Road; Via Julia Roman Road, Segment NE of Llanwrda\", NPRN 86919.",
+    "url": "https://coflein.gov.uk/en/site/86919/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S25",
+    "title": "Coflein (RCAHMW), \"Tywi Valley Roman Road; Via Julia Roman Road, Segment West of Llandovery\", NPRN 86920.",
+    "url": "https://coflein.gov.uk/en/site/86920/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S26",
+    "title": "Coflein (RCAHMW), \"Tywi Valley Roman Road; Via Julia Roman Road, Section W of Cwrt Henry\", NPRN 86913.",
+    "url": "https://coflein.gov.uk/en/site/86913/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S27",
+    "title": "Coflein (RCAHMW), \"Tywi Valley Roman Road; Via Julia Roman Road, Llwynfortune Segment\", NPRN 86912.",
+    "url": "https://coflein.gov.uk/en/site/86912/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S28",
+    "title": "Coflein (RCAHMW), \"Roman Road From Llandovery to Brecon Gaer\", NPRN 304504.",
+    "url": "https://coflein.gov.uk/en/site/304504/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S29",
+    "title": "Coflein (RCAHMW), \"Y Pigwn Roman Camps, Mynydd Bach Trecastell\", NPRN 92004.",
+    "url": "https://coflein.gov.uk/en/site/92004/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S30",
+    "title": "Coflein (RCAHMW), \"Arhosfa'r Garreg-Lwyd Marching Camp; Arosfa Garreg\", NPRN 84422.",
+    "url": "https://coflein.gov.uk/en/site/84422/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S31",
+    "title": "People's Collection Wales, \"Roman Army on Campaign\".",
+    "url": "https://www.peoplescollection.wales/content/roman-army-campaign",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S32",
+    "title": "Cadw, \"Roman Wales\".",
+    "url": "https://cadw.gov.wales/learn/sites-through-centuries/roman-wales",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S33",
+    "title": "Coflein (RCAHMW), Carmarthen Roman fort, NPRN 92890.",
+    "url": "https://coflein.gov.uk/en/site/92890/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S34",
+    "title": "Coflein (RCAHMW), \"Carmarthen Roman Town (Moridunum)\", NPRN 94432.",
+    "url": "https://coflein.gov.uk/en/site/94432/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S35",
+    "title": "roman-britain.co.uk, \"Carmarthen (Moridunum) Roman Fort\".",
+    "url": "https://www.roman-britain.co.uk/places/moridunum/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S36",
+    "title": "Coflein (RCAHMW), Pumsaint and Dolaucothi settlement complex, NPRN 402260.",
+    "url": "https://coflein.gov.uk/en/site/402260/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S37",
+    "title": "Coflein (RCAHMW), Roman road from Llandovery towards Llanfair Clydogau via Pumsaint, NPRN 303528.",
+    "url": "https://coflein.gov.uk/en/site/303528/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S38",
+    "title": "Coflein (RCAHMW), \"Sarn Helen Roman Road, Earthwork, Dolauhirion\", NPRN 402902.",
+    "url": "https://coflein.gov.uk/en/site/402902/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S39",
+    "title": "roman-britain.co.uk, \"Pumsaint Roman Fort\".",
+    "url": "https://www.roman-britain.co.uk/places/pumsaint/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S40",
+    "title": "Coflein (RCAHMW), \"Brecon Gaer Roman Fort\", NPRN 92001.",
+    "url": "https://coflein.gov.uk/en/site/92001/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S41",
+    "title": "Coflein (RCAHMW), \"Usk Roman Site, 'Burrium'\", NPRN 93470.",
+    "url": "https://coflein.gov.uk/en/site/93470/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S42",
+    "title": "Coflein (RCAHMW), \"Caerleon; Isca Legionary Fortress\", NPRN 95647.",
+    "url": "https://coflein.gov.uk/en/site/95647/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S43",
+    "title": "Coflein (RCAHMW), \"Cwmargenau, Enclosure; Llanwrda, Possible Roman Fortlet\", NPRN 304517.",
+    "url": "https://coflein.gov.uk/en/site/304517/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S44",
+    "title": "Coflein (RCAHMW), \"Dinevor Park Wall: site of Roman Altar or Milestone\", NPRN 421757.",
+    "url": "https://coflein.gov.uk/en/site/421757/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S45",
+    "title": "Josephus, *The Jewish War* III.6.2 (Whiston translation), Perseus.",
+    "url": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0148%3Abook%3D3%3Awhiston+chapter%3D6%3Awhiston+section%3D2",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S46",
+    "title": "Josephus, *The Jewish War* III.5.1 (Whiston), Perseus.",
+    "url": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0148%3Abook%3D3%3Awhiston+chapter%3D5%3Awhiston+section%3D1",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S47",
+    "title": "Josephus, *The Jewish War* III.5.2 (Whiston), Perseus.",
+    "url": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0148%3Abook%3D3%3Awhiston+chapter%3D5%3Awhiston+section%3D2",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S48",
+    "title": "Josephus, *The Jewish War* III.5.3 (Whiston), Perseus.",
+    "url": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0148%3Abook%3D3%3Awhiston+chapter%3D5%3Awhiston+section%3D3",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S49",
+    "title": "Josephus, *The Jewish War* III.5.4 (Whiston), Perseus.",
+    "url": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0148%3Abook%3D3%3Awhiston+chapter%3D5%3Awhiston+section%3D4",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S50",
+    "title": "Josephus, *The Jewish War* III.5.5 (Whiston), Perseus.",
+    "url": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0148%3Abook%3D3%3Awhiston+chapter%3D5%3Awhiston+section%3D5",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S51",
+    "title": "Josephus, *The Jewish War* VI.1.8 (Whiston), Perseus.",
+    "url": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0148%3Abook%3D6%3Awhiston+chapter%3D1%3Awhiston+section%3D8",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S52",
+    "title": "Vegetius, *Epitoma rei militaris* book 1, Latin text, The Latin Library.",
+    "url": "https://www.thelatinlibrary.com/vegetius1.html",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S53",
+    "title": "Vegetius, *Epitoma rei militaris* book 2, Latin text, The Latin Library.",
+    "url": "https://www.thelatinlibrary.com/vegetius2.html",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S54",
+    "title": "Michael Schirber, \"A Blast from the Past\", *Physics* 13, 32 (American Physical Society, 5 March 2020).",
+    "url": "https://physics.aps.org/articles/v13/32",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S55",
+    "title": "Current World Archaeology, \"Uncovering Kalkriese\".",
+    "url": "https://www.world-archaeology.com/world/europe/germany/uncovering-kalkriese/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S56",
+    "title": "Carly Hilts, \"Legion\", Current Archaeology (7 March 2024), on the British Museum exhibition.",
+    "url": "https://archaeology.co.uk/articles/features/legion.htm",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S57",
+    "title": "Wikipedia, \"Lorica segmentata\".",
+    "url": "https://en.wikipedia.org/wiki/Lorica_segmentata",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S58",
+    "title": "roman-britain.co.uk, \"Demetae Celtic Tribe\".",
+    "url": "https://www.roman-britain.co.uk/tribes/demetae/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S59",
+    "title": "Wikipedia, \"Demetae\".",
+    "url": "https://en.wikipedia.org/wiki/Demetae",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S60",
+    "title": "Coflein (RCAHMW), \"Llys Brychan Roman Villa\", NPRN 304634.",
+    "url": "https://coflein.gov.uk/en/site/304634/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S61",
+    "title": "A. S. Esmonde Cleary, \"Frontinus, Sextus Iulius\", *The Oxford Companion to British History*, via encyclopedia.com.",
+    "url": "https://www.encyclopedia.com/history/encyclopedias-almanacs-transcripts-and-maps/frontinus-sextus-iulius",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S62",
+    "title": "A. S. Esmonde Cleary, \"Agricola, Gnaeus Iulius\", *The Oxford Companion to British History*, via encyclopedia.com.",
+    "url": "https://www.encyclopedia.com/history/encyclopedias-almanacs-transcripts-and-maps/agricola-gnaeus-iulius",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S63",
+    "title": "Coflein (RCAHMW), Pumsaint Roman fort, NPRN 303908.",
+    "url": "https://coflein.gov.uk/en/site/303908/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S64",
+    "title": "Heneb, Historic Landscape Character Area 212 \"Llandovery\", Towy Valley.",
+    "url": "https://heneb.org.uk/hcla/towy-valley/212-llandovery/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S65",
+    "title": "Thomas Codrington, *Roman Roads in Britain* (1903), chapter 10, on Lacus Curtius.",
+    "url": "https://penelope.uchicago.edu/Thayer/E/Gazetteer/Periods/Roman/Topics/Engineering/roads/Britain/_Texts/CODROM/10*.html",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S66",
+    "title": "Roman Inscriptions of Britain, RIB 2262.",
+    "url": "https://romaninscriptionsofbritain.org/inscriptions/2262",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "roman:S67",
+    "title": "roman-britain.co.uk, \"Dynevor Park (Llandeilo) Roman Fort\".",
+    "url": "https://www.roman-britain.co.uk/places/llandeilo/",
+    "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "sound:S1",
+    "title": "Rhion Pritchard, \"The prehistoric and historic bird fauna of Wales: evidence from archaeology, literature and place names\", *Birds in Wales* 17:1 (2020), pp. 15 to 25",
+    "url": "https://birdsin.wales/wp-content/uploads/2022/05/pg-15-25-The-prehistoric-and-historic-bird-fauna.pdf",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S2",
+    "title": "Giraldus Cambrensis, *The Itinerary of Archbishop Baldwin through Wales* (trans. R. C. Hoare; J. M. Dent 1912 edition), Project Gutenberg ebook 1148",
+    "url": "https://www.gutenberg.org/cache/epub/1148/pg1148.txt",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S3",
+    "title": "Giraldus Cambrensis, *The Description of Wales*, Project Gutenberg ebook 1092",
+    "url": "https://www.gutenberg.org/cache/epub/1092/pg1092.txt",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S4",
+    "title": "Dafydd ap Gwilym, \"Y Dylluan\" (The Owl), poem 61, *Gwaith Dafydd ap Gwilym* (Swansea University edition), English translation",
+    "url": "https://dafyddapgwilym.net/AnaServer?dafydd+124824+compareSimpleEng.anv+edEl=124592&localEl=124824&titleEl=124580",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S5",
+    "title": "Dafydd ap Gwilym, \"Yr Ehedydd\" (The Skylark), poem 44, same edition",
+    "url": "https://dafyddapgwilym.net/AnaServer?dafydd+92175+compareSimpleEng.anv+edEl=91886&localEl=92175&titleEl=91874",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S6",
+    "title": "Dafydd ap Gwilym, \"Y Rhugl Groen\" (The Rattlebag), poem 62, same edition",
+    "url": "https://dafyddapgwilym.net/AnaServer?dafydd+126367+compareSimpleEng.anv+edEl=126170&localEl=126367&titleEl=126158",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S7",
+    "title": "Dafydd ap Gwilym, \"Y Cloc\" (The Clock), poem 64, same edition",
+    "url": "https://dafyddapgwilym.net/AnaServer?dafydd+129758+compareSimpleEng.anv+edEl=129513&localEl=129758&titleEl=129501",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S8",
+    "title": "Dafydd ap Gwilym, \"Y Gog\" (The Cuckoo), poem 164, same edition",
+    "url": "https://dafyddapgwilym.net/AnaServer?dafydd+289124+compareSimpleEng.anv+edEl=288733&localEl=289124&titleEl=288721",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S9",
+    "title": "Dafydd ap Gwilym, \"Y Ceiliog Bronfraith\" (The Cock-thrush), poem 49, same edition",
+    "url": "https://dafyddapgwilym.net/AnaServer?dafydd+100977+compareSimpleEng.anv+edEl=100730&localEl=100977&titleEl=100718",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S10",
+    "title": "Pembrokeshire Avifauna, \"Corncrake\"",
+    "url": "https://pembsavifauna.co.uk/category/corncrake/",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S11",
+    "title": "Willem-Pier Vellinga and Robert Planqué, \"The Xeno-canto collection and its relation to sound recognition and classification\", CLEF 2015 working notes, CEUR-WS vol. 1391",
+    "url": "https://ceur-ws.org/Vol-1391/166-CR.pdf",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S12",
+    "title": "BBC Sound Effects, \"Licensing\" (The BBC's Content Licence for RemArc)",
+    "url": "https://sound-effects.bbcrewind.co.uk/licensing",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S13",
+    "title": "Wikimedia Commons, \"Category:Wildlife Sounds in the British Library\"",
+    "url": "https://commons.wikimedia.org/wiki/Category:Wildlife_Sounds_in_the_British_Library",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S14",
+    "title": "Wikimedia Commons, \"File:Calon Lan - Llanelli Male Voice Choir.ogg\"",
+    "url": "https://commons.wikimedia.org/wiki/File:Calon_Lan_-_Llanelli_Male_Voice_Choir.ogg",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S15",
+    "title": "Freesound searches of 2026-10-02, for example",
+    "url": "https://freesound.org/search/?q=llandeilo",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S16",
+    "title": "xeno-canto, explore page and API v2",
+    "url": "https://xeno-canto.org/explore",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S17",
+    "title": "Wikimedia Commons, \"Category:Xeno-canto\"",
+    "url": "https://commons.wikimedia.org/wiki/Category:Xeno-canto",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S18",
+    "title": "Dove's Guide for Church Bell Ringers, tower search for Llandeilo",
+    "url": "https://dove.cccbr.org.uk/towers?place=Llandeilo",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S19",
+    "title": "Wikipedia, \"Cranes of Great Britain\"",
+    "url": "https://en.wikipedia.org/wiki/Cranes_of_Great_Britain",
+    "doc": "docs/research/soundscapes.md"
   },
   {
     "id": "timeline:S1",
@@ -2618,8 +4190,8 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "timeline:S10",
-    "title": "Cadw Scheduled Monument description, Garn Goch (CM037), via an ancientmonuments.uk mirror — Dates the hillfort's use to \"c. 800 BC – AD 74.\"",
-    "url": "",
+    "title": "Cadw Scheduled Monument description, Garn Goch (CM037), via an ancientmonuments.uk mirror",
+    "url": "https://ancientmonuments.uk/129708-garn-goch-camps-llangadog",
     "doc": "docs/research/timeline-and-earliest-occupation.md"
   },
   {
@@ -2678,8 +4250,8 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "timeline:S20",
-    "title": "llandeilo.org, local history pages — Teilo's founding of the clas; chapel-building dates (Old Bethel 1727/1773; Calvinistic Methodist 1779/1851; Wesleyan 1809/1849; Soar Baptist 1808); by 1858 Llandeilo had \"a church,…",
-    "url": "",
+    "title": "llandeilo.org, local history pages",
+    "url": "https://www.llandeilo.org/concise_history.html",
     "doc": "docs/research/timeline-and-earliest-occupation.md"
   },
   {
@@ -2696,13 +4268,13 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "timeline:S23",
-    "title": "llandeilofawr.org.uk — Cites Peter Lord dating the Gospels to c.730; the book resided at Llandeilo Fawr from roughly the early 9th century until before the late 10th century, after which \"exactly how it came to leave.…",
-    "url": "",
+    "title": "llandeilofawr.org.uk",
+    "url": "https://www.llandeilofawr.org.uk/gospels.htm",
     "doc": "docs/research/timeline-and-earliest-occupation.md"
   },
   {
     "id": "timeline:S24",
-    "title": "UNC Chapel Hill, \"Exploring Celtic Civilizations\" course page — Independently describes the Surexit Memorandum as the earliest surviving Welsh-language document.",
+    "title": "UNC Chapel Hill, \"Exploring Celtic Civilizations\" course page — Independently describes the Surexit Memorandum as the earliest surviving Welsh-language document. No longer online (2026-10-02: redirects to the UNC web …",
     "url": "",
     "doc": "docs/research/timeline-and-earliest-occupation.md"
   },
@@ -2726,8 +4298,8 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "timeline:S28",
-    "title": "Dictionary of Welsh Biography, \"RHYS ap TEWDWR\" — King of Deheubarth 1078–1093; killed 1093 near Brecon; quotes Brut y Tywysogion, \"with him fell the kingdom of the Britons.\"",
-    "url": "",
+    "title": "Dictionary of Welsh Biography, \"RHYS ap TEWDWR\"",
+    "url": "https://biography.wales/article/arc_s-RHYS-APT-1093",
     "doc": "docs/research/timeline-and-earliest-occupation.md"
   },
   {
@@ -2774,8 +4346,8 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "timeline:S36",
-    "title": "Cadw, Carreg Cennen Castle listing/description — Earliest castle \"probably\" the Lord Rhys's work (hedged); records the 1461–62 slighting and the 1403 Glyndŵr siege; no mention of any Civil War-era action.",
-    "url": "",
+    "title": "Cadw, Carreg Cennen Castle listing/description",
+    "url": "https://cadw.gov.wales/more-about-carreg-cennen",
     "doc": "docs/research/timeline-and-earliest-occupation.md"
   },
   {
@@ -2908,6 +4480,12 @@ export const SOURCE_SEEDS = [
     "id": "timeline:S58",
     "title": "Web-search distance check (route-planning aggregator) — Ammanford is approximately 7 miles straight-line / 8 miles by road from Llandeilo, confirming it lies within the 10-mile radius as \"edge of radius.\"",
     "url": "",
+    "doc": "docs/research/timeline-and-earliest-occupation.md"
+  },
+  {
+    "id": "timeline:S59",
+    "title": "Wikipedia, \"Red Lady of Paviland\"",
+    "url": "https://en.wikipedia.org/wiki/Red_Lady_of_Paviland",
     "doc": "docs/research/timeline-and-earliest-occupation.md"
   }
 ] as const;

@@ -1241,3 +1241,8 @@ button {
   padding-left: 18px;
   color: var(--ink-soft);
 }
+
+.sky-note.recorded {
+  color: var(--documented);
+  font-weight: 600;
+}

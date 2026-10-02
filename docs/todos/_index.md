@@ -11,13 +11,16 @@ updated: 2026-10-02
 
 The one list of work ([ADR 0022](../adr/0022-one-todo-file.md)). Unagreed ideas live on the ideas
 board, [`../design/ideas.md`](../design/ideas.md), and in "From GitHub issues" below; the "Proposed"
-section is under discussion. Only Dewi agrees an item. Tick items off in the same commit that does
+section is under discussion. Dewi agrees an item, or Claude for its own ideas under the proactive
+mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md));
+someone else's suggestion still needs Dewi's yes. Tick items off in the same commit that does
 them. (Corrected 2026-09-28: this file had gone stale, still listing the review and the extra e2e
 tests as not done.)
 
 An item is ticked only once it has been through its path, in order:
 
-1. **Agreed** by Dewi.
+1. **Agreed** by Dewi, or by Claude for its own ideas under the proactive mandate
+   ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)).
 2. **Researched**, for content and research items: a note in `docs/research/` with its sources.
 3. **Research checked** by an independent pass against those sources, before building on it.
 4. **Built**, with a test that was seen to fail first where it fixes a bug.
@@ -163,7 +166,10 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       (1974, the oldest use we hold; see open questions) say "(today)" before then (2026-10-02).
       The forts and the bridge have no map label, so the rule now lives in one domain function
       (`namedLater`) used by both the labels and the moment card, which never applied it before
-- [ ] Performance: move land-cover classification to the GPU if recolouring is slow on real hardware
+- [ ] Performance: move land-cover classification to the GPU. Measured 2026-10-02 on a real GPU:
+      scrubbing was 2fps because every slider step recoloured 153,944 triangles on the CPU, rebuilt
+      the forest's instance buffers and re-rendered the shadow map; throttling that heavy pass to every
+      150ms brought it to about 15fps, and a shader would remove it
 - [x] Keyboard help: `?` or the Keys button shows the shortcuts and the click controls; Escape closes it (2026-10-02)
 - [x] Place labels no longer sit under the panels, the compass or the timeline: they avoid every
       on-screen panel, using their measured size (found by screenshot, 2026-10-02)
@@ -185,8 +191,6 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       a relay only if family members lack GitHub accounts
 - [ ] Analytics: cookieless usage counts and custom events, plus anonymous load-error reporting
       ([`design/analytics.md`](../design/analytics.md))
-- [ ] Immersive sound and assets: real recordings, spatial sound, generated or openly licensed
-      assets ([`design/sound-and-assets.md`](../design/sound-and-assets.md))
 - [x] Train steam trailing from the chimney, and train sound that grows as the camera nears (2026-09-28)
 - [x] Previous / Next through key dates, with the camera flying to each (2026-09-28)
 - [x] Desktop only, with a dismissible banner on phones and tablets (2026-09-28, [ADR 0015](../adr/0015-desktop-only.md))
@@ -207,7 +211,70 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       north-west tower only from the later 13th century), Carreg Cennen (gatehouse centred on the north
       wall, barbican route, second cross wall), the bridge (a stone bridge by 1577)
 - [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md))
-- [ ] Research the later trains (Great Western from 1889, British Rail, today's Heart of Wales line)
+- [ ] The later trains (the Great Western from 1873, the LNWR and LMS through trains, British Rail,
+      today's Heart of Wales line): researched and checked 2026-10-02 (`research/railway-later.md`); models
+      still to build
+
+## Agreed 2026-10-02 (Dewi, during the weekend run)
+
+- [ ] **An immersive sound at every point in time**: what each era and place sounded like (fields,
+      forge, church, market, river, railway, roads), mixed by where the camera is and the time of day,
+      every sound sourced or labelled reconstructed, audio under any open licence, NC and SA included, never all-rights-reserved
+      ([ADR 0026](../adr/0026-open-licences-including-nc.md); corrected 2026-10-02, this line said
+      CC0/CC-BY/public domain only)
+      (Dewi: "each point in time sounds effects ... really immersive experience"). Supersedes the
+      Proposed "Immersive sound and assets" item ([`design/sound-and-assets.md`](../design/sound-and-assets.md))
+- [ ] **Black-swan events from afar, as they reached the valley**: distant shocks (volcanic
+      eruptions thousands of miles away, pandemics, famines, wars) shown only where a source records
+      their effect here or in this part of Wales, with the distant cause as context (Dewi: "black swan
+      events such as a volcano erupting thousands of miles away"). Brings the later-phase "Ripples from
+      afar" forward
+- [ ] **Music through time and place**: what was played and sung in and around Llandeilo in each era
+      and by each class (harp and crwth, plainchant at Talley, the bards, ballads, hymns and chapel
+      singing, eisteddfodau, brass bands), heard in the scene and explained in the almanac, from
+      sources and licensed recordings or performed from period notation (Dewi: "music through time and
+      places"). The app stays inside the agreed ten miles or so around Llandeilo. Dewi chose
+      in-world music where the research puts it, plus a light labelled score that can be turned off
+- [ ] **A Begin screen**: a title card with the Ovid motto; its click turns the sound on (browsers
+      need one) and can start the opening flight (Dewi chose this, 2026-10-02)
+- [ ] **Quality up for powerful GPUs** (Dewi: "assume ... beefy gpus"): raise the defaults (shadow
+      resolution, post-processing, vegetation density, particles, reflections). A small High / Medium
+      / Low menu (Dewi: "dont put too much effort in to this tho ... concentrate on high mode",
+      High the default), mapping onto one quality setting that replaces `?fx=low`
+- [ ] **Cutscenes at key dates** (Dewi: "romans marching in to llandeilo -- with a cutscene ... i am a
+      massive fan of cutscenes"): short, skippable cinematic sequences (camera moves, figures moving on
+      sourced routes, sound, music, narration and captions) built from one data-driven cutscene model,
+      not code per era, every element labelled by provenance, with a narrator in the UI language
+      (Dewi's choice) and captions always on. First: the Roman army arriving at
+      Dinefwr, c. AD 74. Builds on the agreed "people arriving from afar" journeys, the guided tour and
+      the opening cinematic flight
+- [ ] **Invasions and raids that reached the valley** (Dewi: "norman, viking etc etc etc invasions"):
+      Irish settlement in Dyfed, Viking raids, the Normans after 1093, the English conquest of 1277-83,
+      Glyndŵr in 1403, the Civil War, each as key dates (and cutscenes where the research supports one),
+      shown only as far as the sources put them in this valley; a raid recorded only on the coast is
+      shown as news reaching here, not invented here
+- [ ] **Early people hunting and gathering** (Dewi: "early people hunting stuff"): Late Upper
+      Palaeolithic and Mesolithic hunter-gatherers in the valley, what they hunted, fished and gathered
+      in each environment, with the animals of "animals through time", as scenes and cutscenes at the
+      level the finds support (here, nearby, or Wales-wide analogy)
+
+## Claude's own ideas, building first (proactive mandate, 2026-10-02)
+
+From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full notes in
+[`../design/ideas-2026-10-02-ranked.json`](../design/ideas-2026-10-02-ranked.json)). Same path as any item.
+
+- [ ] **Honest ambience**: every ambient sound bed carries provenance; the medieval church bells at
+      AD 800 and 1250 go, since no source records a medieval bell here (event-effects); then sound
+      shaped by distance and space
+- [ ] **Contested points, shown as contested**: one register of every source disagreement, a
+      `Contested<T>` type with exactly one preferred reading, a witnesses card, and a ⇄ switch only
+      where the readings draw differently (Dryslwyn's middle ward, St Teilo's tower, 1403)
+- [ ] **When are we?** a guess-the-year game: hidden clues, read the landscape, a reveal that explains
+      which features gave it away and how firmly, by provenance
+- [ ] **Light after dark**: hearth, rushlight, candle, gas, electric light and the blackout, as content
+      keys like the climate, each sourced
+- [ ] **When did we find out?** a discovery rail and a "found" line on every ⓘ (the forts in 2003,
+      Lhuyd's trilobite in 1698, the Gospels' history)
 
 ## Agreed ideas (Dewi, 2026-09-28: "add all of them to todo list")
 
@@ -257,7 +324,8 @@ Each needs its research or design first, like everything else. The ideas board k
 - [ ] Sky events: comets, eclipses and storms the chronicles record, only where a source exists
 - [ ] An opening cinematic flight from deep time to today, under the Ovid motto
 - [ ] Real Carmarthenshire voices: St Fagans oral-history clips (check reuse terms)
-- [ ] The 1688 trilobite as an easter egg (single-source so far)
+- [ ] The 1698 trilobite (Lhuyd's letter; corrected from 1688) as an easter egg, cross-checked
+      (`deeptime:S18`, `deeptime:S43`)
 
 ## Later phases (agreed)
 
@@ -269,7 +337,7 @@ Each needs its research or design first, like everything else. The ideas board k
       deep-time note lists mammoth, reindeer, hyena, aurochs, elk, wild boar, bear, lynx, wolf, and
       when each died out) and shown in the scene. Needs research: what is attested inside the ten
       miles versus Wales generally, and calibrated dates ([research](../research/deep-time-and-natural-history.md))
-- [ ] Ripples from afar: distant events that reached the valley, only where a source shows the local effect
+- [x] ~~Ripples from afar~~: brought forward on 2026-10-02 as "Black-swan events from afar" above
 - [ ] **The big national and world events, as they touched the valley** (Dewi, 2026-09-28): the
       two World Wars (who from here served and died, the war memorials, evacuees, land girls, Home
       Guard, rationing, the war-work at local sites), the Civil War, the Black Death, the Reformation

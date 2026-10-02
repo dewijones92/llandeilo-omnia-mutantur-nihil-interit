@@ -179,9 +179,11 @@ export class Terrain {
         c[o + v * 4 + 3] = 1;
       }
     }
+    const computed = performance.now();
     this.mesh.updateVerticesData(VertexBuffer.ColorKind, c);
+    const done = performance.now();
     console.info(
-      `dewidebug terrain recolour key=${key.slice(0, 40)} in ${Math.round(performance.now() - started)}ms`,
+      `dewidebug terrain recolour key=${key.slice(0, 40)} tris=${String(t.count)} compute=${Math.round(computed - started)}ms upload=${Math.round(done - computed)}ms`,
     );
     return true;
   }

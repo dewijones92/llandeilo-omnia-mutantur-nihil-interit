@@ -2,7 +2,7 @@
 title: Research method
 kind: process
 status: current
-updated: 2026-09-26
+updated: 2026-10-02
 ---
 
 # How the research is done
@@ -30,6 +30,9 @@ updated: 2026-09-26
   and note in the doc when a section was written without search.
 - **"Llandilo" is two places.** 1840s newspapers use it for Llandeilo Tal-y-bont in Glamorgan as
   well as Llandeilo Fawr. Check which before placing an event on the map.
+- **There is more than one Llandeilo with an Ogham stone.** The "Llandeilo" Ogham stone is at
+  Llandeilo near Maenclochog in Pembrokeshire, not Llandeilo Fawr; no Ogham stone is recorded inside
+  our area (invasions-and-raids, 2026-10-02).
 - **Llansadwrn is two places.** The St Fagans Bryn Eryr farmstead comes from Llansadwrn on
   Anglesey, not the one near Llandeilo.
 - **Merged passes renumber sources.** The Victorian note was assembled from five sub-passes and

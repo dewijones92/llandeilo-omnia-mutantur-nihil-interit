@@ -1,0 +1,201 @@
+{
+  "ranked": [
+    {
+      "title": "Contested points, shown as contested: a register, a Contested<T> type, a witnesses card and \u21c4 only where the picture changes",
+      "lens": "historian / game-designer / educator",
+      "pitch": "Every place where the sources disagree goes into one register, sorted three ways. A live pair is two sourced readings that draw differently, such as Dryslwyn's middle ward (about 55\u00d730m from the Cadw plan against 70\u00d730m in medievalheritage), St Teilo's tower (15th century or c. 1600), Talley's founding year (1184, 1185 or 1189), Dinefwr under English control from 1277 or 1287, Carreg Cennen taken or held in 1403, and Fort 1 starting soon after AD 74 or c. AD 77/78. A caption-only point differs in words but not in the drawing: Dryslwyn's and Carreg Cennen's builders, the bridge's cost, and Garn Goch's purpose, where no source gives a count and none must be invented. A resolved point gets a 'resolved because\u2026' line: the forts' 8 and 12 acres against the primary report's 3.85ha, and 16 against 17 June 1282, where the annal's XVI Kal. Jul. is preferred. Each contested point gets a witnesses card. It shows each claim's kind of source, when it was written, its exact words from a source we have read, and its standing: preferred, alternative or superseded. Only live pairs get the \u21c4 switch, which redraws the scene. The default is always shown as a choice, with its reason. The 1282 card has a Kalends counter. Inclusive counting gives 16 June, and the card says the cause of Morris's 17 is not known. It does not guess the mechanism. The 1282 leader is never named.",
+      "research": "Little new research. The rows already exist in open-questions.md under 'Contradictions shown in the app, not resolved', in findings.md and in each era note (the Dryslwyn rows are in building-models.md lines 66, 86 and 96, and features.ts lines 444-447). Step one is to sweep every 'Contradiction' and 'Sources differ' in docs/research/*.md into the register. For each witness, the exact wording has to come from a source actually read. The Roman inclusive-counting rule needs a cited grammar or calendar text. Small lead: medievalheritage dates Rhys ap Maredudd to the mid-13th century, but he succeeded in 1271, which suggests a slip in that source.",
+      "build": "Add Contested<T> to src/domain/provenance.ts: AtLeastTwo versions, each { label: Bilingual, value: T, provenance, standing: 'preferred' | 'alternative' | 'superseded' }, with exactly one preferred version enforced by the type and by a test. Records go in src/content/contested.ts and are referenced by id from events, features and places. snapshotAt in src/domain/state.ts takes a choices map that defaults to preferred, so the renderer, labels, moment card and audio all read one resolved snapshot. The plan builders take the contested numbers (ward length, tower start year) as parameters. The \u21c4 switch and witnesses card go in ui/moment.ts and ui/provenance.ts, the choice goes in ?versions= in the share link, and ?debug lists the active readings. The Kalends counter is a pure function with unit tests (XVI Kal. Jul. gives 16 June, across month lengths). Migrate the five or more existing 'sources differ' strings first, then add the lint that fails on an unlinked one. e2e: flip the Dryslwyn ward at 1282 and assert the mesh bounds change. Screenshot both readings.",
+      "size": "medium",
+      "score": 9,
+      "merged_from": "Both readings: a switch that shows each side of a contested point; Rival versions: when sources disagree, switch between the scenes; The sources disagree: weigh the witnesses (with a Kalends counter)"
+    },
+    {
+      "title": "Honest ambience: give the sound beds provenance, drop the unsourced medieval bells, then shape sound by distance and space",
+      "lens": "sound-atmosphere",
+      "pitch": "Step one fixes something the app gets wrong today. src/content/timeline.ts gives church bells at AD 800 (0.1), AD 1250 (0.4) and later keys, but event-effects.md says no medieval bell is recorded for St Teilo's or Talley in any source read. The first bells heard in a source are the 'merry pealing' for the first train in January 1857. So every ambient bed gets a provenance, the medieval bells go (or become a labelled legend handbell at St Teilo), and ?debug and the \u24d8 list what you are hearing and how we know. Step two: the single 3-second cathedral reverb that ambience.ts applies to everything, open moor included, gives way to space-dependent acoustics. The open valley is nearly dry. Near a building where the research puts sound (plainchant at Talley), you hear a muffled exterior version, modelled with Sabine's formula from documented dimensions. RT60 is given as a range marked reconstructed, because heights and finishes are not recorded.",
+      "research": "Step one needs none: event-effects.md lines 47-51 and 76 settle it. Step two: Talley's length (48.8-49.6m) and nave width (about 8.3m) are in building-models.md. Interior heights and finishes are not, so they are labelled assumptions. Absorption coefficients come from published acoustics tables. Calibration IRs (e.g. OpenAIR) only under an open licence recorded in the asset manifest.",
+      "build": "Step one: add a Provenance field to the ambient keys in src/content/timeline.ts (or a bed registry), set medieval bells to 0 or a labelled legend handbell, show the active beds in ui/debug.ts, and add a content test that a bed above 0 has provenance. Step two: a pure src/domain/acoustics.ts roomAcoustic() (unit-tested: a bigger volume gives a longer RT60, thatch absorbs more than stone), procedural IRs per space cached in src/audio/ambience.ts, and a crossfade between two ConvolverNodes by camera distance to place grid references. Not flight.ts, which does not know where you are going. The camera never goes inside a building, so this is exterior muffling, not 'inside' reverb.",
+      "size": "small",
+      "score": 8.5,
+      "merged_from": "Hear the room: acoustics built from documented dimensions (its bells finding promoted to the first step)"
+    },
+    {
+      "title": "When are we? A guess-the-year game read from the landscape",
+      "lens": "game-designer",
+      "pitch": "Press 'When are we?' and the app drops you at a hidden moment, drawn only from periods with content (no deep time yet). Everything that gives the year away is hidden: the handle, the moment card, the almanac, the language panel, place labels, era names and colours on the timeline, conversation bubbles and ?debug. You orbit and fly, read the land (forest cover, fields, roundhouses or castles, the railway) and drag a ghost marker to guess. The reveal sweeps the slider to the true moment and scores on the timeline's own non-linear scale. A clue list explains how you could have known. A documented feature with exact dates gives a firm clue ('the railway, documented from 1857'). An approximate or reconstructed one gives a 'probably'. An imagined one is never a clue. Climate cues say they come from our reconstructed climate model. Where the scene really cannot tell two periods apart, the reveal says so. Five rounds, with a 'show me' flight to each clue and best scores kept in this browser.",
+      "research": "None new. The clues are existing cited features, events and environment keys. Rules to check: a clue states only what its feature's when range and provenance support, and climate clues use the calendar-year keys in src/content/climate.ts, never uncalibrated pollen dates.",
+      "build": "Pure src/domain/guess.ts: pickRound(steps, rng), score(guessT, trueT) on timeline-t, and clues(snapshotAt(world, t)) ranking Snapshot.features by how tightly they bracket t, with provenance deciding firm, probable or none. All unit-tested, with the clue ranking seen red then green. src/ui/guess.ts hides panels through ui/store.ts, draws the ghost marker through ui/timeline.ts, and uses world/flight.ts for 'show me'. Strings go in strings.ts in Welsh and English. Scores go in localStorage inside try/catch. e2e: start, guess, reveal, and see one clue with an \u24d8.",
+      "size": "small",
+      "score": 8.5,
+      "merged_from": ""
+    },
+    {
+      "title": "Light after dark: hearth, rushlight, candle, gas, electric, blackout",
+      "lens": "sound-atmosphere",
+      "pitch": "Night light changes with its technology and with who could afford it, from one table of dated lighting keys rather than per-era code. Hearth glow at roundhouse doors. A medieval town mostly dark, with torchlight at Dinefwr labelled reconstructed. Candle-bright gentry windows against dim rushlight and tallow cottages, sourced from St Fagans or Amgueddfa Cymru where possible. Street gas lamps only from a documented first lighting of Llandilo's streets, not just the Ffairfach gas works date, in the warm yellow of flat-flame burners, turning whiter only if mantles are recorded. Electric light from a researched date. Dark nights from 1939 to 1945 for the blackout. Shares of lit windows by class are labelled reconstructed, and an almanac entry, 'Light after dark', says what is known and what is guessed.",
+      "research": "The c. 1860 Ffairfach gas works is single-source (era-victorian.md S2, via Wikipedia), so it needs a second source and a separate source for street lighting: Welsh Newspapers Online or Coflein. Also research when electricity arrived in Llandeilo, rushlight and tallow use in rural Wales (St Fagans), and the national blackout rules (documented). Wording to avoid: 'greener gas'. Open flat-flame burners gave a yellow light, and the whiter light came with mantles in the 1890s.",
+      "build": "src/content/lighting.ts holds keys of { year, technology, colour, brightness, flicker, lit share by class, provenance }, interpolated the way climate.ts is. A pure lampsAt(snapshot, clock) widens the single lamps scalar in daylight.ts:197 into a LampState that main.ts passes to FeatureLayer.setLamps and firelight. Colour is set per material, not as a global tint, because the night bloom reads the same value. Street lamps become a dated FeatureKind in features.ts. Unit test: no gas lamps before the documented date. Night screenshots at 1250, 1800, 1880 and 1942.",
+      "size": "small",
+      "score": 8,
+      "merged_from": ""
+    },
+    {
+      "title": "When did we find out? A discovery rail, a 'found' line on every \u24d8, and a 'known by' marker",
+      "lens": "educator",
+      "pitch": "A thin second rail under the timeline marks when evidence came to light, as dated stages of a kind (record, survey, aerial, excavation, chance find), each with who made it, never only a single 'found' date. The Gelli note in the Gospels (9th century). Lhuyd's trilobite letter (written 1698, published 1699). Roman coins recorded by Fenton near Dinefwr c. 1800. A Latin stone seen in 1697 and lost by 1893 (recorder not known). Garn Goch surveyed by Hogg in 1974 and by drone in 2019, with the 1893 and 1909-10 accounts listed but unread. The Dinefwr forts' path from Roman finds turned up by fieldwalking and metal detecting, through the 1979 aerial photographs (an aggregator lead), to the 2003 magnetometer survey and the 2005 excavation. Every \u24d8 gains a 'how it came to light' line, which says 'not known' where that is the honest answer. A 'known by\u2026' setting marks items faint rather than hiding them, and says on screen that the landscape, forest and climate are always drawn from today's knowledge.",
+      "research": "Mostly done and recently checked: era-iron-age.md S1, S14 and S15 (magnetometer, corrected 2026-10-02), timeline-and-earliest-occupation.md S16 and S25, the deep-time review's 1698 date, and language-by-class.md S4 and S6. Still needed: a second source for each date, who recorded the 1697 stone (do not guess Lhuyd), and the hoard's whereabouts.",
+      "build": "A Discovery record in src/domain/model.ts: { subject: FeatureId | EventId | PlaceId, stage, when, by, provenance }, generalising Place.namedFrom from ADR 0024. Content goes in src/content/discoveries.ts. An integrity test: every documented feature or event has a discovery record or an explicit 'unknown'. A pure knownBy(year) predicate in state.ts marks items. A second track in ui/timeline.ts uses steps.ts for its ticks, and the tick-overlap e2e test covers it. A 'found' line goes in ui/provenance.ts. e2e: known-by 2002 shows the forts faint, with the caption.",
+      "size": "medium",
+      "score": 8,
+      "merged_from": ""
+    },
+    {
+      "title": "The diorama's cut edge shows the real rocks",
+      "lens": "tech-showpiece",
+      "pitch": "The plinth's five invented colour bands (buildPlinth in src/world/terrain.ts) are the one part of every frame with no \u24d8. They become the bedrock mapped at the ten-mile rim, read from the BGS Geology 625k map (OGL), with superficial deposits on top where BGS maps them. Each segment's \u24d8 gives the unit and its BGS Lexicon code, and an age only where a cited source states one. The 2026-10-02 check found the Ma figures no longer on the LLDO and LLDC pages. Below the surface the bands are drawn as schematic continuations, and the \u24d8 says the folding and faulting are real but not modelled. What appears on the rim comes from the data, not from memory: Carreg Cennen's limestone and Garn Goch's grit are not at the rim. An optional 'Rocks' lens tints the terrain by bedrock, always labelled 'today's rocks under today's land' and never shown as a past surface.",
+      "research": "Confirm the DiGMapGB-625 terms (and whether 1:50k is open). Unit names come from the BGS Lexicon (deep-time S1, S24, S25). Superficial thickness only where BGS publishes it. The deep-time note's 3D art notes give the palette.",
+      "build": "tools/geo/build-geology.py uses GDAL (installed) to sample the 360 rim segments and write public/data/geology.json, with a guard in src/platform/assets.ts and a manifest licence entry. Unit records go in src/content/geology.ts. A pure src/domain/section.ts produces the bands, unit-tested: the surface unit is the top band and the deeper bands are marked schematic. buildPlinth reads the bands. A ray-pick on the plinth mesh opens the ordinary \u24d8. Screenshots of the rim from north and south.",
+      "size": "medium",
+      "score": 7.5,
+      "merged_from": ""
+    },
+    {
+      "title": "Lime: Cilyrychen's kilns glowing at night, and the 1843 lime road through three toll bars",
+      "lens": "historian / sound-atmosphere / tech-showpiece",
+      "pitch": "Slice one: kilns as dated features placed from Coflein grid references. R. K. Penson's Cilyrychen kilns at Llandybie are built from August 1856, the first lit on 18 May 1857, six by 1858 and nine by 1900. They smoke by day and show a red glow at the draw-holes after dark (reconstructed by analogy), with a kiln sound bed. Pistyll and any earlier kilns appear only once Coflein dates them, and Carreg Cennen's undated kiln is drawn cold. Slice two is one \u24d8 and almanac thread for 1843, from the Times dispatch reprinted in the Welshman on 11 August. Carts from the Llandovery side of town passed the Gurreyfach, Ffairfach and Rhydyffynnon bars on three trusts for a trip of 'only six miles', and one reporter estimated the tolls at about 30% of the lime's cost (a single source). Rhydyffynnon was destroyed the night of the Walk Gate attack, and the 1844 Act halved the lime toll. No per-gate toll is invented: it shows as 'not yet found'. Slice three, once the actors system exists, makes a cart followable along that route. The 50 to 100-cart pre-dawn queue (a 1939 parish history, undated, at the post-1856 kilns) is never put before 1856.",
+      "research": "Mostly in era-victorian.md: S7 (the dispatch), S24 and S27 (Cilyrychen), S59 (the queue and Pistyll), S3 and S4 (the 1844 Act). Still needed: Coflein grid references for the kilns and the three bars, the 1843 road line, and the 1844 Commission of Inquiry or the trusts' toll schedules for the actual amounts.",
+      "build": "A 'kilns' FeatureKind with when and provenance in model.ts and features.ts. Glow through world/firelight.ts, a 'kiln' style in world/smoke.ts, and a 'kiln' bed in audio/ambience.ts with nearness gain. The toll bars become small dated building Features. Almanac entries under money and travel cite S7, S24 and S59. Later, the cart is an actors-track journey that the follow chip can follow. Unit test: kilns appear only inside their dated range. Screenshots at night in 1850 (no kilns) and 1860, and by day in 1900.",
+      "size": "medium",
+      "score": 7.5,
+      "merged_from": "The lime road, 1843: follow a cart through three tollgates; The lime road: kilns glowing on the limestone, carts queuing before dawn; Lime: kilns glowing at night, limewashed walls, carts through the toll gates (limewash dropped until a firmer source)"
+    },
+    {
+      "title": "The real night sky: catalogue stars precessed to the year, and the true moon on recorded nights",
+      "lens": "tech-showpiece / family-visitor",
+      "pitch": "The 900 random stars (rng(1843) in src/world/sky.ts) and the moon placed opposite the sun give way to real stars for Llandeilo's latitude, precessed to the slider's year with proper motion. The pole star changes, with Vega near the pole around 12,000 BC, and a 'Look up' view shows it. Outside the range where the models hold (about \u00b1100,000 years), the \u24d8 says star positions are unknown. A generic season and hour is labelled 'a typical clear night then, calculated'. On a recorded night the moon is placed and phased: 30 January 1848 at 9pm, and both nights given for Walk Gate (7-8 or 9 August 1843). For 1282 only the phase is shown, for the annal's 16 June, with the variant noted. Recorded weather, such as the 1848 flood night or the rain on railway day, overrides the stars. Cloud is never claimed.",
+      "research": "Vondr\u00e1k et al. 2011 long-term precession, and Meeus for the moon. NASA's public-domain phase catalogue as the test oracle. Julian dates before 1752. Catalogue: HYG or Hipparcos under CC BY-SA, now allowed by ADR 0026, recorded in the manifest. Avoid the Yale BSC, which states no licence. Welsh star names only with a dated source, watching for Iolo Morganwg. Sky glow is mild, and reconstructed where not sourced.",
+      "build": "A pure src/domain/astronomy.ts with starAltAz and moonAt, unit-tested: Polaris about 0.7\u00b0 from the pole today, Vega near the pole about 12,000 BC, and a NASA phase match. RecordedSky gains an optional date with a calendar field ('julian' | 'gregorian'). The stars move from the azimuth-scrolled screen Layer to a sky dome, or a cube texture rebuilt per (year bucket, day, hour) key, so constellation shapes hold as the camera pitches. ?debug shows the pole star and the phase. Screenshots at night in 12,000 BC, 1282 and 1843.",
+      "size": "medium",
+      "score": 7,
+      "merged_from": "The sky they actually saw: real stars, precessed to the year"
+    },
+    {
+      "title": "What was it worth? Law values, local prices and a day's wage, each tagged by scope",
+      "lens": "historian / family-visitor",
+      "pitch": "One valuation model, read by the almanac's money topic and by the \u24d8 of matching items. The scope is a type: 'here', 'deheubarth' or 'wales'. In 1843 you hold a day's pay as the Times reporter recorded it for Llandilo: 7s a week from gentlemen farmers, 8-9d a day with food or 10d-1s without from small farmers (single source). You can spend it on coal at 1s 8d a pony-cart at the pit plus 9d to town. In the medieval eras the Blegywryd redaction's legal values and sarhaed by rank show for breyr, free man and taeog, always labelled 'Welsh law, a norm for all Wales, not a price paid here'. Beside them are the two values actually recorded here. Gelli gave the gospel book he bought for 'the price of a good horse' (or 'his best horse': a small contradiction, recorded) to St Teilo's church. In the Surexit, Elgu gave a horse, three cows and three newly-calved cows. No law value is ever converted into later money. Dates with no local wage show 'no wage known' as a state that cannot be hidden.",
+      "research": "Cyfraith Hywel currently rests on Wikipedia and Wikisource (S41, S42), so read Aneurin Owen's 1841 Ancient Laws (public domain) and check it against a modern scholarly translation before any number ships. The 1823 and 1843 prices are in era-victorian.md S7 and S59. Drop Roman pay, which would only be a distant analogy.",
+      "build": "A pure src/domain/money.ts with a branded Pence type, \u00a3sd display, and daysOfWage returning a union that includes 'no wage known'. Valuations go in src/content/valuations.ts with { when, subject, amount, unit, scope, provenance }. An integrity test: 'here'-scoped values cite a local source. A 'Worth' row in ui/info.ts, and the almanac money topic links to the same entries.",
+      "size": "medium",
+      "score": 7,
+      "merged_from": "What was it worth? Prices, fines and wages by class; A day's wage: what money could buy, and what a toll cost you"
+    },
+    {
+      "title": "The Llandeilo Gospels: read Surexit and the gift note, follow the book until it leaves",
+      "lens": "educator / family-visitor / game-designer",
+      "pitch": "From the early-to-mid 9th century the gospel book sits at Teilo's clas church. Click it to open a reader. The Surexit memorandum, dated 830-50 by Jenkins and Owen with minority readings in the \u24d8, appears as a parallel text: the manuscript's words, an English rendering, and a cited modern Welsh one, with Latin legal words set apart from the Old Welsh. Tudfwlch loses his claim to Tir Telych against Elgu son of Gelli and the people of Idwared, and Elgu gives a horse, three cows and three newly-calved cows before the good men. The gift note is a separate entry, of unknown order relative to the Surexit. That the buyer Gelli is Elgu's father is stated only if an edition supports it. The modern Welsh row is voiced and labelled a modern stand-in. Old Welsh spelling is never read aloud. 'Earliest surviving document in Welsh' is worded as the sources word it, alongside the Cadfan Stone. Phase one goes line by line from the paraphrase, labelled as such. Word glosses come only after the scholarly edition is read. By the late 10th century the book is at Lichfield, and how it got there is not known. No route is drawn. No page image is shown until its licence is confirmed. A cutscene follows once the engine exists.",
+      "research": "language-by-class.md S4 and S5 and era-medieval-to-1282.md S6, S7 and S58 hold the text, a paraphrase and the dating. Still needed: Jenkins and Owen 1983 plus a second edition (paraphrase only, as it is in copyright; Evans and Rhys 1893 may give public-domain transcriptions), the Latin for the horse-price wording, and the licence of the Lichfield images and Commons PD-Art folios under ADR 0026.",
+      "build": "One PrimaryText type in src/domain/model.ts, reusing LanguageCode: tokens or lines of { form, language, gloss, modern?, place? }, held in src/content/primary-texts.ts. It must absorb the existing Line.quote field so quotes live in one place, the same record the 1403 letters and 'How do we know?' read. The reader, src/ui/primary-text.ts, opens from ui/provenance.ts. Voices are built with tools/voices/build-voices.ts. The book is a marker on the clas church feature with dated stays, and its departure is a context card.",
+      "size": "medium",
+      "score": 7,
+      "merged_from": "Worth a good horse: the Llandeilo Gospels' cutscene; The Book of Teilo: follow one object through the valley; Read the real page: interlinear primary texts, starting with Surexit"
+    },
+    {
+      "title": "Letters from the siege: July 1403, narrated only by the letters written that week",
+      "lens": "game-designer",
+      "pitch": "The design for the agreed 1403 Glynd\u0175r scene, with no invented dialogue. Beat 1, Monday 2 July: Faireford's letter (French, with Hingeston's translation) reports the siege of Dinefwr by Rhys ap Gruffudd, Henry Dwnn and others. The hour is not recorded. Beat 2, the night of 3 July, the only documented hour: Owain at Llandovery (an arrow off the map), 300 men left round Llandovery castle, and Owain lodging at Llandeilo. Camp fires are reconstructed, and nothing burns yet. Beat 3, 4-5 July: Scudamore writes in English from inside Carreg Cennen that Owain lay at Dryslwyn and refused a safe-conduct for his wife and her mother. No siege is staged there. Beat 4: Waterton's letter ('13 (?) July') says Llandeilo was 'lately' burned and a flood (river unnamed) stopped the rebels going on. The smoke is captioned 'reported by about 13 July'. The scene ends on the open contradiction over whether Carreg Cennen was taken.",
+      "research": "event-effects.md 'glyndwr' with its 2026-10-02 corrections, S11 (Hingeston 1860, public domain) and S12 (Griffiths), plus timeline S36 and S37. Still needed: copy the exact passages from Hingeston on the Internet Archive, check Rhys ap Gruffudd and Henry Dwnn in the DWB, and research a 1403 camp before drawing it.",
+      "build": "Needs the agreed cutscene engine (src/content/cutscenes.ts). One 'quote' track kind reading the shared PrimaryText or quote records (one place, absorbing Line.quote). Camera keys use the existing Shots. Fires use world/firelight.ts and smoke.ts, and the flood uses water.ts. Voices are en-GB for the translation and Middle English text for Scudamore, both with the modern-voice \u24d8.",
+      "size": "medium",
+      "score": 6.5,
+      "merged_from": ""
+    },
+    {
+      "title": "How we found out: the Dinefwr forts' discovery as a cutscene, with Garn Goch as the counterpart where the evidence stops",
+      "lens": "historian / game-designer",
+      "pitch": "A 'How we know' Watch button on the existing 2003 roman-forts-found key date, not the AD 74 date that the Roman-arrival cutscene uses. Today's parkland. Roman finds from fieldwalking and metal detecting, documented, with the people imagined. The 1979 aerial photographs, conditional on a source saying what they showed. The March 2003 magnetometer survey, with an outline traced from the published plan in Hughes 2007 and labelled 'redrawn', never taken from our model's footprint. The June-July 2005 trench, only where the report places it, with the broadcast confirmed by a second source. Then the fort rises in provenance order: surveyed ditches, a rampart inferred from them, a standard Roman layout reconstructed by analogy, and imagined figures last, in a ghostly style. The counterpart scene at Garn Goch stops halfway: surveyed ramparts, an empty interior, and 'no excavation is recorded here' (the 1893 and 1909-10 accounts unread). It says plainly that the everyday scene goes beyond this.",
+      "research": "era-iron-age.md (S14, S15, S19, and the 2026-10-02 corrections). Still needed: the 2005 excavation report or HER summary for the trenches, what the 1979 photographs show, and the survey plot's licence (redraw if it is not open).",
+      "build": "Entries in the planned src/content/cutscenes.ts. An 'evidence' track (a polygon of GridRefs styled survey, trench or aerial) drawn as a ground decal or terrain mask, geometry from the report and shared with the agreed 'Nothing perishes' ghosts. A 'by-tier' feature reveal using per-part provenance in plan.ts, which means moving the fort and Garn Goch onto plans (an agreed todo). Unit test: the stages run from documented to imagined.",
+      "size": "medium",
+      "score": 6.5,
+      "merged_from": "From survey to model: a reconstruction cutscene at the Roman forts; How we found out: discovery cutscenes"
+    },
+    {
+      "title": "Names in the land: a curated place-name lens",
+      "lens": "historian / educator",
+      "pitch": "A Names lens for a curated set of the valley's minor names, each researched first: pandy, efail, odyn, melin, hafod and hendre, caer and castell, llys, llan, rhyd, pont and ffair. Each name's \u24d8 gives the name itself (documented, '(today)' under ADR 0024 unless an earlier form is found), the element's meaning from two published glossaries, and what it may preserve, marked reconstructed, with caveats: names move, caer is not always Roman, a mill name can outlive or predate its mill. Where Coflein or the HER confirms the feature, the label says so. Pick a theme and the curated names light up. Uncurated letter matches show faintly as 'meaning not checked', or not at all. Soft mutation gets one sourced example. Field names wait for a tithe licence.",
+      "research": "A new docs/research/place-names.md: Owen and Morgan's Dictionary of the Place-Names of Wales (paraphrased) plus a second glossary, a sourced mutation grammar, and the licence for the List of Standardised Welsh Place-names. Measure what OS Open Map Local and Open Names actually hold in the circle before promising anything. The glosses join the parked Welsh check.",
+      "build": "Extend tools/geo/build-osdata.py to write public/data/names.json, with a guard in assets.ts. A pure src/domain/names.ts matcher with mutation rules, unit-tested and sample-checked against Coflein with its error rate recorded. src/content/name-elements.ts holds elements with provenance. A layer filter in ui/labels.ts, shown near the camera only. A toggle in the keys panel.",
+      "size": "medium",
+      "score": 6,
+      "merged_from": "Names that remember: the map's farm and field names as evidence; Names in the land: a place-name lens"
+    },
+    {
+      "title": "The finds cabinet: real objects at their published findspots",
+      "lens": "game-designer",
+      "pitch": "Real finds glint at no finer precision than the source gives, as a soft circle, with nothing the PAS or HER withholds. A find glints in its own period only where a source places it there, and in the year it was found. The Tacitus milestone (RIB 2262) glints only in 1697, as a farmhouse cornerstone near Dynevor, because where it stood in Roman times is unknown. Lhuyd's trilobite glints in 1698 over a soft area round Dinefwr. The four mid-4th-century coins and the spindle whorl from below Carreg Cennen's cave mouth glint in the 4th century and in the mid-19th, with the human remains listed as only conventionally dated. Click a glint to add it to a cabinet: what it is, who found it and when, where it is now or 'lost', two sources, and a photo only under an open licence. This replaces the agreed trilobite easter egg with a system, and takes in the Gospels idea's 'Things' tray.",
+      "research": "deep-time S17, S18 and S43, conversations-by-class S20, era-iron-age S14 and S52, and Hughes 2007. Still needed: a second source for each find, Archwilio and PAS records, and image licences under ADR 0026.",
+      "build": "A Find entity in model.ts with made, found, at and precisionMetres, held in src/content/finds.ts. snapshotAt lists finds whose made range or found year matches t. Glints through world/features.ts, a ui/cabinet.ts panel, and images through the asset manifest. Integrity test: the stated precision is never finer than the source gives.",
+      "size": "large",
+      "score": 6,
+      "merged_from": "(takes in the 'Things' tray from The Book of Teilo)"
+    },
+    {
+      "title": "Peel back to the evidence: a reconstruction-to-evidence fader per model part",
+      "lens": "educator",
+      "pitch": "Refines the agreed Evidence map down to each model part. Every Part in a plan carries a sourced evidence class: standing, excavated, surveyed, conjectured or not known. A fader dissolves the model: standing masonry stays solid, excavated footings become outlines, conjectured walls go wireframe, and 'not known' parts vanish with a label. It starts at Talley and Dryslwyn, the sites that already have plans. Garn Goch's LiDAR hillshade (OGL) comes after the agreed LiDAR item, at true scale, with a note that the diorama exaggerates the land. At Dinefwr the evidence end is an outline from the report's published dimensions, labelled exactly that.",
+      "research": "building-models.md and its check (57 of 74 claims confirmed). A per-part class needs Coflein, Cadw or excavation-report support, and 'not known' is a valid class. Confirm the DataMapWales tiles cover these sites.",
+      "build": "Add a required evidence field to each Part in plan.ts, with a plan.test.ts check. One evidenceFade value in state.ts read by a single material blend in buildings.ts and structures.ts. ?debug lists the classes. Screenshots at fader 0, 0.5 and 1.",
+      "size": "large",
+      "score": 5.5,
+      "merged_from": ""
+    },
+    {
+      "title": "Walls rising: construction between documented phases",
+      "lens": "tech-showpiece",
+      "pitch": "Where a documented construction window falls between two phases, only the parts that differ between the plans rise, and retained parts stand throughout: St Teilo's c. 1600 tower during Scott's rebuild of 1848-51 (the architect itself contested), and Newton House's recasing in 1856-57. The bridge shows its timber centring from February 1846 (part lost in the flood of 22 October 1846), the keystone on 25 November 1847, and the centring struck on 27 January 1848 and carried off on 30 January. The day-level steps belong to key dates and cutscenes, not to scrubbing. Both foundation-stone dates are shown, as are both span and rise figures. Carreg Cennen stays 'built in one operation, 1287-1321', with no Welsh castle drawn underneath. The order of work is reconstructed by analogy, and an unknown sequence says so.",
+      "research": "building-models.md, era-victorian.md and event-effects.md S2, S5 and S6. Medieval and Victorian building practice from sourced descriptions.",
+      "build": "Condition gains { kind: 'rising'; progress } in plan.ts, with a pure rises(prev, next, progress) that diffs the two plans (unit-tested: progress 0 equals prev, 1 equals next, carried parts never change). Features get an optional construction TimeRange with required provenance. Partial walls and thin-instanced scaffolds in buildings.ts, and centring via archSoffit. The cutscene 'build' track reuses rises(). Each building waits for its phase plans.",
+      "size": "large",
+      "score": 5.5,
+      "merged_from": ""
+    },
+    {
+      "title": "The Tywi in spate: a river stage that changes, and the documented floods",
+      "lens": "sound-atmosphere",
+      "pitch": "The river's level becomes a value. A seasonal curve reconstructed from modern gauge records makes the river higher, browner and louder in winter, and narrower and quieter in summer. On documented flood moments the water spreads over the dolydd, drawn from an NRW flood zone (OGL, confirmed), with an \u24d8 saying the extent is today's flood zone because the sources give none. The first is 30 January 1848, ready for the bridge cutscene, then October 1846. 1798 waits for the open question about which bridge stood then, and the 1403 river stays unnamed.",
+      "research": "event-effects.md (S2, S6, S11, S12) and the flood row in open-questions.md. NRW flood map and gauge licences.",
+      "build": "A pure src/domain/river.ts riverStageAt() with content keys in src/content/river.ts. A flood-mask raster through the data pipeline with an assets.ts guard. A flood-sheet mesh in water.ts, and river-bed gain and low-pass scaling in ambience.ts.",
+      "size": "large",
+      "score": 5,
+      "merged_from": ""
+    },
+    {
+      "title": "Open the ground: excavation sections, starting as a 2D panel",
+      "lens": "family-visitor",
+      "pitch": "At a site whose excavation report we have read, a 'Dig' panel shows a section with dated layers, each cited to the page and linked to its Feature. Finds are pinned where they were found. Nothing is drawn yet, because no section has been read: the forts' layers wait for the 2005 report's sections and Dryslwyn's for Caple 2007. Garn Goch shows an empty section captioned 'no excavation is recorded', its ramparts documented by survey and its interior reconstructed from elsewhere.",
+      "research": "Read the 2005 Cambria report's sections, Caple 2007, and Archwilio's excavation events. Redraw from the text, because the section drawings are likely in copyright.",
+      "build": "src/content/excavations.ts holds Sections whose dug field is a 'no excavation recorded' union. A domain date-order check, unit-tested. A 2D panel through ui/info.ts, and a 3D cutaway later.",
+      "size": "large",
+      "score": 4.5,
+      "merged_from": ""
+    },
+    {
+      "title": "Whose land is this? Lordships, granges and estates",
+      "lens": "family-visitor",
+      "pitch": "A tint by who held power, at the coarse level the sources support. Medieval commotes, lordships and Talley's granges are soft-edged and reconstructed, with Dinefwr returning 'contested' between 1277 and 1287 with both claims. Field-level estates and tenants appear only from openly licensed 1840s tithe maps. Clicking a zone shows the holder and dues, with languages read from the existing language-by-class periods.",
+      "research": "Commote extents, Talley's grange documents (S14), and the tithe-map and HLCA licences. A large digitising effort.",
+      "build": "Holdings in src/content/holdings.ts. A pure holderAt() that can return 'contested'. One extra input to the terrain recolour, built on the same picking path as 'What was here?'.",
+      "size": "large",
+      "score": 4.5,
+      "merged_from": ""
+    }
+  ],
+  "build_first": [
+    "Honest ambience (step one only): give every ambient bed provenance and remove the medieval bells at AD 800 and 1250 in src/content/timeline.ts, which event-effects.md says no source records. It fixes something the app gets wrong on screen today, in a few lines",
+    "Contested points, shown as contested: the research is already written (open-questions.md, findings.md and the 2026-10-02 checks), and snapshotAt in src/domain/state.ts is already the pure seam a choices map belongs in. It also turns a CLAUDE.md law into something the visitor can see",
+    "When are we? guess-the-year: small, needs no new research, and is built entirely on existing seams (snapshotAt, steps.ts, ui/store.ts, ui/timeline.ts, world/flight.ts). A cheap family game that teaches reading the landscape",
+    "Light after dark: small. It widens the single lamps scalar (daylight.ts:197) into content keys the way climate.ts works, and makes the existing night scenes truer. Gas lamps wait for a second source on the first street lighting",
+    "When did we find out? discovery rail: reuses the freshly checked forts, Lhuyd and Gospels research, and generalises the namedFrom seam from ADR 0024 without needing the unbuilt cutscene engine. It also supplies the data the later discovery cutscene reads"
+  ]
+}

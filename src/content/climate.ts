@@ -6,10 +6,10 @@ import { src } from './ids.ts';
 const INTERSTADIAL: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'The Late Glacial interstadial, c.12,700–10,900 BC in calendar years: milder, with park tundra and birch in the pollen, before the Younger Dryas.',
-    cy: 'Cyfnod mwyn diwedd Oes yr Iâ, tua 12,700–10,900 CC mewn blynyddoedd calendr: mwynach, gyda thwndra agored a bedw yn y paill, cyn y Dryas Diweddar.',
+    en: 'The Late Glacial interstadial, c.12,700–10,900 BC in calendar years. At Llanilid in south Wales its early part was the warmest, with July temperatures around 20°C and juniper scrub, before cooling steps, the second about 11,150 BC, cut back the juniper and then the birch.',
+    cy: 'Cyfnod mwyn diwedd Oes yr Iâ, tua 12,700–10,900 CC mewn blynyddoedd calendr. Yn Llanilid yn ne Cymru, ei ran gynnar oedd y gynhesaf, gyda thymheredd mis Gorffennaf tua 20°C a phrysgwydd meryw, cyn i gamau oeri, yr ail tua 11,150 CC, gwtogi’r ferywen ac yna’r fedwen.',
   },
-  sources: [src('deeptime:S10'), src('deeptime:S8')],
+  sources: [src('deeptime:S47'), src('deeptime:S48'), src('deeptime:S10'), src('deeptime:S8')],
 };
 
 const YOUNGER_DRYAS: Provenance = {
@@ -24,10 +24,10 @@ const YOUNGER_DRYAS: Provenance = {
 const HOLOCENE_WARMING: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'After c.9700 BC the climate warmed steadily and woodland closed in.',
-    cy: 'Ar ôl tua 9700 CC cynhesodd yr hinsawdd yn gyson a chaeodd y coetir dros y tir.',
+    en: 'After c.9700 BC the climate warmed within decades, and woodland slowly closed in.',
+    cy: 'Ar ôl tua 9700 CC cynhesodd yr hinsawdd o fewn degawdau, a chaeodd y coetir yn araf dros y tir.',
   },
-  sources: [src('deeptime:S10')],
+  sources: [src('deeptime:S10'), src('deeptime:S8')],
 };
 
 const HOLOCENE_OPTIMUM: Provenance = {
@@ -67,8 +67,8 @@ const NEUTRAL: Provenance = {
 };
 
 export const CLIMATE: readonly ClimateKey[] = [
-  { year: bc(12500), chill: 0.5, provenance: INTERSTADIAL },
-  { year: bc(11000), chill: 0.55, provenance: INTERSTADIAL },
+  { year: bc(12500), chill: 0.25, provenance: INTERSTADIAL },
+  { year: bc(11000), chill: 0.7, provenance: INTERSTADIAL },
   { year: bc(10900), chill: 1, provenance: YOUNGER_DRYAS },
   { year: bc(9700), chill: 0.9, provenance: YOUNGER_DRYAS },
   { year: bc(9000), chill: 0.2, provenance: HOLOCENE_WARMING },

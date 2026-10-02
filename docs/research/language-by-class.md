@@ -2,8 +2,10 @@
 title: Language in Llandeilo and District, by Era and Social Class
 kind: research
 status: draft
-updated: 2026-09-26
+updated: 2026-10-02
 ---
+
+Independently checked 2026-10-02 (see [reviews/language-by-class-check-2026-10-02.md](reviews/language-by-class-check-2026-10-02.md)); corrections applied.
 
 ## Summary
 
@@ -20,8 +22,9 @@ remained majority Welsh-speaking right through the 19th century and into the 20t
 gentry and professional/official class anglicised much earlier, roughly from the Acts of
 Union (1536/1543) onward, accelerating in the 18th–19th centuries. Llandeilo's own claim to
 linguistic fame is real and specific: a marginal note in the Lichfield/Llandeilo Gospels,
-the "Surexit memorandum," is among the very earliest surviving connected text in the Welsh
-language, written by (or for) the church at Llandeilo itself.
+the "Surexit memorandum," is "the earliest surviving document in the Welsh language" [S6],
+written by (or for) the church at Llandeilo itself; the Cadfan Stone at Tywyn may be older as a text
+entirely in Old Welsh [S5] (*Corrected 2026-10-02 (independent check)*).
 
 What is **not** known, and should be shown as unknown in the game: what language(s), if
 any single one, were spoken here before Celtic speech arrived or became dominant; exactly
@@ -31,27 +34,28 @@ central Europe" view vs. the "Celtic from the West" Atlantic Bronze Age hypothes
 that split should be shown as a live debate, not resolved.
 
 Census data (cross-checked across Carmarthenshire County Council and ONS sources) shows
-Llandeilo's Welsh-speaking population falling from just over half (55.1% in 2001, 50.3% in
-2011, ward-level) in step with, but somewhat behind, the county's steeper 2011→2021 decline
-(43.9% → 39.9%, the largest of any Welsh county). A specific 2021 ward-level figure for
-Llandeilo itself was not located in this research pass (see Open Questions).
+the Llandeilo **ward**'s Welsh-speaking population falling from just over half (55.1% in 2001,
+50.3% in 2011) to about 45% in 2021 (1,307 of 2,895 in the two Llandeilo LSOAs, which cover the
+ward's area exactly [S39]), alongside the county's steeper 2011→2021 decline (43.9% → 39.9%, the
+largest of any Welsh county). The Llandeilo **community** (the town) was 53.5% in 2001 and 48.7% in
+2011 [S23]. (*Corrected 2026-10-02 (independent check)*: the ward figures had been read as the town's, and the 2021 figure was missing.)
 
 ## Era-by-era table
 
 | Era | Who spoke what, by class | Written languages | Confidence | Sources |
 |---|---|---|---|---|
 | Pre-Celtic (before c. 1st millennium BC) | Unknown language(s); no direct evidence for this area or for Britain generally | None survives | **Unknown — genuinely** | [S1] |
-| Bronze Age / earliest Celtic (debated, c. 2000–750 BC per "Celtic from the West"; or Iron Age per traditional view) | Unknown whether Celtic speech was present this early in Wales specifically; debated among scholars | None | Low / contested | [S2] |
-| Iron Age (from c. 8th–6th c. BC to Roman conquest, c. AD 43–75 in this area) | Common Brittonic (a Celtic language), all classes; the local tribe was the **Demetae** | None locally; a few inscriptions/coin legends elsewhere in Celtic Britain | Cross-checked (general Brittonic presence), but no direct local-area text | [S1][S32][S30] |
+| Bronze Age / earliest Celtic (debated: Bronze Age per "Celtic from the West", S2 noting a Beaker spread ~2550 BC; or Iron Age per traditional view; *Corrected 2026-10-02 (independent check)*: the "c. 2000–750 BC" dates are not in S2) | Unknown whether Celtic speech was present this early in Wales specifically; debated among scholars | None | Low / contested | [S2] |
+| Iron Age (from c. 8th–6th c. BC to Roman conquest, c. AD 43–75 in this area) | Common Brittonic (a Celtic language; S32 dates it from "c. 6th century BC"; S1: "by 500 BC most people ... were speaking Common Brythonic"), all classes; the local tribe was the **Demetae** | None locally; a few inscriptions/coin legends elsewhere in Celtic Britain | Cross-checked (general Brittonic presence), but no direct local-area text | [S1][S32][S30] |
 | Roman period (c. AD 75–410) | Brittonic for the general population/farmers; Latin among the military garrison, administrators and Romanised townsfolk of Moridunum (Carmarthen); increasing Latin loanwords entering Brittonic, especially church/urban vocabulary | Latin (official inscriptions, administration); Brittonic unwritten | Cross-checked for the general pattern; no local inscriptions found in this research | [S29][S30][S3][S32] |
-| Brittonic → Primitive Welsh (c. mid-6th c.) | Everyone; Welsh becomes distinct from Brittonic through sound changes (notably apocope) | Latin remains the only written language | Cross-checked | [S5][S20] |
-| Old Welsh (c. 800–1150) | Everyone speaks Old Welsh; Latin is the church/scholarly written language | Latin mainly; earliest connected Welsh text appears as marginalia (the Llandeilo/Surexit memorandum, see below) | Cross-checked | [S5][S6][S4] |
-| Middle Welsh (c. 1100–1400) | Welsh spoken by all classes; law, poetry (Gogynfeirdd court poets) composed and often written in Welsh; church/scholarly Latin continues; after 1093 in this region, Anglo-Norman French arrives with conquerors | Welsh (law texts, poetry manuscripts), Latin (church, some law copies), Anglo-Norman French (incomer nobility, administration) | Cross-checked | [S8][S9][S10][S11][S12] |
-| Norman/Edwardian conquest and after (1093 Rhys ap Tewdwr's death; full English royal control of this area from 1282–83) | Welsh remains the language of the Welsh population and lower clergy; incoming Marcher lords/officials use Anglo-Norman French, shifting to English by the 14th–15th c.; Latin for church/legal record | Latin, French/English (administration, law), Welsh (poetry, native law, daily speech) | Cross-checked | [S12][S13] |
-| Early Modern Welsh (c. 1500–1588 and after) | Ordinary people mostly Welsh monoglot; gentry beginning to anglicise after the Acts of Union; 1588 Bible gives Welsh a standard written/liturgical form | Welsh (from 1588, the Bible and a growing literature), English (law courts, gentry), Latin (declining) | Cross-checked | [S14][S16][S20] |
-| 18th–19th century | Farmers and labourers overwhelmingly Welsh-speaking (Carmarthenshire 84.9% Welsh-speaking in 1911, likely higher a century earlier); gentry, officialdom, and increasingly the professions English-speaking; religion (chapel) reinforced Welsh; schooling after 1847 pushed English, sometimes coercively (the "Welsh Not," debated extent) | English (official/legal/administrative, gentry correspondence), Welsh (chapel, poetry, everyday life, growing print culture) | Cross-checked | [S17][S18][S19][S26][S20] |
-| 20th century decline and revival | Steady shift to English through the century (Wales-wide: 49.9% Welsh speakers in 1891 down to 18.7% by 1981); Carmarthenshire remained majority Welsh-speaking longer than most counties, becoming minority-Welsh only in the 2011 census; from 1962 (Tynged yr Iaith, Cymdeithas yr Iaith) a political revival produced Welsh-medium education, broadcasting (S4C, 1982) and legal status (1993, 2011) | English dominant in public/official life; Welsh gains official/legal status and institutional support from the 1960s onward | Cross-checked | [S20][S21][S22][S26][S23][S24] |
-| 21st century (2001–2021) | Llandeilo ward: 55.1% Welsh speakers (2001) → 50.3% (2011); Carmarthenshire county: c.50% (2001) → 43.9% (2011) → 39.9% (2021), the steepest county-level decline in Wales | Bilingual Welsh/English officially; English dominant in most day-to-day public use | Cross-checked (county and 2011 ward level); 2021 ward-level figure for Llandeilo not confirmed | [S23][S24][S25] |
+| Brittonic → Primitive Welsh (c. 550 to c. 800) | Everyone; Welsh becomes distinct from Brittonic through sound changes (notably apocope) | Latin remains the main written language; the Cadfan Stone at Tywyn, "the oldest surviving text entirely in Old Welsh", is dated to the 7th century, or the 9th by more recent scholarship [S5] (*Corrected 2026-10-02 (independent check)*: was "the only written language") | Cross-checked | [S5][S20] |
+| Old Welsh (c. 800–1150) | Everyone speaks Old Welsh; Latin is the church/scholarly written language | Latin mainly; the earliest surviving document in Welsh appears as marginalia (the Llandeilo/Surexit memorandum, see below) | Cross-checked | [S5][S6][S4] |
+| Middle Welsh (12th–14th centuries; S5 ends Old Welsh in the early 12th century) | Welsh spoken by all classes; law, poetry (Gogynfeirdd court poets, c. 1100–c. 1300) composed and often written in Welsh; church/scholarly Latin continues; after 1093 in this region, Anglo-Norman French arrives with conquerors | Welsh (law texts, poetry manuscripts), Latin (church, some law copies), Anglo-Norman French (incomer nobility, administration) | Cross-checked | [S8][S9][S10][S11][S12] |
+| Norman/Edwardian conquest and after (1093 Rhys ap Tewdwr's death; full English royal control of this area from 1282–83) | Welsh remains the language of the Welsh population and lower clergy; incoming Marcher lords/officials use Anglo-Norman French, later shifting to English (S12 gives no date, "citation needed"; S18: by 1536 "English had already replaced French as the language of administration"); Latin for church/legal record (not discussed in S12 or S13) | Latin, French/English (administration, law), Welsh (poetry, native law, daily speech) | Partly (*Corrected 2026-10-02 (independent check)*: the 14th–15th century date and the record-keeping languages are not in S12 or S13) | [S12][S13][S18] |
+| Early Modern Welsh (from the early 15th century per S20; *Corrected 2026-10-02 (independent check)*: was c. 1500) | Ordinary people mostly Welsh monoglot; gentry beginning to anglicise after the Acts of Union; 1588 Bible gives Welsh a standard written/liturgical form | Welsh (from 1588, the Bible and a growing literature), English (law courts, gentry), Latin (declining) | Cross-checked | [S14][S16][S20] |
+| 18th–19th century | Farmers and labourers overwhelmingly Welsh-speaking (Carmarthenshire 84.9% Welsh-speaking in 1911 and 90.3% in 1901 [S40][S41], likely higher a century earlier); gentry, officialdom, and increasingly the professions English-speaking; religion (chapel) reinforced Welsh; day schools taught in English, and some punished Welsh with the "Welsh Not", most common in the early to mid 19th century and never government policy [S18] | English (official/legal/administrative, gentry correspondence), Welsh (chapel, poetry, everyday life, growing print culture) | Cross-checked | [S17][S18][S19][S26][S20] |
+| 20th century decline and revival | Steady shift to English through the century (Wales-wide: 54.0% Welsh speakers in 1891, 49.9% in 1901 [S40], down to 18.7% by 1981; *Corrected 2026-10-02 (independent check)*: 49.9% was given for 1891); Carmarthenshire remained majority Welsh-speaking longer than most counties, becoming minority-Welsh only in the 2011 census; from 1962 (Tynged yr Iaith, Cymdeithas yr Iaith) a political revival produced Welsh-medium education, broadcasting (S4C, 1982), the 1993 Act's principle of equal treatment and official status in 2011 | English dominant in public/official life; Welsh gains official/legal status and institutional support from the 1960s onward | Cross-checked | [S20][S21][S22][S26][S23][S24] |
+| 21st century (2001–2021) | Llandeilo ward: 55.1% Welsh speakers (2001) → 50.3% (2011) → about 45% (2021, the same area as two LSOAs [S39]); Llandeilo community 53.5% → 48.7% (2001–2011); Carmarthenshire county: c.50% (2001) → 43.9% (2011) → 39.9% (2021), the steepest county-level decline in Wales | Bilingual Welsh/English officially; English dominant in most day-to-day public use | Cross-checked (county and 2011 ward level); 2021 figure single-source | [S23][S24][S25][S39] |
 
 ## Detailed notes per era
 
@@ -64,9 +68,8 @@ cross-section of sources: if toponymic evidence recorded by the Greek explorer P
 universal, in Britain by that time [S1]. Some river names and landscape terms across
 Britain and western Europe do not fit known Celtic patterns, which has led some linguists
 to posit an older, otherwise-unattested substrate language or languages — but this remains
-speculative. The most widely discussed fringe theory, the "Vasconic substratum" hypothesis
-(linking a pre-Indo-European substrate to Basque), is treated as controversial and rejected
-by most specialists [S1]. **Nothing specific can be said about pre-Celtic speech in the
+speculative. A Basque-like pre-Indo-European substrate (the "Vasconic" idea) is one hypothesis among others
+(*Pictish language*, part of S1) (*Corrected 2026-10-02 (independent check)*: "rejected by most specialists" is not in S1's pages as read). **Nothing specific can be said about pre-Celtic speech in the
 Llandeilo/Tywi valley area itself** — this should be shown in the game as an honest "we do
 not know," not filled in with invented reconstruction.
 
@@ -79,11 +82,11 @@ Two broad pictures compete in current scholarship:
   as a intrusive language relatively late.
 - **"Celtic from the West"** (Barry Cunliffe and John T. Koch, from Cunliffe's *Facing the
   Ocean* (2001) and the *Celtic from the West* volumes, 2010–2016): proposes Celtic
-  languages instead developed much earlier, in the Atlantic Bronze Age (c. 2000–750 BC),
+  languages instead developed much earlier, in the Atlantic Bronze Age,
   spreading along Atlantic-facing trade networks from Iberia and outward, with no need for
-  a later mass migration into Britain. Koch has argued the fragmentary Tartessian
-  inscriptions of southwest Iberia are actually Celtic, pushing the language family's
-  origin further back and further west. This proposal is explicitly **controversial** and
+  a later mass migration into Britain. (*Corrected 2026-10-02 (independent check)*: the "c. 2000–750 BC" dates and the Tartessian
+  argument are not in S2 as read; S2 gives the volumes as 2012–2016 and a Beaker spread ~2550 BC.)
+  This proposal is explicitly **controversial** and
   contested by other Celticists [S2].
 
 For the game: this should be shown as a genuine, unresolved scholarly debate rather than
@@ -101,9 +104,10 @@ an Iron Age hillfort site (Merlin's Hill), lasting as a garrison until about AD 
 which the adjoining civilian *vicus* grew into a town [S29][S30]. Roman military presence
 also reached the immediate Llandeilo area: two Roman forts have been identified on the
 Dinefwr estate grounds, dated to around AD 74 [S27]. Nearby, **Garn Goch** (Y Gaer Fawr), a
-very large Iron Age (or possibly Late Bronze Age) hillfort of 16.6 hectares overlooking the
+very large hillfort, "Carmarthenshire's largest Iron Age hillfort" at 15 ha, overlooking the
 Tywi valley, shows the pre-Roman scale of local settlement and defensive organisation, with
-evidence of use going back to the Neolithic [S31].
+earlier occupation "possibly into the Neolithic" and Bronze Age finds [S31] (*Corrected 2026-10-02 (independent check)*: S31 gives 15 ha, not
+16.6, which is Coflein's figure with the annexe).
 
 The population of the Roman-period countryside overwhelmingly spoke Brittonic; Latin was
 the language of the army, of formal administration, and of Romanised town life. No local
@@ -140,16 +144,14 @@ French," making it linguistically closer to continental Vulgar Latin/early Roman
 often assumed, while being somewhat archaic in a few respects (retained /w/, no
 palatalisation) [S3].
 
-Also notable: the Welsh word for the planet Venus, **Gwener**, derives not from the Latin
-nominative *Venus* but from the oblique-case stem *Vener-* (as in genitive *Veneris*),
-suggesting British Latin/Brittonic borrowing took place after the classical case system had
-begun breaking down in spoken usage [S32].
+(*Corrected 2026-10-02 (independent check)*: a claim that the Welsh *Gwener* (Venus) comes from the oblique stem *Vener-* was cited to S32,
+which does not contain it; unsourced until a source is found.)
 
 ### The transition Brittonic → Primitive/Old Welsh (c. 5th–6th century)
 
 Welsh is conventionally said to become distinct from Common Brittonic around AD 550, a
-period called **Primitive** or **Archaic Welsh**, lasting to around the mid-8th century,
-after which the **Old Welsh** period runs to roughly 1150 [S5][S20]. The most significant
+period called **Primitive** or **Archaic Welsh**, lasting to about 800 (Jackson), after which the
+**Old Welsh** period runs to the early 12th century [S5][S20] (*Corrected 2026-10-02 (independent check)*: was "the mid-8th century"). The most significant
 change driving this split is **apocope**: the loss of final unstressed syllables, which
 collapsed Brittonic's more elaborate word-endings and pushed the language toward the
 shape recognisable as Welsh. By the 6th century, Common Brittonic was "swiftly diverging"
@@ -180,18 +182,18 @@ metalwork — is gone [S6].
 **Connection to Llandeilo**: the book was at Llandeilo Fawr for roughly two hundred years,
 from the early 9th century. According to the manuscript's own marginalia, a Welshman named
 **Gelli** bought the book "for the price of his best horse" and gave it to the church of
-St Teilo at Llandeilo. It later left Llandeilo under unknown circumstances and had entered
+St Teilo at Llandeilo (S6 says "for the price of a good horse"; *Lichfield Gospels* "his best horse"). It later left Llandeilo under unknown circumstances and had entered
 Lichfield Cathedral's possession by the late 10th century [S6][S4].
 
 **The memorandum itself**: on the final page of Matthew's Gospel, a 9th-century Llandeilo
 scribe recorded a legal settlement in a mix of Latin and Old Welsh — opening with the Latin
 word *Surexit* ("he arose"), continuing mostly in Welsh with Latin legal terms retained for
 technical vocabulary. It records a land dispute: **Tudfwlch**, son-in-law of Tudri, claimed
-the land of **Telych**, which was held by **Elgu**, son of Gelli, and Elgu's kin. After
-prolonged dispute, the case was settled with Elgu paying compensation (a horse and cattle)
-to prevent further feud, with witnesses ("good men") present [S4][S5]. Full text as given
-by a cross-check of two sources (Exploring Celtic Civilizations project summary and the
-Wikipedia Old Welsh article, which broadly agree):
+the land of **Telych**, which was held by **Elgu son of Gelli and the tribe (or people) of Idwared**
+(S5; S4: "the people of Idwared"; *Corrected 2026-10-02 (independent check)*: was "Elgu's kin"). Tudfwlch lost the case ("they disjudge
+Tudri's son-in-law by law"), and Elgu then gave compensation (a horse and cattle) to prevent
+further feud, with witnesses ("good men") present [S4][S5]. Full text as given by S5, the Wikipedia Old Welsh article (*Corrected 2026-10-02 (independent check)*: S4 gives a translation only, not the
+transcription):
 
 > *surexit tutbulc filius liuit hagener tutri dierchi tir telih haioid ilau elcu filius
 > gelhig haluidt iuguret amgucant pel amtanndi ho diued diprotant gener tutri o guir
@@ -199,17 +201,20 @@ Wikipedia Old Welsh article, which broadly agree):
 > nouidligi namin ir ni be cas igridu dimedichat guetig hit did braut grefiat guetig nis
 > minn tutbulc hai cenetl in ois oisau*
 
-English translation (paraphrased/attested by the same cross-checked sources): "Tudfwlch
+English translation (paraphrased from S5 and S4, which broadly agree): "Tudfwlch
 son of Llywyd, son-in-law of Tudri, arose to claim the land of Telych, which was in the
 hand of Elgu son of Gelli... after dispute, they came to agreement: the good men said 'let
 there be peace'; Elgu then gave a horse, three cows, three newly-calved cows, so that there
 should be no enmity between them from that settlement until Judgement Day; Tudfwlch and his
 kindred will not want it ever again, for ever and ever." [S4][S5]
 
-Scholarly dating places the writing of the marginalia itself in the early-to-mid 9th
-century, though it may be a copy of a text originally drafted in the 6th or 7th century
-[S4]. Either way, this is described across sources as **the earliest surviving connected
-document in the Welsh language** [S6][S4] — a genuine, locally-grounded, high-value fact for
+Dating differs between sources: S6 has the note written "in the mid 9th century"; S5 says it is
+"thought to have been written in the early 8th century but may be a copy of a text from the 6th or
+7th centuries"; S4 says "dates between the 6th and 9th centuries have been proposed" (*Corrected 2026-10-02 (independent check)*: the note
+gave S4 for an early-to-mid 9th-century date). S6 calls it **"the earliest surviving document in the
+Welsh language"**; S4 says only "some of the earliest surviving writing in Welsh"; and S5 gives the
+Cadfan Stone at Tywyn as "the oldest surviving text entirely in Old Welsh", 7th or 9th century — so
+"earliest document" is a claim with a rival [S6][S5][S4] — a genuine, locally-grounded, high-value fact for
 the game: this exact land dispute, over land called Telych, was recorded, in Welsh, by
 Llandeilo's own church community.
 
@@ -217,11 +222,13 @@ Llandeilo's own church community.
 
 By the Middle Welsh period, Welsh had become a full literary language, not just a spoken
 one glossed onto Latin. The **Gogynfeirdd** ("fairly early poets," also called Poets of the
-Princes) were court poets active c. 1100–1350, composing elaborate praise poetry, elegy, and
+Princes) were court poets active c. 1100–c. 1300 (S8; *Corrected 2026-10-02 (independent check)*: was 1100–1350), composing elaborate praise poetry, elegy, and
 religious verse for Welsh princes and nobility, in Middle Welsh [S8][S9]. Meilyr Brydydd
 (fl. 1100–1137) is the earliest whose work survives. Key manuscript witnesses include the
-Black Book of Carmarthen (c. 1250) — the single earliest surviving manuscript entirely in
-Welsh, and produced in this immediate region — the Hendregadredd Manuscript (c. 1282–1330),
+Black Book of Carmarthen (mid-13th century) — the "earliest surviving manuscript written solely in
+Welsh", named from its association with Carmarthen Priory, though where it was written is not
+stated (*Corrected 2026-10-02 (independent check)*: the note said it was produced in this region) — the Hendregadredd Manuscript
+(between 1282 and 1350; *Corrected 2026-10-02 (independent check)*: was c. 1282–1330),
 and the later Red Book of Hergest (c. 1400) [S9].
 
 A directly relevant, cross-checked example: the poet **Peryf ap Cedifor** composed an elegy
@@ -246,16 +253,17 @@ Blegywryd Redaction is specifically associated with Deheubarth** (south Wales, t
 region's medieval kingdom), and manuscripts from that redaction claim at least equality of
 status for the king of **Dinefwr** — Llandeilo's own castle and the historic seat of
 Deheubarth's rulers — against the rival claim of primacy for the king of Aberffraw
-(Gwynedd) made in Iorwerth Redaction manuscripts [S11]. This is a strong, locally-specific,
-well-sourced fact: Dinefwr was not just a fortress but a named seat of legal-political
+(Gwynedd) made in Iorwerth Redaction manuscripts [S11]. (*Corrected 2026-10-02 (independent check)*: the Dinefwr sentence is marked
+"citation needed" in S11 and has no second source, so it is single-source.) If confirmed, it is a
+locally-specific fact: Dinefwr was not just a fortress but a named seat of legal-political
 authority in the Welsh law tradition itself.
 
 A documented example of the substance of the law (English translation, from a cross-checked
 source, original Welsh not independently verified in this pass): on inheritance, "the law of
 the church says that no-one is entitled to patrimony save the father's eldest son by his
 wedded wife. The law of Hywel adjudges it to the youngest son as to the eldest..." [S11] —
-illustrating a genuine point of difference between Welsh native law and Latin/church law
-that would have been talked about by both.
+from the Iorwerth text, and about illegitimate sons ("This provision differed the most from canon
+law"), not a youngest-versus-eldest rule (*Corrected 2026-10-02 (independent check)*).
 
 Latin remained the language of the church and of some formal/scholarly writing throughout
 this period; it was not a spoken vernacular for ordinary people, but educated clergy would
@@ -286,9 +294,8 @@ The final loss of Welsh political independence in this region came with **Edward
 conquest**: following the death of Llywelyn ap Gruffudd (1282) and the defeat of his
 brother Dafydd's rebellion (1283), Deheubarth's remaining lords became vassals of the
 English crown, and the region was reorganised by the **Statute of Rhuddlan** into the
-historic counties of Cardiganshire, Carmarthenshire and Pembrokeshire [S13]. Dinefwr Castle
-itself was garrisoned and repaired by the English crown in 1282–83 — ditches cleared, a
-tower, bridge and hall repaired, a new gate installed [S13]. From this point, English
+historic counties of Cardiganshire, Carmarthenshire and Pembrokeshire [S13]. (*Corrected 2026-10-02 (independent check)*: a claim that Dinefwr was garrisoned and repaired by the crown in 1282–83, with ditches, tower,
+bridge, hall and gate, was cited to S13, whose current text no longer has it; unsourced.) From this point, English
 administrators and law, and the Marcher/royal officialdom, sat linguistically on top of a
 continuously Welsh-speaking general population — a layering that, in modified form, would
 persist for centuries.
@@ -296,17 +303,21 @@ persist for centuries.
 ### Early Modern Welsh and the 1588 Bible (William Morgan)
 
 **William Morgan** (1545–1604), a native of Penmachno (north Wales) and graduate of St
-John's College, Cambridge, undertook the full Bible translation into Welsh from around 1578,
+John's College, Cambridge, undertook the full Bible translation into Welsh "in about 1578" (S14;
+S15 has him beginning the Old Testament "in the early 1580s"; *Corrected 2026-10-02 (independent check)*: recorded as a difference),
 building on William Salesbury's earlier 1567 New Testament and Psalms, but translating the
-Old Testament afresh from Hebrew and Greek [S14]. **Y Beibl Cyssegr-lan** was published in
-London in 1588 by the Queen's Printer's deputies [S14][S15].
+Old Testament afresh from Hebrew and Greek [S14]. **Y Beibl Cyssegr-lan** was printed in 1588 "by the deputies of Christopher Barker, the Queen's
+Printer" [S14] (*Corrected 2026-10-02 (independent check)*: "London" is not stated in S14 or S15). The 1620 revision became the standard
+text [S15].
 
 The 1588 Bible's significance for the language is treated as one of the pivotal facts of
 Welsh linguistic history: it gave Welsh a single, high-prestige, standardised written form —
-described by one source as occupying "a similar place in the Welsh language to that of the
-venerated King James Version in English" [S15] — and by conferring liturgical status on
-Welsh, it secured the language's continued use for worship and everyday communication for
-centuries afterward, even as gentry and officialdom anglicised [S15]. This document did not
+"Like its English counterpart, the King James Version, this proved to have a strong stabilizing
+effect" [S20]; S14 calls it "the foundation stone on which modern Welsh literature has been based"
+— and by conferring liturgical status on Welsh, it secured the language's continued use in
+worship for centuries afterward, even as gentry and officialdom anglicised [S14][S15]. (*Corrected 2026-10-02 (independent check)*: the
+quoted "similar place ... King James Version" wording is not in S15, and "everyday communication" is
+not in S14 or S15.) This document did not
 manage to independently source a quoted passage of the 1588 text itself in this research
 pass (an Open Question — worth fetching, e.g., the Lord's Prayer or a well-known verse, for
 use as an attested Early Modern Welsh sample phrase).
@@ -315,7 +326,8 @@ use as an attested Early Modern Welsh sample phrase).
 
 The **Laws in Wales Acts 1535 and 1542** (commonly called the Acts of Union) integrated
 Wales's legal, political and administrative systems with England's. Of the whole Act, "only
-150 words... were concerned with the use of the Welsh language" [S16]: Section 20 banned
+150 words... were concerned with the use of the Welsh language" [S20] (*Corrected 2026-10-02 (independent check)*: this and Section 20 are
+in S20, not S16): Section 20 banned
 Welsh in court proceedings and barred Welsh monoglots from holding public office; officials
 and MPs representing Wales had to speak English, and law courts had to operate in English
 [S16][S20]. This provision was not repealed until the **Welsh Language Act 1993** [S20].
@@ -334,9 +346,9 @@ overwhelmingly Welsh-speaking tenantry.
 
 By the 18th and early 19th centuries, the social pattern was stark and well-documented:
 ordinary farmers, tenant-labourers and tradespeople across rural Carmarthenshire were
-overwhelmingly Welsh-speaking (the 1911 census — the earliest solid figure located in this
-research pass — puts Carmarthenshire at **84.9% Welsh-speaking**, with 20.5% Welsh
-monoglot, against 43.5% for Wales as a whole [S26]), while the gentry, magistrates, larger
+overwhelmingly Welsh-speaking (the 1911 census Welsh-language report gives Carmarthenshire 849 per 1,000 speaking Welsh, **84.9%**
+(Table VII), and 205 per 1,000 Welsh only, 20.5% (Table V), against 43.5% for Wales as a whole
+[S41][S26]; in 1901 it was 90.3% [S40]; *Corrected 2026-10-02 (independent check)*: now from the primary reports), while the gentry, magistrates, larger
 landowners, and (increasingly) the professional and clerical/legal class conducted formal
 and written business in English. Welsh Nonconformist chapel life (not researched in depth
 in this pass) reinforced Welsh as the language of religion and community for the labouring
@@ -358,8 +370,8 @@ inference rather than a directly quoted claim (flagged for care in the game's �
 **The 1847 "Blue Books"** (*Reports of the Commissioners of Inquiry into the State of
 Education in Wales*), commissioned after unrest including the Rebecca Riots and Chartist
 activity, were compiled by three commissioners — R. R. W. Lingen, Jellynger C. Symons, and
-H. R. Vaughan Johnson — all non-Welsh-speaking Anglicans, reporting via local, mostly
-Anglican informants [S17]. The report made sweeping, hostile judgements about the Welsh
+H. R. Vaughan Johnson — all non-Welsh-speaking Anglicans [S17] (*Corrected 2026-10-02 (independent check)*: "mostly Anglican informants" is
+not in S17; other sources mention Welsh-speaking assistants). The report made sweeping, hostile judgements about the Welsh
 language, Nonconformity, and the morals of the Welsh people [S17]. It became known in Wales
 as **"Brad y Llyfrau Gleision"** ("Treachery of the Blue Books"). Historian Kenneth O.
 Morgan is quoted comparing its significance to "the Glencoe and the Amritsar of Welsh
@@ -369,8 +381,10 @@ psychological and cultural "complex" said to persist into the modern era [S17].
 
 **The "Welsh Not"** — a wooden token passed between children caught speaking Welsh in
 school, with the child holding it at the end of a set period punished, often physically —
-is well attested as a practice in Welsh schools primarily in the early-to-mid 19th century,
-with evidence from around 1790 onward and declining after 1850 [S18]. However, this
+is well attested as a practice in Welsh schools, "most common in the early- to mid-19th century",
+with first evidence "around the 1790s", becoming "less common in the late 19th century", with
+evidence into the early 20th; "The Welsh Not was not a government policy" [S18] (*Corrected 2026-10-02 (independent check)*: "declining after
+1850" is not in S18). However, this
 document flags an important, source-based nuance: **historians disagree on how widespread
 and how causally significant it actually was**. Martin Johnes's 2024 study — described as
 the first comprehensive academic treatment — argues there is "little evidence to suggest
@@ -383,19 +397,23 @@ anglicising policy) is scholarly-contested — not settled fact.
 ### 20th century decline and revival
 
 Wales-wide census figures for Welsh speakers (age 3+), cross-checked via Wikipedia's
-history article against cited census reports, show a long decline: 49.9% (1891) → below
-50% by 1901 → 43.5% (1911) → 38.7% (1921) → 36.8% (1931) → 26% (1961) → 18.7% (1981) →
+history article against cited census reports, show a long decline: 54.0% (1891) → 49.9% (1901, 15.1% Welsh only, 34.8% both) [S40] → 43.5% (1911) → 38.7% (1921) → 36.8% (1931) → 26% (1961) → 18.7% (1981) →
 18.7% (1991, stabilising) → 20.8% (2001, the first rise in over a century) → 19% (2011) →
-17.8% (2021, 538,300 speakers) [S20]. Carmarthenshire tracked this decline from a much
-higher base and with a lag, remaining majority Welsh-speaking longer than any other
-historic county through most of the 20th century, with 84.9% in 1911, 82.3% in 1931, and
+17.8% (2021, 538,300 speakers) [S20]. (*Corrected 2026-10-02 (independent check)*: the 1891 and 1901 figures come from the 1901 Census
+General Report, which says the share "declined from 54.0 per cent. in 1891 to 49.9 per cent. in
+1901"; S20 puts the 1901 figures against 1891, and contradicts itself on whether 1901 or 1911 first
+fell below half.) Carmarthenshire tracked this decline from a much higher base and with a lag: it
+was "the most populous of the five historic counties of Wales to remain majority Welsh-speaking
+throughout the 20th century" [S26] (*Corrected 2026-10-02 (independent check)*: the note said "longer than any other historic county"),
+with 90.3% in 1901 [S40], 84.9% in 1911 [S41], 82.3% in 1931, and
 75.2% in 1951, before falling to minority status only in the 2011 census (43.9%) [S26].
 
 The pivotal moment for organised revival was **Saunders Lewis's** BBC Wales radio lecture
 **"Tynged yr Iaith"** ("The Fate of the Language"), broadcast 13 February 1962, which
 predicted Welsh's extinction absent direct action and directly catalysed the founding of
 **Cymdeithas yr Iaith Gymraeg** (the Welsh Language Society) later that year (formally
-established 4 August 1962 at Pontarddulais, adopting a constitution 18 May 1963) [S21].
+established 4 August 1962 at Pontarddulais per S21, at Pontardawe per S20 — **contradiction**, *Corrected 2026-10-02 (independent check)*;
+adopting a constitution 18 May 1963) [S21][S20].
 Sustained campaigning contributed to a sequence of legal milestones: the **Welsh Language
 Act 1967** (permitting Welsh in Welsh courts); the **Welsh Language Act 1993** (royal assent
 21 October 1993 — establishing "a principle of equality of Welsh and English in public
@@ -440,10 +458,11 @@ named individual rather than a generic dialect description).
 
 | Year | Area | Welsh speakers | Source |
 |---|---|---|---|
-| 1891 | Wales | 49.9% (15.1% monoglot Welsh, 34.8% bilingual) | [S20] |
-| 1901 | Wales | fell below 50% (exact figure not retrieved in this pass) | [S20] |
+| 1891 | Wales | 54.0% (aged 2 and over) | [S40] |
+| 1901 | Wales | 49.9% (15.1% Welsh only, 34.8% both) (*Corrected 2026-10-02 (independent check)*: S20 gives these as 1891) | [S40] |
+| 1901 | Carmarthenshire | 90.3% | [S40] |
 | 1911 | Wales | 43.5% (8.5% monoglot, 35% bilingual), c.2.5m population | [S20] |
-| 1911 | Carmarthenshire | 84.9% (20.5% monoglot Welsh) | [S26] |
+| 1911 | Carmarthenshire | 84.9% (20.5% monoglot Welsh; Tables VII and V) | [S41][S26] |
 | 1921 | Wales | 38.7% (6.6% monoglot) | [S20] |
 | 1931 | Wales | 36.8% | [S20] |
 | 1931 | Carmarthenshire | 82.3% | [S26] |
@@ -454,24 +473,25 @@ named individual rather than a generic dialect description).
 | 2001 | Wales | 20.8% (first rise in a century) | [S20] |
 | 2001 | Carmarthenshire | c. 50% (county); Llandeilo ward **55.1%** | [S23] |
 | 2001 | Llandeilo ward | 55.1% | [S23] |
+| 1991 / 2001 | Llandeilo community (the town) | 57.3% / 53.5% | [S23] |
 | 2011 | Wales | 19% | [S20] |
 | 2011 | Carmarthenshire | 43.9% (minority-Welsh for the first time) | [S26][S24] |
 | 2011 | Llandeilo ward | **50.3%** of 2,889 residents (aged 3+); 1,454 Welsh speakers | [S23] |
+| 2011 | Llandeilo community (the town) | 48.7% (851 speakers) | [S23] |
 | 2021 | Wales | 17.8% (538,300 speakers) | [S20] |
 | 2021 | Carmarthenshire | 39.9% (72,838 speakers); largest percentage-point decline of any Welsh county | [S24][S25] |
-| 2021 | Llandeilo ward/community | **not located in this research pass** | — (Open Question) |
+| 2021 | Llandeilo ward area (LSOAs Llandeilo 1 and 2) | about 45%: 1,307 of 2,895 (705 of 1,484, 48%; 602 of 1,411, 43%); their 2011 totals equal the ward's exactly (*Corrected 2026-10-02 (independent check)*: was not located) | [S39] |
 
 Note on ward-level 2001/2011 figures: these come from a Carmarthenshire County Council
 report (Dylan Phillips, *2011 Census: The Welsh Language in Carmarthenshire*, 15 January
-2014), which breaks the county down by all 58 electoral wards. It records that Llandeilo
+2014), which breaks the county down by all 58 electoral wards. It records that Llandeilo **ward**
 had 2,889 residents aged 3+ in the 2011 census, of whom 1,454 (50.3%) spoke Welsh, down
 from 55.1% in 2001 — a fall of 4.8 percentage points, smaller than the county-wide fall,
 and smaller than the collapse seen in the Amman Valley (Ammanford ward fell from 62.1% to
 49.9%, a 12.2-point drop) over the same decade [S23]. The same report notes Llandeilo as
 one of the county's towns where, despite a minority-Welsh-speaking percentage trend, actual
-numbers of Welsh speakers were significant in absolute terms (1,454 people) because Welsh
-speakers had been migrating toward towns for employment, education and facilities since the
-1980s [S23].
+numbers of Welsh speakers were significant in absolute terms (1,454 people) because towns "continued to be important centres for attracting Welsh speakers" [S23] (*Corrected 2026-10-02 (independent check)*: "since
+the 1980s" was not found).
 
 ## Sample phrases per era
 
@@ -576,9 +596,9 @@ this research pass.)
 - *"Tynged yr Iaith"* **[Attested title]** — Saunders Lewis's 1962 lecture title → English
   'The Fate of the Language' [S21]
 - Modern greeting **[Modern stand-in, but linguistically live/current]**: *"S'mae, shwmae?"*
-  → English 'Hi, how are you?' — the southern/Carmarthenshire-favoured greeting form
-  ("Shwmae" is strongly associated with south Wales and was later promoted nationally via
-  "Shwmae/Su'mae Day"; not independently sourced to a specific date in this pass).
+  → English 'Hi, how are you?' Wiktionary gives *shwmae* as an informal form of *siwmae*, with no
+  region (*Corrected 2026-10-02 (independent check)*: "the southern/Carmarthenshire-favoured greeting" is unsourced, so the app no longer
+  says it).
 
 ## Pronunciation notes for TTS
 
@@ -637,11 +657,13 @@ this research pass.)
   verified digitisation (National Library of Wales digital exhibition, or a checked
   Wikisource/CEECworks-style transcription) for a specific verse (e.g. the Lord's Prayer or
   John 3:16).
-- Llandeilo's own **2021** census Welsh-speaker percentage (ward/community level) was not
-  located in this pass — county-level (39.9%) and 2011/2001 ward-level figures were found
-  and cross-checked, but the most recent ward figure needs a direct StatsWales query
-  (dataset likely under "Welsh Language Skills by Local Authority and Community Area,
-  Census 2021").
+- ~~Llandeilo's own **2021** census Welsh-speaker percentage~~ Answered (*Corrected 2026-10-02 (independent check)*): the two Llandeilo LSOAs,
+  whose 2011 totals equal the ward's, had 1,307 Welsh speakers of 2,895 (about 45%) in 2021 [S39]. A
+  2021 figure for the community (the town) itself is still not located.
+- The labels of the app's language periods: S5 and S20 call c. 550–800 Primitive Welsh (the app labels
+  410–799 "Old Welsh", because the domain has no Primitive Welsh code), and S20 starts Early Modern
+  Welsh in the early 15th century.
+- Re-read S3 (Danny Bate) directly when the site stops rate-limiting (HTTP 429 on 2026-10-02).
 - Individual Welsh word etymologies from Latin (e.g. *eglwys*, *llyfr*, *pont*) were stated
   from general linguistic knowledge cross-referenced against the general pattern described
   in sourced material, but **not independently verified headword-by-headword against GPC
@@ -680,13 +702,15 @@ this research pass.)
   phonological features of British Latin reconstructed from Welsh loanwords.
 - [S4] "Text: Surexit Memorandum," Exploring Celtic Civilizations project (UNC,
   https://exploringcelticciv.web.unc.edu/prsp-record/text-surexit-memorandum/, accessed via
-  search summary — direct fetch redirected/failed). Full transcription and translation of
-  the Surexit memorandum; dating (early 8th century, possibly copying a 6th/7th-century
-  original); description as the earliest surviving Welsh-language document.
+  search summary — direct fetch redirected/failed). The site is deactivated; read on 2026-10-02 from
+  the Wayback Machine capture of 11 September 2024: a translation only (adapted by Michael Newton from
+  Evans, Jenkins and Owen, and Davies); "dates between the 6th and 9th centuries have been proposed";
+  "some of the earliest surviving writing in Welsh"; "the people of Idwared". *Corrected 2026-10-02 (independent check)*: it does not give a
+  transcription, an early-8th-century date, or "the earliest surviving Welsh-language document".
 - [S5] Wikipedia, "Old Welsh" (https://en.wikipedia.org/wiki/Old_Welsh), citing Koch, John T.
   (2006) *Celtic Culture: A Historical Encyclopedia*; Willis, David (2009) in *The Celtic
   Languages*; Edwards, Nancy (2013) *A Corpus of Early Medieval Inscribed Stones and Stone
-  Sculpture in Wales*. Periodisation, apocope, Surexit memorandum text/translation.
+  Sculpture in Wales*. Periodisation (Old Welsh "until the early 12th century"), apocope, Surexit memorandum text/translation ("Elgu son of Gelli and the tribe of Idwared"; "thought to have been written in the early 8th century but may be a copy of a text from the 6th or 7th centuries"), the Cadfan Stone at Tywyn as "the oldest surviving text entirely in Old Welsh".
 - [S6] "The Llandeilo Fawr / Lichfield Gospels" (https://www.llandeilofawr.org.uk/gospels.htm).
   Manuscript names, Peter Lord's c.730 dating, Gelli's purchase and gift to Llandeilo, the
   memorandum's account of the Tutfwlch/Gelli land dispute, physical condition of the
@@ -694,11 +718,11 @@ this research pass.)
 - [S7] Lichfield Cathedral, "The St Chad Gospels Text & Script" (PDF,
   lichfield-cathedral.org) — identified via search as a further primary-adjacent source on
   the manuscript's script and text; not independently fetched/verified in this pass.
-- [S8] Wikipedia, "Medieval Welsh literature" — overview of Gogynfeirdd active 1100–1350 and
+- [S8] Wikipedia, "Medieval Welsh literature" — overview of Gogynfeirdd, "Poets of the Princes (c. 1100 - c. 1300)", and
   their poetic output (praise, elegy, religious verse).
 - [S9] National Library of Wales Archives and Manuscripts subject pages, "Gogynfeirdd (Welsh
   poets)" and related; Wikipedia "Hendregadredd Manuscript" — manuscript witnesses (Black
-  Book of Carmarthen c.1250, Hendregadredd MS c.1282–1330, Red Book of Hergest c.1400).
+  Book of Carmarthen mid-13th century, Hendregadredd MS between 1282 and 1350, Red Book of Hergest c.1400).
 - [S10] Wikipedia, "Hywel ab Owain Gwynedd" — quoted Middle Welsh elegy excerpt by Peryf ap
   Cedifor (c. 1170–71) with English translation.
 - [S11] Wikipedia, "Laws of Hywel Dda"; University of Wales Centre for Advanced Welsh and
@@ -707,12 +731,12 @@ this research pass.)
   (library.wales/discover-learn/digital-exhibitions/manuscripts/the-middle-ages/laws-of-hywel-dda).
   Manuscript count/dating, three redactions (Cyfnerth/Blegywryd/Iorwerth), Latin vs Welsh
   originals (Peniarth 28, Peniarth 29/Black Book of Chirk), Blegywryd Redaction's Deheubarth
-  association and Dinefwr's status claim, and a quoted inheritance-law passage.
+  association and Dinefwr's status claim (marked "citation needed"), and a quoted inheritance-law passage (from the Iorwerth text, on illegitimate sons).
 - [S12] Wikipedia, "Cambro-Normans"; "Deheubarth"; "Conquest of Wales by Edward I." Norman
   invasion pattern, Marcher Lords, Cambro-Norman settler communities shifting from French to
   English.
 - [S13] Wikipedia, "Dinefwr Castle"; "Rhys ap Tewdwr." Lord Rhys's rebuilding of Dinefwr,
-  Rhys ap Tewdwr's death (1093), the 1282–83 English refortification of Dinefwr, and the
+  Rhys ap Tewdwr's death (1093), the 1282–83 English refortification of Dinefwr (*Corrected 2026-10-02 (independent check)*: no longer in the current article), and the
   Statute of Rhuddlan's creation of Carmarthenshire.
 - [S14] National Library of Wales, "The 1588 Welsh Bible and Bishop William Morgan"
   (library.wales/discover-learn/digital-exhibitions/printed-material/1588-welsh-bible).
@@ -721,12 +745,12 @@ this research pass.)
   of the 1588 Bible for Welsh literary/liturgical status.
 - [S16] Wikipedia, "Laws in Wales Acts 1535 and 1542"; WJEC GCSE History resource, "1.3.5 The
   Acts of Union, 1536 and 1543" (resource.download.wjec.co.uk). The language clause,
-  Section 20, gentry support for the Acts, repeal only in 1993.
+  gentry support for the Acts. *Corrected 2026-10-02 (independent check)*: the "150 words" and Section 20 are S20's, not this page's; the WJEC resource was not read.
 - [S17] National Library of Wales, "The Blue Books of 1847"
   (library.wales/discover-learn/digital-exhibitions/printed-material/the-blue-books-of-1847).
   Commissioners' names/backgrounds, "Brad y Llyfrau Gleision," Kenneth O. Morgan quote.
-- [S18] Wikipedia, "Welsh Not." Mechanism, date range (c.1790 onward, most common early-to-
-  mid 19th century, declining after 1850), and the scholarly-contested question of its
+- [S18] Wikipedia, "Welsh Not." Mechanism, date range (first evidence around the 1790s, most common early-to-
+  mid 19th century, less common in the late 19th century, evidence into the early 20th), "not a government policy", and the scholarly-contested question of its
   actual causal role in language decline (citing Martin Johnes, 2024 study).
 - [S19] Wikipedia, "Rebecca Riots." Date range 1839–1843, Carmarthenshire focus (Yr Efail
   Wen, 1839), economic causes, Merched Beca and ceffyl pren.
@@ -756,7 +780,7 @@ this research pass.)
   decline in Wales.
 - [S26] Wikipedia, "Carmarthenshire." Historical Welsh-speaker percentages: 1911 (84.9%),
   1931 (82.3%), 1951 (75.2%), plus 2001/2011/2021 figures consistent with S23–S25; note on
-  Carmarthenshire being the last historic county to become majority non-Welsh-speaking.
+  Carmarthenshire being "the most populous of the five historic counties of Wales to remain majority Welsh-speaking throughout the 20th century" (*Corrected 2026-10-02 (independent check)*: not "the last").
 - [S27] Wikipedia, "Llandeilo." Town history, Saint Teilo and the monastic foundation, the
   Roman forts on the Dinefwr estate (c. AD 74), the Gospel Book of Saint Teilo reference,
   medieval market-town development after the Norman Conquest.
@@ -769,11 +793,10 @@ this research pass.)
   naming of Moridunum and Luentinum, Demetae territory corresponding to modern Dyfed.
 - [S31] Heneb (Dyfed Archaeological Trust historic landscape characterisation), "222 Carn
   Goch - Historic Landscape Character Area" (heneb.org.uk/hcla/towy-valley/222-carn-goch/).
-  Garn Goch hillfort scale (16.6ha), dating (Late Bronze Age/Iron Age construction,
-  Neolithic-era earlier use), Tywi valley setting.
+  Garn Goch hillfort scale (15 ha, "Carmarthenshire's largest Iron Age hillfort"; *Corrected 2026-10-02 (independent check)*: not 16.6ha), earlier occupation "possibly into the Neolithic", Bronze Age finds, Tywi valley setting.
 - [S32] Wikipedia, "Common Brittonic." Dating (c.6th c. BC – mid-6th c. AD), Tacitus on
   British/Gaulish similarity, the Bath curse tablet inscription, place-name reconstruction
-  method, the *Gwener*/Venus case-stem borrowing detail; cites Jackson (1953, 1955), Rivet &
+  method (*Corrected 2026-10-02 (independent check)*: the *Gwener*/Venus detail is not in it); cites Jackson (1953, 1955), Rivet &
   Smith (1979), Sims-Williams (2003), Rhys (2015).
 - [S33] People's Collection Wales, "The Welsh dialect of Carmarthenshire"
   (peoplescollection.wales/items/12611), recording of Mrs Martha Williams of Llansawel
@@ -796,7 +819,10 @@ this research pass.)
   word for 'want' alongside *eisiau*: "both used in South Wales", only *eisiau* in the north. No
   author or date. Read directly, 2026-10-02.
 - [S38] Wiktionary, "moyn". https://en.wiktionary.org/wiki/moyn — spoken form of *ymofyn*, used for
-  *isio* in parts of South Wales. Read via search summary only, so a lead, not a citation.
+  *isio* in parts of South Wales. Read via search summary at first; read directly (raw) on 2026-10-02 by the independent check, so it can be cited (*Corrected 2026-10-02 (independent check)*: no longer a lead only).
+- [S39] M. Roberts and C. Ó Giollagáin, *Prosiect BRO: Compendium of Language Statistics based on Census 2021 data* (Welsh Government, August 2024), Tables 3.10–3.12, PDF on gov.wales under publications/2024-08 (the full file path is in reviews/language-by-class-check-2026-10-02.md) — LSOAs W01000676 (Llandeilo 1) and W01000677 (Llandeilo 2): 2021, 705 of 1,484 and 602 of 1,411 Welsh speakers (1,307 of 2,895); their 2011 totals equal the Llandeilo ward's 1,454 of 2,889. Added 2026-10-02 by the independent check.
+- [S40] Census of England and Wales 1901, General Report, via Vision of Britain. https://www.visionofbritain.org.uk/census/EW1901GEN/13 — Wales: 49.9% Welsh-speaking in 1901 (15.1% Welsh only, 34.8% both), "declined from 54.0 per cent. in 1891 to 49.9 per cent. in 1901"; Carmarthenshire 90.3%. Primary. Added 2026-10-02 by the independent check.
+- [S41] Census of England and Wales 1911, report on the Welsh language, via Vision of Britain. https://www.visionofbritain.org.uk/census/EW1911WEL/4 — Carmarthenshire 849 per 1,000 speaking Welsh (Table VII; 904 in 1901) and 205 per 1,000 Welsh only (Table V). Primary. Added 2026-10-02 by the independent check.
 
 **Note on sourcing quality**: this pass relied heavily on Wikipedia as an entry point, per
 the brief's instruction that "Wikipedia only as a lead" — most claims above were

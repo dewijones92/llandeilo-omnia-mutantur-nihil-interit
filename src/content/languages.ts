@@ -18,6 +18,11 @@ export const LANGUAGES: Readonly<Record<LanguageCode, LanguageInfo>> = {
     tag: 'la',
     voices: { male: 'it-IT-DiegoNeural', female: 'it-IT-IsabellaNeural' },
   },
+  'primitive-welsh': {
+    name: { en: 'Primitive Welsh', cy: 'Cymraeg Cyntefig' },
+    tag: 'cy',
+    voices: WELSH_VOICES,
+  },
   'old-welsh': { name: { en: 'Old Welsh', cy: 'Hen Gymraeg' }, tag: 'cy', voices: WELSH_VOICES },
   'middle-welsh': { name: { en: 'Middle Welsh', cy: 'Cymraeg Canol' }, tag: 'cy', voices: WELSH_VOICES },
   welsh: { name: { en: 'Welsh', cy: 'Cymraeg' }, tag: 'cy', voices: WELSH_VOICES },

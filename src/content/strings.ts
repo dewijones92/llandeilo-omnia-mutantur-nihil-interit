@@ -121,6 +121,15 @@ export const STRINGS = {
     en: 'Atmosphere only, not a record of this year',
     cy: 'Awyrgylch yn unig, nid cofnod o’r flwyddyn hon',
   },
+  skyRecorded: { en: 'From the record:', cy: 'O’r cofnod:' },
+  skyRecordedNote: {
+    en: 'The season (and the hour, where given) come from a source for this key date. Change them freely.',
+    cy: 'Daw’r tymor (a’r awr, lle rhoddir hi) o ffynhonnell ar gyfer y dyddiad allweddol hwn. Newidiwch nhw fel y mynnwch.',
+  },
+  skyRecordedChosen: {
+    en: 'Season from the record, hour chosen:',
+    cy: 'Tymor o’r cofnod, awr wedi’i dewis:',
+  },
   spring: { en: 'Spring', cy: 'Gwanwyn' },
   summer: { en: 'Summer', cy: 'Haf' },
   autumn: { en: 'Autumn', cy: 'Hydref' },
