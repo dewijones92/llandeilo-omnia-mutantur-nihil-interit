@@ -2,7 +2,7 @@
 title: Late Georgian to Victorian Llandeilo (c. 1830–1901)
 kind: research
 status: draft
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 Independently checked 2026-10-02 (see [reviews/event-effects-check-2026-10-02.md](reviews/event-effects-check-2026-10-02.md), which checked the event-effects work that found this correction); corrections applied.
@@ -104,7 +104,7 @@ analogy, and what remains a genuine, flagged gap.
 | **1 April 1858** | Vale of Towy Railway opens to passengers, Llandeilo–Llandovery (11.25 miles, five wooden viaducts over the Tywi); worked by the Llanelly Railway and Dock Co.; stations at Llanwrda, Llangadog, Glanrhyd Halt, Talley Road Halt | Llandeilo–Llandovery | documented | cross-checked | [S29][S31] |
 | 1858 | Ffairfach gets a British School | Ffairfach | documented | single-source | [S2] |
 | **1859** | Calvinistic Methodist congregational hymn-singing festival, **cymanfa ganu**, launched at Bethania Chapel, Aberdare (Glamorgan — not a Llandeilo/Carmarthenshire origin; noted so the app doesn't misattribute it locally) | Aberdare (regional context) | documented | single-source | [S32] |
-| c. 1860 | Gas works erected, Ffairfach | Ffairfach | documented | single-source | [S2] |
+| c. 1860 | Gas works erected, Ffairfach | Ffairfach | documented | single-source | [S2] (*Corrected 2026-10-03*: two newspapers of 1864 report the Llandilo Gas Company's works being built that year, foundation stone laid in August 1864 [light:S1][light:S2]; c. 1860 is contradicted. See [light-after-dark](light-after-dark.md).) |
 | 1860 | Present Tabernacl chapel, Ffairfach, built by **Thomas Thomas of Landore** (born and raised near Ffairfach) | Ffairfach | documented | cross-checked (Coflein + Wikipedia); the previous rebuild is 1839 in Coflein and the 1851 return, 1840 only in S2 (*Corrected 2026-10-02 (independent check)*) | [S33][S2] |
 | 1860 | Yew-tree tunnel/promenade at Aberglasney is the subject of a *Gardeners' Chronicle* article — the gardens still horticulturally notable under a tenanted, non-derelict Aberglasney | Aberglasney | documented | single-source | [S34] |
 | 1860s | Arboretum laid out at Golden Grove (Cawdor family estate) | Golden Grove | documented | single-source | [S35] |

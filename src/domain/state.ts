@@ -1,6 +1,7 @@
-import { clamp, lerp, smoothstep } from './assert.ts';
+import { clamp, lerp, smoothstep, type NonEmptyArray } from './assert.ts';
 import { chillAt, type ClimateKey } from './climate.ts';
 import { hex, mix, type Rgb } from './colour.ts';
+import { lampAlmanacAt, lampStyleAt, type LampKey } from './lamplight.ts';
 import {
   AMBIENT_BEDS,
   type AlmanacEntry,
@@ -26,6 +27,7 @@ export interface WorldContent {
   readonly environment: readonly EnvironmentKey[];
   readonly soundscape: Soundscape;
   readonly climate: readonly ClimateKey[];
+  readonly lamplight: NonEmptyArray<LampKey>;
   readonly places: readonly Place[];
   readonly events: readonly KeyEvent[];
   readonly features: readonly Feature[];
@@ -74,6 +76,7 @@ export interface Snapshot {
   readonly environment: Environment;
   readonly sound: Sound;
   readonly chill: number;
+  readonly lamplight: LampKey;
   readonly features: readonly FeaturePresence[];
   readonly conversations: readonly Conversation[];
   readonly almanac: readonly AlmanacEntry[];
@@ -190,9 +193,10 @@ export function snapshotAt(world: WorldContent, t: number): Snapshot {
     environment: environmentAt(world.environment, y),
     sound: soundAt(world.soundscape, y),
     chill: chillAt(world.climate, y),
+    lamplight: lampStyleAt(world.lamplight, y),
     features,
     conversations: world.conversations.filter((c) => contains(c.when, y)),
-    almanac: world.almanac.filter((a) => contains(a.when, y)),
+    almanac: [...world.almanac.filter((a) => contains(a.when, y)), lampAlmanacAt(world.lamplight, y)],
     language: latestStarting(world.language, y),
     nearestEvent,
   };

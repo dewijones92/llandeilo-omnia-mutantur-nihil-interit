@@ -11,6 +11,7 @@ import type {
   KeyEvent,
   PlaceId,
 } from './model.ts';
+import type { LampKey } from './lamplight.ts';
 import type { Provenance, SourceId } from './provenance.ts';
 import { snapshotAt, type WorldContent } from './state.ts';
 import { keySteps } from './steps.ts';
@@ -100,6 +101,19 @@ const SILENT: WorldContent['soundscape'] = {
   chant: [],
 };
 
+const FIRELIGHT: LampKey = {
+  year: ad(1000),
+  dated: 'by',
+  homes: 'hearth',
+  streets: { kind: 'none' },
+  warmth: 1,
+  windows: 0.2,
+  glow: 0.4,
+  hearth: 1,
+  text: { en: 'fire', cy: 'tân' },
+  provenance: { kind: 'reconstructed', basis: { en: 'test', cy: 'prawf' }, sources: [] },
+};
+
 const world = (
   features: readonly Feature[],
   events: readonly KeyEvent[] = [],
@@ -112,6 +126,7 @@ const world = (
   eras: [],
   environment: more.environment ?? [LAND],
   soundscape: SILENT,
+  lamplight: [FIRELIGHT],
   climate,
   places: [],
   events,

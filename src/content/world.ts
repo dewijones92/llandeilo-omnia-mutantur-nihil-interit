@@ -5,6 +5,7 @@ import { CLIMATE } from './climate.ts';
 import { CONVERSATIONS } from './conversations.ts';
 import { EVENTS } from './events.ts';
 import { FEATURES } from './features.ts';
+import { LAMPLIGHT } from './lamplight.ts';
 import { LANGUAGE } from './language.ts';
 import { PEOPLE } from './people.ts';
 import { PLACES } from './places.ts';
@@ -17,6 +18,7 @@ export const WORLD_CONTENT: WorldContent = {
   environment: ENVIRONMENT,
   soundscape: SOUNDSCAPE,
   climate: CLIMATE,
+  lamplight: LAMPLIGHT,
   places: PLACES,
   events: EVENTS,
   features: FEATURES,

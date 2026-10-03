@@ -7,6 +7,7 @@ import { STRINGS } from '../src/content/strings.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
+import { insideArea, streetGlowOf } from '../src/domain/lamplight.ts';
 import { AMBIENT_BEDS } from '../src/domain/model.ts';
 import { latestStarting, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
@@ -62,6 +63,7 @@ describe('content integrity', () => {
       ...W.almanac,
       ...W.language,
       ...W.climate,
+      ...W.lamplight,
     ];
     for (const item of all)
       for (const s of item.provenance.sources) if (!sources.has(s)) missing.push(`source ${s}`);
@@ -103,6 +105,50 @@ describe('content integrity', () => {
     const years = W.climate.map((k) => k.year);
     expect(years).toEqual([...years].sort((a, b) => a - b));
     expect(W.climate.every((k) => k.chill >= -1 && k.chill <= 1)).toBe(true);
+  });
+
+  it('keeps the night-light keys in time order and in range, with street lamps only where documented', () => {
+    const years = W.lamplight.map((k) => k.year);
+    expect(years).toEqual([...years].sort((a, b) => a - b));
+    const levels = W.lamplight.flatMap((k) => [
+      k.warmth,
+      k.windows,
+      k.glow,
+      k.hearth,
+      streetGlowOf(k.streets),
+    ]);
+    expect(levels.every((v) => v >= 0 && v <= 1)).toBe(true);
+    expect(
+      W.lamplight
+        .filter((k) => streetGlowOf(k.streets) > 0 && k.provenance.kind !== 'documented')
+        .map((k) => k.year),
+    ).toEqual([]);
+  });
+
+  it('lights only the town’s streets: never Ffairfach, south of the Tywi, where no source says lamps stood', () => {
+    const church = { e: 262930, n: 222236 };
+    const ffairfach = [
+      { e: 262901, n: 221064 },
+      { e: 262905, n: 221019 },
+      { e: 262800, n: 221500 },
+    ];
+    const lit = W.lamplight.flatMap((k) =>
+      k.streets.kind === 'none' || k.streets.kind === 'off' ? [] : [k.streets.area],
+    );
+    expect(lit.length).toBeGreaterThan(0);
+    for (const area of lit) {
+      expect(insideArea(area, church)).toBe(true);
+      expect(ffairfach.filter((p) => insideArea(area, p))).toEqual([]);
+    }
+  });
+
+  it('words every night-light key with the certainty of its date', () => {
+    const lead = { by: ['By ', 'Erbyn '], on: ['From ', 'O '] } as const;
+    expect(
+      W.lamplight
+        .filter((k) => !k.text.en.startsWith(lead[k.dated][0]) || !k.text.cy.startsWith(lead[k.dated][1]))
+        .map((k) => k.year),
+    ).toEqual([]);
   });
 
   it('never has a documented item without a source', () => {

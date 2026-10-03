@@ -49,6 +49,7 @@ export const ALMANAC_TOPICS: Readonly<Record<AlmanacTopic, Bilingual>> = {
   food: { en: 'Food', cy: 'Bwyd' },
   clothing: { en: 'Clothing', cy: 'Dillad' },
   homes: { en: 'Homes', cy: 'Cartrefi' },
+  light: { en: 'Light after dark', cy: 'Golau’r nos' },
   religion: { en: 'Belief', cy: 'Cred' },
   money: { en: 'Money', cy: 'Arian' },
   health: { en: 'Health', cy: 'Iechyd' },

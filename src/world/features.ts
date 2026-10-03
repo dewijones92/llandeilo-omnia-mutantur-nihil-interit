@@ -1,6 +1,7 @@
 import { Vector3, VertexBuffer, type AbstractMesh, type Mesh } from './babylon.ts';
 import { toGrid, toWorld } from '../domain/geo.ts';
 import type { Feature, FeatureId, RollingStock } from '../domain/model.ts';
+import type { LampState } from '../domain/lamplight.ts';
 import type { FeaturePresence } from '../domain/state.ts';
 import { hash2 } from '../domain/noise.ts';
 import { hidesFootprint, rotate } from '../domain/plan.ts';
@@ -13,6 +14,7 @@ import { buildFeature, type Ground } from './structures.ts';
 import type { SmokeSource } from './smoke.ts';
 import type { Clearing } from './terrain.ts';
 import type { LoadedModel } from './models.ts';
+import { StreetLamps } from './streetlamps.ts';
 
 interface Monument {
   readonly mesh: Mesh;
@@ -21,6 +23,8 @@ interface Monument {
 interface TownSet {
   readonly order: Int32Array;
   readonly target: number;
+  /** Towns get street lamps; the scattered countryside does not. */
+  readonly lit: boolean;
 }
 
 const TOWN_CORE_RADIUS = 1300;
@@ -65,6 +69,7 @@ export class FeatureLayer {
   private readonly buildings: Buildings;
   private readonly rail: Mesh;
   private readonly roads: Mesh;
+  private readonly streetLamps: StreetLamps;
   private readonly train: Train | undefined;
   private stock: RollingStock | undefined;
   private trainFeature: Feature | undefined;
@@ -102,6 +107,8 @@ export class FeatureLayer {
       0.3,
     );
     this.roads.isVisible = false;
+    this.streetLamps = new StreetLamps(scene, roads, this.ground);
+    world.addLamp(this.streetLamps.material);
     const main = longestLine(railways);
     this.train = main ? new Train(scene, main, this.ground, trainModels) : undefined;
     const started = performance.now();
@@ -112,12 +119,13 @@ export class FeatureLayer {
       const { x, z } = toWorld(f.at);
       if (f.kind.type === 'town') {
         const order = visible(this.buildings.distanceOrder(f.at, f.kind.radius)).slice(0, f.kind.nearest);
-        this.towns.set(f.id, { order, target: order.length });
+        this.towns.set(f.id, { order, target: order.length, lit: true });
+        this.streetLamps.addTown(f.id, this.buildings.nearHouses(order));
         continue;
       }
       if (f.kind.type === 'countryside') {
         const order = visible(this.buildings.countrysideOrder(f.at, TOWN_CORE_RADIUS));
-        this.towns.set(f.id, { order, target: Math.round(order.length * f.kind.share) });
+        this.towns.set(f.id, { order, target: Math.round(order.length * f.kind.share), lit: false });
         continue;
       }
       const built = buildFeature(scene, f.kind, Math.floor(hash2(x, z, 7) * 1e6), onSurface, x, z);
@@ -203,11 +211,14 @@ export class FeatureLayer {
       if (p > 0.01) m.mesh.scaling.y = 0.05 + 0.95 * (1 - Math.pow(1 - p, 3));
     }
     const selections: { id: string; order: Int32Array; count: number }[] = [];
+    let lampTown: { id: string; presence: number } | undefined;
     for (const [id, t] of this.towns) {
       const p = active.get(id)?.presence ?? 0;
       if (p > 0) selections.push({ id, order: t.order, count: Math.floor(t.target * p) });
+      if (t.lit && p > 0.5 && p > (lampTown?.presence ?? 0)) lampTown = { id, presence: p };
     }
     this.buildings.show(selections);
+    this.streetLamps.showTown(lampTown?.id);
     let rail = 0;
     let road = 0;
     let train: { feature: Feature; stock: RollingStock; presence: number } | undefined;
@@ -224,8 +235,9 @@ export class FeatureLayer {
     this.roads.isVisible = road > 0.5;
   }
 
-  setLamps(level: number): void {
-    this.buildings.setLamps(level);
+  setLamps(state: LampState): void {
+    this.buildings.setLamps(state);
+    this.streetLamps.set(state.colour, state.street);
   }
 
   tick(dt: number): void {

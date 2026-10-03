@@ -28,6 +28,7 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
 | St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02) | [buildings](building-models.md), [victorian](era-victorian.md) |
 | Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
+| When Llandeilo's gas works were built | c. 1860 (Wikipedia, "Ffairfach", single-source) vs being built in 1864 (two 1864 newspapers); the app uses the newspapers (added 2026-10-03) | [light](light-after-dark.md), [victorian](era-victorian.md) |
 | The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
 
 ## Gaps worth a dedicated pass
@@ -131,3 +132,16 @@ the app. They are recorded here so the notes and the app do not silently disagre
   not fit at all: the event-effects note (S6, a single secondary source) says the flood of
   10 February 1798 "carried away the temporary wooden bridge", which suggests a wooden bridge, not
   the seven-arched one, around 1798. When the seven-arched bridge was built is now the open question.
+- **When were Llandeilo's streets first lit with gas?** The works and street mains were built in 1864
+  and the town lamps were lit "as heretofore" in 1876; no report of the first lighting was found in
+  several searches of Welsh Newspapers Online (2026-10-03). The app draws gas street lamps from 1876,
+  as a latest date. That 1876 bound rests on one source (S4); a second (S8, 1902) confirms only that
+  the streets had been gas lit. Also open: how many lamps, whether they were lit only in winter (the
+  1876 arrangement is "during the winter"), and when Ffairfach and the villages were first lit: the
+  app draws lamps only in the town north of the Tywi. ([light](light-after-dark.md))
+- **When did Llandeilo's lamps come back after the war?** Hansard gives a latest date (8 May 1945),
+  and a home-front history website says full street lighting came in April 1945; nothing local has
+  been read, so the app's key is "by 8 May 1945".
+- **Light at home in the 20th century.** Who in Llandeilo had electric light at home before 1939, and
+  when farms got mains electricity, are not in the notes; the app's window shares are guessed, and
+  farms across the valley are drawn with the town's windows.

@@ -23,6 +23,7 @@ const PREFIX = {
   'music-through-time': 'music',
   'invasions-and-raids': 'invasions',
   'hunter-gatherers': 'hunters',
+  'light-after-dark': 'light',
 };
 
 const entries = [];

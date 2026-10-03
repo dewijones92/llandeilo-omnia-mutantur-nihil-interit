@@ -327,3 +327,34 @@ Milestones and what each one taught us. Newest last.
    the Little Ice Age peak, the highest ground 675m); and the almanac opened underneath the game
    panel. Each was fixed behind a test seen red first. The tick labels under the slider at 800 BC
    and AD 74 still give two answers away; that choice is left to Dewi.
+5. **Light after dark: the night is lit by the light of its time.** One time-of-day scalar used to
+   light every window and hearth the same in every era, so the town glowed in 1942. Now dated keys
+   in `src/content/lamplight.ts` (hearth, the medieval court's candles, rushlight from 1750, oil from
+   1864, gas street lamps from 1876, electric street light from September 1902, the blackout from
+   1 September 1939, the dim-out from September 1944, light again by 8 May 1945) resolve into the
+   snapshot, and windows, hearth glow and new street lamps read the result
+   ([ADR 0030](../adr/0030-night-light-as-dated-content-keys.md)). The keys hold rather than blend.
+6. **Welsh Newspapers Online answered what the notes could not.** The Llandilo Gas Company's works were
+   being built in 1864 (not "c. 1860", a single Wikipedia page), the Local Board had the town lamps lit
+   "as heretofore" in 1876, and a 1902 columnist mocked those who saw no difference "now that they are
+   electrically lit than when they were gas lit". The first gas lighting of the streets was not found,
+   so lamps start in 1876 and the gap is in open-questions. The searches also turned up Llandovery's
+   1863 gas lighting and Llandilo-Talybont's electric company, both easy to misfile as Llandeilo.
+7. **Street lamps follow today's roads where the town's houses stand.** Placed within the town
+   feature's radius, the first draft strung lamps out along empty roads into the fields; a screenshot
+   showed it. They now go only on road within about 40m of one of the town's own houses.
+8. **The e2e test reads the lamp state through `?debug`** at 1880 (gas) and 1942 (blackout). Its red
+   run used the old code, exported from HEAD into a scratch folder with the new test copied in, so the
+   worktree was never rolled back; it failed at the first `light homes` assertion.
+9. **The second Opus review of Light after dark found the dates and places claimed more than the
+   sources do, and the fixes are in the schema.** Lamps were drawn in Ffairfach from 1905 because the
+   modern town reaches 1300m from the church, while the sources speak of lighting "the town"; lit
+   streets now carry a `LitArea` (Llandeilo north of the Tywi) and a content test keeps Ffairfach
+   out, so 145 modern lamps became 87 and the 9 on the road south of the bridge went in every era.
+   "1876", "1750" and "8 May 1945" were shown as starts though they are latest or sample dates; each
+   key now carries `dated: 'on' | 'by'`, and a test makes the almanac's words open with "By" or
+   "From" to match. The blackout and the 1945 lifting each had one source; a home-front history site
+   is now the second, and its weakness is noted. The keys were only in `?debug`, so the almanac now
+   shows "Light after dark" with the active key's ⓘ. Lamps were also drawn twice while the Victorian
+   and modern towns crossfaded; only the town most present gets them now. The ADR is renumbered
+   0030: two sibling branches also use 0028 and a third moved to 0031.

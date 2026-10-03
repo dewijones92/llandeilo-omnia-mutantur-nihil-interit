@@ -121,6 +121,12 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   point that names it; and the Tywi, drovers and Ffairfach smithy beds, which rested only on
   encyclopedia pages, are reconstructed, not documented
   ([ADR 0028](../adr/0028-ambient-beds-carry-provenance.md)).
+- The Llandeilo gas works were **being built in 1864**, not c. 1860: two 1864 newspapers against one
+  Wikipedia page ([light-after-dark](light-after-dark.md), 2026-10-03). The same research dates gas
+  street lamps to no later than 1876 (the first lighting is not found; that bound is single-source),
+  electric street light to September 1902, and the national blackout to 1 September 1939 (IWM and a
+  home-front history site); the app's night light now follows these keys, each with how sure its
+  date is, and draws street lamps only in the town north of the Tywi ([ADR 0030](../adr/0030-night-light-as-dated-content-keys.md)).
 
 ## Decisions the research drove
 

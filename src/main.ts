@@ -6,6 +6,7 @@ import { highestM } from './domain/heightfield.ts';
 import { isLang } from './domain/i18n.ts';
 import { STRINGS } from './content/strings.ts';
 import { lightingAt, parseClock, seasonLook } from './domain/daylight.ts';
+import { lampsAt } from './domain/lamplight.ts';
 import { snapshotAt, type Snapshot } from './domain/state.ts';
 import { keySteps, nearestStep, shotFor } from './domain/steps.ts';
 import type { Framing, KeyEvent, RollingStock } from './domain/model.ts';
@@ -388,12 +389,13 @@ async function start(): Promise<void> {
     lightPending = false;
     const light = lightingAt(snap.environment, clock);
     world.applyLighting(light);
-    features.setLamps(light.lamps);
-    firelight.show(smokeSources, light.lamps);
+    const lamps = lampsAt(snap.lamplight, light.lamps);
+    features.setLamps(lamps);
+    firelight.show(smokeSources, lamps.hearth);
     smoke.shade(light.selfLit);
     document.documentElement.classList.toggle('night', light.night > 0.5);
     skyControls.paintTrack(snap.environment);
-    debug?.light(clock, light);
+    debug?.light(clock, light, lamps);
   };
   const applyCost = new StageCost(['snapshot', 'features', 'environment']);
   // Recolouring the terrain, rebuilding the forest and re-rendering the shadow map cost a frame or

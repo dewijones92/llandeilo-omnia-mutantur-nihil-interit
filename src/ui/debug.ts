@@ -1,6 +1,7 @@
 import type { AbstractEngine, ArcRotateCamera } from '../world/babylon.ts';
 import { formatYear } from '../domain/time.ts';
 import type { Clock, Lighting } from '../domain/daylight.ts';
+import type { LampState } from '../domain/lamplight.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import type { Snapshot, SoundingBed } from '../domain/state.ts';
 import { h } from './dom.ts';
@@ -31,8 +32,8 @@ export class DebugOverlay {
     this.snapshot = s;
   }
 
-  light(clock: Clock, l: Lighting): void {
-    this.sky = `sky ${clock.season} ${clock.hour.toFixed(2)}h sun ${l.elevation.toFixed(1)}° ${l.moon ? 'moon' : 'sun'} ${l.lightIntensity.toFixed(2)} night ${l.night.toFixed(2)} lamps ${l.lamps.toFixed(2)}`;
+  light(clock: Clock, l: Lighting, lamps: LampState): void {
+    this.sky = `sky ${clock.season} ${clock.hour.toFixed(2)}h sun ${l.elevation.toFixed(1)}° ${l.moon ? 'moon' : 'sun'} ${l.lightIntensity.toFixed(2)} night ${l.night.toFixed(2)} lamps ${l.lamps.toFixed(2)} (windows ${lamps.windows.toFixed(2)} hearth ${lamps.hearth.toFixed(2)} street ${(lamps.street?.level ?? 0).toFixed(2)})`;
   }
 
   private render(): void {
@@ -46,6 +47,7 @@ export class DebugOverlay {
       `camera x ${c.x.toFixed(0)} z ${c.z.toFixed(0)} r ${this.camera.radius.toFixed(0)}`,
       `t ${s.t.toFixed(4)}  year ${formatYear(s.year, 'en')}  era ${s.era?.id ?? '-'}`,
       `${this.sky}  chill ${s.chill.toFixed(2)}`,
+      lampLine(s),
       `forest ${env.forest.toFixed(2)} farm ${env.farmland.toFixed(2)} moor ${env.moor.toFixed(2)} fog ${env.fog.toFixed(2)}`,
       ...s.sound.beds.map(heard),
       `features ${s.features.length}: ${s.features.map((f) => `${f.feature.id}@${f.presence.toFixed(2)}[${f.feature.provenance.kind}]`).join(', ')}`,
@@ -54,4 +56,11 @@ export class DebugOverlay {
     ];
     this.el.textContent = lines.join('\n');
   }
+}
+
+function lampLine(s: Snapshot): string {
+  const k = s.lamplight;
+  const st = k.streets;
+  const streets = st.kind === 'none' || st.kind === 'off' ? st.kind : `${st.kind} in ${st.area.id}`;
+  return `light homes ${k.homes} street ${streets} ${k.dated} ${k.year.toFixed(2)} [${k.provenance.kind}] share ${k.windows.toFixed(2)} glow ${k.glow.toFixed(2)} warmth ${k.warmth.toFixed(2)}`;
 }
