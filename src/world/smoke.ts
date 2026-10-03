@@ -1,6 +1,7 @@
 import { Color4, DynamicTexture, ParticleSystem, Vector3, type AbstractMesh, type Scene } from './babylon.ts';
+import type { WorldPoint } from './structures.ts';
 
-export interface SmokeSource {
+interface SmokeAt {
   readonly key: string;
   readonly x: number;
   readonly y: number;
@@ -8,9 +9,12 @@ export interface SmokeSource {
   readonly spread: number;
   readonly density: number;
   readonly style: 'hearth' | 'steam';
-  readonly fire: boolean;
   readonly follow?: { readonly mesh: AbstractMesh; readonly offset: Vector3 };
 }
+
+/** A fire's smoke carries the houses its hearths glow at, so one rule decides both (ADR 0037). */
+export type SmokeSource = SmokeAt &
+  ({ readonly fire: false } | { readonly fire: true; readonly houses: readonly WorldPoint[] });
 
 const STEAM = [new Color4(0.93, 0.93, 0.94, 0.75), new Color4(0.55, 0.55, 0.58, 0.6)] as const;
 const HEARTH = [new Color4(0.8, 0.81, 0.83, 0.55), new Color4(0.7, 0.71, 0.74, 0.42)] as const;

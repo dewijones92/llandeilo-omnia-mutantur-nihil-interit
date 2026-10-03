@@ -188,6 +188,7 @@ export class FeatureLayer {
           density: Math.min(1.5, k.count / 4),
           style: 'hearth',
           fire: true,
+          houses: this.monuments.get(p.feature.id)?.hearths ?? [],
         });
       } else if (k.type === 'town' && k.style !== 'modern') {
         out.push({
@@ -211,24 +212,8 @@ export class FeatureLayer {
           density: 0.5,
           style: 'hearth',
           fire: true,
+          houses: [{ x: h.x, y: h.y + 1.2, z: h.z }],
         });
-      }
-    }
-    return out;
-  }
-
-  /** A glow per house with a lit hearth: every roundhouse and longhouse, and a standing building's hearth. */
-  hearthLights(present: readonly FeaturePresence[]): WorldPoint[] {
-    const out: WorldPoint[] = [];
-    for (const p of present) {
-      if (p.presence < 0.6) continue;
-      const k = p.feature.kind;
-      if (k.type === 'roundhouses' || k.type === 'hall-houses') {
-        out.push(...(this.monuments.get(p.feature.id)?.hearths ?? []));
-      } else if (k.type === 'building' && k.condition === 'standing' && k.plan.hearth) {
-        const { x, z } = toWorld(p.feature.at);
-        const h = this.buildingHearth(k.plan, k.plan.hearth, x, z);
-        out.push({ x: h.x, y: h.y + 1.2, z: h.z });
       }
     }
     return out;

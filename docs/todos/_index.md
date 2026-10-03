@@ -145,7 +145,9 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
   *Built 2026-10-03 on `feat/darker-night`* ([ADR 0037](../adr/0037-a-dark-night-and-halos-that-keep-a-few-pixels.md)):
   a darker night (day unchanged), halos a few pixels wide at every lit house, street lamp and hearth,
   turned in the vertex shader; red-first unit and e2e tests; looked at in 1282, 1880, 1903, 1942 and
-  2000 at the overview and the site, and at noon. Awaiting the second-Opus review, so not ticked
+  2000 at the overview and the site, and at noon. *Second-Opus review 2026-10-03*: its two IMPORTANT
+  findings fixed (farm windows labelled a guess in every key that lights them; an e2e that counts the
+  halos' pixels) and both suggestions applied. Awaiting review of the fixes, so not ticked
 - [ ] Check the night halos on WebGPU on a real desktop: their WGSL vertex code (ADR 0037) has never
       run, because WebGPU through WSL stalls and CI has no GPU
 - [ ] Sound follows the clock: birds at dawn, owls and quiet at night

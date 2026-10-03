@@ -115,6 +115,13 @@ describe('lightingAt', () => {
     expect(day(9, 'spring')).toMatchInlineSnapshot(
       `"{"sun":{"x":0.6976,"y":0.5591,"z":-0.448},"direction":{"x":0.6976,"y":0.5591,"z":-0.448},"moon":false,"elevation":33.996,"light":{"r":0.9843,"g":0.9137,"b":0.7843},"lightIntensity":2.0544,"ambient":{"r":0.752,"g":0.8291,"b":0.9084},"ambientGround":{"r":0.4196,"g":0.4,"b":0.349},"ambientIntensity":0.42,"skyTop":{"r":0.5446,"g":0.6895,"b":0.8387},"skyHorizon":{"r":0.9343,"g":0.9267,"b":0.8952},"glow":{"r":1,"g":0.9412,"b":0.8235},"glowStrength":0.1486,"fog":{"r":0.9343,"g":0.9267,"b":0.8952},"fogDensity":0.0001,"stars":0,"night":0,"lamps":0,"selfLit":1,"shadowDarkness":0.2838,"exposure":1,"warmth":0.0254}"`,
     );
+    // Golden hour and just after sunset, where day is below 1 but night is still 0 (values from main).
+    expect(day(15.5, 'winter')).toMatchInlineSnapshot(
+      `"{"sun":{"x":-0.7397,"y":0.0659,"z":-0.6697},"direction":{"x":-0.7395,"y":0.07,"z":-0.6696},"moon":false,"elevation":3.7765,"light":{"r":1,"g":0.6514,"b":0.3852},"lightIntensity":1.226,"ambient":{"r":0.8163,"g":0.8069,"b":0.8084},"ambientGround":{"r":0.4196,"g":0.4,"b":0.349},"ambientIntensity":0.6329,"skyTop":{"r":0.5168,"g":0.6516,"b":0.812},"skyHorizon":{"r":0.9632,"g":0.8347,"b":0.6805},"glow":{"r":1,"g":0.7073,"b":0.4792},"glowStrength":0.9585,"fog":{"r":0.9632,"g":0.8347,"b":0.6805},"fogDensity":0.0001,"stars":0,"night":0,"lamps":0.6121,"selfLit":0.6038,"shadowDarkness":0.3997,"exposure":1,"warmth":0.8145}"`,
+    );
+    expect(day(16.25, 'winter')).toMatchInlineSnapshot(
+      `"{"sun":{"x":-0.8362,"y":-0.0299,"z":-0.5476},"direction":{"x":-0.8345,"y":0.07,"z":-0.5465},"moon":false,"elevation":-1.716,"light":{"r":1,"g":0.6234,"b":0.3607},"lightIntensity":0.4947,"ambient":{"r":0.7526,"g":0.6647,"b":0.7539},"ambientGround":{"r":0.4196,"g":0.4,"b":0.349},"ambientIntensity":0.8244,"skyTop":{"r":0.3098,"g":0.3843,"b":0.6},"skyHorizon":{"r":0.9363,"g":0.6615,"b":0.542},"glow":{"r":1,"g":0.6588,"b":0.4078},"glowStrength":0.7571,"fog":{"r":0.9363,"g":0.6615,"b":0.542},"fogDensity":0.0001,"stars":0,"night":0,"lamps":1,"selfLit":0.2476,"shadowDarkness":0.3549,"exposure":1,"warmth":0.7996}"`,
+    );
   });
 
   it('dims most windows in the small hours', () => {

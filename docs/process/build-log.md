@@ -503,3 +503,17 @@ Milestones and what each one taught us. Newest last.
    noon at the overview identical to the pixel. `tools/frames.mjs` takes the screenshots and measures
    idle, orbit and scrub frames on the GPU. Lesson: a light the size of a pixel is not shown by
    making it brighter; it needs a size on screen of its own.
+18. **The second-Opus review of the dark night** (Claude, under the proactive mandate). Two IMPORTANT
+   findings, both confirmed. First, the farm halos are most of what the 1880 overview shows, but the
+   1876 gas key is 'Documented' and never said its lit windows, or the farms, were a guess; the
+   decision log and ADR 0037 claimed the keys already did. A content test now fails any key that
+   lights a drawn farm without saying so in both languages: red for 1200, 1750, 1864, 1876 and 1944
+   (the review named three of them), green after one sentence each, with no date or level changed.
+   Second, the halo e2e only read `isVisible` and instance counts, so neither of the two failures this
+   feature had already hit (an unbound size uniform, halos drawn as flat squares) could turn it red.
+   A new e2e counts warm lit pixels over the 1880 overview with the halos on and off: 2.6% against
+   0.08%, red at 0.08% with `registerForExtraEvents` removed and red at 15% with a tinted emissive
+   colour. Two suggestions applied: each fire's smoke source now carries its houses' glow points, so
+   one rule decides both smoke and halos, and two lightings in the fading-day band are pinned from main
+   (red when `selfLit` loses its night weighting). Lesson: a test that reads flags back from the
+   renderer proves the code ran, not that anything reached the screen; count the pixels.

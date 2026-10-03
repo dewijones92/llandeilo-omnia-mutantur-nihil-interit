@@ -30,14 +30,19 @@ blackout looked much like any other night. A screenshot of the countryside above
   a deeper blue, sky light 0.2 (`NIGHT.ambient`) of `#3a4a78` over a near-black ground, a night sky
   of `#050a18` over `#101829` (which is also the fog), the materials' self-glow 0.08 of their day
   value (`NIGHT.selfLit`, was 0.2), and no exposure boost. Every change is multiplied by the night
-  factor, so the day is untouched: a unit test pins three daytime lightings exactly, the overview at
+  factor, so the day is untouched: a unit test pins three daytime lightings exactly, and two more
+  in the band where the day is fading but the night has not begun (winter 15:30 and 16:15, values
+  taken from main), the overview at
   noon in 1880 and 2000 screenshots identical to the pixel, and at `?place=llandeilo` 0.15% of pixels
   differ, all at the town's moving smoke, people and speech bubble. The same countryside now measures 0.07.
   The values are tuned by eye, not measured from a real night; they are rendering, not history.
 - **One `Halos` class for every kind of night light** (`src/world/halos.ts`): soft additive glows at
   each lit house (`Buildings`), each street lamp (`StreetLamps`) and each house with a hearth
   (`Firelight`, now one glow per roundhouse or longhouse, from the positions `buildFeature` records,
-  as well as a standing building's hearth). The owners pass points and a level; the colour and
+  as well as a standing building's hearth). Each fire's smoke source carries its houses' glow
+  points, so one rule says which features have a lit hearth for both the smoke and the halos
+  (*amended 2026-10-03* after the second-Opus review: a separate `hearthLights` list repeated that
+  rule, and `Firelight` keyed its cache on the two agreeing). The owners pass points and a level; the colour and
   level still come from `lampsAt` and the dated keys, so the halos add no era logic and change no
   content. A blacked-out key lights nothing, so the 1942 town is black.
 - **Each halo faces the camera and is never smaller than a few pixels.** `HALOS` in
@@ -56,8 +61,13 @@ blackout looked much like any other night. A screenshot of the countryside above
 - From the overview a night reads at a glance: the Victorian town orange with gas, 1903's electric
   street lamps white at its centre, the medieval valley a scatter of hearths, the 1942 blackout
   black, and 2000 lit along every road. A visitor sees what lit each era without zooming in.
-- Countryside farms get window halos too, from the same window shares as the town, which the 1902
-  and 1945 keys already call a guess; at the overview they are what makes the valley look lived in.
+- Countryside farms get window halos too, from the same window shares as the town; at the overview
+  they are what makes the valley look lived in. *Corrected 2026-10-03 (second-Opus review)*: this
+  line said the keys already called the farms a guess, which only the 1902 and 1945 keys did. Every
+  key that lights a drawn farm now says so in both languages, and a content test holds it.
+- An e2e test counts the warm lit pixels over the diorama at the 1880 overview with the halos on and
+  off (2.6% against 0.08%), so halos that draw nothing fail it (seen red with the uniform left unbound,
+  0.08%), and so do halos drawn as flat squares (seen red at 15%).
 - Frame cost, measured on the RTX 2000 Ada laptop GPU through WSL's D3D12 layer at 1920×1080, High,
   1903 overview at 23:00 (5,326 window, 45 street and 3 hearth halos), with vsync off: idle 150 and
   159fps before, 162 and 165 after; orbiting the camera 72 and 105fps before, 92 and 109 after;

@@ -14,7 +14,7 @@ import { HALOS } from '../domain/halo.ts';
 import { lampColour } from '../domain/lamplight.ts';
 import { Halos, type HaloPoint } from './halos.ts';
 import type { SmokeSource } from './smoke.ts';
-import type { Ground, WorldPoint } from './structures.ts';
+import type { Ground } from './structures.ts';
 
 const FIRE = lampColour(1);
 
@@ -57,13 +57,15 @@ export class Firelight {
     this.halos = new Halos(scene, 'hearth', HALOS.hearth);
   }
 
-  /** Ground pools at each hearth group, and a halo at every house in `houses` (ADR 0037). */
-  show(sources: readonly SmokeSource[], houses: readonly WorldPoint[], level: number): void {
-    const hearths = sources.filter((s) => s.fire);
+  /** Ground pools at each hearth group, and a halo at every house each fire carries (ADR 0037). */
+  show(sources: readonly SmokeSource[], level: number): void {
+    const hearths = sources.flatMap((s) => (s.fire ? [s] : []));
     this.mesh.isVisible = level > 0.02 && hearths.length > 0;
     this.glow.level = level * 1.6;
-    const key = `${hearths.map((s) => s.key).join('|')}#${String(houses.length)}`;
+    // A feature's houses are fixed when it is built, so its id stands for them.
+    const key = hearths.map((s) => s.key).join('|');
     if (key !== this.key) {
+      const houses = hearths.flatMap((s) => s.houses);
       this.key = key;
       const m = new Float32Array(Math.max(1, hearths.length) * 16);
       hearths.forEach((s, i) => {
