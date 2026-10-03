@@ -90,14 +90,24 @@ used.
   council (its name is lost in the OCR) asked Llandyfeisant Parish Council and the Urban District
   Council to join it "in lighting Llandilo Bridge by electric light" [S23]; the outcome is not found.
   (*Corrected 2026-10-03 (independent check)*: these finds are the check's.)
-- **Gas did not vanish.** In October 1902 the Reading Room's electric light was "not such a great
-  improvement on the gas as was expected" (Carmarthen Journal, 10 October 1902, noted in passing, not
-  re-read), and when the Institution's failed "luckily the gas had been left intact" [S24]
-  (*Corrected 2026-10-03 (independent check)*: the 31 October item is confirmed and now listed). The council sold electricity by the
-  unit: "the charge for electric light at Llandilo be 6d. per unit" was suggested in May 1902 [S25],
-  and a collector was paid "for each meter per quarter" [S20]. **Who had electric light at home is not
-  found**, so the app keeps homes on flame light at the 1902 key (*Corrected 2026-10-03 (independent check)*: the app had said homes
-  "mixed electric light, gas and oil" from 1902, which no source shows).
+- **Gas did not vanish, and tradespeople took the electric light.** In October 1902 the Reading
+  Room's electric light was "not such a great improvement on the gas as was expected", and in the
+  same column "we are glad that so many of the tradespeople of the town are having the light
+  installed as without their helps the scheme would surely fail" [S31] (*Corrected 2026-10-03
+  (second-Opus review)*: this item was "noted in passing, not re-read", and the tradespeople sentence
+  was left out; re-read and listed). When the Institution's light failed "luckily the gas had been
+  left intact" [S24] (*Corrected 2026-10-03 (independent check)*: the 31 October item is confirmed and
+  now listed). The council sold electricity by the unit: "the charge for electric light at Llandilo
+  be 6d. per unit" was suggested in May 1902 [S25], and a collector was paid "for each meter per
+  quarter" [S20]. So private premises, shops at least, were taking electric light by October 1902.
+  **How homes were lit is not found**: no source read puts gas, oil or electric light in a named
+  Llandeilo home in 1902. The app draws homes with flame light as before, which is a guess, and says
+  so. (*Corrected 2026-10-03*: the app had said homes "mixed electric light, gas and oil" from 1902.
+  The independent check rated that "partly" supported (electricity was sold by the meter) and asked
+  for no change; the change to flame light came from the second-Opus review of that day, and this
+  note wrongly credited it to the check. A first rewording then said homes "kept to gas, oil and
+  candles, as far as the sources show", which no source shows either; the second-Opus review of the
+  fixes caught it, and the wording now says home lighting is not recorded.)
 - **The blackout, 1 September 1939.** "The first real effect of the Second World War for most British
   civilians was the blackout, which was introduced on 1 September 1939, two days before war was
   actually declared" [S15]. It "remained in force for five years until September 1944, when
@@ -109,7 +119,11 @@ used.
   Wikipedia's "Blackout (wartime)" gives the same dates but cites S19 for them, so it is not a second
   source (*Corrected 2026-10-03 (independent check)*).
 - **The dim-out, from 17 September 1944, was partial.** Circulars of 9 September gave "particulars of
-  the relaxations due to come into force on 17th September", except in listed areas [S26]. In December
+  the relaxations due to come into force on 17th September and of the areas to which they would not
+  in the first instance be applicable" [S26]. No source read lists those areas; the exceptions found
+  are coastal ("coastal regions were still affected" [S30]). Whether Llandeilo, an inland town, was
+  one is not known, and the app says so (*Corrected 2026-10-03 (second-Opus review)*: the app gave 17
+  September for Llandeilo with no caveat). In December
   the Home Secretary said "We have allowed half-lighting for houses, and removed the requirement that
   the full black-out shall be restored on the alert. We have allowed half-lighting or moon-lighting
   for the streets" [S27]; a Scarborough history says householders "could take down their blackout
@@ -148,9 +162,9 @@ no later than: the light was in use by then, and when it began is not known. Thi
 | By 1750 | Rushlight and some candles; firelight | none | Reconstructed (analogy, two sources); 1750 is a sample date | [S13][S14] |
 | By 1864 | Oil lamps, candles, rushlights | none | Reconstructed; the lamps on sale are documented | [S12][S11] |
 | By 1876 | As before | Gas, in the town north of the Tywi | Documented as a latest date; the bound is S4 alone, S8 confirms gas street lighting | [S4][S8][S1][S2] |
-| By Sept 1902 | As before: gas, oil and candles as far as the sources show (*Corrected 2026-10-03 (independent check)*: was "Mixed: electric for some") | Electric, in the town north of the Tywi | Documented | [S8][S10][S5][S20][S11] |
+| By Sept 1902 | Not recorded; drawn with oil and candle light as before (a guess). Tradespeople were having electric light installed by October [S31] (*Corrected 2026-10-03*: was "Mixed: electric for some", then "As before: gas, oil and candles as far as the sources show"; no source puts gas in a home, and S31 shows electric light going into the town's businesses; second-Opus review, not the independent check) | Electric, in the town north of the Tywi | Documented | [S8][S10][S5][S20][S31][S11] |
 | On 1 Sept 1939 | Blacked out | Off | Documented (national; two sources) | [S15][S19] |
-| From 17 Sept 1944 (*Corrected 2026-10-03 (independent check)*: was "From Sept 1944") | Curtained, faint | Dimmed, in the town | Documented relaxation; the level is reconstructed | [S15][S16][S17][S19][S26][S27][S28][S30] |
+| From 17 Sept 1944 (*Corrected 2026-10-03 (independent check)*: was "From Sept 1944") | Curtained, faint | Dimmed, in the town | Documented relaxation outside listed, mostly coastal, areas; whether Llandeilo was listed is not known; the level is reconstructed | [S15][S16][S17][S19][S26][S27][S28][S30] |
 | By 8 May 1945 | Mixed (the share is guessed) | Electric, in the town | Documented as a latest date for Llandeilo, an inland town (S18, S29); not for "all districts", since some coastal areas waited longer (*Corrected 2026-10-03 (independent check)*); S19 says April 1945 | [S18][S19][S29] |
 
 The c. 1200 key draws nothing different from the hearth key: it exists so the almanac can say what a
@@ -160,7 +174,10 @@ read says what Dinefwr lit. Each key's words and ⓘ show in the almanac as "Lig
 The shares of lit windows, the brightness and the colour of each key are **reconstructed**: no
 source counts lit windows. Flame light (hearth, rush, candle, oil, flat-flame gas) is drawn warm
 yellow-orange; electric light whiter. Gas mantles (whiter light) are not recorded for Llandeilo, so
-gas is drawn as flame. Farms across the valley are drawn with the town's windows, which is a guess.
+gas is drawn as flame. Street lamps take their colour from what they burned (gas or dimmed lamps as
+flame, electric whiter), apart from the windows, so the electric street lamps of 1902 are whiter than
+the flame-lit homes behind them (*Corrected 2026-10-03 (second-Opus review)*: one colour served
+both, so the 1902 lamps were drawn gas-orange). Farms across the valley are drawn with the town's windows, which is a guess.
 Street lamp positions are not recorded; they are drawn along today's roads near the town's houses,
 inside an outline of Llandeilo north of the Tywi (its south and east edges follow OS Open Rivers),
 because the sources speak of lighting "the town" and nothing read says Ffairfach was lit.
@@ -173,6 +190,10 @@ because the sources speak of lighting "the town" and nothing read says Ffairfach
   from October 1902 the lamps were lit from half an hour after sunset till 11 o'clock all year [S20].
   The app models neither the season nor the 11 o'clock switch-off yet.
 - Who in Llandeilo had electric light at home before 1939, and when did farms get mains electricity?
+  (Tradespeople were having it installed by October 1902 [S31]; whether that means their homes too
+  is not known.)
+- Which areas were left out of the 17 September 1944 relaxations (the Schedule to the order of 16
+  September 1944 [S26])? Was Carmarthenshire, or Llandeilo, among them?
 - When did Ffairfach and the villages get street lighting at all? (The app lights only the town north
   of the Tywi.)
 - When did Llandeilo's own lamps come back on in 1945? Did the town use star lighting before the
@@ -202,8 +223,8 @@ because the sources speak of lighting "the town" and nothing read says Ffairfach
 - [S18] Hansard, HC Deb 12 April 1945 vol 409 c1980, "Black-out Restrictions" – https://api.parliament.uk/historic-hansard/commons/1945/apr/12/black-out-restrictions – "It is my intention to remove the black-out restrictions in all districts at a date not later than the end of the war in Europe". Primary. Read directly.
 - [S19] Home Sweet Home Front, "Blackout" – https://homesweethomefront.co.uk/web_pages/hshf_blackout_pg.php – "On the 1st September 1939, two days before the outbreak of war, Britain was blacked out"; "The Dim-out was introduced in September 1944 and meant that lighting the equivalent of moonlight could at long last be introduced"; "Full lighting of streets that had not been seen since before the war eventually came in April 1945", in London "on the 30th April 1945". A home-front history website with no named author; secondary, and cited by Wikipedia's "Blackout (wartime)" for the same dates. Read via a fetch summary with quotes, 2026-10-03.
 - [S20] *The Carmarthen Journal*, 10 October 1902, "Llandilo" (Urban District Council) – https://newspapers.library.wales/view/3677405/3677410/35/ – "the contractor (Mr Bertram Thomas)"; "several pillars and brackets had not been completed"; a collector "at a salary of Is for each meter per quarter"; "the town lamps be lighted from half an hour after sunset till II o'clock every night throughout the year", and a finger-post on "the bottom lamp in Rhosmaen-street". Primary. Found by the 2026-10-03 check; read directly (OCR).
-- [S21] *The Cambrian*, 4 April 1902, "Llandilo" (Urban District Council) – https://newspapers.library.wales/view/3346260/3346267/77/ – the lamplighting contract ended on 31 March "in anticipation of the electric light"; Mr Davies to "continue to [light] the town lamps" to "the end of the [season]". Primary. Found by the 2026-10-03 check; read directly (OCR).
-- [S22] *The Cambrian*, 4 April 1902, "Llandilo" (Urban District Council, the engineer's report) – https://newspapers.library.wales/view/3346260/3346267/79/ – "It was agreed that 16 new lamp posts be supplied by the contractor and fixed by him". Primary. Found by the 2026-10-03 check; read directly (OCR).
+- [S21] *The Cambrian*, 4 April 1902, "Llandilo" (Urban District Council) – https://newspapers.library.wales/view/3346260/3346267/79/ – the lamplighting contract ended on 31 March "in anticipation of the electric light"; Mr Davies to "continue to [light] the town lamps" to "the end of the [season]". Primary. Found by the 2026-10-03 check; read directly (OCR).
+- [S22] *The Cambrian*, 4 April 1902, "Llandilo" (Urban District Council, the engineer's report) – https://newspapers.library.wales/view/3346260/3346267/77/ – "It was agreed that 16 new lamp posts be supplied by the contractor and fixed by him". Primary. Found by the 2026-10-03 check; read directly (OCR). (*Corrected 2026-10-03 (second-Opus review)*: the S21 and S22 URLs were swapped when the check was applied; re-read, S21's quote is in article 79 and S22's in article 77.)
 - [S23] *The Carmarthen Journal*, 13 June 1902, "Llandilo" – https://newspapers.library.wales/view/3677261/3677269/60/ – a council writes "to the Llandyfeisant Parish Council, and to the Llandilo Urban District Council, asking them to join this Council in lighting Llandilo Bridge by electric light". Primary. Found by the 2026-10-03 check; read directly (OCR).
 - [S24] *The Carmarthen Journal*, 31 October 1902, "Llandilo Notes" – https://newspapers.library.wales/view/3677432/3677437/36/ – "The Institution was almost in darkness on Monday, but luckily the gas had been left intact". Primary. Read directly (OCR).
 - [S25] *The Cambrian*, 16 May 1902 – https://newspapers.library.wales/view/3346314/3346321/91/ – "It has been suggested that the charge for electric light at Llandilo be 6d. per unit, which is equal to about 3s. per 1,000 for gas". Primary. Found by the 2026-10-03 check; read directly (OCR).
@@ -212,3 +233,4 @@ because the sources speak of lighting "the town" and nothing read says Ffairfach
 - [S28] Hansard, HC Deb 15 March 1945, "Street Lighting" – https://api.parliament.uk/historic-hansard/commons/1945/mar/15/street-lighting – Morrison: "I have no power to require any minimum standard of street lighting". Primary. Read directly.
 - [S29] Leeds Beckett University, "Coming out of the blackout" (LBU Together blog, May 2020) – https://www.leedsbeckett.ac.uk/blogs/lbu-together/2020/05/coming-out-of-the-blackout/ – "The restrictions mostly remained in place until 2 May 1945, and, even then, some coastal areas remained subject to the rules well into peacetime." Secondary (an academic blog). Read directly.
 - [S30] Scarborough Maritime Heritage Centre, article 673 – https://www.scarboroughsmaritimeheritage.org.uk/article.php?article=673 – "The black-out was partially lifted on September 17th 1944 (coastal regions were still affected)"; householders "could take down their blackout curtains and shutters and use their ordinary curtains"; "Starlighting in the streets had been used since 1943". Secondary, local (a coastal town). Read directly.
+- [S31] *The Carmarthen Journal*, 10 October 1902, "Llandilo Notes" – https://newspapers.library.wales/view/3677405/3677410/36/ – "The electric light at the Reading Room is not such a great improvement on the gas as was expected. Let us hope it will improve. At the same time we are glad that so many of the tradespeople of the town are having the light installed as without their helps the scheme would surely fail." Primary. Read directly (OCR), 2026-10-03; on the same page as S20. Found by the second-Opus review of 2026-10-03.

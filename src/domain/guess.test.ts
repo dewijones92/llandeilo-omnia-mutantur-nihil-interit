@@ -320,6 +320,49 @@ describe('sceneMatches', () => {
     expect(sceneMatches(snapshotAt(lit, at(lit, 1250)), snapshotAt(lit, at(lit, 1350)))).toBe(false);
   });
 
+  it('counts two night-light keys that draw the same night as the same scene, like the c. 1200 key', () => {
+    const courtCandles: LampKey = {
+      ...FIRELIGHT,
+      year: ad(1300),
+      dated: 'in',
+      text: { en: 'candles', cy: 'canhwyllau' },
+    };
+    const lit = world([feature('castle', 1200, 1400, DOCUMENTED)], [], {
+      lamplight: [FIRELIGHT, courtCandles],
+    });
+    expect(sceneMatches(snapshotAt(lit, at(lit, 1250)), snapshotAt(lit, at(lit, 1350)))).toBe(true);
+  });
+
+  it('compares street lamps by what they draw: kind, glow and lit area, and no key against a key', () => {
+    // Between 1500 and 1800 the test climate's chill holds, so only the night light can differ.
+    const gas = (y: number, glow: number, id: string): LampKey => ({
+      ...FIRELIGHT,
+      year: ad(y),
+      streets: {
+        kind: 'gas',
+        glow,
+        area: {
+          id,
+          label: { en: id, cy: id },
+          outline: [
+            { e: 0, n: 0 },
+            { e: 1, n: 0 },
+            { e: 1, n: 1 },
+          ],
+        },
+      },
+    });
+    const scene = (keys: [LampKey, ...LampKey[]], a: number, b: number) => {
+      const lit = world([feature('castle', 1050, 1950, DOCUMENTED)], [], { lamplight: keys });
+      return sceneMatches(snapshotAt(lit, at(lit, a)), snapshotAt(lit, at(lit, b)));
+    };
+    expect(scene([gas(1550, 0.7, 'town'), gas(1650, 0.7, 'town')], 1600, 1700)).toBe(true);
+    expect(scene([gas(1550, 0.7, 'town'), gas(1650, 0.9, 'town')], 1600, 1700)).toBe(false);
+    expect(scene([gas(1550, 0.7, 'town'), gas(1650, 0.7, 'wider')], 1600, 1700)).toBe(false);
+    expect(scene([gas(1650, 0.7, 'town')], 1550, 1600)).toBe(true);
+    expect(scene([gas(1650, 0.7, 'town')], 1600, 1700)).toBe(false);
+  });
+
   it('tells them apart when a feature differs, or the climate does', () => {
     expect(sceneMatches(snapshotAt(w, at(w, 1250)), snapshotAt(w, at(w, 1900)))).toBe(false);
     expect(sceneMatches(snapshotAt(w, at(w, 1100)), snapshotAt(w, at(w, 1650)))).toBe(false);

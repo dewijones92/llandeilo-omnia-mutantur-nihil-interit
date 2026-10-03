@@ -116,7 +116,7 @@ birch at Waun Fignen Felen from about 8000 years ago [deeptime:S12].
 
 | Sound | Setting | Tier | Sources |
 |---|---|---|---|
-| Birds much like today's: Port Eynon's 43 species were mostly ones "a birdwatcher might expect to see on the Gower today"; Port Eynon is a coastal cave and its list includes great bustard (*Corrected 2026-10-03 (independent check)*: was "Woodland song birds") | Woodland | Reconstructed (from Gower bones) | [S1] |
+| Birds much like today's: many of Port Eynon's 43 species were ones "a birdwatcher might expect to see on the Gower today" (*Corrected 2026-10-03 (second-Opus review)*: was "mostly"; S1 says "Many of these"); Port Eynon is a coastal cave and its list includes great bustard (*Corrected 2026-10-03 (independent check)*: was "Woodland song birds") | Woodland | Reconstructed (from Gower bones) | [S1] |
 | Cranes calling, common: 46% of bird footprints at Goldcliff, c. 7000 years ago | Wetland, floodplain | Documented (Wales, Severn estuary) | [S1] |
 | White stork (footprints, Goldcliff); white-tailed eagle (Port Eynon, Little Hoyle); great bustard (Port Eynon) | Wetland, river, open ground | Documented (Wales, not local) | [S1] |
 | Red deer, wild boar, aurochs, elk (to c. 3600 BC), brown bear, wolf, beaver | Woodland, river | Reconstructed (Britain-wide dates) | [deeptime:S31][deeptime:S34] |
@@ -247,7 +247,7 @@ contested [medieval:S57].
 | The engines: the company's early engines were Hackworth six-coupled engines (the 1841 *Victoria*: 4 ft wheels, 18 tons, laid up for repair from June to December 1857); which two engines drew the first train is not recorded, and two new engines of 1857 are unnamed (*Corrected 2026-10-03 (independent check)*) | Railway | Documented (the company's type); reconstructed (sound) | [railway:S1][railway:S2] |
 | A town of "a church, four chapels, 11 streets, 73 shops, 23 public houses" (1858) | Town street | Documented, single-source | [victorian:S65] |
 | Cilyrychen lime kilns, Llandybïe, first kiln lit 18 May 1857 | Industry | Documented (the kilns); reconstructed (sound) | [victorian:S24][victorian:S27] |
-| Gas works at Ffairfach, c. 1860 | Village | Documented, single-source | [victorian:S2] |
+| Gas works at Ffairfach, c. 1860 (*Corrected 2026-10-03*: contradicted; two 1864 newspapers report the works being built that year [light:S1][light:S2]) | Village | Contradicted; single-source for c. 1860 | [victorian:S2] |
 | Last large cattle drove across Wales, 1870 | Road | Documented, single-source | [victorian:S37] |
 | Corncrake "numerous in most parts of the county", arriving mid April (Pembrokeshire, 1894) | Hay meadows | Documented (neighbouring county) | [S10] |
 | Cymanfa ganu begins at Aberdare in 1859, not here | Chapel | Documented elsewhere (the Victorian note's 1859 row); do not place locally | |

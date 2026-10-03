@@ -55,8 +55,8 @@ export const ICE_AGE_BIRDS: Provenance = {
 export const WILDWOOD_BIRDS: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'Birds much like today’s: most of the 43 species among the Middle Stone Age bones at Port Eynon on Gower are ones a birdwatcher might expect there now. Cranes were common on the Severn estuary wetlands.',
-    cy: 'Adar tebyg iawn i rai heddiw: mae’r rhan fwyaf o’r 43 rhywogaeth ymhlith esgyrn Oes Ganol y Cerrig ym Mhorth Einon ar Benrhyn Gŵyr yn rhai y gallai gwyliwr adar ddisgwyl eu gweld yno heddiw. Roedd garanod yn gyffredin ar wlyptiroedd aber Hafren.',
+    en: 'Birds much like today’s: many of the 43 species among the Middle Stone Age bones at Port Eynon on Gower are ones a birdwatcher might expect there now. Cranes were common on the Severn estuary wetlands.',
+    cy: 'Adar tebyg iawn i rai heddiw: mae llawer o’r 43 rhywogaeth ymhlith esgyrn Oes Ganol y Cerrig ym Mhorth Einon ar Benrhyn Gŵyr yn rhai y gallai gwyliwr adar ddisgwyl eu gweld yno heddiw. Roedd garanod yn gyffredin ar wlyptiroedd aber Hafren.',
   },
   sources: [src('sound:S1')],
 };
@@ -216,7 +216,7 @@ export const BELLS_SINCE: Provenance = {
 
 export const FIRST_TRAIN: Provenance = {
   kind: 'documented',
-  sources: [src('effects:S7')],
+  sources: [src('effects:S7'), src('victorian:S29'), src('victorian:S28')],
   note: {
     en: 'The railway reached Llandeilo on 20 January 1857, the train drawn by two engines. Which engines they were is not recorded; their sound is reconstructed.',
     cy: 'Cyrhaeddodd y rheilffordd Landeilo ar 20 Ionawr 1857, a dwy injan yn tynnu’r trên. Ni chofnodwyd pa injans oedden nhw; ail-grëwyd eu sŵn.',
@@ -226,19 +226,33 @@ export const FIRST_TRAIN: Provenance = {
 export const GWR_TANKS: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'Steam trains of the mid 20th century, as photographed on these trains in 1958 to 1960: among them engines whose numbers place them in the Great Western 57xx pannier-tank class. Steam passenger trains ended on 13 June 1964, and the steam sound ends with them. Both photograph pages are by one local historian.',
-    cy: 'Trenau stêm canol yr 20fed ganrif, fel y tynnwyd eu lluniau ar y trenau hyn yn 1958 i 1960: yn eu plith injans y mae eu rhifau’n eu gosod yn nosbarth tanciau pannier 57xx y Great Western. Daeth trenau teithwyr stêm i ben ar 13 Mehefin 1964, a daw sŵn y stêm i ben gyda nhw. Mae’r ddwy dudalen luniau gan yr un hanesydd lleol.',
+    en: 'Steam trains of the mid 20th century, as photographed on these trains in 1958 to 1960: among them engines whose numbers place them in the Great Western 57xx pannier-tank class. Steam passenger trains ended on 13 June 1964 (one source), and the steam sound ends with them, as the drawn train does. Steam freight engines worked from Llandovery shed until 10 August 1964, and one source says steam on the Llanelly lines ended in 1963. Both photograph pages are by one local historian.',
+    cy: 'Trenau stêm canol yr 20fed ganrif, fel y tynnwyd eu lluniau ar y trenau hyn yn 1958 i 1960: yn eu plith injans y mae eu rhifau’n eu gosod yn nosbarth tanciau pannier 57xx y Great Western. Daeth trenau teithwyr stêm i ben ar 13 Mehefin 1964 (un ffynhonnell), a daw sŵn y stêm i ben gyda nhw, fel y trên a ddangosir. Gweithiai injans nwyddau stêm o sied Llanymddyfri hyd 10 Awst 1964, ac mae un ffynhonnell yn dweud i stêm ar leiniau Llanelli ddod i ben yn 1963. Mae’r ddwy dudalen luniau gan yr un hanesydd lleol.',
   },
-  sources: [src('railwaylater:S2'), src('railwaylater:S3'), src('railwaylater:S49')],
+  sources: [
+    src('railwaylater:S2'),
+    src('railwaylater:S3'),
+    src('railwaylater:S49'),
+    src('railwaylater:S1'),
+    src('railwaylater:S4'),
+    src('railwaylater:S11'),
+  ],
 };
 
 export const DIESEL_UNITS: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'Diesel units took over the passenger trains when steam ended on 13 June 1964: two-car diesel rail cars, or three-car Swindon sets (the sources disagree), then single Class 153 cars from about 1991. Their engines and horns are synthesised, not recorded here. The Class 153 page is a lead only.',
-    cy: 'Cymerodd unedau disel y trenau teithwyr drosodd pan ddaeth stêm i ben ar 13 Mehefin 1964: ceir rheilffordd disel dau gerbyd, neu setiau tri cherbyd o Swindon (mae’r ffynonellau’n anghytuno), yna ceir Dosbarth 153 sengl o tua 1991. Mae sŵn eu peiriannau a’u cyrn wedi’i greu, nid wedi’i recordio yma. Arweiniad yn unig yw’r dudalen am Ddosbarth 153.',
+    en: 'Diesel units took over the passenger trains when steam ended on 13 June 1964: two-car diesel rail cars, or three-car Swindon sets (the sources disagree), then Class 153 cars, converted in 1991–92 and seen here by 1994, single or in pairs, and in pairs today. Their engines and horns are synthesised, not recorded here. The Class 153 page is a lead only.',
+    cy: 'Cymerodd unedau disel y trenau teithwyr drosodd pan ddaeth stêm i ben ar 13 Mehefin 1964: ceir rheilffordd disel dau gerbyd, neu setiau tri cherbyd o Swindon (mae’r ffynonellau’n anghytuno), yna ceir Dosbarth 153, wedi’u haddasu yn 1991–92 ac i’w gweld yma erbyn 1994, yn sengl neu’n barau, ac yn barau heddiw. Mae sŵn eu peiriannau a’u cyrn wedi’i greu, nid wedi’i recordio yma. Arweiniad yn unig yw’r dudalen am Ddosbarth 153.',
   },
-  sources: [src('railwaylater:S2'), src('railwaylater:S52'), src('railwaylater:S1'), src('railwaylater:S35')],
+  sources: [
+    src('railwaylater:S2'),
+    src('railwaylater:S52'),
+    src('railwaylater:S1'),
+    src('railwaylater:S35'),
+    src('railwaylater:S27'),
+    src('railwaylater:S39'),
+  ],
 };
 
 export const MOTOR_TRAFFIC: Provenance = {

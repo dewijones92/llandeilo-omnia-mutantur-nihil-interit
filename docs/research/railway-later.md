@@ -2,7 +2,7 @@
 title: The later railway at Llandeilo, 1889 to today
 kind: research
 status: draft
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 Independently checked 2026-10-02 (see [reviews/railway-later-check-2026-10-02.md](reviews/railway-later-check-2026-10-02.md)); corrections applied.
@@ -251,7 +251,9 @@ Llanwrda handled "10,000 tons of goods" [S3]. Goods to Derwydd Road ended on 14 
 
 **Closures and threats.**
 - 18 August 1958: passenger trains withdrawn on the Pantyffynnon to Brynaman branch. [S1][S11]
-  **Cross-checked.** (Outside the radius; it leaves the line at Pantyffynnon.)
+  **Cross-checked.** (It leaves the line at Pantyffynnon. *Corrected 2026-10-03 (second-Opus review)*:
+  this said "Outside the radius", but the branch up the Amman valley, Brynaman included, lies inside
+  the ten miles, about 12 to 15km from Llandeilo.)
 - 1962: the Western Region proposed closing the whole route; the Minister refused, at the cost of
   closing Swansea Victoria and the line from Pontarddulais. [S1] S52 also gives "an attempt to close
   the whole line in 1962" [S52] (*Corrected 2026-10-02 (independent check)*: added). Wikipedia instead says "The 1963

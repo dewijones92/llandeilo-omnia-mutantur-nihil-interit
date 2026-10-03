@@ -24,6 +24,10 @@ export const TOWN_NORTH_OF_TYWI: LitArea = {
   ],
 };
 
+const FARMS_GUESS = {
+  en: ' Farms across the valley are drawn with the same windows as the town, which is a guess.',
+  cy: ' Mae ffermydd ar draws y dyffryn yn cael yr un ffenestri â’r dref, sy’n ddyfaliad.',
+};
 const FARMS = {
   en: ' Farms across the valley are drawn with the same windows as the town, which is a guess: when farms got mains electricity is not known.',
   cy: ' Mae ffermydd ar draws y dyffryn yn cael yr un ffenestri â’r dref, sy’n ddyfaliad: nid yw’n hysbys pryd y cafodd ffermydd drydan o’r prif gyflenwad.',
@@ -160,15 +164,22 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     glow: 0.75,
     hearth: 1,
     text: {
-      en: 'By September 1902 the town’s streets were lit by electricity, the council’s own. Homes, as far as the sources show, kept to gas, oil and candles.',
-      cy: 'Erbyn Medi 1902 roedd strydoedd y dref dan olau trydan, eiddo’r cyngor ei hun. Hyd y gwelir yn y ffynonellau, daliodd cartrefi at nwy, olew a chanhwyllau.',
+      en: 'By September 1902 the town’s streets were lit by electricity, the council’s own, and by October many of the town’s tradespeople were having it installed. How homes were lit is not recorded.',
+      cy: 'Erbyn Medi 1902 roedd strydoedd y dref dan olau trydan, eiddo’r cyngor ei hun, ac erbyn Hydref roedd llawer o fasnachwyr y dref yn ei osod. Nid oes cofnod o sut y goleuwyd cartrefi.',
     },
     provenance: {
       kind: 'documented',
-      sources: [src('light:S8'), src('light:S10'), src('light:S5'), src('light:S20'), src('light:S11')],
+      sources: [
+        src('light:S8'),
+        src('light:S10'),
+        src('light:S5'),
+        src('light:S20'),
+        src('light:S31'),
+        src('light:S11'),
+      ],
       note: {
-        en: `Electric street light, the Urban District Council’s own, by September 1902: a columnist mocked those who saw "no difference in the streets now that they are electrically lit than when they were gas lit". The exact day is not known. From October 1902 the town lamps were to be lit from half an hour after sunset till 11 o’clock every night of the year (S20); the scene does not yet put them out at 11. Not every spot was lit: in December 1902 there was "no light whatever" at the turn from Trallwm to Station Road (S11). The council also sold electricity by the meter, but no source read says who had it at home, so homes keep the flame light of the gas years; the share of lit windows is guessed.${FARMS.en}${WHERE.en}`,
-        cy: `Golau stryd trydan, eiddo Cyngor Dosbarth Trefol Llandeilo ei hun, erbyn Medi 1902: gwawdiodd colofnydd y rhai na welai ddim gwahaniaeth rhwng y strydoedd dan olau trydan a’r strydoedd dan olau nwy. Nid yw’r union ddiwrnod yn hysbys. O fis Hydref 1902 roedd lampau’r dref i’w cynnau o hanner awr wedi machlud yr haul hyd 11 o’r gloch bob nos drwy’r flwyddyn (S20); nid yw’r olygfa eto’n eu diffodd am 11. Nid oedd pob man wedi’i oleuo: ym mis Rhagfyr 1902 nid oedd “dim golau o gwbl” ar y tro o’r Trallwm i Station Road (S11). Gwerthai’r cyngor drydan wrth y mesurydd hefyd, ond nid oes ffynhonnell a ddarllenwyd yn dweud pwy oedd ag ef gartref, felly mae cartrefi’n cadw golau fflam blynyddoedd y nwy; dyfalu yw cyfran y ffenestri golau.${FARMS.cy}${WHERE.cy}`,
+        en: `Electric street light, the Urban District Council’s own, by September 1902: a columnist mocked those who saw "no difference in the streets now that they are electrically lit than when they were gas lit". The exact day is not known. From October 1902 the town lamps were to be lit from half an hour after sunset till 11 o’clock every night of the year (S20); the scene does not yet put them out at 11. Not every spot was lit: in December 1902 there was "no light whatever" at the turn from Trallwm to Station Road (S11). The council sold electricity by the meter (S20), and in October a columnist was glad that “so many of the tradespeople of the town are having the light installed” (S31), so shops, and perhaps the homes above them, had it. No source read says how homes were lit, so they are drawn with flame light as before, which is a guess, as is the share of lit windows.${FARMS_GUESS.en}${WHERE.en}`,
+        cy: `Golau stryd trydan, eiddo Cyngor Dosbarth Trefol Llandeilo ei hun, erbyn Medi 1902: gwawdiodd colofnydd y rhai na welai ddim gwahaniaeth rhwng y strydoedd dan olau trydan a’r strydoedd dan olau nwy. Nid yw’r union ddiwrnod yn hysbys. O fis Hydref 1902 roedd lampau’r dref i’w cynnau o hanner awr wedi machlud yr haul hyd 11 o’r gloch bob nos drwy’r flwyddyn (S20); nid yw’r olygfa eto’n eu diffodd am 11. Nid oedd pob man wedi’i oleuo: ym mis Rhagfyr 1902 nid oedd “dim golau o gwbl” ar y tro o’r Trallwm i Station Road (S11). Gwerthai’r cyngor drydan wrth y mesurydd (S20), ac ym mis Hydref roedd colofnydd yn falch bod “cymaint o fasnachwyr y dref” yn gosod y golau (S31), felly roedd y golau gan siopau, ac efallai gan y cartrefi uwch eu pennau. Nid oes ffynhonnell a ddarllenwyd yn dweud sut y goleuwyd cartrefi, felly fe’u dangosir â golau fflam fel o’r blaen, sy’n ddyfaliad, fel cyfran y ffenestri golau.${FARMS_GUESS.cy}${WHERE.cy}`,
       },
     },
   },
@@ -195,7 +206,7 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     },
   },
   {
-    // 17 September 1944, the day the relaxations came into force (Hansard written answer, 28 September 1944).
+    // 17 September 1944, the day the relaxations came into force outside listed areas (Hansard written answer, 28 September 1944).
     year: ad(1944.71),
     dated: 'on',
     homes: 'curtained',
@@ -205,8 +216,8 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     glow: 0.12,
     hearth: 0,
     text: {
-      en: 'From 17 September 1944, the dim-out: homes could use ordinary curtains and show a little light, and councils could light the streets to about moonlight.',
-      cy: 'O 17 Medi 1944, y pylu: câi cartrefi ddefnyddio llenni cyffredin a dangos ychydig o olau, a châi cynghorau oleuo’r strydoedd i lefel golau lleuad, fwy neu lai.',
+      en: 'From 17 September 1944, the dim-out, except in some listed, mostly coastal, areas: homes could use ordinary curtains and show a little light, and councils could light the streets to about moonlight.',
+      cy: 'O 17 Medi 1944, y pylu, ac eithrio rhai ardaloedd rhestredig, ar yr arfordir gan mwyaf: câi cartrefi ddefnyddio llenni cyffredin a dangos ychydig o olau, a châi cynghorau oleuo’r strydoedd i lefel golau lleuad, fwy neu lai.',
     },
     provenance: {
       kind: 'documented',
@@ -220,8 +231,8 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
         src('light:S19'),
       ],
       note: {
-        en: `The dim-out, from 17 September 1944: homes were allowed half-lighting behind ordinary curtains, though in February 1945 the Home Secretary still would not end the blacking-out of homes; each council chose its own street-lighting standard. How much light Llandeilo showed is guessed: faint windows and dim street lamps.${WHERE.en}`,
-        cy: `Y pylu, o 17 Medi 1944: caniatawyd hanner golau i gartrefi y tu ôl i lenni cyffredin, er na fyddai’r Ysgrifennydd Cartref ym mis Chwefror 1945 yn rhoi terfyn ar dywyllu cartrefi o hyd; dewisai pob cyngor ei safon ei hun ar gyfer goleuo’r strydoedd. Dyfalu yw faint o olau a ddangosai Llandeilo: ffenestri gwan a lampau stryd pŵl.${WHERE.cy}`,
+        en: `The dim-out, from 17 September 1944: the relaxations began that day except in areas listed in the order, which no source read names; the exceptions found are coastal. Whether Llandeilo, an inland town, was one is not known. Homes were allowed half-lighting behind ordinary curtains, though in February 1945 the Home Secretary still would not end the blacking-out of homes; each council chose its own street-lighting standard. How much light Llandeilo showed is guessed: faint windows and dim street lamps.${WHERE.en}`,
+        cy: `Y pylu, o 17 Medi 1944: dechreuodd y llacio y diwrnod hwnnw ac eithrio mewn ardaloedd a restrwyd yn y gorchymyn, nad oes ffynhonnell a ddarllenwyd yn eu henwi; ar yr arfordir y mae’r eithriadau a gafwyd. Nid yw’n hysbys a oedd Llandeilo, tref fewndirol, yn un ohonynt. Caniatawyd hanner golau i gartrefi y tu ôl i lenni cyffredin, er na fyddai’r Ysgrifennydd Cartref ym mis Chwefror 1945 yn rhoi terfyn ar dywyllu cartrefi o hyd; dewisai pob cyngor ei safon ei hun ar gyfer goleuo’r strydoedd. Dyfalu yw faint o olau a ddangosai Llandeilo: ffenestri gwan a lampau stryd pŵl.${WHERE.cy}`,
       },
     },
   },

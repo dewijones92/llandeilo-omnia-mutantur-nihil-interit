@@ -2889,13 +2889,13 @@ export const SOURCE_SEEDS = [
   {
     "id": "light:S21",
     "title": "*The Cambrian*, 4 April 1902, \"Llandilo\" (Urban District Council)",
-    "url": "https://newspapers.library.wales/view/3346260/3346267/77/",
+    "url": "https://newspapers.library.wales/view/3346260/3346267/79/",
     "doc": "docs/research/light-after-dark.md"
   },
   {
     "id": "light:S22",
     "title": "*The Cambrian*, 4 April 1902, \"Llandilo\" (Urban District Council, the engineer's report)",
-    "url": "https://newspapers.library.wales/view/3346260/3346267/79/",
+    "url": "https://newspapers.library.wales/view/3346260/3346267/77/",
     "doc": "docs/research/light-after-dark.md"
   },
   {
@@ -2944,6 +2944,12 @@ export const SOURCE_SEEDS = [
     "id": "light:S30",
     "title": "Scarborough Maritime Heritage Centre, article 673",
     "url": "https://www.scarboroughsmaritimeheritage.org.uk/article.php?article=673",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S31",
+    "title": "*The Carmarthen Journal*, 10 October 1902, \"Llandilo Notes\"",
+    "url": "https://newspapers.library.wales/view/3677405/3677410/36/",
     "doc": "docs/research/light-after-dark.md"
   },
   {

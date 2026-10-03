@@ -1,6 +1,7 @@
 import { assertNever, clamp } from './assert.ts';
 import { chillAt, type ClimateKey } from './climate.ts';
 import { lowestSnowM, seasonLook, type Season } from './daylight.ts';
+import type { LampKey, Streets } from './lamplight.ts';
 import type { Feature } from './model.ts';
 import type { Provenance } from './provenance.ts';
 import type { Rgb } from './colour.ts';
@@ -185,6 +186,31 @@ function sameEnvironment(a: Environment, b: Environment): boolean {
   return Object.values(same).every(Boolean);
 }
 
+function sameStreets(a: Streets, b: Streets): boolean {
+  if (a.kind === 'none' || a.kind === 'off' || b.kind === 'none' || b.kind === 'off')
+    return a.kind === b.kind;
+  return a.kind === b.kind && a.glow === b.glow && a.area.id === b.area.id;
+}
+
+// Every field of a night-light key is drawn or not seen, so a new field is a compile error here
+// until it is classified; two keys that draw the same night (the c. 1200 key, say) look the same.
+function sameLight(a: LampKey | undefined, b: LampKey | undefined): boolean {
+  if (!a || !b) return a === b;
+  const same: Readonly<Record<keyof LampKey, boolean | 'not seen'>> = {
+    year: 'not seen',
+    dated: 'not seen',
+    text: 'not seen',
+    provenance: 'not seen',
+    homes: a.homes === b.homes,
+    streets: sameStreets(a.streets, b.streets),
+    warmth: a.warmth === b.warmth,
+    windows: a.windows === b.windows,
+    glow: a.glow === b.glow,
+    hearth: a.hearth === b.hearth,
+  };
+  return Object.values(same).every((v) => v !== false);
+}
+
 type Compare = (a: Snapshot, b: Snapshot) => boolean;
 
 // Every Snapshot field is either compared or said not to be seen, so a new drawn field is a compile
@@ -200,8 +226,7 @@ const SCENE: Readonly<Record<keyof Snapshot, Compare | 'not seen'>> = {
   nearestEvent: 'not seen',
   environment: (a, b) => sameEnvironment(a.environment, b.environment),
   chill: (a, b) => Math.abs(a.chill - b.chill) < SAME_CHILL,
-  // By key: a key is a change in what lit the night (homes, streets, window shares).
-  lamplight: (a, b) => a.lamplight === b.lamplight,
+  lamplight: (a, b) => sameLight(a.lamplight, b.lamplight),
   features: (a, b) => sameIds(drawnFeatures(a), drawnFeatures(b)),
   // Each live conversation puts its people in the scene.
   conversations: (a, b) => sameIds(talking(a), talking(b)),

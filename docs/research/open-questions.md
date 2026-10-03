@@ -28,7 +28,7 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
 | St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02) | [buildings](building-models.md), [victorian](era-victorian.md) |
 | Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
-| When Llandeilo's gas works were built | c. 1860 (Wikipedia, "Ffairfach", single-source) vs being built in 1864 (two 1864 newspapers); the app uses the newspapers (added 2026-10-03) | [light](light-after-dark.md), [victorian](era-victorian.md) |
+| When Llandeilo's gas works were built | c. 1860 (Wikipedia, "Ffairfach", single-source) vs being built in 1864 (two 1864 newspapers); the app uses the newspapers (added 2026-10-03; the c. 1860 copies in era-victorian.md and soundscapes.md now carry the correction) | [light](light-after-dark.md), [victorian](era-victorian.md), [soundscapes](soundscapes.md) |
 | The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
 
 ## Gaps worth a dedicated pass
@@ -92,11 +92,19 @@ for the next pass. Each note's own "Open questions" section has the full list an
     victorian:S37, victorian:S2), so their beds are reconstructed; a primary or reputable secondary
     source would let them be documented.
 - **Which drawn railway lines existed when** (2026-10-03). Today's track is drawn from OS Open Map
-  Local. The line north-east of Llandeilo station (the Vale of Towy Railway) now appears from 1 April
-  1858, but the other lines in the circle (the branch east from Pantyffynnon towards Brynaman, whose
-  passenger trains ended in 1958 (railwaylater:S1, S11), and a short line near the western edge, around
-  E 251000 N 211500) are drawn with the railway from 1857, and their own opening and closing dates
-  are not in the notes.
+  Local, in dated sections ([ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md)): the
+  Vale of Towy line north-east of Llandeilo from 1 April 1858; Duffryn (today's Ammanford station) to
+  Llandeilo from January 1857; and the older Llanelly Railway lines south of Duffryn and up the Amman
+  valley from April 1840 (Pontarddulais to Cwmamman, 10 April 1840; on to Gwaun-cae-Gurwen, 6 May
+  1841 (victorian:S29)). *Corrected 2026-10-03 (second-Opus review)*: this entry said the branch
+  lines' "own opening and closing dates are not in the notes", but the notes already quoted S29's
+  1850 "railway transit from Pontardulais and Duffryn", and S29 gives the 1840 and 1841 dates. Still
+  open: whether Pantyffynnon to Duffryn opened in 1840 (S29) or May 1841 (victorian:S70, S71); when
+  each branch closed or was lifted (Amman valley passenger trains ended 18 August 1958
+  (railwaylater:S1, S11)); and what the short lines near the western edge are (near Pontyberem, E
+  251000 to 253000 N 211500 to 212500, and near Cross Hands, E 255500 N 210500). They are not dated
+  in the notes, so they are not drawn at all. Coflein's "Ammanford Railway Station" (NPRN 34689)
+  lies 0.8km east of the main line, so which station it records is also open.
 - **Mapped coordinates**: several lat/lon values came from aggregators and should be checked
   against Coflein or Cadw grid references before precise placement.
 
