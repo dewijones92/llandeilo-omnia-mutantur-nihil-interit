@@ -2857,6 +2857,72 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/light-after-dark.md"
   },
   {
+    "id": "light:S20",
+    "title": "*The Carmarthen Journal*, 10 October 1902, \"Llandilo\" (Urban District Council)",
+    "url": "https://newspapers.library.wales/view/3677405/3677410/35/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S21",
+    "title": "*The Cambrian*, 4 April 1902, \"Llandilo\" (Urban District Council)",
+    "url": "https://newspapers.library.wales/view/3346260/3346267/77/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S22",
+    "title": "*The Cambrian*, 4 April 1902, \"Llandilo\" (Urban District Council, the engineer's report)",
+    "url": "https://newspapers.library.wales/view/3346260/3346267/79/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S23",
+    "title": "*The Carmarthen Journal*, 13 June 1902, \"Llandilo\"",
+    "url": "https://newspapers.library.wales/view/3677261/3677269/60/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S24",
+    "title": "*The Carmarthen Journal*, 31 October 1902, \"Llandilo Notes\"",
+    "url": "https://newspapers.library.wales/view/3677432/3677437/36/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S25",
+    "title": "*The Cambrian*, 16 May 1902",
+    "url": "https://newspapers.library.wales/view/3346314/3346321/91/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S26",
+    "title": "Hansard, written answers, 28 September 1944, vol 403 cc438-9W, \"Lighting Restrictions\"",
+    "url": "https://api.parliament.uk/historic-hansard/written_answers/1944/sep/28/lighting-restrictions",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S27",
+    "title": "Hansard, HC Deb 8 December 1944 vol 406 cc1013-20, \"Black-out Regulations\"",
+    "url": "https://api.parliament.uk/historic-hansard/commons/1944/dec/08/black-out-regulations",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S28",
+    "title": "Hansard, HC Deb 15 March 1945, \"Street Lighting\"",
+    "url": "https://api.parliament.uk/historic-hansard/commons/1945/mar/15/street-lighting",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S29",
+    "title": "Leeds Beckett University, \"Coming out of the blackout\" (LBU Together blog, May 2020)",
+    "url": "https://www.leedsbeckett.ac.uk/blogs/lbu-together/2020/05/coming-out-of-the-blackout/",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
+    "id": "light:S30",
+    "title": "Scarborough Maritime Heritage Centre, article 673",
+    "url": "https://www.scarboroughsmaritimeheritage.org.uk/article.php?article=673",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
     "id": "music:S1",
     "title": "*Brut y Tywysogion; or, The Chronicle of the Princes*, ed. John Williams ab Ithel (Rolls Series, 1860), Internet Archive text layer",
     "url": "https://archive.org/details/brutytywysogiono00cara",
@@ -4246,6 +4312,12 @@ export const SOURCE_SEEDS = [
     "id": "sound:S19",
     "title": "Wikipedia, \"Cranes of Great Britain\"",
     "url": "https://en.wikipedia.org/wiki/Cranes_of_Great_Britain",
+    "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "sound:S20",
+    "title": "*Gazetteer of Markets and Fairs to 1516: Wales*, Centre for Metropolitan History (updates to the printed gazetteer of 2003; page last updated 16 March 2007)",
+    "url": "https://archives.history.ac.uk/gazetteer/wales.html",
     "doc": "docs/research/soundscapes.md"
   },
   {

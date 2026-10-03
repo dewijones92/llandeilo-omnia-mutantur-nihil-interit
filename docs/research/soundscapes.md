@@ -2,7 +2,7 @@
 title: Soundscapes - what the valley sounded like, era by era, and where to get the sounds
 kind: research
 status: draft
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Soundscapes: what the valley sounded like, and how to get the sounds
@@ -12,6 +12,8 @@ experience"; [`docs/design/sound-and-assets.md`](../design/sound-and-assets.md))
 slider (`src/content/timeline.ts`) and each setting: what made sound here, how strong the evidence is,
 real recordings we may legally use, what to synthesise instead, and what to place on the map. Written
 2026-10-02 from sources fetched that day. The brief is in [`briefs/soundscapes.md`](briefs/soundscapes.md).
+
+Independently checked 2026-10-03 (see [reviews/soundscapes-check-2026-10-03.md](reviews/soundscapes-check-2026-10-03.md)); corrections applied.
 
 **Tiers.** *Documented*: a source read here records the sound or its source (the animal, the
 instrument, the work) for this place or, where marked, for Wales or the region. *Reconstructed*:
@@ -54,11 +56,16 @@ note's own list. Recording links are in the tables, not the Sources list.
   Commons** (202 files: 105 CC BY 4.0, 97 CC BY-SA 4.0, each with a stated site, many by Lawrence
   Shove) [S13]. It has most of the valley's likely birds and mammals, some recorded in Wales.
 - **Freesound covers weather, farm, craft, bells and trains well**, including a GWR 57xx pannier
-  tank, the class that worked Llandeilo's local trains in 1958 to 1960 [railwaylater:S2][railwaylater:S3].
+  tank, the class that worked Llandeilo's local trains in 1958 to 1960: the photographs give engine
+  numbers [railwaylater:S2][railwaylater:S3], and the class follows from the number series
+  [railwaylater:S49] (9788 at Llanelly shed [railwaylater:S5]) (*Corrected 2026-10-03 (independent check)*: the class was cited to S2
+  and S3, which give only numbers).
   Nothing on Freesound is tagged Llandeilo, Carmarthenshire, Towy or Brecon Beacons (searched
   2026-10-02) [S15].
-- **No recording exists of anything like the 1857 engine** (a Hackworth-type 0-6-0 of the 1840s to
-  1860s [railway:S1][railway:S2]). It should be synthesised, or a later engine used and labelled.
+- **No recording exists of anything like the 1857 engines.** The company's early engines were
+  Hackworth six-coupled engines [railway:S1][railway:S2]; which two engines drew the first train is not
+  recorded, and two new engines of 1857 are unnamed (*Corrected 2026-10-03 (independent check)*: the note implied the engines'
+  type was recorded). It should be synthesised, or a later engine used and labelled.
 - **xeno-canto could not be read** by any automated route, and by its own description offers only
   BY-NC-ND, BY-NC-SA and BY-SA [S11]. **BBC Sound Effects is excluded**: a bespoke RemArc licence that
   forbids re-uploading and lets the BBC withdraw content at any time [S12].
@@ -96,9 +103,9 @@ were in the 10 miles is not settled (see the timeline note).
 | A loud, braided meltwater river | River | Reconstructed | [deeptime:S8] |
 | Reindeer (extinct in Britain c. 9000 BC) | Open country | Reconstructed (Britain-wide) | [deeptime:S31] |
 | Black grouse (bones, Little Hoyle, Pembrokeshire, late Devensian or early Mesolithic) | Moor | Documented (Wales, not local) | [S1] |
-| Golden eagle (bones at Cathole, Gower, and Coygan Cave, Carmarthenshire) | Crags | Documented (region) | [S1] |
+| Golden eagle (bones at Cathole, Gower, and Coygan Cave, Carmarthenshire): Cathole dated to about 20,000 years ago, before this period; Coygan undated (*Corrected 2026-10-03 (independent check)*) | Crags | Documented (region) | [S1] |
 | Chough (Late Glacial bones, Paviland and Cat's Hole) | Crags, caves | Documented (Gower) | [S1] |
-| Bewick's swan (Devensian, Cat's Hole); geese on migration | Wetland | Documented (Gower) | [S1] |
+| Bewick's swan (Devensian, not dated more closely, Cat's Hole). Geese at Little Hoyle are about 22,800 years ago, earlier than this period, so they are dropped here (*Corrected 2026-10-03 (independent check)*) | Wetland | Documented (Gower) | [S1] |
 | Ptarmigan, snowy owl | Uplands | Unknown: recorded near Wales, not in it | [S1] |
 | Wolf howl | Anywhere | Reconstructed (Britain-wide presence) | [deeptime:S31] |
 
@@ -109,7 +116,7 @@ birch at Waun Fignen Felen from about 8000 years ago [deeptime:S12].
 
 | Sound | Setting | Tier | Sources |
 |---|---|---|---|
-| Woodland song birds much like today's: Port Eynon's 43 species were mostly ones "a birdwatcher might expect to see on the Gower today" | Woodland | Reconstructed (from Gower bones) | [S1] |
+| Birds much like today's: Port Eynon's 43 species were mostly ones "a birdwatcher might expect to see on the Gower today"; Port Eynon is a coastal cave and its list includes great bustard (*Corrected 2026-10-03 (independent check)*: was "Woodland song birds") | Woodland | Reconstructed (from Gower bones) | [S1] |
 | Cranes calling, common: 46% of bird footprints at Goldcliff, c. 7000 years ago | Wetland, floodplain | Documented (Wales, Severn estuary) | [S1] |
 | White stork (footprints, Goldcliff); white-tailed eagle (Port Eynon, Little Hoyle); great bustard (Port Eynon) | Wetland, river, open ground | Documented (Wales, not local) | [S1] |
 | Red deer, wild boar, aurochs, elk (to c. 3600 BC), brown bear, wolf, beaver | Woodland, river | Reconstructed (Britain-wide dates) | [deeptime:S31][deeptime:S34] |
@@ -132,7 +139,7 @@ clearance and the elm decline [deeptime:S11].
 | Sound | Setting | Tier | Sources |
 |---|---|---|---|
 | Crane (bones, Caldicot, Gwent) | Wetland | Documented (Wales) | [S1] |
-| Black stork (butchered bone c. 945 BC, Denbighshire) | Wetland | Documented (Wales, rare) | [S1] |
+| Black stork (butchered bone about 2,945 years ago, roughly 1000 to 900 BC, Denbighshire; *Corrected 2026-10-03 (independent check)*: was "c. 945 BC") | Wetland | Documented (Wales, rare) | [S1] |
 | Aurochs gone by c. 1000 BC | | Reconstructed (Britain-wide) | [deeptime:S31][deeptime:S32] |
 | Horses | | Unknown: when horses were adopted is an open question in the deep-time note | |
 
@@ -175,7 +182,8 @@ The clas of St Teilo at Llandeilo (timeline note). Brown bear gone from Britain 
 ## Middle Ages (1093 to 1484)
 
 Dinefwr and Dryslwyn castles, Talley Abbey (from the 1180s), St Teilo's church and the borough,
-St Teilo's Fair (authorised 1291).
+a fair granted by Edward I to the Bishop of St Davids in 1290 and 1291 (*Corrected 2026-10-03 (independent check)*: was "St Teilo's
+Fair (authorised 1291)").
 
 | Sound | Setting | Tier | Sources |
 |---|---|---|---|
@@ -186,10 +194,10 @@ St Teilo's Fair (authorised 1291).
 | An alarm trumpet; the farmer "rushes ... from his plough" | Anywhere, wartime | Documented (Wales, 1188) | [S3] |
 | Coracles carried to and from the rivers | River | Documented (Wales, 1188) | [S3] |
 | A minstrel and a singer "on the fiddle" going before a lord (Coed Grono, near Abergavenny; an earlier incident Gerald retells) | Road | Documented (Wales, single instance) | [S2] |
-| Tawny owl all night, "'hoo-di-hoo'", setting off "the dogs of the night"; "it doesn't shift its head from a big hollow tree" by day | Woodland, farmstead at night | Documented (14th-century poem, Ceredigion) | [S4] |
+| Tawny owl all night, "'hoo-di-hoo'", setting off "the dogs of the night"; "it doesn't shift its head from a big hollow tree" by day | Woodland, farmstead at night | Documented (14th-century poem, Ceredigion); species inferred as tawny owl from the call (*Corrected 2026-10-03 (independent check)*) | [S4] |
 | Skylark in April; cock-thrush in May; cuckoo, "sacring-bell of the sturdy thicket" | Fields, woods | Documented (14th-century poems) | [S5][S9][S8] |
 | A shepherd's rattle-bag of stones, "a bell's sound of small stones and gravel" | Pasture | Documented (14th-century poem) | [S6] |
-| A weight-driven clock, "its two ropes and its wheel, and its weights ... and its hammer" | Town house | Documented (14th-century poem, a town) | [S7] |
+| A weight-driven clock, "its two ropes and its wheel, and its weights ... and its hammer" | Town house | Documented (14th-century poem) (*Corrected 2026-10-03 (independent check)*: "a town" dropped) | [S7] |
 | A mill "grinding by night in a monastery cloister" (simile) | Mill, abbey | Documented (14th-century poem) | [S7] |
 | Plainchant at Talley; no bell is recorded there | Abbey | Reconstructed (event-effects note, `talley`) | [medieval:S17] |
 | Bells at St Teilo's | Church | Unknown (no medieval bell is recorded; event-effects note) | [S18] |
@@ -201,7 +209,7 @@ St Teilo's Fair (authorised 1291).
 | Wolves dying out (probably 13th or 14th century); wild boar to c. 1400 (Britain) | Woodland | Documented (Wales, single-source); reconstructed | [deeptime:S42][deeptime:S31] |
 | Siege of Dryslwyn, 1287: siege engine, mining, the wall's collapse | Castle | Documented (see the event-effects note) | [medieval:S23] |
 | Castle building: masonry, lime kilns, timber | Castle | Documented (the work); reconstructed (sound) | [medieval:S23] |
-| St Teilo's Fair in the churchyard | Town | Documented, single-source (charter of 1291, in the Victorian note's town description) | |
+| A fair granted by Edward I to the Bishop of St Davids on 20 May 1290 and again on 20 September 1291, held on the vigil, feast and three days after St Barnabas (11 June); a Saturday market by 1326; Llandeilo a borough by 1326 with fourteen burgesses. Whether this is the later "St Teilo's Fair" in the churchyard is not known (*Corrected 2026-10-03 (independent check)*: was "St Teilo's Fair in the churchyard ... charter of 1291", with no source key) | Town | Documented | [S20] |
 
 ## Tudors and Stuarts (1485 to 1713)
 
@@ -210,9 +218,9 @@ contested [medieval:S57].
 
 | Sound | Setting | Tier | Sources |
 |---|---|---|---|
-| Corncrake "common and widespread" in Pembrokeshire (George Owen, 1603) | Hay meadows | Documented (neighbouring county) | [S10] |
+| Corncrake common and widespread in Pembrokeshire, in the county avifauna's words, citing George Owen, 1603 (*Corrected 2026-10-03 (independent check)*: the quote marks were not Owen's) | Hay meadows | Documented (neighbouring county) | [S10] |
 | Beavers gone from Britain (16th century) | River | Documented (Britain) | [deeptime:S34] |
-| Cranes gone as British breeders by the mid 16th century | Wetland | Unknown here: a lead only | [S19] |
+| Cranes bred in medieval Britain; an Act of 1533 protected their eggs. Not dated here (*Corrected 2026-10-03 (independent check)*: was "gone as British breeders by the mid 16th century", which S19 does not say) | Wetland | Unknown here: a lead only | [S19] |
 | Church bells | Church | Unknown (first ringing recorded is 1857) | [effects:S7] |
 | Fairs, markets, farms as before | Town, farm | Reconstructed | |
 
@@ -236,7 +244,7 @@ contested [medieval:S57].
 | Lime carts through three toll bars to the kilns six miles off | Road | Documented | [victorian:S7] |
 | Church reopening, Thursday 10 October 1850: shops shut, nearly 2,000 in church, services in English and Welsh; no bells mentioned | Church, town | Documented, single-source | [effects:S10] |
 | First train, 20 January 1857: two engines, 13 carriages, cannon, "the merry pealing of bells", bands | Railway, town | Documented | [effects:S7] |
-| The engines: Llanelly Railway six-coupled engines of the Hackworth type (the 1841 *Victoria*: 4 ft wheels, 18 tons) | Railway | Documented (type); reconstructed (sound) | [railway:S1][railway:S2] |
+| The engines: the company's early engines were Hackworth six-coupled engines (the 1841 *Victoria*: 4 ft wheels, 18 tons, laid up for repair from June to December 1857); which two engines drew the first train is not recorded, and two new engines of 1857 are unnamed (*Corrected 2026-10-03 (independent check)*) | Railway | Documented (the company's type); reconstructed (sound) | [railway:S1][railway:S2] |
 | A town of "a church, four chapels, 11 streets, 73 shops, 23 public houses" (1858) | Town street | Documented, single-source | [victorian:S65] |
 | Cilyrychen lime kilns, Llandybïe, first kiln lit 18 May 1857 | Industry | Documented (the kilns); reconstructed (sound) | [victorian:S24][victorian:S27] |
 | Gas works at Ffairfach, c. 1860 | Village | Documented, single-source | [victorian:S2] |
@@ -248,7 +256,7 @@ contested [medieval:S57].
 
 | Sound | Setting | Tier | Sources |
 |---|---|---|---|
-| GWR 57xx pannier tanks 3641, 9645 and 9788 on local and Carmarthen trains, 1958 to 1960 | Railway | Documented | [railwaylater:S2][railwaylater:S3] |
+| GWR 57xx pannier tanks 3641, 9645 and 9788 on local and Carmarthen trains, 1958 to 1960 (the numbers from the photographs; the class from the number series, *Corrected 2026-10-03 (independent check)*) | Railway | Documented | [railwaylater:S2][railwaylater:S3][railwaylater:S49][railwaylater:S5] |
 | Diesel units: Class 120 three-car or two-car railcars from 1964; Class 108 at Glanrhyd, 19 October 1987 | Railway | Documented | [railwaylater:S1][railwaylater:S8] |
 | Class 153 single cars today (Transport for Wales) | Railway | Documented | [railwaylater:S35] |
 | Corncrake decline from about 1916, last Pembrokeshire breeding hints by 1973 | Hay meadows | Documented (neighbouring county) | [S10] |
@@ -266,8 +274,9 @@ contested [medieval:S57].
   corncrake from mid April in the hay meadows into the 20th century [S10]; lambing (reconstructed).
 - **Summer**: haymaking (scythes, later mowing machines), corncrake calling at night in the hay.
 - **Ploughing**: March and April, summer, and winter, per Gerald [S3].
-- **Fixed dates**: Ffairfach fairs on 5 May and 22 November [victorian:S2]; St Teilo's Fair (its date
-  not found).
+- **Fixed dates**: Ffairfach fairs on 5 May and 22 November [victorian:S2]; the medieval fair around
+  St Barnabas (11 June) from 1290 [S20]; Dinefwr's fair at the Nativity of the Virgin (8 September)
+  from 1280, and Newtown's of 18 October from 1363 [S20]; St Teilo's Fair (its date not found).
 - **Winter**: quieter woods, rooks and crows, geese passing (reconstructed); snow lies longer in the
   cold phases (the atmosphere system already has a chill value per period).
 
@@ -310,7 +319,7 @@ manifest still records them.
 | Tawny owls | [Tawny owls.wav](https://freesound.org/people/straget/sounds/432092/) | straget | Attribution 4.0 | 3:50 | A pair at night |
 | Barn owl | [Barn Owl (W TYTO ALBA R1 C16)](https://commons.wikimedia.org/wiki/File:Barn_Owl_(Tyto_alba)_(W_TYTO_ALBA_R1_C16).ogg) | BL | CC BY 4.0 | 0:12 | Screams, Cardiganshire |
 | Red kite | [Red kite and magpie](https://freesound.org/people/farandjoun/sounds/830292/) | farandjoun | Creative Commons 0 | 1:05 | Wild kite calling, place not given |
-| Red kite | [Birds of Prey: Red Kite, soft social calls](https://freesound.org/people/MichiJung/sounds/865812/) | MichiJung | Attribution 4.0 | 0:17 | Clean calls |
+| Red kite | [Birds of Prey: Red Kite, soft social calls](https://freesound.org/people/MichiJung/sounds/865812/) | MichiJung | Attribution 4.0 | 0:17 | Close calls of a bird at a raptor rescue centre, probably captive (*Corrected 2026-10-03 (independent check)*) |
 | Crane | [Grus grus.ogg](https://commons.wikimedia.org/wiki/File:Grus_grus.ogg) | Волков Владислав Петрович | CC0 | 0:15 | A flock of 22 calling in flight, Russia, April 2011 |
 | Cranes, distant | [20080302.distance.10.flac](https://freesound.org/people/dobroide/sounds/49225/) | dobroide | Attribution 4.0 | 1:30 | Cranes and lapwings over marsh (Doñana) |
 | Corncrake | [Crex crex.ogg](https://commons.wikimedia.org/wiki/File:Crex_crex.ogg) | Hannu | Public domain | 0:30 | Several calling on a meadow (Estonia), at night |
@@ -321,9 +330,9 @@ manifest still records them.
 | Golden eagle | [Golden Eagle (W1CDR0001387 BD6)](https://commons.wikimedia.org/wiki/File:Golden_Eagle_(Aquila_chrysaetos)_(W1CDR0001387_BD6).ogg) | BL; Lawrence Shove | CC BY-SA 4.0 | 0:25 | Ice Age to medieval crags |
 | Black grouse | [Black Grouse (W1CDR0001396 BD3)](https://commons.wikimedia.org/wiki/File:Black_Grouse_(Tetrao_tetrix)_(W1CDR0001396_BD3).ogg) | BL; Lawrence Shove | CC BY-SA 4.0 | 1:19 | Lekking males on moorland |
 | Bittern | [Eurasian Bittern (W BOTAURUS STELLARIS R1 C1)](https://commons.wikimedia.org/wiki/File:Eurasian_Bittern_(Botaurus_stellaris)_(W_BOTAURUS_STELLARIS_R1_C1).ogg) | BL; Lawrence Shove | CC BY-SA 4.0 | 1:21 | Booming in reeds; medieval falconer's quarry |
-| Woodpecker drumming | [Great Spotted Woodpecker (W1CDR0001405 BD15)](https://commons.wikimedia.org/wiki/File:Great_Spotted_Woodpecker_(Picoides_major)_(W1CDR0001405_BD15).ogg) | BL; Lawrence Shove | CC BY-SA 4.0 | 0:32 | Oak wood (Yarner, Devon) |
+| Woodpecker drumming | [Great Spotted Woodpecker (W1CDR0001405 BD15)](https://commons.wikimedia.org/wiki/File:Great_Spotted_Woodpecker_(Picoides_major)_(W1CDR0001405_BD15).ogg) | BL; Lawrence Shove | CC BY-SA 4.0 | 0:32 | Oak wood (Yarner, Devon; the Commons description spells it "Yarmer Wood", *Corrected 2026-10-03 (independent check)*) |
 | Pied flycatcher | [Pied Flycatcher (W1CDR0001423 BD1)](https://commons.wikimedia.org/wiki/File:Pied_Flycatcher_(Ficedula_hypoleuca)_(W1CDR0001423_BD1).ogg) | BL; Lawrence Shove | CC BY-SA 4.0 | 0:49 | Western oak-wood bird (reconstructed for the valley) |
-| Blackbird | [Common Blackbird (W1CDR0001425 BD22)](https://commons.wikimedia.org/wiki/File:Common_Blackbird_(Turdus_merula)_(W1CDR0001425_BD22).ogg) | BL | CC BY-SA 4.0 | 1:03 | One of the four birds most named in 14th-century poetry |
+| Blackbird | [Common Blackbird (W1CDR0001425 BD22)](https://commons.wikimedia.org/wiki/File:Common_Blackbird_(Turdus_merula)_(W1CDR0001425_BD22).ogg) | BL; Lawrence Shove (*Corrected 2026-10-03 (independent check)*) | CC BY-SA 4.0 | 1:03 | One of the four birds most named in 14th-century poetry |
 | Robin | [European Robin (W1CDR0001425 BD16)](https://commons.wikimedia.org/wiki/File:European_Robin_(Erithacus_rubecula)_(W1CDR0001425_BD16).ogg) | BL; Lawrence Shove | CC BY-SA 4.0 | 2:57 | Year-round song |
 | Wren | [Eurasian Wren (W1CDR0001461 BD5)](https://commons.wikimedia.org/wiki/File:Eurasian_Wren_(Troglodytes_troglodytes)_(W1CDR0001461_BD5).ogg) | BL; Lawrence Shove | CC BY-SA 4.0 | 1:03 | Woodland edge |
 | Mistle thrush | [Mistle Thrush (W1CDR0000636 BD11)](https://commons.wikimedia.org/wiki/File:Mistle_Thrush_(Turdus_viscivorus)_(W1CDR0000636_BD11).ogg) | BL; Richard Ranft | CC BY 4.0 | 0:57 | Winter and spring song |
@@ -444,6 +453,7 @@ Beds play everywhere and follow the era, season, clock and height; point sources
 | Bed | Wind (more on high ground), rain, birds by habitat, insects, distant farm | Whole scene, weighted by the camera's height and the land cover under it |
 | Line source | The Tywi and its tributaries | Several emitters along the river line, the nearest few active |
 | Line source | Roads (mail road and turnpikes, later the main roads) | Along the road line, by era |
+| Point | Dinefwr's own market and fair, by mandate of 4 December 1280 (fair at the Nativity of the Virgin, 8 September); Newtown's fair of 18 October from 1363 [S20] (*Corrected 2026-10-03 (independent check)*: added) | Dinefwr and Newtown |
 | Moving source | Trains from 1857 | Following the train along the line, louder near Llandeilo and Ffairfach stations |
 | Point | St Teilo's bells (from 1857 at the latest), service and chant | The church tower |
 | Point | Talley: chant | The abbey |
@@ -459,7 +469,10 @@ Beds play everywhere and follow the era, season, clock and height; point sources
 
 - **St Teilo's bells**: how many, when cast and by whom. Dove's Guide returned HTTP 429 to every
   request [S18]; try again by hand, or a church guide.
-- **St Teilo's Fair**: its date and what was sold or heard; and the borough's market day.
+- **St Teilo's Fair**: partly answered (*Corrected 2026-10-03 (independent check)*): a fair around St Barnabas was granted in 1290 and
+  1291, and a Saturday market is recorded by 1326 [S20]. What remains: when and why the Barnabas fair
+  became St Teilo's Fair, whether it was ever held in the churchyard, and what was sold or heard.
+  Dinefwr had its own market and fair from 1280 [S20].
 - **Cranes in the Tywi valley**: are there *garan* place-names near Llandeilo, and do they mean crane
   or heron [S1]? The Melville Richards place-name archive would answer it.
 - **Corncrake in Carmarthenshire**: the only county history read is Pembrokeshire's [S10].
@@ -487,7 +500,8 @@ Beds play everywhere and follow the era, season, clock and height; point sources
 - [S13] Wikimedia Commons, "Category:Wildlife Sounds in the British Library" - https://commons.wikimedia.org/wiki/Category:Wildlife_Sounds_in_the_British_Library - listed through the API: 202 files, 105 CC BY 4.0 and 97 CC BY-SA 4.0, "provided by the British Library from its digital collections", VRTS permission confirmed.
 - [S14] Wikimedia Commons, "File:Calon Lan - Llanelli Male Voice Choir.ogg" - https://commons.wikimedia.org/wiki/File:Calon_Lan_-_Llanelli_Male_Voice_Choir.ogg - read through the API: credit Sain, CC BY-SA 3.0, "Items with VRTS permission confirmed", uploaded by Jason.nlw.
 - [S15] Freesound searches of 2026-10-02, for example https://freesound.org/search/?q=llandeilo - "No results" for llandeilo, carmarthenshire, towy and brecon beacons under the licence filters used; each candidate's licence read from its own page.
-- [S16] xeno-canto, explore page and API v2 - https://xeno-canto.org/explore - returned a proof-of-work bot check to curl, WebFetch and headless Chromium; https://xeno-canto.org/api/2/recordings answers "Xeno-canto API v2 is no longer available".
+- [S16] xeno-canto, explore page and API v2 - https://xeno-canto.org/explore - returned a proof-of-work bot check to curl, WebFetch and headless Chromium; https://xeno-canto.org/api/2/recordings answers "Xeno-canto API v2 is no longer available", and the message points to API v3 (*Corrected 2026-10-03 (independent check)*).
 - [S17] Wikimedia Commons, "Category:Xeno-canto" - https://commons.wikimedia.org/wiki/Category:Xeno-canto - seen as a search result; the Commons search results for xeno-canto files read here were CC BY-SA.
-- [S18] Dove's Guide for Church Bell Ringers, tower search for Llandeilo - https://dove.cccbr.org.uk/towers?place=Llandeilo - HTTP 429 on every attempt, 2026-10-02. Not read.
-- [S19] Wikipedia, "Cranes of Great Britain" - https://en.wikipedia.org/wiki/Cranes_of_Great_Britain - seen in search results only (a summary saying the crane bred until around 1550, last English breeding 1542). Not opened; a lead.
+- [S18] Dove's Guide for Church Bell Ringers, tower search for Llandeilo - https://dove.cccbr.org.uk/towers?place=Llandeilo - HTTP 429 on every attempt, 2026-10-02; 2026-10-03: a "press button to continue" bot page instead of 429 (*Corrected 2026-10-03 (independent check)*). Not read.
+- [S19] Wikipedia, "Cranes of Great Britain" - https://en.wikipedia.org/wiki/Cranes_of_Great_Britain - cranes are "generally believed" to have bred in medieval Britain; an Act of 1533 protected their eggs. A lead. (*Corrected 2026-10-03 (independent check)*: the entry gave 1542 and 1550, which the page does not have.)
+- [S20] *Gazetteer of Markets and Fairs to 1516: Wales*, Centre for Metropolitan History (updates to the printed gazetteer of 2003; page last updated 16 March 2007) - https://archives.history.ac.uk/gazetteer/wales.html - read 2026-10-03: Llandeilo and Dinefwr entries, citing the Calendar of Charter Rolls 1257-1300 pp. 343 and 405, the Calendar of Patent Rolls, and R. A. Griffiths, "A tale of two towns: Llandeilo Fawr and Dinefwr in the Middle Ages" (1994). Secondary, a scholarly gazetteer built on the printed calendars. Found by the 2026-10-03 independent check.
