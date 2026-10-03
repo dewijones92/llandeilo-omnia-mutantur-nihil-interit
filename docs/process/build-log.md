@@ -484,3 +484,19 @@ Milestones and what each one taught us. Newest last.
    four parallel shards and the deploy waits for all of them; CI's per-test limit is 7 minutes
    ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md)). Lesson: the job time is a budget that every
    merged feature spends, so watch the trend, not just the colour.
+17. **The first cutscene: the Roman army arrives** (branch `feat/cutscene-roman-arrival`). One data model
+   and one pure clock ([ADR 0037](../adr/0037-cutscenes-as-data-on-one-clock.md)): six shots over 79
+   seconds, about 650 thin-instanced figures in nine draw calls, dust from the smoke layer, procedural
+   cornu calls, tramping feet, hooves, mules and axes through the one mixer, and narration in both
+   languages from edge-tts, with a content test that every caption is up for as long as its narration
+   runs. **Watch** on the AD 74 moment card plays it; Skip or Escape lands on the key date. Lessons:
+   (1) **never run `vite` (dev) in a worktree whose `node_modules` is a symlink to the main clone**: its
+   dependency optimiser rewrote the main clone's `node_modules/.vite/deps` ("Re-optimizing dependencies
+   because vite config has changed"), under the always-on dev server on :5051. The main server still
+   served its modules afterwards, but a reload there may re-optimise once. Worktrees should look at
+   their work with `vite build` and `vite preview`, which leave that cache alone. (2) **The letterbox
+   hides part of the frame**: the first watchers' shot put them below the bottom bar, so camera keys are
+   checked by screenshot, not by geometry alone. (3) The over-the-shoulder shot's depth of field falls on
+   the column, not the watchers in front, because focus follows the camera's distance with a floor of
+   400m; it reads as intended, but a scene cannot yet choose its focus. Bundle: the main chunk is 477,928
+   bytes gzipped after this branch.

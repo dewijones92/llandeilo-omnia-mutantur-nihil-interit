@@ -10,7 +10,7 @@ describe('the Begin card', () => {
   });
 
   it('is skipped by deep links and the debug view', () => {
-    for (const q of ['year=1282', 't=0.5', 'place=garn-goch', 'debug'])
+    for (const q of ['year=1282', 't=0.5', 'place=garn-goch', 'debug', 'cutscene=roman-arrival'])
       expect(showsBegin(params(q), false)).toBe(false);
   });
 

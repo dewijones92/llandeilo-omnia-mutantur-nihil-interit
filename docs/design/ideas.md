@@ -26,7 +26,7 @@ Add freely; nothing here is a commitment.
 | Realistic models of important buildings through time | ✅ agreed as option A (accurate low-poly), being built | See [`models.md`](models.md) |
 | Time of day and seasons, "look amazing" | ✅ agreed | Built 2026-09-28: see [`atmosphere.md`](atmosphere.md) |
 | Animals through time, from before there were any: roaming, grazing, hunted, farmed, dying out | ✅ agreed 2026-09-28 (Dewi's), in the backlog | Needs the deep-time arrivals/extinctions table turned into content; one animal model per kind, not per era |
-| People travelling in from afar (Romans, armies, canons, drovers, navvies, evacuees) | ✅ agreed 2026-09-28 (Dewi's), in the backlog | Journeys along the real roads and river; each group only where a source puts them here |
+| People travelling in from afar (Romans, armies, canons, drovers, navvies, evacuees) | ✅ agreed 2026-09-28 (Dewi's), in the backlog | Journeys along the real roads and river; each group only where a source puts them here. 2026-10-03: the cutscene engine's routes (grid references) and crowd of thin-instanced figures can carry these; the Roman column is the first ([ADR 0037](../adr/0037-cutscenes-as-data-on-one-clock.md)) |
 | A donation link in the app and on the README | ✅ agreed 2026-09-28 (Dewi's), in the backlog | Dewi to choose the platform; no tracking |
 
 ## From Claude (for discussion)

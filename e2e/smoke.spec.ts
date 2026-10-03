@@ -1,9 +1,11 @@
 import { expect, test, type Page } from '@playwright/test';
+import { CUTSCENES } from '../src/content/cutscenes.ts';
 import { EVENTS } from '../src/content/events.ts';
 import { TIMELINE } from '../src/content/timeline.ts';
 import { toWorld } from '../src/domain/geo.ts';
 import { keySteps, stepFrom } from '../src/domain/steps.ts';
 import { tAt } from '../src/domain/timeline.ts';
+import { formatSliderYear, year } from '../src/domain/time.ts';
 
 test('the valley loads and the slider moves through time', async ({ page }) => {
   const errors: string[] = [];
@@ -748,4 +750,42 @@ test('choosing Low graphics turns the effects off in the renderer, and the choic
   await page.reload();
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   await expect.poll(live).toMatch(/^quality low .* bloom off {2}dof off /);
+});
+
+test('a cutscene plays from the moment card, moves its captions on, and Skip lands on its key date', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  const landed: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug cutscene landed')) landed.push(m.text());
+  });
+  const scene = CUTSCENES.find((c) => c.id === 'roman-arrival');
+  const captions = scene?.tracks.flatMap((t) => (t.kind === 'caption' ? [t.text.en] : [])) ?? [];
+  expect(captions.length).toBeGreaterThan(1);
+  const ad74 = formatSliderYear(year(74), 'en');
+  await page.goto('./?year=74');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  await page.getByRole('button', { name: /Watch/ }).click();
+  const overlay = page.locator('.cutscene');
+  await expect(overlay).toBeVisible();
+  await expect(page.locator('html')).toHaveClass(/cutscene-playing/);
+  await expect(page.locator('.cs-caption')).toHaveText(captions[0] ?? '');
+  // The scene clock runs on rendered frames (about one a second in CI), so give the next caption time.
+  await expect(page.locator('.cs-caption')).toHaveText(captions[1] ?? '', { timeout: 90_000 });
+  await expect(page.locator('.timeline')).toHaveClass(/locked/);
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('.tl-year')).toHaveText(ad74);
+  await page.screenshot({ path: 'test-results/cutscene-roman-arrival.png' });
+  await page.getByRole('button', { name: /Skip/ }).click();
+  await expect(overlay).toBeHidden();
+  await expect(page.locator('html')).not.toHaveClass(/cutscene-playing/);
+  await expect(page.locator('.timeline')).not.toHaveClass(/locked/);
+  await expect(page.locator('.tl-year')).toHaveText(ad74);
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  await expect(page.getByRole('button', { name: /Watch/ })).toBeVisible();
+  expect(landed.some((l) => l.includes('event=roman-forts skipped=true'))).toBe(true);
+  expect(errors).toEqual([]);
 });

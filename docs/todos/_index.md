@@ -286,7 +286,12 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       not code per era, every element labelled by provenance, with a narrator in the UI language
       (Dewi's choice) and captions always on. First: the Roman army arriving at
       Dinefwr, c. AD 74. Builds on the agreed "people arriving from afar" journeys, the guided tour and
-      the opening cinematic flight
+      the opening cinematic flight. **2026-10-03: the engine and the Roman arrival are built** on branch
+      `feat/cutscene-roman-arrival` ([ADR 0037](../adr/0037-cutscenes-as-data-on-one-clock.md)): researched
+      and checked (roman-arrival and its 2026-10-02 check), built with unit tests and an e2e flow seen red
+      first, screenshots looked at across the scene in English and Welsh. **Not ticked**: the second-Opus
+      review has not run on it, and the other scenes (Dryslwyn 1287, the Walk Gate 1843, the first train
+      1857, the 1848 flood) are not started
 - [ ] **Invasions and raids that reached the valley** (Dewi: "norman, viking etc etc etc invasions"):
       Irish settlement in Dyfed, Viking raids, the Normans after 1093, the English conquest of 1277-83,
       Glyndŵr in 1403, the Civil War, each as key dates (and cutscenes where the research supports one),

@@ -34,6 +34,7 @@ export class TimelineBar {
   private readonly ghost: HTMLElement;
   private ghostT: number | undefined;
   private onGuess: ((t: number) => void) | undefined;
+  private onLockedTouch: (() => void) | undefined;
 
   constructor(
     private readonly timeline: Timeline,
@@ -145,6 +146,18 @@ export class TimelineBar {
     console.info(`dewidebug timeline guess capture=${String(onGuess !== undefined)}`);
   }
 
+  // While a cutscene plays the slider and the step buttons do nothing, and any press on the bar
+  // calls `onTouch` instead (which ends the scene).
+  lock(onTouch: (() => void) | undefined): void {
+    this.onLockedTouch = onTouch;
+    this.el.classList.toggle('locked', onTouch !== undefined);
+    if (onTouch) {
+      this.dragging = false;
+      this.el.classList.remove('dragging');
+    }
+    console.info(`dewidebug timeline locked=${String(onTouch !== undefined)}`);
+  }
+
   jump(t: number): void {
     this.settle();
     this.set(t);
@@ -163,6 +176,10 @@ export class TimelineBar {
   }
 
   step(direction: 1 | -1): void {
+    if (this.onLockedTouch) {
+      console.info('dewidebug timeline step ignored: a cutscene is playing');
+      return;
+    }
     if (this.onGuess) {
       console.info('dewidebug timeline step ignored: a guess is being taken');
       return;
@@ -281,6 +298,16 @@ export class TimelineBar {
   }
 
   private bind(): void {
+    const locked = (e: Event): void => {
+      const touch = this.onLockedTouch;
+      if (!touch || (e instanceof KeyboardEvent && e.key === 'Escape')) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.type === 'pointerdown') touch();
+    };
+    this.el.addEventListener('pointerdown', locked, true);
+    this.el.addEventListener('click', locked, true);
+    this.el.addEventListener('keydown', locked, true);
     this.track.addEventListener('pointerdown', (e) => {
       if (this.onGuess) {
         this.dragging = true;

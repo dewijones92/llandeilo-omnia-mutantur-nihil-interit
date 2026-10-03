@@ -121,3 +121,21 @@ with the full context and consequences.
 | The dim-out stays dated 17 September 1944, with a caveat in both languages that listed, mostly coastal, areas were left out and that whether inland Llandeilo was one is not known | Chosen by Claude under the proactive mandate for the second-Opus review's finding; the Schedule of areas was not found |
 | Steam sound still ends with the passenger trains on 13 June 1964, though steam freight engines worked from Llandovery shed to 10 August 1964; the reason says so | So the sound agrees with the drawn train, which is a passenger train; the dissent (and one source's 1963) is in the ⓘ rather than hidden |
 
+### The first cutscene: the Roman army arrives (2026-10-03)
+
+Built on the agreed cutscene item. Every choice below was decided by Claude under the proactive
+mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), so Dewi
+can overrule it; the narrator in the UI language and captions always on are Dewi's (2026-10-02 row).
+
+| Decision | Why |
+|---|---|
+| The army comes down the Tywi from the north-east, along the line of the later Roman road (Coflein's segments past Llanwrda and Manordeilo, the parchmark entering Llandeilo), and walks in at the fort's east gate as drawn | The research's verdict: the more likely direction, inferred from the forts and the marching camps east of Llandovery; the caption says no record gives the direction. On the day there was no finished road, which the route's ⓘ says |
+| The column is about 650 figures in Josephus's order (scouts, horsemen, road party, standards, trumpeters, the main body in sixes, baggage mules with servants, a rearguard), scaled down | Josephus (AD 67) is the only order of march found; his "six men in depth" is drawn six abreast, though it could mean six ranks deep, and the ⓘ says so; the arriving force's size is unknown, and the garrison estimate (over a thousand) is in a caption |
+| Auxiliaries in mail with flat oval shields and spears; no legionaries; plain caps for helmets; no eagle | No unit is named and no kit was found at Dinefwr; a legionary detachment is possible but not proven; helmets were not researched (open question), so a plain cap stands in and the ⓘ says so |
+| Horsemen are shown, labelled possible | The barley in the ditch fits cavalry or a large infantry or mixed unit; the ⓘ says horsemen are not implied by the evidence |
+| Watching farmers on the hillside, imagined | What the Demetae did is not recorded; the caption says so and the figures carry an imagined ⓘ |
+| Dust under the column; the viewer's own sky | Weather and time of day are not recorded; the first caption says the hour is not recorded and the scene's ⓘ lists the dust and weather as imagined |
+| The fort rises in seconds as the column arrives, with a caption saying how long it took is not recorded, and the header saying time is compressed | A minute cannot show a day's march and weeks of building; saying so beats hiding it |
+| The narrator is Sonia (English) and Nia (Welsh), voices no Roman-era character uses | Distinct from the soldiers' and farmers' voices |
+| The scene runs 79 seconds, longer than the 20 to 60 the design suggested | Each caption must stay up while it is read in both languages; the Welsh clips run up to 9.8 seconds |
+| The timeline is hidden as well as locked while a scene plays, so Skip and Escape end it rather than a click on the timeline | The letterbox and captions need the space ([ADR 0037](../adr/0037-cutscenes-as-data-on-one-clock.md)) |

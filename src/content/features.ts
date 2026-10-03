@@ -28,25 +28,8 @@ import {
   TALLEY_PARISH,
   TOWER_CHURCH,
 } from './buildings.ts';
-import { featureId, placeId, src, type SourceKey } from './ids.ts';
-
-const documented = (keys: readonly [SourceKey, ...SourceKey[]], en?: string, cy?: string): Provenance => ({
-  kind: 'documented',
-  sources: [src(keys[0]), ...keys.slice(1).map(src)],
-  ...(en && cy ? { note: { en, cy } } : {}),
-});
-
-const reconstructed = (en: string, cy: string, keys: readonly SourceKey[]): Provenance => ({
-  kind: 'reconstructed',
-  basis: { en, cy },
-  sources: keys.map(src),
-});
-
-const imagined = (en: string, cy: string, keys: readonly SourceKey[]): Provenance => ({
-  kind: 'imagined',
-  groundedIn: { en, cy },
-  sources: keys.map(src),
-});
+import { featureId, placeId } from './ids.ts';
+import { documented, imagined, reconstructed } from './provenance.ts';
 
 interface Spec {
   readonly id: string;

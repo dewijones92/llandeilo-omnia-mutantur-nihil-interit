@@ -1,5 +1,7 @@
 import { Color4, DynamicTexture, ParticleSystem, Vector3, type AbstractMesh, type Scene } from './babylon.ts';
 
+export type PlumeStyle = 'hearth' | 'steam' | 'dust';
+
 export interface SmokeSource {
   readonly key: string;
   readonly x: number;
@@ -7,17 +9,55 @@ export interface SmokeSource {
   readonly z: number;
   readonly spread: number;
   readonly density: number;
-  readonly style: 'hearth' | 'steam';
+  readonly style: PlumeStyle;
   readonly fire: boolean;
   readonly follow?: { readonly mesh: AbstractMesh; readonly offset: Vector3 };
 }
 
-const STEAM = [new Color4(0.93, 0.93, 0.94, 0.75), new Color4(0.55, 0.55, 0.58, 0.6)] as const;
-const HEARTH = [new Color4(0.8, 0.81, 0.83, 0.55), new Color4(0.7, 0.71, 0.74, 0.42)] as const;
+interface Look {
+  readonly colours: readonly [Color4, Color4];
+  readonly size: readonly [number, number];
+  readonly life: readonly [number, number];
+  readonly rate: number;
+  readonly gravity: Vector3;
+  readonly lift: number;
+  readonly grow: number;
+}
+
+const LOOK: Readonly<Record<PlumeStyle, Look>> = {
+  steam: {
+    colours: [new Color4(0.93, 0.93, 0.94, 0.75), new Color4(0.55, 0.55, 0.58, 0.6)],
+    size: [0.7, 1.6],
+    life: [1.6, 3.2],
+    rate: 30,
+    gravity: new Vector3(0.1, 0.9, 0.05),
+    lift: 2.5,
+    grow: 2.4,
+  },
+  hearth: {
+    colours: [new Color4(0.8, 0.81, 0.83, 0.55), new Color4(0.7, 0.71, 0.74, 0.42)],
+    size: [1.6, 3.4],
+    life: [3, 6],
+    rate: 8,
+    gravity: new Vector3(0.35, 0.5, 0.15),
+    lift: 2.5,
+    grow: 2.4,
+  },
+  // Kicked up by feet and hooves: low, wide and slow to settle.
+  dust: {
+    colours: [new Color4(0.74, 0.66, 0.52, 0.32), new Color4(0.62, 0.56, 0.46, 0.22)],
+    size: [1.4, 3.2],
+    life: [2.5, 5.5],
+    rate: 10,
+    gravity: new Vector3(0.25, 0.12, 0.1),
+    lift: 0.2,
+    grow: 3.2,
+  },
+};
 
 export class Smoke {
   private readonly texture: DynamicTexture;
-  private readonly systems = new Map<string, { readonly ps: ParticleSystem; readonly steam: boolean }>();
+  private readonly systems = new Map<string, { readonly ps: ParticleSystem; readonly style: PlumeStyle }>();
   private level = 1;
 
   constructor(private readonly scene: Scene) {
@@ -38,7 +78,12 @@ export class Smoke {
     for (const s of sources) {
       if (cameraDistance(s.x, s.z) > 1600) continue;
       wanted.add(s.key);
-      if (!this.systems.has(s.key)) this.systems.set(s.key, { ps: this.make(s), steam: s.style === 'steam' });
+      const sys = this.systems.get(s.key);
+      if (!sys) this.systems.set(s.key, { ps: this.make(s), style: s.style });
+      // A source that moves (dust under a marching column) carries its emitter with it; its old
+      // particles stay where they were made, so it leaves a trail.
+      else if (!s.follow && sys.ps.emitter instanceof Vector3)
+        sys.ps.emitter.set(s.x, s.y + LOOK[s.style].lift, s.z);
     }
     for (const [key, sys] of this.systems) {
       if (wanted.has(key)) continue;
@@ -51,48 +96,46 @@ export class Smoke {
   shade(level: number): void {
     if (Math.abs(level - this.level) < 0.01) return;
     this.level = level;
-    for (const sys of this.systems.values()) this.tint(sys.ps, sys.steam);
+    for (const sys of this.systems.values()) this.tint(sys.ps, sys.style);
   }
 
-  private tint(ps: ParticleSystem, steam: boolean): void {
+  private tint(ps: ParticleSystem, style: PlumeStyle): void {
     const k = 0.35 + 0.65 * this.level;
-    const [a, b] = steam ? STEAM : HEARTH;
+    const [a, b] = LOOK[style].colours;
     ps.color1.set(a.r * k, a.g * k, a.b * k, a.a);
     ps.color2.set(b.r * k, b.g * k, b.b * k, b.a);
     ps.colorDead.set(0.9 * k, 0.9 * k, 0.9 * k, 0);
   }
 
   private make(s: SmokeSource): ParticleSystem {
+    const look = LOOK[s.style];
     const ps = new ParticleSystem(`smoke-${s.key}`, Math.round(60 * s.density), this.scene);
     ps.particleTexture = this.texture;
-    const steam = s.style === 'steam';
     if (s.follow) {
       ps.emitter = s.follow.mesh;
       ps.minEmitBox = s.follow.offset.add(new Vector3(-0.1, 0, -0.1));
       ps.maxEmitBox = s.follow.offset.add(new Vector3(0.1, 0.1, 0.1));
     } else {
-      ps.emitter = new Vector3(s.x, s.y + 2.5, s.z);
+      ps.emitter = new Vector3(s.x, s.y + look.lift, s.z);
       ps.minEmitBox = new Vector3(-s.spread, 0, -s.spread);
       ps.maxEmitBox = new Vector3(s.spread, 0.5, s.spread);
     }
     ps.color1 = new Color4();
     ps.color2 = new Color4();
     ps.colorDead = new Color4();
-    this.tint(ps, steam);
-    ps.minSize = steam ? 0.7 : 1.6;
-    ps.maxSize = steam ? 1.6 : 3.4;
-    ps.minLifeTime = steam ? 1.6 : 3;
-    ps.maxLifeTime = steam ? 3.2 : 6;
-    ps.emitRate = (steam ? 30 : 8) * s.density;
+    this.tint(ps, s.style);
+    [ps.minSize, ps.maxSize] = look.size;
+    [ps.minLifeTime, ps.maxLifeTime] = look.life;
+    ps.emitRate = look.rate * s.density;
     ps.blendMode = ParticleSystem.BLENDMODE_STANDARD;
-    ps.gravity = steam ? new Vector3(0.1, 0.9, 0.05) : new Vector3(0.35, 0.5, 0.15);
+    ps.gravity = look.gravity.clone();
     ps.direction1 = new Vector3(-0.1, 0.8, -0.1);
     ps.direction2 = new Vector3(0.2, 1.2, 0.2);
     ps.minEmitPower = 0.3;
     ps.maxEmitPower = 0.8;
     ps.updateSpeed = 0.012;
     ps.addSizeGradient(0, 0.6);
-    ps.addSizeGradient(1, 2.4);
+    ps.addSizeGradient(1, look.grow);
     ps.preWarmCycles = s.follow ? 0 : 90;
     ps.preWarmStepOffset = 6;
     ps.start();

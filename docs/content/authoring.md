@@ -100,6 +100,27 @@ There is no per-castle or per-era code.
 UI strings live in `src/content/strings.ts`, and every content text is `{ en, cy }`. Welsh place
 names come first. A human check of the Welsh is still pending.
 
+## Cutscenes
+
+A cutscene (`src/content/cutscenes.ts`, the model in `src/domain/cutscene.ts`,
+[ADR 0037](../adr/0037-cutscenes-as-data-on-one-clock.md)) belongs to one magnetic key date and lands
+on it. Write it as data:
+
+- **Routes** are grid references from the research (Coflein records, a dated road line), each with its
+  own provenance saying how far the line is known. Check the terrain heights along a route and at
+  every camera position; the stage lifts a camera that would sit inside a hill, which shows in
+  `?debug` logs as `dewidebug stage camera lifted`.
+- **Actors** name a kind of figure (`src/world/crowd.ts` draws each kind), how many, ranks and files,
+  and where the front rank is along the route at the track's start and end. A standing group has the
+  same start and end and `faces` a point.
+- **Captions** carry their own provenance, say what is known and what is not, and are read aloud: run
+  `node tools/voices/build-voices.ts` after changing one, then retime it if the content test says the
+  narration outlasts its window.
+- **Camera keys** are checked by screenshot: `?cutscene=<id>&cutsceneAt=<seconds>` opens a scene
+  part-way through. Remember the letterbox covers the top and bottom of the frame.
+- The scene's own provenance lists what is documented, reconstructed and imagined, including the
+  weather and time of day when no source gives them.
+
 ## Conversations and voices
 
 - A conversation is always `imagined`, and its `groundedIn` says what it rests on. A line that

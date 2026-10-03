@@ -6,7 +6,7 @@ import type { Ground } from './structures.ts';
 
 export const PERSON_HEIGHT = 1.35;
 
-const CLOTHES: Readonly<Record<Clothing, { body: string; accent: string; hat?: string }>> = {
+export const CLOTHES: Readonly<Record<Clothing, Dress>> = {
   'iron-age': { body: '#8a6a4a', accent: '#a8452f' },
   roman: { body: '#a3362f', accent: '#8f8a80' },
   'medieval-welsh': { body: '#6f7a4a', accent: '#8a6a4a' },
@@ -72,9 +72,30 @@ export class People {
 }
 
 function figure(scene: Scene, person: Person, x: number, y: number, z: number, rot: number): Mesh {
-  const c = CLOTHES[person.clothing];
   const h = PERSON_HEIGHT * (person.age === 'child' ? 0.68 : person.age === 'elder' ? 0.94 : 1);
-  const female = person.voice === 'female';
+  const parts = bodyParts(scene, CLOTHES[person.clothing], h, person.voice === 'female', x, y, z, rot);
+  if (person.clothing === 'clergy')
+    parts.push(place(cone(scene, h * 0.24, h * 0.12, CLOTHES.clergy.accent, 8), x, y + h * 0.8, z, rot));
+  return merge(`person-${person.id}`, parts);
+}
+
+export interface Dress {
+  readonly body: string;
+  readonly accent: string;
+  readonly hat?: string;
+}
+
+/** One low-poly person: a body, a belt or collar, a head and any hat. Shared with the crowds. */
+export function bodyParts(
+  scene: Scene,
+  c: Dress,
+  h: number,
+  female: boolean,
+  x: number,
+  y: number,
+  z: number,
+  rot: number,
+): Mesh[] {
   const parts: Mesh[] = [
     place(cylinder(scene, female ? h * 0.42 : h * 0.34, h * 0.62, c.body, 8, h * 0.22), x, y, z, rot),
     place(cylinder(scene, h * 0.26, h * 0.12, c.accent, 8), x, y + h * 0.5, z, rot),
@@ -83,7 +104,5 @@ function figure(scene: Scene, person: Person, x: number, y: number, z: number, r
   if (c.hat && female)
     parts.push(place(cylinder(scene, h * 0.17, h * 0.34, c.hat, 8, h * 0.13), x, y + h * 0.8, z, rot));
   else if (c.hat) parts.push(place(cylinder(scene, h * 0.19, h * 0.16, c.hat, 8), x, y + h * 0.8, z, rot));
-  if (person.clothing === 'clergy')
-    parts.push(place(cone(scene, h * 0.24, h * 0.12, c.accent, 8), x, y + h * 0.8, z, rot));
-  return merge(`person-${person.id}`, parts);
+  return parts;
 }
