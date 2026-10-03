@@ -127,6 +127,29 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   electric street light to September 1902, and the national blackout to 1 September 1939 (IWM and a
   home-front history site); the app's night light now follows these keys, each with how sure its
   date is, and draws street lamps only in the town north of the Tywi ([ADR 0030](../adr/0030-night-light-as-dated-content-keys.md)).
+- **The light research's independent check (2026-10-03)** confirmed the newspaper core (31 of 46
+  claims confirmed, 13 partly, 2 contradicted) and corrected the app: the gas works were *begun* in
+  1864 (completion not found); no source puts electric light in a Llandeilo home in 1902, so homes
+  stay on flame light at that key; the dim-out began on **17 September 1944** (Hansard written answer)
+  and let homes use ordinary curtains, so "blackout curtains stayed" was wrong; "by 8 May 1945 the
+  blackout was over everywhere" was wrong too (most restrictions had gone by 2 May; some coastal areas
+  kept them into peacetime); the Deheubarth law-book's manuscripts are not dated by any source read,
+  so the court's candle-bearer is now "in the Middle Ages", not "by about 1200"; and Gilbert White's
+  "go to bed by daylight" is for the long summer days only. Before 7800 BC the app now says nothing
+  of how the night was lit ([ADR 0032](../adr/0032-night-light-before-the-first-key-and-period-dates.md)).
+  New finds: from October 1902 the town lamps were lit from half an hour after sunset till 11 o'clock
+  all year, 16 new lamp posts were ordered in April 1902, and one corner (Trallwm to Station Road) was
+  unlit in December 1902 ([light-after-dark](light-after-dark.md)).
+- **The soundscapes check (2026-10-03)** found no licence problems (all 92 recordings as stated) but
+  claims that went further than their sources: the 1857 engines are not recorded (only "two engines"),
+  the meltwater river and the first farmers' species are assumptions, and the golden eagle bones are
+  older than the Late Ice Age. A fair at Llandeilo is now documented from 1290-91 and a Saturday
+  market by 1326 (the *Gazetteer of Markets and Fairs to 1516*); when the market bed should start is
+  left for Dewi ([soundscapes](soundscapes.md)).
+- **Steam passenger trains ended on 13 June 1964** (railway-later), so the steam sound now ends then,
+  and a reconstructed diesel-unit sound runs to today. **The Vale of Towy line north-east of the
+  station opened on 1 April 1858** (era-victorian), so it is drawn from then, not from 1857
+  ([ADR 0033](../adr/0033-railway-drawn-in-dated-sections.md)).
 
 - **The motto** on the Begin card, *omnia mutantur, nihil interit*, is Ovid, *Metamorphoses* XV,
   in Pythagoras's speech. Checked 2026-10-03 in two online texts, both of which number it line 165:

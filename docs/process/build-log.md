@@ -380,3 +380,24 @@ Milestones and what each one taught us. Newest last.
    the bloom line removed. And keys pressed with the Begin card up stepped the timeline behind it.
    High's trees went from 0.62 to 0.9 of woodland triangles (34,056 drawn at 1282, against 23,449
    at Medium); the ADR was renumbered 0031 because two other branches had already taken 0028.
+12. **Two independent research checks and a second-Opus review, applied in one pass.** The light
+   check found the app saying more than its sources: homes "mixed electric light, gas and oil" in
+   1902 (no source puts electricity in a Llandeilo home; homes now keep flame light), blackout
+   curtains staying in the dim-out (Hansard: half-lighting and ordinary curtains from 17 September
+   1944), and the blackout "over everywhere" by 8 May 1945 (some coastal areas waited). The c. 1200
+   key had no datable source, so a third `dated` kind, `'in'`, marks a period, and before the first
+   key (7800 BC) there is now no key at all, rather than the first key stretched back to 12,500 BC
+   ([ADR 0032](../adr/0032-night-light-before-the-first-key-and-period-dates.md)). The soundscapes
+   check found no licence problems but nine bed reasons that went past their sources; all are
+   corrected, and a 1290-91 fair is now documented (the market bed's start waits on Dewi). The review
+   found: the Begin card's `aria-modal` did nothing for Tab (the app and canvas are now `inert`);
+   the "ticks stay" of ADR 0029 was untrue, since a tick was only its label (each tick now draws a
+   mark); the same-scene check ignored the night light, and its compile-time guard had gone dead when
+   `ambient` left `Environment` (the comparison is now a record over every `Snapshot` field, so a
+   new field is a compile error until it is compared or called unseen); the street-lamp rule was
+   written four times (now one type guard); the lamp minimum-gap and carry had no test that could
+   fail (now two, each seen red by deleting the line); the 1857 railway drew the 1858 Vale of Towy
+   line and ran the train on it (now dated sections, [ADR 0033](../adr/0033-railway-drawn-in-dated-sections.md));
+   and steam played faintly until 2025 (it ends on 13 June 1964, and a reconstructed diesel-unit
+   bed runs to today). Lesson: the merged items had been ticked ahead of their own path; a tick is a
+   claim, and two were unticked rather than defended.

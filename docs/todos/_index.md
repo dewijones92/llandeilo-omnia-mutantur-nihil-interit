@@ -248,7 +248,10 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       Second-Opus review 2026-10-03: the card was still see-through (labels showed through the
       motto) and keys reached the app behind it; both fixed, each with an e2e assertion seen red
       first (a solid card background; the year and the keys panel unchanged after ArrowRight and ?),
-      screenshots retaken at 1282 and 1880
+      screenshots retaken at 1282 and 1880. A second review the same day found Tab still reached the
+      app behind the card (36 presses, then arrows moved the year): the app and the canvas are now
+      `inert` while the card waits, and the e2e test tabs 40 times, then presses ArrowRight, seen red
+      first ("Tab 4 reached the app behind the card")
 - [ ] **Quality up for powerful GPUs** (Dewi: "assume ... beefy gpus"): raise the defaults (shadow
       resolution, post-processing, vegetation density, particles, reflections). A small High / Medium
       / Low menu (Dewi: "dont put too much effort in to this tho ... concentrate on high mode",
@@ -284,7 +287,7 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
 From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full notes in
 [`../design/ideas-2026-10-02-ranked.json`](../design/ideas-2026-10-02-ranked.json)). Same path as any item.
 
-- [x] **Honest ambience, step one**: every ambient sound bed carries provenance; the medieval church
+- [ ] **Honest ambience, step one**: every ambient sound bed carries provenance; the medieval church
       bells at AD 800 and 1250 go, since no source records a medieval bell here (event-effects).
       Done 2026-10-03: every bed has its own dated track of points in `src/content/ambience.ts`, each
       heard point with a provenance, and no bed fades in from silence, so none is heard before the
@@ -295,12 +298,17 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
       one CRITICAL (bells still faded in from 1851) and six IMPORTANT findings, all fixed. Red runs:
       the bells-and-train and no-fade-in content tests, the two `soundAt` unit tests, and the
       debug-overlay e2e test. Screenshots at AD 800, 1282, 1700, 1855, 1900 and 2026. The gaps it
-      left are in [open questions](../research/open-questions.md)
+      left are in [open questions](../research/open-questions.md). *Unticked 2026-10-03*: the tick
+      skipped step 3, since `soundscapes.md`, which the beds cite most, had not been checked. That check
+      ran on 2026-10-03 ([review](../research/reviews/soundscapes-check-2026-10-03.md)) and its
+      corrections are applied (bed reasons and sources, a 1290-91 fair source); steam now ends on
+      13 June 1964 and a reconstructed diesel-unit bed runs to today, seen red first. Still to do:
+      the second-Opus review of those changes (step 5); the market bed's start date waits on Dewi
 - [ ] **Honest ambience, step two**: sound shaped by distance and space
 - [ ] **Contested points, shown as contested**: one register of every source disagreement, a
       `Contested<T>` type with exactly one preferred reading, a witnesses card, and a ⇄ switch only
       where the readings draw differently (Dryslwyn's middle ward, St Teilo's tower, 1403)
-- [x] **When are we?** a guess-the-year game: hidden clues, read the landscape, a reveal that explains
+- [ ] **When are we?** a guess-the-year game: hidden clues, read the landscape, a reveal that explains
       which features gave it away and how firmly, by provenance. Built 2026-10-03
       ([ADR 0029](../adr/0029-guess-game-hides-giveaways-by-one-root-class.md)): `src/domain/guess.ts`
       (clue ranking seen red, then green), `src/ui/guess.ts`, one e2e flow (seen red with the hiding
@@ -308,9 +316,14 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
       now needs exact dates, phases meeting at the year no longer both count, the same-scene check
       covers people, woodland and sky, the climate clue's snow claim follows the season, and the
       game panel steps aside for the almanac, each seen red first; screenshots at 1287 and 1485
-      (summer and winter). Not ticked: one IMPORTANT finding waits on Dewi. Two answers (c. 800 BC,
-      AD 74) sit on labelled ticks under the slider; jitter the hidden moment, or show unlabelled
-      ticks while guessing?
+      (summer and winter). The open finding (two answers, c. 800 BC and AD 74, sit on labelled ticks)
+      was decided under the proactive mandate: tick labels are hidden during a round
+      ([ADR 0029](../adr/0029-guess-game-hides-giveaways-by-one-root-class.md),
+      [decision log](../process/decision-log.md)). *Unticked 2026-10-03*: it had been ticked before
+      that fix was screenshotted or reviewed, and the review found the shipped fix hid the whole scale
+      (a tick was only its label). Each tick now draws a mark that stays visible, the e2e test checks
+      the mark while the label is transparent (seen red first), and a round was screenshotted. Still to
+      do: the second-Opus review of the tick-mark fix (step 5)
 - [ ] **Light after dark**: hearth, rushlight, candle, gas, electric light and the blackout, as content
       keys like the climate, each sourced. *Built 2026-10-03 on a worktree branch, not yet ticked*:
       research in [light-after-dark](../research/light-after-dark.md), keys in `src/content/lamplight.ts`
@@ -318,8 +331,13 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
       lamps read the resolved state, unit and e2e tests seen red. Second Opus review done the same day
       and its findings fixed: street lamps only in the town north of the Tywi, each key says how sure
       its date is ("by" or "on"), a second source for the blackout and the 1945 lifting, and a "Light
-      after dark" almanac entry with the ⓘ. Still to do on its path: the independent research check
-      (step 3)
+      after dark" almanac entry with the ⓘ. Step 3 done 2026-10-03: the independent check
+      ([review](../research/reviews/light-after-dark-check-2026-10-03.md)) found two contradicted and
+      thirteen partly supported claims; its corrections are applied to the note and the keys (homes on
+      flame light in 1902, the dim-out from 17 September 1944 with ordinary curtains, the 1945 lifting
+      not "everywhere", the court's candles "in the Middle Ages", no light before 7800 BC,
+      [ADR 0032](../adr/0032-night-light-before-the-first-key-and-period-dates.md)); screenshots of
+      the night at 1903 and 1950. Still to do: the second-Opus review of those changes (step 5)
 - [ ] **When did we find out?** a discovery rail and a "found" line on every ⓘ (the forts in 2003,
       Lhuyd's trilobite in 1698, the Gospels' history)
 

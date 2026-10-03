@@ -74,14 +74,29 @@ for the next pass. Each note's own "Open questions" section has the full list an
   - **St Teilo's bells**: how many, when cast, and whether the 1857 peal (effects:S7, which does not
     say whose bells) was St Teilo's. Dove's Guide could not be read ([soundscapes](soundscapes.md)).
   - **Motor traffic**: when cars and lorries reached Llandeilo; the traffic bed starts at 1950.
-  - **St Teilo's Fair**: said to date from 1291, unconfirmed; the market bed starts at 1600.
-  - **Trains after 1950**: the train bed fades out towards 2026, though Class 153 units still run on
-    the Heart of Wales line (railwaylater:S35, a lead); steam passenger trains ended on 13 June 1964
-    (railwaylater:S2, single source), so the bed's sound after that is wrong in kind. The 1950 point
-    rests on photographs of 1958 to 1960 (railwaylater:S2, S3, one author).
+  - **When the market bed should start: a decision for Dewi** (2026-10-03, from the soundscapes
+    check). A fair at Llandeilo was granted by Edward I in 1290 and 1291 and a Saturday market is
+    recorded by 1326, and Dinefwr had its own market and fair from 1280 (sound:S20, a scholarly
+    gazetteer). The market bed still starts at 1600; starting it in the Middle Ages is a content
+    choice, not a correction, so it is left for Dewi. When the Barnabas fair became St Teilo's Fair,
+    and whether it was held in the churchyard, is still open.
+  - **ironage:S49 has no URL** and is the only source for the `FARMSTEAD` and `FARM_SMITH` beds (the
+    Iron Age note calls it a worldhistoryedu.com summary used for sound ideas only). Find the page or
+    replace it with a citable source on Iron Age farmsteads (soundscapes check, 2026-10-03).
+  - **Trains after 1964** (*answered in part 2026-10-03*): the steam bed now ends with the last steam
+    passenger trains on 13 June 1964 (railwaylater:S2, single source), and a separate diesel-unit bed
+    runs from then to today, reconstructed and synthesised (railwaylater:S52, S1, S35 as a lead). The
+    units' sound is not recorded; whether two-car or three-car sets worked the line is contested. The
+    1950 steam point rests on photographs of 1958 to 1960 (railwaylater:S2, S3, one author).
   - **The Tywi, the drovers and the Ffairfach smithy** rest on encyclopedia pages (deeptime:S40,
     victorian:S37, victorian:S2), so their beds are reconstructed; a primary or reputable secondary
     source would let them be documented.
+- **Which drawn railway lines existed when** (2026-10-03). Today's track is drawn from OS Open Map
+  Local. The line north-east of Llandeilo station (the Vale of Towy Railway) now appears from 1 April
+  1858, but the other lines in the circle (the branch east from Pantyffynnon towards Brynaman, whose
+  passenger trains ended in 1958 (railwaylater:S1, S11), and a short line near the western edge, around
+  E 251000 N 211500) are drawn with the railway from 1857, and their own opening and closing dates
+  are not in the notes.
 - **Mapped coordinates**: several lat/lon values came from aggregators and should be checked
   against Coflein or Cadw grid references before precise placement.
 
@@ -135,16 +150,22 @@ the app. They are recorded here so the notes and the app do not silently disagre
   not fit at all: the event-effects note (S6, a single secondary source) says the flood of
   10 February 1798 "carried away the temporary wooden bridge", which suggests a wooden bridge, not
   the seven-arched one, around 1798. When the seven-arched bridge was built is now the open question.
-- **When were Llandeilo's streets first lit with gas?** The works and street mains were built in 1864
-  and the town lamps were lit "as heretofore" in 1876; no report of the first lighting was found in
+- **When were Llandeilo's streets first lit with gas?** The works and street mains were begun in 1864
+  (completion not found) and the town lamps were lit "as heretofore" in 1876; no report of the first lighting was found in
   several searches of Welsh Newspapers Online (2026-10-03). The app draws gas street lamps from 1876,
   as a latest date. That 1876 bound rests on one source (S4); a second (S8, 1902) confirms only that
-  the streets had been gas lit. Also open: how many lamps, whether they were lit only in winter (the
-  1876 arrangement is "during the winter"), and when Ffairfach and the villages were first lit: the
-  app draws lamps only in the town north of the Tywi. ([light](light-after-dark.md))
+  the streets had been gas lit. Also open: how many lamps, and when Ffairfach and the villages were
+  first lit: the app draws lamps only in the town north of the Tywi. Partly answered by the 2026-10-03
+  check: gas lighting seems to have been seasonal (to "the end of the season", April 1902), and from
+  October 1902 the electric lamps were lit from half an hour after sunset till 11 o'clock all year;
+  the app models neither the season nor the 11 o'clock switch-off yet. ([light](light-after-dark.md))
 - **When did Llandeilo's lamps come back after the war?** Hansard gives a latest date (8 May 1945),
-  and a home-front history website says full street lighting came in April 1945; nothing local has
-  been read, so the app's key is "by 8 May 1945".
+  and a home-front history website says full street lighting came in April 1945; restrictions had
+  mostly gone by 2 May, though some coastal areas kept them longer (light:S29). Nothing local has been
+  read, so the app's key is "by 8 May 1945", a latest date for an inland town. Whether Llandeilo used
+  "star" street lighting before the dim-out is also not known.
 - **Light at home in the 20th century.** Who in Llandeilo had electric light at home before 1939, and
-  when farms got mains electricity, are not in the notes; the app's window shares are guessed, and
-  farms across the valley are drawn with the town's windows.
+  when farms got mains electricity, are not in the notes. The council sold electricity by the meter
+  from 1902 (light:S20, S25), but no source says to whom, so the app keeps homes on flame light at the
+  1902 key and draws a guessed mix from 1945; farms across the valley are drawn with the town's
+  windows.

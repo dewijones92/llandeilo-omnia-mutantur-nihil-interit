@@ -2,7 +2,7 @@
 title: Decision log
 kind: log
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Decision log
@@ -102,6 +102,10 @@ with the full context and consequences.
 | Music: in-world where the research puts it, plus a light labelled score that can be turned off. Cutscenes: a narrator in the UI language, captions always on. A Begin screen whose click turns sound on. Assume a powerful GPU; high quality by default | Dewi's answers, 2026-10-02 ("In-world, plus a light score", "Narrator, English or Welsh", "A 'Begin' screen turns sound on", "just assume ... that user has beefy gpus") |
 | The language panel shows Late Brittonic ("already changing into early Welsh") for 410-549 and Primitive Welsh (Cymraeg Cyntefig) for 550-799, where it had "Old Welsh" from 410 | The language check: the sources put Primitive Welsh at c. 550-800; the review caught the first fix starting it at 410. A content call made by the accuracy law, listed so Dewi can overrule it |
 | "When are we?": the tick labels under the slider are hidden during a round (the ticks stay), since two answers sat on labelled ticks | A game-design call left open by the build's review; decided by Claude under the proactive mandate (ADR 0029) |
+| 2026-10-03: the tick labels' fix gets real tick marks: each tick now has a short drawn mark that stays visible during a round, so the bar keeps a scale; before, a tick was only its label, so hiding the labels left no scale at all | The second-Opus review found the shipped CSS did not match this row or ADR 0029; making the code match was the smaller, structurally right change |
+| 2026-10-03: after steam ended (13 June 1964) the trains are heard as a reconstructed, synthesised diesel unit, not silence | A train is drawn to today and the line still runs; a labelled reconstruction (railway-later's diesel-unit sources, Class 153 as a lead) is more honest than silence or faint steam. Chosen by Claude with the coordinator's brief |
+| 2026-10-03: homes stay on flame light at the 1902 electric key | No source puts electric light in a Llandeilo home in 1902 (light-after-dark check); the council sold electricity by the meter, but to whom is not found |
+| 2026-10-03: the market sound bed still starts at 1600, though a fair (1290-91) and a Saturday market (by 1326) are now documented | Starting it in the Middle Ages is a content choice left for Dewi (soundscapes check); recorded in open questions |
 | Conversations by class: build the three vertical-slice eras first (Iron Age, 1282, Victorian), not all 22 key dates at once | Claude's default for the open scale question in `design/conversations-by-class.md` (70-110 conversations); matches the v1 scope, so the method is proven before it is multiplied |
 | Calls the checks left "for the owner", settled by the accuracy law rather than taste: Dinefwr drops 1163, which no source gives (the timeline check): the castle phase starts at its first record in 1151 and the key date moves to c. 1172, when DWB says "a castle in the new style" was begun; St Teilo's tower stays contested in the text and drawn from c.1600; the Surexit stays c.830 (the specialist reading); the Talley and Dryslwyn models are rebuilt to the research, not only re-labelled | CLAUDE.md: contested points stay contested, never pick silently; models need sources as much as dates. Listed here so Dewi can overrule any of them |
 | Items that need Dewi (real hardware, the Welsh and expert checks, Sponsors, models option B or C, anything "Proposed") wait for him; new GitHub issues are triaged but nothing is posted until he says yes | The existing rules: only Dewi agrees work or approves a public post |
