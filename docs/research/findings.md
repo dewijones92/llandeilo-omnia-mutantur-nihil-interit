@@ -175,8 +175,19 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   nothing of them is drawn before 10 April 1840. And they stop at Garnant: **east of Garnant today's
   track is the Great Western's line of 4 November 1907**, built to avoid the 1841 line's incline (1 in
   4.9) on a different course (victorian:S29, and a 1957 *Railway Magazine* article, victorian:S74). It
-  is drawn from November 1907, with no track east of Garnant from 1841 to 1907. Coflein's "Ammanford
-  Railway Station" (victorian:S73) is the branch's Cross Inn station of 10 April 1840.
+  is drawn from November 1907, with no track east of Garnant from 1840 to 1907. Coflein's "Ammanford
+  Railway Station" (victorian:S73) is the branch's Cross Inn station of 10 April 1840. *Corrected
+  2026-10-03 (fourth review)*: this said "from 1841 to 1907", but the first half mile east of Garnant,
+  to Cwmamman, opened on 10 April 1840. The 1907 section also drew the colliery track past
+  Gwaun-cae-Gurwen's level crossing, which no source dates; it now ends where the 1907 line joined the
+  old course, placed 1 mile 22 chains (S74's length) along today's track from Garnant, and the track
+  beyond is not drawn. Pantyffynnon to Duffryn stays exact from April 1840, though contested, because
+  its ⓘ names both dates ([ADR 0035](../adr/0035-exact-dates-are-about-dates-not-clues.md)). The
+  opening days are now placed exactly (`onDay`), so 10 April 1840 and 4 November 1907 are no longer a
+  day or two early, nor 1 April 1858 a day late. **S74 and S29 disagree** on when the old line was cut
+  back to become the Cawdor branch (1907 against 1933), when the 1926 railmotor service ended (June
+  against 1 or 4 May) and how many halts it had, and S29 cites S74 for the dates they share, so those
+  are not two independent sources (victorian:S74's annotation).
 
 - **The motto** on the Begin card, *omnia mutantur, nihil interit*, is Ovid, *Metamorphoses* XV,
   in Pythagoras's speech. Checked 2026-10-03 in two online texts, both of which number it line 165:

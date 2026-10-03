@@ -9,12 +9,13 @@ import {
   DUFFRYN_STATION,
   END_OF_STEAM,
   GARNANT_STATION,
+  GWAUN_CAE_GURWEN_JOIN,
   LLANDEILO_STATION,
   LLANELLY_LINES_E,
 } from '../src/content/features.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
-import { hasStreetLamps, insideArea } from '../src/domain/lamplight.ts';
+import { hasStreetLamps, insideArea, streetWarmth } from '../src/domain/lamplight.ts';
 import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
 import { latestStarting, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
@@ -124,9 +125,9 @@ describe('content integrity', () => {
       k.windows,
       k.glow,
       k.hearth,
-      ...(hasStreetLamps(k.streets) ? [k.streets.glow] : []),
+      ...(hasStreetLamps(k.streets) ? [k.streets.glow, streetWarmth(k.streets)] : []),
     ]);
-    expect(levels.every((v) => v >= 0 && v <= 1)).toBe(true);
+    expect(levels.filter((v) => v < 0 || v > 1)).toEqual([]);
     expect(
       W.lamplight
         .filter((k) => hasStreetLamps(k.streets) && k.provenance.kind !== 'documented')
@@ -328,26 +329,28 @@ describe('the railway', () => {
   const length = (ls: readonly { points: readonly GridRef[] }[]) =>
     ls.reduce((sum, l) => sum + l.points.slice(1).reduce((s, p, i) => s + gap(p, l.points[i] ?? p), 0), 0);
   // Where today's track runs on past the edge of the drawn data (towards Pontarddulais, and towards
-  // Llandovery), and where it simply stops (the colliery lines past Gwaun-cae-Gurwen's level crossing).
+  // Llandovery).
   const MAP_EDGE: readonly GridRef[] = [
     { e: 260395, n: 206650 },
     { e: 273922, n: 232559 },
   ];
-  const TRACK_ENDS: readonly GridRef[] = [{ e: 271447, n: 212036 }];
-  const leavesMap = (p: GridRef) =>
-    MAP_EDGE.some((e) => gap(p, e) < 50) || TRACK_ENDS.some((e) => gap(p, e) < 50);
+  const leavesMap = (p: GridRef) => MAP_EDGE.some((e) => gap(p, e) < 50);
+  // Past the 1907 line's join with the old course, today's track runs on to collieries, undated.
+  const collieryTrack = sectionLines(rails, {
+    within: [{ minE: GWAUN_CAE_GURWEN_JOIN.e, maxN: LLANDEILO_STATION.n }],
+  });
   // Coflein's grid reference for Pantyffynnon station (victorian:S72), where a short spur ends.
   const PANTYFFYNNON_STATION = { e: 262290, n: 210780 };
 
   // The stretch each exactly dated section's sources date: Duffryn (Ammanford) to Llandeilo,
   // January 1857 (victorian:S29, S70); Llandeilo on to Llandovery, 1 April 1858 (victorian:S29, S31);
   // the lines south of Duffryn and up the Amman valley to Garnant, 10 April 1840 (victorian:S29); and
-  // east of Garnant, the line of 4 November 1907 (victorian:S29, S74).
+  // east of Garnant, the line of 4 November 1907 to where it joined the old course (victorian:S29, S74).
   const DATED: Readonly<Record<string, readonly GridRef[]>> = {
     railway: [DUFFRYN_STATION, LLANDEILO_STATION],
     'railway-vale-of-towy': [LLANDEILO_STATION],
     'railway-llanelly-1840': [DUFFRYN_STATION, GARNANT_STATION, PANTYFFYNNON_STATION],
-    'railway-gwaun-cae-gurwen': [GARNANT_STATION],
+    'railway-gwaun-cae-gurwen': [GARNANT_STATION, GWAUN_CAE_GURWEN_JOIN],
   };
 
   it('lists as map edges only tips near the edge of the ten-mile circle', () => {
@@ -375,12 +378,19 @@ describe('the railway', () => {
     expect(wrong).toEqual([]);
   });
 
-  it('draws every line east of Cross Hands (E258000) exactly once, and leaves out only the undated lines west of it', () => {
+  it('draws every line east of Cross Hands (E258000) exactly once, leaving out only the undated colliery track past the 1907 join', () => {
     const drawn = sections.reduce((sum, s) => sum + length(s.lines), 0);
     const east = rails.filter((l) => l.points.every((p) => p.e > LLANELLY_LINES_E));
     const west = rails.filter((l) => l.points.every((p) => p.e < LLANELLY_LINES_E));
     expect(east.length + west.length).toBe(rails.length);
-    expect(drawn).toBeCloseTo(length(east), 0);
+    expect(length(collieryTrack)).toBeGreaterThan(1000);
+    expect(drawn + length(collieryTrack)).toBeCloseTo(length(east), 0);
+  });
+
+  it('draws the 1907 line east of Garnant for the 1 mile 22 chains its source gives it', () => {
+    const line1907 = sections.find((s) => s.feature.id === 'railway-gwaun-cae-gurwen');
+    // victorian:S74: 1 mile 22 chains is 2,052m.
+    expect(Math.abs(length(line1907?.lines ?? []) - 2052)).toBeLessThan(20);
   });
 });
 

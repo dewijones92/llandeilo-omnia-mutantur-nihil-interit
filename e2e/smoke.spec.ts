@@ -389,6 +389,7 @@ test('the night is lit by the light of its time: gas lamps in 1880, the blackout
   await expect(debug).toContainText(
     'light homes oil-lamp street gas in town-north-of-tywi by 1876.00 [documented]',
   );
+  await expect(debug).toContainText('street warmth 0.85');
   await expect(debug).toContainText(/\(windows 0\.[1-9]\d hearth \d\.\d\d street 0\.[1-9]\d\)/);
   await expect.poll(async () => (await meshState(page, 'street-lamps')).visible).toBe(true);
   expect((await meshState(page, 'street-lamps')).count).toBeGreaterThan(10);
@@ -402,6 +403,7 @@ test('the night is lit by the light of its time: gas lamps in 1880, the blackout
   await page.goto('./?year=1942&hour=21&season=winter&place=llandeilo&debug');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   await expect(debug).toContainText('light homes blacked-out street off on 1939.67 [documented]');
+  await expect(debug).not.toContainText('street warmth');
   await expect(debug).toContainText('(windows 0.00 hearth 0.00 street 0.00)');
   await expect.poll(async () => (await meshState(page, 'street-lamps')).visible).toBe(false);
   expect((await meshState(page, 'building-windows')).count).toBe(0);

@@ -1,5 +1,5 @@
 import { clamp, lerp } from './assert.ts';
-import { PRESENT_YEAR, year, type Year } from './time.ts';
+import { PRESENT_YEAR, settledYear, year, type Year } from './time.ts';
 
 export interface TimelineAnchor {
   readonly t: number;
@@ -51,6 +51,8 @@ function segmentAt(
   return { a, b };
 }
 
+// The one place a slider position becomes a year, so the label, the snapshot and the guess game all
+// read the same one; settled so a key date's year is its own whole year, not a hair short.
 export function yearAt(timeline: Timeline, t: number): Year {
   const tt = clamp(t, 0, 1);
   const { a, b } = segmentAt(timeline, 't', tt);
@@ -60,9 +62,9 @@ export function yearAt(timeline: Timeline, t: number): Year {
   if (b.scale === 'log') {
     const la = Math.log(before(a.year));
     const lb = Math.log(before(b.year));
-    return year(PRESENT_YEAR + 1 - Math.exp(lerp(la, lb, f)));
+    return year(settledYear(PRESENT_YEAR + 1 - Math.exp(lerp(la, lb, f))));
   }
-  return year(lerp(a.year, b.year, f));
+  return year(settledYear(lerp(a.year, b.year, f)));
 }
 
 export function tAt(timeline: Timeline, y: Year): number {

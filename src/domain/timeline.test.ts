@@ -1,6 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { createTimeline, tAt, yearAt } from './timeline.ts';
-import { bc, ad, year, calendarYear, formatSliderYear, formatYear, groupDigits, yearsAgo } from './time.ts';
+import {
+  bc,
+  ad,
+  year,
+  calendarYear,
+  formatSliderYear,
+  formatYear,
+  groupDigits,
+  onDay,
+  settledYear,
+  yearsAgo,
+} from './time.ts';
 
 const tl = createTimeline([
   { t: 0, year: yearsAgo(450_000_000), scale: 'linear' },
@@ -80,6 +91,28 @@ describe('formatYear with fractional years (as the slider produces)', () => {
     expect(formatYear(year(-800.0000001), 'en')).toBe('801 BC');
     expect(calendarYear(1856.9999999)).toBe(1857);
     expect(calendarYear(1858.9)).toBe(1858);
+  });
+
+  it('places a named day at the start of that day, with leap years counted', () => {
+    expect(onDay(1858, 4, 1)).toBe(1858 + 90 / 365);
+    expect(onDay(1840, 4, 10)).toBe(1840 + 100 / 366);
+    expect(onDay(1907, 1, 1)).toBe(1907);
+    expect(onDay(1900, 3, 1)).toBe(1900 + 59 / 365);
+    expect(onDay(2000, 3, 1)).toBe(2000 + 60 / 366);
+    expect(onDay(1964, 12, 31)).toBe(1964 + 365 / 366);
+    expect(() => onDay(1900, 2, 29)).toThrow();
+    expect(() => onDay(1907, 13, 1)).toThrow();
+    expect(() => onDay(1907, 4, 0)).toThrow();
+    expect(() => onDay(1066, 10, 14)).toThrow();
+  });
+
+  it('settles a year within the float allowance onto the whole year, from either side, and leaves others alone', () => {
+    expect(settledYear(549.9999999999998)).toBe(550);
+    expect(settledYear(1403.0000000000002)).toBe(1403);
+    expect(settledYear(1858.25)).toBe(1858.25);
+    expect(settledYear(1856.99)).toBe(1856.99);
+    expect(settledYear(2026)).toBe(2026);
+    for (const y of [550, 830, 1403, 1536]) expect(yearAt(tl, tAt(tl, year(y)))).toBe(y);
   });
 
   it('never prints a decimal point for any slider position', () => {

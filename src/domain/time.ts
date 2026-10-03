@@ -18,6 +18,32 @@ export function bc(value: number): Year {
   return year(1 - value);
 }
 
+const MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] as const;
+
+function isLeap(y: number): boolean {
+  return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+}
+
+/**
+ * The start of a day a source names, as a fractional year: onDay(1840, 4, 10) is midnight beginning
+ * 10 April 1840. Gregorian, so only for dates after Britain adopted it in 1752.
+ */
+export function onDay(y: number, month: number, day: number): Year {
+  const lengths = MONTH_DAYS.map((d, i) => (i === 1 && isLeap(y) ? 29 : d));
+  const inMonth = lengths[month - 1];
+  if (
+    !Number.isInteger(y) ||
+    y < 1753 ||
+    inMonth === undefined ||
+    !Number.isInteger(day) ||
+    day < 1 ||
+    day > inMonth
+  )
+    throw new Error(`Invalid day ${String(y)}-${String(month)}-${String(day)}`);
+  const before = lengths.slice(0, month - 1).reduce((sum, d) => sum + d, 0) + day - 1;
+  return year(y + before / (isLeap(y) ? 366 : 365));
+}
+
 export function yearsAgo(value: number): Year {
   return year(PRESENT_YEAR - value);
 }
@@ -45,13 +71,20 @@ export function groupDigits(value: number, lang: Lang): string {
   return Math.round(value).toLocaleString(lang === 'cy' ? 'cy-GB' : 'en-GB');
 }
 
-// A year value is a fractional calendar year (ad(1858.25) is 1 April 1858), so its label is the
-// year it lies in, astronomical year 0 being 1 BC. The epsilon (about 30 seconds) lets a key date that
-// float error brings back as 1856.9999999 still read 1857.
+// About 30 seconds. A slider position converted to a year can come back a hair either side of a whole
+// year (549.9999999999998 for the AD 550 key); within this it is that year. Snapping onto the whole
+// year, rather than adding the epsilon, keeps a range ending at a key year (or at the present) whole.
 export const YEAR_EPSILON = 1e-6;
 
+export function settledYear(value: number): number {
+  const whole = Math.round(value);
+  return Math.abs(value - whole) < YEAR_EPSILON ? whole : value;
+}
+
+// A year value is a fractional calendar year (ad(1858.5) is about 2 July 1858; onDay names a day),
+// so its label is the year it lies in, astronomical year 0 being 1 BC.
 export function calendarYear(value: number): number {
-  return Math.floor(value + YEAR_EPSILON);
+  return Math.floor(settledYear(value));
 }
 
 export function formatYear(value: Year, lang: Lang, approximate = false): string {

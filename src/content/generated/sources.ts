@@ -2005,6 +2005,12 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/era-victorian.md"
   },
   {
+    "id": "victorian:S76",
+    "title": "Coflein (RCAHMW), \"Gwaun-Cae Gurwen Viaducts,\" NPRN 415116",
+    "url": "https://coflein.gov.uk/en/site/415116",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
     "id": "effects:S1",
     "title": "Thomas Jenkins of Llandeilo, diary 1840-1845, as transcribed on llandeilo.org (Terry Norman and Andy Mabbutt), \"Caves, Castles, Rebecca Riots, Leeches and Scarlet Fever\", from *The Diary of Thomas Jenkins of Llandeilo…",
     "url": "https://llandeilo.org/tj_caves.html",

@@ -3,11 +3,11 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { END_OF_STEAM } from '../src/content/features.ts';
 import { WORLD_CONTENT } from '../src/content/world.ts';
-import { hasStreetLamps, lampColour, lampsAt } from '../src/domain/lamplight.ts';
+import { hasStreetLamps, lampAlmanacAt, lampColour, lampsAt } from '../src/domain/lamplight.ts';
 import { drawnRailway, longestLine } from '../src/domain/rail.ts';
-import { snapshotAt } from '../src/domain/state.ts';
+import { latestStarting, snapshotAt } from '../src/domain/state.ts';
 import { keySteps } from '../src/domain/steps.ts';
-import { ad, contains } from '../src/domain/time.ts';
+import { ad, contains, onDay } from '../src/domain/time.ts';
 import { tAt } from '../src/domain/timeline.ts';
 import { parseLines } from '../src/platform/assets.ts';
 
@@ -53,6 +53,30 @@ describe('snapshotAt: what is on screen and heard in 1282', () => {
       expect(s.environment.forest).toBeLessThanOrEqual(1);
       for (const c of s.conversations) expect(contains(c.when, s.year)).toBe(true);
     }
+  });
+});
+
+describe('snapshotAt at every key date', () => {
+  const W = WORLD_CONTENT;
+  const ids = (xs: readonly { readonly id: string }[]) => xs.map((x) => x.id);
+  const steps = keySteps(W.timeline, W.events).map((step) => [step.event.id, step] as const);
+
+  // A key step's t can bring its year back a hair short (549.9999999999998 for AD 550).
+  it.each(steps)('%s reads as the key date’s own year in every lookup', (_id, step) => {
+    const snap = snapshotAt(W, step.t);
+    const y = step.event.when.from;
+    const light = lampAlmanacAt(W.lamplight, y);
+    expect({
+      era: snap.era?.id,
+      language: snap.language?.id,
+      almanac: ids(snap.almanac),
+      conversations: ids(snap.conversations),
+    }).toEqual({
+      era: latestStarting(W.eras, y)?.id,
+      language: latestStarting(W.language, y)?.id,
+      almanac: [...ids(W.almanac.filter((a) => contains(a.when, y))), ...(light ? [light.id] : [])],
+      conversations: ids(W.conversations.filter((c) => contains(c.when, y))),
+    });
   });
 });
 
@@ -139,6 +163,9 @@ describe('snapshotAt: the railway on screen', () => {
   const drawnAtT = (t: number) => drawnRailway(snapshotAt(W, t).features, trainLine);
   const drawnAt = (y: number) => drawnAtT(tAt(W.timeline, ad(y)));
   const ids = (t: number) => drawnAtT(t).sections.map((s) => s.feature.id);
+  // About five minutes either side of midnight beginning the day.
+  const justBefore = (y: number, m: number, d: number) => tAt(W.timeline, ad(onDay(y, m, d) - 1e-5));
+  const justAfter = (y: number, m: number, d: number) => tAt(W.timeline, ad(onDay(y, m, d) + 1e-5));
   const step1857 = keySteps(W.timeline, W.events).find((s) => s.event.id === 'railway');
 
   it('draws no Vale of Towy line at the 1857 key step, or before it opened on 1 April 1858', () => {
@@ -146,8 +173,8 @@ describe('snapshotAt: the railway on screen', () => {
     const t = step1857?.t ?? 0;
     expect(ids(t)).toContain('railway');
     expect(ids(t)).not.toContain('railway-vale-of-towy');
-    expect(ids(tAt(W.timeline, ad(1858.2)))).not.toContain('railway-vale-of-towy');
-    expect(ids(tAt(W.timeline, ad(1858.3)))).toContain('railway-vale-of-towy');
+    expect(ids(justBefore(1858, 4, 1))).not.toContain('railway-vale-of-towy');
+    expect(ids(justAfter(1858, 4, 1))).toContain('railway-vale-of-towy');
   });
 
   it('draws no train before the railway reached Llandeilo in January 1857', () => {
@@ -168,13 +195,13 @@ describe('snapshotAt: the railway on screen', () => {
   });
 
   it('draws the Llanelly Railway’s first lines from 10 April 1840, and nothing of them before', () => {
-    expect(ids(tAt(W.timeline, ad(1839.9)))).not.toContain('railway-llanelly-1840');
-    expect(ids(tAt(W.timeline, ad(1840.3)))).toContain('railway-llanelly-1840');
+    expect(ids(justBefore(1840, 4, 10))).not.toContain('railway-llanelly-1840');
+    expect(ids(justAfter(1840, 4, 10))).toContain('railway-llanelly-1840');
   });
 
   it('draws the line east of Garnant from its opening on 4 November 1907, and nothing of it before', () => {
-    expect(ids(tAt(W.timeline, ad(1907.8)))).not.toContain('railway-gwaun-cae-gurwen');
-    expect(ids(tAt(W.timeline, ad(1907.9)))).toContain('railway-gwaun-cae-gurwen');
+    expect(ids(justBefore(1907, 11, 4))).not.toContain('railway-gwaun-cae-gurwen');
+    expect(ids(justAfter(1907, 11, 4))).toContain('railway-gwaun-cae-gurwen');
   });
 
   it('hands the drawn train and its sound over together when steam ended, to the instant', () => {

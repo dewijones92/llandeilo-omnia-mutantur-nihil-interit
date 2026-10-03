@@ -113,8 +113,17 @@ for the next pass. Each note's own "Open questions" section has the full list an
   victorian:S29, S70), not the main line's Duffryn. Also corrected then: east of Garnant today's track
   is the Great Western's line of 4 November 1907, not the 1841 line, which climbed a 1 in 4.9 incline
   on another course (victorian:S29, S74). The app draws it from November 1907 and nothing there from
-  1841 to 1907. Still open: whether the colliery lines past Gwaun-cae-Gurwen's level crossing, drawn
-  with the 1907 line, are that old; and the 1841 line's exact course, which would let it be drawn.
+  1840 to 1907 (*corrected 2026-10-03 (fourth review)*: this said 1841, but the first half mile, to
+  Cwmamman, opened on 10 April 1840). Still open: the 1840 and 1841 line's exact course, which would let
+  it be drawn, and where on it Cwmamman station stood (half a mile east of the later Garnant station,
+  and probably on the old course near today's track, an inference from victorian:S74); where exactly the
+  1907 line joined the old course, which the app places from S74's length alone (Coflein's
+  "Gwaun-Cae Gurwen Viaducts", victorian:S76, stand on today's track about 65m east of that point but
+  are dated just before the First World War); and when the colliery track beyond the join was laid,
+  which is not drawn (*corrected 2026-10-03 (fourth review)*: it had been drawn from 1907). Sources
+  disagree, unresolved (victorian:S74 against S29): whether the old line was cut back to the Cawdor
+  branch in 1907 or 1933; whether the railmotor service ended in June 1926 or on 1 or 4 May; and
+  whether it had two halts and a terminus, two halts, or four halts.
 - **Mapped coordinates**: several lat/lon values came from aggregators and should be checked
   against Coflein or Cadw grid references before precise placement.
 

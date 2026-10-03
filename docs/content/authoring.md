@@ -2,7 +2,7 @@
 title: Authoring content
 kind: guide
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # How research becomes content
@@ -36,8 +36,10 @@ list, regenerate and fix whatever no longer compiles, re-mapping by title.
 
 Years are astronomical (`bc(800)` is -799, `ad(1282)` is 1282). A feature is fully present from
 `from` to `to` and fades in just before and out just after, so a replacement (a ruin, a rebuilt
-church) that starts on the year its predecessor ends crossfades cleanly. Key dates marked
-`magnetic` snap the slider and show a moment card.
+church) that starts on the year its predecessor ends crossfades cleanly; one with `datesExact` is on
+from `from` to `to` and never outside them (ADR 0034, 0035). When a source names the day, write it
+with `onDay(1840, 4, 10)` (the start of that day, leap years counted), not a decimal guessed from the
+month. Key dates marked `magnetic` snap the slider and show a moment card.
 
 ## Places and features
 

@@ -1,6 +1,6 @@
 import type { NonEmptyArray } from '../domain/assert.ts';
 import type { LampKey, LitArea } from '../domain/lamplight.ts';
-import { ad, bc } from '../domain/time.ts';
+import { ad, bc, onDay } from '../domain/time.ts';
 import { src } from './ids.ts';
 
 // The sources speak of lighting "the town"; whether Ffairfach, south of the bridge, was lit is not
@@ -185,7 +185,7 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     },
   },
   {
-    year: ad(1939.67),
+    year: onDay(1939, 9, 1),
     dated: 'on',
     homes: 'blacked-out',
     streets: { kind: 'off' },
@@ -208,7 +208,7 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
   },
   {
     // 17 September 1944, the day the relaxations came into force outside listed areas (Hansard written answer, 28 September 1944).
-    year: ad(1944.71),
+    year: onDay(1944, 9, 17),
     dated: 'on',
     homes: 'curtained',
     streets: { kind: 'dimmed', glow: 0.25, area: TOWN_NORTH_OF_TYWI },
@@ -239,7 +239,7 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
   },
   {
     // 8 May 1945, VE Day: the latest date the Home Secretary gave for lifting the blackout everywhere.
-    year: ad(1945.35),
+    year: onDay(1945, 5, 8),
     dated: 'by',
     homes: 'mixed',
     // What lamps lit the streets after the war is not researched; this warm colour is a guess.

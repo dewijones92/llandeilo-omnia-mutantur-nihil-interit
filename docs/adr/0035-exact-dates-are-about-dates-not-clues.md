@@ -8,7 +8,8 @@ updated: 2026-10-03
 # ADR 0035: Exact dates are about the dates, not about how firm a clue is
 
 - **Status:** Accepted, amends [0029](0029-guess-game-hides-giveaways-by-one-root-class.md) and
-  [0034](0034-exact-dates-draw-nothing-outside-them.md)
+  [0034](0034-exact-dates-draw-nothing-outside-them.md); amended the same day after the fourth review
+  (see the end)
 - **Date:** 2026-10-03
 
 ## Context
@@ -49,3 +50,26 @@ A separate `fade: 'none'` flag (a second switch meaning almost the same as the f
 feature's fade-in at its `from` (changes every "c." feature at once, and puts the uncertainty all on
 one side); correcting the ⓘ to say the lines grow in from about 1831 (true of the screen, false of
 the history).
+
+## Amended 2026-10-03 (fourth review)
+
+The fourth review found two sections carrying `datesExact` where "a source gives both ends as dates"
+was not true of all the track inside them. Dewi decided each:
+
+- **A contested opening date may still be exact.** `datesExact` may cover a stretch whose opening date
+  the sources dispute, drawn from the earlier sourced date, when the ⓘ names both dates. This is
+  `railway-llanelly-1840`'s Pantyffynnon to Duffryn stretch: 1840 in S29's station list, 6 May 1841 in
+  S70 and "May 1841" in S71, and its ⓘ says it "may be drawn a year early". It differs from the undated
+  lines near Cross Hands, which stay undrawn: a contested date is a choice between two sourced dates,
+  and drawing from the earlier one is honest when the ⓘ says so; an undated line has no date at all,
+  and any date given it would be invented. ADR 0034's list, which called this section "not exact", and
+  the decision log's "no exact date for track the sources date differently" are read with this
+  exception.
+- **No exact date for track no source dates.** `railway-gwaun-cae-gurwen` drew the colliery track past
+  Gwaun-cae-Gurwen's level crossing from 1907, though nothing dates it. The section now ends where the
+  1907 line joined the old course, "just west of the level crossing" (victorian:S74). No source maps
+  that point, so it is placed on today's track 1 mile 22 chains along it from the cut at Garnant, the
+  length S74 gives the line (`GWAUN_CAE_GURWEN_JOIN`, E269996). The track beyond it is in no section
+  and is not drawn, like the Cross Hands stubs. The content test now holds the section to the join
+  and to S74's length, and counts the undrawn colliery track as the one stretch east of E258000 left
+  out.

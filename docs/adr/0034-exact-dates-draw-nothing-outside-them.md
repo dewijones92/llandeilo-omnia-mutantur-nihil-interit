@@ -78,4 +78,9 @@ the western lines with a guessed date (inventing a date).
   own `to` unless it is exact too, so the two overlap for some years (see ADR 0035).
 - `drawnFeatures` in the guess game now takes the railway and the train from `drawnRailway`, the rule
   this ADR calls the one rule for what of the railway is on screen.
+- *Fourth review, 2026-10-03*: `railway-llanelly-1840` carries exact dates though Pantyffynnon to
+  Duffryn opened in 1840 or May 1841 (the sources differ); [ADR 0035](0035-exact-dates-are-about-dates-not-clues.md)
+  now allows that when the ⓘ names both dates. `railway-gwaun-cae-gurwen` ends at the 1907 line's join
+  with the old course, and the colliery track beyond it, undated, is in no section and is not drawn, so
+  "every line east of E258000 drawn once" excepts that track.
 

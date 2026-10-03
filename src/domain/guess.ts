@@ -9,7 +9,7 @@ import type { Rgb } from './colour.ts';
 import type { Environment, Snapshot, WorldContent } from './state.ts';
 import { snapshotAt } from './state.ts';
 import type { Step } from './steps.ts';
-import { PRESENT_YEAR, YEAR_EPSILON, range, year, type TimeRange, type Year } from './time.ts';
+import { PRESENT_YEAR, range, year, type TimeRange, type Year } from './time.ts';
 import { tAt, type Timeline } from './timeline.ts';
 
 export const ROUNDS = 5;
@@ -71,11 +71,9 @@ function datesCover(when: TimeRange, y: Year): boolean {
 
 function featureClues(timeline: Timeline, snap: Snapshot): Clue[] {
   const out: Clue[] = [];
-  // Nudged so a key date's year, which can come back through the slider a hair short, still counts.
-  const y = year(snap.year + YEAR_EPSILON);
   for (const { feature, presence } of snap.features) {
     // A phase fading in or out is on screen, but its dates do not cover the year, so they would mislead.
-    if (presence < ON_SCREEN || !datesCover(feature.when, y)) continue;
+    if (presence < ON_SCREEN || !datesCover(feature.when, snap.year)) continue;
     const strength = clueStrength(feature.provenance, feature.datesExact === true);
     if (!strength) continue;
     out.push({

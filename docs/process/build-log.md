@@ -433,7 +433,7 @@ Milestones and what each one taught us. Newest last.
    Garnant today's track is the Great Western's line of 4 November 1907, not the 1841 incline line
    (victorian:S29, and Mowat's 1957 *Railway Magazine* article, now victorian:S74, read from the
    Wayback copy because the live page answers 403); that stretch is its own section from 1907, with
-   nothing drawn there from 1841 to 1907. Coflein's unexplained "Ammanford Railway Station" turned out
+   nothing drawn there from 1840 to 1907 (*corrected 2026-10-03, fourth review*: this said 1841). Coflein's unexplained "Ammanford Railway Station" turned out
    to be Cross Inn, 4m from the Amman valley branch. The 1902 street-colour fix had also turned every
    street lamp since 1945 near-white; a key can now give its lamps their own colour, and the 1945 key
    keeps its old warm one, labelled a guess. Smaller: the end of steam was four literals with gaps of
@@ -448,3 +448,32 @@ Milestones and what each one taught us. Newest last.
    radius 900, and the whole valley): the line is too thin to see at valley scale, so the renderer's
    own `dewidebug rail drawn` line is the evidence: nothing in 1835, `railway-llanelly-1840` alone in
    1845, every section with a steam train in 1910.
+15. **The fourth review: one year for every reader, and no date for undated track.** A slider position
+   turned into a year could come back a hair short of a key date (549.9999999999998 for the AD 550
+   key), and only the year label and the guess game's clues allowed for it, each in its own way. So at
+   the St Teilo key the header read AD 550 while the Language tab showed Late Brittonic, which ends in
+   549. `yearAt`, the one place a slider position becomes a year, now settles a value within
+   `YEAR_EPSILON` of a whole year onto it, and the label, the snapshot (era, language, almanac,
+   conversations, sound, night light) and the guess game all read that one year; the guess game's own
+   nudge is gone. Settling rather than adding the epsilon was chosen after a probe: adding it would
+   have dropped the Iron Age almanac at the AD 74 key, the three-tollgates conversation at the 1848 key
+   and three entries at the end of the slider, all of whose ranges end on those years. Exact days named
+   by a source are now written with `onDay(year, month, day)` (leap years counted): 10 April 1840 and
+   4 November 1907 had been a day or two early, and 1 April 1858 a day late; 13 June 1964 and the
+   blackout keys moved by under a day. The 1907 line east of Garnant had drawn the colliery track past
+   Gwaun-cae-Gurwen's level crossing from 1907, a date no source gives it. It now ends where the line
+   joined the old course, placed from Mowat's length for it (1 mile 22 chains along today's track from
+   the cut at Garnant), and the track beyond is undrawn, like the Cross Hands stubs; Pantyffynnon to
+   Duffryn keeps exact dates though contested, because its ⓘ names both (ADR 0035, amended). Notes: the
+   1907 ⓘ now says the first half mile east of Garnant opened in April 1840; Mowat and the Llanelly
+   Railway page are recorded as disagreeing (1907 or 1933 for the Cawdor branch, June or May 1926, the
+   halts) instead of "agreeing on every date"; Cwmamman's place on the old course is marked an
+   inference; and Garnant station's grid reference is recorded as disagreeing with the coordinate used.
+   Coflein has no Garnant station record; its Gwaun-cae-Gurwen viaducts record, dated just before the
+   First World War, sits on the track about 65m east of the placed join and is kept as a lead
+   (victorian:S76). Street warmth is now range-checked and shown in `?debug`. Seen red first: the
+   per-key-step test (at `st-teilo`, on `language`), the three opening-day tests, the dated-stretch,
+   exactly-once and 1907-length content tests, and the night-light range test (with a street warmth of
+   4.5). Lesson: a float allowance belongs where the value is made, not where it is read; two readers
+   had patched it and four had not. Evidence: the renderer's `dewidebug rail` line shows the 1907 section
+   cut at E269996 and absent in October 1907, drawn in 1910.
