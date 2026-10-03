@@ -165,21 +165,27 @@ export const STRINGS = {
   guessFrom: { en: 'from', cy: 'o' },
   guessTo: { en: 'to', cy: 'hyd' },
   guessShowMe: { en: 'Show me', cy: 'Dangos i mi' },
-  guessColder: {
-    en: 'A colder climate than today, seen in the snow on the hills',
-    cy: 'Hinsawdd oerach na heddiw, i’w gweld yn yr eira ar y bryniau',
+  guessColder: { en: 'A colder climate than today', cy: 'Hinsawdd oerach na heddiw' },
+  guessWarmer: { en: 'A warmer climate than today', cy: 'Hinsawdd gynhesach na heddiw' },
+  guessSnowShows: {
+    en: 'You can see it in the snow on the hills.',
+    cy: 'Gallwch ei weld yn yr eira ar y bryniau.',
   },
-  guessWarmer: {
-    en: 'A warmer climate than today, seen in less snow on the hills',
-    cy: 'Hinsawdd gynhesach na heddiw, i’w gweld yn llai o eira ar y bryniau',
+  guessSnowInWinter: {
+    en: 'It does not show in this season’s snow: switch to winter to see it on the hills.',
+    cy: 'Nid yw i’w weld yn eira’r tymor hwn: newidiwch i’r gaeaf i’w weld ar y bryniau.',
+  },
+  guessSnowNever: {
+    en: 'The scene does not show it: the snow never reaches these hills.',
+    cy: 'Nid yw’r olygfa yn ei ddangos: nid yw’r eira byth yn cyrraedd y bryniau hyn.',
   },
   guessClimateModel: {
     en: 'This comes from our reconstructed climate model, not from a record of these years.',
     cy: 'Daw hyn o’n model hinsawdd wedi’i ail-greu, nid o gofnod o’r blynyddoedd hyn.',
   },
   guessNoFirm: {
-    en: 'Nothing here is dated firmly by a record: every clue is a reconstruction.',
-    cy: 'Does dim yma wedi’i ddyddio’n bendant gan gofnod: ail-greadau yw pob cliw.',
+    en: 'Nothing here is dated exactly by a record: every clue’s dates are approximate or reconstructed.',
+    cy: 'Does dim yma wedi’i ddyddio’n union gan gofnod: mae dyddiadau pob cliw yn fras neu wedi’u hail-greu.',
   },
   guessSameScene: {
     en: 'From what is drawn, your guess and the answer look the same: the scene cannot tell them apart.',

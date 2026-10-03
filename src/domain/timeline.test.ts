@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createTimeline, tAt, yearAt } from './timeline.ts';
-import { bc, ad, year, formatYear, yearsAgo } from './time.ts';
+import { bc, ad, year, formatSliderYear, formatYear, groupDigits, yearsAgo } from './time.ts';
 
 const tl = createTimeline([
   { t: 0, year: yearsAgo(450_000_000), scale: 'linear' },
@@ -52,6 +52,14 @@ describe('formatYear', () => {
     expect(formatYear(ad(75), 'en', true)).toBe('c. AD 75');
     expect(formatYear(ad(1282), 'cy')).toBe('1282');
     expect(formatYear(yearsAgo(450_000_000), 'en')).toBe('450 million years ago');
+  });
+});
+
+describe('formatSliderYear and groupDigits', () => {
+  it('marks a slider reading before AD 1000 as approximate, and groups digits per language', () => {
+    expect(formatSliderYear(ad(830), 'en')).toBe('c. AD 830');
+    expect(formatSliderYear(ad(1282), 'en')).toBe('1282');
+    expect(groupDigits(12500, 'en')).toBe('12,500');
   });
 });
 

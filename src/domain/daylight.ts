@@ -322,9 +322,21 @@ export function seasonLook(season: Season, chill: number): SeasonLook {
   };
 }
 
+// Metres: north-facing slopes hold snow lower, a per-vertex jitter breaks the line up, and the
+// cover fades in over a band below and above it.
+const SNOW_NORTH_M = 70;
+const SNOW_JITTER_M = 90;
+const SNOW_FADE_BELOW_M = 90;
+const SNOW_FADE_ABOVE_M = 60;
+
 export function snowCover(look: SeasonLook, heightM: number, north: number, jitter: number): number {
-  const line = look.snowLine - north * 70 + (jitter - 0.5) * 90;
-  return smoothstep(line - 90, line + 60, heightM) * look.snow;
+  const line = look.snowLine - north * SNOW_NORTH_M + (jitter - 0.5) * SNOW_JITTER_M;
+  return smoothstep(line - SNOW_FADE_BELOW_M, line + SNOW_FADE_ABOVE_M, heightM) * look.snow;
+}
+
+// Below this height snowCover is zero on every slope (north is -1..1, jitter 0..1).
+export function lowestSnowM(look: SeasonLook): number {
+  return look.snowLine - SNOW_NORTH_M - SNOW_JITTER_M / 2 - SNOW_FADE_BELOW_M;
 }
 
 export function seasonKey(look: SeasonLook): string {

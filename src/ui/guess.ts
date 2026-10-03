@@ -1,6 +1,7 @@
 import {
   MAX_POINTS,
   ROUNDS,
+  climateShows,
   clues,
   pickRound,
   playableSteps,
@@ -9,11 +10,12 @@ import {
   type Clue,
 } from '../domain/guess.ts';
 import type { StringKey } from '../content/strings.ts';
+import type { Season } from '../domain/daylight.ts';
 import type { GridRef } from '../domain/model.ts';
 import type { Source } from '../domain/provenance.ts';
 import { snapshotAt, type WorldContent } from '../domain/state.ts';
 import type { Step } from '../domain/steps.ts';
-import { PRESENT_YEAR, formatYear, type TimeRange } from '../domain/time.ts';
+import { PRESENT_YEAR, formatSliderYear, formatYear, groupDigits, type TimeRange } from '../domain/time.ts';
 import { yearAt } from '../domain/timeline.ts';
 import { h } from './dom.ts';
 import { provenanceBadge } from './provenance.ts';
@@ -30,8 +32,11 @@ export interface GuessHost {
   readonly steps: readonly Step[];
   readonly timeline: TimelineBar;
   readonly sources: ReadonlyMap<string, Source>;
+  readonly highestGroundM: number;
+  season(): Season;
   jumpTo(t: number): void;
-  sweepTo(t: number, done: () => void): void;
+  // Sweeps to the key date and arrives as a snap would, recorded sky and all.
+  sweepTo(step: Step, done: () => void): void;
   overview(): void;
   showMe(at: GridRef): void;
   closePanels(): void;
@@ -151,7 +156,7 @@ export class GuessGame {
     document.documentElement.classList.remove(PLAYING_CLASS);
     // The scene runs from the guessed moment to the true one, so you see what changed in between.
     this.host.jumpTo(guessT);
-    this.host.sweepTo(step.t, () => {
+    this.host.sweepTo(step, () => {
       console.info(`dewidebug guess reveal arrived event=${step.event.id}`);
     });
     this.render();
@@ -225,11 +230,7 @@ export class GuessGame {
             h('h2', {}, this.store.t('guessTotal')),
             h('p', { class: 'guess-score' }, `${String(phase.total)} / ${max}`),
             phase.newBest ? h('p', { class: 'guess-best new' }, this.store.t('guessNewBest')) : null,
-            h(
-              'p',
-              { class: 'guess-best' },
-              `${this.store.t('guessBest')}: ${phase.best.toLocaleString(lang === 'cy' ? 'cy-GB' : 'en-GB')}`,
-            ),
+            h('p', { class: 'guess-best' }, `${this.store.t('guessBest')}: ${groupDigits(phase.best, lang)}`),
             h(
               'div',
               { class: 'guess-actions' },
@@ -279,7 +280,7 @@ export class GuessGame {
         'dl',
         { class: 'guess-years' },
         h('dt', { class: 'yours' }, this.store.t('guessYours')),
-        h('dd', {}, formatYear(guessYear, lang, guessYear < 1000)),
+        h('dd', {}, formatSliderYear(guessYear, lang)),
         h('dt', {}, this.store.t('guessAnswer')),
         h('dd', {}, `${formatYear(ev.when.from, lang, ev.approximate)}: ${ev.title[lang]}`),
       ),
@@ -296,6 +297,23 @@ export class GuessGame {
     const lang = this.store.lang;
     const to = when.to >= PRESENT_YEAR ? this.store.t('todayName') : formatYear(when.to, lang, approximate);
     return `${this.store.t('guessFrom')} ${formatYear(when.from, lang, approximate)} ${this.store.t('guessTo')} ${to}`;
+  }
+
+  private snowHint(chill: number): StringKey {
+    const season = this.host.season();
+    const high = this.host.highestGroundM;
+    const key: StringKey = climateShows(season, chill, high)
+      ? 'guessSnowShows'
+      : climateShows('winter', chill, high)
+        ? 'guessSnowInWinter'
+        : 'guessSnowNever';
+    console.info(`dewidebug guess climate hint season=${season} chill=${chill.toFixed(2)} hint=${key}`);
+    return key;
+  }
+
+  // The climate hint depends on the season shown, so the reveal is redrawn when that changes.
+  seasonChanged(): void {
+    if (this.phase.kind === 'revealed') this.render();
   }
 
   private clueItem(c: Clue): HTMLElement {
@@ -317,7 +335,11 @@ export class GuessGame {
           {},
           strength,
           h('b', {}, c.feature.label[lang]),
-          h('span', { class: 'guess-when' }, `${this.store.t('guessInScene')} ${this.span(c.when, false)}`),
+          h(
+            'span',
+            { class: 'guess-when' },
+            `${this.store.t('guessInScene')} ${this.span(c.when, c.strength === 'probable')}`,
+          ),
           h('span', { class: 'guess-tools' }, badge, show),
         );
       }
@@ -328,6 +350,7 @@ export class GuessGame {
           strength,
           h('b', {}, this.store.t(c.colder ? 'guessColder' : 'guessWarmer')),
           h('span', { class: 'guess-when' }, this.span(c.when, true)),
+          h('span', { class: 'guess-snow' }, this.store.t(this.snowHint(c.chill))),
           h('span', { class: 'guess-model' }, this.store.t('guessClimateModel')),
           h('span', { class: 'guess-tools' }, badge),
         );

@@ -507,12 +507,28 @@ test('When are we? hides the year, takes a guess on the timeline, then reveals i
 }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('./');
+  // A fixed draw makes the first round the siege of Dryslwyn (1287) on every run.
+  await page.addInitScript(() => {
+    Math.random = () => 0.5;
+  });
+  await page.goto('./?debug');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.debug')).toBeVisible();
+  await page.getByRole('button', { name: 'Almanac' }).click();
+  await expect(page.locator('.info')).toBeVisible();
   await page.getByRole('button', { name: 'When are we?' }).click();
   const game = page.locator('.guess');
   await expect(game).toContainText('Round 1 of 5');
-  for (const giveaway of ['.tl-year', '.tl-era', '.tl-thumb', '.moment', '.labels', '.bubbles']) {
+  for (const giveaway of [
+    '.tl-year',
+    '.tl-era',
+    '.tl-thumb',
+    '.moment',
+    '.labels',
+    '.bubbles',
+    '.info',
+    '.debug',
+  ]) {
     await expect(page.locator(giveaway)).toBeHidden();
   }
   await expect(page.locator('.tl-marker').first()).toBeHidden();
@@ -538,13 +554,25 @@ test('When are we? hides the year, takes a guess on the timeline, then reveals i
   await lock.click();
   await expect(page.locator('.tl-year')).toBeVisible();
   await expect(game.locator('.guess-score')).toContainText('points');
+  await expect(game.locator('.guess-years')).toContainText('The siege of Dryslwyn');
   await expect(slider).toHaveAttribute('aria-valuenow', hidden ?? '');
+  // The reveal arrives at the key date as a snap would, so its recorded season comes with it.
+  await expect(page.locator('.sky-note')).toContainText('from the record', { ignoreCase: true });
   const clue = game.locator('.guess-clues li').first();
   await expect(clue.locator('.guess-strength')).toHaveText(/Firm clue|Probable clue/);
-  const info = clue.locator('.prov');
-  await expect(info).toBeVisible();
-  await info.click();
+  const badge = clue.locator('.prov');
+  await expect(badge).toBeVisible();
+  await badge.click();
   await expect(clue.locator('.prov-pop')).toBeVisible();
   await page.screenshot({ path: 'test-results/guess-reveal.png' });
+
+  // The almanac opens in the game panel's place, so the game steps aside until it closes.
+  await page.keyboard.press('Escape');
+  await page.getByRole('button', { name: 'Almanac' }).click();
+  const almanac = page.locator('.info');
+  await expect(almanac).toBeVisible();
+  await expect(game).toBeHidden();
+  await almanac.getByRole('button', { name: 'Close' }).click();
+  await expect(game).toBeVisible();
   expect(errors).toEqual([]);
 });

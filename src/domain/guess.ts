@@ -1,11 +1,13 @@
 import { assertNever, clamp } from './assert.ts';
 import { chillAt, type ClimateKey } from './climate.ts';
+import { lowestSnowM, seasonLook, type Season } from './daylight.ts';
 import type { Feature } from './model.ts';
 import type { Provenance } from './provenance.ts';
-import type { Snapshot, WorldContent } from './state.ts';
+import type { Rgb } from './colour.ts';
+import type { Environment, Snapshot, WorldContent } from './state.ts';
 import { snapshotAt } from './state.ts';
 import type { Step } from './steps.ts';
-import { contains, range, year, type TimeRange, type Year } from './time.ts';
+import { PRESENT_YEAR, range, year, type TimeRange, type Year } from './time.ts';
 import { tAt, type Timeline } from './timeline.ts';
 
 export const ROUNDS = 5;
@@ -18,25 +20,34 @@ const ON_SCREEN = 0.5;
 const CLIMATE_VISIBLE = 0.2;
 const SAME_LAND = 0.05;
 const SAME_CHILL = 0.1;
+// Per channel, 0..1: about the smallest step in sky colour you would notice.
+const SAME_SKY = 0.03;
 const CLUE_LIMIT = 5;
 
 export type ClueStrength = 'firm' | 'probable';
 
 interface ClueBase {
-  readonly strength: ClueStrength;
   readonly when: TimeRange;
   readonly span: number;
   readonly provenance: Provenance;
 }
 
+// A climate clue is always probable: it comes from the reconstructed model, never from a record.
 export type Clue =
-  | (ClueBase & { readonly kind: 'feature'; readonly feature: Feature })
-  | (ClueBase & { readonly kind: 'climate'; readonly colder: boolean });
+  | (ClueBase & { readonly kind: 'feature'; readonly feature: Feature; readonly strength: ClueStrength })
+  | (ClueBase & {
+      readonly kind: 'climate';
+      readonly colder: boolean;
+      readonly chill: number;
+      readonly strength: 'probable';
+    });
 
-export function clueStrength(p: Provenance): ClueStrength | undefined {
+// Firm needs both a record and exact dates; a documented feature drawn over rounded or inferred
+// years is only probable, like a reconstruction.
+export function clueStrength(p: Provenance, datesExact: boolean): ClueStrength | undefined {
   switch (p.kind) {
     case 'documented':
-      return 'firm';
+      return datesExact ? 'firm' : 'probable';
     case 'reconstructed':
       return 'probable';
     case 'imagined':
@@ -50,14 +61,20 @@ function spanOf(timeline: Timeline, when: TimeRange): number {
   return tAt(timeline, when.to) - tAt(timeline, when.from);
 }
 
+// Half-open, so where one phase hands over to the next at the true year only the new one counts;
+// a range running to the present still includes it.
+function datesCover(when: TimeRange, y: Year): boolean {
+  return when.from <= y && (y < when.to || when.to >= PRESENT_YEAR);
+}
+
 function featureClues(timeline: Timeline, snap: Snapshot): Clue[] {
   const out: Clue[] = [];
   // Rounded so a key date's year, which comes back through the slider as 1856.9999, still counts.
   const y = year(Math.round(snap.year));
   for (const { feature, presence } of snap.features) {
     // A phase fading in or out is on screen, but its dates do not cover the year, so they would mislead.
-    if (presence < ON_SCREEN || !contains(feature.when, y)) continue;
-    const strength = clueStrength(feature.provenance);
+    if (presence < ON_SCREEN || !datesCover(feature.when, y)) continue;
+    const strength = clueStrength(feature.provenance, feature.datesExact === true);
     if (!strength) continue;
     out.push({
       kind: 'feature',
@@ -98,13 +115,12 @@ function climateClue(timeline: Timeline, keys: readonly ClimateKey[], y: Year): 
     const inside = k.year >= when.from && k.year <= when.to;
     if (inside && (!strongest || k.chill * sign > strongest.chill * sign)) strongest = k;
   }
-  if (!strongest) return undefined;
-  const strength = clueStrength(strongest.provenance);
-  if (!strength) return undefined;
+  if (!strongest || !clueStrength(strongest.provenance, false)) return undefined;
   return {
     kind: 'climate',
     colder: chill > 0,
-    strength,
+    chill,
+    strength: 'probable',
     when,
     span: spanOf(timeline, when),
     provenance: strongest.provenance,
@@ -142,20 +158,44 @@ export function scoreGuess(guessT: number, trueT: number): number {
   return Math.round(MAX_POINTS * clamp(1 - (off - SPOT_ON_T) / (NOTHING_T - SPOT_ON_T), 0, 1));
 }
 
-function drawn(snap: Snapshot): Set<string> {
-  return new Set(snap.features.filter((f) => f.presence >= ON_SCREEN).map((f) => f.feature.id));
+// The snow line follows the season, so a climate clue can be true of the model yet invisible in
+// the scene: summer snow never reaches these hills. Compared against today's snow at chill 0.
+export function climateShows(season: Season, chill: number, highestM: number): boolean {
+  const lowest = Math.min(lowestSnowM(seasonLook(season, chill)), lowestSnowM(seasonLook(season, 0)));
+  return lowest < highestM;
+}
+
+function drawnIds(snap: Snapshot): Set<string> {
+  return new Set([
+    ...snap.features.filter((f) => f.presence >= ON_SCREEN).map((f) => `feature:${f.feature.id}`),
+    // Each live conversation puts its people in the scene.
+    ...snap.conversations.map((c) => `people:${c.id}`),
+  ]);
+}
+
+const sameLand = (a: number, b: number): boolean => Math.abs(a - b) < SAME_LAND;
+const sameSky = (a: Rgb, b: Rgb): boolean =>
+  [a.r - b.r, a.g - b.g, a.b - b.b].every((d) => Math.abs(d) < SAME_SKY);
+
+// Every drawn field of the environment; ambient is heard, not seen. The mapped type makes a new
+// environment field a compile error here until it is compared.
+function sameEnvironment(a: Environment, b: Environment): boolean {
+  const same: Readonly<Record<Exclude<keyof Environment, 'ambient'>, boolean>> = {
+    forest: sameLand(a.forest, b.forest),
+    farmland: sameLand(a.farmland, b.farmland),
+    moor: sameLand(a.moor, b.moor),
+    mappedWoodland: sameLand(a.mappedWoodland, b.mappedWoodland),
+    fog: sameLand(a.fog, b.fog),
+    skyTop: sameSky(a.skyTop, b.skyTop),
+    skyHorizon: sameSky(a.skyHorizon, b.skyHorizon),
+    sun: sameSky(a.sun, b.sun),
+  };
+  return Object.values(same).every(Boolean);
 }
 
 export function sceneMatches(a: Snapshot, b: Snapshot): boolean {
-  const da = drawn(a);
-  const db = drawn(b);
+  const da = drawnIds(a);
+  const db = drawnIds(b);
   if (da.size !== db.size || [...da].some((id) => !db.has(id))) return false;
-  const ea = a.environment;
-  const eb = b.environment;
-  return (
-    Math.abs(ea.forest - eb.forest) < SAME_LAND &&
-    Math.abs(ea.farmland - eb.farmland) < SAME_LAND &&
-    Math.abs(ea.moor - eb.moor) < SAME_LAND &&
-    Math.abs(a.chill - b.chill) < SAME_CHILL
-  );
+  return sameEnvironment(a.environment, b.environment) && Math.abs(a.chill - b.chill) < SAME_CHILL;
 }

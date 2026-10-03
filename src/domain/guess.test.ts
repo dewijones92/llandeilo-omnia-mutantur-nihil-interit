@@ -1,7 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { mint } from './brand.ts';
 import type { ClimateKey } from './climate.ts';
-import type { EventId, Feature, FeatureId, KeyEvent } from './model.ts';
+import type {
+  Conversation,
+  ConversationId,
+  EnvironmentKey,
+  EventId,
+  Feature,
+  FeatureId,
+  KeyEvent,
+  PlaceId,
+} from './model.ts';
 import type { Provenance, SourceId } from './provenance.ts';
 import { snapshotAt, type WorldContent } from './state.ts';
 import { keySteps } from './steps.ts';
@@ -9,6 +18,7 @@ import { ad, range } from './time.ts';
 import { createTimeline, tAt } from './timeline.ts';
 import {
   MAX_POINTS,
+  climateShows,
   clueStrength,
   clues,
   pickRound,
@@ -64,32 +74,36 @@ const climate: readonly ClimateKey[] = [
   { year: ad(2000), chill: 0, provenance: MILD },
 ];
 
-const world = (features: readonly Feature[], events: readonly KeyEvent[] = []): WorldContent => ({
+const LAND: EnvironmentKey = {
+  year: ad(1000),
+  forest: 0.5,
+  farmland: 0.3,
+  moor: 0.2,
+  skyTop: '#000000',
+  skyHorizon: '#000000',
+  sun: '#ffffff',
+  fog: 0.1,
+  mappedWoodland: 0,
+  ambient: {},
+};
+
+const world = (
+  features: readonly Feature[],
+  events: readonly KeyEvent[] = [],
+  more: Partial<Pick<WorldContent, 'environment' | 'conversations'>> = {},
+): WorldContent => ({
   timeline: createTimeline([
     { t: 0, year: ad(1000), scale: 'linear' },
     { t: 1, year: ad(2000), scale: 'linear' },
   ]),
   eras: [],
-  environment: [
-    {
-      year: ad(1000),
-      forest: 0.5,
-      farmland: 0.3,
-      moor: 0.2,
-      skyTop: '#000000',
-      skyHorizon: '#000000',
-      sun: '#ffffff',
-      fog: 0.1,
-      mappedWoodland: 0,
-      ambient: {},
-    },
-  ],
+  environment: more.environment ?? [LAND],
   climate,
   places: [],
   events,
   features,
   people: [],
-  conversations: [],
+  conversations: more.conversations ?? [],
   almanac: [],
   language: [],
   sources: [],
@@ -100,10 +114,11 @@ const ids = (list: readonly Clue[]): string[] =>
   list.map((c) => (c.kind === 'feature' ? c.feature.id : 'climate'));
 
 describe('clueStrength', () => {
-  it('makes a documented feature a firm clue, a reconstructed one probable, and never an imagined one', () => {
-    expect(clueStrength(DOCUMENTED)).toBe('firm');
-    expect(clueStrength(RECONSTRUCTED)).toBe('probable');
-    expect(clueStrength(IMAGINED)).toBeUndefined();
+  it('makes only a documented feature with exact dates firm, and never an imagined one a clue', () => {
+    expect(clueStrength(DOCUMENTED, true)).toBe('firm');
+    expect(clueStrength(DOCUMENTED, false)).toBe('probable');
+    expect(clueStrength(RECONSTRUCTED, true)).toBe('probable');
+    expect(clueStrength(IMAGINED, true)).toBeUndefined();
   });
 });
 
@@ -136,10 +151,32 @@ describe('clues', () => {
     expect(ids(clues(edge, snap).filter((c) => c.kind === 'feature'))).toEqual(['this-phase']);
   });
 
+  it('calls a documented feature firm only when its dates are marked exact, and probable otherwise', () => {
+    const mixed = world([
+      feature('rounded', 1300, 1400, DOCUMENTED),
+      { ...feature('dated', 1300, 1400, DOCUMENTED), datesExact: true },
+    ]);
+    const list = clues(mixed, snapshotAt(mixed, at(mixed, 1350)));
+    expect(list.flatMap((c) => (c.kind === 'feature' ? [[c.feature.id, c.strength]] : []))).toEqual([
+      ['dated', 'firm'],
+      ['rounded', 'probable'],
+    ]);
+  });
+
+  it('offers only the phase that begins at the true year when two phases meet there', () => {
+    const meet = world([
+      feature('fort', 1200, 1400, DOCUMENTED),
+      feature('fort-ruin', 1400, 1900, DOCUMENTED),
+    ]);
+    const snap = snapshotAt(meet, at(meet, 1400));
+    expect(snap.features.map((f) => f.feature.id)).toEqual(['fort', 'fort-ruin']);
+    expect(ids(clues(meet, snap).filter((c) => c.kind === 'feature'))).toEqual(['fort-ruin']);
+  });
+
   it('puts the firm clue first when two bracket the year equally tightly', () => {
     const tie = world([
       feature('rebuilt', 1300, 1400, RECONSTRUCTED),
-      feature('recorded', 1300, 1400, DOCUMENTED),
+      { ...feature('recorded', 1300, 1400, DOCUMENTED), datesExact: true },
     ]);
     const list = clues(tie, snapshotAt(tie, at(tie, 1350))).filter((c) => c.kind === 'feature');
     expect(ids(list)).toEqual(['recorded', 'rebuilt']);
@@ -204,8 +241,52 @@ describe('sceneMatches', () => {
     expect(sceneMatches(snapshotAt(w, at(w, 1250)), snapshotAt(w, at(w, 1350)))).toBe(true);
   });
 
+  it('tells them apart when only the people drawn differ', () => {
+    const talk: Conversation = {
+      id: mint<ConversationId>('market-talk'),
+      when: range(ad(1300), ad(1400)),
+      place: mint<PlaceId>('town'),
+      at: { e: 0, n: 0 },
+      setIn: { en: 'a market', cy: 'marchnad' },
+      title: { en: 'talk', cy: 'sgwrs' },
+      people: [],
+      lines: [],
+      provenance: IMAGINED,
+    };
+    const peopled = world([], [], { conversations: [talk] });
+    expect(sceneMatches(snapshotAt(peopled, at(peopled, 1250)), snapshotAt(peopled, at(peopled, 1350)))).toBe(
+      false,
+    );
+  });
+
+  it('tells them apart when only the mapped woodland differs', () => {
+    const wooded = world([], [], {
+      environment: [LAND, { ...LAND, year: ad(2000), mappedWoodland: 1 }],
+    });
+    expect(sceneMatches(snapshotAt(wooded, at(wooded, 1250)), snapshotAt(wooded, at(wooded, 1350)))).toBe(
+      false,
+    );
+  });
+
   it('tells them apart when a feature differs, or the climate does', () => {
     expect(sceneMatches(snapshotAt(w, at(w, 1250)), snapshotAt(w, at(w, 1900)))).toBe(false);
     expect(sceneMatches(snapshotAt(w, at(w, 1100)), snapshotAt(w, at(w, 1650)))).toBe(false);
+  });
+});
+
+describe('climateShows', () => {
+  // OS Terrain 50's highest point in the circle (public/data/terrain.json maxHeight).
+  const HIGHEST_M = 675.4;
+
+  it('says a colder climate shows in the snow only in a season whose snow reaches the hills', () => {
+    expect(climateShows('summer', 0.45, HIGHEST_M)).toBe(false);
+    expect(climateShows('autumn', 0.45, HIGHEST_M)).toBe(true);
+    expect(climateShows('winter', 0.45, HIGHEST_M)).toBe(true);
+    expect(climateShows('winter', 0.45, 100)).toBe(false);
+  });
+
+  it('says a warmer climate shows in less snow only where today’s snow reaches the hills', () => {
+    expect(climateShows('winter', -0.3, HIGHEST_M)).toBe(true);
+    expect(climateShows('summer', -0.3, HIGHEST_M)).toBe(false);
   });
 });

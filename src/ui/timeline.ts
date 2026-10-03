@@ -1,7 +1,7 @@
 import { clamp } from '../domain/assert.ts';
 import type { Era, KeyEvent } from '../domain/model.ts';
 import { latestStarting } from '../domain/state.ts';
-import { formatYear } from '../domain/time.ts';
+import { formatSliderYear, formatYear } from '../domain/time.ts';
 import { stepAt, stepFrom, type Step } from '../domain/steps.ts';
 import { tAt, yearAt, type Timeline } from '../domain/timeline.ts';
 import { h } from './dom.ts';
@@ -122,7 +122,7 @@ export class TimelineBar {
     const era = latestStarting(this.eras, y);
     const lang = this.store.lang;
     this.thumb.style.left = `${this.t * 100}%`;
-    this.yearEl.textContent = formatYear(y, lang, y < 1000);
+    this.yearEl.textContent = formatSliderYear(y, lang);
     this.eraEl.textContent = era ? era.name[lang] : '';
     this.el.style.setProperty('--era', era?.colour ?? '#667085');
     this.track.setAttribute('aria-valuenow', String(Math.round(this.t * 1000)));

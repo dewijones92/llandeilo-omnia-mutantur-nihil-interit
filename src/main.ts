@@ -2,6 +2,7 @@ import { PointerEventTypes, Vector3 } from './world/babylon.ts';
 import './ui/styles.css';
 import { WORLD_CONTENT } from './content/world.ts';
 import { toWorld } from './domain/geo.ts';
+import { highestM } from './domain/heightfield.ts';
 import { isLang } from './domain/i18n.ts';
 import { STRINGS } from './content/strings.ts';
 import { lightingAt, parseClock, seasonLook } from './domain/daylight.ts';
@@ -147,10 +148,13 @@ async function start(): Promise<void> {
   let lightPending = true;
   console.info(`dewidebug sky start hour=${clock.hour} season=${clock.season}`);
   const sourceMap = new Map(content.sources.map((s) => [s.id, s]));
+  let onSeason: () => void = () => undefined;
   const skyControls = new SkyControls(store, clock, sourceMap, (next) => {
-    if (next.season !== clock.season) pending = true;
+    const seasonChanged = next.season !== clock.season;
+    if (seasonChanged) pending = true;
     clock = next;
     lightPending = true;
+    if (seasonChanged) onSeason();
   });
   // Opening a link at a key date shows its recorded sky, unless the link sets its own.
   const openedAt = nearestStep(steps, t, 1e-6)?.event.recordedSky;
@@ -272,11 +276,19 @@ async function start(): Promise<void> {
     steps,
     timeline,
     sources: sourceMap,
+    highestGroundM: highestM(heightfield),
+    season() {
+      return clock.season;
+    },
     jumpTo(next) {
       timeline.jump(next);
     },
-    sweepTo(next, done) {
-      timeline.animateTo(next, done);
+    sweepTo(step, done) {
+      const sky = step.event.recordedSky;
+      timeline.snapTo(step, () => {
+        if (sky) skyControls.adopt(sky);
+        done();
+      });
     },
     overview() {
       flight.flyHome();
@@ -292,6 +304,9 @@ async function start(): Promise<void> {
       info.close();
     },
   });
+  onSeason = () => {
+    guess.seasonChanged();
+  };
   const row2 = h(
     'div',
     { class: 'brand-row' },
@@ -311,6 +326,8 @@ async function start(): Promise<void> {
   app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el, shortcuts.el, guess.el);
   const compact = (): void => {
     moment.el.classList.toggle('compact', panel.open !== undefined || info.isOpen);
+    // The game panel shares the right-hand slot with these, so it steps aside while one is open.
+    document.documentElement.classList.toggle('side-panel-open', panel.open !== undefined || info.isOpen);
   };
   panel.onVisibility = compact;
   info.onVisibility = compact;

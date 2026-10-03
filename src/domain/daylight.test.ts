@@ -3,6 +3,7 @@ import { hex } from './colour.ts';
 import {
   DEFAULT_CLOCK,
   lightingAt,
+  lowestSnowM,
   parseClock,
   phaseOf,
   SEASONS,
@@ -131,6 +132,13 @@ describe('seasonLook', () => {
     );
     expect(snowCover(seasonLook('summer', 0), 675, 1, 1)).toBe(0);
     expect(snowCover(seasonLook('summer', 1), 600, 0.5, 0.5)).toBeGreaterThan(0);
+  });
+
+  it('reports the lowest height any slope can hold snow, so nothing falls below it', () => {
+    const autumn = seasonLook('autumn', 0.45);
+    const lowest = lowestSnowM(autumn);
+    expect(snowCover(autumn, lowest, 1, 0)).toBe(0);
+    expect(snowCover(autumn, lowest + 1, 1, 0)).toBeGreaterThan(0);
   });
 
   it('turns leaves in autumn, bares them in winter and brings blossom in spring', () => {

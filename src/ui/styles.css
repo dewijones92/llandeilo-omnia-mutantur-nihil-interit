@@ -1253,10 +1253,6 @@ button {
   display: none !important;
 }
 
-.guessing .timeline {
-  --era: var(--muted);
-}
-
 .tl-ghost {
   position: absolute;
   top: 0;
@@ -1315,6 +1311,13 @@ button {
 }
 
 .guess[hidden] {
+  display: none;
+}
+
+/* The almanac, language, About and conversation panels open in the same slot, so the game panel
+   steps aside while one is open; and in ?debug the overlay gives the slot to the game. */
+.side-panel-open .guess,
+.guess:not([hidden]) ~ .debug {
   display: none;
 }
 
@@ -1396,6 +1399,7 @@ button {
 }
 
 .guess-when,
+.guess-snow,
 .guess-model {
   flex-basis: 100%;
   color: var(--ink-soft);
