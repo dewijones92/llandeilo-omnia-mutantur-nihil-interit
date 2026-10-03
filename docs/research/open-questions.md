@@ -103,8 +103,18 @@ for the next pass. Each note's own "Open questions" section has the full list an
   each branch closed or was lifted (Amman valley passenger trains ended 18 August 1958
   (railwaylater:S1, S11)); and what the short lines near the western edge are (near Pontyberem, E
   251000 to 253000 N 211500 to 212500, and near Cross Hands, E 255500 N 210500). They are not dated
-  in the notes, so they are not drawn at all. Coflein's "Ammanford Railway Station" (NPRN 34689)
-  lies 0.8km east of the main line, so which station it records is also open.
+  in the notes, so they are not drawn at all. Leads to check, each against a second source: the
+  Llanelly Railway's (Great) Mountain branch to Cross Hands, opened for goods and minerals on 6 May
+  1841, Cross Hands goods closed 1 November 1950 and the whole branch 6 March 1963 (victorian:S29);
+  and, from memory only (not in any note), the Llanelly and Mynydd Mawr Railway and the Burry Port and
+  Gwendraeth Valley Railway's line to Cwmmawr. *Corrected 2026-10-03 (third review)*: Coflein's
+  "Ammanford Railway Station" (victorian:S73) is no longer open. Its point lies 4m from the Amman
+  valley branch, so it is Cross Inn station (10 April 1840, renamed Ammanford 1883, closed 1958;
+  victorian:S29, S70), not the main line's Duffryn. Also corrected then: east of Garnant today's track
+  is the Great Western's line of 4 November 1907, not the 1841 line, which climbed a 1 in 4.9 incline
+  on another course (victorian:S29, S74). The app draws it from November 1907 and nothing there from
+  1841 to 1907. Still open: whether the colliery lines past Gwaun-cae-Gurwen's level crossing, drawn
+  with the 1907 line, are that old; and the 1841 line's exact course, which would let it be drawn.
 - **Mapped coordinates**: several lat/lon values came from aggregators and should be checked
   against Coflein or Cadw grid references before precise placement.
 

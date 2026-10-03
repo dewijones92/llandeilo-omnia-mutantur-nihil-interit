@@ -11,7 +11,7 @@ import { snapshotAt, type Snapshot } from './domain/state.ts';
 import { keySteps, nearestStep, shotFor } from './domain/steps.ts';
 import type { Framing, KeyEvent, RollingStock } from './domain/model.ts';
 import { tAt } from './domain/timeline.ts';
-import { ad, year } from './domain/time.ts';
+import { ad, calendarYear, year } from './domain/time.ts';
 import {
   loadBuildings,
   loadHeightfield,
@@ -281,6 +281,7 @@ async function start(): Promise<void> {
   });
   const guess = new GuessGame(store, {
     world: content,
+    trainLine: features.trainLine?.points,
     steps,
     timeline,
     sources: sourceMap,
@@ -448,7 +449,7 @@ async function start(): Promise<void> {
     active = new Set(snap.conversations.map((c) => c.id));
     const open = panel.open;
     if (open && !active.has(open.id)) panel.close();
-    labels.setYear(Math.round(snap.year));
+    labels.setYear(calendarYear(snap.year));
     const near = snap.nearestEvent;
     const shown =
       near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined;

@@ -64,3 +64,7 @@ special-casing eras in the renderer (forbidden by the unified law).
 - `warmth` now colours the windows only. Street lamps take their own colour from `streets.kind` (gas
   and dimmed as flame, electric whiter), carried on `StreetGlow`; with one shared colour, moving 1902's
   homes back to flame light had turned the electric street lamps gas-orange too (second-Opus review).
+- A key may give its street lamps their own colour (`streets.warmth`), overriding the kind's default.
+  The per-kind colour of 1902 had also turned every street lamp from 1945 to today near-white; the
+  1945 key keeps its warm 0.45, a reconstruction, since the post-war lamp type is not researched
+  (third review, 2026-10-03).

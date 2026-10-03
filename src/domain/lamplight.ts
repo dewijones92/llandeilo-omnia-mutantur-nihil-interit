@@ -24,7 +24,13 @@ export interface LitArea {
 export type Streets =
   | { readonly kind: 'none' }
   | { readonly kind: 'off' }
-  | { readonly kind: 'gas' | 'electric' | 'dimmed'; readonly glow: number; readonly area: LitArea };
+  | {
+      readonly kind: 'gas' | 'electric' | 'dimmed';
+      readonly glow: number;
+      readonly area: LitArea;
+      /** The lamps' colour, 0 white to 1 flame, where a key knows better than its kind's default. */
+      readonly warmth?: number;
+    };
 
 export interface LampKey {
   readonly year: Year;
@@ -96,13 +102,18 @@ export function lampColour(warmth: number): Rgb {
 
 export type LitStreets = Extract<Streets, { readonly area: LitArea }>;
 
-// Gas is drawn as flame (no gas mantles are recorded here); electric light whiter. Dimmed lamps
-// burned low behind shades, so they are drawn warm too. Reconstructed, like every colour here.
+// Each kind's default colour, which a key may override: gas is drawn as flame (no gas mantles are
+// recorded here); electric light whiter. Dimmed lamps burned low behind shades, so they are drawn warm
+// too. Reconstructed, like every colour here.
 const STREET_WARMTH: Readonly<Record<LitStreets['kind'], number>> = {
   gas: 0.85,
   electric: 0.1,
   dimmed: 0.8,
 };
+
+export function streetWarmth(streets: LitStreets): number {
+  return streets.warmth ?? STREET_WARMTH[streets.kind];
+}
 
 /** The one rule for whether street lamps stand and shine: not 'none' (none built), not 'off' (the blackout). */
 export function hasStreetLamps(streets: Streets): streets is LitStreets {
@@ -123,7 +134,7 @@ export function lampsAt(style: LampKey | undefined, level: number): LampState {
     windowShare: style.windows,
     hearth: l * style.hearth,
     street: hasStreetLamps(s)
-      ? { level: l * s.glow, area: s.area, colour: lampColour(STREET_WARMTH[s.kind]) }
+      ? { level: l * s.glow, area: s.area, colour: lampColour(streetWarmth(s)) }
       : undefined,
   };
 }

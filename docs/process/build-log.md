@@ -424,3 +424,27 @@ Milestones and what each one taught us. Newest last.
    first: the three railway tests, the dated-stretch content test (with the old section's extent),
    the 2000 steam test, the 1903 street colour test and the same-night guess test. Screenshots at
    1857 (no line north-east of the town) and 1858.5 (the Vale of Towy line drawn).
+14. **The fixes' own review: a reconstructed feature could not be drawn on its date.** The third
+   review (2026-10-03) found the Llanelly Railway's 1840 lines drawn from about 1831: `datesExact` was
+   both "draw nothing outside these dates" (ADR 0034) and "a firm clue" (ADR 0029), and a test allowed
+   it only on documented features, so a section reconstructed for its course faded in for nine years
+   while its ⓘ said April 1840. The two meanings are now separate
+   ([ADR 0035](../adr/0035-exact-dates-are-about-dates-not-clues.md)). It also found that east of
+   Garnant today's track is the Great Western's line of 4 November 1907, not the 1841 incline line
+   (victorian:S29, and Mowat's 1957 *Railway Magazine* article, now victorian:S74, read from the
+   Wayback copy because the live page answers 403); that stretch is its own section from 1907, with
+   nothing drawn there from 1841 to 1907. Coflein's unexplained "Ammanford Railway Station" turned out
+   to be Cross Inn, 4m from the Amman valley branch. The 1902 street-colour fix had also turned every
+   street lamp since 1945 near-white; a key can now give its lamps their own colour, and the 1945 key
+   keeps its old warm one, labelled a guess. Smaller: the end of steam was four literals with gaps of
+   a few days between train phases (one constant now, phases share boundaries, and at a boundary the
+   phase starting there is drawn, as the sound already did); the guess game's "looks the same" counted
+   a train the renderer does not draw (it now asks `drawnRailway`); and the year label rounded, so
+   `?year=1858.5` read 1859 (it now floors, with a float allowance, so 1856.9999999 still reads 1857).
+   Seen red first: the 1840 and 1907 drawn-railway tests, the steam handover test (and its exact
+   boundary, red only without the new tie-break), the shared-boundary train tests, the 1945 street
+   colour test, the two same-scene tests and the year-label tests. Lesson: a flag that means two
+   things will be set for one of them and break the other. Screenshots at 1835 and 1845 (Llandeilo at
+   radius 900, and the whole valley): the line is too thin to see at valley scale, so the renderer's
+   own `dewidebug rail drawn` line is the evidence: nothing in 1835, `railway-llanelly-1840` alone in
+   1845, every section with a steam train in 1910.

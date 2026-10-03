@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createTimeline, tAt, yearAt } from './timeline.ts';
-import { bc, ad, year, formatSliderYear, formatYear, groupDigits, yearsAgo } from './time.ts';
+import { bc, ad, year, calendarYear, formatSliderYear, formatYear, groupDigits, yearsAgo } from './time.ts';
 
 const tl = createTimeline([
   { t: 0, year: yearsAgo(450_000_000), scale: 'linear' },
@@ -64,11 +64,22 @@ describe('formatSliderYear and groupDigits', () => {
 });
 
 describe('formatYear with fractional years (as the slider produces)', () => {
-  it('rounds every branch', () => {
-    expect(formatYear(year(1892.857142857143), 'en')).toBe('1893');
+  it('names the calendar year a fractional year lies in, in every branch', () => {
+    expect(formatYear(year(1892.857142857143), 'en')).toBe('1892');
+    expect(formatYear(year(1858.5), 'en')).toBe('1858');
     expect(formatYear(year(74.48), 'en', true)).toBe('c. AD 74');
-    expect(formatYear(year(-799.6), 'en')).toBe('801 BC');
     expect(formatYear(year(1023.28), 'cy')).toBe('1023');
+    // Astronomical year 0 is 1 BC and -800 is 801 BC; a year runs from its value up to the next.
+    expect(formatYear(year(-799.6), 'en')).toBe('801 BC');
+    expect(formatYear(year(-0.5), 'en')).toBe('2 BC');
+    expect(formatYear(year(0.5), 'en')).toBe('1 BC');
+  });
+
+  it('reads a year that float error left just short of a whole year as that year', () => {
+    expect(formatYear(year(1856.9999999), 'en')).toBe('1857');
+    expect(formatYear(year(-800.0000001), 'en')).toBe('801 BC');
+    expect(calendarYear(1856.9999999)).toBe(1857);
+    expect(calendarYear(1858.9)).toBe(1858);
   });
 
   it('never prints a decimal point for any slider position', () => {

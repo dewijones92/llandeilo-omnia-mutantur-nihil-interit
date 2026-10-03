@@ -268,7 +268,7 @@ describe('sceneMatches', () => {
   const w = world([feature('castle', 1200, 1400, DOCUMENTED), feature('railway', 1857, 2000, DOCUMENTED)]);
 
   it('says two moments look the same when the same things are drawn in the same land', () => {
-    expect(sceneMatches(snapshotAt(w, at(w, 1250)), snapshotAt(w, at(w, 1350)))).toBe(true);
+    expect(sceneMatches(snapshotAt(w, at(w, 1250)), snapshotAt(w, at(w, 1350)), undefined)).toBe(true);
   });
 
   it('tells them apart when only the people drawn differ', () => {
@@ -284,18 +284,18 @@ describe('sceneMatches', () => {
       provenance: IMAGINED,
     };
     const peopled = world([], [], { conversations: [talk] });
-    expect(sceneMatches(snapshotAt(peopled, at(peopled, 1250)), snapshotAt(peopled, at(peopled, 1350)))).toBe(
-      false,
-    );
+    expect(
+      sceneMatches(snapshotAt(peopled, at(peopled, 1250)), snapshotAt(peopled, at(peopled, 1350)), undefined),
+    ).toBe(false);
   });
 
   it('tells them apart when only the mapped woodland differs', () => {
     const wooded = world([], [], {
       environment: [LAND, { ...LAND, year: ad(2000), mappedWoodland: 1 }],
     });
-    expect(sceneMatches(snapshotAt(wooded, at(wooded, 1250)), snapshotAt(wooded, at(wooded, 1350)))).toBe(
-      false,
-    );
+    expect(
+      sceneMatches(snapshotAt(wooded, at(wooded, 1250)), snapshotAt(wooded, at(wooded, 1350)), undefined),
+    ).toBe(false);
   });
 
   it('tells them apart when only the night light differs: gas street lamps against none', () => {
@@ -317,7 +317,9 @@ describe('sceneMatches', () => {
       },
     };
     const lit = world([feature('castle', 1200, 1400, DOCUMENTED)], [], { lamplight: [FIRELIGHT, gaslit] });
-    expect(sceneMatches(snapshotAt(lit, at(lit, 1250)), snapshotAt(lit, at(lit, 1350)))).toBe(false);
+    expect(sceneMatches(snapshotAt(lit, at(lit, 1250)), snapshotAt(lit, at(lit, 1350)), undefined)).toBe(
+      false,
+    );
   });
 
   it('counts two night-light keys that draw the same night as the same scene, like the c. 1200 key', () => {
@@ -330,7 +332,9 @@ describe('sceneMatches', () => {
     const lit = world([feature('castle', 1200, 1400, DOCUMENTED)], [], {
       lamplight: [FIRELIGHT, courtCandles],
     });
-    expect(sceneMatches(snapshotAt(lit, at(lit, 1250)), snapshotAt(lit, at(lit, 1350)))).toBe(true);
+    expect(sceneMatches(snapshotAt(lit, at(lit, 1250)), snapshotAt(lit, at(lit, 1350)), undefined)).toBe(
+      true,
+    );
   });
 
   it('compares street lamps by what they draw: kind, glow and lit area, and no key against a key', () => {
@@ -354,7 +358,7 @@ describe('sceneMatches', () => {
     });
     const scene = (keys: [LampKey, ...LampKey[]], a: number, b: number) => {
       const lit = world([feature('castle', 1050, 1950, DOCUMENTED)], [], { lamplight: keys });
-      return sceneMatches(snapshotAt(lit, at(lit, a)), snapshotAt(lit, at(lit, b)));
+      return sceneMatches(snapshotAt(lit, at(lit, a)), snapshotAt(lit, at(lit, b)), undefined);
     };
     expect(scene([gas(1550, 0.7, 'town'), gas(1650, 0.7, 'town')], 1600, 1700)).toBe(true);
     expect(scene([gas(1550, 0.7, 'town'), gas(1650, 0.9, 'town')], 1600, 1700)).toBe(false);
@@ -363,9 +367,55 @@ describe('sceneMatches', () => {
     expect(scene([gas(1650, 0.7, 'town')], 1600, 1700)).toBe(false);
   });
 
+  it('counts the railway and its train as drawnRailway draws them, not by presence alone', () => {
+    const rail: Feature = { ...feature('rail', 1700, 2000, DOCUMENTED), datesExact: true };
+    const train: Feature = {
+      ...feature('train', 1700, 2000, RECONSTRUCTED),
+      kind: { type: 'train', stock: 'generic' },
+    };
+    const farms: Feature = {
+      ...feature('farms', 1050, 1650, DOCUMENTED),
+      kind: { type: 'countryside', share: 1 },
+    };
+    const railed = world([farms, rail, train]);
+    const line = [
+      { e: 0, n: -10 },
+      { e: 0, n: -20 },
+    ];
+    const same = (a: number, b: number) =>
+      sceneMatches(snapshotAt(railed, at(railed, a)), snapshotAt(railed, at(railed, b)), line);
+    // At 1695 the train is fading in, but no track is drawn yet, so no train is either.
+    expect(same(1600, 1695)).toBe(false);
+    expect(same(1680, 1695)).toBe(true);
+    expect(same(1680, 1750)).toBe(false);
+  });
+
+  it('tells street lamps apart by their colour when a key gives its own', () => {
+    const area = {
+      id: 'town',
+      label: { en: 'town', cy: 'tref' },
+      outline: [
+        { e: 0, n: 0 },
+        { e: 1, n: 0 },
+        { e: 1, n: 1 },
+      ],
+    } as const;
+    const electric = (y: number, warmth?: number): LampKey => ({
+      ...FIRELIGHT,
+      year: ad(y),
+      streets: { kind: 'electric', glow: 0.9, area, ...(warmth === undefined ? {} : { warmth }) },
+    });
+    const lit = world([feature('castle', 1050, 1950, DOCUMENTED)], [], {
+      lamplight: [electric(1550), electric(1650, 0.45)],
+    });
+    expect(sceneMatches(snapshotAt(lit, at(lit, 1600)), snapshotAt(lit, at(lit, 1700)), undefined)).toBe(
+      false,
+    );
+  });
+
   it('tells them apart when a feature differs, or the climate does', () => {
-    expect(sceneMatches(snapshotAt(w, at(w, 1250)), snapshotAt(w, at(w, 1900)))).toBe(false);
-    expect(sceneMatches(snapshotAt(w, at(w, 1100)), snapshotAt(w, at(w, 1650)))).toBe(false);
+    expect(sceneMatches(snapshotAt(w, at(w, 1250)), snapshotAt(w, at(w, 1900)), undefined)).toBe(false);
+    expect(sceneMatches(snapshotAt(w, at(w, 1100)), snapshotAt(w, at(w, 1650)), undefined)).toBe(false);
   });
 });
 

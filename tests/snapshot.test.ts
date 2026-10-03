@@ -1,8 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { END_OF_STEAM } from '../src/content/features.ts';
 import { WORLD_CONTENT } from '../src/content/world.ts';
-import { hasStreetLamps, lampsAt } from '../src/domain/lamplight.ts';
+import { hasStreetLamps, lampColour, lampsAt } from '../src/domain/lamplight.ts';
 import { drawnRailway, longestLine } from '../src/domain/rail.ts';
 import { snapshotAt } from '../src/domain/state.ts';
 import { keySteps } from '../src/domain/steps.ts';
@@ -97,6 +98,13 @@ describe('snapshotAt: how the night was lit', () => {
     expect(streetColour(1903).b).toBeGreaterThan(streetColour(1880).b);
   });
 
+  it('gives street lamps after 1945 the 1945 key’s own reconstructed colour, not 1902’s electric white', () => {
+    // The lamp type after the war is not researched, so the key keeps the warmer colour it always had.
+    expect(lampsAt(key(1950), 1).street?.colour).toEqual(lampColour(0.45));
+    expect(lampsAt(key(2020), 1).street?.colour).toEqual(lampColour(0.45));
+    expect(lampsAt(key(1903), 1).street?.colour).not.toEqual(lampColour(0.45));
+  });
+
   it('puts every light out in the blackout, dims it from 17 September 1944, and lights the streets again', () => {
     const war = key(1942);
     expect([war.homes, war.streets.kind, war.windows, war.hearth]).toEqual(['blacked-out', 'off', 0, 0]);
@@ -157,6 +165,33 @@ describe('snapshotAt: the railway on screen', () => {
       if (drawnAtT(t).train && levels.train <= 0 && levels.railcar <= 0) silent.push(y.toFixed(1));
     }
     expect(silent).toEqual([]);
+  });
+
+  it('draws the Llanelly Railway’s first lines from 10 April 1840, and nothing of them before', () => {
+    expect(ids(tAt(W.timeline, ad(1839.9)))).not.toContain('railway-llanelly-1840');
+    expect(ids(tAt(W.timeline, ad(1840.3)))).toContain('railway-llanelly-1840');
+  });
+
+  it('draws the line east of Garnant from its opening on 4 November 1907, and nothing of it before', () => {
+    expect(ids(tAt(W.timeline, ad(1907.8)))).not.toContain('railway-gwaun-cae-gurwen');
+    expect(ids(tAt(W.timeline, ad(1907.9)))).toContain('railway-gwaun-cae-gurwen');
+  });
+
+  it('hands the drawn train and its sound over together when steam ended, to the instant', () => {
+    const end = tAt(W.timeline, END_OF_STEAM);
+    const wrong: string[] = [];
+    // About a tenth of a year either side, through the exact boundary.
+    for (let i = -60; i <= 60; i++) {
+      const t = end + i * 1e-6;
+      const train = drawnAtT(t).train;
+      const levels = snapshotAt(W, t).sound.levels;
+      if (!train) wrong.push(`${String(i)}: no train`);
+      else if (train.steam !== levels.train > 0 || train.steam === levels.railcar > 0)
+        wrong.push(
+          `${String(i)}: ${train.feature.id} with steam ${levels.train.toFixed(2)} railcar ${levels.railcar.toFixed(2)}`,
+        );
+    }
+    expect(wrong).toEqual([]);
   });
 
   it('draws a steam train only until steam passenger trains ended on 13 June 1964, then a diesel unit', () => {

@@ -177,7 +177,13 @@ yellow-orange; electric light whiter. Gas mantles (whiter light) are not recorde
 gas is drawn as flame. Street lamps take their colour from what they burned (gas or dimmed lamps as
 flame, electric whiter), apart from the windows, so the electric street lamps of 1902 are whiter than
 the flame-lit homes behind them (*Corrected 2026-10-03 (second-Opus review)*: one colour served
-both, so the 1902 lamps were drawn gas-orange). Farms across the valley are drawn with the town's windows, which is a guess.
+both, so the 1902 lamps were drawn gas-orange). A key can give its street lamps their own colour
+where the kind's default does not fit (*Corrected 2026-10-03 (third review)*: the 1902 change had
+also turned every street lamp from 1945 to today near-white, a side effect nobody chose). The 1945
+key keeps the warm colour it always had (warmth 0.45), and what kind of lamps lit Llandeilo's
+streets after the war is not researched, so that colour is a reconstruction too. The dim-out's
+dimmed lamps (from 17 September 1944) are drawn warm (0.8), also a reconstruction: no source read says
+what colour they were. Farms across the valley are drawn with the town's windows, which is a guess.
 Street lamp positions are not recorded; they are drawn along today's roads near the town's houses,
 inside an outline of Llandeilo north of the Tywi (its south and east edges follow OS Open Rivers),
 because the sources speak of lighting "the town" and nothing read says Ffairfach was lit.
@@ -198,6 +204,9 @@ because the sources speak of lighting "the town" and nothing read says Ffairfach
   of the Tywi.)
 - When did Llandeilo's own lamps come back on in 1945? Did the town use star lighting before the
   dim-out?
+- What lamps lit Llandeilo's streets after 1945, and when did they change? Many British towns used
+  low- or high-pressure sodium lamps, and later LED, but that is from memory and not researched for
+  Llandeilo; the app draws the post-war lamps in a warm colour that is a guess (added 2026-10-03).
 - Was Llandilo Bridge lit by electricity after the June 1902 proposal [S23]?
 - Roman oil lamps at the Dinefwr forts: no find is recorded in the notes, so the app shows none.
 

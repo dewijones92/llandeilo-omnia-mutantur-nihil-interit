@@ -45,9 +45,18 @@ export function groupDigits(value: number, lang: Lang): string {
   return Math.round(value).toLocaleString(lang === 'cy' ? 'cy-GB' : 'en-GB');
 }
 
+// A year value is a fractional calendar year (ad(1858.25) is 1 April 1858), so its label is the
+// year it lies in, astronomical year 0 being 1 BC. The epsilon (about 30 seconds) lets a key date that
+// float error brings back as 1856.9999999 still read 1857.
+export const YEAR_EPSILON = 1e-6;
+
+export function calendarYear(value: number): number {
+  return Math.floor(value + YEAR_EPSILON);
+}
+
 export function formatYear(value: Year, lang: Lang, approximate = false): string {
   const labels = ERA_LABEL[lang];
-  const y = Math.round(value);
+  const y = calendarYear(value);
   const before = PRESENT_YEAR - value;
   if (before >= 1_000_000) {
     const millions = before / 1_000_000;

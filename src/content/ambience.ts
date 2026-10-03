@@ -1,6 +1,7 @@
 import type { BedPoint, Soundscape } from '../domain/model.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import { ad, bc, type Year } from '../domain/time.ts';
+import { END_OF_STEAM } from './features.ts';
 import { src } from './ids.ts';
 
 // Why each ambient sound bed is heard, and when. The research is docs/research/soundscapes.md and
@@ -364,14 +365,15 @@ export const SOUNDSCAPE: Soundscape = {
     heard(ad(2026), 0.25, BELLS_SINCE),
   ],
   market: [heard(ad(1600), 0.4, FAIRS), heard(ad(1850), 0.55, MARKET_TOWN), silent(ad(1950))],
-  // Steam ends with the last steam passenger trains, 13 June 1964 (1964.45); diesel units take over.
+  // Steam stops at the instant the drawn train turns diesel: a heard point and a silent one at the
+  // same year are a cut, not a fade.
   train: [
     heard(ad(1857), 0.5, FIRST_TRAIN),
     heard(ad(1950), 0.3, GWR_TANKS),
-    heard(ad(1964.44), 0.3, GWR_TANKS),
-    silent(ad(1964.45)),
+    heard(END_OF_STEAM, 0.3, GWR_TANKS),
+    silent(END_OF_STEAM),
   ],
-  railcar: [heard(ad(1964.45), 0.3, DIESEL_UNITS), heard(ad(2026), 0.3, DIESEL_UNITS)],
+  railcar: [heard(END_OF_STEAM, 0.3, DIESEL_UNITS), heard(ad(2026), 0.3, DIESEL_UNITS)],
   traffic: [heard(ad(1950), 0.3, MOTOR_TRAFFIC), heard(ad(2026), 0.45, MOTOR_TRAFFIC)],
   chant: [heard(ad(800), 0.25, CLAS_SINGING), silent(ad(1250))],
 };

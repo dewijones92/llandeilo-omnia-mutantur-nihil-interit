@@ -1,14 +1,15 @@
 import { assertNever, clamp } from './assert.ts';
 import { chillAt, type ClimateKey } from './climate.ts';
 import { lowestSnowM, seasonLook, type Season } from './daylight.ts';
-import type { LampKey, Streets } from './lamplight.ts';
-import type { Feature } from './model.ts';
+import { streetWarmth, type LampKey, type Streets } from './lamplight.ts';
+import type { Feature, GridRef } from './model.ts';
 import type { Provenance } from './provenance.ts';
+import { drawnRailway } from './rail.ts';
 import type { Rgb } from './colour.ts';
 import type { Environment, Snapshot, WorldContent } from './state.ts';
 import { snapshotAt } from './state.ts';
 import type { Step } from './steps.ts';
-import { PRESENT_YEAR, range, year, type TimeRange, type Year } from './time.ts';
+import { PRESENT_YEAR, YEAR_EPSILON, range, year, type TimeRange, type Year } from './time.ts';
 import { tAt, type Timeline } from './timeline.ts';
 
 export const ROUNDS = 5;
@@ -44,7 +45,7 @@ export type Clue =
     });
 
 // Firm needs both a record and exact dates; a documented feature drawn over rounded or inferred
-// years is only probable, like a reconstruction.
+// years is only probable, like a reconstruction, exact dates or not (ADR 0035).
 export function clueStrength(p: Provenance, datesExact: boolean): ClueStrength | undefined {
   switch (p.kind) {
     case 'documented':
@@ -70,8 +71,8 @@ function datesCover(when: TimeRange, y: Year): boolean {
 
 function featureClues(timeline: Timeline, snap: Snapshot): Clue[] {
   const out: Clue[] = [];
-  // Rounded so a key date's year, which comes back through the slider as 1856.9999, still counts.
-  const y = year(Math.round(snap.year));
+  // Nudged so a key date's year, which can come back through the slider a hair short, still counts.
+  const y = year(snap.year + YEAR_EPSILON);
   for (const { feature, presence } of snap.features) {
     // A phase fading in or out is on screen, but its dates do not cover the year, so they would mislead.
     if (presence < ON_SCREEN || !datesCover(feature.when, y)) continue;
@@ -189,7 +190,9 @@ function sameEnvironment(a: Environment, b: Environment): boolean {
 function sameStreets(a: Streets, b: Streets): boolean {
   if (a.kind === 'none' || a.kind === 'off' || b.kind === 'none' || b.kind === 'off')
     return a.kind === b.kind;
-  return a.kind === b.kind && a.glow === b.glow && a.area.id === b.area.id;
+  return (
+    a.kind === b.kind && a.glow === b.glow && a.area.id === b.area.id && streetWarmth(a) === streetWarmth(b)
+  );
 }
 
 // Every field of a night-light key is drawn or not seen, so a new field is a compile error here
@@ -211,7 +214,7 @@ function sameLight(a: LampKey | undefined, b: LampKey | undefined): boolean {
   return Object.values(same).every((v) => v !== false);
 }
 
-type Compare = (a: Snapshot, b: Snapshot) => boolean;
+type Compare = (a: Snapshot, b: Snapshot, trainLine: readonly GridRef[] | undefined) => boolean;
 
 // Every Snapshot field is either compared or said not to be seen, so a new drawn field is a compile
 // error here until it is compared. Hidden during a round: the year, the era, the almanac, the
@@ -227,7 +230,7 @@ const SCENE: Readonly<Record<keyof Snapshot, Compare | 'not seen'>> = {
   environment: (a, b) => sameEnvironment(a.environment, b.environment),
   chill: (a, b) => Math.abs(a.chill - b.chill) < SAME_CHILL,
   lamplight: (a, b) => sameLight(a.lamplight, b.lamplight),
-  features: (a, b) => sameIds(drawnFeatures(a), drawnFeatures(b)),
+  features: (a, b, trainLine) => sameIds(drawnFeatures(a, trainLine), drawnFeatures(b, trainLine)),
   // Each live conversation puts its people in the scene.
   conversations: (a, b) => sameIds(talking(a), talking(b)),
 };
@@ -236,8 +239,17 @@ function talking(snap: Snapshot): string[] {
   return snap.conversations.map((c) => c.id);
 }
 
-function drawnFeatures(snap: Snapshot): string[] {
-  return snap.features.filter((f) => f.presence >= ON_SCREEN).map((f) => f.feature.id);
+// The railway and its train are on screen exactly when drawnRailway draws them; the rest by presence.
+function drawnFeatures(snap: Snapshot, trainLine: readonly GridRef[] | undefined): string[] {
+  const rail = drawnRailway(snap.features, trainLine);
+  const others = snap.features.filter(
+    (f) => f.presence >= ON_SCREEN && f.feature.kind.type !== 'railway' && f.feature.kind.type !== 'train',
+  );
+  return [
+    ...others.map((f) => f.feature.id),
+    ...rail.sections.map((s) => s.feature.id),
+    ...(rail.train ? [rail.train.feature.id] : []),
+  ];
 }
 
 function sameIds(a: readonly string[], b: readonly string[]): boolean {
@@ -245,6 +257,7 @@ function sameIds(a: readonly string[], b: readonly string[]): boolean {
   return a.length === b.length && a.every((id) => sb.has(id));
 }
 
-export function sceneMatches(a: Snapshot, b: Snapshot): boolean {
-  return Object.values(SCENE).every((same) => same === 'not seen' || same(a, b));
+/** `trainLine` is the line the train runs on (the longest drawn line), as the renderer is given it. */
+export function sceneMatches(a: Snapshot, b: Snapshot, trainLine: readonly GridRef[] | undefined): boolean {
+  return Object.values(SCENE).every((same) => same === 'not seen' || same(a, b, trainLine));
 }

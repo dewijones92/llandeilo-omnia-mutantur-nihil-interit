@@ -63,3 +63,19 @@ back for the next exact feature); giving railway features a fade that starts at 
 special case); dropping `datesExact` from the southern section and keeping one 1857 section (honest
 about the clue, but 1840 to 1856 scenes would still draw no track where the sources put it); drawing
 the western lines with a guessed date (inventing a date).
+
+## Corrected 2026-10-03
+
+- The third review found `railway-llanelly-1840`, listed above as "from April 1840", drawn from about
+  1831: it was reconstructed, so it could not carry exact dates and faded in. [ADR 0035](0035-exact-dates-are-about-dates-not-clues.md)
+  lets a reconstructed feature carry `datesExact`; the section now starts on 10 April 1840 and stops at
+  Garnant. East of Garnant, today's track is the line of 4 November 1907 (victorian:S29, S74), drawn as
+  its own exact section, `railway-gwaun-cae-gurwen`.
+- "Every line east of Pontyberem" above means every line east of E258000 (`LLANELLY_LINES_E`), east of
+  the undrawn Cross Hands stubs too; the content test now reads that easting from the content, and
+  names the tips where the data leaves the map instead of accepting any tip over 14km out.
+- Exact features "pop on and off at their years", but the phase before one still fades out after its
+  own `to` unless it is exact too, so the two overlap for some years (see ADR 0035).
+- `drawnFeatures` in the guess game now takes the railway and the train from `drawnRailway`, the rule
+  this ADR calls the one rule for what of the railway is on screen.
+

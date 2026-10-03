@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { WORLD_CONTENT } from '../src/content/world.ts';
-import { ROUNDS, clues, playableSteps, type Clue } from '../src/domain/guess.ts';
+import { ROUNDS, clueStrength, clues, playableSteps, type Clue } from '../src/domain/guess.ts';
 import { snapshotAt } from '../src/domain/state.ts';
 import { keySteps } from '../src/domain/steps.ts';
 import { bc } from '../src/domain/time.ts';
@@ -34,10 +34,12 @@ describe('When are we? on the real content', () => {
     expect(list.find((c) => c.kind === 'feature' && c.feature.id === 'railway')?.strength).toBe('firm');
   });
 
-  it('marks exact dates only on documented features', () => {
-    for (const f of WORLD_CONTENT.features) {
-      if (f.datesExact) expect(f.provenance.kind, f.id).toBe('documented');
-    }
+  it('calls a reconstructed feature with exact dates only a probable clue: exact dates are not a record', () => {
+    const exactReconstructed = WORLD_CONTENT.features.filter(
+      (f) => f.datesExact && f.provenance.kind === 'reconstructed',
+    );
+    expect(exactReconstructed.map((f) => f.id)).toContain('railway-llanelly-1840');
+    for (const f of exactReconstructed) expect(clueStrength(f.provenance, true), f.id).toBe('probable');
   });
 
   it('calls a documented feature with approximate dates only a probable clue', () => {

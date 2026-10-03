@@ -91,3 +91,6 @@ hillfort labelled firm beside a "c." answer).
 - Four features are now exact: the railway's 1857 and 1858 sections, Llandeilo Bridge and Carreg
   Cennen's ruin. Since [ADR 0034](0034-exact-dates-draw-nothing-outside-them.md) an exact feature is
   never on screen outside its dates.
+- `datesExact` no longer implies a record: [ADR 0035](0035-exact-dates-are-about-dates-not-clues.md)
+  allows it on reconstructed features, so they are drawn exactly on their dates. A firm clue still
+  needs both a documented provenance and exact dates.

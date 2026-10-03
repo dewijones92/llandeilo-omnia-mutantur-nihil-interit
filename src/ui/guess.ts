@@ -29,6 +29,8 @@ const PLAYING_CLASS = 'guessing';
 
 export interface GuessHost {
   readonly world: WorldContent;
+  // The line the renderer runs the train on, so "looks the same" counts the train as it is drawn.
+  readonly trainLine: readonly GridRef[] | undefined;
   readonly steps: readonly Step[];
   readonly timeline: TimelineBar;
   readonly sources: ReadonlyMap<string, Source>;
@@ -271,7 +273,8 @@ export class GuessGame {
     this.host.timeline.showGhost(r.guessT);
     const truth = snapshotAt(world, r.step.t);
     const list = clues(world, truth);
-    const same = r.points < MAX_POINTS && sceneMatches(snapshotAt(world, r.guessT), truth);
+    const same =
+      r.points < MAX_POINTS && sceneMatches(snapshotAt(world, r.guessT), truth, this.host.trainLine);
     const guessYear = yearAt(world.timeline, r.guessT);
     return [
       h('p', { class: 'guess-round' }, this.roundLabel(this.results.length)),

@@ -5,7 +5,13 @@ import { describe, expect, it } from 'vitest';
 import { ASSETS } from '../src/content/assets.ts';
 import { STRINGS } from '../src/content/strings.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
-import { DUFFRYN_STATION, LLANDEILO_STATION } from '../src/content/features.ts';
+import {
+  DUFFRYN_STATION,
+  END_OF_STEAM,
+  GARNANT_STATION,
+  LLANDEILO_STATION,
+  LLANELLY_LINES_E,
+} from '../src/content/features.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { hasStreetLamps, insideArea } from '../src/domain/lamplight.ts';
@@ -204,12 +210,13 @@ describe('ambient sound beds', () => {
     expect(bad.map((x) => x.key)).toEqual([]);
   });
 
-  it('keeps each bed’s points in date order, on the timeline', () => {
+  it('keeps each bed’s points in date order, on the timeline, sharing a year only where a cut silences a bed', () => {
     const first = yearAt(W.timeline, 0);
     const last = yearAt(W.timeline, 1);
     const bad = points.filter(({ bed, i, p }) => {
       const before = W.soundscape[bed][i - 1];
-      return p.year < first || p.year > last || (before !== undefined && before.year >= p.year);
+      const cut = before?.kind === 'heard' && p.kind === 'silent' && before.year === p.year;
+      return p.year < first || p.year > last || (before !== undefined && before.year >= p.year && !cut);
     });
     expect(bad.map((x) => x.key)).toEqual([]);
   });
@@ -238,7 +245,7 @@ describe('ambient sound beds', () => {
       const anyTrain = AMBIENT_BEDS.filter((b) => b === 'train' || b === 'railcar').some(
         (b) => at.levels[b] > 0,
       );
-      if (y >= 1964.45 && steam > 0) wrong.push(`steam heard in ${y.toFixed(2)}`);
+      if (y >= END_OF_STEAM && steam > 0) wrong.push(`steam heard in ${y.toFixed(2)}`);
       if (trains.some((t) => contains(t.when, year(y))) && !anyTrain)
         wrong.push(`a train runs in ${y.toFixed(2)}, unheard`);
     }
@@ -320,15 +327,32 @@ describe('the railway', () => {
   const gap = (a: GridRef, b: GridRef) => Math.hypot(a.e - b.e, a.n - b.n);
   const length = (ls: readonly { points: readonly GridRef[] }[]) =>
     ls.reduce((sum, l) => sum + l.points.slice(1).reduce((s, p, i) => s + gap(p, l.points[i] ?? p), 0), 0);
-  // Where the drawn data stops at the edge of the map, rather than at a station.
-  const leavesMap = (p: GridRef) => gap(p, WORLD.centre) > 14000;
+  // Where today's track runs on past the edge of the drawn data (towards Pontarddulais, and towards
+  // Llandovery), and where it simply stops (the colliery lines past Gwaun-cae-Gurwen's level crossing).
+  const MAP_EDGE: readonly GridRef[] = [
+    { e: 260395, n: 206650 },
+    { e: 273922, n: 232559 },
+  ];
+  const TRACK_ENDS: readonly GridRef[] = [{ e: 271447, n: 212036 }];
+  const leavesMap = (p: GridRef) =>
+    MAP_EDGE.some((e) => gap(p, e) < 50) || TRACK_ENDS.some((e) => gap(p, e) < 50);
+  // Coflein's grid reference for Pantyffynnon station (victorian:S72), where a short spur ends.
+  const PANTYFFYNNON_STATION = { e: 262290, n: 210780 };
 
   // The stretch each exactly dated section's sources date: Duffryn (Ammanford) to Llandeilo,
-  // January 1857 (victorian:S29, S70); Llandeilo on to Llandovery, 1 April 1858 (victorian:S29, S31).
+  // January 1857 (victorian:S29, S70); Llandeilo on to Llandovery, 1 April 1858 (victorian:S29, S31);
+  // the lines south of Duffryn and up the Amman valley to Garnant, 10 April 1840 (victorian:S29); and
+  // east of Garnant, the line of 4 November 1907 (victorian:S29, S74).
   const DATED: Readonly<Record<string, readonly GridRef[]>> = {
     railway: [DUFFRYN_STATION, LLANDEILO_STATION],
     'railway-vale-of-towy': [LLANDEILO_STATION],
+    'railway-llanelly-1840': [DUFFRYN_STATION, GARNANT_STATION, PANTYFFYNNON_STATION],
+    'railway-gwaun-cae-gurwen': [GARNANT_STATION],
   };
+
+  it('lists as map edges only tips near the edge of the ten-mile circle', () => {
+    expect(MAP_EDGE.filter((p) => gap(p, WORLD.centre) < WORLD.radiusMetres - 1500)).toEqual([]);
+  });
 
   it('draws each exactly dated section as one unbroken stretch between the places its sources date', () => {
     const wrong: string[] = [];
@@ -351,10 +375,10 @@ describe('the railway', () => {
     expect(wrong).toEqual([]);
   });
 
-  it('draws every line east of Pontyberem exactly once, and leaves out only the undated lines in the west', () => {
+  it('draws every line east of Cross Hands (E258000) exactly once, and leaves out only the undated lines west of it', () => {
     const drawn = sections.reduce((sum, s) => sum + length(s.lines), 0);
-    const east = rails.filter((l) => l.points.every((p) => p.e > 258000));
-    const west = rails.filter((l) => l.points.every((p) => p.e < 258000));
+    const east = rails.filter((l) => l.points.every((p) => p.e > LLANELLY_LINES_E));
+    const west = rails.filter((l) => l.points.every((p) => p.e < LLANELLY_LINES_E));
     expect(east.length + west.length).toBe(rails.length);
     expect(drawn).toBeCloseTo(length(east), 0);
   });
@@ -373,20 +397,33 @@ describe('trains', () => {
     expect(outside.map((t) => t.id)).toEqual([]);
   });
 
-  it('never overlap, so one train is on the line at a time', () => {
+  it('hand over at shared boundaries, so one train runs at a time with no gap however close you look', () => {
     const sorted = [...trains].sort((a, b) => a.when.from - b.when.from);
-    const overlaps = sorted.flatMap((t, i) => {
+    const wrong = sorted.flatMap((t, i) => {
       const next = sorted[i + 1];
-      return next && next.when.from <= t.when.to ? [`${t.id}/${next.id}`] : [];
+      return next && next.when.from !== t.when.to
+        ? [`${t.id} ends ${String(t.when.to)}, ${next.id} starts ${String(next.when.from)}`]
+        : [];
     });
-    expect(overlaps).toEqual([]);
+    expect(wrong).toEqual([]);
+    expect(sorted[0]?.when.from).toBe(railway?.when.from);
+    expect(sorted[sorted.length - 1]?.when.to).toBe(railway?.when.to);
   });
 
-  it('cover the whole life of the railway', () => {
+  it('cover the whole life of the railway, at every boundary too', () => {
     const missing: string[] = [];
+    const boundaries = trains.flatMap((t) => [t.when.from, t.when.to]);
     if (railway)
       for (let y: number = railway.when.from; y <= railway.when.to; y += 0.25)
         if (!trains.some((t) => contains(t.when, year(y)))) missing.push(y.toFixed(2));
+    for (const y of boundaries)
+      for (const d of [-1e-4, 0, 1e-4])
+        if (
+          railway &&
+          contains(railway.when, year(y + d)) &&
+          !trains.some((t) => contains(t.when, year(y + d)))
+        )
+          missing.push((y + d).toFixed(4));
     expect(missing).toEqual([]);
   });
 });

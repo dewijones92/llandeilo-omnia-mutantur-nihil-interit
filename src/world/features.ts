@@ -74,7 +74,7 @@ export class FeatureLayer {
   private readonly roads: Mesh;
   private readonly streetLamps: StreetLamps;
   private readonly train: Train | undefined;
-  private readonly trainLine: MapLine | undefined;
+  readonly trainLine: MapLine | undefined;
   private stock: RollingStock | undefined;
   private steam = false;
   private trainFeature: Feature | undefined;

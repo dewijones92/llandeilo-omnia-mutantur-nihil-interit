@@ -168,7 +168,15 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   1857 (victorian:S29, S70). Whether Duffryn opened in 1840 or May 1841 is contested (S29 against
   S70, S71). The app draws Duffryn to Llandeilo from 1857 (exact), the older lines from April 1840
   (reconstructed), and the undated short lines near Pontyberem and Cross Hands not at all
-  ([ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md)).
+  ([ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md)). *Corrected 2026-10-03 (third
+  review)*: the 1840 lines were still drawn from about 1831, because only documented features could
+  carry exact dates and the rest faded in over the years before them; they now carry exact dates as
+  reconstructed features ([ADR 0035](../adr/0035-exact-dates-are-about-dates-not-clues.md)), so
+  nothing of them is drawn before 10 April 1840. And they stop at Garnant: **east of Garnant today's
+  track is the Great Western's line of 4 November 1907**, built to avoid the 1841 line's incline (1 in
+  4.9) on a different course (victorian:S29, and a 1957 *Railway Magazine* article, victorian:S74). It
+  is drawn from November 1907, with no track east of Garnant from 1841 to 1907. Coflein's "Ammanford
+  Railway Station" (victorian:S73) is the branch's Cross Inn station of 10 April 1840.
 
 - **The motto** on the Begin card, *omnia mutantur, nihil interit*, is Ovid, *Metamorphoses* XV,
   in Pythagoras's speech. Checked 2026-10-03 in two online texts, both of which number it line 165:

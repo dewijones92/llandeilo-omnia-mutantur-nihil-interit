@@ -24,13 +24,14 @@ export const TOWN_NORTH_OF_TYWI: LitArea = {
   ],
 };
 
-const FARMS_GUESS = {
-  en: ' Farms across the valley are drawn with the same windows as the town, which is a guess.',
-  cy: ' Mae ffermydd ar draws y dyffryn yn cael yr un ffenestri â’r dref, sy’n ddyfaliad.',
+const FARMS_DRAWN = {
+  en: ' Farms across the valley are drawn with the same windows as the town, which is a guess',
+  cy: ' Mae ffermydd ar draws y dyffryn yn cael yr un ffenestri â’r dref, sy’n ddyfaliad',
 };
+const FARMS_GUESS = { en: `${FARMS_DRAWN.en}.`, cy: `${FARMS_DRAWN.cy}.` };
 const FARMS = {
-  en: ' Farms across the valley are drawn with the same windows as the town, which is a guess: when farms got mains electricity is not known.',
-  cy: ' Mae ffermydd ar draws y dyffryn yn cael yr un ffenestri â’r dref, sy’n ddyfaliad: nid yw’n hysbys pryd y cafodd ffermydd drydan o’r prif gyflenwad.',
+  en: `${FARMS_DRAWN.en}: when farms got mains electricity is not known.`,
+  cy: `${FARMS_DRAWN.cy}: nid yw’n hysbys pryd y cafodd ffermydd drydan o’r prif gyflenwad.`,
 };
 const WHERE = {
   en: ' Street lamps are drawn only in the town north of the Tywi; whether Ffairfach was lit is not known.',
@@ -178,8 +179,8 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
         src('light:S11'),
       ],
       note: {
-        en: `Electric street light, the Urban District Council’s own, by September 1902: a columnist mocked those who saw "no difference in the streets now that they are electrically lit than when they were gas lit". The exact day is not known. From October 1902 the town lamps were to be lit from half an hour after sunset till 11 o’clock every night of the year (S20); the scene does not yet put them out at 11. Not every spot was lit: in December 1902 there was "no light whatever" at the turn from Trallwm to Station Road (S11). The council sold electricity by the meter (S20), and in October a columnist was glad that “so many of the tradespeople of the town are having the light installed” (S31), so shops, and perhaps the homes above them, had it. No source read says how homes were lit, so they are drawn with flame light as before, which is a guess, as is the share of lit windows.${FARMS_GUESS.en}${WHERE.en}`,
-        cy: `Golau stryd trydan, eiddo Cyngor Dosbarth Trefol Llandeilo ei hun, erbyn Medi 1902: gwawdiodd colofnydd y rhai na welai ddim gwahaniaeth rhwng y strydoedd dan olau trydan a’r strydoedd dan olau nwy. Nid yw’r union ddiwrnod yn hysbys. O fis Hydref 1902 roedd lampau’r dref i’w cynnau o hanner awr wedi machlud yr haul hyd 11 o’r gloch bob nos drwy’r flwyddyn (S20); nid yw’r olygfa eto’n eu diffodd am 11. Nid oedd pob man wedi’i oleuo: ym mis Rhagfyr 1902 nid oedd “dim golau o gwbl” ar y tro o’r Trallwm i Station Road (S11). Gwerthai’r cyngor drydan wrth y mesurydd (S20), ac ym mis Hydref roedd colofnydd yn falch bod “cymaint o fasnachwyr y dref” yn gosod y golau (S31), felly roedd y golau gan siopau, ac efallai gan y cartrefi uwch eu pennau. Nid oes ffynhonnell a ddarllenwyd yn dweud sut y goleuwyd cartrefi, felly fe’u dangosir â golau fflam fel o’r blaen, sy’n ddyfaliad, fel cyfran y ffenestri golau.${FARMS_GUESS.cy}${WHERE.cy}`,
+        en: `Electric street light, the Urban District Council’s own, by September 1902: a columnist mocked those who saw "no difference in the streets now that they are electrically lit than when they were gas lit". The exact day is not known. From October 1902 the town lamps were to be lit from half an hour after sunset till 11 o’clock every night of the year (S20); the scene does not yet put them out at 11. Not every spot was lit: in December 1902 there was "no light whatever" at the turn from Trallwm to Station Road (S11). The council sold electricity by the meter (S20), and in October a columnist was glad that “so many of the tradespeople of the town are having the light installed” (S31), so shops, and perhaps the homes above them, were getting it. No source read says how homes were lit, so they are drawn with flame light as before, which is a guess, as is the share of lit windows.${FARMS_GUESS.en}${WHERE.en}`,
+        cy: `Golau stryd trydan, eiddo Cyngor Dosbarth Trefol Llandeilo ei hun, erbyn Medi 1902: gwawdiodd colofnydd y rhai na welai ddim gwahaniaeth rhwng y strydoedd dan olau trydan a’r strydoedd dan olau nwy. Nid yw’r union ddiwrnod yn hysbys. O fis Hydref 1902 roedd lampau’r dref i’w cynnau o hanner awr wedi machlud yr haul hyd 11 o’r gloch bob nos drwy’r flwyddyn (S20); nid yw’r olygfa eto’n eu diffodd am 11. Nid oedd pob man wedi’i oleuo: ym mis Rhagfyr 1902 nid oedd “dim golau o gwbl” ar y tro o’r Trallwm i Station Road (S11). Gwerthai’r cyngor drydan wrth y mesurydd (S20), ac ym mis Hydref roedd colofnydd yn falch bod “cymaint o fasnachwyr y dref” yn gosod y golau (S31), felly roedd siopau, ac efallai’r cartrefi uwch eu pennau, yn ei gael. Nid oes ffynhonnell a ddarllenwyd yn dweud sut y goleuwyd cartrefi, felly fe’u dangosir â golau fflam fel o’r blaen, sy’n ddyfaliad, fel cyfran y ffenestri golau.${FARMS_GUESS.cy}${WHERE.cy}`,
       },
     },
   },
@@ -231,8 +232,8 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
         src('light:S19'),
       ],
       note: {
-        en: `The dim-out, from 17 September 1944: the relaxations began that day except in areas listed in the order, which no source read names; the exceptions found are coastal. Whether Llandeilo, an inland town, was one is not known. Homes were allowed half-lighting behind ordinary curtains, though in February 1945 the Home Secretary still would not end the blacking-out of homes; each council chose its own street-lighting standard. How much light Llandeilo showed is guessed: faint windows and dim street lamps.${WHERE.en}`,
-        cy: `Y pylu, o 17 Medi 1944: dechreuodd y llacio y diwrnod hwnnw ac eithrio mewn ardaloedd a restrwyd yn y gorchymyn, nad oes ffynhonnell a ddarllenwyd yn eu henwi; ar yr arfordir y mae’r eithriadau a gafwyd. Nid yw’n hysbys a oedd Llandeilo, tref fewndirol, yn un ohonynt. Caniatawyd hanner golau i gartrefi y tu ôl i lenni cyffredin, er na fyddai’r Ysgrifennydd Cartref ym mis Chwefror 1945 yn rhoi terfyn ar dywyllu cartrefi o hyd; dewisai pob cyngor ei safon ei hun ar gyfer goleuo’r strydoedd. Dyfalu yw faint o olau a ddangosai Llandeilo: ffenestri gwan a lampau stryd pŵl.${WHERE.cy}`,
+        en: `The dim-out, from 17 September 1944: the relaxations began that day except in areas listed in the order, which no source read names; the exceptions found are coastal. Whether Llandeilo, an inland town, was one is not known. Homes were allowed half-lighting behind ordinary curtains, though in February 1945 the Home Secretary still would not end the blacking-out of homes; each council chose its own street-lighting standard. How much light Llandeilo showed is guessed: faint windows and dim street lamps, whose warm colour is a guess too.${WHERE.en}`,
+        cy: `Y pylu, o 17 Medi 1944: dechreuodd y llacio y diwrnod hwnnw ac eithrio mewn ardaloedd a restrwyd yn y gorchymyn, nad oes ffynhonnell a ddarllenwyd yn eu henwi; ar yr arfordir y mae’r eithriadau a gafwyd. Nid yw’n hysbys a oedd Llandeilo, tref fewndirol, yn un ohonynt. Caniatawyd hanner golau i gartrefi y tu ôl i lenni cyffredin, er na fyddai’r Ysgrifennydd Cartref ym mis Chwefror 1945 yn rhoi terfyn ar dywyllu cartrefi o hyd; dewisai pob cyngor ei safon ei hun ar gyfer goleuo’r strydoedd. Dyfalu yw faint o olau a ddangosai Llandeilo: ffenestri gwan a lampau stryd pŵl, ac mae eu lliw cynnes yn ddyfaliad hefyd.${WHERE.cy}`,
       },
     },
   },
@@ -241,7 +242,8 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     year: ad(1945.35),
     dated: 'by',
     homes: 'mixed',
-    streets: { kind: 'electric', glow: 0.9, area: TOWN_NORTH_OF_TYWI },
+    // What lamps lit the streets after the war is not researched; this warm colour is a guess.
+    streets: { kind: 'electric', glow: 0.9, area: TOWN_NORTH_OF_TYWI, warmth: 0.45 },
     warmth: 0.45,
     windows: 0.6,
     glow: 0.95,
@@ -254,8 +256,8 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
       kind: 'documented',
       sources: [src('light:S18'), src('light:S19'), src('light:S29')],
       note: {
-        en: `On 12 April 1945 the Home Secretary meant to lift the blackout in all districts no later than the end of the war in Europe, 8 May 1945 (S18); a home-front history site says full street lighting came in April 1945 (S19). Most restrictions had gone by 2 May; some coastal areas kept them into peacetime (S29). When Llandeilo’s lamps came back on is not known, so this is a latest date for an inland town. Homes are drawn with a mix of electric and flame light: when Llandeilo’s homes got electricity is not known, so the share and the brightness of windows and streets are guessed.${FARMS.en}${WHERE.en}`,
-        cy: `Ar 12 Ebrill 1945 bwriadai’r Ysgrifennydd Cartref godi’r blacowt ym mhob ardal heb fod yn hwyrach na diwedd y rhyfel yn Ewrop, 8 Mai 1945 (S18); mae gwefan hanes y ffrynt cartref yn dweud i oleuadau stryd llawn ddod ym mis Ebrill 1945 (S19). Roedd y rhan fwyaf o’r cyfyngiadau wedi mynd erbyn 2 Mai; cadwodd rhai ardaloedd arfordirol nhw i mewn i amser heddwch (S29). Nid yw’n hysbys pryd y daeth lampau Llandeilo yn ôl, felly dyddiad hwyraf yw hwn ar gyfer tref fewndirol. Mae cartrefi’n cael cymysgedd o olau trydan a golau fflam: nid yw’n hysbys pryd y cafodd cartrefi Llandeilo drydan, felly dyfalu yw’r gyfran a disgleirdeb y ffenestri a’r strydoedd.${FARMS.cy}${WHERE.cy}`,
+        en: `On 12 April 1945 the Home Secretary meant to lift the blackout in all districts no later than the end of the war in Europe, 8 May 1945 (S18); a home-front history site says full street lighting came in April 1945 (S19). Most restrictions had gone by 2 May; some coastal areas kept them into peacetime (S29). When Llandeilo’s lamps came back on is not known, so this is a latest date for an inland town. Homes are drawn with a mix of electric and flame light: when Llandeilo’s homes got electricity is not known, so the share and the brightness of windows and streets are guessed. What kind of lamps lit the streets after the war is not researched either, so their warm colour is a guess.${FARMS.en}${WHERE.en}`,
+        cy: `Ar 12 Ebrill 1945 bwriadai’r Ysgrifennydd Cartref godi’r blacowt ym mhob ardal heb fod yn hwyrach na diwedd y rhyfel yn Ewrop, 8 Mai 1945 (S18); mae gwefan hanes y ffrynt cartref yn dweud i oleuadau stryd llawn ddod ym mis Ebrill 1945 (S19). Roedd y rhan fwyaf o’r cyfyngiadau wedi mynd erbyn 2 Mai; cadwodd rhai ardaloedd arfordirol nhw i mewn i amser heddwch (S29). Nid yw’n hysbys pryd y daeth lampau Llandeilo yn ôl, felly dyddiad hwyraf yw hwn ar gyfer tref fewndirol. Mae cartrefi’n cael cymysgedd o olau trydan a golau fflam: nid yw’n hysbys pryd y cafodd cartrefi Llandeilo drydan, felly dyfalu yw’r gyfran a disgleirdeb y ffenestri a’r strydoedd. Nid oes ymchwil ychwaith i ba fath o lampau a oleuai’r strydoedd ar ôl y rhyfel, felly dyfalu yw eu lliw cynnes.${FARMS.cy}${WHERE.cy}`,
       },
     },
   },

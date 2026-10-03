@@ -197,8 +197,9 @@ export interface Feature {
   readonly when: TimeRange;
   readonly provenance: Provenance;
   readonly label: Bilingual;
-  // Set only where a source gives both ends as attested years (an end at the present counts);
-  // most drawn ranges are rounded or inferred, and "When are we?" calls those clues only probable.
+  // Set only where a source gives both ends as attested years (an end at the present counts); such a
+  // feature is drawn nothing outside them (ADR 0034). It says nothing of provenance: a reconstructed
+  // feature can have exact dates, and only a documented one with them is a firm clue (ADR 0035).
   readonly datesExact?: true;
 }
 
@@ -220,7 +221,8 @@ export type AmbientBed = (typeof AMBIENT_BEDS)[number];
 
 // Each bed has its own dated points, so a sound date never needs a look keyframe. A bed is silent
 // before its first point and after a silent one, and never fades in from silence: a level cannot
-// exist without a heard point's reason, and cannot leak before that point's date.
+// exist without a heard point's reason, and cannot leak before that point's date. A silent point at
+// the same year as the heard one before it cuts the bed off there instead of fading it.
 export type BedPoint =
   | { readonly kind: 'heard'; readonly year: Year; readonly level: number; readonly provenance: Provenance }
   | { readonly kind: 'silent'; readonly year: Year };

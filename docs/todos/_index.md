@@ -84,8 +84,8 @@ below links the issue.
 - [ ] Earliest environment keyframes (12,500–10,900 BC): check they use calendar, not uncalibrated pollen, dates
 - [ ] Railway loose ends: Victoria's weight (18 vs 14 tons), the unconfirmed "Victor" of 1864, the 1858 Beyer Peacock engines
 - [ ] Railway lines' own dates: whether Pantyffynnon to Duffryn opened in 1840 or May 1841, when the
-      Amman valley branch closed or was lifted, and what the undated lines near Pontyberem and Cross
-      Hands are (not drawn until dated; [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md),
+      Amman valley branch closed or was lifted, what the undated lines near Pontyberem and Cross
+      Hands are, and the 1841 line east of Garnant's own course (not drawn until dated; [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md),
       [open questions](../research/open-questions.md))
 - [ ] Independent verification of every research note, as conversations-by-class had (it found 13 corrections).
       Done 2026-10-02: era-medieval-to-1282, event-effects, railway-later, anglo-norman-and-middle-english

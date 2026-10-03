@@ -176,6 +176,16 @@ export interface DrawnRailway {
   readonly train: DrawnTrain | undefined;
 }
 
+// Where one train's dates end as the next one's begin, both are fully present at that instant; the
+// one starting there has taken over, as the sound has.
+function outranks(p: FeaturePresence, best: { feature: Feature; presence: number } | undefined): boolean {
+  if (!best) return p.presence > TRAIN_DRAWN;
+  return (
+    p.presence > best.presence ||
+    (p.presence === best.presence && p.feature.when.from > best.feature.when.from)
+  );
+}
+
 /**
  * A section is drawn once its presence passes one half. A train is drawn when the railway and the
  * train are both nearly fully present and some drawn section covers part of the train's line, which
@@ -194,7 +204,7 @@ export function drawnRailway(
       rail = Math.max(rail, p.presence);
       if (p.presence > SECTION_DRAWN) sections.push({ feature: p.feature, section: k.section });
     }
-    if (k.type === 'train' && p.presence > (train?.presence ?? TRAIN_DRAWN))
+    if (k.type === 'train' && outranks(p, train))
       train = { feature: p.feature, stock: k.stock, presence: p.presence };
   }
   const span = trainLine

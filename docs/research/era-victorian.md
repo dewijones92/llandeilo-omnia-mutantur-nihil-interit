@@ -323,8 +323,19 @@ Duffryn, and then Tirydail", it "opened in 1841 as a temporary terminus of the L
 to Llandeilo" [S70]. S29's own station list gives Duffryn as opened in 1840, and Pantyffynnon's page
 says the main line was extended to Duffryn "in May 1841" [S71]: **contradiction**, unresolved. The
 line from Pontarddulais to Cwmamman (later Garnant) opened on 10 April 1840 and was extended to
-Gwaun-cae-Gurwen on 6 May 1841 [S29], so track south of Duffryn and up the Amman valley existed long
-before 1857; the 1857 extension ran from Duffryn north, through Llandybïe, Derwydd Road and Ffairfach,
+Gwaun-cae-Gurwen on 6 May 1841 [S29][S74], so track south of Duffryn and up the Amman valley existed long
+before 1857. (*Added 2026-10-03 (third review)*: east of Garnant, today's track is not the 1841 line.
+The 1841 extension followed the Garnant stream and "finally climbed an incline, six chains long, on a
+gradient of 1 in 4.9" [S74]; the Great Western replaced it with a new line "avoiding the inclined
+plane", opened on 4 November 1907 [S29][S74], 1 mile 22 chains from the east end of Garnant's platform
+to just west of the level crossing at Gwaun-cae-Gurwen, where it rejoined the old course [S74]. The
+old line's eastern 59 chains, the incline included, closed then, and the rest became the Cawdor
+branch [S29][S74]. So the app draws today's track east of Garnant from November 1907 and no track
+there from 1841 to 1907. The cut is at Garnant station's site from 1865 [S75]; the station of 1840,
+Cwmamman, stood half a mile further east [S29][S75], on the old course beside today's track [S74], so
+that last stretch of the 1840 line is not drawn either; the colliery lines beyond the level crossing are undated and drawn with it.
+Coflein's "Ammanford Railway Station" [S73] is the Amman valley branch's Cross Inn station of 10 April
+1840 [S29].) the 1857 extension ran from Duffryn north, through Llandybïe, Derwydd Road and Ffairfach,
 whose stations opened in January 1857 [S29]. (*Added 2026-10-03 (second-Opus review)*: the app had
 drawn all the track south of Llandeilo from 1857.) A second route reached Llandeilo from Carmarthen (via Abergwili
 Junction) in 1864–65 (the branch "reached Abergwili Junction in 1864" [S36]; its passenger stations
@@ -1172,7 +1183,11 @@ project's ⓘ marker; none should be presented as a real quotation from a real n
 
 [S72] Coflein (RCAHMW), "Pantyffynnon Railway Station, Central Wales Line, Ammanford," NPRN 34733 — https://coflein.gov.uk/en/site/34733 — grid reference SN6229010780; the building "probably dates from 1853 to 1857 when the Llanelly Railway was extending northwards towards Llandeilo" (citing Hughes and Reynolds 1989). Read directly, 2026-10-03.
 
-[S73] Coflein (RCAHMW), "Ammanford Railway Station," NPRN 34689 — https://coflein.gov.uk/en/site/34689 — grid reference SN6312312123, a station with a signal box "still in use" in 1987. That point is about 0.8km east of today's Ammanford (once Duffryn) station on the main line, so which station the record means is not clear; not used to place Duffryn. Read directly, 2026-10-03.
+[S73] Coflein (RCAHMW), "Ammanford Railway Station," NPRN 34689 — https://coflein.gov.uk/en/site/34689 — grid reference SN6312312123, a station with a signal box "still in use" in 1987. That point is about 0.8km east of today's Ammanford (once Duffryn) station on the main line, so which station the record means is not clear; not used to place Duffryn. Read directly, 2026-10-03. *Corrected 2026-10-03 (third review)*: the point lies 4m from today's track on the Amman valley branch leaving Pantyffynnon, not on the main line, so this is the old **Cross Inn** station, opened 10 April 1840 and renamed Ammanford in 1883 (S29's station list), whose closure in 1958 S70 mentions ("the closure in 1958 of Ammanford station on the Amman Valley branch"). It is Coflein's evidence for a station on the 1840 branch at that spot, not for Duffryn.
+
+[S74] C. L. Mowat, "Railways at Gwaun-cae-gurwen," *Railway Magazine*, December 1957, as transcribed on the Cwmgors local-history site — https://freepages.rootsweb.com/~cwmgors/history/Railways2.html (read from the Wayback Machine copy of 15 April 2025, http://web.archive.org/web/20250415193533/https://freepages.rootsweb.com/~cwmgors/history/Railways2.html, because the live page returns 403) — the line from Pontardulais to Cwmamman opened "April 10, 1840", extended "1 mile 75 ch." to Gwaun-cae-Gurwen "May 6, 1841", which "finally climbed an incline, six chains long, on a gradient of 1 in 4.9"; the Great Western's new Gwaun-cae-Gurwen branch "was opened on November 4, 1907. This starts just east of Raven Crossing, at the east end of the branch platform at Garnant, and rises at a gradient of 1 in 40 throughout its length of 1 mile 22 ch."; it "climbs in cutting along the south-west side of the valley", crosses it on a five-arch brick viaduct, and "joins the course of the old line, just west of the level crossing at Gwaun-Cae-Gurwen"; "59 ch. of the old, at the eastern end and including the incline, were closed", the rest becoming the Cawdor branch; from the level crossing "lines continue to the east and south to serve three collieries". A secondary article of 1957 in a transcription; it agrees with S29 on every date both give. Read directly, 2026-10-03.
+
+[S75] Wikipedia, "Garnant railway station" — https://en.wikipedia.org/wiki/Garnant_railway_station — opened as Cwmamman in April 1840, "resited half a mile to the west on 20 March 1865", closed 18 August 1958; coordinates 51.80268, −3.90641 (SN687131), which GDAL converts to E268648 N213279, 5m from today's track; the Gwaun-cae-Gurwen platforms ("Garnant Halt") opened 1 January 1908. Used only to place the cut at Garnant. Lead. Read directly (wikitext), 2026-10-03.
 
 **Method note (for anyone continuing this research):** this document was produced by a lead pass
 plus four parallel deep-research passes (Rebecca Riots; Dynevor estate/gentry; chapels/Blue Books/

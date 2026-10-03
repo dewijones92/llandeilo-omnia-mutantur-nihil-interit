@@ -75,6 +75,11 @@ const feature = (s: Spec): Feature => {
 };
 
 const NOW = ad(2026);
+// 13 June 1964, the last steam passenger trains (railwaylater:S2); the drawn train and the sound both
+// hand over from steam to diesel here.
+export const END_OF_STEAM = ad(1964.45);
+// 1 January 1873, when the Great Western took over the Llanelly company's lines (victorian:S29).
+const GWR_TAKES_OVER = ad(1873);
 const GARN_GOCH = { e: 269120, n: 224320 };
 const LLANDEILO_CHURCH = { e: 262930, n: 222236 };
 const DINEFWR_CASTLE = { e: 261155, n: 221729 };
@@ -86,14 +91,17 @@ const NEWTON_HOUSE = { e: 261432, n: 222534 };
 const LLANDEILO_BRIDGE_AT = { e: 262757, n: 222001 };
 export const LLANDEILO_STATION = { e: 263266, n: 222361 };
 // Ammanford station, opened as Duffryn: the Llanelly Railway's terminus towards Llandeilo until 1857.
-// Wikipedia's coordinates (victorian:S70), on today's track; Coflein's record for an "Ammanford
-// Railway Station" (victorian:S73) lies 0.8km off the line, so it is not used.
+// Wikipedia's coordinates (victorian:S70), on today's track. Coflein's "Ammanford Railway Station"
+// (victorian:S73) is a different station, Cross Inn on the Amman valley branch.
 export const DUFFRYN_STATION = { e: 262455, n: 212601 };
+// Garnant station's site (victorian:S75), at the east end of whose platform the 1907 line to
+// Gwaun-cae-Gurwen began (victorian:S74); today's track east of it is that line, not the 1841 one.
+export const GARNANT_STATION = { e: 268648, n: 213279 };
 // North of Duffryn the Amman valley branch lies east of this easting and the main line west of it.
 const AMMAN_BRANCH_E = 263600;
 // The Llanelly Railway's lines lie east of this. The short lines west of it, near Pontyberem and
 // Cross Hands, are not dated in the notes, so they are in no section and are not drawn.
-const LLANELLY_LINES_E = 258000;
+export const LLANELLY_LINES_E = 258000;
 
 const FARMSTEAD_BASIS = {
   en: 'Small enclosed farmsteads were the commonest kind of Iron Age settlement in west Wales. These spots are illustrative, not known sites.',
@@ -789,23 +797,53 @@ export const FEATURES: readonly Feature[] = [
       type: 'railway',
       section: {
         within: [
-          { minE: LLANELLY_LINES_E, maxN: DUFFRYN_STATION.n },
-          { minE: AMMAN_BRANCH_E, maxN: LLANDEILO_STATION.n },
+          { minE: LLANELLY_LINES_E, maxE: GARNANT_STATION.e, maxN: DUFFRYN_STATION.n },
+          { minE: AMMAN_BRANCH_E, maxE: GARNANT_STATION.e, maxN: LLANDEILO_STATION.n },
         ],
       },
     },
     at: DUFFRYN_STATION,
-    // 10 April 1840, Pontarddulais to Cwmamman (Garnant).
+    // 10 April 1840, Pontarddulais to Cwmamman (Garnant). Exact as a date; reconstructed for its course.
     from: ad(1840.27),
     to: NOW,
+    datesExact: true,
     label: {
       en: 'The Llanelly Railway’s first lines, to Duffryn and up the Amman valley',
       cy: 'Leiniau cyntaf Rheilffordd Llanelli, i Dduffryn ac i fyny Dyffryn Aman',
     },
     provenance: reconstructed(
-      'The line from Pontarddulais to Cwmamman (later Garnant) opened on 10 April 1840 and went on to Gwaun-cae-Gurwen on 6 May 1841; the stretch from Pantyffynnon to Duffryn, today’s Ammanford station, opened in 1840 or in May 1841 (the sources differ). In 1841 it carried coal, with “scarcely any passenger traffic”. It is all drawn from April 1840 on today’s track, so a little of it a year early, and from one family of encyclopedia pages. Passenger trains up the Amman valley ended in 1958.',
-      "Agorodd y lein o Bontarddulais i Gwmaman (Garnant yn ddiweddarach) ar 10 Ebrill 1840 ac aeth ymlaen i Waun-cae-Gurwen ar 6 Mai 1841; agorodd y darn o Bantyffynnon i Dduffryn, gorsaf Rhydaman heddiw, yn 1840 neu ym mis Mai 1841 (mae'r ffynonellau'n anghytuno). Yn 1841 glo a gariai, heb “fawr ddim traffig teithwyr”. Fe'i dangosir i gyd o fis Ebrill 1840 ar y trac heddiw, felly ychydig ohono flwyddyn yn rhy gynnar, ac o un teulu o dudalennau gwyddoniadur. Daeth trenau teithwyr i fyny Dyffryn Aman i ben yn 1958.",
-      ['victorian:S29', 'victorian:S70', 'victorian:S71', 'railwaylater:S1'],
+      'The line from Pontarddulais to Cwmamman (later Garnant) opened on 10 April 1840, with a station at Cross Inn, later called Ammanford, whose site Coflein records beside today’s track. The stretch from Pantyffynnon to Duffryn, today’s Ammanford station, opened in 1840 or in May 1841 (the sources differ), so it may be drawn a year early. In 1841 the line carried coal, with “scarcely any passenger traffic”. It is drawn on today’s track as far east as Garnant station, where it stood from 1865; the first station, Cwmamman, was about half a mile further east, on the old course beside today’s track, and that last stretch is not drawn. Nor is the line on to Gwaun-cae-Gurwen, opened in May 1841, because today’s track there is a line of 1907 on another course. The dates come from one family of encyclopedia pages. Passenger trains up the Amman valley ended in 1958.',
+      'Agorodd y lein o Bontarddulais i Gwmaman (Garnant yn ddiweddarach) ar 10 Ebrill 1840, gyda gorsaf yn Cross Inn, a elwid yn Rhydaman yn ddiweddarach, y mae Coflein yn cofnodi ei safle wrth ymyl y trac heddiw. Agorodd y darn o Bantyffynnon i Dduffryn, gorsaf Rhydaman heddiw, yn 1840 neu ym mis Mai 1841 (mae’r ffynonellau’n anghytuno), felly efallai ei fod yn cael ei ddangos flwyddyn yn rhy gynnar. Yn 1841 glo a gariai’r lein, heb “fawr ddim traffig teithwyr”. Fe’i dangosir ar y trac heddiw cyn belled i’r dwyrain â gorsaf y Garnant, lle y safai o 1865; roedd yr orsaf gyntaf, Cwmaman, tua hanner milltir ymhellach i’r dwyrain, ar yr hen lwybr wrth ymyl y trac heddiw, ac ni ddangosir y darn olaf hwnnw. Ni ddangosir ychwaith y lein ymlaen i Waun-cae-Gurwen, a agorodd ym mis Mai 1841, gan mai lein o 1907 ar lwybr arall yw’r trac yno heddiw. Daw’r dyddiadau o un teulu o dudalennau gwyddoniadur. Daeth trenau teithwyr i fyny Dyffryn Aman i ben yn 1958.',
+      [
+        'victorian:S29',
+        'victorian:S70',
+        'victorian:S71',
+        'victorian:S73',
+        'victorian:S74',
+        'victorian:S75',
+        'railwaylater:S1',
+      ],
+    ),
+  }),
+  feature({
+    id: 'railway-gwaun-cae-gurwen',
+    kind: {
+      type: 'railway',
+      section: { within: [{ minE: GARNANT_STATION.e, maxN: LLANDEILO_STATION.n }] },
+    },
+    at: GARNANT_STATION,
+    // 4 November 1907.
+    from: ad(1907.84),
+    to: NOW,
+    datesExact: true,
+    label: {
+      en: 'The line of 1907 from Garnant to Gwaun-cae-Gurwen',
+      cy: 'Lein 1907 o’r Garnant i Waun-cae-Gurwen',
+    },
+    provenance: reconstructed(
+      'East of Garnant, today’s track is the Great Western’s line of 1907, built to avoid the old incline. It opened on 4 November 1907 and ran about two kilometres, from the east end of Garnant’s platform to just west of the level crossing at Gwaun-cae-Gurwen, where it joined the old course. The first line here, opened on 6 May 1841, followed the Garnant stream on another course and climbed a short incline of about 1 in 5. That line is not drawn, so no track is shown east of Garnant from 1841 to 1907. The track beyond the level crossing served collieries, and when it was laid is not known; it is drawn from 1907 with the rest. The cut at Garnant is placed at Garnant station’s site from 1865, at whose platform the 1907 line began.',
+      'I’r dwyrain o’r Garnant, lein y Great Western o 1907 yw’r trac heddiw, a godwyd i osgoi’r hen inclein. Agorodd ar 4 Tachwedd 1907 ac roedd tua dau gilometr o hyd, o ben dwyreiniol platfform y Garnant hyd at ychydig i’r gorllewin o’r groesfan reilffordd yng Ngwaun-cae-Gurwen, lle yr ymunai â’r hen lwybr. Dilynai’r lein gyntaf yma, a agorodd ar 6 Mai 1841, nant y Garnant ar lwybr arall a dringai inclein fer o tua 1 mewn 5. Ni ddangosir y lein honno, felly ni ddangosir trac i’r dwyrain o’r Garnant rhwng 1841 a 1907. Gwasanaethai’r trac y tu hwnt i’r groesfan lofeydd, ac nid yw’n hysbys pryd y’i gosodwyd; fe’i dangosir o 1907 gyda’r gweddill. Mae’r toriad yn y Garnant wrth safle gorsaf y Garnant o 1865, lle y dechreuai lein 1907 wrth ei phlatfform.',
+      ['victorian:S29', 'victorian:S74', 'victorian:S75'],
     ),
   }),
   feature({
@@ -847,8 +885,7 @@ export const FEATURES: readonly Feature[] = [
     kind: { type: 'train', stock: 'llanelly-1850s' },
     at: LLANDEILO_STATION,
     from: ad(1857),
-    // To the end of 1872: the Great Western took over on 1 January 1873.
-    to: ad(1872.99),
+    to: GWR_TAKES_OVER,
     label: { en: 'A Llanelly Railway train', cy: 'Trên Rheilffordd Llanelli' },
     provenance: reconstructed(
       'The engine follows the one Llanelly Railway engine described in detail, a six-coupled Hackworth engine of 1841 (Board of Trade report, 1858). Which engine hauled Llandeilo’s trains is not known; the colours, tender and carriages are guesses. The company worked the line until the Great Western took it over on 1 January 1873; the two companies merged fully in 1889.',
@@ -860,9 +897,8 @@ export const FEATURES: readonly Feature[] = [
     id: 'train-later',
     kind: { type: 'train', stock: 'generic' },
     at: LLANDEILO_STATION,
-    from: ad(1873),
-    // 13 June 1964, the last steam passenger trains (railwaylater:S2).
-    to: ad(1964.44),
+    from: GWR_TAKES_OVER,
+    to: END_OF_STEAM,
     label: { en: 'A later steam train', cy: 'Trên stêm diweddarach' },
     provenance: imagined(
       'A placeholder. The engines and carriages that ran here after the Great Western took over in 1873 are researched but not modelled yet. Steam passenger trains ended on 13 June 1964.',
@@ -874,7 +910,7 @@ export const FEATURES: readonly Feature[] = [
     id: 'train-diesel',
     kind: { type: 'train', stock: 'diesel-unit' },
     at: LLANDEILO_STATION,
-    from: ad(1964.45),
+    from: END_OF_STEAM,
     to: NOW,
     label: { en: 'A diesel train', cy: 'Trên disel' },
     provenance: imagined(
