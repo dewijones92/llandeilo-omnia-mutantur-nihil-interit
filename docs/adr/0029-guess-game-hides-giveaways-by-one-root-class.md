@@ -78,3 +78,16 @@ guess slider (a second time control to keep aligned with the first); showing eve
 as a clue (fading phases whose dates do not include the year would mislead); calling every
 documented feature firm (the first build did; the review showed Roman forts and an unexcavated
 hillfort labelled firm beside a "c." answer).
+
+## Corrected 2026-10-03
+
+- The "cannot tell them apart" comparison is no longer keyed by `Environment` alone. It is a record
+  over every `Snapshot` field (`SCENE` in `src/domain/guess.ts`): the environment, the climate chill,
+  the night-light key, the features on screen and the live conversations are compared, and the year,
+  era, sound, almanac, language and nearest event are marked "not seen". A new `Snapshot` field is a
+  compile error until it is classified. The night light is compared by what a key draws (homes,
+  streets, window share, glow, colour, hearth; `sameLight`, itself a record over `LampKey`), not by
+  which key it is, so two keys that draw the same night look the same.
+- Four features are now exact: the railway's 1857 and 1858 sections, Llandeilo Bridge and Carreg
+  Cennen's ruin. Since [ADR 0034](0034-exact-dates-draw-nothing-outside-them.md) an exact feature is
+  never on screen outside its dates.

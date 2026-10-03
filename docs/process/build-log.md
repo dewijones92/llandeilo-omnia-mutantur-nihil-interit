@@ -381,23 +381,46 @@ Milestones and what each one taught us. Newest last.
    High's trees went from 0.62 to 0.9 of woodland triangles (34,056 drawn at 1282, against 23,449
    at Medium); the ADR was renumbered 0031 because two other branches had already taken 0028.
 12. **Two independent research checks and a second-Opus review, applied in one pass.** The light
-   check found the app saying more than its sources: homes "mixed electric light, gas and oil" in
-   1902 (no source puts electricity in a Llandeilo home; homes now keep flame light), blackout
-   curtains staying in the dim-out (Hansard: half-lighting and ordinary curtains from 17 September
-   1944), and the blackout "over everywhere" by 8 May 1945 (some coastal areas waited). The c. 1200
+   check found the app saying more than its sources: blackout curtains staying in the dim-out
+   (Hansard: half-lighting from 17 September 1944; a Scarborough history: ordinary curtains), and the blackout "over everywhere" by 8 May 1945 (some coastal areas waited). The c. 1200
    key had no datable source, so a third `dated` kind, `'in'`, marks a period, and before the first
    key (7800 BC) there is now no key at all, rather than the first key stretched back to 12,500 BC
    ([ADR 0032](../adr/0032-night-light-before-the-first-key-and-period-dates.md)). The soundscapes
-   check found no licence problems but nine bed reasons that went past their sources; all are
-   corrected, and a 1290-91 fair is now documented (the market bed's start waits on Dewi). The review
-   found: the Begin card's `aria-modal` did nothing for Tab (the app and canvas are now `inert`);
+   check found no licence problems but eight claims that went past their sources (and one optional
+   citation); all are corrected, and a 1290-91 fair is now documented (the market bed's start waits on Dewi). The review
+   found: homes "mixed electric light, gas and oil" in 1902, which no source shows (homes went back
+   to flame light; *corrected 2026-10-03*: this item first credited that to the light check, which had
+   rated the claim "partly" and asked for no change); the Begin card's `aria-modal` did nothing for Tab (the app and canvas are now `inert`);
    the "ticks stay" of ADR 0029 was untrue, since a tick was only its label (each tick now draws a
    mark); the same-scene check ignored the night light, and its compile-time guard had gone dead when
    `ambient` left `Environment` (the comparison is now a record over every `Snapshot` field, so a
    new field is a compile error until it is compared or called unseen); the street-lamp rule was
    written four times (now one type guard); the lamp minimum-gap and carry had no test that could
    fail (now two, each seen red by deleting the line); the 1857 railway drew the 1858 Vale of Towy
-   line and ran the train on it (now dated sections, [ADR 0033](../adr/0033-railway-drawn-in-dated-sections.md));
+   line and ran the train on it (dated sections, [ADR 0033](../adr/0033-railway-drawn-in-dated-sections.md);
+   *corrected 2026-10-03*: that fix did not work on screen, see item 13);
    and steam played faintly until 2025 (it ends on 13 June 1964, and a reconstructed diesel-unit
    bed runs to today). Lesson: the merged items had been ticked ahead of their own path; a tick is a
    claim, and two were unticked rather than defended.
+13. **The first railway fix tested content dates, not what is drawn.** The second-Opus review of
+   item 12's fixes found the 1858 Vale of Towy line still drawn in the 1857 scene: every feature
+   faded in over about 17 years before its `from`, the renderer drew a section above presence 0.5,
+   and the new test filtered features by `contains(when, year)`, which the renderer never asks. So the
+   line showed from about 1849.7 and a silent train ran from 1853.7, under a green test and an ADR
+   that called it fixed. Now a feature with exact dates is never present outside them, and what of the
+   railway is drawn is one pure rule (`drawnRailway`) that the renderer calls and the tests sample
+   through `snapshotAt`; the three railway tests went red on the old presence rule at their named
+   assertions ([ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md)). Lesson: test the
+   picture through the renderer's own rule; a test of the data beside it can pass while the screen
+   is wrong. The same review found the southern section still claiming January 1857 for track its own
+   source dates to 1840 (it is now three dated stretches as grid boxes; the undated western lines are
+   not drawn), the electric street lamps of 1902 drawn gas-orange because windows and lamps shared
+   one colour (each street kind now has its own), the 1902 text saying homes "kept to gas", which no
+   source shows (a re-read of the Carmarthen Journal of 10 October 1902 found tradespeople having the
+   electric light installed, now light:S31), two source links swapped, a steam train still puffing
+   in 2000 under a diesel sound (a placeholder diesel unit now runs after 13 June 1964), and docs
+   crediting a change to the wrong review. Sampling the trains every quarter year, rather than every
+   whole year, also found the Llanelly train ending in 1872 and the next starting in 1873. Seen red
+   first: the three railway tests, the dated-stretch content test (with the old section's extent),
+   the 2000 steam test, the 1903 street colour test and the same-night guess test. Screenshots at
+   1857 (no line north-east of the town) and 1858.5 (the Vale of Towy line drawn).

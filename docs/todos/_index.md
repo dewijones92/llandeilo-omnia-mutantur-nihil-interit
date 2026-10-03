@@ -24,7 +24,9 @@ An item is ticked only once it has been through its path, in order:
 2. **Researched**, for content and research items: a note in `docs/research/` with its sources.
 3. **Research checked** by an independent pass against those sources, before building on it.
 4. **Built**, with a test that was seen to fail first where it fixes a bug.
-5. **Reviewed** by the second Opus pass, its CRITICAL and IMPORTANT findings fixed.
+5. **Reviewed** by the second Opus pass, its CRITICAL and IMPORTANT findings fixed. A fix to a
+   finding counts as reviewed once a later second-Opus pass has read it and raised no new CRITICAL or
+   IMPORTANT finding on it (added 2026-10-03, so that items in the same state are ticked alike).
 6. **Looked at**, for anything visible: screenshots at two or more years on the timeline.
 
 Items ticked on 2026-10-02 were reviewed three times by a second Opus, every IMPORTANT finding fixed.
@@ -81,6 +83,10 @@ below links the issue.
 - [ ] Roman forts: use the primary report's 3.85ha and 1.54ha to revisit the "8 vs 12 acres" contradiction
 - [ ] Earliest environment keyframes (12,500–10,900 BC): check they use calendar, not uncalibrated pollen, dates
 - [ ] Railway loose ends: Victoria's weight (18 vs 14 tons), the unconfirmed "Victor" of 1864, the 1858 Beyer Peacock engines
+- [ ] Railway lines' own dates: whether Pantyffynnon to Duffryn opened in 1840 or May 1841, when the
+      Amman valley branch closed or was lifted, and what the undated lines near Pontyberem and Cross
+      Hands are (not drawn until dated; [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md),
+      [open questions](../research/open-questions.md))
 - [ ] Independent verification of every research note, as conversations-by-class had (it found 13 corrections).
       Done 2026-10-02: era-medieval-to-1282, event-effects, railway-later, anglo-norman-and-middle-english
       (reports in `docs/research/reviews/`), corrections applied to content and notes. Still to do:
@@ -132,6 +138,10 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Engine effects, still to do: ambient occlusion (no size limit now, ADR 0016; judge its cost on a real GPU), volumetric light shafts, real water reflections, colour grading per era, wind in the trees
 - [x] Firelight at night for roundhouses, hall-houses and mansions, and lit town windows (2026-09-28)
 - [ ] Castles, churches and the abbey lit at night (candles, torches), and a train headlamp
+- [ ] **A night that reads as night** (Claude, under the proactive mandate, 2026-10-03): a winter 23:00
+  is still a pale moonlit grey, so the dated night light (ADR 0030) only shows zoomed in: at the
+  site framing the 1903 windows and lamps are a few orange pixels. Darker nights, window glow and lamp
+  halos (bloom) strong enough to read from the overview, and the 1942 blackout as a black town
 - [ ] Sound follows the clock: birds at dawn, owls and quiet at night
 - [ ] Conversations and speech bubbles follow the clock: nobody chatting outdoors at 3am
 - [x] Rivers stay vivid blue at night while the land goes dark: already fixed when re-shot on
@@ -215,7 +225,8 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
 - [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md))
 - [ ] The later trains (the Great Western from 1873, the LNWR and LMS through trains, British Rail,
       today's Heart of Wales line): researched and checked 2026-10-02 (`research/railway-later.md`); models
-      still to build
+      still to build. Since 2026-10-03 the drawn train is a steam placeholder to 13 June 1964 and a
+      placeholder two-car diesel unit, with no steam, after it
 
 ## Agreed 2026-10-02 (Dewi, during the weekend run)
 
@@ -251,7 +262,9 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       screenshots retaken at 1282 and 1880. A second review the same day found Tab still reached the
       app behind the card (36 presses, then arrows moved the year): the app and the canvas are now
       `inert` while the card waits, and the e2e test tabs 40 times, then presses ArrowRight, seen red
-      first ("Tab 4 reached the app behind the card")
+      first ("Tab 4 reached the app behind the card"). The second-Opus review of those fixes
+      (2026-10-03) raised nothing CRITICAL or IMPORTANT on them, so step 5 stands (one suggestion: the
+      testing map now says what the Tab test checks)
 - [ ] **Quality up for powerful GPUs** (Dewi: "assume ... beefy gpus"): raise the defaults (shadow
       resolution, post-processing, vegetation density, particles, reflections). A small High / Medium
       / Low menu (Dewi: "dont put too much effort in to this tho ... concentrate on high mode",
@@ -322,10 +335,12 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
       [decision log](../process/decision-log.md)). *Unticked 2026-10-03*: it had been ticked before
       that fix was screenshotted or reviewed, and the review found the shipped fix hid the whole scale
       (a tick was only its label). Each tick now draws a mark that stays visible, the e2e test checks
-      the mark while the label is transparent (seen red first), and a round was screenshotted. Still to
-      do: the second-Opus review of the tick-mark fix (step 5)
+      the mark while the label is transparent (seen red first), and a round was screenshotted. The
+      second-Opus review of that fix (2026-10-03) found ADR 0029 still describing the old same-scene
+      guard, and that the night light was compared by key identity; both fixed (the light now compares
+      what a key draws, seen red first). Still to do: the second-Opus review of those fixes (step 5)
 - [ ] **Light after dark**: hearth, rushlight, candle, gas, electric light and the blackout, as content
-      keys like the climate, each sourced. *Built 2026-10-03 on a worktree branch, not yet ticked*:
+      keys like the climate, each sourced. *Built 2026-10-03, merged to main, not yet ticked*:
       research in [light-after-dark](../research/light-after-dark.md), keys in `src/content/lamplight.ts`
       ([ADR 0030](../adr/0030-night-light-as-dated-content-keys.md)), windows, hearths and new street
       lamps read the resolved state, unit and e2e tests seen red. Second Opus review done the same day
@@ -333,11 +348,16 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
       its date is ("by" or "on"), a second source for the blackout and the 1945 lifting, and a "Light
       after dark" almanac entry with the ⓘ. Step 3 done 2026-10-03: the independent check
       ([review](../research/reviews/light-after-dark-check-2026-10-03.md)) found two contradicted and
-      thirteen partly supported claims; its corrections are applied to the note and the keys (homes on
-      flame light in 1902, the dim-out from 17 September 1944 with ordinary curtains, the 1945 lifting
+      thirteen partly supported claims; its corrections are applied to the note and the keys (the
+      dim-out from 17 September 1944 with ordinary curtains, the 1945 lifting
       not "everywhere", the court's candles "in the Middle Ages", no light before 7800 BC,
       [ADR 0032](../adr/0032-night-light-before-the-first-key-and-period-dates.md)); screenshots of
-      the night at 1903 and 1950. Still to do: the second-Opus review of those changes (step 5)
+      the night at 1903 and 1950. Homes on flame light in 1902 came from the second-Opus review, not
+      the check. The second-Opus review of the fixes (2026-10-03) found the 1902 text claiming homes
+      kept to gas, the electric street lamps drawn gas-orange, the S21/S22 links swapped and the
+      dim-out given for Llandeilo without its listed-areas caveat; all fixed (the street colour test
+      seen red first), with the Carmarthen Journal's tradespeople item added as light:S31. Still to do:
+      the second-Opus review of those fixes (step 5)
 - [ ] **When did we find out?** a discovery rail and a "found" line on every ⓘ (the forts in 2003,
       Lhuyd's trilobite in 1698, the Gospels' history)
 

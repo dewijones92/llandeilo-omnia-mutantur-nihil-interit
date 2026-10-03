@@ -7,7 +7,7 @@ updated: 2026-10-03
 
 # ADR 0030: How the night was lit is dated content keys, held not blended
 
-- **Status:** Accepted
+- **Status:** Accepted; the first-key fallback and the two `dated` kinds superseded by [0032](0032-night-light-before-the-first-key-and-period-dates.md)
 - **Date:** 2026-10-03
 
 ## Context
@@ -55,3 +55,12 @@ farms are drawn with the town's windows, which the 1902 and 1945 keys' notes cal
 Interpolating like the climate (rejected above); a feature per street lamp in `features.ts` (one
 feature per lamp is data we do not have, and lamps that follow the town need no positions);
 special-casing eras in the renderer (forbidden by the unified law).
+
+## Corrected 2026-10-03
+
+- [ADR 0032](0032-night-light-before-the-first-key-and-period-dates.md) replaced two details above: a
+  year before the first key has no key and no light entry (not the first key), and `dated` has a
+  third kind, `'in'`, for a key that only marks a period.
+- `warmth` now colours the windows only. Street lamps take their own colour from `streets.kind` (gas
+  and dimmed as flame, electric whiter), carried on `StreetGlow`; with one shared colour, moving 1902's
+  homes back to flame light had turned the electric street lamps gas-orange too (second-Opus review).

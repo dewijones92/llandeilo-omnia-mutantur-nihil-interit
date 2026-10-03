@@ -129,8 +129,7 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   date is, and draws street lamps only in the town north of the Tywi ([ADR 0030](../adr/0030-night-light-as-dated-content-keys.md)).
 - **The light research's independent check (2026-10-03)** confirmed the newspaper core (31 of 46
   claims confirmed, 13 partly, 2 contradicted) and corrected the app: the gas works were *begun* in
-  1864 (completion not found); no source puts electric light in a Llandeilo home in 1902, so homes
-  stay on flame light at that key; the dim-out began on **17 September 1944** (Hansard written answer)
+  1864 (completion not found); the dim-out began on **17 September 1944** (Hansard written answer)
   and let homes use ordinary curtains, so "blackout curtains stayed" was wrong; "by 8 May 1945 the
   blackout was over everywhere" was wrong too (most restrictions had gone by 2 May; some coastal areas
   kept them into peacetime); the Deheubarth law-book's manuscripts are not dated by any source read,
@@ -140,6 +139,16 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   New finds: from October 1902 the town lamps were lit from half an hour after sunset till 11 o'clock
   all year, 16 new lamp posts were ordered in April 1902, and one corner (Trallwm to Station Road) was
   unlit in December 1902 ([light-after-dark](light-after-dark.md)).
+- **How Llandeilo's homes were lit in 1902 is not recorded**, but by October 1902 "so many of the
+  tradespeople of the town are having the light installed" (Carmarthen Journal, 10 October 1902,
+  light:S31, re-read 2026-10-03), and the council sold electricity by the meter. The app draws homes
+  with flame light at the 1902 key and says that is a guess. *Corrected 2026-10-03*: this file said
+  the independent check found "no source puts electric light in a Llandeilo home in 1902"; the check
+  rated the old "mixed" claim "partly" and asked for no change. The change came from the second-Opus
+  review, and a first rewording ("homes kept to gas, oil and candles") went past the sources too.
+- **The dim-out of 17 September 1944 left out listed areas**, mostly coastal (Hansard written answer,
+  28 September 1944; a Scarborough history). No source read names them, so whether inland Llandeilo
+  was one is not known; the app says so.
 - **The soundscapes check (2026-10-03)** found no licence problems (all 92 recordings as stated) but
   claims that went further than their sources: the 1857 engines are not recorded (only "two engines"),
   the meltwater river and the first farmers' species are assumptions, and the golden eagle bones are
@@ -149,7 +158,17 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
 - **Steam passenger trains ended on 13 June 1964** (railway-later), so the steam sound now ends then,
   and a reconstructed diesel-unit sound runs to today. **The Vale of Towy line north-east of the
   station opened on 1 April 1858** (era-victorian), so it is drawn from then, not from 1857
-  ([ADR 0033](../adr/0033-railway-drawn-in-dated-sections.md)).
+  ([ADR 0033](../adr/0033-railway-drawn-in-dated-sections.md); *corrected 2026-10-03*: until
+  [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md) it was still drawn from about 1849.7,
+  because every feature faded in before its date). The drawn train is now a steam placeholder until
+  13 June 1964 and a diesel unit after it, so picture and sound agree.
+- **Track south of Llandeilo is older than 1857.** The Llanelly Railway ran from Pontarddulais to
+  Cwmamman (Garnant) from 10 April 1840 and on to Gwaun-cae-Gurwen from 6 May 1841; Duffryn, today's
+  Ammanford station, was its terminus towards Llandeilo until the line was extended north in January
+  1857 (victorian:S29, S70). Whether Duffryn opened in 1840 or May 1841 is contested (S29 against
+  S70, S71). The app draws Duffryn to Llandeilo from 1857 (exact), the older lines from April 1840
+  (reconstructed), and the undated short lines near Pontyberem and Cross Hands not at all
+  ([ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md)).
 
 - **The motto** on the Begin card, *omnia mutantur, nihil interit*, is Ovid, *Metamorphoses* XV,
   in Pythagoras's speech. Checked 2026-10-03 in two online texts, both of which number it line 165:

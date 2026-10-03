@@ -9,7 +9,7 @@ export default defineConfig({
       include: ['src/domain/**', 'src/content/**'],
       exclude: ['**/*.test.ts', 'src/content/generated/**'],
       reporter: ['text-summary'],
-      thresholds: { statements: 92, branches: 85, functions: 100, lines: 95 },
+      thresholds: { statements: 95, branches: 87, functions: 100, lines: 97 },
     },
   },
 });

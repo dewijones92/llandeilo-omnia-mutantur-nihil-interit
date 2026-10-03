@@ -203,8 +203,8 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
   Green unit tests can sit on top of a bug that only the whole picture shows.
 - **Every flow that matters has an e2e test that runs in CI on every push**, not only locally.
 - **Coverage good enough to change things without fear** (Dewi, 2026-09-28: "good test coverage to
-  give u confidence of low risk of regression"). The pure layers (`src/domain`, `src/content`) are measured on every `npm test` and CI fails below the floor in `vitest.config.ts` (statements 92%,
-  branches 85%, functions 100%, lines 95%, measured at 97.3 / 87.2 / 100 / 98.9 on 2026-10-02).
+  give u confidence of low risk of regression"). The pure layers (`src/domain`, `src/content`) are measured on every `npm test` and CI fails below the floor in `vitest.config.ts` (statements 95%,
+  branches 87%, functions 100%, lines 97%, measured at 97.7 / 89.4 / 100 / 99.3 on 2026-10-03).
   Raise the floor when coverage rises; never lower it to get a change through. The renderer, UI and
   audio are covered by e2e flows instead, so every user-visible behaviour change adds or extends one.
   A number is not the goal: a test must fail when the behaviour breaks, so check new tests against
