@@ -154,6 +154,8 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 
 ## Quality (from the reviews, deferred)
 
+- [ ] Local e2e on the GPU: with two workers about one page load in 30 never becomes ready (seen four
+      times on 2026-10-03, each passing alone); find the cause rather than living with a flake
 - [x] Timeline tick labels overlap at both ends: already gone when re-measured on 2026-10-02 (the
       anchors had changed since; no overlap at 1024-1920px in either language). The e2e test that
       fails when two labels overlap was seen to fail on a cramped anchor, then pass
@@ -298,7 +300,7 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
 - [ ] **Contested points, shown as contested**: one register of every source disagreement, a
       `Contested<T>` type with exactly one preferred reading, a witnesses card, and a ⇄ switch only
       where the readings draw differently (Dryslwyn's middle ward, St Teilo's tower, 1403)
-- [ ] **When are we?** a guess-the-year game: hidden clues, read the landscape, a reveal that explains
+- [x] **When are we?** a guess-the-year game: hidden clues, read the landscape, a reveal that explains
       which features gave it away and how firmly, by provenance. Built 2026-10-03
       ([ADR 0029](../adr/0029-guess-game-hides-giveaways-by-one-root-class.md)): `src/domain/guess.ts`
       (clue ranking seen red, then green), `src/ui/guess.ts`, one e2e flow (seen red with the hiding

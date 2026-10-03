@@ -63,8 +63,10 @@ Hiding is one CSS rule and a list of marked elements, checked by one e2e test th
 and `?debug` before a round. Most clues are now probable, since most drawn ranges are rounded; a
 feature gains `datesExact` only with a source for both ends. Rounds are key dates only, so a regular
 player can learn their positions, and two answers (c. 800 BC and AD 74) sit exactly on labelled
-ticks under the slider, which stay visible to give the bar a scale. Whether to jitter the hidden
-moment or show unlabelled ticks while guessing is Dewi's call, open in the todo file.
+ticks under the slider, which stay visible to give the bar a scale. *Decided 2026-10-03 by Claude
+under the proactive mandate*: while a round is played the ticks stay but lose their labels
+(`.guessing .tl-tick`), so the bar keeps its scale and gives no answer away; jittering the hidden
+moment was not chosen because rounds are meant to land on dated key moments.
 
 ## Alternatives considered
 

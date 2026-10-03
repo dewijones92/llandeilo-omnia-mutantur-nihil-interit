@@ -605,6 +605,7 @@ test('When are we? hides the year, takes a guess on the timeline, then reveals i
   }
   await expect(page.locator('.tl-marker').first()).toBeHidden();
   await expect(page.locator('.tl-band').first()).toBeHidden();
+  await expect(page.locator('.tl-tick', { hasText: '800 BC' })).toHaveCSS('color', 'rgba(0, 0, 0, 0)');
   await expect(page.getByRole('button', { name: 'Almanac' })).toBeHidden();
   const lock = game.getByRole('button', { name: 'Make my guess' });
   await expect(lock).toBeDisabled();

@@ -1325,6 +1325,11 @@ button {
   display: none !important;
 }
 
+/* The ticks stay as a scale, but two key dates sit exactly on a labelled tick, so the labels go. */
+.guessing .tl-tick {
+  color: transparent;
+}
+
 .tl-ghost {
   position: absolute;
   top: 0;
