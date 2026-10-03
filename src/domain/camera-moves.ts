@@ -31,19 +31,37 @@ export function along(ray: Ray, t: number): Vec3 {
   return { x: o.x + d.x * t, y: o.y + d.y * t, z: o.z + d.z * t };
 }
 
-/** Where a ray meets the level plane y = height; a ray that never does (or only far off) stops at maxDistance. */
-export function hitPlane(ray: Ray, height: number, maxDistance: number): Vec3 {
+/**
+ * Where a ray meets the level plane y = height, or nothing when it never does (a ray into the sky)
+ * or only beyond maxDistance, where a pixel would stand for thousands of units.
+ */
+export function hitPlane(ray: Ray, height: number, maxDistance: number): Vec3 | undefined {
   const t = (height - ray.origin.y) / ray.direction.y;
-  return along(ray, Number.isFinite(t) && t > 0 ? Math.min(t, maxDistance) : maxDistance);
+  return Number.isFinite(t) && t > 0 && t <= maxDistance ? along(ray, t) : undefined;
 }
 
 /**
  * How far to move the target so the point grabbed at the start of a drag is under the cursor again.
- * The drag holds to the level plane through the grabbed point, so the land moves with the cursor.
+ * The drag holds to the level plane through the grabbed point, so the land moves with the cursor;
+ * a cursor pulled above the horizon gives nothing, and the land stays put.
  */
-export function panShift(grab: Vec3, ray: Ray, maxDistance: number): GroundXZ {
+export function panShift(grab: Vec3, ray: Ray, maxDistance: number): GroundXZ | undefined {
   const hit = hitPlane(ray, grab.y, maxDistance);
-  return { x: grab.x - hit.x, z: grab.z - hit.z };
+  return hit ? { x: grab.x - hit.x, z: grab.z - hit.z } : undefined;
+}
+
+/** The ground under the cursor; past the map, the level of the target; in the sky, nothing. */
+export function pointUnder(
+  ray: Ray,
+  ground: GroundAt,
+  planeHeight: number,
+  maxDistance: number,
+  step: number,
+): { point: Vec3; on: 'ground' | 'plane' } | undefined {
+  const hit = rayGround(ray, ground, maxDistance, step);
+  if (hit) return { point: hit, on: 'ground' };
+  const plane = hitPlane(ray, planeHeight, maxDistance);
+  return plane ? { point: plane, on: 'plane' } : undefined;
 }
 
 /** The first point where a ray meets the ground: march in steps, then bisect the step that crossed it. */

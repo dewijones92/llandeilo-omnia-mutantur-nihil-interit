@@ -97,7 +97,8 @@ below links the issue.
 - [x] Every English/Welsh text pair audited for dropped facts: 16 meaning gaps and 7 small ones fixed,
       all in the same direction (the Welsh had lost caveats and numbers) (2026-10-02)
 - [ ] Check every place against its Coflein grid reference (only some were verified)
-- [ ] Human check of the Welsh text (parked)
+- [ ] Human check of the Welsh text (parked); include the Keys panel's camera rows, whose Shift line was
+      reworded on 2026-10-03 after a review read the first wording as "keep on sliding faster"
       New terms need it first: "tyllau taflu" (machicolations), "bwtresi hedfan" (flying buttresses),
       and the strings added on 2026-10-02: the About panel's scale sentence, the "About the voice"
       Dyfedeg note, the keys panel (`keys…`, `click…` in `src/content/strings.ts`), and "yr annalau
@@ -152,7 +153,10 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       map-style): drag slides the land, right-drag turns, the wheel zooms at the cursor, W A S D / Q E /
       R F, double-click flies there, a one-time hint, the Keys panel in both languages
       ([ADR 0037](../adr/0037-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
-      looked at (overview, dragged, turned, zoomed, 1860); awaiting the second-Opus review
+      looked at (overview, dragged, turned, zoomed, 1860). Second-Opus review 2026-10-03: the sky no
+      longer throws the camera (wheel zooms at the centre, a sky drag turns, a slide waits above the
+      horizon), tests for a drag ending a follow and a flight and for the hint after Begin, and the
+      Welsh for Shift reworded (in the parked human Welsh check); awaiting Dewi
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (today `town.style` only decides which towns get chimney smoke)

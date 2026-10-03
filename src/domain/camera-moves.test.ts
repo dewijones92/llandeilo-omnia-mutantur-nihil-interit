@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import {
-  along,
   clampToDisc,
   glide,
   hitPlane,
   isDrag,
   panShift,
+  pointUnder,
   rayGround,
   slideDirection,
   wheelLog,
@@ -25,35 +25,43 @@ const eye = { x: 0, y: 100, z: -100 };
 describe('sliding the land under the cursor', () => {
   it('finds where a ray meets a level plane', () => {
     const hit = hitPlane(towards(eye, { x: 10, y: 0, z: 5 }), 0, 10_000);
-    expect(hit.x).toBeCloseTo(10);
-    expect(hit.y).toBeCloseTo(0);
-    expect(hit.z).toBeCloseTo(5);
+    expect(hit?.x).toBeCloseTo(10);
+    expect(hit?.y).toBeCloseTo(0);
+    expect(hit?.z).toBeCloseTo(5);
   });
 
-  it('stops a ray that never meets the plane at the furthest distance allowed', () => {
+  it('finds no point for a ray that never meets the plane, or meets it beyond reach', () => {
     const up = { origin: eye, direction: { x: 0, y: 1, z: 0 } };
-    expect(hitPlane(up, 0, 500)).toEqual(along(up, 500));
-    expect(along(up, 500).y).toBeCloseTo(600);
+    expect(hitPlane(up, 0, 500)).toBeUndefined();
+    const level = { origin: eye, direction: { x: 0, y: 0, z: 1 } };
+    expect(hitPlane(level, 0, 500)).toBeUndefined();
     const shallow = towards(eye, { x: 0, y: 99, z: 10_000 });
-    expect(hitPlane(shallow, 0, 800).z).toBeCloseTo(along(shallow, 800).z);
+    expect(hitPlane(shallow, 0, 800)).toBeUndefined();
+    expect(hitPlane(shallow, 0, 2_000_000)?.y).toBeCloseTo(0);
+  });
+
+  it('gives no shift for a drag pulled above the horizon, so the land stays put', () => {
+    const sky = towards(eye, { x: 0, y: 150, z: 300 });
+    expect(panShift({ x: 0, y: 0, z: 0 }, sky, 10_000)).toBeUndefined();
   });
 
   it('moves the target so the grabbed point is back under the cursor', () => {
     const grab = { x: 0, y: 0, z: 0 };
     const ray = towards(eye, { x: 10, y: 0, z: 5 });
     const shift = panShift(grab, ray, 10_000);
+    if (!shift) throw new Error('no shift');
     expect(shift.x).toBeCloseTo(-10);
     expect(shift.z).toBeCloseTo(-5);
     const moved = { ...ray, origin: { x: eye.x + shift.x, y: eye.y, z: eye.z + shift.z } };
     const after = hitPlane(moved, grab.y, 10_000);
-    expect(after.x).toBeCloseTo(grab.x);
-    expect(after.z).toBeCloseTo(grab.z);
+    expect(after?.x).toBeCloseTo(grab.x);
+    expect(after?.z).toBeCloseTo(grab.z);
   });
 
   it('grabs at the height of the grabbed point, not at zero', () => {
     const grab = { x: 0, y: 40, z: 0 };
     const ray = towards(eye, { x: 6, y: 40, z: 0 });
-    expect(panShift(grab, ray, 10_000).x).toBeCloseTo(-6);
+    expect(panShift(grab, ray, 10_000)?.x).toBeCloseTo(-6);
   });
 });
 
@@ -90,6 +98,16 @@ describe('finding the ground under the cursor', () => {
     const down = { origin: { x: 0, y: 100, z: 0 }, direction: { x: 0, y: -1, z: 0 } };
     expect(rayGround(down, () => 0, 50, 4)).toBeUndefined();
     expect(rayGround(down, () => 0, 200, 4)).toBeDefined();
+  });
+
+  it('points at the ground, at the level of the target where the ground is out of reach, and at nothing in the sky', () => {
+    const down = { origin: { x: 0, y: 100, z: 0 }, direction: { x: 0, y: -1, z: 0 } };
+    expect(pointUnder(down, () => 5, 0, 1000, 4)?.on).toBe('ground');
+    const deep = pointUnder(down, () => -5000, 0, 1000, 4);
+    expect(deep?.on).toBe('plane');
+    expect(deep?.point.y).toBeCloseTo(0);
+    const sky = towards({ x: 0, y: 100, z: 0 }, { x: 0, y: 160, z: 900 });
+    expect(pointUnder(sky, () => 0, 0, 9000, 4)).toBeUndefined();
   });
 
   it('answers at once when the ray starts under the ground', () => {

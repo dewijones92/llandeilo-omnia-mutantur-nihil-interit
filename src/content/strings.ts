@@ -112,7 +112,7 @@ export const STRINGS = {
   clickLabel: { en: 'Click a place name to fly there.', cy: 'Cliciwch enw lle i hedfan yno.' },
   keysView: { en: 'In the 3D view (click it first)', cy: 'Yn yr olygfa 3D (cliciwch arni’n gyntaf)' },
   keySlide: { en: 'Slide across the land', cy: 'Llithro ar draws y tir' },
-  keyFaster: { en: 'Hold to slide faster', cy: 'Daliwch i lithro’n gyflymach' },
+  keyFaster: { en: 'Hold to slide faster', cy: 'Daliwch hi i lawr i lithro’n gyflymach' },
   keyTurn: { en: 'Turn left or right', cy: 'Troi i’r chwith neu i’r dde' },
   keyTilt: {
     en: 'Tilt up towards the horizon, or down onto the map',

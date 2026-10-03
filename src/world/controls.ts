@@ -3,9 +3,9 @@ import { clamp } from '../domain/assert.ts';
 import {
   clampToDisc,
   glide,
-  hitPlane,
   isDrag,
   panShift,
+  pointUnder,
   rayGround,
   slideDirection,
   wheelLog,
@@ -50,6 +50,10 @@ interface Drag {
   readonly startX: number;
   readonly startY: number;
   readonly grab: Vec3;
+  /** A left-drag that began on the sky has no land to hold, so it turns the view instead. */
+  readonly onSky: boolean;
+  /** The cursor has been pulled above the horizon mid-slide, so the land waits for it. */
+  held: boolean;
   lastX: number;
   lastY: number;
   lastAt: number;
@@ -145,13 +149,9 @@ export class MapControls {
     return this.scene.createPickingRay(x, y, null, this.camera);
   }
 
-  /** The ground under a screen point, or where its ray meets the level of the target if it misses. */
-  private pointAt(x: number, y: number): { point: Vec3; on: 'ground' | 'plane' } {
-    const ray = this.ray(x, y);
-    const hit = rayGround(ray, this.ground, REACH, MARCH_STEP);
-    return hit
-      ? { point: hit, on: 'ground' }
-      : { point: hitPlane(ray, this.camera.target.y, REACH), on: 'plane' };
+  /** The ground under a screen point, or the level of the target past the map; nothing in the sky. */
+  private pointAt(x: number, y: number): { point: Vec3; on: 'ground' | 'plane' } | undefined {
+    return pointUnder(this.ray(x, y), this.ground, this.camera.target.y, REACH, MARCH_STEP);
   }
 
   private setTarget(x: number, y: number, z: number): void {
@@ -161,17 +161,21 @@ export class MapControls {
 
   private down(e: PointerEvent): void {
     if (this.drag) return;
-    const turn = e.button === 2 || e.button === 1 || (e.button === 0 && e.ctrlKey);
-    if (e.button !== 0 && !turn) return;
+    const turnButton = e.button === 2 || e.button === 1 || (e.button === 0 && e.ctrlKey);
+    if (e.button !== 0 && !turnButton) return;
     const { x, y } = this.at(e);
     this.velocity = { x: 0, z: 0 };
-    const grab = turn ? this.camera.target.clone() : this.pointAt(x, y).point;
+    const under = turnButton ? undefined : this.pointAt(x, y);
+    const onSky = !turnButton && under === undefined;
+    const turn = turnButton || onSky;
     this.drag = {
       kind: turn ? 'turn' : 'pan',
       id: e.pointerId,
       startX: x,
       startY: y,
-      grab,
+      grab: under?.point ?? this.camera.target.clone(),
+      onSky,
+      held: false,
       lastX: x,
       lastY: y,
       lastAt: e.timeStamp,
@@ -188,7 +192,7 @@ export class MapControls {
       if (!isDrag(x - d.startX, y - d.startY, InputManager.DragMovementThreshold)) return;
       d.moving = true;
       console.info(
-        `dewidebug camera drag start kind=${d.kind} button=${e.button} grab=${d.grab.x.toFixed(0)},${d.grab.z.toFixed(0)} flying=${String(this.flight.flying)} following=${String(this.flight.following)}`,
+        `dewidebug camera drag start kind=${d.kind} button=${e.button} onSky=${String(d.onSky)} grab=${d.grab.x.toFixed(0)},${d.grab.z.toFixed(0)} flying=${String(this.flight.flying)} following=${String(this.flight.following)}`,
       );
       this.flight.interrupt(d.kind);
       this.hooks.onMove(d.kind, true);
@@ -199,6 +203,19 @@ export class MapControls {
     } else {
       const t = this.camera.target;
       const shift = panShift(d.grab, this.ray(x, y), REACH);
+      if (!shift) {
+        if (!d.held)
+          console.info(
+            `dewidebug camera slide held: cursor ${x.toFixed(0)},${y.toFixed(0)} is above the horizon or out of reach`,
+          );
+        d.held = true;
+        this.velocity = { x: 0, z: 0 };
+        d.lastX = x;
+        d.lastY = y;
+        return;
+      }
+      if (d.held) console.info(`dewidebug camera slide resumed at ${x.toFixed(0)},${y.toFixed(0)}`);
+      d.held = false;
       const before = { x: t.x, z: t.z };
       this.setTarget(t.x + shift.x, t.y, t.z + shift.z);
       const dt = e.timeStamp - d.lastAt;
@@ -231,12 +248,13 @@ export class MapControls {
     const log = wheelLog(e.deltaY, e.deltaMode);
     if (log === 0) return;
     const { x, y } = this.at(e);
-    const { point, on } = this.pointAt(x, y);
+    const under = this.pointAt(x, y);
+    const point = under?.point ?? this.camera.target;
     if (this.zoomLog === 0)
       console.info(
-        `dewidebug camera zoom ${log < 0 ? 'in' : 'out'} at=${point.x.toFixed(0)},${point.z.toFixed(0)} on=${on} r=${this.camera.radius.toFixed(0)} following=${String(this.flight.following)}`,
+        `dewidebug camera zoom ${log < 0 ? 'in' : 'out'} at=${point.x.toFixed(0)},${point.z.toFixed(0)} on=${under?.on ?? 'sky, so the centre'} r=${this.camera.radius.toFixed(0)} following=${String(this.flight.following)}`,
       );
-    this.zoomAt = point;
+    this.zoomAt = under?.point;
     this.zoomLog = clamp(this.zoomLog + log, -MAX_ZOOM_LOG, MAX_ZOOM_LOG);
     this.flight.interrupt('zoom');
     this.hooks.onMove('zoom', false);

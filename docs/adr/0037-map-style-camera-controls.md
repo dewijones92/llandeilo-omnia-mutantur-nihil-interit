@@ -57,6 +57,16 @@ Decided by Claude under the proactive mandate ([ADR 0027](0027-claude-proposes-a
 - A slide (drag, keys, double-click) ends a flight and a train follow; turning and zooming end a flight
   but keep a follow, so you can still circle a followed train and zoom on it. Before this, a drag
   during a flight was overridden by the flight rather than ending it.
+- **The sky is not a place** (added after the second-Opus review, 2026-10-03). At the steepest tilt the
+  top of the view is sky, and the first build treated a cursor ray that missed the ground as a point
+  9,000 units along it: one wheel notch there moved the target about 1,500 units (15 km), and a drag on
+  the sky threw the camera across the map, backwards. Now a ray that misses the ground uses the level of
+  the target only where it meets that plane in front of the eye and within reach (`pointUnder`,
+  `hitPlane`); otherwise there is no point. The wheel then zooms about the screen centre; a left-drag
+  that starts on the sky turns the view instead (there is no land to hold, and turning is what Google
+  Earth does there); and a slide whose cursor is pulled above the horizon holds the land still until the
+  cursor comes back down, with no glide (`panShift` gives nothing). A slide held just below the horizon
+  still moves far for a few pixels, as on any tilted map; the map disc bounds it.
 - A slide or a zoom shows the Whole valley button, as a flight does, so there is always a way back.
 - Shift makes the keys slide three times faster; a key tapped between two frames still moves for one
   frame, so a quick tap is never lost at a low frame rate.

@@ -497,3 +497,14 @@ Milestones and what each one taught us. Newest last.
    asserted a bearing over 10°, and the opening view already faces about 20°, so it passed even when the
    drag (now a right-drag) did not turn the view at all (seen: 0° turned on the old build). It now asserts
    the change. Lesson: assert the change an action makes, not a value the start state may already have.
+18. **The camera and the sky** (second-Opus review of the map-style camera). At the steepest tilt the top
+   of the view is sky, and a cursor ray that missed the ground fell back to a point 9,000 units along
+   it, high in the air: one wheel notch moved the target about 1,500 units (seen red in e2e: 1,499.99,
+   exactly as the reviewer measured on the GPU), and a drag on the sky threw the camera across the map.
+   A unit test had locked the fallback in ("stops at the furthest distance allowed"); it now asserts the
+   opposite. No point in the sky: the wheel zooms about the centre there, a drag that starts on the sky
+   turns, and a slide pulled above the horizon waits. The new follow test first failed for the wrong
+   reason: its drags started at (400, 600), which is under a panel in 1860, so neither drag reached the
+   3D view; it now checks the element under the start point first, so that failure names itself. The
+   Welsh for "Hold to slide faster" had read as "keep on sliding faster" ("dal i" + verb-noun means
+   "continue to"); it is now "Daliwch hi i lawr i lithro'n gyflymach", pending the parked human check.
