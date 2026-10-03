@@ -2,7 +2,7 @@
 title: Release notes
 kind: log
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Release notes
@@ -10,6 +10,67 @@ updated: 2026-10-02
 What changed in the app, for family and visitors, newest first. Each section is also published as a
 GitHub release, tagged with the version in `package.json` ([ADR 0025](../adr/0025-releases-at-visible-milestones.md)).
 Corrections to history are called out: when we get something wrong, we say so.
+
+## v0.4.0 (2026-10-03): night light through time, honest sound, and a guess-the-year game
+
+**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
+
+**"When are we?"** A new game: the timeline hides its labels, the valley is set to a mystery year,
+and you drag a marker to guess when it is from what you can see. Five rounds, each scored. The
+answer screen lists the clues that gave the year away, each with its ⓘ and a "Show me" button
+that flies you to it. Documented clues with exact dates count as firm; the rest are marked "c.".
+
+![A round of "When are we?"](../images/releases/v0.4.0/guess-round.jpg)
+
+**Light after dark.** At night the valley is now lit by the light of its time, as far as the sources tell us: hearth and
+rushlight; oil lamps; the town's gas street lamps by 1876; electric street lights by September
+1902; the blackout from 1 September 1939; the dim-out from 17 September 1944 (it started later in
+some listed, mostly coastal, areas, and whether Llandeilo was one is not known). The almanac has a
+new "Light after dark" entry, with its ⓘ.
+
+![1903 at night: the new electric street lamps (the small pale points), with homes still lit by flame](../images/releases/v0.4.0/night-1903.jpg)
+![1942 at night: the blackout](../images/releases/v0.4.0/blackout-1942.jpg)
+
+**Honest sound.** Every sound bed now has its own dated history and an ⓘ reason. Corrections to what
+you heard:
+
+- **No bells before 1857.** The first bells in any source we have read are the peal for the first
+  train, on 20 January 1857. The app used to ring bells from AD 800.
+- **The market sound now starts around 1600, not 1250.** Its ⓘ notes that Edward I granted the
+  Bishop of St Davids a fair here in 1290 and again in 1291, around St Barnabas's day (11 June), and
+  that a Saturday market is recorded by 1326.
+
+**A Begin card and a Graphics menu.** Opening the app shows Ovid's line that gives the project its
+name, *omnia mutantur, nihil interit* ("everything changes, nothing perishes"). Begin also turns the
+sound on. A Graphics menu offers High, Medium and Low. High is the default and draws denser
+woodland.
+
+![The Begin card](../images/releases/v0.4.0/begin-card.jpg)
+
+**More history corrected:**
+
+- **The railway now appears on the dates its sources give.** Things with exact dates used to fade in
+  years before they existed, so the 1858 line to Llandovery showed from about 1850, with a train
+  running silently on it. Now each stretch appears on its day (Pantyffynnon to Duffryn, whose sources disagree, may be
+  drawn a year early): the oldest Llanelly Railway lines,
+  south of Ammanford and up the Amman valley, from 10 April 1840; the line from Ammanford to
+  Llandeilo from January 1857; the Vale of Towy line to Llandovery from 1 April 1858; and the line
+  east of Garnant from 1907, when it replaced the 1841 incline. A few short stretches whose dates we
+  haven't found (near Cross Hands, and beyond Gwaun-cae-Gurwen) are left out for now.
+
+  ![1857 (left) and 1858 (right): the Vale of Towy line to Llandovery appears in 1858 (top right)](../images/releases/v0.4.0/railway-1857-1858.jpg)
+
+- **Steam stops on 13 June 1964**, when the last steam passenger trains ran (steam freight lasted
+  until August). A stand-in two-car diesel train runs from then to today, and the sound changes
+  with it.
+- **Street lamps show what they burned:** electric street lights are whiter than gas.
+- **The year shown is the year you are in:** mid-1858 used to read as 1859.
+- **The Ice Age and wildwood birds:** the golden eagle bones are about 20,000 years old, well before
+  the Late Ice Age the app shows there. Of the 43 bird species at Port Eynon, many are birds you might still see on Gower today;
+  nothing says they were woodland birds.
+- **1902:** no source says who had electric light at home, so homes stay lit by flame. A
+  newspaper columnist that October was glad that so many of the town's tradespeople were having it
+  installed.
 
 ## v0.3.0 (2026-10-03): the sky on the day, the warm Ice Age, and faster scrubbing
 
