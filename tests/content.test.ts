@@ -391,16 +391,15 @@ describe('the railway', () => {
     expect(wrong).toEqual([]);
   });
 
-  // Every stretch of today's track belongs to exactly one dated section, so nothing is left undrawn,
-  // except the short narrow-gauge track near Cross Hands that no source names (CROSS_HANDS_NARROW_GAUGE).
-  it('draws every line in exactly one section, except the unplaceable narrow-gauge stub near Cross Hands', () => {
+  // Every stretch of today's track belongs to exactly one dated section, so nothing is left undrawn
+  // (Dewi, 2026-10-03: undated lines are drawn with estimated dates, labelled as educated guesses).
+  it("draws every stretch of today's track in exactly one section", () => {
     const inBox = (p: GridRef, b: GridBox) =>
       p.e >= (b.minE ?? -Infinity) &&
       p.e <= (b.maxE ?? Infinity) &&
       p.n >= (b.minN ?? -Infinity) &&
       p.n <= (b.maxN ?? Infinity);
     const wrong: string[] = [];
-    let stub = 0;
     for (const l of rails)
       for (let i = 1; i < l.points.length; i++) {
         const a = l.points[i - 1];
@@ -408,34 +407,47 @@ describe('the railway', () => {
         if (!a || !b) continue;
         const mid = { e: (a.e + b.e) / 2, n: (a.n + b.n) / 2 };
         const owners = sections.filter((s) => s.boxes.some((x) => inBox(mid, x)));
-        const unplaced = CROSS_HANDS_NARROW_GAUGE.within.some((x) => inBox(mid, x));
-        if (unplaced) stub += gap(a, b);
-        if (owners.length !== (unplaced ? 0 : 1))
+        if (owners.length !== 1)
           wrong.push(
             `E${Math.round(mid.e)} N${Math.round(mid.n)}: ${owners.map((o) => o.feature.id).join(', ') || 'undrawn'}`,
           );
       }
     expect(wrong).toEqual([]);
-    expect(stub).toBeGreaterThan(0);
-    expect(stub).toBeLessThan(60);
     const drawn = sections.reduce((sum, s) => sum + length(s.lines), 0);
-    expect(drawn + stub).toBeCloseTo(length(rails), 0);
+    expect(drawn).toBeCloseTo(length(rails), 0);
   });
 
+  // An estimate is reconstructed when a source places the line, imagined when none does; either way
+  // its ⓘ says it is a guess and rests on sources, and an earliest date never comes after its "c." one.
   it('labels every railway section without exact dates as an educated guess, in both languages, with sources', () => {
-    const wrong = sections
-      .filter((s) => !s.feature.datesExact)
-      .filter(({ feature: { provenance: p } }) => {
-        if (p.kind !== 'reconstructed') return true;
+    const estimated = sections.filter((s) => !s.feature.datesExact);
+    const wrong = estimated
+      .filter(({ feature: { provenance: p, notBefore, when } }) => {
+        if (notBefore === undefined || notBefore > when.from) return true;
+        const text = p.kind === 'reconstructed' ? p.basis : p.kind === 'imagined' ? p.groundedIn : undefined;
         return (
-          !/educated guess/i.test(p.basis.en) ||
-          !/dyfaliad gwybodus/i.test(p.basis.cy) ||
+          !text ||
+          !/educated guess/i.test(text.en) ||
+          !/dyfaliad gwybodus/i.test(text.cy) ||
           p.sources.length < 2
         );
       })
       .map((s) => s.feature.id);
-    expect(sections.filter((s) => !s.feature.datesExact).length).toBeGreaterThan(0);
+    expect(estimated.length).toBeGreaterThan(0);
     expect(wrong).toEqual([]);
+  });
+
+  it('never gives a feature an earliest date after its "c." start (ADR 0037)', () => {
+    const late = W.features.filter((f) => f.notBefore !== undefined && f.notBefore > f.when.from);
+    expect(late.map((f) => f.id)).toEqual([]);
+  });
+
+  it('draws the narrow-gauge stub near Cross Hands as imagined, since no source names it', () => {
+    const stub = sections.find((s) => s.boxes === CROSS_HANDS_NARROW_GAUGE.within);
+    expect(stub?.feature.provenance.kind).toBe('imagined');
+    const len = length(stub?.lines ?? []);
+    expect(len).toBeGreaterThan(30);
+    expect(len).toBeLessThan(60);
   });
 
   it('draws the 1907 line east of Garnant for the 1 mile 22 chains its source gives it', () => {

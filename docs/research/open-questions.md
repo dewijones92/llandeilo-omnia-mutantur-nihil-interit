@@ -107,14 +107,22 @@ for the next pass. Each note's own "Open questions" section has the full list an
   251000 to 253000 N 211500 to 212500, and near Cross Hands, E 255500 N 210500). They are not dated
   in the notes, so they are not drawn at all. (*Answered in part 2026-10-03, by Dewi's decision to draw
   undated lines as labelled estimates*: the Pontyberem line is the Burry Port and Gwendraeth Valley
-  Railway to Cwmmawr (victorian:S77, S78, S82), drawn from c. 1870 as an educated guess. Its sources
-  disagree: Pontyberem 1869 and the foot of the Hirwaun Isaf incline 1870 (Miller, via S77), Cwmmawr
-  1869 (Bourne, Morgan, Cobb, via S77), or Cwmmawr 1886 (Miller and Barrie via S77; Coflein, S78);
-  yet the 25-inch map surveyed 1878–79 (S81) already draws the railway at Rhyd-y-cerig, the end of
-  today's track, so what the 1886 date refers to is open. The Cross Hands stub is about 35m of track
-  Ordnance Survey classes as narrow gauge (S89), in farmland at Twll-y-car, Upper Tumble; it is not
-  the standard-gauge Mountain branch or the Llanelly and Mynydd Mawr line, OpenStreetMap maps no
-  railway within 1.5km of it, and no source read names it, so it stays undrawn: what it is, is open.) Leads to check, each against a second source: the
+  Railway to Cwmmawr (victorian:S77, S78, S82). Its sources disagree: Pontyberem 1869 and the foot of
+  the Hirwaun Isaf incline 1870 (Miller, via S77), Cwmmawr 1869 (Bourne, Morgan, Cobb, via S77), or
+  Cwmmawr June 1886 (Miller and Barrie via S77; Morris and Jones via S90; Coflein, S78). Above the
+  incline a tramroad was on the towpath by 1865 (S77), and the 25-inch map of 1878–79 (S81) draws the
+  railway from about the incline's head; it does not cover the stretch below. So 1886 is read as the
+  line past the incline, and the app draws three stretches: below the foot from c. 1870 (never before 23
+  June 1869), above the head from the same guess, and beside the incline across June 1886. Still open:
+  where the incline's foot was (placed about 265m below the head from its 85ft rise at 1 in 10¼,
+  against about 740m from "a mile short of Cwm Mawr"), whether the 1878–79 track above the head was the
+  railway or the 1865 tramroad, and whether today's track by the incline is the 1886 course or the
+  1911–13 regrading. The Cross Hands stub is about 35m of track Ordnance Survey classes as narrow gauge
+  (S89), in farmland at Upper Tumble (Pen-y-graig on the old maps); it is not the standard-gauge
+  Mountain branch or the Llanelly and Mynydd Mawr line, OpenStreetMap maps no railway within 1.5km of
+  it, and no source read names it. The six-inch maps of 1905 (S91) and of 1913 with additions in 1948
+  (S92) show old coal workings and no track there, so it is drawn `imagined` from c. 1950: what it is,
+  and when it was laid, are open.) Leads to check, each against a second source: the
   Llanelly Railway's (Great) Mountain branch to Cross Hands, opened for goods and minerals on 6 May
   1841, Cross Hands goods closed 1 November 1950 and the whole branch 6 March 1963 (victorian:S29);
   and, from memory only (not in any note), the Llanelly and Mynydd Mawr Railway and the Burry Port and
@@ -132,16 +140,16 @@ for the next pass. Each note's own "Open questions" section has the full list an
   "Gwaun-Cae Gurwen Viaducts", victorian:S76, stand on today's track about 65m east of that point but
   are dated just before the First World War); and when the colliery track beyond the join was laid,
   which is not drawn (*corrected 2026-10-03 (fourth review)*: it had been drawn from 1907). (*Answered
-  in part 2026-10-03, by Dewi's decision*: it is drawn from c. 1841 as an educated guess. The 1907 line
-  joined the old line's course there (S74), the six-inch map surveyed in 1877 draws a Great Western
-  branch along it to Gwaun-cae-Gurwen Pit (S83), the 1896 map runs it on to the Old Pit (S84), and the
-  Old Pit was sunk about 1837 (S85, S86, S87). Still open: whether the 1841 line itself ran this way
-  to the pit, or the line was extended later, before 1877. A side effect to decide: like every "c." date, both
-  estimates fade in over about 17 years of the slider, half drawn some 8 years early, so the colliery
-  line shows from about 1832, before the railway reached Gwaun-cae-Gurwen on 6 May 1841, and the
-  Gwendraeth line from about 1862, before it reached Pontyberem in 1869 (screenshots of 1835 and 1860,
-  2026-10-03). A fade that starts at a known earliest date, ADR 0035's unbuilt per-end alternative,
-  would fix it; left for Dewi.) Sources
+  in part 2026-10-03, by Dewi's decision to draw it as a labelled estimate*: it is drawn from 6 May
+  1841, the earliest the sources allow, as an educated guess. The 1907 line joined the old line's
+  course there (S74), the six-inch map surveyed in 1877 draws a Great Western branch along it to
+  Gwaun-cae-Gurwen Pit (S83), the 1896 map runs it on to the Old Pit (S84), and the Old Pit was sunk
+  about 1837 (S85, S86, S87). Still open: whether the 1841 line itself ran this way to the pit, or the
+  line was extended later, before 1877. *Corrected 2026-10-03 (review of the estimates)*: this entry
+  said both estimates faded in from about 1832 and 1862 and left the fix for Dewi; they in fact
+  started to fade in about 1822 and 1857. The fix, a documented earliest date before which an estimate
+  is never drawn, is built (ADR 0037), so the colliery line now starts on 6 May 1841 and the
+  Gwendraeth line not before 23 June 1869.) Sources
   disagree, unresolved (victorian:S74 against S29): whether the old line was cut back to the Cawdor
   branch in 1907 or 1933; whether the railmotor service ended in June 1926 or on 1 or 4 May; and
   whether it had two halts and a terminus, two halts, or four halts.

@@ -191,19 +191,25 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   against 1 or 4 May) and how many halts it had, and S29 cites S74 for the dates they share, so those
   are not two independent sources (victorian:S74's annotation).
 - **The undated western lines are identified, and drawn as educated guesses** (2026-10-03, by Dewi's
-  decision). The line near Pontyberem is the Burry Port and Gwendraeth Valley Railway's top end, to a
-  goods yard at Rhyd-y-cerig below Cwm-mawr (the six-inch map of 1905, victorian:S82). Its sources
-  disagree on the date: 1869 or 1870 (histories via Wikipedia, S77) against 1886 (the same page, and
-  Coflein, S78); the **25-inch map surveyed in 1878–79 (S81) already draws the railway there**, so the
-  app draws it from c. 1870 and the 1886 date is left open. Its last coal train ran on 29 March 1996
-  (S77, S88). The track past the 1907 line's join at Gwaun-cae-Gurwen is a colliery line: the six-inch
-  map surveyed in **1877 draws a Great Western branch along it to Gwaun-cae-Gurwen Pit** (S83), the
-  1896 map runs it on to the Old Pit (S84), sunk about 1837 (S85, S86, S87, which disagree on who sank
-  it), so it is drawn from c. 1841, as the probable course of the 1841 line. The "Cross Hands" stub is
-  35m of narrow-gauge track (Ordnance Survey's own classing, S89) in farmland at Upper Tumble, not the
-  standard-gauge Mountain branch; no source names it and it stays undrawn. Historic maps were read
-  through the National Library of Scotland's georeferenced mosaic and IIIF images, a method worth
-  reusing for any "when was this track laid?" question.
+  decision; the dates are Claude's). The line near Pontyberem is the Burry Port and Gwendraeth Valley
+  Railway's top end, to a goods yard at Rhyd-y-cerig below Cwm-mawr (the six-inch map of 1905,
+  victorian:S82). Its sources disagree on the date: 1869 or 1870 (histories via Wikipedia, S77) against
+  June 1886 (the same page, a canal history, S90, and Coflein, S78). A tramroad was on the towpath above
+  the Hirwaun Isaf incline by 1865 (S77), and the **25-inch map surveyed in 1878–79 (S81) draws the
+  railway from about the incline's head**, but not below it. So 1886 is read as the line past the
+  incline, drawn across June 1886, and the rest from c. 1870, never before the opening of 23 June 1869.
+  Its last coal train ran on 29 March 1996 (S77, S88). The track past the 1907 line's join at
+  Gwaun-cae-Gurwen is a colliery line: the six-inch map surveyed in **1877 draws a Great Western branch
+  along it to Gwaun-cae-Gurwen Pit** (S83), the 1896 map runs it on to the Old Pit (S84), sunk about
+  1837 (S85, S86, S87, which disagree on who sank it), so it is drawn from 6 May 1841, when the railway
+  reached Gwaun-cae-Gurwen, as the probable course of the 1841 line. The "Cross Hands" stub is 35m of
+  narrow-gauge track (Ordnance Survey's own classing, S89) in farmland at Upper Tumble, not the
+  standard-gauge Mountain branch; no source names it, and the six-inch maps of 1905 and of 1913 with
+  additions in 1948 show no track there (S91, S92), so it is drawn `imagined` from c. 1950. Historic maps
+  were read through the National Library of Scotland's georeferenced mosaic and IIIF images, a method
+  worth reusing for any "when was this track laid?" question. *Corrected 2026-10-03 (review of the
+  estimates)*: this entry said the 1878–79 map draws the railway along the whole stretch, which it
+  does not, and left the stub undrawn.
 
 - **The motto** on the Begin card, *omnia mutantur, nihil interit*, is Ovid, *Metamorphoses* XV,
   in Pythagoras's speech. Checked 2026-10-03 in two online texts, both of which number it line 165:

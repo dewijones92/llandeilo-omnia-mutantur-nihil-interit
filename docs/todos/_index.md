@@ -88,9 +88,12 @@ below links the issue.
       ([ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md), [open questions](../research/open-questions.md)).
       *Done in part 2026-10-03, by Dewi's decision to draw the undated lines as labelled estimates*:
       the line near Pontyberem is the Burry Port and Gwendraeth Valley Railway to Cwmmawr, drawn from
-      c. 1870; the track past the 1907 join at Gwaun-cae-Gurwen is the colliery line, drawn from c. 1841;
-      both are labelled educated guesses with their sources, seen red first. The Cross Hands stub is
-      35m of narrow-gauge track no source names, left undrawn. Still to do: the second-Opus review
+      c. 1870 (never before 23 June 1869) except the stretch beside the Hirwaun Isaf incline, drawn
+      across June 1886; the track past the 1907 join at Gwaun-cae-Gurwen is the colliery line, drawn
+      from 6 May 1841; the Cross Hands stub, 35m of narrow-gauge track no source names, is drawn
+      `imagined` from c. 1950. All are labelled educated guesses with their sources, and none is drawn
+      before the earliest date its sources allow (ADR 0037), seen red first. The second-Opus review
+      ran, and its findings are fixed. Still to do: where the incline's foot was, and what the stub is
 - [ ] Independent verification of every research note, as conversations-by-class had (it found 13 corrections).
       Done 2026-10-02: era-medieval-to-1282, event-effects, railway-later, anglo-norman-and-middle-english
       (reports in `docs/research/reviews/`), corrections applied to content and notes. Still to do:

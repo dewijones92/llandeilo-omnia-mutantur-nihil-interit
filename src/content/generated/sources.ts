@@ -2089,6 +2089,24 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/era-victorian.md"
   },
   {
+    "id": "victorian:S90",
+    "title": "Wikipedia, \"Kidwelly and Llanelly Canal\"",
+    "url": "https://en.wikipedia.org/wiki/Kidwelly_and_Llanelly_Canal",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S91",
+    "title": "Ordnance Survey, six-inch map, Carmarthenshire Sheet XLVIII.SW, revised 1905, published 1907, National Library of Scotland",
+    "url": "https://maps.nls.uk/view/102179798",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S92",
+    "title": "Ordnance Survey, six-inch map, Carmarthenshire Sheet XLVIII.SW, provisional edition, \"Revision of 1913 with additions in 1948\", published 1953, National Library of Scotland",
+    "url": "https://maps.nls.uk/view/102179792",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
     "id": "effects:S1",
     "title": "Thomas Jenkins of Llandeilo, diary 1840-1845, as transcribed on llandeilo.org (Terry Norman and Andy Mabbutt), \"Caves, Castles, Rebecca Riots, Leeches and Scarlet Fever\", from *The Diary of Thomas Jenkins of Llandeilo…",
     "url": "https://llandeilo.org/tj_caves.html",

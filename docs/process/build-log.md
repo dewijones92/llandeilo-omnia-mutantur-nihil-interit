@@ -502,3 +502,23 @@ Milestones and what each one taught us. Newest last.
    the "c." fade test. Dead end: the Welsh Newspapers search returned nothing useful for "Cwmmawr" in
    1884 to 1887 (it errors on some queries and matches farm names on others).
 
+18. **The review of the estimates.** The second-Opus review of entry 17 found three things worth
+   keeping. A "c." date fades in over about 17 years before it, so the colliery line guessed "c. 1841"
+   was half drawn by 1830, a decade before any railway reached the Amman valley, and the new test had
+   locked that in. The fix is `notBefore`, the earliest date a source allows, before which an estimate
+   never starts to fade in (ADR 0037); the colliery line now switches on at 6 May 1841. Second, the
+   1878–79 map that "decided" the Gwendraeth line's date covers only its upper part: the sheet's south
+   edge sits at the Hirwaun Isaf incline's head, and the page the note quoted also said a tramroad ran
+   on the towpath above that incline by 1865. So the line is now three stretches, with the one beside
+   the incline drawn across June 1886. The incline's foot is mapped by no source, so it is placed from
+   the canal's 85ft rise at 1 in 10¼; the georeferenced 1905 map shows no incline label to check it by.
+   Third, the Cross Hands stub was left undrawn against Dewi's "draw", and Claude's dates sat inside the
+   decision log's "Dewi's decision" cells. The stub is now drawn `imagined` from c. 1950: the six-inch
+   sheets of 1905 and of 1913 with 1948 additions, read through NLS's IIIF images, show old coal
+   workings at Pen-y-graig and no track. Lessons: check that a map actually covers the stretch it is
+   cited for; and a fade is a claim about dates, so it must not cross a documented one. Gotcha: NLS's
+   IIIF server refuses any request over about 512 by 512 output pixels ("pixel area exceeds the maximum
+   threshold"), so a sheet is read by stitching 512px regions, scaled down from larger ones. Seen red
+   first: the two `presenceAt` earliest-date tests, the snapshot test (the colliery line fully present
+   just before 6 May 1841), the every-stretch test (the stub undrawn), the label test (no earliest
+   dates) and the stub test.

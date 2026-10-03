@@ -76,8 +76,11 @@ was not true of all the track inside them. Claude decided each, under the proact
 
 ## Amended 2026-10-03 (Dewi's decision)
 
-"An undated line has no date at all, and any date given it would be invented" is overruled by Dewi
-for the western and colliery lines: he decided on 2026-10-03 to draw them with estimated dates,
-labelled as educated guesses with sources (see ADR 0034's amendment of the same day). The distinction
-this ADR draws still stands for exactness: an estimate never carries `datesExact`, so it fades in and
-is only ever a probable clue in "When are we?".
+"An undated line has no date at all, and any date given it would be invented" is overruled by Dewi:
+he decided on 2026-10-03 to draw the undated lines with estimated dates, labelled as educated guesses
+with sources (see ADR 0034's amendment of the same day, which lists the sections and says which
+choices were Claude's). The distinction this ADR draws still stands for exactness: an estimate never
+carries `datesExact`, so it is only ever a probable clue in "When are we?", or no clue when it is
+imagined. The "per-end" alternative above is built in a narrower form for estimates: an estimate may
+carry the earliest date its sources allow, and never fades in before it
+([ADR 0037](0037-estimates-carry-an-earliest-date.md)).
