@@ -6,12 +6,12 @@ import { ASSETS } from '../src/content/assets.ts';
 import { STRINGS } from '../src/content/strings.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
 import {
+  CROSS_HANDS_NARROW_GAUGE,
   DUFFRYN_STATION,
   END_OF_STEAM,
   GARNANT_STATION,
   GWAUN_CAE_GURWEN_JOIN,
   LLANDEILO_STATION,
-  LLANELLY_LINES_E,
 } from '../src/content/features.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
@@ -20,9 +20,9 @@ import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
 import { latestStarting, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
-import { sectionLines } from '../src/domain/rail.ts';
+import { sectionLines, type GridBox } from '../src/domain/rail.ts';
 import { parseLines } from '../src/platform/assets.ts';
-import { ad, bc, contains, year } from '../src/domain/time.ts';
+import { ad, bc, contains, onDay, year } from '../src/domain/time.ts';
 import { tAt, yearAt } from '../src/domain/timeline.ts';
 
 const root = join(import.meta.dirname, '..');
@@ -237,6 +237,20 @@ describe('ambient sound beds', () => {
     expect(first?.p.provenance.sources).toContain('effects:S7');
   });
 
+  it('holds the market from the fair granted on 20 May 1290, through the market recorded in 1326 (sound:S20)', () => {
+    const first = heard.find((x) => x.bed === 'market');
+    expect(first?.p.year).toBe(onDay(1290, 5, 20));
+    expect(first?.p.provenance.sources).toContain('sound:S20');
+    expect(soundAt(W.soundscape, year(onDay(1290, 5, 20) - 0.01)).levels.market).toBe(0);
+    const unheard: string[] = [];
+    for (let y = 1290.5; y < 1950; y += 0.5)
+      if (soundAt(W.soundscape, year(y)).levels.market <= 0) unheard.push(String(y));
+    expect(unheard).toEqual([]);
+    const in1330 = soundAt(W.soundscape, ad(1330)).beds.find((b) => b.bed === 'market');
+    expect(in1330?.since.kind).toBe('documented');
+    expect(in1330?.since.sources).toContain('sound:S20');
+  });
+
   it('plays steam only until steam passenger trains ended on 13 June 1964, and is never silent while a train runs', () => {
     const trains = W.features.filter((f) => f.kind.type === 'train');
     const wrong: string[] = [];
@@ -323,22 +337,21 @@ describe('the railway', () => {
   const railways = 'public/data/railways.json';
   const rails = parseLines(JSON.parse(readFileSync(join(root, railways), 'utf8')), railways);
   const sections = W.features.flatMap((f) =>
-    f.kind.type === 'railway' ? [{ feature: f, lines: sectionLines(rails, f.kind.section) }] : [],
+    f.kind.type === 'railway'
+      ? [{ feature: f, boxes: f.kind.section.within, lines: sectionLines(rails, f.kind.section) }]
+      : [],
   );
   const gap = (a: GridRef, b: GridRef) => Math.hypot(a.e - b.e, a.n - b.n);
   const length = (ls: readonly { points: readonly GridRef[] }[]) =>
     ls.reduce((sum, l) => sum + l.points.slice(1).reduce((s, p, i) => s + gap(p, l.points[i] ?? p), 0), 0);
-  // Where today's track runs on past the edge of the drawn data (towards Pontarddulais, and towards
-  // Llandovery).
+  // Where today's track runs on past the edge of the drawn data (towards Pontarddulais, towards
+  // Llandovery, and down the Gwendraeth valley towards Pontyberem).
   const MAP_EDGE: readonly GridRef[] = [
     { e: 260395, n: 206650 },
     { e: 273922, n: 232559 },
+    { e: 251225, n: 211493 },
   ];
   const leavesMap = (p: GridRef) => MAP_EDGE.some((e) => gap(p, e) < 50);
-  // Past the 1907 line's join with the old course, today's track runs on to collieries, undated.
-  const collieryTrack = sectionLines(rails, {
-    within: [{ minE: GWAUN_CAE_GURWEN_JOIN.e, maxN: LLANDEILO_STATION.n }],
-  });
   // Coflein's grid reference for Pantyffynnon station (victorian:S72), where a short spur ends.
   const PANTYFFYNNON_STATION = { e: 262290, n: 210780 };
 
@@ -378,13 +391,51 @@ describe('the railway', () => {
     expect(wrong).toEqual([]);
   });
 
-  it('draws every line east of Cross Hands (E258000) exactly once, leaving out only the undated colliery track past the 1907 join', () => {
+  // Every stretch of today's track belongs to exactly one dated section, so nothing is left undrawn,
+  // except the short narrow-gauge track near Cross Hands that no source names (CROSS_HANDS_NARROW_GAUGE).
+  it('draws every line in exactly one section, except the unplaceable narrow-gauge stub near Cross Hands', () => {
+    const inBox = (p: GridRef, b: GridBox) =>
+      p.e >= (b.minE ?? -Infinity) &&
+      p.e <= (b.maxE ?? Infinity) &&
+      p.n >= (b.minN ?? -Infinity) &&
+      p.n <= (b.maxN ?? Infinity);
+    const wrong: string[] = [];
+    let stub = 0;
+    for (const l of rails)
+      for (let i = 1; i < l.points.length; i++) {
+        const a = l.points[i - 1];
+        const b = l.points[i];
+        if (!a || !b) continue;
+        const mid = { e: (a.e + b.e) / 2, n: (a.n + b.n) / 2 };
+        const owners = sections.filter((s) => s.boxes.some((x) => inBox(mid, x)));
+        const unplaced = CROSS_HANDS_NARROW_GAUGE.within.some((x) => inBox(mid, x));
+        if (unplaced) stub += gap(a, b);
+        if (owners.length !== (unplaced ? 0 : 1))
+          wrong.push(
+            `E${Math.round(mid.e)} N${Math.round(mid.n)}: ${owners.map((o) => o.feature.id).join(', ') || 'undrawn'}`,
+          );
+      }
+    expect(wrong).toEqual([]);
+    expect(stub).toBeGreaterThan(0);
+    expect(stub).toBeLessThan(60);
     const drawn = sections.reduce((sum, s) => sum + length(s.lines), 0);
-    const east = rails.filter((l) => l.points.every((p) => p.e > LLANELLY_LINES_E));
-    const west = rails.filter((l) => l.points.every((p) => p.e < LLANELLY_LINES_E));
-    expect(east.length + west.length).toBe(rails.length);
-    expect(length(collieryTrack)).toBeGreaterThan(1000);
-    expect(drawn + length(collieryTrack)).toBeCloseTo(length(east), 0);
+    expect(drawn + stub).toBeCloseTo(length(rails), 0);
+  });
+
+  it('labels every railway section without exact dates as an educated guess, in both languages, with sources', () => {
+    const wrong = sections
+      .filter((s) => !s.feature.datesExact)
+      .filter(({ feature: { provenance: p } }) => {
+        if (p.kind !== 'reconstructed') return true;
+        return (
+          !/educated guess/i.test(p.basis.en) ||
+          !/dyfaliad gwybodus/i.test(p.basis.cy) ||
+          p.sources.length < 2
+        );
+      })
+      .map((s) => s.feature.id);
+    expect(sections.filter((s) => !s.feature.datesExact).length).toBeGreaterThan(0);
+    expect(wrong).toEqual([]);
   });
 
   it('draws the 1907 line east of Garnant for the 1 mile 22 chains its source gives it', () => {

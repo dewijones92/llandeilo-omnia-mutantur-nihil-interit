@@ -1,5 +1,6 @@
 import type { Feature, FeatureKind, GridRef, PlaceId } from '../domain/model.ts';
 import type { Provenance } from '../domain/provenance.ts';
+import type { RailSection } from '../domain/rail.ts';
 import { ad, bc, onDay, range, type Year } from '../domain/time.ts';
 import {
   ABERGLASNEY,
@@ -103,9 +104,20 @@ export const GARNANT_STATION = { e: 268648, n: 213279 };
 export const GWAUN_CAE_GURWEN_JOIN = { e: 269996, n: 212095 };
 // North of Duffryn the Amman valley branch lies east of this easting and the main line west of it.
 const AMMAN_BRANCH_E = 263600;
-// The Llanelly Railway's lines lie east of this. The short lines west of it, near Pontyberem and
-// Cross Hands, are not dated in the notes, so they are in no section and are not drawn.
+// The Llanelly Railway's lines lie east of this; the Burry Port and Gwendraeth Valley line and the
+// Cross Hands stub lie west of it.
 export const LLANELLY_LINES_E = 258000;
+// About 35m of track Ordnance Survey classes as narrow gauge, in farmland at Twll-y-car, Upper Tumble.
+// No source read names it, and it lies on no line in the notes, so it has no date, even a guessed one,
+// and is the one stretch of today's track left undrawn (decision of 2026-10-03).
+// The Burry Port and Gwendraeth Valley line, near Pontyberem, lies west of this; the Cross Hands stub
+// east of it.
+const GWENDRAETH_LINE_MAX_E = 254000;
+// The end of today's track at Cwmmawr, at the goods yard the six-inch map of 1905 shows (victorian:S82).
+const CWMMAWR_TERMINUS = { e: 252897, n: 212497 };
+export const CROSS_HANDS_NARROW_GAUGE: RailSection = {
+  within: [{ minE: 255400, maxE: 255600, minN: 210400, maxN: 210600 }],
+};
 
 const FARMSTEAD_BASIS = {
   en: 'Small enclosed farmsteads were the commonest kind of Iron Age settlement in west Wales. These spots are illustrative, not known sites.',
@@ -849,6 +861,56 @@ export const FEATURES: readonly Feature[] = [
       'East of Garnant, today’s track is the Great Western’s line of 1907, built to avoid the old incline. It opened on 4 November 1907 and ran 1 mile 22 chains (about two kilometres), from the east end of Garnant’s platform to just west of the level crossing at Gwaun-cae-Gurwen, where it joined the old course. The first line here reached Cwmamman, half a mile east of the later Garnant station, on 10 April 1840, and went on to Gwaun-cae-Gurwen on 6 May 1841; that extension followed the Garnant stream on another course and climbed a short incline of about 1 in 5. The first line is not drawn, so no track is shown east of Garnant from 1840 to 1907. No source maps where the two lines joined, so the drawn line ends 1 mile 22 chains along today’s track from Garnant. Beyond that, today’s track runs on to collieries; how much of it is the old line, and when the rest was laid, is not known, so it is not drawn. The cut at Garnant is placed at Garnant station’s site from 1865, at whose platform the 1907 line began.',
       'I’r dwyrain o’r Garnant, lein y Great Western o 1907 yw’r trac heddiw, a godwyd i osgoi’r hen inclein. Agorodd ar 4 Tachwedd 1907 ac roedd yn 1 filltir 22 cadwyn o hyd (tua dau gilometr), o ben dwyreiniol platfform y Garnant hyd at ychydig i’r gorllewin o’r groesfan reilffordd yng Ngwaun-cae-Gurwen, lle yr ymunai â’r hen lwybr. Cyrhaeddodd y lein gyntaf yma Gwmaman, hanner milltir i’r dwyrain o orsaf ddiweddarach y Garnant, ar 10 Ebrill 1840, ac aeth ymlaen i Waun-cae-Gurwen ar 6 Mai 1841; dilynai’r estyniad hwnnw nant y Garnant ar lwybr arall a dringai inclein fer o tua 1 mewn 5. Ni ddangosir y lein gyntaf, felly ni ddangosir trac i’r dwyrain o’r Garnant rhwng 1840 a 1907. Nid oes ffynhonnell yn dangos ar fap lle yr ymunai’r ddwy lein, felly mae’r lein a ddangosir yn gorffen 1 filltir 22 cadwyn ar hyd y trac heddiw o’r Garnant. Y tu hwnt i hynny mae’r trac heddiw’n mynd ymlaen i’r glofeydd; nid yw’n hysbys faint ohono yw’r hen lein, na phryd y gosodwyd y gweddill, felly ni ddangosir mohono. Mae’r toriad yn y Garnant wrth safle gorsaf y Garnant o 1865, lle y dechreuai lein 1907 wrth ei phlatfform.',
       ['victorian:S29', 'victorian:S74', 'victorian:S75'],
+    ),
+  }),
+  feature({
+    id: 'railway-gwaun-cae-gurwen-colliery',
+    kind: {
+      type: 'railway',
+      section: { within: [{ minE: GWAUN_CAE_GURWEN_JOIN.e, maxN: LLANDEILO_STATION.n }] },
+    },
+    at: GWAUN_CAE_GURWEN_JOIN,
+    // An estimate, Dewi's decision of 2026-10-03: no source dates this stretch itself.
+    from: ad(1841),
+    to: NOW,
+    label: { en: 'Colliery lines at Gwaun-cae-Gurwen', cy: 'Leiniau’r lofa yng Ngwaun-cae-Gurwen' },
+    provenance: reconstructed(
+      'An educated guess: drawn from c. 1841. The Llanelly Railway reached Gwaun-cae-Gurwen on 6 May 1841, and the line of 1907 joined the old line’s course here, so this track probably follows the 1841 line on to the village’s colliery, whose first pit was sunk about 1837. No source gives this stretch a date of its own. The Ordnance Survey mapped a Great Western branch along it to Gwaun-cae-Gurwen Pit in 1877, so it was here by then at the latest, and in 1957 lines ran on from the level crossing to three collieries. The line that joined it to Garnant before 1907 climbed by another course and is not drawn, so from 1841 to 1907 this stretch stands alone. The last deep pit here closed in 1962 or 1963; Ordnance Survey still maps the track.',
+      'Dyfaliad gwybodus: fe’i dangosir o tua 1841. Cyrhaeddodd Rheilffordd Llanelli Waun-cae-Gurwen ar 6 Mai 1841, ac ymunodd lein 1907 â llwybr yr hen lein yma, felly mae’r trac hwn yn dilyn lein 1841 ymlaen i lofa’r pentref, mae’n debyg, lle suddwyd y pwll cyntaf tua 1837. Nid oes ffynhonnell yn rhoi dyddiad i’r darn hwn ei hun. Mapiodd yr Arolwg Ordnans gangen o’r Great Western ar ei hyd i Bwll Gwaun-cae-Gurwen yn 1877, felly roedd yma erbyn hynny fan bellaf, ac yn 1957 âi leiniau ymlaen o’r groesfan i dair glofa. Dringai’r lein a’i cysylltai â’r Garnant cyn 1907 ar lwybr arall, ac ni ddangosir hi, felly o 1841 hyd 1907 saif y darn hwn ar ei ben ei hun. Caeodd y pwll dwfn olaf yma yn 1962 neu 1963; mae’r Arolwg Ordnans yn dal i fapio’r trac.',
+      [
+        'victorian:S29',
+        'victorian:S74',
+        'victorian:S83',
+        'victorian:S84',
+        'victorian:S85',
+        'victorian:S86',
+        'victorian:S87',
+      ],
+    ),
+  }),
+  feature({
+    id: 'railway-gwendraeth-valley',
+    kind: { type: 'railway', section: { within: [{ maxE: GWENDRAETH_LINE_MAX_E }] } },
+    at: CWMMAWR_TERMINUS,
+    // An estimate, Dewi's decision of 2026-10-03: the sources disagree, and the OS map of 1878-79 decides.
+    from: ad(1870),
+    to: NOW,
+    label: {
+      en: 'The Burry Port and Gwendraeth Valley Railway to Cwmmawr',
+      cy: 'Rheilffordd Porth Tywyn a Chwm Gwendraeth i Gwm-mawr',
+    },
+    provenance: reconstructed(
+      'An educated guess: drawn from c. 1870. This is the Burry Port and Gwendraeth Valley Railway, laid on the bed or towpath of an old canal, from near Pontyberem to its terminus at Cwmmawr. The sources disagree on when it got here: one history has it open to Pontyberem in 1869 and to the foot of the Hirwaun Isaf incline, partway along this stretch, in 1870; others say Cwmmawr was reached in 1869; and others, Coflein among them, say 1886. The Ordnance Survey mapped the railway along this stretch in 1878–79, so it was here by then; the 1886 date may mean a last stretch further on, which is not drawn. Passenger trains ran to Cwmmawr from 1913 to 1953. The last coal train ran on 29 March 1996; Ordnance Survey still maps the track.',
+      'Dyfaliad gwybodus: fe’i dangosir o tua 1870. Dyma Reilffordd Porth Tywyn a Chwm Gwendraeth, a osodwyd ar wely neu lwybr halio hen gamlas, o ymyl Pontyberem i’w phen draw yng Nghwm-mawr. Mae’r ffynonellau’n anghytuno ynghylch pryd y cyrhaeddodd yma: yn ôl un hanes agorodd i Bontyberem yn 1869 ac i droed inclein Hirwaun Isaf, hanner ffordd ar hyd y darn hwn, yn 1870; dywed eraill i Gwm-mawr gael ei chyrraedd yn 1869; a dywed eraill eto, Coflein yn eu plith, 1886. Mapiodd yr Arolwg Ordnans y rheilffordd ar hyd y darn hwn yn 1878–79, felly roedd yma erbyn hynny; efallai mai darn olaf ymhellach ymlaen, nas dangosir, a olygir wrth 1886. Rhedai trenau teithwyr i Gwm-mawr o 1913 hyd 1953. Rhedodd y trên glo olaf ar 29 Mawrth 1996; mae’r Arolwg Ordnans yn dal i fapio’r trac.',
+      [
+        'victorian:S77',
+        'victorian:S78',
+        'victorian:S79',
+        'victorian:S80',
+        'victorian:S81',
+        'victorian:S82',
+        'victorian:S88',
+      ],
     ),
   }),
   feature({

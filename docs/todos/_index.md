@@ -84,9 +84,13 @@ below links the issue.
 - [ ] Earliest environment keyframes (12,500–10,900 BC): check they use calendar, not uncalibrated pollen, dates
 - [ ] Railway loose ends: Victoria's weight (18 vs 14 tons), the unconfirmed "Victor" of 1864, the 1858 Beyer Peacock engines
 - [ ] Railway lines' own dates: whether Pantyffynnon to Duffryn opened in 1840 or May 1841, when the
-      Amman valley branch closed or was lifted, what the undated lines near Pontyberem and Cross
-      Hands are, and the 1841 line east of Garnant's own course (not drawn until dated; [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md),
-      [open questions](../research/open-questions.md))
+      Amman valley branch closed or was lifted, and the 1841 line east of Garnant's own course
+      ([ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md), [open questions](../research/open-questions.md)).
+      *Done in part 2026-10-03, by Dewi's decision to draw the undated lines as labelled estimates*:
+      the line near Pontyberem is the Burry Port and Gwendraeth Valley Railway to Cwmmawr, drawn from
+      c. 1870; the track past the 1907 join at Gwaun-cae-Gurwen is the colliery line, drawn from c. 1841;
+      both are labelled educated guesses with their sources, seen red first. The Cross Hands stub is
+      35m of narrow-gauge track no source names, left undrawn. Still to do: the second-Opus review
 - [ ] Independent verification of every research note, as conversations-by-class had (it found 13 corrections).
       Done 2026-10-02: era-medieval-to-1282, event-effects, railway-later, anglo-norman-and-middle-english
       (reports in `docs/research/reviews/`), corrections applied to content and notes. Still to do:
@@ -318,7 +322,7 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
       ran on 2026-10-03 ([review](../research/reviews/soundscapes-check-2026-10-03.md)) and its
       corrections are applied (bed reasons and sources, a 1290-91 fair source); steam now ends on
       13 June 1964 and a reconstructed diesel-unit bed runs to today, seen red first. Still to do:
-      the second-Opus review of those changes (step 5); the market bed's start date waits on Dewi
+      the second-Opus review of those changes (step 5). *2026-10-03*: Dewi decided the market starts in the Middle Ages ("yes ok"); it now starts with the fair granted on 20 May 1290, seen red first
 - [ ] **Honest ambience, step two**: sound shaped by distance and space
 - [ ] **Contested points, shown as contested**: one register of every source disagreement, a
       `Contested<T>` type with exactly one preferred reading, a witnesses card, and a ⇄ switch only

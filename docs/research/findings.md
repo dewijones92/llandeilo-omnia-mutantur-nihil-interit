@@ -154,7 +154,9 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   the meltwater river and the first farmers' species are assumptions, and the golden eagle bones are
   older than the Late Ice Age. A fair at Llandeilo is now documented from 1290-91 and a Saturday
   market by 1326 (the *Gazetteer of Markets and Fairs to 1516*); when the market bed should start is
-  left for Dewi ([soundscapes](soundscapes.md)).
+  left for Dewi ([soundscapes](soundscapes.md)). *2026-10-03*: Dewi decided it starts in the Middle
+  Ages, so it now starts with the fair granted on 20 May 1290; the same gazetteer also calls Llandeilo a
+  "Market town c. 1600", citing Everitt, which now carries the 1600 point.
 - **Steam passenger trains ended on 13 June 1964** (railway-later), so the steam sound now ends then,
   and a reconstructed diesel-unit sound runs to today. **The Vale of Towy line north-east of the
   station opened on 1 April 1858** (era-victorian), so it is drawn from then, not from 1857
@@ -188,6 +190,20 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   back to become the Cawdor branch (1907 against 1933), when the 1926 railmotor service ended (June
   against 1 or 4 May) and how many halts it had, and S29 cites S74 for the dates they share, so those
   are not two independent sources (victorian:S74's annotation).
+- **The undated western lines are identified, and drawn as educated guesses** (2026-10-03, by Dewi's
+  decision). The line near Pontyberem is the Burry Port and Gwendraeth Valley Railway's top end, to a
+  goods yard at Rhyd-y-cerig below Cwm-mawr (the six-inch map of 1905, victorian:S82). Its sources
+  disagree on the date: 1869 or 1870 (histories via Wikipedia, S77) against 1886 (the same page, and
+  Coflein, S78); the **25-inch map surveyed in 1878–79 (S81) already draws the railway there**, so the
+  app draws it from c. 1870 and the 1886 date is left open. Its last coal train ran on 29 March 1996
+  (S77, S88). The track past the 1907 line's join at Gwaun-cae-Gurwen is a colliery line: the six-inch
+  map surveyed in **1877 draws a Great Western branch along it to Gwaun-cae-Gurwen Pit** (S83), the
+  1896 map runs it on to the Old Pit (S84), sunk about 1837 (S85, S86, S87, which disagree on who sank
+  it), so it is drawn from c. 1841, as the probable course of the 1841 line. The "Cross Hands" stub is
+  35m of narrow-gauge track (Ordnance Survey's own classing, S89) in farmland at Upper Tumble, not the
+  standard-gauge Mountain branch; no source names it and it stays undrawn. Historic maps were read
+  through the National Library of Scotland's georeferenced mosaic and IIIF images, a method worth
+  reusing for any "when was this track laid?" question.
 
 - **The motto** on the Begin card, *omnia mutantur, nihil interit*, is Ovid, *Metamorphoses* XV,
   in Pythagoras's speech. Checked 2026-10-03 in two online texts, both of which number it line 165:

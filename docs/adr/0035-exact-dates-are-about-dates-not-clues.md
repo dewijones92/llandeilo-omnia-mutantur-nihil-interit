@@ -73,3 +73,11 @@ was not true of all the track inside them. Claude decided each, under the proact
   and is not drawn, like the Cross Hands stubs. The content test now holds the section to the join
   and to S74's length, and counts the undrawn colliery track as the one stretch east of E258000 left
   out.
+
+## Amended 2026-10-03 (Dewi's decision)
+
+"An undated line has no date at all, and any date given it would be invented" is overruled by Dewi
+for the western and colliery lines: he decided on 2026-10-03 to draw them with estimated dates,
+labelled as educated guesses with sources (see ADR 0034's amendment of the same day). The distinction
+this ADR draws still stands for exactness: an estimate never carries `datesExact`, so it fades in and
+is only ever a probable clue in "When are we?".

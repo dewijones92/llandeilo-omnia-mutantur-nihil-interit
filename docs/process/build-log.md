@@ -484,3 +484,21 @@ Milestones and what each one taught us. Newest last.
    four parallel shards and the deploy waits for all of them; CI's per-test limit is 7 minutes
    ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md)). Lesson: the job time is a budget that every
    merged feature spends, so watch the trend, not just the colour.
+17. **Two decisions from Dewi, built the same day.** The market sound now starts in the Middle Ages
+   ("yes ok"): with the fair granted on 20 May 1290, reconstructed, then documented from the record of
+   1326, then the gazetteer's "Market town c. 1600". The first medieval day a bed named exposed that
+   `onDay` refused every day before 1753; it now reads earlier days in the Julian calendar and refuses
+   only 1752. And the undated railway lines are drawn as labelled estimates ("put draw and give
+   estimgate for dates but please label them as educated gueessess with sources?"): the line near
+   Pontyberem is the Burry Port and Gwendraeth Valley Railway (c. 1870), the track past the 1907 join
+   is Gwaun-cae-Gurwen's colliery line (c. 1841). The research turned on old maps: the National Library
+   of Scotland's georeferenced six-inch mosaic, with today's track drawn over it, matched both lines
+   to the railways on the 1896 and 1905 maps, and its IIIF images of the 1877 and 1878–79 surveys dated
+   them, the second contradicting the "1886" both Coflein and Wikipedia give for Cwmmawr. The NLS sheet
+   index (a WFS layer on geoserver.nls.uk) names the sheet and survey years for any grid point. The
+   "Cross Hands" stub turned out to be 35m of narrow-gauge track, by OS's own attribute, that no source
+   names, so it is the one stretch left undrawn. Seen red first: the market test (at the start date),
+   the Julian `onDay` test, the every-stretch-in-one-section test, the educated-guess label test and
+   the "c." fade test. Dead end: the Welsh Newspapers search returned nothing useful for "Cwmmawr" in
+   1884 to 1887 (it errors on some queries and matches farm names on others).
+

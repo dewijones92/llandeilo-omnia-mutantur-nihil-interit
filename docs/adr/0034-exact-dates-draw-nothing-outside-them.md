@@ -84,3 +84,14 @@ the western lines with a guessed date (inventing a date).
   with the old course, and the colliery track beyond it, undated, is in no section and is not drawn, so
   "every line east of E258000 drawn once" excepts that track.
 
+## Amended 2026-10-03 (Dewi's decision)
+
+Dewi decided on 2026-10-03 to draw the undated lines as labelled estimates ("put draw and give
+estimgate for dates but please label them as educated gueessess with sources?"), so "undated lines are
+left undrawn rather than given a guessed date" no longer holds. Each becomes one more section, as
+above foresaw, but dated "c.", without `datesExact`, `reconstructed`, and with an ⓘ that says it is an
+educated guess, why that date and on which sources: `railway-gwendraeth-valley` (the Burry Port and
+Gwendraeth Valley line near Pontyberem, from c. 1870) and `railway-gwaun-cae-gurwen-colliery` (the track
+past the 1907 join, from c. 1841). They fade in like any "c." feature. The one stretch left undrawn is
+the 35m of narrow-gauge track near Cross Hands (`CROSS_HANDS_NARROW_GAUGE`), which no source names. The
+content test now holds every stretch of today's track to exactly one section, that stub apart.

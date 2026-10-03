@@ -551,7 +551,7 @@ test('a key date whose season and hour a source records sets the sky to match, u
   await expect(page.locator('.sky-note')).toHaveText('Atmosphere only, not a record of this year');
 });
 
-test('the debug overlay names each sounding bed and its reason: no bells before the 1857 peal, fades labelled as fades', async ({
+test('the debug overlay names each sounding bed and its reason: no bells before the 1857 peal, a market from 1290, fades labelled as fades', async ({
   page,
 }) => {
   const debug = page.locator('.debug');
@@ -562,13 +562,17 @@ test('the debug overlay names each sounding bed and its reason: no bells before 
   await at(1282);
   await expect(debug).toContainText(/sound river 0\.\d\d reconstructed deeptime:S40/);
   await expect(debug).not.toContainText('sound bells');
+  await expect(debug).not.toContainText('sound market');
+  // The market from the fair granted in 1290, documented from the record of 1326 (sound:S20).
+  await at(1330);
+  await expect(debug).toContainText(/sound market 0\.\d\d documented sound:S20/);
   await at(1855);
   await expect(debug).toContainText('sound wind');
   await expect(debug).not.toContainText('sound bells');
   await expect(debug).not.toContainText('sound train');
   await at(1700);
   await expect(debug).toContainText(
-    /sound market 0\.\d\d reconstructed sound:S20, fading to documented victorian:S41 victorian:S65/,
+    /sound market 0\.\d\d documented sound:S20, fading to documented victorian:S41 victorian:S65/,
   );
   await at(1900);
   await expect(debug).toContainText(

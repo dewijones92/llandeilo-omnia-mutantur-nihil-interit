@@ -5,7 +5,7 @@ import { END_OF_STEAM } from '../src/content/features.ts';
 import { WORLD_CONTENT } from '../src/content/world.ts';
 import { hasStreetLamps, lampAlmanacAt, lampColour, lampsAt } from '../src/domain/lamplight.ts';
 import { drawnRailway, longestLine } from '../src/domain/rail.ts';
-import { latestStarting, snapshotAt } from '../src/domain/state.ts';
+import { FADE_T, latestStarting, presenceAt, snapshotAt } from '../src/domain/state.ts';
 import { keySteps } from '../src/domain/steps.ts';
 import { ad, contains, onDay } from '../src/domain/time.ts';
 import { tAt } from '../src/domain/timeline.ts';
@@ -202,6 +202,24 @@ describe('snapshotAt: the railway on screen', () => {
   it('draws the line east of Garnant from its opening on 4 November 1907, and nothing of it before', () => {
     expect(ids(justBefore(1907, 11, 4))).not.toContain('railway-gwaun-cae-gurwen');
     expect(ids(justAfter(1907, 11, 4))).toContain('railway-gwaun-cae-gurwen');
+  });
+
+  // Sections dated "c." are educated guesses (decision of 2026-10-03): they fade in around their date
+  // rather than popping on, are fully drawn from it, and are not drawn a whole fade before it.
+  it('fades the estimated railway sections in around their "c." dates', () => {
+    const estimated = W.features.filter((f) => f.kind.type === 'railway' && !f.datesExact);
+    expect(estimated.map((f) => f.id).sort()).toEqual([
+      'railway-gwaun-cae-gurwen-colliery',
+      'railway-gwendraeth-valley',
+    ]);
+    for (const f of estimated) {
+      const from = tAt(W.timeline, f.when.from);
+      expect(ids(from)).toContain(f.id);
+      expect(ids(from - FADE_T - 1e-6)).not.toContain(f.id);
+      const presence = (t: number) => presenceAt(W.timeline, f, t);
+      expect(presence(from - FADE_T / 2)).toBeCloseTo(0.5, 5);
+      expect(presence(from - FADE_T / 4)).toBeGreaterThan(presence(from - (3 * FADE_T) / 4));
+    }
   });
 
   it('hands the drawn train and its sound over together when steam ended, to the instant', () => {

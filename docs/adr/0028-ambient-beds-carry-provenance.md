@@ -83,3 +83,12 @@ it before it landed on `main`.
   need every other bed's level copied onto it.
 - A medieval handbell for the St Teilo legend: the bells bed is a church peal, and a legend written
   600 years later is not a sound bed. Left for a labelled scene, if ever.
+
+## Amended 2026-10-03
+
+- The market no longer starts at 1600: Dewi decided it starts in the Middle Ages, with the fair
+  granted on 20 May 1290 (see the decision log). That point is the first medieval day a bed names, so
+  `onDay` now reads a day before 1752 in the Julian calendar Britain used then (Julian leap years,
+  years from 1 January) and refuses 1752 itself, rather than refusing every day before 1753. One
+  function still makes every named day; the alternative, a separate Julian helper, would have left
+  callers to choose the calendar.
