@@ -4,6 +4,7 @@ import type { Clock, Lighting } from '../domain/daylight.ts';
 import type { LampState } from '../domain/lamplight.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import type { Snapshot, SoundingBed } from '../domain/state.ts';
+import { describeGraphics, type GraphicsState } from '../domain/quality.ts';
 import { h } from './dom.ts';
 
 const why = (p: Provenance): string => [p.kind, ...p.sources].join(' ');
@@ -22,6 +23,7 @@ export class DebugOverlay {
     private readonly engine: AbstractEngine,
     private readonly backend: string,
     private readonly camera: ArcRotateCamera,
+    private readonly graphics: () => GraphicsState,
   ) {
     setInterval(() => {
       this.render();
@@ -44,6 +46,7 @@ export class DebugOverlay {
     const env = s.environment;
     const lines = [
       `backend ${this.backend}  fps ${this.engine.getFps().toFixed(0)}`,
+      describeGraphics(this.graphics()),
       `camera x ${c.x.toFixed(0)} z ${c.z.toFixed(0)} r ${this.camera.radius.toFixed(0)}`,
       `t ${s.t.toFixed(4)}  year ${formatYear(s.year, 'en')}  era ${s.era?.id ?? '-'}`,
       `${this.sky}  chill ${s.chill.toFixed(2)}`,

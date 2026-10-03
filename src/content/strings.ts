@@ -11,6 +11,19 @@ export const STRINGS = {
     cy: "Deg milltir o'i chwmpas, drwy'r holl oesoedd",
   },
   loading: { en: 'Raising the Tywi valley…', cy: 'Codi Dyffryn Tywi…' },
+  // Pythagoras's speech in Book XV; the repo is named after it.
+  motto: { en: 'Omnia mutantur, nihil interit', cy: 'Omnia mutantur, nihil interit' },
+  mottoMeaning: {
+    en: 'Everything changes, nothing perishes',
+    cy: 'Mae popeth yn newid, does dim byd yn darfod',
+  },
+  mottoSource: { en: 'Ovid, Metamorphoses XV', cy: 'Ofydd, Metamorphoses XV' },
+  begin: { en: 'Begin', cy: 'Dechrau' },
+  beginSound: { en: 'The sound comes on as you begin.', cy: 'Daw’r sain ymlaen wrth i chi ddechrau.' },
+  graphics: { en: 'Graphics', cy: 'Graffeg' },
+  high: { en: 'High', cy: 'Uchel' },
+  medium: { en: 'Medium', cy: 'Canolig' },
+  low: { en: 'Low', cy: 'Isel' },
   loadingFailed: {
     en: 'Something went wrong loading the valley.',
     cy: "Aeth rhywbeth o'i le wrth lwytho'r dyffryn.",

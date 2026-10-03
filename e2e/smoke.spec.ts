@@ -648,3 +648,67 @@ test('When are we? hides the year, takes a guess on the timeline, then reveals i
   await expect(game).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test('the Begin card shows the motto in both languages, and Begin opens the valley with sound', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?begin=1');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const card = page.getByRole('dialog', { name: 'Llandeilo' });
+  await expect(card).toBeVisible();
+  await expect(card).toContainText('Omnia mutantur, nihil interit');
+  await expect(card).toContainText('Everything changes, nothing perishes');
+  await expect(card).toContainText('Ovid, Metamorphoses XV');
+  // A see-through card let place labels and speech bubbles show through the motto.
+  const cardBackground = await card
+    .locator('.loader-card')
+    .evaluate((el) => getComputedStyle(el).backgroundColor);
+  expect(cardBackground).toBe('rgb(255, 255, 255)');
+  const counter = await page.locator('.tl-counter').textContent();
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('?');
+  await card.getByRole('button', { name: 'Cymraeg' }).click();
+  await expect(card).toContainText('Mae popeth yn newid, does dim byd yn darfod');
+  await expect(card.getByRole('button', { name: 'Dechrau' })).toBeVisible();
+  await card.getByRole('button', { name: 'English' }).click();
+  await page.screenshot({ path: 'test-results/begin-card.png' });
+  await card.getByRole('button', { name: 'Begin' }).click();
+  await expect(card).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Sound on' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.tl-counter')).toHaveText(counter ?? '');
+  await expect(page.getByRole('dialog', { name: 'Keys and controls' })).toBeHidden();
+  expect(errors).toEqual([]);
+});
+
+test('choosing Low graphics turns the effects off in the renderer, and the choice is remembered', async ({
+  page,
+}) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const debug = page.locator('.debug');
+  // The overlay reads these back from the renderer (pipeline, shadow map, forest), not from the table.
+  const live = async (): Promise<string> =>
+    ((await debug.textContent()) ?? '').split('\n').find((l) => l.startsWith('quality ')) ?? '';
+  const trees = (line: string): number => Number(/ trees (\d+) /.exec(line)?.[1] ?? Number.NaN);
+  await expect.poll(live).toMatch(/^quality high .* bloom on {2}dof on {2}sharpen on /);
+  const high = await live();
+  expect(Number(/shadows (\d+)\//.exec(high)?.[1])).toBeGreaterThan(2048);
+  const highTrees = trees(high);
+  expect(highTrees).toBeGreaterThan(0);
+  const graphics = page.getByRole('group', { name: 'Graphics' });
+  await expect(graphics.getByRole('button', { name: 'High' })).toHaveAttribute('aria-pressed', 'true');
+  await graphics.getByRole('button', { name: 'Low' }).click();
+  await expect(graphics.getByRole('button', { name: 'Low' })).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(live).toMatch(/^quality low /);
+  const low = await live();
+  expect(low).toContain('shadows 1024/low  msaa 1  bloom off  dof off  sharpen off');
+  // Low draws 0.31 of woodland triangles against High's 0.9.
+  const share = trees(low) / highTrees;
+  expect(share).toBeGreaterThan(0.25);
+  expect(share).toBeLessThan(0.45);
+  await page.reload();
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect.poll(live).toMatch(/^quality low .* bloom off {2}dof off /);
+});

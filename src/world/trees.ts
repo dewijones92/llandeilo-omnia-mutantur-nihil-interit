@@ -11,12 +11,15 @@ import {
 } from './babylon.ts';
 import { snowCover, type SeasonLook } from '../domain/daylight.ts';
 import { hash2 } from '../domain/noise.ts';
+import { MAX_TREE_DENSITY } from '../domain/quality.ts';
 import { COVER_CODE, type Terrain } from './terrain.ts';
 
 type Rgb3 = readonly [number, number, number];
 
 interface Candidate {
   readonly tri: number;
+  // Uniform in [0, 1): the tree is drawn when this is below the quality's tree density.
+  readonly rank: number;
   readonly matrix: Float32Array;
   readonly shade: number;
   readonly conifer: boolean;
@@ -73,10 +76,13 @@ export class Forest {
   private readonly broadleaf: Mesh;
   private readonly conifer: Mesh;
   private readonly candidates: readonly Candidate[];
+  private look: SeasonLook | undefined;
+  private drawn = 0;
 
   constructor(
     scene: Scene,
     private readonly terrain: Terrain,
+    private density: number,
   ) {
     const mat = new StandardMaterial('tree-mat', scene);
     mat.specularColor = new Color3(0.03, 0.03, 0.03);
@@ -86,7 +92,7 @@ export class Forest {
     const t = terrain.tris;
     for (let i = 0; i < t.count; i++) {
       const r = hash2(i, 91, 5);
-      if (r > 0.62) continue;
+      if (r >= MAX_TREE_DENSITY) continue;
       const scale = 1.5 + hash2(i, 17, 2) * 0.9;
       const rot = Quaternion.RotationAxis(Vector3.Up(), hash2(i, 3, 9) * Math.PI * 2);
       const jx = (hash2(i, 5, 1) - 0.5) * 3;
@@ -103,6 +109,7 @@ export class Forest {
       m.copyToArray(arr);
       list.push({
         tri: i,
+        rank: r,
         matrix: arr,
         shade,
         conifer,
@@ -119,15 +126,26 @@ export class Forest {
     return [this.broadleaf, this.conifer];
   }
 
+  get treesDrawn(): number {
+    return this.drawn;
+  }
+
+  setDensity(density: number): void {
+    if (density === this.density) return;
+    this.density = density;
+    if (this.look) this.update(this.look);
+  }
+
   update(look: SeasonLook): void {
+    this.look = look;
     const code = COVER_CODE.wood;
     const broad: Candidate[] = [];
     const con: Candidate[] = [];
     for (const c of this.candidates) {
-      if (this.terrain.cover[c.tri] === code) (c.conifer ? con : broad).push(c);
+      if (c.rank < this.density && this.terrain.cover[c.tri] === code) (c.conifer ? con : broad).push(c);
     }
-    const visible = broad.length + con.length;
-    console.info(`dewidebug forest visible=${visible}`);
+    this.drawn = broad.length + con.length;
+    console.info(`dewidebug forest visible=${String(this.drawn)} density=${this.density.toFixed(2)}`);
     apply(this.broadleaf, broad, look);
     apply(this.conifer, con, look);
   }

@@ -47,7 +47,7 @@ research by key, and a citation to a source that does not exist fails the build.
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173 (?year=1282, ?place=garn-goch, ?lang=cy, ?debug)
+npm run dev        # http://localhost:5173 (?year=1282, ?place=garn-goch, ?lang=cy, ?debug, ?quality=high|medium|low, ?begin=1|0)
 npm run check      # format, types, lint, unit tests, dead-code check
 ```
 

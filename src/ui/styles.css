@@ -465,6 +465,75 @@ button {
   margin: 0;
 }
 
+.loader.ready {
+  background: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.82), rgba(228, 235, 240, 0.35) 75%);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+/* Solid: a see-through card let place labels and speech bubbles show through the motto. */
+.loader.ready .loader-card {
+  padding: 30px 48px 26px;
+  background: var(--panel-solid);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.loader .motto {
+  margin: 14px 0 2px;
+  font: italic 500 22px/1.25 var(--display);
+  color: var(--ink);
+}
+
+.loader .motto-meaning {
+  font-size: 17px;
+}
+
+.loader .motto-source {
+  margin: 4px 0 18px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.loader .begin {
+  margin-top: 6px;
+  padding: 10px 34px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--panel-solid);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.loader .begin:hover {
+  background: var(--ink-soft);
+}
+
+.loader .begin-note {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.begin-lang {
+  margin-top: 16px;
+}
+
+.brand .quality {
+  align-items: center;
+}
+
+.quality-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
 .loader-bar {
   width: 220px;
   height: 4px;

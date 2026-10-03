@@ -235,12 +235,31 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       sources and licensed recordings or performed from period notation (Dewi: "music through time and
       places"). The app stays inside the agreed ten miles or so around Llandeilo. Dewi chose
       in-world music where the research puts it, plus a light labelled score that can be turned off
-- [ ] **A Begin screen**: a title card with the Ovid motto; its click turns the sound on (browsers
-      need one) and can start the opening flight (Dewi chose this, 2026-10-02)
+- [x] **A Begin screen**: a title card with the Ovid motto; its click turns the sound on (browsers
+      need one) and can start the opening flight (Dewi chose this, 2026-10-02). Done 2026-10-03: the
+      loading card becomes the Begin card once the valley is ready, veiled over the scene, with the
+      motto, its English or Welsh meaning, the source (Metamorphoses XV) and a language switch.
+      Begin turns the sound on. Deep links (`?year=`, `?t=`, `?place=`), `?debug` and automated
+      browsers skip it; `?begin=1` forces it, `?begin=0` hides it. e2e test seen red first; screenshots
+      at 1282 (English) and 1880 (Welsh). The opening flight waits for its own item. Motto checked
+      in two texts ([findings](../research/findings.md)); its Welsh waits for the parked human check.
+      Second-Opus review 2026-10-03: the card was still see-through (labels showed through the
+      motto) and keys reached the app behind it; both fixed, each with an e2e assertion seen red
+      first (a solid card background; the year and the keys panel unchanged after ArrowRight and ?),
+      screenshots retaken at 1282 and 1880
 - [ ] **Quality up for powerful GPUs** (Dewi: "assume ... beefy gpus"): raise the defaults (shadow
       resolution, post-processing, vegetation density, particles, reflections). A small High / Medium
       / Low menu (Dewi: "dont put too much effort in to this tho ... concentrate on high mode",
-      High the default), mapping onto one quality setting that replaces `?fx=low`
+      High the default), mapping onto one quality setting that replaces `?fx=low`. **Part done
+      2026-10-03** ([ADR 0031](../adr/0031-one-graphics-quality-setting.md)): the menu and the one
+      setting; High raises shadows to 8192² with high filtering, the pixel cap to 2x and tree density
+      from 0.62 to 0.9; Medium keeps the old density and drops bloom and depth of field; Low draws
+      0.31. Post-processing at High is what it was before (bloom, depth of field and sharpening were
+      already on). Remembered per browser; `?fx=low` is an alias for Low. e2e test seen red first,
+      reading the renderer's live state (red with the forest or the bloom apply line removed);
+      screenshots at 1282 High and Medium, 1843 High and Low. Second-Opus review 2026-10-03 done,
+      its findings fixed. **Still to do**: particles and reflections, and a measurement on a real
+      desktop GPU
 - [ ] **Cutscenes at key dates** (Dewi: "romans marching in to llandeilo -- with a cutscene ... i am a
       massive fan of cutscenes"): short, skippable cinematic sequences (camera moves, figures moving on
       sourced routes, sound, music, narration and captions) built from one data-driven cutscene model,

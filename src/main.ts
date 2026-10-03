@@ -32,6 +32,11 @@ import { desktopBanner } from './ui/desktop-banner.ts';
 import { ConversationPanel } from './ui/conversation.ts';
 import { InfoPanel, type InfoTab } from './ui/info.ts';
 import { GuessGame } from './ui/guess.ts';
+import { langToggle } from './ui/lang-toggle.ts';
+import { OpeningCard } from './ui/opening.ts';
+import { QualityMenu, storedQuality } from './ui/quality.ts';
+import { showsBegin } from './domain/opening.ts';
+import { chooseQuality, QUALITY } from './domain/quality.ts';
 import { Ambience } from './audio/ambience.ts';
 import { h } from './ui/dom.ts';
 import { Shortcuts } from './ui/shortcuts.ts';
@@ -64,18 +69,8 @@ async function start(): Promise<void> {
   const canvas = document.getElementById('scene');
   if (!app || !(canvas instanceof HTMLCanvasElement)) throw new Error('Missing #app or #scene');
 
-  const loader = h(
-    'div',
-    { class: 'loader', role: 'status' },
-    h(
-      'div',
-      { class: 'loader-card' },
-      h('h1', {}, store.t('title')),
-      h('p', {}, store.t('loading')),
-      h('div', { class: 'loader-bar' }, h('span')),
-    ),
-  );
-  document.body.append(loader);
+  const opening = new OpeningCard(store, showsBegin(params, navigator.webdriver));
+  document.body.append(opening.el);
 
   const [{ engine, backend }, heightfield, rivers, woodland, footprints, railways, roads] = await Promise.all(
     [
@@ -88,7 +83,13 @@ async function start(): Promise<void> {
       loadRoads(),
     ],
   );
-  const world = new World(engine, heightfield, rivers, woodland, params.get('fx') !== 'low');
+  const chosen = chooseQuality({
+    param: params.get('quality'),
+    fx: params.get('fx'),
+    stored: storedQuality(),
+  });
+  console.info(`dewidebug quality start=${chosen.quality} from=${chosen.source}`);
+  const world = new World(engine, heightfield, rivers, woodland, QUALITY[chosen.quality]);
   const content = WORLD_CONTENT;
   const trainModels = new Map<RollingStock, LoadedModel>();
   const llanelly = await loadModel(
@@ -105,7 +106,9 @@ async function start(): Promise<void> {
   world.addLamp(firelight.material);
   let smokeSources = features.smokeSources([]);
 
-  const debug = params.has('debug') ? new DebugOverlay(engine, backend, world.camera) : undefined;
+  const debug = params.has('debug')
+    ? new DebugOverlay(engine, backend, world.camera, () => world.graphics())
+    : undefined;
   let pending = true;
   let t = Number(params.get('t') ?? Number.NaN);
   const yearParam = Number(params.get('year') ?? Number.NaN);
@@ -238,13 +241,17 @@ async function start(): Promise<void> {
   let ambience: Ambience | undefined;
   let soundOn = false;
   const sound = h('button', { class: 'tool', type: 'button', 'aria-pressed': false }, store.t('soundOff'));
-  sound.addEventListener('click', () => {
-    soundOn = !soundOn;
+  // Browsers only start audio from a click, so this must run inside one.
+  const setSound = (on: boolean): void => {
+    soundOn = on;
     ambience ??= new Ambience();
     ambience.set(snapshotAt(content, t).sound.levels);
     ambience.enable(soundOn);
     sound.setAttribute('aria-pressed', String(soundOn));
     sound.textContent = store.t(soundOn ? 'soundOn' : 'soundOff');
+  };
+  sound.addEventListener('click', () => {
+    setSound(!soundOn);
   });
   const tabButton = (tab: InfoTab): HTMLButtonElement => {
     const b = h('button', { class: 'tool reveals-when', type: 'button' }, store.t(tab));
@@ -318,7 +325,10 @@ async function start(): Promise<void> {
     keysButton,
     guess.button,
   );
-  brand.append(row2, skyControls.el);
+  const quality = new QualityMenu(store, chosen.quality, (q) => {
+    world.setQuality(QUALITY[q]);
+  });
+  brand.append(row2, skyControls.el, quality.el);
   brand.querySelector('.brand-row')?.append(home);
   // Everything that would give the year away during a "When are we?" round (see styles.css).
   for (const el of [labels.el, bubbles.el, moment.el, panel.el, info.el, followChip.el, debug?.el]) {
@@ -333,6 +343,10 @@ async function start(): Promise<void> {
   panel.onVisibility = compact;
   info.onVisibility = compact;
   document.addEventListener('keydown', (e) => {
+    if (opening.isWaiting) {
+      console.info(`dewidebug key ${e.key} ignored while the Begin card waits`);
+      return;
+    }
     const stepKey = e.key === 'ArrowRight' || e.key === 'ArrowLeft';
     const modified = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     const focus = document.activeElement;
@@ -476,30 +490,12 @@ async function start(): Promise<void> {
     engine.resize();
   });
   await world.scene.whenReadyAsync();
-  loader.classList.add('done');
-  setTimeout(() => {
-    loader.remove();
-  }, 900);
+  opening.ready(() => {
+    setSound(true);
+  });
   if (debug) Object.assign(window, { llandeiloDebug: { scene: world.scene } });
   document.body.dataset['ready'] = 'true';
   console.info(`dewidebug app ready backend=${backend}`);
-}
-
-function langToggle(store: LangStore): HTMLElement {
-  const en = h('button', { type: 'button', 'aria-pressed': store.lang === 'en' }, 'English');
-  const cy = h('button', { type: 'button', 'aria-pressed': store.lang === 'cy' }, 'Cymraeg');
-  const sync = (): void => {
-    en.setAttribute('aria-pressed', String(store.lang === 'en'));
-    cy.setAttribute('aria-pressed', String(store.lang === 'cy'));
-  };
-  en.addEventListener('click', () => {
-    store.set('en');
-  });
-  cy.addEventListener('click', () => {
-    store.set('cy');
-  });
-  store.onChange(sync);
-  return h('div', { class: 'seg', role: 'group', 'aria-label': 'Language / Iaith' }, en, cy);
 }
 
 start().catch((err: unknown) => {
