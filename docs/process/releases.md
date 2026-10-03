@@ -11,7 +11,48 @@ What changed in the app, for family and visitors, newest first. Each section is 
 GitHub release, tagged with the version in `package.json` ([ADR 0025](../adr/0025-releases-at-visible-milestones.md)).
 Corrections to history are called out: when we get something wrong, we say so.
 
+## v0.3.0 (2026-10-03): the sky on the day, the warm Ice Age, and faster scrubbing
+
+**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
+
+**The sky follows the record.** Where a source says what the season or the hour was, arriving at
+that key date sets the sky to match, with its own ⓘ: the 1857 railway on a sleety January day,
+the flood under the new bridge at 9 pm on 30 January 1848, the Walk Gate attack by night in 1843,
+the 1850 church reopening at the 11 o'clock service, the 1282 ambush in June. Change the sky and it is
+yours again.
+
+![1857: winter from the record, with its source](../images/releases/v0.3.0/railway-1857-sky.jpg)
+![1848: the night the flood took the timber from under the new bridge](../images/releases/v0.3.0/bridge-1848-night.jpg)
+
+**More history corrected**, from independent checks of six more research notes (about 70 fixes in
+the app):
+
+- **12,500 BC was drawn as the coldest, barest moment.** Its dates had been read from uncalibrated
+  pollen zones. In calendar years it is the warm part of the Late Glacial, with grass and juniper
+  scrub.
+- **The Dinefwr Roman forts** now have the primary report's sizes (240 by 160m and 140 by 110m), and
+  only the smaller fort lasts into the 2nd century.
+- **The Great Western took over the line in 1873**, not 1889.
+- **The trilobite was found in 1698**, not 1688. Wolves were last mentioned in Wales in 1166 but
+  probably lived on for another century or two.
+- **Language:** Late Brittonic until about 550, then Primitive Welsh (Cymraeg Cyntefig), and modern
+  Welsh from the 1400s.
+- **Llandeilo's Welsh speakers:** about 45% in 2021, and the earlier figures are now labelled as
+  ward figures, not the town's.
+- **No page counts twice:** places that cited one web page under two references, which made them
+  look like two sources, now cite it once.
+
+![c. 12,500 BC: a greener Late Glacial](../images/releases/v0.3.0/late-glacial-12500bc.jpg)
+![c. AD 74: the Roman forts at their surveyed sizes](../images/releases/v0.3.0/roman-forts-74.jpg)
+![AD 600: the language panel shows Primitive Welsh](../images/releases/v0.3.0/primitive-welsh.jpg)
+
+**Smoother.** On a real graphics card, scrubbing the timeline went from about 2 to about 15 frames a
+second. Every step used to recolour the whole landscape and redraw every shadow; now that waits until
+the slider settles.
+
 ## v0.2.0 (2026-10-02): checked history, rebuilt abbey and castle, and a keys panel
+
+**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
 
 **History corrected.** Every research note behind the app's three main eras was re-read against its
 sources by an independent check, and what was wrong is now fixed in the app:
