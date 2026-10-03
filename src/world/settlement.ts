@@ -352,21 +352,3 @@ function boxTrain(scene: Scene): Stock {
   mesh.isVisible = false;
   return { mesh, chimney: new Vector3(1.1, 2.6, 0), lift: 0.4 };
 }
-
-export function longestLine(lines: readonly MapLine[]): MapLine | undefined {
-  let best: MapLine | undefined;
-  let bestLen = 0;
-  for (const l of lines) {
-    let len = 0;
-    for (let i = 1; i < l.points.length; i++) {
-      const a = l.points[i - 1];
-      const b = l.points[i];
-      if (a && b) len += Math.hypot(b.e - a.e, b.n - a.n);
-    }
-    if (len > bestLen) {
-      bestLen = len;
-      best = l;
-    }
-  }
-  return best;
-}

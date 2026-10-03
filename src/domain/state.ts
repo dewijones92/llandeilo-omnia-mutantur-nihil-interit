@@ -166,9 +166,19 @@ export function latestStarting<T extends { readonly when: TimeRange }>(
   return best && y < best.when.to + 1 ? best : undefined;
 }
 
-export function presenceAt(timeline: Timeline, when: TimeRange, t: number): number {
-  const from = tAt(timeline, when.from);
-  const to = tAt(timeline, when.to);
+/**
+ * How present a dated thing is at t, 0..1. One whose dates a source gives exactly (`datesExact`) is
+ * never present outside them: on at `from`, gone after `to` (ADR 0034). One whose dates are "c."
+ * fades in over the stretch before `from` and out over the stretch after `to`.
+ */
+export function presenceAt(
+  timeline: Timeline,
+  item: { readonly when: TimeRange; readonly datesExact?: true },
+  t: number,
+): number {
+  const from = tAt(timeline, item.when.from);
+  const to = tAt(timeline, item.when.to);
+  if (item.datesExact) return t >= from && t <= to ? 1 : 0;
   const fadeIn = smoothstep(from - FADE_T, from, t);
   const fadeOut = 1 - smoothstep(to, to + FADE_T, t);
   return Math.min(fadeIn, fadeOut);
@@ -181,7 +191,7 @@ function lightAlmanac(entries: readonly AlmanacEntry[], light: AlmanacEntry | un
 export function snapshotAt(world: WorldContent, t: number): Snapshot {
   const y = yearAt(world.timeline, t);
   const features = world.features
-    .map((feature) => ({ feature, presence: presenceAt(world.timeline, feature.when, t) }))
+    .map((feature) => ({ feature, presence: presenceAt(world.timeline, feature, t) }))
     .filter((f) => f.presence > 0.001);
   let nearestEvent: KeyEvent | undefined;
   let best = Infinity;

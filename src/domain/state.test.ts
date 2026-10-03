@@ -14,16 +14,24 @@ describe('presenceAt', () => {
   const when = range(ad(1200), ad(1500));
 
   it('is fully present from its first year to its last', () => {
-    expect(presenceAt(tl, when, 0.2)).toBe(1);
-    expect(presenceAt(tl, when, 0.35)).toBe(1);
-    expect(presenceAt(tl, when, 0.5)).toBe(1);
+    expect(presenceAt(tl, { when }, 0.2)).toBe(1);
+    expect(presenceAt(tl, { when }, 0.35)).toBe(1);
+    expect(presenceAt(tl, { when }, 0.5)).toBe(1);
   });
 
   it('fades in before it starts and out after it ends', () => {
-    expect(presenceAt(tl, when, 0.1)).toBe(0);
-    expect(presenceAt(tl, when, 0.195)).toBeGreaterThan(0);
-    expect(presenceAt(tl, when, 0.505)).toBeLessThan(1);
-    expect(presenceAt(tl, when, 0.6)).toBe(0);
+    expect(presenceAt(tl, { when }, 0.1)).toBe(0);
+    expect(presenceAt(tl, { when }, 0.195)).toBeGreaterThan(0);
+    expect(presenceAt(tl, { when }, 0.505)).toBeLessThan(1);
+    expect(presenceAt(tl, { when }, 0.6)).toBe(0);
+  });
+
+  it('is never present outside dates a source gives exactly: on at the first year, gone after the last', () => {
+    const exact = (t: number) => presenceAt(tl, { when, datesExact: true }, t);
+    expect(exact(0.195)).toBe(0);
+    expect(exact(0.2)).toBe(1);
+    expect(exact(0.5)).toBe(1);
+    expect(exact(0.505)).toBe(0);
   });
 });
 

@@ -1,9 +1,14 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { WORLD_CONTENT } from '../src/content/world.ts';
 import { hasStreetLamps } from '../src/domain/lamplight.ts';
+import { drawnRailway, longestLine } from '../src/domain/rail.ts';
 import { snapshotAt } from '../src/domain/state.ts';
+import { keySteps } from '../src/domain/steps.ts';
 import { ad, contains } from '../src/domain/time.ts';
 import { tAt } from '../src/domain/timeline.ts';
+import { parseLines } from '../src/platform/assets.ts';
 
 describe('snapshotAt: what is on screen and heard in 1282', () => {
   const t = tAt(WORLD_CONTENT.timeline, ad(1282));
@@ -104,5 +109,43 @@ describe('snapshotAt: how the night was lit', () => {
       expect(light[0]?.provenance).toBe(key(y).provenance);
     }
     expect(snapAt(1880).almanac.find((a) => a.topic === 'light')?.text.en).toMatch(/^By 1876 gas lamps/);
+  });
+});
+
+// What the renderer draws of the railway, through the same rule (drawnRailway), not the content dates.
+describe('snapshotAt: the railway on screen', () => {
+  const W = WORLD_CONTENT;
+  const path = 'public/data/railways.json';
+  const lines = parseLines(JSON.parse(readFileSync(join(import.meta.dirname, '..', path), 'utf8')), path);
+  const trainLine = longestLine(lines)?.points;
+  const drawnAtT = (t: number) => drawnRailway(snapshotAt(W, t).features, trainLine);
+  const drawnAt = (y: number) => drawnAtT(tAt(W.timeline, ad(y)));
+  const ids = (t: number) => drawnAtT(t).sections.map((s) => s.feature.id);
+  const step1857 = keySteps(W.timeline, W.events).find((s) => s.event.id === 'railway');
+
+  it('draws no Vale of Towy line at the 1857 key step, or before it opened on 1 April 1858', () => {
+    expect(step1857).toBeDefined();
+    const t = step1857?.t ?? 0;
+    expect(ids(t)).toContain('railway');
+    expect(ids(t)).not.toContain('railway-vale-of-towy');
+    expect(ids(tAt(W.timeline, ad(1858.2)))).not.toContain('railway-vale-of-towy');
+    expect(ids(tAt(W.timeline, ad(1858.3)))).toContain('railway-vale-of-towy');
+  });
+
+  it('draws no train before the railway reached Llandeilo in January 1857', () => {
+    const early: string[] = [];
+    for (let y = 1800; y < 1857; y += 0.1) if (drawnAt(y).train) early.push(y.toFixed(1));
+    expect(early).toEqual([]);
+    expect(drawnAtT(step1857?.t ?? 0).train?.feature.id).toBe('train-llanelly');
+  });
+
+  it('never draws a train that is not heard', () => {
+    const silent: string[] = [];
+    for (let y = 1800; y <= 2026; y += 0.1) {
+      const t = tAt(W.timeline, ad(y));
+      const levels = snapshotAt(W, t).sound.levels;
+      if (drawnAtT(t).train && levels.train <= 0 && levels.railcar <= 0) silent.push(y.toFixed(1));
+    }
+    expect(silent).toEqual([]);
   });
 });

@@ -1,4 +1,5 @@
-import type { GridRef } from './model.ts';
+import type { Feature, GridRef, RollingStock } from './model.ts';
+import type { FeaturePresence } from './state.ts';
 
 /**
  * Part of today's drawn track, so a stretch can appear on the date it opened: the parts of the
@@ -82,4 +83,78 @@ export function sectionSpan(
     }
   }
   return from <= to ? [from / total, to / total] : undefined;
+}
+
+export function longestLine<L extends Line>(lines: readonly L[]): L | undefined {
+  let best: L | undefined;
+  let bestLen = 0;
+  for (const l of lines) {
+    let len = 0;
+    for (let i = 1; i < l.points.length; i++) {
+      const a = l.points[i - 1];
+      const b = l.points[i];
+      if (a && b) len += Math.hypot(b.e - a.e, b.n - a.n);
+    }
+    if (len > bestLen) {
+      bestLen = len;
+      best = l;
+    }
+  }
+  return best;
+}
+
+// The one rule for what of the railway is on screen; the renderer draws exactly this, and the tests
+// sample it, so a test of the railway is a test of the picture.
+const SECTION_DRAWN = 0.5;
+const TRAIN_DRAWN = 0.9;
+
+export interface DrawnSection {
+  readonly feature: Feature;
+  readonly section: RailSection;
+}
+
+export interface DrawnTrain {
+  readonly feature: Feature;
+  readonly stock: RollingStock;
+  /** The stretch of its line the train runs on, as fractions of the line's length. */
+  readonly span: readonly [number, number];
+}
+
+export interface DrawnRailway {
+  readonly sections: readonly DrawnSection[];
+  readonly train: DrawnTrain | undefined;
+}
+
+/**
+ * A section is drawn once its presence passes one half. A train is drawn when the railway and the
+ * train are both nearly fully present and some drawn section covers part of the train's line, which
+ * is where it runs.
+ */
+export function drawnRailway(
+  present: readonly FeaturePresence[],
+  trainLine: readonly GridRef[] | undefined,
+): DrawnRailway {
+  let rail = 0;
+  const sections: DrawnSection[] = [];
+  let train: { feature: Feature; stock: RollingStock; presence: number } | undefined;
+  for (const p of present) {
+    const k = p.feature.kind;
+    if (k.type === 'railway') {
+      rail = Math.max(rail, p.presence);
+      if (p.presence > SECTION_DRAWN) sections.push({ feature: p.feature, section: k.section });
+    }
+    if (k.type === 'train' && p.presence > (train?.presence ?? TRAIN_DRAWN))
+      train = { feature: p.feature, stock: k.stock, presence: p.presence };
+  }
+  const span = trainLine
+    ? sectionSpan(
+        trainLine,
+        sections.map((s) => s.section),
+      )
+    : undefined;
+  return {
+    sections,
+    train:
+      rail > TRAIN_DRAWN && train && span ? { feature: train.feature, stock: train.stock, span } : undefined,
+  };
 }
