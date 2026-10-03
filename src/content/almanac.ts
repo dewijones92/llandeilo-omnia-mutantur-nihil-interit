@@ -1,6 +1,6 @@
 import type { AlmanacEntry, AlmanacTopic } from '../domain/model.ts';
 import type { Provenance } from '../domain/provenance.ts';
-import { ad, bc, range, type Year } from '../domain/time.ts';
+import { ad, bc, onDay, range, type Year } from '../domain/time.ts';
 import { src, type SourceKey } from './ids.ts';
 
 const doc = (...k: [SourceKey, ...SourceKey[]]): Provenance => ({
@@ -288,9 +288,25 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     'victorian-health',
     ...VICTORIAN,
     'health',
-    'Cholera is in the newspapers, but no case in Llandeilo itself has been found.',
-    "Mae colera yn y papurau newydd, ond does dim achos yn Llandeilo ei hun wedi'i ganfod.",
-    rec('A gap, not a clean bill of health.', 'Bwlch, nid prawf o iechyd da.', 'victorian:S54'),
+    'Cholera is in the newspapers. The only cases found in Llandeilo are a few in 1849, in one partly illegible report; none has been found here in 1854 or 1866.',
+    'Mae colera yn y papurau newydd. Yr unig achosion a ganfuwyd yn Llandeilo yw ychydig yn 1849, mewn un adroddiad sy’n rhannol annarllenadwy; ni chanfuwyd yr un yma yn 1854 nac yn 1866.',
+    {
+      kind: 'documented',
+      sources: [src('ripples:S24'), src('victorian:S54')],
+      note: {
+        en: 'For 1854 and 1866 this is a gap in what was searched, not a clean bill of health.',
+        cy: 'Ar gyfer 1854 a 1866 bwlch yn yr hyn a chwiliwyd yw hyn, nid prawf o iechyd da.',
+      },
+    },
+  ),
+  entry(
+    'cholera-inquest-1849',
+    ad(1849),
+    onDay(1850, 1, 1),
+    'health',
+    'At Pensarn, near Carmarthen, an inquest hears a doctor agree that a woman died of “Asiatic Cholera”; the jury finds “cramp, cholic, and diarrhoea” instead.',
+    'Ym Mhensarn, ger Caerfyrddin, mae cwest yn clywed meddyg yn cytuno i fenyw farw o “Asiatic Cholera”; mae’r rheithgor yn dyfarnu “cramp, cholic, and diarrhoea” yn lle hynny.',
+    doc('ripples:S25'),
   ),
   entry(
     'victorian-population',
@@ -300,6 +316,15 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     'The town has about 1,533 people in 1887.',
     'Mae tua 1,533 o bobl yn y dref yn 1887.',
     doc('victorian:S39'),
+  ),
+  entry(
+    'influenza-1918-ammanford',
+    ad(1918),
+    onDay(1919, 1, 1),
+    'health',
+    'The 1918 influenza closes every school around Ammanford too, with a very large number of children ill. At Cwmdu a death in December follows “influenza followed by pneumonia”.',
+    'Mae ffliw 1918 yn cau pob ysgol o gwmpas Rhydaman hefyd, gyda nifer fawr iawn o blant yn sâl. Yng Nghwmdu mae marwolaeth ym mis Rhagfyr yn dilyn “influenza followed by pneumonia”.',
+    doc('ripples:S43'),
   ),
   entry(
     'red-kite',

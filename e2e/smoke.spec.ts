@@ -749,3 +749,66 @@ test('choosing Low graphics turns the effects off in the renderer, and the choic
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   await expect.poll(live).toMatch(/^quality low .* bloom off {2}dof off /);
 });
+
+const particleSystems = async (page: Page): Promise<string[]> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const systems: unknown =
+      scene && typeof scene === 'object' ? Reflect.get(scene, 'particleSystems') : undefined;
+    return Array.isArray(systems)
+      ? systems.map((s: unknown) => (s && typeof s === 'object' ? String(Reflect.get(s, 'name')) : ''))
+      : [];
+  });
+
+test('Next from Talley reaches Llandeilo burning in the winter of 1213, and on past Dryslwyn to Cymerau at its recorded midday in 1257', async ({
+  page,
+}) => {
+  await page.goto('./?debug&year=1185');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const next = page.getByRole('button', { name: /Next/ });
+  await next.click();
+  await expect(page.locator('.moment h2')).toHaveText('Llandeilo burned, Dinefwr besieged');
+  await expect(page.getByRole('button', { name: 'Winter' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sky-note')).toContainText('Late January 1213');
+  await expect(page.locator('.debug')).toContainText('llandeilo-burning-1213@1.00[documented]');
+  await expect.poll(() => particleSystems(page)).toContain('smoke-llandeilo-burning-1213');
+  await page.waitForTimeout(4000);
+  await page.screenshot({ path: 'test-results/burning-1213.png' });
+  await next.click();
+  await expect(page.locator('.moment h2')).toHaveText('Dryslwyn Castle rises');
+  await expect.poll(() => particleSystems(page)).not.toContain('smoke-llandeilo-burning-1213');
+  await next.click();
+  await expect(page.locator('.moment h2')).toHaveText('The battles of Coed Llathen and Cymerau');
+  await expect(page.getByRole('button', { name: 'Summer' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sky-readout')).toContainText('12:00');
+  await page.locator('.moment .prov').click();
+  await expect(page.locator('.moment .prov-pop')).toContainText('none is marked');
+});
+
+test('the 1849 cholera marker opens its card and almanac, in both languages, with no claim that no case was found', async ({
+  page,
+}) => {
+  await page.goto('./?year=1857');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const marker = page.locator('.tl-marker[aria-label^="1849"]');
+  await expect(marker).toHaveCount(1);
+  await marker.dispatchEvent('click');
+  await expect(page.locator('.moment h2')).toHaveText('Cholera reaches Llandeilo');
+  await page.getByRole('button', { name: 'Almanac' }).click();
+  await expect(page.locator('.info')).toContainText('Asiatic Cholera');
+  await expect(page.locator('.info')).not.toContainText('no case in Llandeilo');
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await expect(page.locator('.moment h2')).toHaveText('Colera yn cyrraedd Llandeilo');
+});
+
+test('Next from the railway reaches the 1918 influenza, in the autumn its papers record', async ({
+  page,
+}) => {
+  await page.goto('./?year=1857');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.getByRole('button', { name: /Next/ }).click();
+  await expect(page.locator('.moment h2')).toHaveText('Influenza grips Llandeilo');
+  await expect(page.getByRole('button', { name: 'Autumn' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sky-note')).toContainText('about 21 November 1918');
+});

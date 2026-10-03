@@ -6,6 +6,7 @@ import { WORLD_CONTENT } from '../src/content/world.ts';
 import { hasStreetLamps, lampAlmanacAt, lampColour, lampsAt } from '../src/domain/lamplight.ts';
 import { drawnRailway, longestLine } from '../src/domain/rail.ts';
 import { latestStarting, snapshotAt } from '../src/domain/state.ts';
+import { smokingFeatures } from '../src/domain/smoke.ts';
 import { keySteps } from '../src/domain/steps.ts';
 import { ad, contains, onDay } from '../src/domain/time.ts';
 import { tAt } from '../src/domain/timeline.ts';
@@ -77,6 +78,26 @@ describe('snapshotAt at every key date', () => {
       almanac: [...ids(W.almanac.filter((a) => contains(a.when, y))), ...(light ? [light.id] : [])],
       conversations: ids(W.conversations.filter((c) => contains(c.when, y))),
     });
+  });
+});
+
+describe('snapshotAt: Llandeilo burning in 1213', () => {
+  const W = WORLD_CONTENT;
+  const step = keySteps(W.timeline, W.events).find((s) => s.event.id === 'llandeilo-burned-1213');
+  const burningAt = (t: number) =>
+    smokingFeatures(snapshotAt(W, t).features)
+      .filter((s) => s.plume.style === 'burning')
+      .map((s) => s.feature.id);
+
+  it('smokes over the town at the 1213 key step, and nowhere else on the slider', () => {
+    expect(step).toBeDefined();
+    const t = step?.t ?? 0;
+    expect(burningAt(t)).toEqual(['llandeilo-burning-1213']);
+    expect(burningAt(t - 1e-4)).toEqual([]);
+    expect(burningAt(t + 1e-4)).toEqual([]);
+    const elsewhere: string[] = [];
+    for (let i = 0; i <= 4000; i++) if (burningAt(i / 4000).length > 0) elsewhere.push(String(i / 4000));
+    expect(elsewhere).toEqual([]);
   });
 });
 

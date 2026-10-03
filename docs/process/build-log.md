@@ -484,3 +484,18 @@ Milestones and what each one taught us. Newest last.
    four parallel shards and the deploy waits for all of them; CI's per-test limit is 7 minutes
    ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md)). Lesson: the job time is a budget that every
    merged feature spends, so watch the trend, not just the colour.
+17. **Battles and black swans** (branch `feat/battles-and-black-swans`): four key dates from the
+   checked invasions and ripples notes. **1213**, Llandeilo burned by Rhys Gryg and Dinefwr besieged,
+   with winter from the record and a dark plume over the town drawn only at that step; **1257**, Coed
+   Llathen and Cymerau, at the recorded midday of 2 June in summer, with the camp at Llandeilo said to
+   be in one chronicle, Bauzan's death, mostly Welsh foot soldiers and no site marked; **1849**, cholera
+   in Llandeilo, a card and an almanac note but no scene, since one partly illegible report is all there
+   is; **1918**, influenza, cross-checked in four papers, in autumn. The almanac's "no case in Llandeilo
+   itself has been found" for the whole Victorian era was stale since the ripples note read the 1849
+   report; it is corrected, with a content test that went red on it. Three lessons. The
+   world is 10m to a unit, so the first "spread 60" was 1.2km of emitter and invisible; and Babylon's
+   size gradient overrides a particle system's min and max size, so every hearth puff has always been
+   0.6 to 2.4 units whatever those said. Which features smoke is now one domain rule, tested through
+   `snapshotAt` ([ADR 0037](../adr/0037-recorded-burnings-are-dated-features.md)). And the
+   first long 1257 and 1918 cards ran up over the sky panel's record caption at 1600×900, found only by
+   looking; both cards were cut to about 60 words, with the detail moved into the ⓘ.

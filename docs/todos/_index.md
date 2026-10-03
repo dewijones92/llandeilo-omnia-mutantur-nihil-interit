@@ -224,7 +224,10 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       in phases. Still to do from the same research: Dinefwr (keep in the south-east angle, ward 34-38m,
       north-west tower only from the later 13th century), Carreg Cennen (gatehouse centred on the north
       wall, barbican route, second cross wall), the bridge (a stone bridge by 1577)
-- [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md))
+- [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md)).
+      2026-10-03: a recorded fire is now a dated `burning` feature drawn as a dark plume (first at
+      1213, [ADR 0037](../adr/0037-recorded-burnings-are-dated-features.md)); the 1403 burning of
+      Llandeilo could use it next
 - [ ] The later trains (the Great Western from 1873, the LNWR and LMS through trains, British Rail,
       today's Heart of Wales line): researched and checked 2026-10-02 (`research/railway-later.md`); models
       still to build. Since 2026-10-03 the drawn train is a steam placeholder to 13 June 1964 and a
@@ -243,7 +246,13 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       eruptions thousands of miles away, pandemics, famines, wars) shown only where a source records
       their effect here or in this part of Wales, with the distant cause as context (Dewi: "black swan
       events such as a volcano erupting thousands of miles away"). Brings the later-phase "Ripples from
-      afar" forward
+      afar" forward. **Part done 2026-10-03** (branch `feat/battles-and-black-swans`): the two
+      events the checked note records here, the 1849 cholera (a minor marker, card and almanac only:
+      one partly illegible report) and the 1918 influenza (a key step, autumn from the record), each
+      with content tests and an e2e flow seen red first; screenshots at 1849 and 1918. The almanac's
+      stale "no case in Llandeilo" is corrected. Not yet through the second-Opus review. **Still to
+      do**: the regional-only ripples (Black Death, 1816, potato blight, cattle plague, Krakatoa) as
+      cards that say where the effect is recorded, and a second witness for 1849
 - [ ] **Music through time and place**: what was played and sung in and around Llandeilo in each era
       and by each class (harp and crwth, plainchant at Talley, the bards, ballads, hymns and chapel
       singing, eisteddfodau, brass bands), heard in the scene and explained in the almanac, from
@@ -291,7 +300,13 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       Irish settlement in Dyfed, Viking raids, the Normans after 1093, the English conquest of 1277-83,
       Glyndŵr in 1403, the Civil War, each as key dates (and cutscenes where the research supports one),
       shown only as far as the sources put them in this valley; a raid recorded only on the coast is
-      shown as news reaching here, not invented here
+      shown as news reaching here, not invented here. **Part done 2026-10-03** (branch
+      `feat/battles-and-black-swans`): the two invasions the checked note puts inside the area, 1213
+      (Llandeilo burned, Dinefwr besieged, with smoke over the town, [ADR 0037](../adr/0037-recorded-burnings-are-dated-features.md))
+      and 1257 (Coed Llathen and Cymerau, at the recorded midday), with content and snapshot tests and an
+      e2e flow seen red first; screenshots at 1213 and 1257. Not yet through the second-Opus review.
+      **Still to do**: news cards for raids recorded only nearby (St Davids, Aber Tywi 1044, 1116,
+      Carmarthen 1645), and Dewi's choice of Cymerau markers (none shown meanwhile)
 - [ ] **Early people hunting and gathering** (Dewi: "early people hunting stuff"): Late Upper
       Palaeolithic and Mesolithic hunter-gatherers in the valley, what they hunted, fished and gathered
       in each environment, with the animals of "animals through time", as scenes and cutscenes at the

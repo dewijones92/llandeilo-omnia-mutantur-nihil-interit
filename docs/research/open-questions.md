@@ -30,9 +30,16 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
 | When Llandeilo's gas works were built | c. 1860 (Wikipedia, "Ffairfach", single-source) vs being built in 1864 (two 1864 newspapers); the app uses the newspapers (added 2026-10-03; the c. 1860 copies in era-victorian.md and soundscapes.md now carry the correction) | [light](light-after-dark.md), [victorian](era-victorian.md), [soundscapes](soundscapes.md) |
 | The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
+| Where the 1257 battles were fought | Coed Llathen near Broad Oak (first OS map, 1888 or 1891; field names not attested before it) vs the wood of Llanarthne (Gough-Cooper's reading of the manuscript); Cymerau at the Tywi–Cothi confluence (Lloyd) vs near Talley (Phillimore). All inside the area, none proven; the app marks none, and whether to mark them is Dewi's choice (added 2026-10-03) | [invasions](invasions-and-raids.md) |
+| Rhys Fychan in 1257, and the dead | He slipped away to Dinefwr (Annales Cambriae B) vs Dinefwr's garrison seized him (the Brut); "more than three thousand" (AC B) vs "upwards of two thousand" (the Brut), a modern estimate 1,000–3,000; the camp at Llandeilo is in AC B alone. The app gives both readings (added 2026-10-03) | [invasions](invasions-and-raids.md) |
+| The date of the 1213 camp | 24 January (the Brut's reckoning) vs 25 January (Lloyd's *History of Carmarthenshire*); the app says late January and gives both (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 
 ## Gaps worth a dedicated pass
 
+- **The 1849 cholera at Llandeilo** rests on one partly illegible report (*The Welshman*, 21 December
+  1849): how many fell ill, where the house for patients was, and a second witness (the *Carmarthen
+  Journal*, the Llandilo Fawr Union records) are not found, so the app shows a card and no scene
+  (added 2026-10-03; [ripples](ripples-from-afar.md)).
 - **Earliest people in the radius**: no dated Palaeolithic or Mesolithic site; the Garn Goch long
   cairn is Neolithic by shape only, and Cadw's schedule says "probably ... Bronze Age" instead. The Waun Fignen Felen evidence lies about 4km outside the disc.
   The museum source for "people back by 14,500 years ago" (timeline S1) does not say whether its
