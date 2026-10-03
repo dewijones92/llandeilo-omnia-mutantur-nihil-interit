@@ -164,6 +164,8 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 
 ## Quality (from the reviews, deferred)
 
+- [ ] Find out why the e2e tests run about twice as slowly on CI's CPU renderer since the 2026-10-03
+  merges (High quality by default is the first suspect): time one test at High and at Low on SwiftShader
 - [ ] Local e2e on the GPU: with two workers about one page load in 30 never becomes ready (seen four
       times on 2026-10-03, each passing alone); find the cause rather than living with a flake
 - [x] Timeline tick labels overlap at both ends: already gone when re-measured on 2026-10-02 (the

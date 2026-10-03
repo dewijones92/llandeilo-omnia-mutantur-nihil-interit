@@ -39,24 +39,42 @@ jobs:
         run: |
           size=$(cat dist/assets/index-*.js | gzip -9 | wc -c)
           echo "main bundle gzipped: $size bytes"
-      - name: Install Chromium for e2e
-        run: npx playwright install --with-deps chromium
-      - name: End-to-end tests
-        run: npx playwright test
-      - uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: e2e-screenshots
-          path: test-results/
-          if-no-files-found: ignore
       - uses: actions/upload-pages-artifact@v5
         if: github.ref == 'refs/heads/main'
         with:
           path: dist
 
+  # The e2e tests render WebGL on the CPU (no GPU on the runners), so they are split across shards
+  # that run side by side; the deploy waits for every shard.
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx vite build
+      - name: Install Chromium for e2e
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end tests, shard ${{ matrix.shard }} of 4
+        run: npx playwright test --shard=${{ matrix.shard }}/4
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: e2e-screenshots-${{ matrix.shard }}
+          path: test-results/
+          if-no-files-found: ignore
+
   deploy:
     if: github.ref == 'refs/heads/main'
-    needs: check
+    needs: [check, e2e]
     runs-on: ubuntu-latest
     permissions:
       pages: write

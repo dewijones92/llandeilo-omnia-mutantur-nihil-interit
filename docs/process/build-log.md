@@ -477,3 +477,10 @@ Milestones and what each one taught us. Newest last.
    4.5). Lesson: a float allowance belongs where the value is made, not where it is read; two readers
    had patched it and four had not. Evidence: the renderer's `dewidebug rail` line shows the 1907 section
    cut at E269996 and absent in October 1907, drawn in 1910.
+16. **CI ran out of time, not tests.** The push of the fourth review's fixes was cancelled at the job's
+   45-minute limit with 29 of 31 e2e tests done: since the merges, each test takes about twice as long
+   on the runners' CPU renderer (the 1-minute tests of 2026-10-02 took 2), and three multi-page tests
+   passed the 3-minute per-test limit. All 31 had passed locally on the GPU. The e2e tests now run in
+   four parallel shards and the deploy waits for all of them; CI's per-test limit is 7 minutes
+   ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md)). Lesson: the job time is a budget that every
+   merged feature spends, so watch the trend, not just the colour.

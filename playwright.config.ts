@@ -26,7 +26,9 @@ const renderer = gpu
 
 export default defineConfig({
   testDir: 'e2e',
-  timeout: 180_000,
+  // CI renders on the CPU; since the High-quality default (2026-10-03) its tests run about twice as
+  // long as on 2026-10-02, and the longest multi-page ones passed 3 minutes.
+  timeout: process.env['CI'] ? 420_000 : 180_000,
   expect: { timeout: 30_000 },
   retries: 0,
   // Each test loads its own page, so tests in the one spec file can run side by side. Locally on the

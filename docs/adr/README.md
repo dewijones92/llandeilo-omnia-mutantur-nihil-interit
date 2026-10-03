@@ -67,6 +67,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0033](0033-railway-drawn-in-dated-sections.md) | The railway is drawn in dated sections of today's track | Accepted; the northing cut and "shown by its presence" superseded by 0034 | 2026-10-03 |
 | [0034](0034-exact-dates-draw-nothing-outside-them.md) | Exact dates draw nothing outside them, and the railway's drawn rule is in the domain | Accepted, amends 0033; amended by 0035 | 2026-10-03 |
 | [0035](0035-exact-dates-are-about-dates-not-clues.md) | Exact dates are about the dates, not about how firm a clue is | Accepted, amends 0029 and 0034; amended 2026-10-03 (contested dates may be exact when the ⓘ names both; no exact date for undated track) | 2026-10-03 |
+| [0036](0036-ci-e2e-in-parallel-shards.md) | CI runs the end-to-end tests in four parallel shards | Accepted | 2026-10-03 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.
