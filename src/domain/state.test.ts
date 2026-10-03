@@ -100,6 +100,7 @@ describe('soundAt', () => {
     bells: [],
     market: [],
     train: [],
+    railcar: [],
     traffic: [],
     chant: [],
   });

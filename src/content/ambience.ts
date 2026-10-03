@@ -28,8 +28,8 @@ export const WIND: Provenance = {
 export const MELTWATER: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'A loud, braided meltwater river in the cold of the Late Ice Age.',
-    cy: 'Afon ddŵr tawdd swnllyd, aml-sianel, yn oerfel diwedd Oes yr Iâ.',
+    en: 'A loud meltwater river in the cold of the Late Ice Age, inferred from the glaciers and frozen ground of the last cold snap in Britain. The cited page does not describe any river here.',
+    cy: 'Afon ddŵr tawdd swnllyd yn oerfel diwedd Oes yr Iâ, wedi’i chasglu o rewlifoedd a thir rhewedig y cyfnod oer olaf ym Mhrydain. Nid yw’r dudalen a nodir yn disgrifio unrhyw afon yma.',
   },
   sources: [src('deeptime:S8')],
 };
@@ -46,8 +46,8 @@ export const TYWI: Provenance = {
 export const ICE_AGE_BIRDS: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'A few open-country birds: black grouse, golden eagle and chough are known from Late Ice Age bones in Welsh caves, none inside the 10 miles.',
-    cy: "Ychydig o adar tir agored: mae'r rugiar ddu, yr eryr euraid a'r frân goesgoch yn hysbys o esgyrn diwedd Oes yr Iâ mewn ogofâu yng Nghymru, ond dim un o fewn y 10 milltir.",
+    en: 'A few open-country birds: black grouse, golden eagle and chough are known from Ice Age bones in Welsh caves (the golden eagle’s from about 20,000 years ago, well before this period), none inside the 10 miles.',
+    cy: 'Ychydig o adar tir agored: mae’r rugiar ddu, yr eryr euraid a’r frân goesgoch yn hysbys o esgyrn Oes yr Iâ mewn ogofâu yng Nghymru (esgyrn yr eryr euraid o tua 20,000 o flynyddoedd yn ôl, ymhell cyn y cyfnod hwn), ond dim un o fewn y 10 milltir.',
   },
   sources: [src('sound:S1')],
 };
@@ -55,8 +55,8 @@ export const ICE_AGE_BIRDS: Provenance = {
 export const WILDWOOD_BIRDS: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'Woodland birds much like today’s, as the 43 species among the bones at Port Eynon on Gower show; cranes were common on the wetlands.',
-    cy: 'Adar coetir tebyg iawn i rai heddiw, fel y dengys y 43 rhywogaeth ymhlith yr esgyrn ym Mhorth Einon ar Benrhyn Gŵyr; roedd garanod yn gyffredin ar y gwlyptiroedd.',
+    en: 'Birds much like today’s: most of the 43 species among the Middle Stone Age bones at Port Eynon on Gower are ones a birdwatcher might expect there now. Cranes were common on the Severn estuary wetlands.',
+    cy: 'Adar tebyg iawn i rai heddiw: mae’r rhan fwyaf o’r 43 rhywogaeth ymhlith esgyrn Oes Ganol y Cerrig ym Mhorth Einon ar Benrhyn Gŵyr yn rhai y gallai gwyliwr adar ddisgwyl eu gweld yno heddiw. Roedd garanod yn gyffredin ar wlyptiroedd aber Hafren.',
   },
   sources: [src('sound:S1')],
 };
@@ -67,7 +67,7 @@ export const MEDIEVAL_BIRDS: Provenance = {
     en: 'The birds of medieval Welsh poetry and law: skylark, thrush, cuckoo, the owl at night, crane and bittern. Recorded for Wales, not for this valley.',
     cy: "Adar barddoniaeth a chyfraith Cymru'r Oesoedd Canol: yr ehedydd, y fronfraith, y gog, y dylluan liw nos, y garan a'r aderyn bwn. Wedi'u cofnodi i Gymru, nid i'r dyffryn hwn.",
   },
-  sources: [src('sound:S1'), src('sound:S4'), src('sound:S5'), src('sound:S9')],
+  sources: [src('sound:S1'), src('sound:S4'), src('sound:S5'), src('sound:S9'), src('sound:S8')],
 };
 
 export const FARMLAND_BIRDS: Provenance = {
@@ -100,8 +100,8 @@ export const WOODLAND: Provenance = {
 export const FIRST_FARMERS: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'Cattle, sheep and pigs came to Britain with the first farmers around 4000 BC.',
-    cy: "Daeth gwartheg, defaid a moch i Brydain gyda'r ffermwyr cyntaf tua 4000 CC.",
+    en: 'Farm animals came to Britain by boat with the first farmers around 4000 BC. The cited page does not say which; cattle, sheep and pigs are assumed.',
+    cy: 'Daeth anifeiliaid fferm i Brydain mewn cychod gyda’r ffermwyr cyntaf tua 4000 CC. Nid yw’r dudalen a nodir yn dweud pa rai; tybir mai gwartheg, defaid a moch oedden nhw.',
   },
   sources: [src('deeptime:S33')],
 };
@@ -118,10 +118,10 @@ export const FARMSTEAD: Provenance = {
 export const GERALD_HERDS: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'Herds and dairy everywhere, and ploughing with teams of four oxen, as Gerald of Wales described the whole country in 1188. Not recorded for this valley.',
-    cy: "Gyrroedd a llaeth ym mhobman, ac aredig â gwedd o bedwar ych, fel y disgrifiodd Gerallt Gymro'r wlad gyfan yn 1188. Heb ei gofnodi ar gyfer y dyffryn hwn.",
+    en: 'Herds and dairy everywhere, and ploughing with teams of four oxen, as Gerald of Wales described the whole country after his journey of 1188. Not recorded for this valley.',
+    cy: 'Gyrroedd a llaeth ym mhobman, ac aredig â gwedd o bedwar ych, fel y disgrifiodd Gerallt Gymro’r wlad gyfan ar ôl ei daith yn 1188. Heb ei gofnodi ar gyfer y dyffryn hwn.',
   },
-  sources: [src('sound:S3')],
+  sources: [src('sound:S3'), src('sound:S2')],
 };
 
 export const DROVERS: Provenance = {
@@ -181,10 +181,10 @@ export const FFAIRFACH_SMITHY: Provenance = {
 export const FAIRS: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'Fairs and markets in a small market town. St Teilo’s Fair in the churchyard is said to date from 1291, which no source read here confirms.',
-    cy: "Ffeiriau a marchnadoedd mewn tref farchnad fechan. Dywedir bod Ffair Teilo yn y fynwent yn dyddio o 1291, ond nid yw'r un ffynhonnell a ddarllenwyd yma yn cadarnhau hynny.",
+    en: 'Fairs and markets in a small market town. Edward I granted the Bishop of St Davids a fair here in 1290 and again in 1291, held around St Barnabas’s day (11 June), and a Saturday market is recorded by 1326. When this became St Teilo’s Fair in the churchyard is not known.',
+    cy: 'Ffeiriau a marchnadoedd mewn tref farchnad fechan. Rhoddodd Edward I ffair yma i Esgob Tyddewi yn 1290 ac eto yn 1291, a gynhelid o gwmpas gŵyl Sant Barnabas (11 Mehefin), ac mae marchnad ddydd Sadwrn wedi’i chofnodi erbyn 1326. Ni wyddys pryd y daeth hon yn Ffair Teilo yn y fynwent.',
   },
-  sources: [],
+  sources: [src('sound:S20')],
 };
 
 export const MARKET_TOWN: Provenance = {
@@ -216,20 +216,29 @@ export const BELLS_SINCE: Provenance = {
 
 export const FIRST_TRAIN: Provenance = {
   kind: 'documented',
-  sources: [src('effects:S7'), src('railway:S1')],
+  sources: [src('effects:S7')],
   note: {
-    en: 'The railway reached Llandeilo on 20 January 1857. The engines’ type is recorded; their sound is reconstructed.',
-    cy: 'Cyrhaeddodd y rheilffordd Landeilo ar 20 Ionawr 1857. Cofnodwyd math yr injans; ail-grëwyd eu sŵn.',
+    en: 'The railway reached Llandeilo on 20 January 1857, the train drawn by two engines. Which engines they were is not recorded; their sound is reconstructed.',
+    cy: 'Cyrhaeddodd y rheilffordd Landeilo ar 20 Ionawr 1857, a dwy injan yn tynnu’r trên. Ni chofnodwyd pa injans oedden nhw; ail-grëwyd eu sŵn.',
   },
 };
 
 export const GWR_TANKS: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'Steam trains of the mid 20th century, as photographed on these trains in 1958 to 1960: Great Western pannier tanks among them. Both pages are by one local historian.',
-    cy: "Trenau stêm canol yr 20fed ganrif, fel y tynnwyd eu lluniau ar y trenau hyn yn 1958 i 1960: tanciau pannier y Great Western yn eu plith. Mae'r ddwy dudalen gan yr un hanesydd lleol.",
+    en: 'Steam trains of the mid 20th century, as photographed on these trains in 1958 to 1960: among them engines whose numbers place them in the Great Western 57xx pannier-tank class. Steam passenger trains ended on 13 June 1964, and the steam sound ends with them. Both photograph pages are by one local historian.',
+    cy: 'Trenau stêm canol yr 20fed ganrif, fel y tynnwyd eu lluniau ar y trenau hyn yn 1958 i 1960: yn eu plith injans y mae eu rhifau’n eu gosod yn nosbarth tanciau pannier 57xx y Great Western. Daeth trenau teithwyr stêm i ben ar 13 Mehefin 1964, a daw sŵn y stêm i ben gyda nhw. Mae’r ddwy dudalen luniau gan yr un hanesydd lleol.',
   },
-  sources: [src('railwaylater:S2'), src('railwaylater:S3')],
+  sources: [src('railwaylater:S2'), src('railwaylater:S3'), src('railwaylater:S49')],
+};
+
+export const DIESEL_UNITS: Provenance = {
+  kind: 'reconstructed',
+  basis: {
+    en: 'Diesel units took over the passenger trains when steam ended on 13 June 1964: two-car diesel rail cars, or three-car Swindon sets (the sources disagree), then single Class 153 cars from about 1991. Their engines and horns are synthesised, not recorded here. The Class 153 page is a lead only.',
+    cy: 'Cymerodd unedau disel y trenau teithwyr drosodd pan ddaeth stêm i ben ar 13 Mehefin 1964: ceir rheilffordd disel dau gerbyd, neu setiau tri cherbyd o Swindon (mae’r ffynonellau’n anghytuno), yna ceir Dosbarth 153 sengl o tua 1991. Mae sŵn eu peiriannau a’u cyrn wedi’i greu, nid wedi’i recordio yma. Arweiniad yn unig yw’r dudalen am Ddosbarth 153.',
+  },
+  sources: [src('railwaylater:S2'), src('railwaylater:S52'), src('railwaylater:S1'), src('railwaylater:S35')],
 };
 
 export const MOTOR_TRAFFIC: Provenance = {
@@ -341,7 +350,14 @@ export const SOUNDSCAPE: Soundscape = {
     heard(ad(2026), 0.25, BELLS_SINCE),
   ],
   market: [heard(ad(1600), 0.4, FAIRS), heard(ad(1850), 0.55, MARKET_TOWN), silent(ad(1950))],
-  train: [heard(ad(1857), 0.5, FIRST_TRAIN), heard(ad(1950), 0.3, GWR_TANKS), silent(ad(2026))],
+  // Steam ends with the last steam passenger trains, 13 June 1964 (1964.45); diesel units take over.
+  train: [
+    heard(ad(1857), 0.5, FIRST_TRAIN),
+    heard(ad(1950), 0.3, GWR_TANKS),
+    heard(ad(1964.44), 0.3, GWR_TANKS),
+    silent(ad(1964.45)),
+  ],
+  railcar: [heard(ad(1964.45), 0.3, DIESEL_UNITS), heard(ad(2026), 0.3, DIESEL_UNITS)],
   traffic: [heard(ad(1950), 0.3, MOTOR_TRAFFIC), heard(ad(2026), 0.45, MOTOR_TRAFFIC)],
   chant: [heard(ad(800), 0.25, CLAS_SINGING), silent(ad(1250))],
 };

@@ -566,12 +566,16 @@ test('the debug overlay names each sounding bed and its reason: no bells before 
   await expect(debug).not.toContainText('sound train');
   await at(1700);
   await expect(debug).toContainText(
-    /sound market 0\.\d\d reconstructed, fading to documented victorian:S41 victorian:S65/,
+    /sound market 0\.\d\d reconstructed sound:S20, fading to documented victorian:S41 victorian:S65/,
   );
   await at(1900);
   await expect(debug).toContainText(
     /sound bells 0\.\d\d documented effects:S7, fading to reconstructed effects:S7/,
   );
+  // Steam ended on 13 June 1964; a diesel unit is heard after it, never faint steam.
+  await at(2000);
+  await expect(debug).toContainText(/sound railcar 0\.\d\d reconstructed railwaylater:S2/);
+  await expect(debug).not.toContainText('sound train');
 });
 
 test('When are we? hides the year, takes a guess on the timeline, then reveals it with clues', async ({
@@ -605,7 +609,22 @@ test('When are we? hides the year, takes a guess on the timeline, then reveals i
   }
   await expect(page.locator('.tl-marker').first()).toBeHidden();
   await expect(page.locator('.tl-band').first()).toBeHidden();
-  await expect(page.locator('.tl-tick', { hasText: '800 BC' })).toHaveCSS('color', 'rgba(0, 0, 0, 0)');
+  // The labels go, but each tick keeps a visible mark, so the bar keeps its scale.
+  const tick = page.locator('.tl-tick', { hasText: '800 BC' });
+  await expect(tick).toHaveCSS('color', 'rgba(0, 0, 0, 0)');
+  const mark = await tick.evaluate((el) => {
+    const s = getComputedStyle(el, '::before');
+    return {
+      content: s.content,
+      display: s.display,
+      height: parseFloat(s.height),
+      colour: s.backgroundColor,
+    };
+  });
+  expect(mark.content).not.toBe('none');
+  expect(mark.display).not.toBe('none');
+  expect(mark.height).toBeGreaterThan(0);
+  expect(mark.colour).not.toBe('rgba(0, 0, 0, 0)');
   await expect(page.getByRole('button', { name: 'Almanac' })).toBeHidden();
   const lock = game.getByRole('button', { name: 'Make my guess' });
   await expect(lock).toBeDisabled();
@@ -668,8 +687,23 @@ test('the Begin card shows the motto in both languages, and Begin opens the vall
     .evaluate((el) => getComputedStyle(el).backgroundColor);
   expect(cardBackground).toBe('rgb(255, 255, 255)');
   const counter = await page.locator('.tl-counter').textContent();
+  const year = await page.locator('.tl-year').textContent();
   await page.keyboard.press('ArrowRight');
   await page.keyboard.press('?');
+  // Nothing behind the card can take focus: Tab stays in the card, so arrows cannot move the year.
+  for (let i = 0; i < 40; i++) {
+    await page.keyboard.press('Tab');
+    const behind = await page.evaluate(() => {
+      const f = document.activeElement;
+      return f !== null && (document.getElementById('app')?.contains(f) === true || f.id === 'scene');
+    });
+    expect(behind, `Tab ${String(i + 1)} reached the app behind the card`).toBe(false);
+  }
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('.tl-year')).toHaveText(year ?? '');
+  await expect(page.locator('.tl-counter')).toHaveText(counter ?? '');
+  await expect(page.locator('html')).not.toHaveClass(/guessing/);
   await card.getByRole('button', { name: 'Cymraeg' }).click();
   await expect(card).toContainText('Mae popeth yn newid, does dim byd yn darfod');
   await expect(card.getByRole('button', { name: 'Dechrau' })).toBeVisible();

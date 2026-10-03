@@ -63,6 +63,8 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0029](0029-guess-game-hides-giveaways-by-one-root-class.md) | The guess-the-year game hides giveaways with one root class, and draws its clues from provenance | Accepted | 2026-10-03 |
 | [0030](0030-night-light-as-dated-content-keys.md) | How the night was lit is dated content keys, held not blended | Accepted | 2026-10-03 |
 | [0031](0031-one-graphics-quality-setting.md) | One graphics quality setting, High by default | Accepted | 2026-10-03 |
+| [0032](0032-night-light-before-the-first-key-and-period-dates.md) | No night light before the first key, and keys that only mark a period | Accepted, amends 0030 | 2026-10-03 |
+| [0033](0033-railway-drawn-in-dated-sections.md) | The railway is drawn in dated sections of today's track | Accepted | 2026-10-03 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

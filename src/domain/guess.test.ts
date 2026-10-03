@@ -50,7 +50,7 @@ const MILD: Provenance = { kind: 'reconstructed', basis: { en: 'no shift', cy: '
 
 const feature = (id: string, from: number, to: number, provenance: Provenance): Feature => ({
   id: mint<FeatureId>(id),
-  kind: { type: 'railway' },
+  kind: { type: 'railway', section: { side: 'south', ofN: 0 } },
   at: { e: 0, n: 0 },
   when: range(ad(from), ad(to)),
   provenance,
@@ -97,6 +97,7 @@ const SILENT: WorldContent['soundscape'] = {
   bells: [],
   market: [],
   train: [],
+  railcar: [],
   traffic: [],
   chant: [],
 };
@@ -117,7 +118,7 @@ const FIRELIGHT: LampKey = {
 const world = (
   features: readonly Feature[],
   events: readonly KeyEvent[] = [],
-  more: Partial<Pick<WorldContent, 'environment' | 'conversations'>> = {},
+  more: Partial<Pick<WorldContent, 'environment' | 'conversations' | 'lamplight'>> = {},
 ): WorldContent => ({
   timeline: createTimeline([
     { t: 0, year: ad(1000), scale: 'linear' },
@@ -126,7 +127,7 @@ const world = (
   eras: [],
   environment: more.environment ?? [LAND],
   soundscape: SILENT,
-  lamplight: [FIRELIGHT],
+  lamplight: more.lamplight ?? [FIRELIGHT],
   climate,
   places: [],
   events,
@@ -295,6 +296,28 @@ describe('sceneMatches', () => {
     expect(sceneMatches(snapshotAt(wooded, at(wooded, 1250)), snapshotAt(wooded, at(wooded, 1350)))).toBe(
       false,
     );
+  });
+
+  it('tells them apart when only the night light differs: gas street lamps against none', () => {
+    const gaslit: LampKey = {
+      ...FIRELIGHT,
+      year: ad(1300),
+      streets: {
+        kind: 'gas',
+        glow: 0.7,
+        area: {
+          id: 'test-town',
+          label: { en: 'town', cy: 'tref' },
+          outline: [
+            { e: 0, n: 0 },
+            { e: 1, n: 0 },
+            { e: 1, n: 1 },
+          ],
+        },
+      },
+    };
+    const lit = world([feature('castle', 1200, 1400, DOCUMENTED)], [], { lamplight: [FIRELIGHT, gaslit] });
+    expect(sceneMatches(snapshotAt(lit, at(lit, 1250)), snapshotAt(lit, at(lit, 1350)))).toBe(false);
   });
 
   it('tells them apart when a feature differs, or the climate does', () => {

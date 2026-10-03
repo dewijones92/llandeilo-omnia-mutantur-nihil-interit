@@ -64,7 +64,7 @@ describe('shotFor', () => {
   const places = new Map([[place.id, place]]);
   const feature: Feature = {
     id: mint<FeatureId>('f'),
-    kind: { type: 'railway' },
+    kind: { type: 'railway', section: { side: 'south', ofN: 0 } },
     at: { e: 5, n: 6 },
     when: range(ad(1100), ad(1900)),
     provenance: { kind: 'reconstructed', basis: { en: '', cy: '' }, sources: [] },

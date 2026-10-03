@@ -16,11 +16,14 @@ export class OpeningCard {
   private readonly note = h('p', { class: 'begin-note', hidden: true });
   private waiting: boolean;
 
+  /** `behind` is everything under the card; while Begin waits it is inert, so focus and clicks stay on the card. */
   constructor(
     private readonly store: LangStore,
     private readonly begin: boolean,
+    private readonly behind: readonly HTMLElement[],
   ) {
     this.waiting = begin;
+    this.setBehindInert(begin);
     const card = h(
       'div',
       { class: 'loader-card' },
@@ -48,7 +51,8 @@ export class OpeningCard {
     console.info(`dewidebug opening card begin=${String(begin)}`);
   }
 
-  // While the Begin card waits, the app's own keys (timeline arrows, ?, Escape) must not act behind it.
+  // Inert stops focus reaching the app; this stops the app's document-level keys (arrows, ?, Escape)
+  // acting while focus is on the card itself.
   get isWaiting(): boolean {
     return this.waiting;
   }
@@ -66,10 +70,18 @@ export class OpeningCard {
     this.beginButton.addEventListener('click', () => {
       console.info('dewidebug opening begin pressed');
       this.waiting = false;
+      this.setBehindInert(false);
       onBegin();
       this.dismiss();
     });
     this.beginButton.focus();
+  }
+
+  private setBehindInert(inert: boolean): void {
+    for (const el of this.behind) el.inert = inert;
+    console.info(
+      `dewidebug opening behind inert=${String(inert)} (${this.behind.map((e) => e.id).join(', ')})`,
+    );
   }
 
   private dismiss(): void {

@@ -182,15 +182,15 @@ export const STRINGS = {
   guessWarmer: { en: 'A warmer climate than today', cy: 'Hinsawdd gynhesach na heddiw' },
   guessSnowShows: {
     en: 'You can see it in the snow on the hills.',
-    cy: 'Gallwch ei weld yn yr eira ar y bryniau.',
+    cy: 'Gallwch ei gweld yn yr eira ar y bryniau.',
   },
   guessSnowInWinter: {
     en: 'It does not show in this season’s snow: switch to winter to see it on the hills.',
-    cy: 'Nid yw i’w weld yn eira’r tymor hwn: newidiwch i’r gaeaf i’w weld ar y bryniau.',
+    cy: 'Nid yw i’w gweld yn eira’r tymor hwn: newidiwch i’r gaeaf i’w gweld ar y bryniau.',
   },
   guessSnowNever: {
     en: 'The scene does not show it: the snow never reaches these hills.',
-    cy: 'Nid yw’r olygfa yn ei ddangos: nid yw’r eira byth yn cyrraedd y bryniau hyn.',
+    cy: 'Nid yw’r olygfa yn ei dangos: nid yw’r eira byth yn cyrraedd y bryniau hyn.',
   },
   guessClimateModel: {
     en: 'This comes from our reconstructed climate model, not from a record of these years.',
@@ -208,7 +208,7 @@ export const STRINGS = {
   guessFinish: { en: 'See my score', cy: 'Gweld fy sgôr' },
   guessTotal: { en: 'Your score', cy: 'Eich sgôr' },
   guessBest: { en: 'Best in this browser', cy: 'Gorau yn y porwr hwn' },
-  guessNewBest: { en: 'Your best yet!', cy: 'Eich gorau eto!' },
+  guessNewBest: { en: 'Your best yet!', cy: 'Eich sgôr gorau hyd yn hyn!' },
   guessAgain: { en: 'Play again', cy: 'Chwarae eto' },
 } as const satisfies Record<string, Bilingual>;
 

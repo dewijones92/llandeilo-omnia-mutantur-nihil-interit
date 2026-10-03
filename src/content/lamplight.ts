@@ -33,7 +33,8 @@ const WHERE = {
   cy: ' Dim ond yn y dref i’r gogledd o’r Tywi y dangosir lampau stryd; nid yw’n hysbys a oleuwyd Ffairfach.',
 };
 
-// Research: docs/research/light-after-dark.md. Each key holds until the next (ADR 0030).
+// Research: docs/research/light-after-dark.md, independently checked 2026-10-03. Each key holds
+// until the next (ADR 0030); before the first there is no key and no light (ADR 0032).
 // Window shares, glow and colour are reconstructed in every key; no source counts lit windows.
 export const LAMPLIGHT: NonEmptyArray<LampKey> = [
   {
@@ -46,22 +47,23 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     glow: 0.45,
     hearth: 1,
     text: {
-      en: 'By 7800 BC, and long before, firelight from the hearth lit every home after dark.',
-      cy: 'Erbyn 7800 CC, a ymhell cyn hynny, golau tân yr aelwyd oedd yn goleuo pob cartref wedi iddi nosi.',
+      en: 'By 7800 BC people in Britain built huts with hearths, like one at Howick in Northumberland, so firelight lit the night. No house this old is known in Wales.',
+      cy: 'Erbyn 7800 CC roedd pobl ym Mhrydain yn codi cytiau ag aelwydydd, fel un yn Howick yn Northumberland, felly golau tân oedd yn goleuo’r nos. Nid oes tŷ mor hen â hyn yn hysbys yng Nghymru.',
     },
     provenance: {
       kind: 'reconstructed',
       basis: {
-        en: 'Firelight from the hearth was the light of every early home. The hut at Howick, c. 7800 BC, had hearths; roundhouses are drawn with a central hearth by analogy, since Garn Goch is unexcavated. How bright a doorway looked is guessed.',
-        cy: 'Golau tân yr aelwyd oedd golau pob cartref cynnar. Roedd aelwydydd yn y cwt yn Howick, tua 7800 CC; mae’r tai crwn yn cael aelwyd ganolog trwy gymhariaeth, gan nad yw Garn Goch wedi’i chloddio. Dyfalu yw pa mor ddisglair oedd drws.',
+        en: 'The hut at Howick, in Northumberland, c. 7800 BC, had hearths: a far analogy, since no house of this age is known in Wales. Roundhouses are drawn with a central hearth by analogy, since no excavation of Garn Goch is recorded. How bright a doorway looked is guessed. Before 7800 BC the app says nothing of how the night was lit.',
+        cy: 'Roedd aelwydydd yn y cwt yn Howick, yn Northumberland, tua 7800 CC: cymhariaeth bell, gan nad oes tŷ o’r oes hon yn hysbys yng Nghymru. Mae’r tai crwn yn cael aelwyd ganolog trwy gymhariaeth, gan nad oes cofnod o gloddio yng Ngarn Goch. Dyfalu yw pa mor ddisglair oedd drws. Cyn 7800 CC nid yw’r ap yn dweud dim am sut y goleuwyd y nos.',
       },
-      sources: [src('hunters:S36')],
+      sources: [src('hunters:S36'), src('hunters:S20')],
     },
   },
   {
-    // Changes nothing in the scene (the levels match the hearth key); it gives the almanac the court's candles.
+    // Changes nothing in the scene (the levels match the hearth key); it gives the almanac the court's
+    // candles. 1200 only marks the Middle Ages: no source read dates the Deheubarth law-book itself.
     year: ad(1200),
-    dated: 'by',
+    dated: 'in',
     homes: 'hearth',
     streets: { kind: 'none' },
     warmth: 1,
@@ -69,14 +71,14 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     glow: 0.45,
     hearth: 1,
     text: {
-      en: 'By about 1200 a Welsh court’s law-book seats a candle-bearer before the king. Ordinary homes still had firelight alone.',
-      cy: 'Erbyn tua 1200 mae llyfr cyfraith llys Cymreig yn gosod canhwyllydd o flaen y brenin. Golau tân yn unig oedd gan gartrefi cyffredin o hyd.',
+      en: 'In the Middle Ages a Welsh law-book linked to Deheubarth seats a candle-bearer before the king. What lit ordinary homes is not recorded: firelight at least, perhaps rushlights.',
+      cy: 'Yn yr Oesoedd Canol mae llyfr cyfraith Cymreig sy’n gysylltiedig â Deheubarth yn gosod canhwyllydd o flaen y brenin. Nid oes cofnod o beth oedd yn goleuo cartrefi cyffredin: golau tân o leiaf, canhwyllau brwyn efallai.',
     },
     provenance: {
       kind: 'reconstructed',
       basis: {
-        en: 'A Welsh court burned candles: the law-book of Deheubarth, in manuscripts from the early 13th century, seats a candle-bearer before the king and protects him "from the time of lighting the first candle, in the palace, until the last shall be extinguished". A law-book says what a court should have, not what Dinefwr lit, so no candlelight is drawn at Dinefwr. Ordinary homes had firelight; nothing read describes them.',
-        cy: 'Roedd llys Cymreig yn llosgi canhwyllau: mae llyfr cyfraith Deheubarth, mewn llawysgrifau o ddechrau’r 13eg ganrif, yn gosod canhwyllydd o flaen y brenin, a’i nawdd yn para o gynnau’r gannwyll gyntaf yn y llys hyd nes diffodd yr olaf. Dweud beth ddylai fod gan lys y mae llyfr cyfraith, nid beth a oleuwyd yn Ninefwr, felly ni ddangosir golau cannwyll yn Ninefwr. Golau tân oedd gan gartrefi cyffredin; nid oes dim a ddarllenwyd yn eu disgrifio.',
+        en: 'A Welsh court burned candles: the Dimetian Code, as Aneurin Owen named the law-book associated with Deheubarth, seats a candle-bearer before the king and protects him "from the time of lighting the first candle, in the palace, until the last shall be extinguished". The earliest manuscripts of Welsh law, in Latin, are from the early 13th century; no source read dates this text’s own manuscripts, so the year 1200 here only marks the Middle Ages. A law-book says what a court should have, not what Dinefwr lit, so no candlelight is drawn at Dinefwr. Nothing read describes how ordinary homes were lit; they are drawn with firelight.',
+        cy: 'Roedd llys Cymreig yn llosgi canhwyllau: mae’r Cod Dyfedaidd (Dimetian Code), fel y galwodd Aneurin Owen y llyfr cyfraith sy’n gysylltiedig â Deheubarth, yn gosod canhwyllydd o flaen y brenin, a’i nawdd yn para o gynnau’r gannwyll gyntaf yn y llys hyd nes diffodd yr olaf. Daw’r llawysgrifau cynharaf o gyfraith Cymru, yn Lladin, o ddechrau’r 13eg ganrif; nid oes ffynhonnell a ddarllenwyd yn dyddio llawysgrifau’r testun hwn ei hun, felly dim ond nodi’r Oesoedd Canol y mae’r flwyddyn 1200 yma. Dweud beth ddylai fod gan lys y mae llyfr cyfraith, nid beth a oleuwyd yn Ninefwr, felly ni ddangosir golau cannwyll yn Ninefwr. Nid oes dim a ddarllenwyd yn disgrifio sut y goleuwyd cartrefi cyffredin; fe’u dangosir â golau tân.',
       },
       sources: [src('music:S3'), src('medieval:S41')],
     },
@@ -91,14 +93,14 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     glow: 0.55,
     hearth: 1,
     text: {
-      en: 'By 1750, and long before, farmhouses and cottages burned rushlights: peeled rushes dipped in fat. Working people went to bed with the daylight.',
-      cy: 'Erbyn 1750, a ymhell cyn hynny, roedd ffermdai a bythynnod yn llosgi canhwyllau brwyn: brwyn wedi’u pilio a’u trochi mewn saim. Âi gweithwyr i’r gwely gyda golau dydd.',
+      en: 'By 1750 farmhouses like Cilewent, in mid Wales, burned rushlights: rushes dipped in fat. In the long summer days, working people rose and went to bed with the daylight.',
+      cy: 'Erbyn 1750 roedd ffermdai fel Cilewent, yng nghanolbarth Cymru, yn llosgi canhwyllau brwyn: brwyn wedi’u trochi mewn saim. Yn nyddiau hir yr haf, codai gweithwyr ac âi i’r gwely gyda golau dydd.',
     },
     provenance: {
       kind: 'reconstructed',
       basis: {
-        en: 'Rushlights: rushes peeled, dipped in fat and held in an iron holder, as at Cilewent farmhouse (furnished as in 1750, now at St Fagans). 1750 is the date Cilewent is furnished to, not when rushlights began: they were used long before, and the key only marks a date they are recorded. Gilbert White (Hampshire, 1775) says working people burned no candles in the long days and went to bed by daylight. Both come from outside this valley, and the share of lit windows is guessed.',
-        cy: 'Canhwyllau brwyn: brwyn wedi’u pilio, eu trochi mewn saim a’u dal mewn daliwr haearn, fel yn ffermdy Cilewent (wedi’i ddodrefnu fel yn 1750, yn Sain Ffagan heddiw). 1750 yw’r flwyddyn y dodrefnwyd Cilewent iddi, nid pryd y dechreuwyd defnyddio canhwyllau brwyn: roedden nhw’n cael eu defnyddio ymhell cyn hynny, a dim ond dyddiad pan gânt eu cofnodi y mae’r allwedd yn ei nodi. Mae Gilbert White (Hampshire, 1775) yn dweud nad oedd gweithwyr yn llosgi canhwyllau yn y dyddiau hir, ac mai gyda golau dydd yr aent i’r gwely. Daw’r ddwy ffynhonnell o’r tu allan i’r dyffryn hwn, a dyfalu yw faint o ffenestri oedd wedi’u goleuo.',
+        en: 'Rushlights: rushes dipped in fat and held in an iron holder, as at Cilewent farmhouse (furnished as in 1750, now at St Fagans). 1750 is the date Cilewent is furnished to, not when rushlights began; when they were first burned here is not known. Gilbert White (Hampshire, 1775) describes peeling the rushes, and says working people burned no candles in the long days, rising and going to bed by daylight, while small farmers used rushes on winter mornings and evenings. Both come from outside this valley, and the share of lit windows is guessed.',
+        cy: 'Canhwyllau brwyn: brwyn wedi’u trochi mewn saim a’u dal mewn daliwr haearn, fel yn ffermdy Cilewent (wedi’i ddodrefnu fel yn 1750, yn Sain Ffagan heddiw). 1750 yw’r flwyddyn y dodrefnwyd Cilewent iddi, nid pryd y dechreuwyd defnyddio canhwyllau brwyn; nid yw’n hysbys pryd y’u llosgwyd gyntaf yma. Mae Gilbert White (Hampshire, 1775) yn disgrifio pilio’r brwyn, ac yn dweud nad oedd gweithwyr yn llosgi canhwyllau yn y dyddiau hir, gan godi a mynd i’r gwely gyda golau dydd, tra oedd ffermwyr bach yn defnyddio brwyn ar foreau a nosweithiau’r gaeaf. Daw’r ddwy ffynhonnell o’r tu allan i’r dyffryn hwn, a dyfalu yw faint o ffenestri oedd wedi’u goleuo.',
       },
       sources: [src('light:S13'), src('light:S14')],
     },
@@ -135,15 +137,15 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     glow: 0.75,
     hearth: 1,
     text: {
-      en: 'By 1876 gas lamps lit Llandeilo’s streets in winter, fed from the gas works built in 1864. When they were first lit is not known.',
-      cy: 'Erbyn 1876 roedd lampau nwy yn goleuo strydoedd Llandeilo yn y gaeaf, o’r gwaith nwy a godwyd yn 1864. Nid yw’n hysbys pryd y’u cyneuwyd gyntaf.',
+      en: 'By 1876 gas lamps lit Llandeilo’s streets in winter, from the gas works begun in 1864. When they were first lit is not known.',
+      cy: 'Erbyn 1876 roedd lampau nwy yn goleuo strydoedd Llandeilo yn y gaeaf, o’r gwaith nwy y dechreuwyd ei godi yn 1864. Nid yw’n hysbys pryd y’u cyneuwyd gyntaf.',
     },
     provenance: {
       kind: 'documented',
-      sources: [src('light:S4'), src('light:S8'), src('light:S1'), src('light:S2')],
+      sources: [src('light:S4'), src('light:S8'), src('light:S1'), src('light:S2'), src('light:S21')],
       note: {
-        en: `Gas street lamps, lit by the Llandilo Gas Company. The works and street mains were built in 1864 (S1, S2), and in 1902 the streets are remembered as having been "gas lit" (S8). When they were first lit is not known: 1876 is the first year a source (S4 alone) says the town lamps were lit "as heretofore", so it is a latest date, not the start. Where the lamps stood is not recorded: they are drawn along today’s streets.${WHERE.en}`,
-        cy: `Lampau stryd nwy, wedi’u cynnau gan Gwmni Nwy Llandeilo. Codwyd y gwaith nwy a’r prif bibellau stryd yn 1864 (S1, S2), ac yn 1902 cofir bod y strydoedd “dan olau nwy” (S8). Nid yw’n hysbys pryd y’u goleuwyd gyntaf: 1876 yw’r flwyddyn gyntaf y mae ffynhonnell (S4 yn unig) yn dweud bod lampau’r dref yn cael eu cynnau “fel o’r blaen”, felly dyddiad hwyraf ydyw, nid y dechrau. Nid yw’n hysbys ble safai’r lampau: fe’u dangosir ar hyd strydoedd heddiw.${WHERE.cy}`,
+        en: `Gas street lamps, lit by the Llandilo Gas Company. The works and street mains were begun in 1864 (S1, S2); when they were finished is not known. In 1902 the streets are remembered as having been "gas lit" (S8). When they were first lit is not known: 1876 is the first year a source (S4 alone) says the town lamps were lit "as heretofore", so it is a latest date, not the start. S4 has them lit "during the winter", and in 1902 the lamplighter worked "to the end of the season" (S21), so they seem to have been dark in summer; the scene does not model seasons. Where the lamps stood is not recorded: they are drawn along today’s streets.${WHERE.en}`,
+        cy: `Lampau stryd nwy, wedi’u cynnau gan Gwmni Nwy Llandeilo. Dechreuwyd codi’r gwaith nwy a’r prif bibellau stryd yn 1864 (S1, S2); nid yw’n hysbys pryd y’u gorffennwyd. Yn 1902 cofir bod y strydoedd “dan olau nwy” (S8). Nid yw’n hysbys pryd y’u goleuwyd gyntaf: 1876 yw’r flwyddyn gyntaf y mae ffynhonnell (S4 yn unig) yn dweud bod lampau’r dref yn cael eu cynnau “fel o’r blaen”, felly dyddiad hwyraf ydyw, nid y dechrau. Yn ôl S4 fe’u cyneuwyd “yn ystod y gaeaf”, ac yn 1902 gweithiai’r goleuwr lampau “hyd ddiwedd y tymor” (S21), felly mae’n debyg eu bod yn dywyll yn yr haf; nid yw’r olygfa’n dangos tymhorau. Nid yw’n hysbys ble safai’r lampau: fe’u dangosir ar hyd strydoedd heddiw.${WHERE.cy}`,
       },
     },
   },
@@ -151,22 +153,22 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     // About 1 September 1902: a columnist on 5 September describes the streets as already electrically lit.
     year: ad(1902.67),
     dated: 'by',
-    homes: 'mixed',
+    homes: 'oil-lamp',
     streets: { kind: 'electric', glow: 0.9, area: TOWN_NORTH_OF_TYWI },
-    warmth: 0.7,
-    windows: 0.55,
-    glow: 0.85,
+    warmth: 0.85,
+    windows: 0.5,
+    glow: 0.75,
     hearth: 1,
     text: {
-      en: 'By September 1902 the town’s streets were lit by electricity, the council’s own. Homes mixed electric light, gas and oil.',
-      cy: 'Erbyn Medi 1902 roedd strydoedd y dref dan olau trydan, eiddo’r cyngor ei hun. Roedd cartrefi’n cymysgu golau trydan, nwy ac olew.',
+      en: 'By September 1902 the town’s streets were lit by electricity, the council’s own. Homes, as far as the sources show, kept to gas, oil and candles.',
+      cy: 'Erbyn Medi 1902 roedd strydoedd y dref dan olau trydan, eiddo’r cyngor ei hun. Hyd y gwelir yn y ffynonellau, daliodd cartrefi at nwy, olew a chanhwyllau.',
     },
     provenance: {
       kind: 'documented',
-      sources: [src('light:S8'), src('light:S10'), src('light:S5')],
+      sources: [src('light:S8'), src('light:S10'), src('light:S5'), src('light:S20'), src('light:S11')],
       note: {
-        en: `Electric street light, the Urban District Council’s own, by September 1902: a columnist mocked those who saw "no difference in the streets now that they are electrically lit than when they were gas lit". The exact day is not known. Homes mixed electric light, gas and oil; the share is guessed.${FARMS.en}${WHERE.en}`,
-        cy: `Golau stryd trydan, eiddo Cyngor Dosbarth Trefol Llandeilo ei hun, erbyn Medi 1902: gwawdiodd colofnydd y rhai na welai ddim gwahaniaeth rhwng y strydoedd dan olau trydan a’r strydoedd dan olau nwy. Nid yw’r union ddiwrnod yn hysbys. Roedd cartrefi’n cymysgu golau trydan, nwy ac olew; dyfalu yw’r gyfran.${FARMS.cy}${WHERE.cy}`,
+        en: `Electric street light, the Urban District Council’s own, by September 1902: a columnist mocked those who saw "no difference in the streets now that they are electrically lit than when they were gas lit". The exact day is not known. From October 1902 the town lamps were to be lit from half an hour after sunset till 11 o’clock every night of the year (S20); the scene does not yet put them out at 11. Not every spot was lit: in December 1902 there was "no light whatever" at the turn from Trallwm to Station Road (S11). The council also sold electricity by the meter, but no source read says who had it at home, so homes keep the flame light of the gas years; the share of lit windows is guessed.${FARMS.en}${WHERE.en}`,
+        cy: `Golau stryd trydan, eiddo Cyngor Dosbarth Trefol Llandeilo ei hun, erbyn Medi 1902: gwawdiodd colofnydd y rhai na welai ddim gwahaniaeth rhwng y strydoedd dan olau trydan a’r strydoedd dan olau nwy. Nid yw’r union ddiwrnod yn hysbys. O fis Hydref 1902 roedd lampau’r dref i’w cynnau o hanner awr wedi machlud yr haul hyd 11 o’r gloch bob nos drwy’r flwyddyn (S20); nid yw’r olygfa eto’n eu diffodd am 11. Nid oedd pob man wedi’i oleuo: ym mis Rhagfyr 1902 nid oedd “dim golau o gwbl” ar y tro o’r Trallwm i Station Road (S11). Gwerthai’r cyngor drydan wrth y mesurydd hefyd, ond nid oes ffynhonnell a ddarllenwyd yn dweud pwy oedd ag ef gartref, felly mae cartrefi’n cadw golau fflam blynyddoedd y nwy; dyfalu yw cyfran y ffenestri golau.${FARMS.cy}${WHERE.cy}`,
       },
     },
   },
@@ -180,20 +182,20 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     glow: 0,
     hearth: 0,
     text: {
-      en: 'From 1 September 1939, the blackout: every window covered and every street lamp out after dark.',
-      cy: 'O 1 Medi 1939, y blacowt: pob ffenestr wedi’i gorchuddio a phob lamp stryd wedi’i diffodd wedi iddi nosi.',
+      en: 'From 1 September 1939, the blackout: every window covered and the street lamps put out after dark.',
+      cy: 'O 1 Medi 1939, y blacowt: pob ffenestr wedi’i gorchuddio a lampau’r stryd wedi’u diffodd wedi iddi nosi.',
     },
     provenance: {
       kind: 'documented',
       sources: [src('light:S15'), src('light:S19')],
       note: {
-        en: 'The blackout, from 1 September 1939: windows covered and street lamps out after dark, across Britain. The Imperial War Museums and a home-front history site give the same date. No local account of Llandeilo’s blackout has been read.',
-        cy: 'Y blacowt, o 1 Medi 1939: ffenestri wedi’u gorchuddio a lampau stryd wedi’u diffodd wedi iddi nosi, ledled Prydain. Mae’r Amgueddfeydd Rhyfel Imperialaidd a gwefan hanes y ffrynt cartref yn rhoi’r un dyddiad. Nid oes hanes lleol o’r blacowt yn Llandeilo wedi’i ddarllen.',
+        en: 'The blackout, from 1 September 1939: windows covered and street lamps out after dark, across Britain. The Imperial War Museums and a home-front history site give the same date. Later in the war some towns allowed faint "star" lighting; whether Llandeilo did is not known, so its streets stay dark here. No local account of Llandeilo’s blackout has been read.',
+        cy: 'Y blacowt, o 1 Medi 1939: ffenestri wedi’u gorchuddio a lampau stryd wedi’u diffodd wedi iddi nosi, ledled Prydain. Mae’r Amgueddfeydd Rhyfel Imperialaidd a gwefan hanes y ffrynt cartref yn rhoi’r un dyddiad. Yn ddiweddarach yn y rhyfel caniataodd rhai trefi olau “seren” gwan; nid yw’n hysbys a wnaeth Llandeilo hynny, felly mae ei strydoedd yn aros yn dywyll yma. Nid oes hanes lleol o’r blacowt yn Llandeilo wedi’i ddarllen.',
       },
     },
   },
   {
-    // September 1944; the sources give the month only.
+    // 17 September 1944, the day the relaxations came into force (Hansard written answer, 28 September 1944).
     year: ad(1944.71),
     dated: 'on',
     homes: 'curtained',
@@ -203,15 +205,23 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     glow: 0.12,
     hearth: 0,
     text: {
-      en: 'From September 1944, the dim-out: a little light allowed at home and in the streets, though blackout curtains stayed.',
-      cy: 'O fis Medi 1944, y pylu: caniatawyd ychydig o olau yn y cartref ac ar y strydoedd, er i’r llenni blacowt aros.',
+      en: 'From 17 September 1944, the dim-out: homes could use ordinary curtains and show a little light, and councils could light the streets to about moonlight.',
+      cy: 'O 17 Medi 1944, y pylu: câi cartrefi ddefnyddio llenni cyffredin a dangos ychydig o olau, a châi cynghorau oleuo’r strydoedd i lefel golau lleuad, fwy neu lai.',
     },
     provenance: {
       kind: 'documented',
-      sources: [src('light:S15'), src('light:S16'), src('light:S17'), src('light:S19')],
+      sources: [
+        src('light:S26'),
+        src('light:S27'),
+        src('light:S28'),
+        src('light:S30'),
+        src('light:S15'),
+        src('light:S17'),
+        src('light:S19'),
+      ],
       note: {
-        en: `The dim-out, from September 1944: some domestic lighting was allowed, but homes were still blacked out in February 1945, and street lighting was eased that winter. How much light Llandeilo showed is guessed: faint windows and dim street lamps.${WHERE.en}`,
-        cy: `Y pylu, o fis Medi 1944: caniatawyd rhywfaint o olau yn y cartref, ond roedd cartrefi’n dal i dywyllu eu ffenestri ym mis Chwefror 1945, a llaciwyd y rheolau ar oleuadau stryd y gaeaf hwnnw. Dyfalu yw faint o olau a ddangosai Llandeilo: ffenestri gwan a lampau stryd pŵl.${WHERE.cy}`,
+        en: `The dim-out, from 17 September 1944: homes were allowed half-lighting behind ordinary curtains, though in February 1945 the Home Secretary still would not end the blacking-out of homes; each council chose its own street-lighting standard. How much light Llandeilo showed is guessed: faint windows and dim street lamps.${WHERE.en}`,
+        cy: `Y pylu, o 17 Medi 1944: caniatawyd hanner golau i gartrefi y tu ôl i lenni cyffredin, er na fyddai’r Ysgrifennydd Cartref ym mis Chwefror 1945 yn rhoi terfyn ar dywyllu cartrefi o hyd; dewisai pob cyngor ei safon ei hun ar gyfer goleuo’r strydoedd. Dyfalu yw faint o olau a ddangosai Llandeilo: ffenestri gwan a lampau stryd pŵl.${WHERE.cy}`,
       },
     },
   },
@@ -226,15 +236,15 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     glow: 0.95,
     hearth: 0.6,
     text: {
-      en: 'By 8 May 1945 the blackout was over everywhere, and the streets were lit again.',
-      cy: 'Erbyn 8 Mai 1945 roedd y blacowt ar ben ym mhob man, a’r strydoedd wedi’u goleuo eto.',
+      en: 'By 8 May 1945 the blackout had been lifted across most of Britain, though some coastal areas waited longer. When Llandeilo’s lamps came back on is not known.',
+      cy: 'Erbyn 8 Mai 1945 roedd y blacowt wedi’i godi ar draws y rhan fwyaf o Brydain, er i rai ardaloedd arfordirol aros yn hwy. Nid yw’n hysbys pryd y daeth lampau Llandeilo ymlaen eto.',
     },
     provenance: {
       kind: 'documented',
-      sources: [src('light:S18'), src('light:S19')],
+      sources: [src('light:S18'), src('light:S19'), src('light:S29')],
       note: {
-        en: `On 12 April 1945 the Home Secretary meant to lift the blackout in all districts no later than the end of the war in Europe, 8 May 1945 (S18); a home-front history site says full street lighting came in April 1945 (S19). When Llandeilo’s lamps came back on is not known, so the key is a latest date. Window and street brightness after that are guessed.${FARMS.en}${WHERE.en}`,
-        cy: `Ar 12 Ebrill 1945 bwriadai’r Ysgrifennydd Cartref godi’r blacowt ym mhob ardal heb fod yn hwyrach na diwedd y rhyfel yn Ewrop, 8 Mai 1945 (S18); mae gwefan hanes y ffrynt cartref yn dweud i oleuadau stryd llawn ddod ym mis Ebrill 1945 (S19). Nid yw’n hysbys pryd y daeth lampau Llandeilo yn ôl, felly dyddiad hwyraf yw’r allwedd. Dyfalu yw disgleirdeb y ffenestri a’r strydoedd wedi hynny.${FARMS.cy}${WHERE.cy}`,
+        en: `On 12 April 1945 the Home Secretary meant to lift the blackout in all districts no later than the end of the war in Europe, 8 May 1945 (S18); a home-front history site says full street lighting came in April 1945 (S19). Most restrictions had gone by 2 May; some coastal areas kept them into peacetime (S29). When Llandeilo’s lamps came back on is not known, so this is a latest date for an inland town. Homes are drawn with a mix of electric and flame light: when Llandeilo’s homes got electricity is not known, so the share and the brightness of windows and streets are guessed.${FARMS.en}${WHERE.en}`,
+        cy: `Ar 12 Ebrill 1945 bwriadai’r Ysgrifennydd Cartref godi’r blacowt ym mhob ardal heb fod yn hwyrach na diwedd y rhyfel yn Ewrop, 8 Mai 1945 (S18); mae gwefan hanes y ffrynt cartref yn dweud i oleuadau stryd llawn ddod ym mis Ebrill 1945 (S19). Roedd y rhan fwyaf o’r cyfyngiadau wedi mynd erbyn 2 Mai; cadwodd rhai ardaloedd arfordirol nhw i mewn i amser heddwch (S29). Nid yw’n hysbys pryd y daeth lampau Llandeilo yn ôl, felly dyddiad hwyraf yw hwn ar gyfer tref fewndirol. Mae cartrefi’n cael cymysgedd o olau trydan a golau fflam: nid yw’n hysbys pryd y cafodd cartrefi Llandeilo drydan, felly dyfalu yw’r gyfran a disgleirdeb y ffenestri a’r strydoedd.${FARMS.cy}${WHERE.cy}`,
       },
     },
   },

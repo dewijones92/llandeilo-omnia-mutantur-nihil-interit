@@ -92,7 +92,11 @@ export interface MapLine {
 async function loadLines(path: string): Promise<readonly MapLine[]> {
   const res = await fetch(asset(path));
   if (!res.ok) throw new Error(`${path} fetch failed: ${res.status}`);
-  const raw: unknown = await res.json();
+  return parseLines(await res.json(), path);
+}
+
+/** Checks a lines file (railways.json, roads.json) and turns its [e, n] pairs into grid refs. */
+export function parseLines(raw: unknown, path: string): MapLine[] {
   if (!isRecord(raw) || !Array.isArray(raw['lines'])) throw new Error(`${path} has no lines`);
   return (raw['lines'] as unknown[]).map((l) => {
     if (!isRecord(l) || typeof l['kind'] !== 'string') throw new Error(`${path}: bad line`);

@@ -69,7 +69,7 @@ async function start(): Promise<void> {
   const canvas = document.getElementById('scene');
   if (!app || !(canvas instanceof HTMLCanvasElement)) throw new Error('Missing #app or #scene');
 
-  const opening = new OpeningCard(store, showsBegin(params, navigator.webdriver));
+  const opening = new OpeningCard(store, showsBegin(params, navigator.webdriver), [app, canvas]);
   document.body.append(opening.el);
 
   const [{ engine, backend }, heightfield, rivers, woodland, footprints, railways, roads] = await Promise.all(
@@ -478,10 +478,9 @@ async function start(): Promise<void> {
       Math.hypot(eye.x - x, eye.z - z),
     );
     const train = features.trainPosition();
-    ambience?.near(
-      'train',
-      train ? 0.15 + 0.85 * Math.max(0, 1 - Vector3.Distance(eye, train) / 1400) ** 2 : 0,
-    );
+    const trainNear = train ? 0.15 + 0.85 * Math.max(0, 1 - Vector3.Distance(eye, train) / 1400) ** 2 : 0;
+    ambience?.near('train', trainNear);
+    ambience?.near('railcar', trainNear);
     world.scene.render();
     bubbles.update(active, now);
     labels.update([...bubbles.visible, ...onScreen(chrome)]);

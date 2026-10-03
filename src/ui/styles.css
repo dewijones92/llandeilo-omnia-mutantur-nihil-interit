@@ -330,12 +330,32 @@ button {
   white-space: nowrap;
 }
 
+/* The tick mark itself, at the tick's year; it stays when a guess round hides the label. */
+.tl-tick::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 1px;
+  height: 4px;
+  background: var(--muted);
+}
+
 .tl-tick:first-child {
   transform: none;
 }
 
+.tl-tick:first-child::before {
+  left: 0;
+}
+
 .tl-tick:last-child {
   transform: translateX(-100%);
+}
+
+.tl-tick:last-child::before {
+  left: auto;
+  right: 0;
 }
 
 .prov-wrap {
@@ -1325,7 +1345,7 @@ button {
   display: none !important;
 }
 
-/* The ticks stay as a scale, but two key dates sit exactly on a labelled tick, so the labels go. */
+/* The tick marks stay as a scale, but two key dates sit exactly on a labelled tick, so the labels go. */
 .guessing .tl-tick {
   color: transparent;
 }

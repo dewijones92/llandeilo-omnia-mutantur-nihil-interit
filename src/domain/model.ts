@@ -1,3 +1,4 @@
+import type { RailSection } from './rail.ts';
 import type { Brand } from './brand.ts';
 import type { Season } from './daylight.ts';
 import type { Bilingual } from './i18n.ts';
@@ -177,7 +178,7 @@ export type FeatureKind =
     }
   | { readonly type: 'countryside'; readonly share: number }
   | { readonly type: 'building'; readonly plan: Plan; readonly condition: Condition }
-  | { readonly type: 'railway' }
+  | { readonly type: 'railway'; readonly section: RailSection }
   | { readonly type: 'train'; readonly stock: RollingStock }
   | { readonly type: 'roads' };
 
@@ -204,6 +205,7 @@ export const AMBIENT_BEDS = [
   'bells',
   'market',
   'train',
+  'railcar',
   'traffic',
   'chant',
 ] as const;

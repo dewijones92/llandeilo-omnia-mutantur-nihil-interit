@@ -263,6 +263,8 @@ export class Train {
   private readonly total: number;
   private distance = 0;
   private current: Stock | undefined;
+  /** The part of the path in use, as fractions of its length; undefined when no track is drawn. */
+  private span: readonly [number, number] | undefined = [0, 1];
 
   constructor(scene: Scene, line: MapLine, ground: Ground, models: ReadonlyMap<RollingStock, LoadedModel>) {
     this.path = line.points.map((p) => {
@@ -298,17 +300,28 @@ export class Train {
     return this.current?.chimney;
   }
 
+  setSpan(span: readonly [number, number] | undefined): void {
+    if (span?.[0] === this.span?.[0] && span?.[1] === this.span?.[1]) return;
+    console.info(`dewidebug train span ${span ? span.map((f) => f.toFixed(3)).join('..') : 'none'}`);
+    this.span = span;
+  }
+
   step(dt: number, stock: RollingStock | undefined): void {
-    const next = stock && this.total > 0 ? (this.stocks.get(stock) ?? this.stocks.get('generic')) : undefined;
+    const span = this.span;
+    const next =
+      stock && span && this.total > 0 ? (this.stocks.get(stock) ?? this.stocks.get('generic')) : undefined;
     if (next !== this.current) {
       console.info(`dewidebug train stock now=${stock ?? 'none'} mesh=${next?.mesh.name ?? 'none'}`);
       for (const s of this.stocks.values()) s.mesh.isVisible = s === next;
       this.current = next;
     }
-    if (!next) return;
-    this.distance = (this.distance + dt * 0.012) % (this.total * 2);
-    const d = this.distance > this.total ? this.total * 2 - this.distance : this.distance;
-    const forward = this.distance <= this.total;
+    if (!next || !span) return;
+    const from = span[0] * this.total;
+    const run = (span[1] - span[0]) * this.total;
+    if (run <= 0) return;
+    this.distance = (this.distance + dt * 0.012) % (run * 2);
+    const d = from + (this.distance > run ? run * 2 - this.distance : this.distance);
+    const forward = this.distance <= run;
     let i = 1;
     while (i < this.lengths.length - 1 && (this.lengths[i] ?? 0) < d) i++;
     const a = this.path[i - 1];

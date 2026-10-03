@@ -7,11 +7,13 @@ import { STRINGS } from '../src/content/strings.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
-import { insideArea, streetGlowOf } from '../src/domain/lamplight.ts';
+import { hasStreetLamps, insideArea } from '../src/domain/lamplight.ts';
 import { AMBIENT_BEDS } from '../src/domain/model.ts';
 import { latestStarting, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
+import { sectionLines } from '../src/domain/rail.ts';
+import { parseLines } from '../src/platform/assets.ts';
 import { ad, bc, contains, year } from '../src/domain/time.ts';
 import { tAt, yearAt } from '../src/domain/timeline.ts';
 
@@ -115,12 +117,12 @@ describe('content integrity', () => {
       k.windows,
       k.glow,
       k.hearth,
-      streetGlowOf(k.streets),
+      ...(hasStreetLamps(k.streets) ? [k.streets.glow] : []),
     ]);
     expect(levels.every((v) => v >= 0 && v <= 1)).toBe(true);
     expect(
       W.lamplight
-        .filter((k) => streetGlowOf(k.streets) > 0 && k.provenance.kind !== 'documented')
+        .filter((k) => hasStreetLamps(k.streets) && k.provenance.kind !== 'documented')
         .map((k) => k.year),
     ).toEqual([]);
   });
@@ -132,9 +134,7 @@ describe('content integrity', () => {
       { e: 262905, n: 221019 },
       { e: 262800, n: 221500 },
     ];
-    const lit = W.lamplight.flatMap((k) =>
-      k.streets.kind === 'none' || k.streets.kind === 'off' ? [] : [k.streets.area],
-    );
+    const lit = W.lamplight.flatMap((k) => (hasStreetLamps(k.streets) ? [k.streets.area] : []));
     expect(lit.length).toBeGreaterThan(0);
     for (const area of lit) {
       expect(insideArea(area, church)).toBe(true);
@@ -143,7 +143,7 @@ describe('content integrity', () => {
   });
 
   it('words every night-light key with the certainty of its date', () => {
-    const lead = { by: ['By ', 'Erbyn '], on: ['From ', 'O '] } as const;
+    const lead = { by: ['By ', 'Erbyn '], on: ['From ', 'O '], in: ['In ', 'Yn '] } as const;
     expect(
       W.lamplight
         .filter((k) => !k.text.en.startsWith(lead[k.dated][0]) || !k.text.cy.startsWith(lead[k.dated][1]))
@@ -228,6 +228,22 @@ describe('ambient sound beds', () => {
     expect(first?.p.provenance.sources).toContain('effects:S7');
   });
 
+  it('plays steam only until steam passenger trains ended on 13 June 1964, and is never silent while a train runs', () => {
+    const trains = W.features.filter((f) => f.kind.type === 'train');
+    const wrong: string[] = [];
+    for (let y = 1857; y <= 2026; y += 0.25) {
+      const at = soundAt(W.soundscape, year(y));
+      const steam = at.levels.train;
+      const anyTrain = AMBIENT_BEDS.filter((b) => b === 'train' || b === 'railcar').some(
+        (b) => at.levels[b] > 0,
+      );
+      if (y >= 1964.45 && steam > 0) wrong.push(`steam heard in ${y.toFixed(2)}`);
+      if (trains.some((t) => contains(t.when, year(y))) && !anyTrain)
+        wrong.push(`a train runs in ${y.toFixed(2)}, unheard`);
+    }
+    expect(wrong).toEqual([]);
+  });
+
   it('never fades a bed in from silence: it is heard only from the point that names it', () => {
     const early: string[] = [];
     for (const { bed, i, p } of heard) {
@@ -291,6 +307,25 @@ describe('assets', () => {
   it('records the source and licence of every shipped file', () => {
     const shipped = files(join(root, 'public')).map((f) => relative(join(root, 'public'), f));
     expect(shipped.filter((f) => !ASSETS.some((a) => a.files.test(f)))).toEqual([]);
+  });
+});
+
+describe('the railway', () => {
+  const railways = 'public/data/railways.json';
+  const rails = { lines: parseLines(JSON.parse(readFileSync(join(root, railways), 'utf8')), railways) };
+  const STATION_N = 222361;
+  const drawnAt = (y: number) =>
+    W.features
+      .filter((f) => contains(f.when, ad(y)))
+      .flatMap((f) => (f.kind.type === 'railway' ? sectionLines(rails.lines, f.kind.section) : []));
+
+  it('draws no track north-east of Llandeilo station before the Vale of Towy line opened on 1 April 1858', () => {
+    const north = (y: number) => drawnAt(y).flatMap((l) => l.points.filter((p) => p.n > STATION_N + 1));
+    expect(drawnAt(1857.5).length).toBeGreaterThan(0);
+    expect(north(1857.5)).toEqual([]);
+    expect(north(1858.2)).toEqual([]);
+    // The line's far end, towards Llangadog, once the line is open.
+    expect(north(1858.3)).toContainEqual({ e: 273922, n: 232559 });
   });
 });
 

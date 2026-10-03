@@ -1,7 +1,7 @@
 import type { AbstractEngine, ArcRotateCamera } from '../world/babylon.ts';
 import { formatYear } from '../domain/time.ts';
 import type { Clock, Lighting } from '../domain/daylight.ts';
-import type { LampState } from '../domain/lamplight.ts';
+import { hasStreetLamps, type LampState } from '../domain/lamplight.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import type { Snapshot, SoundingBed } from '../domain/state.ts';
 import { describeGraphics, type GraphicsState } from '../domain/quality.ts';
@@ -63,7 +63,8 @@ export class DebugOverlay {
 
 function lampLine(s: Snapshot): string {
   const k = s.lamplight;
+  if (!k) return 'light none: before the first key, nothing known';
   const st = k.streets;
-  const streets = st.kind === 'none' || st.kind === 'off' ? st.kind : `${st.kind} in ${st.area.id}`;
+  const streets = hasStreetLamps(st) ? `${st.kind} in ${st.area.id}` : st.kind;
   return `light homes ${k.homes} street ${streets} ${k.dated} ${k.year.toFixed(2)} [${k.provenance.kind}] share ${k.windows.toFixed(2)} glow ${k.glow.toFixed(2)} warmth ${k.warmth.toFixed(2)}`;
 }

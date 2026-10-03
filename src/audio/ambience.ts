@@ -234,6 +234,17 @@ export class Ambience {
         }
       });
     }
+    if (this.chance('railcar', 0.08)) {
+      // A diesel unit passing: an engine's low throb rising and falling, and now and then a two-tone horn.
+      this.voice('railcar', t, (out, at) => {
+        this.tone(out, at, 55, 6, 0.06, 'sawtooth', 70);
+        this.tone(out, at, 110, 6, 0.025, 'square', 140);
+        if (Math.random() < 0.4) {
+          this.tone(out, at + 0.4, 370, 0.9, 0.04, 'sawtooth');
+          this.tone(out, at + 1.4, 311, 0.9, 0.04, 'sawtooth');
+        }
+      });
+    }
     if (this.chance('market', 0.5)) {
       this.voice('market', t, (out, at) => {
         const f = 180 + Math.random() * 160;
@@ -260,6 +271,7 @@ export class Ambience {
       bells: 0.7,
       market: 0.5,
       train: 0.5,
+      railcar: 0.5,
       traffic: 0.6,
       chant: 0.8,
     };

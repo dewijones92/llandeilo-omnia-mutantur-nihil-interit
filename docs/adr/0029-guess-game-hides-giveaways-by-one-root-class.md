@@ -66,7 +66,10 @@ player can learn their positions, and two answers (c. 800 BC and AD 74) sit exac
 ticks under the slider, which stay visible to give the bar a scale. *Decided 2026-10-03 by Claude
 under the proactive mandate*: while a round is played the ticks stay but lose their labels
 (`.guessing .tl-tick`), so the bar keeps its scale and gives no answer away; jittering the hidden
-moment was not chosen because rounds are meant to land on dated key moments.
+moment was not chosen because rounds are meant to land on dated key moments. *Corrected 2026-10-03*:
+when this was written a tick was only its label, so hiding the labels left no scale at all; each
+tick now draws its own mark (`.tl-tick::before`), which stays visible during a round, and the e2e
+test checks the mark is there while the label is transparent.
 
 ## Alternatives considered
 

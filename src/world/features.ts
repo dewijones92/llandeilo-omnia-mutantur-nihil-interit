@@ -5,6 +5,7 @@ import type { LampState } from '../domain/lamplight.ts';
 import type { FeaturePresence } from '../domain/state.ts';
 import { hash2 } from '../domain/noise.ts';
 import { hidesFootprint, rotate } from '../domain/plan.ts';
+import { sectionLines, sectionSpan, type RailSection } from '../domain/rail.ts';
 import { Surface } from '../domain/surface.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
@@ -67,10 +68,12 @@ export class FeatureLayer {
   private readonly monuments = new Map<FeatureId, Monument>();
   private readonly towns = new Map<FeatureId, TownSet>();
   private readonly buildings: Buildings;
-  private readonly rail: Mesh;
+  /** One ribbon per railway feature, each its own stretch of today's track. */
+  private readonly rails = new Map<FeatureId, { readonly mesh: Mesh; readonly section: RailSection }>();
   private readonly roads: Mesh;
   private readonly streetLamps: StreetLamps;
   private readonly train: Train | undefined;
+  private readonly trainLine: MapLine | undefined;
   private stock: RollingStock | undefined;
   private trainFeature: Feature | undefined;
   readonly ground: Ground;
@@ -95,8 +98,6 @@ export class FeatureLayer {
     this.buildings = new Buildings(scene, footprints, this.ground);
     for (const m of this.buildings.meshes) world.addCaster(m);
     world.addLamp(this.buildings.windowMaterial);
-    this.rail = lineRibbons(scene, 'rail', railways, this.ground, () => 1.1, '#6d655c', 0.35);
-    this.rail.isVisible = false;
     this.roads = lineRibbons(
       scene,
       'roads',
@@ -110,6 +111,7 @@ export class FeatureLayer {
     this.streetLamps = new StreetLamps(scene, roads, this.ground);
     world.addLamp(this.streetLamps.material);
     const main = longestLine(railways);
+    this.trainLine = main;
     this.train = main ? new Train(scene, main, this.ground, trainModels) : undefined;
     const started = performance.now();
     const covered = coveredFootprints(features, footprints);
@@ -117,6 +119,16 @@ export class FeatureLayer {
     console.info(`dewidebug features hide ${covered.size} OS footprints that are drawn as landmark models`);
     for (const f of features) {
       const { x, z } = toWorld(f.at);
+      if (f.kind.type === 'railway') {
+        const lines = sectionLines(railways, f.kind.section);
+        const mesh = lineRibbons(scene, `rail-${f.id}`, lines, this.ground, () => 1.1, '#6d655c', 0.35);
+        mesh.isVisible = false;
+        this.rails.set(f.id, { mesh, section: f.kind.section });
+        console.info(
+          `dewidebug rail ${f.id} ${f.kind.section.side} of N${String(f.kind.section.ofN)}: ${String(lines.length)} lines`,
+        );
+        continue;
+      }
       if (f.kind.type === 'town') {
         const order = visible(this.buildings.distanceOrder(f.at, f.kind.radius)).slice(0, f.kind.nearest);
         this.towns.set(f.id, { order, target: order.length, lit: true });
@@ -221,17 +233,24 @@ export class FeatureLayer {
     this.streetLamps.showTown(lampTown?.id);
     let rail = 0;
     let road = 0;
+    const drawn: RailSection[] = [];
+    for (const [id, r] of this.rails) {
+      const p = active.get(id)?.presence ?? 0;
+      r.mesh.isVisible = p > 0.5;
+      if (p > 0.5) drawn.push(r.section);
+      rail = Math.max(rail, p);
+    }
     let train: { feature: Feature; stock: RollingStock; presence: number } | undefined;
     for (const p of present) {
       const k = p.feature.kind;
-      if (k.type === 'railway') rail = Math.max(rail, p.presence);
       if (k.type === 'roads') road = Math.max(road, p.presence);
       if (k.type === 'train' && p.presence > (train?.presence ?? 0.9))
         train = { feature: p.feature, stock: k.stock, presence: p.presence };
     }
     this.stock = rail > 0.9 ? train?.stock : undefined;
     this.trainFeature = this.stock ? train?.feature : undefined;
-    this.rail.isVisible = rail > 0.5;
+    // The train runs only on the stretch of its line that is drawn (no Llandovery line before 1858).
+    this.train?.setSpan(this.trainLine ? sectionSpan(this.trainLine.points, drawn) : undefined);
     this.roads.isVisible = road > 0.5;
   }
 

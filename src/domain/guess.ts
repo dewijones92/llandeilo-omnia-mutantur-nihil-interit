@@ -165,22 +165,14 @@ export function climateShows(season: Season, chill: number, highestM: number): b
   return lowest < highestM;
 }
 
-function drawnIds(snap: Snapshot): Set<string> {
-  return new Set([
-    ...snap.features.filter((f) => f.presence >= ON_SCREEN).map((f) => `feature:${f.feature.id}`),
-    // Each live conversation puts its people in the scene.
-    ...snap.conversations.map((c) => `people:${c.id}`),
-  ]);
-}
-
 const sameLand = (a: number, b: number): boolean => Math.abs(a - b) < SAME_LAND;
 const sameSky = (a: Rgb, b: Rgb): boolean =>
   [a.r - b.r, a.g - b.g, a.b - b.b].every((d) => Math.abs(d) < SAME_SKY);
 
-// Every drawn field of the environment; ambient is heard, not seen. The mapped type makes a new
-// environment field a compile error here until it is compared.
+// Every field of the environment is drawn. The mapped type makes a new one a compile error here
+// until it is compared.
 function sameEnvironment(a: Environment, b: Environment): boolean {
-  const same: Readonly<Record<Exclude<keyof Environment, 'ambient'>, boolean>> = {
+  const same: Readonly<Record<keyof Environment, boolean>> = {
     forest: sameLand(a.forest, b.forest),
     farmland: sameLand(a.farmland, b.farmland),
     moor: sameLand(a.moor, b.moor),
@@ -193,9 +185,41 @@ function sameEnvironment(a: Environment, b: Environment): boolean {
   return Object.values(same).every(Boolean);
 }
 
+type Compare = (a: Snapshot, b: Snapshot) => boolean;
+
+// Every Snapshot field is either compared or said not to be seen, so a new drawn field is a compile
+// error here until it is compared. Hidden during a round: the year, the era, the almanac, the
+// language panel and the nearest event (ADR 0029); sound is heard, not seen.
+const SCENE: Readonly<Record<keyof Snapshot, Compare | 'not seen'>> = {
+  t: 'not seen',
+  year: 'not seen',
+  era: 'not seen',
+  sound: 'not seen',
+  almanac: 'not seen',
+  language: 'not seen',
+  nearestEvent: 'not seen',
+  environment: (a, b) => sameEnvironment(a.environment, b.environment),
+  chill: (a, b) => Math.abs(a.chill - b.chill) < SAME_CHILL,
+  // By key: a key is a change in what lit the night (homes, streets, window shares).
+  lamplight: (a, b) => a.lamplight === b.lamplight,
+  features: (a, b) => sameIds(drawnFeatures(a), drawnFeatures(b)),
+  // Each live conversation puts its people in the scene.
+  conversations: (a, b) => sameIds(talking(a), talking(b)),
+};
+
+function talking(snap: Snapshot): string[] {
+  return snap.conversations.map((c) => c.id);
+}
+
+function drawnFeatures(snap: Snapshot): string[] {
+  return snap.features.filter((f) => f.presence >= ON_SCREEN).map((f) => f.feature.id);
+}
+
+function sameIds(a: readonly string[], b: readonly string[]): boolean {
+  const sb = new Set(b);
+  return a.length === b.length && a.every((id) => sb.has(id));
+}
+
 export function sceneMatches(a: Snapshot, b: Snapshot): boolean {
-  const da = drawnIds(a);
-  const db = drawnIds(b);
-  if (da.size !== db.size || [...da].some((id) => !db.has(id))) return false;
-  return sameEnvironment(a.environment, b.environment) && Math.abs(a.chill - b.chill) < SAME_CHILL;
+  return Object.values(SCENE).every((same) => same === 'not seen' || same(a, b));
 }

@@ -10,7 +10,8 @@ export type HomeLight = 'hearth' | 'rushlight' | 'oil-lamp' | 'mixed' | 'blacked
 
 // 'on': the change came on the key's date, to the precision given. 'by': it came no later than
 // that date; when it began is not known (a sample date, or the first source that mentions it).
-export type Dated = 'on' | 'by';
+// 'in': the key's date only marks a period the text names (say, the Middle Ages); no source dates it closer.
+export type Dated = 'on' | 'by' | 'in';
 
 /** An outline of grid points, at least three, in either winding. */
 export interface LitArea {
@@ -44,21 +45,23 @@ export interface LampKey {
 }
 
 // Technology arrives on a date, so keys hold rather than blend: a blend would draw half-gaslit years.
+// Before the first key nothing is known, so there is no key: -1 (ADR 0032).
 function keyIndexAt(keys: NonEmptyArray<LampKey>, y: Year): number {
-  let at = 0;
+  let at = -1;
   keys.forEach((k, i) => {
     if (k.year <= y) at = i;
   });
   return at;
 }
 
-export function lampStyleAt(keys: NonEmptyArray<LampKey>, y: Year): LampKey {
-  return keys[keyIndexAt(keys, y)] ?? keys[0];
+export function lampStyleAt(keys: NonEmptyArray<LampKey>, y: Year): LampKey | undefined {
+  return keys[keyIndexAt(keys, y)];
 }
 
-export function lampAlmanacAt(keys: NonEmptyArray<LampKey>, y: Year): AlmanacEntry {
+export function lampAlmanacAt(keys: NonEmptyArray<LampKey>, y: Year): AlmanacEntry | undefined {
   const i = keyIndexAt(keys, y);
-  const key = keys[i] ?? keys[0];
+  const key = keys[i];
+  if (!key) return undefined;
   const next = keys[i + 1];
   return {
     id: `light-${key.year.toFixed(2)}`,
@@ -89,12 +92,19 @@ export function lampColour(warmth: number): Rgb {
   return mix(ELECTRIC, FLAME, clamp(warmth, 0, 1));
 }
 
-export function streetGlowOf(streets: Streets): number {
-  return streets.kind === 'none' || streets.kind === 'off' ? 0 : streets.glow;
+export type LitStreets = Extract<Streets, { readonly area: LitArea }>;
+
+/** The one rule for whether street lamps stand and shine: not 'none' (none built), not 'off' (the blackout). */
+export function hasStreetLamps(streets: Streets): streets is LitStreets {
+  return streets.kind !== 'none' && streets.kind !== 'off';
 }
 
-/** `level` is the time-of-day lamp level from lightingAt: 0 by day, about 1 in the evening. */
-export function lampsAt(style: LampKey, level: number): LampState {
+/**
+ * `level` is the time-of-day lamp level from lightingAt: 0 by day, about 1 in the evening.
+ * With no key (before the first one) nothing is lit.
+ */
+export function lampsAt(style: LampKey | undefined, level: number): LampState {
+  if (!style) return { colour: lampColour(1), windows: 0, windowShare: 0, hearth: 0, street: undefined };
   const l = clamp(level, 0, 1);
   const s = style.streets;
   return {
@@ -102,7 +112,7 @@ export function lampsAt(style: LampKey, level: number): LampState {
     windows: l * style.glow,
     windowShare: style.windows,
     hearth: l * style.hearth,
-    street: s.kind === 'none' || s.kind === 'off' ? undefined : { level: l * s.glow, area: s.area },
+    street: hasStreetLamps(s) ? { level: l * s.glow, area: s.area } : undefined,
   };
 }
 

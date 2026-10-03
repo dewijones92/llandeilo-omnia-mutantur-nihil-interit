@@ -84,6 +84,7 @@ const DRYSLWYN_CASTLE = { e: 255390, n: 220294 };
 const TALLEY_ABBEY = { e: 263281, n: 232772 };
 const NEWTON_HOUSE = { e: 261432, n: 222534 };
 const LLANDEILO_BRIDGE_AT = { e: 262757, n: 222001 };
+const LLANDEILO_STATION = { e: 263266, n: 222361 };
 
 const FARMSTEAD_BASIS = {
   en: 'Small enclosed farmsteads were the commonest kind of Iron Age settlement in west Wales. These spots are illustrative, not known sites.',
@@ -775,22 +776,37 @@ export const FEATURES: readonly Feature[] = [
   }),
   feature({
     id: 'railway',
-    kind: { type: 'railway' },
-    at: { e: 263266, n: 222361 },
+    kind: { type: 'railway', section: { side: 'south', ofN: LLANDEILO_STATION.n } },
+    at: LLANDEILO_STATION,
     from: ad(1857),
     to: NOW,
     datesExact: true,
-    label: { en: 'The railway through Llandeilo', cy: 'Y rheilffordd drwy Landeilo' },
+    label: { en: 'The railway to Llandeilo from the south', cy: 'Y rheilffordd i Landeilo o’r de' },
     provenance: documented(
       ['victorian:S29', 'victorian:S28', 'victorian:S36'],
-      'Drawn on today’s track. The 1864–65 line to Carmarthen, since closed, is not shown.',
-      "Wedi'i darlunio ar y trac heddiw. Nid yw lein 1864–65 i Gaerfyrddin, sydd wedi cau, yn cael ei dangos.",
+      'The Llanelly Railway reached Llandeilo in January 1857. Drawn on today’s track south of the station; the line on to Llandovery opened in April 1858 and is drawn from then. The 1864–65 line to Carmarthen, since closed, is not shown.',
+      "Cyrhaeddodd Rheilffordd Llanelli Landeilo ym mis Ionawr 1857. Wedi'i darlunio ar y trac heddiw i'r de o'r orsaf; agorodd y lein ymlaen i Lanymddyfri ym mis Ebrill 1858 ac fe'i dangosir o hynny ymlaen. Nid yw lein 1864–65 i Gaerfyrddin, sydd wedi cau, yn cael ei dangos.",
+    ),
+  }),
+  feature({
+    id: 'railway-vale-of-towy',
+    kind: { type: 'railway', section: { side: 'north', ofN: LLANDEILO_STATION.n } },
+    at: LLANDEILO_STATION,
+    // 1 April 1858.
+    from: ad(1858.25),
+    to: NOW,
+    datesExact: true,
+    label: { en: 'The Vale of Towy Railway to Llandovery', cy: 'Rheilffordd Dyffryn Tywi i Lanymddyfri' },
+    provenance: documented(
+      ['victorian:S29', 'victorian:S31'],
+      'The Vale of Towy Railway opened to passengers on 1 April 1858, worked by the Llanelly company. Drawn on today’s track north-east of Llandeilo station.',
+      "Agorodd Rheilffordd Dyffryn Tywi i deithwyr ar 1 Ebrill 1858, a chwmni Llanelli yn ei gweithio. Wedi'i darlunio ar y trac heddiw i'r gogledd-ddwyrain o orsaf Llandeilo.",
     ),
   }),
   feature({
     id: 'train-llanelly',
     kind: { type: 'train', stock: 'llanelly-1850s' },
-    at: { e: 263266, n: 222361 },
+    at: LLANDEILO_STATION,
     from: ad(1857),
     to: ad(1872),
     label: { en: 'A Llanelly Railway train', cy: 'Trên Rheilffordd Llanelli' },
@@ -803,7 +819,7 @@ export const FEATURES: readonly Feature[] = [
   feature({
     id: 'train-later',
     kind: { type: 'train', stock: 'generic' },
-    at: { e: 263266, n: 222361 },
+    at: LLANDEILO_STATION,
     from: ad(1873),
     to: NOW,
     label: { en: 'A later train', cy: 'Trên diweddarach' },

@@ -76,7 +76,8 @@ export interface Snapshot {
   readonly environment: Environment;
   readonly sound: Sound;
   readonly chill: number;
-  readonly lamplight: LampKey;
+  /** Undefined before the first key, where nothing is known of how the night was lit. */
+  readonly lamplight: LampKey | undefined;
   readonly features: readonly FeaturePresence[];
   readonly conversations: readonly Conversation[];
   readonly almanac: readonly AlmanacEntry[];
@@ -95,6 +96,7 @@ export function everyBed(value: (bed: AmbientBed) => number): Record<AmbientBed,
     bells: value('bells'),
     market: value('market'),
     train: value('train'),
+    railcar: value('railcar'),
     traffic: value('traffic'),
     chant: value('chant'),
   };
@@ -172,6 +174,10 @@ export function presenceAt(timeline: Timeline, when: TimeRange, t: number): numb
   return Math.min(fadeIn, fadeOut);
 }
 
+function lightAlmanac(entries: readonly AlmanacEntry[], light: AlmanacEntry | undefined): AlmanacEntry[] {
+  return light ? [...entries, light] : [...entries];
+}
+
 export function snapshotAt(world: WorldContent, t: number): Snapshot {
   const y = yearAt(world.timeline, t);
   const features = world.features
@@ -196,7 +202,10 @@ export function snapshotAt(world: WorldContent, t: number): Snapshot {
     lamplight: lampStyleAt(world.lamplight, y),
     features,
     conversations: world.conversations.filter((c) => contains(c.when, y)),
-    almanac: [...world.almanac.filter((a) => contains(a.when, y)), lampAlmanacAt(world.lamplight, y)],
+    almanac: lightAlmanac(
+      world.almanac.filter((a) => contains(a.when, y)),
+      lampAlmanacAt(world.lamplight, y),
+    ),
     language: latestStarting(world.language, y),
     nearestEvent,
   };
