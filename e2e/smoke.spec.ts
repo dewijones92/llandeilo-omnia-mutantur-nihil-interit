@@ -771,6 +771,7 @@ test('Next from Talley reaches Llandeilo burning in the winter of 1213, and on p
   await expect(page.locator('.moment h2')).toHaveText('Llandeilo burned, Dinefwr besieged');
   await expect(page.getByRole('button', { name: 'Winter' })).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.sky-note')).toContainText('Late January 1213');
+  await expect(page.locator('.sky-readout')).toContainText('13:00');
   await expect(page.locator('.debug')).toContainText('llandeilo-burning-1213@1.00[documented]');
   await expect.poll(() => particleSystems(page)).toContain('smoke-llandeilo-burning-1213');
   await page.waitForTimeout(4000);
@@ -793,7 +794,7 @@ test('the 1849 cholera marker opens its card and almanac, in both languages, wit
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   const marker = page.locator('.tl-marker[aria-label^="1849"]');
   await expect(marker).toHaveCount(1);
-  await marker.dispatchEvent('click');
+  await marker.click({ timeout: 10_000 });
   await expect(page.locator('.moment h2')).toHaveText('Cholera reaches Llandeilo');
   await page.getByRole('button', { name: 'Almanac' }).click();
   await expect(page.locator('.info')).toContainText('Asiatic Cholera');
@@ -811,4 +812,24 @@ test('Next from the railway reaches the 1918 influenza, in the autumn its papers
   await expect(page.locator('.moment h2')).toHaveText('Influenza grips Llandeilo');
   await expect(page.getByRole('button', { name: 'Autumn' })).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.sky-note')).toContainText('about 21 November 1918');
+});
+
+test('every timeline marker can be clicked at its own centre, however close its neighbours', async ({
+  page,
+}) => {
+  await page.goto('./?year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const covered = (): Promise<string[]> =>
+    page.evaluate(() =>
+      [...document.querySelectorAll('.tl-marker')].flatMap((m) => {
+        const r = m.getBoundingClientRect();
+        const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        return hit?.closest('.tl-marker') === m ? [] : [m.getAttribute('aria-label') ?? '?'];
+      }),
+    );
+  await expect.poll(covered).toEqual([]);
+  await page.screenshot({ path: 'test-results/marker-lanes-1440.png' });
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await expect.poll(covered).toEqual([]);
+  await page.screenshot({ path: 'test-results/marker-lanes-1280.png' });
 });

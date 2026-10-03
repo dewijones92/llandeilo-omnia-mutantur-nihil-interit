@@ -250,7 +250,9 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       events the checked note records here, the 1849 cholera (a minor marker, card and almanac only:
       one partly illegible report) and the 1918 influenza (a key step, autumn from the record), each
       with content tests and an e2e flow seen red first; screenshots at 1849 and 1918. The almanac's
-      stale "no case in Llandeilo" is corrected. Not yet through the second-Opus review. **Still to
+      stale "no case in Llandeilo" is corrected. First second-Opus review done 2026-10-03 and its
+      findings fixed (markers fanned into lanes so 1849 can be clicked, [ADR 0038](../adr/0038-timeline-markers-fan-into-lanes.md);
+      the cholera almanac line split into dated entries). **Still to
       do**: the regional-only ripples (Black Death, 1816, potato blight, cattle plague, Krakatoa) as
       cards that say where the effect is recorded, and a second witness for 1849
 - [ ] **Music through time and place**: what was played and sung in and around Llandeilo in each era
@@ -304,7 +306,9 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       `feat/battles-and-black-swans`): the two invasions the checked note puts inside the area, 1213
       (Llandeilo burned, Dinefwr besieged, with smoke over the town, [ADR 0037](../adr/0037-recorded-burnings-are-dated-features.md))
       and 1257 (Coed Llathen and Cymerau, at the recorded midday), with content and snapshot tests and an
-      e2e flow seen red first; screenshots at 1213 and 1257. Not yet through the second-Opus review.
+      e2e flow seen red first; screenshots at 1213 and 1257. First second-Opus review done 2026-10-03 and
+      its findings fixed (1213 arrives at a chosen 13:00 so the smoke shows; the 1257 ⓘ names the
+      Llanarthne reading).
       **Still to do**: news cards for raids recorded only nearby (St Davids, Aber Tywi 1044, 1116,
       Carmarthen 1645), and Dewi's choice of Cymerau markers (none shown meanwhile)
 - [ ] **Early people hunting and gathering** (Dewi: "early people hunting stuff"): Late Upper

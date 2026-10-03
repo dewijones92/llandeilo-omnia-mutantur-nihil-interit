@@ -16,6 +16,7 @@ import {
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { hasStreetLamps, insideArea, streetWarmth } from '../src/domain/lamplight.ts';
+import { DEFAULT_CLOCK, sunElevation } from '../src/domain/daylight.ts';
 import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
 import { latestStarting, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
@@ -678,6 +679,39 @@ describe('battles and black swans: 1213, 1257, 1849 and 1918', () => {
     const at1849 = W.almanac.filter((a) => a.topic === 'health' && contains(a.when, ad(1849)));
     expect(at1849.filter((a) => a.text.en.includes('no case in Llandeilo')).map((a) => a.id)).toEqual([]);
     expect(at1849.some((a) => a.provenance.sources.some((s) => String(s) === 'ripples:S25'))).toBe(true);
+  });
+
+  it('arrives at a recorded burning by day, so its smoke can be seen, with the hour said to be chosen', () => {
+    const burnings = W.features.filter((f) => f.kind.type === 'burning');
+    const arrivals = W.events.filter(
+      (e) => e.magnetic && burnings.some((f) => contains(f.when, e.when.from)),
+    );
+    expect(arrivals.map((e) => e.id)).toEqual(['llandeilo-burned-1213']);
+    for (const e of arrivals) {
+      const sky = e.recordedSky;
+      expect(sky?.hour?.kind).toBe('chosen');
+      expect(
+        sunElevation({ season: sky?.season ?? 'summer', hour: sky?.hour?.value ?? DEFAULT_CLOCK.hour }),
+      ).toBeGreaterThan(5);
+    }
+  });
+
+  it('1257: keeps both readings of the wood’s name visible, Coed Llathen and Llanarthne', () => {
+    for (const lang of ['en', 'cy'] as const) expect(noteOf('cymerau-1257')?.[lang]).toMatch(/Ll?anarthne/);
+  });
+
+  it('dates the 1849 cases from 1849 and keeps the later absence a reconstructed gap, with no hindsight before', () => {
+    const health = W.almanac.filter((a) => a.topic === 'health');
+    const at1840 = health.filter((a) => contains(a.when, ad(1840)));
+    expect(at1840.filter((a) => /1849|1854|1866/.test(a.text.en)).map((a) => a.id)).toEqual([]);
+    const the1849 = health.filter((a) => a.provenance.sources.some((s) => String(s) === 'ripples:S24'));
+    expect(the1849.length).toBeGreaterThan(0);
+    for (const a of the1849) {
+      expect(a.provenance.kind).toBe('documented');
+      expect(a.when.from).toBeGreaterThanOrEqual(ad(1849));
+    }
+    const absences = health.filter((a) => /no case|none has been found/.test(a.text.en));
+    expect(absences.filter((a) => a.provenance.kind !== 'reconstructed').map((a) => a.id)).toEqual([]);
   });
 
   it('draws a burning only where a documented source records one, and only for its exact dates', () => {

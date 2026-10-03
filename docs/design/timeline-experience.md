@@ -2,7 +2,7 @@
 title: Timeline experience
 kind: design
 status: partly built
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Timeline experience: stepping through history
@@ -28,6 +28,8 @@ How the build differs from the proposal below, and why (corrected 2026-09-28 aft
 - **Steps count from where the slider is heading**, so two quick clicks on Next move two dates, and
   Next straight after a marker click steps on from that marker.
 - **A minor marker flies to its own event**, rather than snapping to the nearest key date.
+- **Markers whose dates crowd fan into lanes** above and below the line, each still at its date, so
+  every one can be clicked (built 2026-10-03, [ADR 0038](../adr/0038-timeline-markers-fan-into-lanes.md)).
 
 Someone wanting to go through history in order needs **◀ Previous** and **Next ▶** buttons, not
 only a slider to drag.

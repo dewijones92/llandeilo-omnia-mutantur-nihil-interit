@@ -286,18 +286,42 @@ export const ALMANAC: readonly AlmanacEntry[] = [
   ),
   entry(
     'victorian-health',
-    ...VICTORIAN,
+    ad(1837),
+    // Ends the day before 1849 begins, so this line never shows beside the 1849 cases.
+    onDay(1848, 12, 31),
     'health',
-    'Cholera is in the newspapers. The only cases found in Llandeilo are a few in 1849, in one partly illegible report; none has been found here in 1854 or 1866.',
-    'Mae colera yn y papurau newydd. Yr unig achosion a ganfuwyd yn Llandeilo yw ychydig yn 1849, mewn un adroddiad sy’n rhannol annarllenadwy; ni chanfuwyd yr un yma yn 1854 nac yn 1866.',
+    'Cholera is in the newspapers, but no case in Llandeilo itself has been found.',
+    "Mae colera yn y papurau newydd, ond does dim achos yn Llandeilo ei hun wedi'i ganfod.",
+    rec('A gap, not a clean bill of health.', 'Bwlch, nid prawf o iechyd da.', 'victorian:S54'),
+  ),
+  entry(
+    'cholera-llandeilo-1849',
+    ad(1849),
+    onDay(1850, 1, 1),
+    'health',
+    'Cholera reaches Llandeilo: a few cases in the town and its neighbourhood, and money raised to fit up a house for destitute patients.',
+    'Colera yn cyrraedd Llandeilo: ychydig o achosion yn y dref a’r cyffiniau, ac arian wedi’i gasglu i baratoi tŷ ar gyfer cleifion anghenus.',
     {
       kind: 'documented',
-      sources: [src('ripples:S24'), src('victorian:S54')],
+      sources: [src('ripples:S24')],
       note: {
-        en: 'For 1854 and 1866 this is a gap in what was searched, not a clean bill of health.',
-        cy: 'Ar gyfer 1854 a 1866 bwlch yn yr hyn a chwiliwyd yw hyn, nid prawf o iechyd da.',
+        en: 'One newspaper report, The Welshman of 21 December 1849, partly illegible; no second report has been found.',
+        cy: 'Un adroddiad papur newydd, The Welshman 21 Rhagfyr 1849, yn rhannol annarllenadwy; ni chafwyd hyd i ail adroddiad.',
       },
     },
+  ),
+  entry(
+    'victorian-health-after-1849',
+    onDay(1850, 1, 1),
+    ad(1901),
+    'health',
+    'Cholera is still in the newspapers, but no case in Llandeilo after 1849 has been found.',
+    'Mae colera yn y papurau newydd o hyd, ond does dim achos yn Llandeilo ar ôl 1849 wedi’i ganfod.',
+    rec(
+      'A gap in what was searched, not a clean bill of health: the nearest later outbreak found is at Ystalyfera in 1866, just outside the area.',
+      'Bwlch yn yr hyn a chwiliwyd, nid prawf o iechyd da: yr achos agosaf diweddarach a gafwyd yw Ystalyfera yn 1866, ychydig y tu allan i’r ardal.',
+      'victorian:S54',
+    ),
   ),
   entry(
     'cholera-inquest-1849',

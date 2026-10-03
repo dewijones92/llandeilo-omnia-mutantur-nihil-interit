@@ -59,6 +59,13 @@ July" by the letters, so it needs a date range, not a day). Anything else that s
 `plumeOf`, which is exhaustive over feature kinds, so a new kind cannot be forgotten. At night a dark
 plume is hard to see and only the glow shows; in daylight the plume is clear from the valley overview.
 
+*Amended 2026-10-03 (review), decided by Claude under the proactive mandate (ADR 0027)*: night was
+where every viewer with an untouched clock landed, since the 1213 step set winter and kept the 17:30
+hour, so the only scene change for that date could not be seen. The 1213 step now sets a **chosen**
+13:00, as the railway step does on its winter date, and its sky note says in both languages that the
+hour of the burning is not recorded. A content test holds every key step drawn with a burning to a
+chosen hour with the sun up.
+
 ## Alternatives considered
 
 - **A per-event effect on `KeyEvent`** (a "fire" flag on the event): it would only show at the key

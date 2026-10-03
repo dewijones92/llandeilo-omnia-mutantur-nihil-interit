@@ -219,9 +219,11 @@ export const EVENTS: readonly KeyEvent[] = [
     place: placeId('llandeilo'),
     recordedSky: {
       season: 'winter',
+      // Chosen by day so the smoke can be seen; a dark plume is lost against a night sky (ADR 0037).
+      hour: { kind: 'chosen', value: 13 },
       note: {
-        en: 'Late January 1213 (the camp on 24 January by the Brut, 25 by Lloyd); the time of day is not recorded.',
-        cy: 'Diwedd Ionawr 1213 (y gwersyll ar 24 Ionawr yn ôl y Brut, 25 yn ôl Lloyd); ni chofnodwyd adeg y dydd.',
+        en: 'Late January 1213 (the camp on 24 January by the Brut, 25 by Lloyd); the hour of the burning is not recorded.',
+        cy: 'Diwedd Ionawr 1213 (y gwersyll ar 24 Ionawr yn ôl y Brut, 25 yn ôl Lloyd); ni chofnodwyd awr y llosgi.',
       },
       sources: [src('invasions:S1'), src('invasions:S20')],
     },
@@ -269,8 +271,8 @@ export const EVENTS: readonly KeyEvent[] = [
       sources: [src('invasions:S3')],
     },
     provenance: documentedNoting(
-      'The army left Carmarthen on 31 May. The camp at Llandeilo is in one chronicle only, the Annales Cambriae B text, which Lloyd follows; the Brut sends the army to Dinefwr. The Welsh of Ceredigion and Ystrad Tywi harried it all the next day. On 2 June Rhys Fychan slipped away to his castle at Dinefwr (Annales Cambriae B); the Brut says its garrison seized him. The annalist calls the dead “Saxons”, but the army was English-led, with mostly Welsh foot soldiers (the battlefield survey and Coflein), and a modern estimate of the dead is 1,000 to 3,000. Bauzan’s death is in Lloyd and in Matthew Paris. Coed Llathen, near Broad Oak, is the likeliest site of the first fight, and Cymerau has been placed at the Tywi–Cothi confluence and near Talley: all inside these ten miles, none proven, so none is marked.',
-      'Gadawodd y fyddin Gaerfyrddin ar 31 Mai. Mewn un cronicl yn unig y mae’r gwersyll yn Llandeilo, testun B Annales Cambriae, a ddilynir gan Lloyd; mae’r Brut yn anfon y fyddin i Ddinefwr. Ymosododd Cymry Ceredigion ac Ystrad Tywi arni drwy’r dydd canlynol. Ar 2 Mehefin llithrodd Rhys Fychan ymaith i’w gastell yn Ninefwr (testun B Annales Cambriae); mae’r Brut yn dweud i’r garsiwn ei ddal. Mae’r analydd yn galw’r meirw yn “Saeson”, ond byddin dan arweiniad Seisnig oedd hi, gyda milwyr traed o Gymry gan mwyaf (yr arolwg o’r maes brwydr a Coflein), ac mae un amcangyfrif modern o’r meirw rhwng 1,000 a 3,000. Mae marwolaeth Bauzan yn Lloyd ac ym Matthew Paris. Coed Llathen, ger Broad Oak, yw’r safle mwyaf tebygol i’r ymladd cyntaf, a rhoddwyd Cymerau wrth gymer Tywi a Chothi a ger Talyllychau: i gyd o fewn y deg milltir hyn, dim un wedi’i brofi, felly ni nodir yr un.',
+      'The army left Carmarthen on 31 May. The camp at Llandeilo is in one chronicle only, the Annales Cambriae B text, which Lloyd follows; the Brut sends the army to Dinefwr. The Welsh of Ceredigion and Ystrad Tywi harried it all the next day. On 2 June Rhys Fychan slipped away to his castle at Dinefwr (Annales Cambriae B); the Brut says its garrison seized him. The annalist calls the dead “Saxons”, but the army was English-led, with mostly Welsh foot soldiers (the battlefield survey and Coflein), and a modern estimate of the dead is 1,000 to 3,000. Bauzan’s death is in Lloyd and in Matthew Paris. Coed Llathen, near Broad Oak, is the likeliest site of the first fight, though the manuscript’s name for the wood may be a misreading of Llanarthne, which Coflein treats as the same place; Cymerau has been placed at the Tywi–Cothi confluence and near Talley: all inside these ten miles, none proven, so none is marked.',
+      'Gadawodd y fyddin Gaerfyrddin ar 31 Mai. Mewn un cronicl yn unig y mae’r gwersyll yn Llandeilo, testun B Annales Cambriae, a ddilynir gan Lloyd; mae’r Brut yn anfon y fyddin i Ddinefwr. Ymosododd Cymry Ceredigion ac Ystrad Tywi arni drwy’r dydd canlynol. Ar 2 Mehefin llithrodd Rhys Fychan ymaith i’w gastell yn Ninefwr (testun B Annales Cambriae); mae’r Brut yn dweud i’r garsiwn ei ddal. Mae’r analydd yn galw’r meirw yn “Saeson”, ond byddin dan arweiniad Seisnig oedd hi, gyda milwyr traed o Gymry gan mwyaf (yr arolwg o’r maes brwydr a Coflein), ac mae un amcangyfrif modern o’r meirw rhwng 1,000 a 3,000. Mae marwolaeth Bauzan yn Lloyd ac ym Matthew Paris. Coed Llathen, ger Broad Oak, yw’r safle mwyaf tebygol i’r ymladd cyntaf, er y gall enw’r llawysgrif ar y goedwig fod yn gamddarlleniad o Lanarthne, y mae Coflein yn ei thrin fel yr un lle; rhoddwyd Cymerau wrth gymer Tywi a Chothi a ger Talyllychau: i gyd o fewn y deg milltir hyn, dim un wedi’i brofi, felly ni nodir yr un.',
       'invasions:S3',
       'invasions:S1',
       'invasions:S5',
