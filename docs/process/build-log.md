@@ -484,3 +484,22 @@ Milestones and what each one taught us. Newest last.
    four parallel shards and the deploy waits for all of them; CI's per-test limit is 7 minutes
    ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md)). Lesson: the job time is a budget that every
    merged feature spends, so watch the trend, not just the colour.
+17. **A night that reads as night** (Claude, under the proactive mandate; [ADR 0037](../adr/0037-a-dark-night-and-halos-that-keep-a-few-pixels.md)).
+   A winter 23:00 was a pale grey: the countryside above the town measured a mean luminance of 0.31 at
+   1880, 21:00, and the dated night light was a few orange pixels at the site framing. The moon,
+   sky light, night sky and self-glow are now darkened only where `night` weights them (0.07 there
+   now), and every lit house, street lamp and hearth gets a soft halo that faces the camera and never
+   shrinks below a few pixels, so the overview shows gas-lit 1880 orange, electric 1903 white at the
+   centre, the medieval hearths, a black 1942 and a lit 2000. The first halos were turned on the CPU
+   each frame the camera moved: 30ms a frame for 5,326 window halos, halving the orbit frame rate
+   (88 to 41fps); the turning and sizing now run in the vertex shader through a material plugin, and
+   the cost is lost in the noise. Two traps on the way: Babylon adds an emissive texture to the
+   emissive colour, so a tinted emissive colour drew every halo as a flat square (the tint now rides
+   on the per-halo colour), and a plugin's `hardBindForSubMesh` runs only when it sets
+   `registerForExtraEvents`, so the halos' size uniform stayed at zero and they vanished without an
+   error. Seen red first: the darkness unit test (moonlight 0.62 against at most 0.35), the halo
+   sizing test (a halo that did not grow with distance), and the night e2e on the old build (luminance
+   0.307 against under 0.12). Daytime is unchanged: three lightings pinned exactly in a unit test, and
+   noon at the overview identical to the pixel. `tools/frames.mjs` takes the screenshots and measures
+   idle, orbit and scrub frames on the GPU. Lesson: a light the size of a pixel is not shown by
+   making it brighter; it needs a size on screen of its own.

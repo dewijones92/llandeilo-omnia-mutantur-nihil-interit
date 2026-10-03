@@ -141,7 +141,13 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] **A night that reads as night** (Claude, under the proactive mandate, 2026-10-03): a winter 23:00
   is still a pale moonlit grey, so the dated night light (ADR 0030) only shows zoomed in: at the
   site framing the 1903 windows and lamps are a few orange pixels. Darker nights, window glow and lamp
-  halos (bloom) strong enough to read from the overview, and the 1942 blackout as a black town
+  halos (bloom) strong enough to read from the overview, and the 1942 blackout as a black town.
+  *Built 2026-10-03 on `feat/darker-night`* ([ADR 0037](../adr/0037-a-dark-night-and-halos-that-keep-a-few-pixels.md)):
+  a darker night (day unchanged), halos a few pixels wide at every lit house, street lamp and hearth,
+  turned in the vertex shader; red-first unit and e2e tests; looked at in 1282, 1880, 1903, 1942 and
+  2000 at the overview and the site, and at noon. Awaiting the second-Opus review, so not ticked
+- [ ] Check the night halos on WebGPU on a real desktop: their WGSL vertex code (ADR 0037) has never
+      run, because WebGPU through WSL stalls and CI has no GPU
 - [ ] Sound follows the clock: birds at dawn, owls and quiet at night
 - [ ] Conversations and speech bubbles follow the clock: nobody chatting outdoors at 3am
 - [x] Rivers stay vivid blue at night while the land goes dark: already fixed when re-shot on
