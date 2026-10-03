@@ -126,7 +126,7 @@ export class FeatureLayer {
         mesh.isVisible = false;
         this.rails.set(f.id, mesh);
         console.info(
-          `dewidebug rail ${f.id} ${f.kind.section.side} of N${String(f.kind.section.ofN)}: ${String(lines.length)} lines`,
+          `dewidebug rail ${f.id} within ${JSON.stringify(f.kind.section.within)}: ${String(lines.length)} lines`,
         );
         continue;
       }

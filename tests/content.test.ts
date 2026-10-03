@@ -5,10 +5,11 @@ import { describe, expect, it } from 'vitest';
 import { ASSETS } from '../src/content/assets.ts';
 import { STRINGS } from '../src/content/strings.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
+import { DUFFRYN_STATION, LLANDEILO_STATION } from '../src/content/features.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { hasStreetLamps, insideArea } from '../src/domain/lamplight.ts';
-import { AMBIENT_BEDS } from '../src/domain/model.ts';
+import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
 import { latestStarting, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
@@ -312,26 +313,57 @@ describe('assets', () => {
 
 describe('the railway', () => {
   const railways = 'public/data/railways.json';
-  const rails = { lines: parseLines(JSON.parse(readFileSync(join(root, railways), 'utf8')), railways) };
-  const STATION_N = 222361;
-  const drawnAt = (y: number) =>
-    W.features
-      .filter((f) => contains(f.when, ad(y)))
-      .flatMap((f) => (f.kind.type === 'railway' ? sectionLines(rails.lines, f.kind.section) : []));
+  const rails = parseLines(JSON.parse(readFileSync(join(root, railways), 'utf8')), railways);
+  const sections = W.features.flatMap((f) =>
+    f.kind.type === 'railway' ? [{ feature: f, lines: sectionLines(rails, f.kind.section) }] : [],
+  );
+  const gap = (a: GridRef, b: GridRef) => Math.hypot(a.e - b.e, a.n - b.n);
+  const length = (ls: readonly { points: readonly GridRef[] }[]) =>
+    ls.reduce((sum, l) => sum + l.points.slice(1).reduce((s, p, i) => s + gap(p, l.points[i] ?? p), 0), 0);
+  // Where the drawn data stops at the edge of the map, rather than at a station.
+  const leavesMap = (p: GridRef) => gap(p, WORLD.centre) > 14000;
 
-  it('draws no track north-east of Llandeilo station before the Vale of Towy line opened on 1 April 1858', () => {
-    const north = (y: number) => drawnAt(y).flatMap((l) => l.points.filter((p) => p.n > STATION_N + 1));
-    expect(drawnAt(1857.5).length).toBeGreaterThan(0);
-    expect(north(1857.5)).toEqual([]);
-    expect(north(1858.2)).toEqual([]);
-    // The line's far end, towards Llangadog, once the line is open.
-    expect(north(1858.3)).toContainEqual({ e: 273922, n: 232559 });
+  // The stretch each exactly dated section's sources date: Duffryn (Ammanford) to Llandeilo,
+  // January 1857 (victorian:S29, S70); Llandeilo on to Llandovery, 1 April 1858 (victorian:S29, S31).
+  const DATED: Readonly<Record<string, readonly GridRef[]>> = {
+    railway: [DUFFRYN_STATION, LLANDEILO_STATION],
+    'railway-vale-of-towy': [LLANDEILO_STATION],
+  };
+
+  it('draws each exactly dated section as one unbroken stretch between the places its sources date', () => {
+    const wrong: string[] = [];
+    for (const { feature, lines } of sections.filter((s) => s.feature.datesExact)) {
+      const ends = DATED[feature.id];
+      if (!ends) {
+        wrong.push(`${feature.id}: no dated stretch recorded`);
+        continue;
+      }
+      const tips = lines
+        .flatMap((l) => [l.points[0], l.points[l.points.length - 1]])
+        .filter((p) => p !== undefined);
+      const free = tips.filter((p) => !tips.some((q) => q !== p && gap(p, q) < 50));
+      for (const p of free)
+        if (!ends.some((e) => gap(p, e) < 300) && !leavesMap(p))
+          wrong.push(`${feature.id}: track ends at E${Math.round(p.e)} N${Math.round(p.n)}`);
+      for (const e of ends)
+        if (!free.some((p) => gap(p, e) < 300)) wrong.push(`${feature.id}: no track reaches E${e.e} N${e.n}`);
+    }
+    expect(wrong).toEqual([]);
+  });
+
+  it('draws every line east of Pontyberem exactly once, and leaves out only the undated lines in the west', () => {
+    const drawn = sections.reduce((sum, s) => sum + length(s.lines), 0);
+    const east = rails.filter((l) => l.points.every((p) => p.e > 258000));
+    const west = rails.filter((l) => l.points.every((p) => p.e < 258000));
+    expect(east.length + west.length).toBe(rails.length);
+    expect(drawn).toBeCloseTo(length(east), 0);
   });
 });
 
 describe('trains', () => {
   const trains = W.features.filter((f) => f.kind.type === 'train');
-  const railway = W.features.find((f) => f.kind.type === 'railway');
+  // The trains run on the line through Llandeilo, which the railway reached in 1857.
+  const railway = W.features.find((f) => f.id === 'railway');
 
   it('run only while the railway exists', () => {
     expect(railway).toBeDefined();

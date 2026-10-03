@@ -1,13 +1,20 @@
 import type { Feature, GridRef, RollingStock } from './model.ts';
 import type { FeaturePresence } from './state.ts';
 
+/** A box of grid space; a bound left out is open. */
+export interface GridBox {
+  readonly minE?: number;
+  readonly maxE?: number;
+  readonly minN?: number;
+  readonly maxN?: number;
+}
+
 /**
  * Part of today's drawn track, so a stretch can appear on the date it opened: the parts of the
- * lines north (or south) of a grid northing, cut where they cross it.
+ * lines inside any of its boxes, cut where they cross a box's edge (ADR 0034).
  */
 export interface RailSection {
-  readonly side: 'north' | 'south';
-  readonly ofN: number;
+  readonly within: readonly [GridBox, ...GridBox[]];
 }
 
 interface Line {
@@ -15,11 +22,51 @@ interface Line {
   readonly points: readonly GridRef[];
 }
 
-const inside = (s: RailSection, p: GridRef): boolean => (s.side === 'north' ? p.n >= s.ofN : p.n <= s.ofN);
+type Interval = readonly [number, number];
 
-function crossing(a: GridRef, b: GridRef, n: number): GridRef {
-  const f = (n - a.n) / (b.n - a.n);
-  return { e: a.e + (b.e - a.e) * f, n };
+// Liang–Barsky: the part of the segment a→b inside the box, as fractions of its length.
+function clip(a: GridRef, b: GridRef, box: GridBox): Interval | undefined {
+  const de = b.e - a.e;
+  const dn = b.n - a.n;
+  const edges: readonly (readonly [number, number])[] = [
+    [-de, a.e - (box.minE ?? -Infinity)],
+    [de, (box.maxE ?? Infinity) - a.e],
+    [-dn, a.n - (box.minN ?? -Infinity)],
+    [dn, (box.maxN ?? Infinity) - a.n],
+  ];
+  let t0 = 0;
+  let t1 = 1;
+  for (const [p, q] of edges) {
+    if (p === 0) {
+      if (q < 0) return undefined;
+      continue;
+    }
+    const r = q / p;
+    if (p < 0) t0 = Math.max(t0, r);
+    else t1 = Math.min(t1, r);
+  }
+  return t1 > t0 ? [t0, t1] : undefined;
+}
+
+/** The parts of a→b inside the section, in order, with touching parts merged. */
+function inside(a: GridRef, b: GridRef, section: RailSection): Interval[] {
+  const parts = section.within
+    .map((box) => clip(a, b, box))
+    .filter((x): x is Interval => x !== undefined)
+    .sort((x, y) => x[0] - y[0]);
+  const out: [number, number][] = [];
+  for (const [t0, t1] of parts) {
+    const last = out[out.length - 1];
+    if (last && t0 <= last[1]) last[1] = Math.max(last[1], t1);
+    else out.push([t0, t1]);
+  }
+  return out;
+}
+
+function pointAt(a: GridRef, b: GridRef, t: number): GridRef {
+  if (t === 0) return a;
+  if (t === 1) return b;
+  return { e: a.e + (b.e - a.e) * t, n: a.n + (b.n - a.n) * t };
 }
 
 export function sectionLines(
@@ -29,23 +76,29 @@ export function sectionLines(
   const out: { kind: string; points: GridRef[] }[] = [];
   for (const line of lines) {
     let run: GridRef[] = [];
+    // Whether the run reaches the end of the last segment, so the next segment can carry it on.
+    let open = false;
     const flush = (): void => {
       if (run.length > 1) out.push({ kind: line.kind, points: run });
       run = [];
+      open = false;
     };
-    line.points.forEach((p, i) => {
-      const prev = line.points[i - 1];
-      const now = inside(section, p);
-      if (prev && now !== inside(section, prev) && prev.n !== p.n) {
-        const x = crossing(prev, p, section.ofN);
-        if (now) run.push(x);
-        else {
-          run.push(x);
+    for (let i = 1; i < line.points.length; i++) {
+      const a = line.points[i - 1];
+      const b = line.points[i];
+      if (!a || !b) continue;
+      const parts = inside(a, b, section);
+      if (parts.length === 0) flush();
+      for (const [t0, t1] of parts) {
+        if (!(open && t0 === 0)) {
           flush();
+          run.push(pointAt(a, b, t0));
         }
+        run.push(pointAt(a, b, t1));
+        open = t1 === 1;
+        if (!open) flush();
       }
-      if (now) run.push(p);
-    });
+    }
     flush();
   }
   return out;
@@ -73,14 +126,11 @@ export function sectionSpan(
     if (!a || !b) continue;
     const at = lengths[i - 1] ?? 0;
     const len = (lengths[i] ?? 0) - at;
-    for (const s of sections) {
-      const ia = inside(s, a);
-      const ib = inside(s, b);
-      if (!ia && !ib) continue;
-      const cut = ia !== ib && a.n !== b.n ? at + len * ((s.ofN - a.n) / (b.n - a.n)) : undefined;
-      from = Math.min(from, ia ? at : (cut ?? at));
-      to = Math.max(to, ib ? at + len : (cut ?? at + len));
-    }
+    for (const s of sections)
+      for (const [t0, t1] of inside(a, b, s)) {
+        from = Math.min(from, at + len * t0);
+        to = Math.max(to, at + len * t1);
+      }
   }
   return from <= to ? [from / total, to / total] : undefined;
 }

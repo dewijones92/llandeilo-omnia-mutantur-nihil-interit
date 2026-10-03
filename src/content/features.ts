@@ -84,7 +84,16 @@ const DRYSLWYN_CASTLE = { e: 255390, n: 220294 };
 const TALLEY_ABBEY = { e: 263281, n: 232772 };
 const NEWTON_HOUSE = { e: 261432, n: 222534 };
 const LLANDEILO_BRIDGE_AT = { e: 262757, n: 222001 };
-const LLANDEILO_STATION = { e: 263266, n: 222361 };
+export const LLANDEILO_STATION = { e: 263266, n: 222361 };
+// Ammanford station, opened as Duffryn: the Llanelly Railway's terminus towards Llandeilo until 1857.
+// Wikipedia's coordinates (victorian:S70), on today's track; Coflein's record for an "Ammanford
+// Railway Station" (victorian:S73) lies 0.8km off the line, so it is not used.
+export const DUFFRYN_STATION = { e: 262455, n: 212601 };
+// North of Duffryn the Amman valley branch lies east of this easting and the main line west of it.
+const AMMAN_BRANCH_E = 263600;
+// The Llanelly Railway's lines lie east of this. The short lines west of it, near Pontyberem and
+// Cross Hands, are not dated in the notes, so they are in no section and are not drawn.
+const LLANELLY_LINES_E = 258000;
 
 const FARMSTEAD_BASIS = {
   en: 'Small enclosed farmsteads were the commonest kind of Iron Age settlement in west Wales. These spots are illustrative, not known sites.',
@@ -775,22 +784,52 @@ export const FEATURES: readonly Feature[] = [
     ),
   }),
   feature({
+    id: 'railway-llanelly-1840',
+    kind: {
+      type: 'railway',
+      section: {
+        within: [
+          { minE: LLANELLY_LINES_E, maxN: DUFFRYN_STATION.n },
+          { minE: AMMAN_BRANCH_E, maxN: LLANDEILO_STATION.n },
+        ],
+      },
+    },
+    at: DUFFRYN_STATION,
+    // 10 April 1840, Pontarddulais to Cwmamman (Garnant).
+    from: ad(1840.27),
+    to: NOW,
+    label: {
+      en: 'The Llanelly Railway’s first lines, to Duffryn and up the Amman valley',
+      cy: 'Leiniau cyntaf Rheilffordd Llanelli, i Dduffryn ac i fyny Dyffryn Aman',
+    },
+    provenance: reconstructed(
+      'The line from Pontarddulais to Cwmamman (later Garnant) opened on 10 April 1840 and went on to Gwaun-cae-Gurwen on 6 May 1841; the stretch from Pantyffynnon to Duffryn, today’s Ammanford station, opened in 1840 or in May 1841 (the sources differ). In 1841 it carried coal, with “scarcely any passenger traffic”. It is all drawn from April 1840 on today’s track, so a little of it a year early, and from one family of encyclopedia pages. Passenger trains up the Amman valley ended in 1958.',
+      "Agorodd y lein o Bontarddulais i Gwmaman (Garnant yn ddiweddarach) ar 10 Ebrill 1840 ac aeth ymlaen i Waun-cae-Gurwen ar 6 Mai 1841; agorodd y darn o Bantyffynnon i Dduffryn, gorsaf Rhydaman heddiw, yn 1840 neu ym mis Mai 1841 (mae'r ffynonellau'n anghytuno). Yn 1841 glo a gariai, heb “fawr ddim traffig teithwyr”. Fe'i dangosir i gyd o fis Ebrill 1840 ar y trac heddiw, felly ychydig ohono flwyddyn yn rhy gynnar, ac o un teulu o dudalennau gwyddoniadur. Daeth trenau teithwyr i fyny Dyffryn Aman i ben yn 1958.",
+      ['victorian:S29', 'victorian:S70', 'victorian:S71', 'railwaylater:S1'],
+    ),
+  }),
+  feature({
     id: 'railway',
-    kind: { type: 'railway', section: { side: 'south', ofN: LLANDEILO_STATION.n } },
+    kind: {
+      type: 'railway',
+      section: {
+        within: [{ minN: DUFFRYN_STATION.n, maxN: LLANDEILO_STATION.n, maxE: AMMAN_BRANCH_E }],
+      },
+    },
     at: LLANDEILO_STATION,
     from: ad(1857),
     to: NOW,
     datesExact: true,
     label: { en: 'The railway to Llandeilo from the south', cy: 'Y rheilffordd i Landeilo o’r de' },
     provenance: documented(
-      ['victorian:S29', 'victorian:S28', 'victorian:S36'],
-      'The Llanelly Railway reached Llandeilo in January 1857. Drawn on today’s track south of the station; the line on to Llandovery opened in April 1858 and is drawn from then. The 1864–65 line to Carmarthen, since closed, is not shown.',
-      "Cyrhaeddodd Rheilffordd Llanelli Landeilo ym mis Ionawr 1857. Wedi'i darlunio ar y trac heddiw i'r de o'r orsaf; agorodd y lein ymlaen i Lanymddyfri ym mis Ebrill 1858 ac fe'i dangosir o hynny ymlaen. Nid yw lein 1864–65 i Gaerfyrddin, sydd wedi cau, yn cael ei dangos.",
+      ['victorian:S29', 'victorian:S28', 'victorian:S70'],
+      'The Llanelly Railway reached Llandeilo in January 1857, extended north from Duffryn, today’s Ammanford station, its terminus until then; from 1850 to 1853 passengers had gone on to Llandeilo by omnibus. Drawn on today’s track from Ammanford to Llandeilo station; the cut at Ammanford is approximate. The line on to Llandovery opened in April 1858 and is drawn from then. The 1864–65 line to Carmarthen, since closed, is not shown.',
+      "Cyrhaeddodd Rheilffordd Llanelli Landeilo ym mis Ionawr 1857, wedi'i hymestyn i'r gogledd o Dduffryn, gorsaf Rhydaman heddiw, pen y lein hyd hynny; o 1850 i 1853 âi teithwyr ymlaen i Landeilo ar omnibws. Wedi'i darlunio ar y trac heddiw o Rydaman i orsaf Llandeilo; bras yw'r toriad yn Rhydaman. Agorodd y lein ymlaen i Lanymddyfri ym mis Ebrill 1858 ac fe'i dangosir o hynny ymlaen. Nid yw lein 1864–65 i Gaerfyrddin, sydd wedi cau, yn cael ei dangos.",
     ),
   }),
   feature({
     id: 'railway-vale-of-towy',
-    kind: { type: 'railway', section: { side: 'north', ofN: LLANDEILO_STATION.n } },
+    kind: { type: 'railway', section: { within: [{ minN: LLANDEILO_STATION.n }] } },
     at: LLANDEILO_STATION,
     // 1 April 1858.
     from: ad(1858.25),

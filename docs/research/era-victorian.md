@@ -1158,6 +1158,14 @@ project's ⓘ marker; none should be presented as a real quotation from a real n
 
 [S69] llandeilo.org, "Llandeilo Bridge: history" — https://llandeilo.org/bge_history.html — a stone bridge "in 1577"; seven arches drawn by Turner and Rooker in the 1790s; tenders "varied from £12,000 to below ten"; Morgan Morgan's "cut-price tender of £6,000". Local-history site. Added 2026-10-02 by the independent check.
 
+[S70] Wikipedia, "Ammanford railway station" — https://en.wikipedia.org/wiki/Ammanford_railway_station — "Originally called Duffryn, and then Tirydail"; "opened in 1841 as a temporary terminus of the Llanelly Railway's line to Llandeilo"; opened "6 May 1841"; coordinates 51.7951, −3.9959 (SN623126), which fall on today's track. Lead. Read directly (wikitext), 2026-10-03.
+
+[S71] Wikipedia, "Pantyffynnon railway station" — https://en.wikipedia.org/wiki/Pantyffynnon_railway_station — the Llanelly Railway "first reached the village as long ago as 1839, continuing eastwards to Garnant following within a year and the main line being extended to Duffryn (the current Ammanford) in May 1841"; the station building "dates from 1857". Lead; contradicts S29's "Duffryn; opened 1840" and S29's "In June 1842 a further branch ... to Brynamman" (S71: Brynamman reached "in 1886"). Read directly (wikitext), 2026-10-03.
+
+[S72] Coflein (RCAHMW), "Pantyffynnon Railway Station, Central Wales Line, Ammanford," NPRN 34733 — https://coflein.gov.uk/en/site/34733 — grid reference SN6229010780; the building "probably dates from 1853 to 1857 when the Llanelly Railway was extending northwards towards Llandeilo" (citing Hughes and Reynolds 1989). Read directly, 2026-10-03.
+
+[S73] Coflein (RCAHMW), "Ammanford Railway Station," NPRN 34689 — https://coflein.gov.uk/en/site/34689 — grid reference SN6312312123, a station with a signal box "still in use" in 1987. That point is about 0.8km east of today's Ammanford (once Duffryn) station on the main line, so which station the record means is not clear; not used to place Duffryn. Read directly, 2026-10-03.
+
 **Method note (for anyone continuing this research):** this document was produced by a lead pass
 plus four parallel deep-research passes (Rebecca Riots; Dynevor estate/gentry; chapels/Blue Books/
 Welsh Not; agriculture/industry/population/health/clothing), each independently sourced and

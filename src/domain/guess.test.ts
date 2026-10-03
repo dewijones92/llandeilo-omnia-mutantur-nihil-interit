@@ -50,7 +50,7 @@ const MILD: Provenance = { kind: 'reconstructed', basis: { en: 'no shift', cy: '
 
 const feature = (id: string, from: number, to: number, provenance: Provenance): Feature => ({
   id: mint<FeatureId>(id),
-  kind: { type: 'railway', section: { side: 'south', ofN: 0 } },
+  kind: { type: 'railway', section: { within: [{ maxN: 0 }] } },
   at: { e: 0, n: 0 },
   when: range(ad(from), ad(to)),
   provenance,

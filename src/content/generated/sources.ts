@@ -1969,6 +1969,30 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/era-victorian.md"
   },
   {
+    "id": "victorian:S70",
+    "title": "Wikipedia, \"Ammanford railway station\"",
+    "url": "https://en.wikipedia.org/wiki/Ammanford_railway_station",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S71",
+    "title": "Wikipedia, \"Pantyffynnon railway station\"",
+    "url": "https://en.wikipedia.org/wiki/Pantyffynnon_railway_station",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S72",
+    "title": "Coflein (RCAHMW), \"Pantyffynnon Railway Station, Central Wales Line, Ammanford,\" NPRN 34733",
+    "url": "https://coflein.gov.uk/en/site/34733",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S73",
+    "title": "Coflein (RCAHMW), \"Ammanford Railway Station,\" NPRN 34689",
+    "url": "https://coflein.gov.uk/en/site/34689",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
     "id": "effects:S1",
     "title": "Thomas Jenkins of Llandeilo, diary 1840-1845, as transcribed on llandeilo.org (Terry Norman and Andy Mabbutt), \"Caves, Castles, Rebecca Riots, Leeches and Scarlet Fever\", from *The Diary of Thomas Jenkins of Llandeilo…",
     "url": "https://llandeilo.org/tj_caves.html",
