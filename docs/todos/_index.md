@@ -274,10 +274,12 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
 - [ ] **Light after dark**: hearth, rushlight, candle, gas, electric light and the blackout, as content
       keys like the climate, each sourced. *Built 2026-10-03 on a worktree branch, not yet ticked*:
       research in [light-after-dark](../research/light-after-dark.md), keys in `src/content/lamplight.ts`
-      ([ADR 0028](../adr/0028-night-light-as-dated-content-keys.md)), windows, hearths and new street
-      lamps read the resolved state, unit and e2e tests seen red. Still to do on its path: the
-      independent research check (step 3) and the second Opus review (step 5); an almanac entry with
-      the ⓘ for these keys is not built
+      ([ADR 0030](../adr/0030-night-light-as-dated-content-keys.md)), windows, hearths and new street
+      lamps read the resolved state, unit and e2e tests seen red. Second Opus review done the same day
+      and its findings fixed: street lamps only in the town north of the Tywi, each key says how sure
+      its date is ("by" or "on"), a second source for the blackout and the 1945 lifting, and a "Light
+      after dark" almanac entry with the ⓘ. Still to do on its path: the independent research check
+      (step 3)
 - [ ] **When did we find out?** a discovery rail and a "found" line on every ⓘ (the forts in 2003,
       Lhuyd's trilobite in 1698, the Gospels' history)
 

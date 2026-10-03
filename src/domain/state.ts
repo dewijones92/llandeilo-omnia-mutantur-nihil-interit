@@ -1,7 +1,7 @@
 import { clamp, lerp, smoothstep, type NonEmptyArray } from './assert.ts';
 import { chillAt, type ClimateKey } from './climate.ts';
 import { hex, mix, type Rgb } from './colour.ts';
-import { lampStyleAt, type LampKey } from './lamplight.ts';
+import { lampAlmanacAt, lampStyleAt, type LampKey } from './lamplight.ts';
 import type {
   AlmanacEntry,
   AmbientBed,
@@ -153,7 +153,7 @@ export function snapshotAt(world: WorldContent, t: number): Snapshot {
     lamplight: lampStyleAt(world.lamplight, y),
     features,
     conversations: world.conversations.filter((c) => contains(c.when, y)),
-    almanac: world.almanac.filter((a) => contains(a.when, y)),
+    almanac: [...world.almanac.filter((a) => contains(a.when, y)), lampAlmanacAt(world.lamplight, y)],
     language: latestStarting(world.language, y),
     nearestEvent,
   };

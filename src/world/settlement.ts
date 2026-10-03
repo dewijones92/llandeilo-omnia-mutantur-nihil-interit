@@ -22,6 +22,8 @@ const WALLS = ['#f3efe6', '#efe6d2', '#e9dfcf', '#f4ecd8', '#e5ded6', '#efe3d8',
   hex,
 );
 
+const HOUSE_CELL_M = 40;
+
 interface TownSelection {
   readonly id: string;
   readonly order: Int32Array;
@@ -120,6 +122,18 @@ export class Buildings {
     }
     ids.sort((a, b) => hash2(a, 11, 5) - hash2(b, 11, 5));
     return Int32Array.from(ids);
+  }
+
+  // True within about one cell of a house in `order`, so lamps line built-up streets, not open road.
+  nearHouses(order: Int32Array): (p: GridRef) => boolean {
+    const cells = new Set<string>();
+    const d = this.footprints.data;
+    for (const i of order) {
+      const ce = Math.floor((d[i * 5] ?? 0) / HOUSE_CELL_M);
+      const cn = Math.floor((d[i * 5 + 1] ?? 0) / HOUSE_CELL_M);
+      for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) cells.add(`${ce + a},${cn + b}`);
+    }
+    return (p) => cells.has(`${Math.floor(p.e / HOUSE_CELL_M)},${Math.floor(p.n / HOUSE_CELL_M)}`);
   }
 
   show(selections: readonly TownSelection[]): void {

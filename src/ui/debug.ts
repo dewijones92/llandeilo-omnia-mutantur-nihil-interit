@@ -25,7 +25,7 @@ export class DebugOverlay {
   }
 
   light(clock: Clock, l: Lighting, lamps: LampState): void {
-    this.sky = `sky ${clock.season} ${clock.hour.toFixed(2)}h sun ${l.elevation.toFixed(1)}° ${l.moon ? 'moon' : 'sun'} ${l.lightIntensity.toFixed(2)} night ${l.night.toFixed(2)} lamps ${l.lamps.toFixed(2)} (windows ${lamps.windows.toFixed(2)} hearth ${lamps.hearth.toFixed(2)} street ${lamps.street.toFixed(2)})`;
+    this.sky = `sky ${clock.season} ${clock.hour.toFixed(2)}h sun ${l.elevation.toFixed(1)}° ${l.moon ? 'moon' : 'sun'} ${l.lightIntensity.toFixed(2)} night ${l.night.toFixed(2)} lamps ${l.lamps.toFixed(2)} (windows ${lamps.windows.toFixed(2)} hearth ${lamps.hearth.toFixed(2)} street ${(lamps.street?.level ?? 0).toFixed(2)})`;
   }
 
   private render(): void {
@@ -51,5 +51,7 @@ export class DebugOverlay {
 
 function lampLine(s: Snapshot): string {
   const k = s.lamplight;
-  return `light homes ${k.homes} street ${k.street} since ${k.year.toFixed(2)} [${k.provenance.kind}] share ${k.windows.toFixed(2)} glow ${k.glow.toFixed(2)} warmth ${k.warmth.toFixed(2)}`;
+  const st = k.streets;
+  const streets = st.kind === 'none' || st.kind === 'off' ? st.kind : `${st.kind} in ${st.area.id}`;
+  return `light homes ${k.homes} street ${streets} ${k.dated} ${k.year.toFixed(2)} [${k.provenance.kind}] share ${k.windows.toFixed(2)} glow ${k.glow.toFixed(2)} warmth ${k.warmth.toFixed(2)}`;
 }

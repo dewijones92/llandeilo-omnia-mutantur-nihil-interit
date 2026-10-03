@@ -7,7 +7,7 @@ updated: 2026-10-03
 
 # Light after dark
 
-Research for the lighting seam (`src/content/lamplight.ts`, [ADR 0028](../adr/0028-night-light-as-dated-content-keys.md)):
+Research for the lighting seam (`src/content/lamplight.ts`, [ADR 0030](../adr/0030-night-light-as-dated-content-keys.md)):
 how homes and streets in and around Llandeilo were lit after dark, era by era. Written inline on
 2026-10-03 from sources read that day, mostly Welsh Newspapers Online (National Library of Wales),
 whose search results and article pages were fetched with `curl`. Not yet independently checked.
@@ -75,45 +75,59 @@ used.
 - **The blackout, 1 September 1939.** "The first real effect of the Second World War for most British
   civilians was the blackout, which was introduced on 1 September 1939, two days before war was
   actually declared" [S15]. It "remained in force for five years until September 1944, when
-  regulations were relaxed to allow a 'dim-out'" [S15]. National rules, so documented for Llandeilo
-  as for everywhere; no local account of the blackout here was read.
+  regulations were relaxed to allow a 'dim-out'" [S15]. A home-front history website gives the same
+  dates [S19]. National rules, so documented for Llandeilo as for everywhere; no local account of the
+  blackout here was read.
 - **The dim-out, from September 1944, was partial.** In October 1944 the Home Secretary spoke of "the
   recent relaxations for domestic lighting" but would not "relax all restrictions during any part of
   the black-out period", and said "in some parts, the black-out is now more effective than it was
   before the relaxation" [S16]. In February 1945 he would not yet do away with "blacking-out of
   private homes" [S17], while that sixth winter allowed "some alleviation of the street lighting
   position" [S17]. On 12 April 1945 he meant "to remove the black-out restrictions in all districts at
-  a date not later than the end of the war in Europe" [S18], which was 8 May 1945. Cross-checked
-  (IWM and Hansard). The app's dim-out draws faint windows and dim street lamps; how much light
+  a date not later than the end of the war in Europe" [S18], which was 8 May 1945; [S19] says full
+  street lighting came in April 1945, in London on 30 April. When Llandeilo's lamps came back is not
+  found, so the app uses 8 May 1945 as a latest date. The dim-out is cross-checked (IWM and Hansard);
+  the lifting rests on Hansard's statement of intent and one secondary website. The app's dim-out draws faint windows and dim street lamps; how much light
   Llandeilo actually showed is reconstructed.
 
 ## Lighting keys used by the app
 
-Each key holds until the next; a key's date comes from a source above, never from a guess.
+Each key holds until the next; a key's date comes from a source above, never from a guess. "By" means
+no later than: the light was in use by then, and when it began is not known. This table matches
+`src/content/lamplight.ts` (checked 2026-10-03, after the review).
 
-| From | Homes | Streets | Provenance | Sources |
+| Date | Homes | Streets | Provenance | Sources |
 |---|---|---|---|---|
-| Earliest | Hearth fire | none | Reconstructed (analogy) | [hunters:S36] |
-| 1750 | Rushlight and some candles; firelight | none | Reconstructed (analogy, two sources) | [S13][S14] |
-| 1864 | Oil lamps, candles, rushlights | none | Reconstructed; the lamps on sale are documented | [S12][S1] |
-| 1876 | As before, some gas | Gas, in the town | Documented date (no later than); first lighting unknown | [S4][S1][S2] |
-| Sept 1902 | Electric for some, gas and oil for most | Electric, in the town | Documented | [S8][S10] |
-| 1 Sept 1939 | Blacked out | Off | Documented (national) | [S15] |
-| Sept 1944 | Curtained, faint | Dimmed | Documented relaxation; the level is reconstructed | [S15][S16][S17] |
-| 8 May 1945 | Electric | Electric | Documented (no later than VE Day) | [S18] |
+| By 7800 BC | Hearth fire | none | Reconstructed (analogy) | [hunters:S36] |
+| By c. 1200 | Hearth fire (a court's candles in the almanac only) | none | Reconstructed (prescriptive law-book) | [music:S3][medieval:S41] |
+| By 1750 | Rushlight and some candles; firelight | none | Reconstructed (analogy, two sources); 1750 is a sample date | [S13][S14] |
+| By 1864 | Oil lamps, candles, rushlights | none | Reconstructed; the lamps on sale are documented | [S12][S11] |
+| By 1876 | As before | Gas, in the town north of the Tywi | Documented as a latest date; the bound is S4 alone, S8 confirms gas street lighting | [S4][S8][S1][S2] |
+| By Sept 1902 | Mixed: electric for some, gas and oil | Electric, in the town north of the Tywi | Documented | [S8][S10][S5] |
+| On 1 Sept 1939 | Blacked out | Off | Documented (national; two sources) | [S15][S19] |
+| From Sept 1944 | Curtained, faint | Dimmed, in the town | Documented relaxation; the level is reconstructed | [S15][S16][S17][S19] |
+| By 8 May 1945 | Mixed | Electric, in the town | Documented as a latest date (S18); S19 says April 1945 | [S18][S19] |
+
+The c. 1200 key draws nothing different from the hearth key: it exists so the almanac can say what a
+Welsh court's law-book prescribes. The brief's "torchlight at Dinefwr" is not drawn, since no source
+read says what Dinefwr lit. Each key's words and ⓘ show in the almanac as "Light after dark".
 
 The shares of lit windows, the brightness and the colour of each key are **reconstructed**: no
 source counts lit windows. Flame light (hearth, rush, candle, oil, flat-flame gas) is drawn warm
 yellow-orange; electric light whiter. Gas mantles (whiter light) are not recorded for Llandeilo, so
-gas is drawn as flame. Street lamp positions are not recorded; they are drawn along today's roads
-inside the town.
+gas is drawn as flame. Farms across the valley are drawn with the town's windows, which is a guess.
+Street lamp positions are not recorded; they are drawn along today's roads near the town's houses,
+inside an outline of Llandeilo north of the Tywi (its south and east edges follow OS Open Rivers),
+because the sources speak of lighting "the town" and nothing read says Ffairfach was lit.
 
 ## Open questions
 
 - When were Llandeilo's streets first lit with gas (1864 to 1876)? How many lamps?
 - Were the town's gas lamps lit only in winter, and put out at midnight?
 - Who in Llandeilo had electric light at home before 1939, and when did farms get mains electricity?
-- When did Ffairfach and the villages get street lighting at all?
+- When did Ffairfach and the villages get street lighting at all? (The app lights only the town north
+  of the Tywi.)
+- When did Llandeilo's own lamps come back on in 1945?
 - Roman oil lamps at the Dinefwr forts: no find is recorded in the notes, so the app shows none.
 
 ## Sources
@@ -136,3 +150,4 @@ inside the town.
 - [S16] Hansard, HC Deb 5 October 1944 vol 403 cc1111-5, "Black-out Regulations" – https://api.parliament.uk/historic-hansard/commons/1944/oct/05/black-out-regulations – Morrison: "The recent relaxations for domestic lighting apply equally to factories"; the Government "cannot yet relax all restrictions"; "in some parts, the black-out is now more effective than it was before the relaxation". Primary. Read directly.
 - [S17] Hansard, HC Deb 8 February 1945 vol 407 cc2211-2, "Lighting Restrictions" – https://api.parliament.uk/historic-hansard/commons/1945/feb/08/lighting-restrictions – Morrison declines to do away with "blacking-out of private homes"; Lloyd George: in "the sixth, winter of the war some alleviation of the street lighting position was not only permissible but desirable". Primary. Read directly.
 - [S18] Hansard, HC Deb 12 April 1945 vol 409 c1980, "Black-out Restrictions" – https://api.parliament.uk/historic-hansard/commons/1945/apr/12/black-out-restrictions – "It is my intention to remove the black-out restrictions in all districts at a date not later than the end of the war in Europe". Primary. Read directly.
+- [S19] Home Sweet Home Front, "Blackout" – https://homesweethomefront.co.uk/web_pages/hshf_blackout_pg.php – "On the 1st September 1939, two days before the outbreak of war, Britain was blacked out"; "The Dim-out was introduced in September 1944 and meant that lighting the equivalent of moonlight could at long last be introduced"; "Full lighting of streets that had not been seen since before the war eventually came in April 1945", in London "on the 30th April 1945". A home-front history website with no named author; secondary, and cited by Wikipedia's "Blackout (wartime)" for the same dates. Read via a fetch summary with quotes, 2026-10-03.

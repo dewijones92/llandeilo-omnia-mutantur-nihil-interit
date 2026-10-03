@@ -122,7 +122,16 @@ export interface Conversation {
 }
 
 export type AlmanacTopic =
-  'food' | 'clothing' | 'homes' | 'religion' | 'money' | 'health' | 'travel' | 'population' | 'nature';
+  | 'food'
+  | 'clothing'
+  | 'homes'
+  | 'light'
+  | 'religion'
+  | 'money'
+  | 'health'
+  | 'travel'
+  | 'population'
+  | 'nature';
 
 export interface AlmanacEntry {
   readonly id: string;

@@ -363,21 +363,49 @@ test('time of day and season controls relight the valley, in both languages', as
   expect(errors).toEqual([]);
 });
 
+const meshState = async (page: Page, name: string): Promise<{ visible: boolean; count: number }> =>
+  page.evaluate((n) => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const meshes: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'meshes') : undefined;
+    const mesh: unknown = Array.isArray(meshes)
+      ? meshes.find((m: unknown) => m && typeof m === 'object' && Reflect.get(m, 'name') === n)
+      : undefined;
+    if (!mesh || typeof mesh !== 'object') throw new Error(`no mesh ${n}`);
+    return {
+      visible: Reflect.get(mesh, 'isVisible') === true,
+      count: Number(Reflect.get(mesh, 'thinInstanceCount')),
+    };
+  }, name);
+
 test('the night is lit by the light of its time: gas lamps in 1880, the blackout in 1942', async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   const debug = page.locator('.debug');
-  await page.goto('./?year=1880&hour=21&season=winter&debug');
+  await page.goto('./?year=1880&hour=21&season=winter&place=llandeilo&debug');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  await expect(debug).toContainText('light homes oil-lamp street gas since 1876.00 [documented]');
+  await expect(debug).toContainText(
+    'light homes oil-lamp street gas in town-north-of-tywi by 1876.00 [documented]',
+  );
   await expect(debug).toContainText(/\(windows 0\.[1-9]\d hearth \d\.\d\d street 0\.[1-9]\d\)/);
+  await expect.poll(async () => (await meshState(page, 'street-lamps')).visible).toBe(true);
+  expect((await meshState(page, 'street-lamps')).count).toBeGreaterThan(10);
+  expect((await meshState(page, 'building-windows')).count).toBeGreaterThan(0);
+  await page.getByRole('button', { name: 'Almanac' }).click();
+  const light = page.locator('.info .info-list li', { hasText: 'Light after dark' });
+  await expect(light).toContainText('By 1876 gas lamps');
+  await expect(light.locator('.prov')).toBeVisible();
+  await expect(page.locator('.loader')).toHaveCount(0);
   await page.screenshot({ path: 'test-results/light-1880-night.png' });
-  await page.goto('./?year=1942&hour=21&season=winter&debug');
+  await page.goto('./?year=1942&hour=21&season=winter&place=llandeilo&debug');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  await expect(debug).toContainText('light homes blacked-out street off since 1939.67 [documented]');
+  await expect(debug).toContainText('light homes blacked-out street off on 1939.67 [documented]');
   await expect(debug).toContainText('(windows 0.00 hearth 0.00 street 0.00)');
+  await expect.poll(async () => (await meshState(page, 'street-lamps')).visible).toBe(false);
+  expect((await meshState(page, 'building-windows')).count).toBe(0);
+  await expect(page.locator('.loader')).toHaveCount(0);
   await page.screenshot({ path: 'test-results/light-1942-blackout.png' });
   expect(errors).toEqual([]);
 });

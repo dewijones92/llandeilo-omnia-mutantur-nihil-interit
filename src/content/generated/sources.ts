@@ -2851,6 +2851,12 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/light-after-dark.md"
   },
   {
+    "id": "light:S19",
+    "title": "Home Sweet Home Front, \"Blackout\"",
+    "url": "https://homesweethomefront.co.uk/web_pages/hshf_blackout_pg.php",
+    "doc": "docs/research/light-after-dark.md"
+  },
+  {
     "id": "music:S1",
     "title": "*Brut y Tywysogion; or, The Chronicle of the Princes*, ed. John Williams ab Ithel (Rolls Series, 1860), Internet Archive text layer",
     "url": "https://archive.org/details/brutytywysogiono00cara",

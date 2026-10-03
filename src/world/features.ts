@@ -23,6 +23,8 @@ interface Monument {
 interface TownSet {
   readonly order: Int32Array;
   readonly target: number;
+  /** Towns get street lamps; the scattered countryside does not. */
+  readonly lit: boolean;
 }
 
 const TOWN_CORE_RADIUS = 1300;
@@ -59,20 +61,6 @@ function coveredFootprints(features: readonly Feature[], footprints: BuildingFoo
     }
   }
   return covered;
-}
-
-const HOUSE_CELL_M = 40;
-
-// True within about one cell of a house in `order`, so lamps line built-up streets, not open road.
-function nearHouses(footprints: BuildingFootprints, order: Int32Array): (e: number, n: number) => boolean {
-  const cells = new Set<string>();
-  const d = footprints.data;
-  for (const i of order) {
-    const ce = Math.floor((d[i * 5] ?? 0) / HOUSE_CELL_M);
-    const cn = Math.floor((d[i * 5 + 1] ?? 0) / HOUSE_CELL_M);
-    for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) cells.add(`${ce + a},${cn + b}`);
-  }
-  return (e, n) => cells.has(`${Math.floor(e / HOUSE_CELL_M)},${Math.floor(n / HOUSE_CELL_M)}`);
 }
 
 export class FeatureLayer {
@@ -131,13 +119,13 @@ export class FeatureLayer {
       const { x, z } = toWorld(f.at);
       if (f.kind.type === 'town') {
         const order = visible(this.buildings.distanceOrder(f.at, f.kind.radius)).slice(0, f.kind.nearest);
-        this.towns.set(f.id, { order, target: order.length });
-        this.streetLamps.addTown(f.id, nearHouses(footprints, order));
+        this.towns.set(f.id, { order, target: order.length, lit: true });
+        this.streetLamps.addTown(f.id, this.buildings.nearHouses(order));
         continue;
       }
       if (f.kind.type === 'countryside') {
         const order = visible(this.buildings.countrysideOrder(f.at, TOWN_CORE_RADIUS));
-        this.towns.set(f.id, { order, target: Math.round(order.length * f.kind.share) });
+        this.towns.set(f.id, { order, target: Math.round(order.length * f.kind.share), lit: false });
         continue;
       }
       const built = buildFeature(scene, f.kind, Math.floor(hash2(x, z, 7) * 1e6), onSurface, x, z);
@@ -223,14 +211,14 @@ export class FeatureLayer {
       if (p > 0.01) m.mesh.scaling.y = 0.05 + 0.95 * (1 - Math.pow(1 - p, 3));
     }
     const selections: { id: string; order: Int32Array; count: number }[] = [];
-    const lampTowns: string[] = [];
+    let lampTown: { id: string; presence: number } | undefined;
     for (const [id, t] of this.towns) {
       const p = active.get(id)?.presence ?? 0;
       if (p > 0) selections.push({ id, order: t.order, count: Math.floor(t.target * p) });
-      if (p > 0.5 && active.get(id)?.feature.kind.type === 'town') lampTowns.push(id);
+      if (t.lit && p > 0.5 && p > (lampTown?.presence ?? 0)) lampTown = { id, presence: p };
     }
     this.buildings.show(selections);
-    this.streetLamps.show(lampTowns);
+    this.streetLamps.showTown(lampTown?.id);
     let rail = 0;
     let road = 0;
     let train: { feature: Feature; stock: RollingStock; presence: number } | undefined;
@@ -249,7 +237,7 @@ export class FeatureLayer {
 
   setLamps(state: LampState): void {
     this.buildings.setLamps(state);
-    this.streetLamps.setLevel(state.colour, state.street);
+    this.streetLamps.set(state.colour, state.street);
   }
 
   tick(dt: number): void {

@@ -110,9 +110,10 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
 - Longhouse evidence is later and from mid Wales; the medieval ones in the app are marked imagined.
 - The Llandeilo gas works were **being built in 1864**, not c. 1860: two 1864 newspapers against one
   Wikipedia page ([light-after-dark](light-after-dark.md), 2026-10-03). The same research dates gas
-  street lamps to no later than 1876 (the first lighting is not found), electric street light to
-  September 1902, and the national blackout to 1 September 1939; the app's night light now follows
-  these keys ([ADR 0028](../adr/0028-night-light-as-dated-content-keys.md)).
+  street lamps to no later than 1876 (the first lighting is not found; that bound is single-source),
+  electric street light to September 1902, and the national blackout to 1 September 1939 (IWM and a
+  home-front history site); the app's night light now follows these keys, each with how sure its
+  date is, and draws street lamps only in the town north of the Tywi ([ADR 0030](../adr/0030-night-light-as-dated-content-keys.md)).
 
 ## Decisions the research drove
 

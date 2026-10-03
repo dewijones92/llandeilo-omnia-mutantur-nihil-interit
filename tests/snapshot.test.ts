@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { WORLD_CONTENT } from '../src/content/world.ts';
+import { streetGlowOf } from '../src/domain/lamplight.ts';
 import { snapshotAt } from '../src/domain/state.ts';
 import { ad, contains } from '../src/domain/time.ts';
 import { tAt } from '../src/domain/timeline.ts';
@@ -50,31 +51,36 @@ describe('snapshotAt: what is on screen and heard in 1282', () => {
 });
 
 describe('snapshotAt: how the night was lit', () => {
-  const at = (y: number) => snapshotAt(WORLD_CONTENT, tAt(WORLD_CONTENT.timeline, ad(y))).lamplight;
+  const snapAt = (y: number) => snapshotAt(WORLD_CONTENT, tAt(WORLD_CONTENT.timeline, ad(y)));
+  const at = (y: number) => snapAt(y).lamplight;
 
   it('has no street lamps before the first documented gas lighting in 1876', () => {
     const lit: number[] = [];
-    for (let y = -7000; y < 1876; y += 1) if (at(y).streetGlow > 0) lit.push(y);
+    for (let y = -7000; y < 1876; y += 1) if (streetGlowOf(at(y).streets) > 0) lit.push(y);
     expect(lit).toEqual([]);
-    expect(at(1880).street).toBe('gas');
+    expect(at(1880).streets.kind).toBe('gas');
   });
 
   it('lights the streets by electricity from 1902, puts every light out in the blackout, and dims it in 1944', () => {
-    expect(at(1903).street).toBe('electric');
+    expect(at(1903).streets.kind).toBe('electric');
     const war = at(1942);
-    expect([war.homes, war.street, war.windows, war.streetGlow, war.hearth]).toEqual([
-      'blacked-out',
-      'off',
-      0,
-      0,
-      0,
-    ]);
-    expect(at(1945).street).toBe('dimmed');
-    expect(at(1950).street).toBe('electric');
+    expect([war.homes, war.streets.kind, war.windows, war.hearth]).toEqual(['blacked-out', 'off', 0, 0]);
+    expect(at(1945).streets.kind).toBe('dimmed');
+    expect(at(1950).streets.kind).toBe('electric');
   });
 
   it('lights medieval homes by the hearth alone', () => {
     expect(at(1282).homes).toBe('hearth');
-    expect(at(1282).street).toBe('none');
+    expect(at(1282).streets.kind).toBe('none');
+  });
+
+  it('tells the almanac how the night was lit, with the ⓘ of the key that lights the scene', () => {
+    for (const y of [-5000, 1282, 1880, 1942, 1990]) {
+      const s = snapAt(y);
+      const light = s.almanac.filter((a) => a.topic === 'light');
+      expect(light.map((a) => a.text)).toEqual([s.lamplight.text]);
+      expect(light[0]?.provenance).toBe(s.lamplight.provenance);
+    }
+    expect(snapAt(1880).almanac.find((a) => a.topic === 'light')?.text.en).toMatch(/^By 1876 gas lamps/);
   });
 });
