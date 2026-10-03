@@ -1,4 +1,4 @@
-import { PointerEventTypes, Vector3 } from './world/babylon.ts';
+import { PointerEventTypes, Vector3, type AbstractMesh } from './world/babylon.ts';
 import './ui/styles.css';
 import { WORLD_CONTENT } from './content/world.ts';
 import { toWorld } from './domain/geo.ts';
@@ -24,6 +24,7 @@ import { DebugOverlay } from './ui/debug.ts';
 import { PlaceLabels } from './ui/labels.ts';
 import { MomentCard } from './ui/moment.ts';
 import { Bubbles } from './ui/bubbles.ts';
+import { CameraHint } from './ui/camera-hint.ts';
 import { loadModel, type LoadedModel } from './world/models.ts';
 import { Compass } from './ui/compass.ts';
 import { northAlpha } from './domain/compass.ts';
@@ -43,6 +44,7 @@ import { Shortcuts } from './ui/shortcuts.ts';
 import { SkyControls } from './ui/sky.ts';
 import { LangStore } from './ui/store.ts';
 import { TimelineBar } from './ui/timeline.ts';
+import { MapControls } from './world/controls.ts';
 import { createEngine } from './world/engine.ts';
 import { FeatureLayer } from './world/features.ts';
 import { Firelight } from './world/firelight.ts';
@@ -59,6 +61,8 @@ const FRAMING_RADIUS: Readonly<Record<Framing, number>> = {
   site: 420,
   area: 950,
 };
+// A double-click flies in to half the distance, but no closer than this.
+const DOUBLE_CLICK_MIN_RADIUS = 40;
 
 async function start(): Promise<void> {
   const params = new URLSearchParams(location.search);
@@ -219,6 +223,11 @@ async function start(): Promise<void> {
     flight.stopFollowing('stop button');
   });
   const bubbles = new Bubbles(world.scene, people.groups.values(), store, openConversation);
+  const conversationOf = (mesh: AbstractMesh | null | undefined) => {
+    const meta: unknown = mesh?.metadata;
+    if (!meta || typeof meta !== 'object' || !('conversation' in meta)) return undefined;
+    return content.conversations.find((x) => x.id === meta.conversation);
+  };
   world.scene.onPointerObservable.add((info) => {
     if (info.type !== PointerEventTypes.POINTERTAP) return;
     const hit = info.pickInfo?.pickedMesh;
@@ -231,12 +240,26 @@ async function start(): Promise<void> {
       home.hidden = false;
       return;
     }
-    const meta: unknown = hit?.metadata;
     if (guess.hidingTheYear) return;
-    if (meta && typeof meta === 'object' && 'conversation' in meta) {
-      const c = content.conversations.find((x) => x.id === meta.conversation);
-      if (c) openConversation(c);
-    }
+    const c = conversationOf(hit);
+    if (c) openConversation(c);
+  });
+  const hint = new CameraHint(store);
+  const controls = new MapControls(world.camera, world.scene, canvas, features.ground, flight, {
+    onMove(move, byDrag) {
+      if (byDrag) hint.dismiss();
+      if (move !== 'turn') home.hidden = false;
+    },
+    onDoubleClick(at, x, y) {
+      // A double-click on a person or a train is two clicks on them, which they already answer.
+      const hit = world.scene.pick(x, y).pickedMesh;
+      if (features.trackable(hit) || conversationOf(hit)) {
+        console.info(`dewidebug camera double-click on ${hit?.name ?? '?'} left to its own click`);
+        return;
+      }
+      flight.flyTo(at, Math.max(DOUBLE_CLICK_MIN_RADIUS, world.camera.radius * 0.5), world.camera.beta);
+      home.hidden = false;
+    },
   });
   let ambience: Ambience | undefined;
   let soundOn = false;
@@ -380,13 +403,14 @@ async function start(): Promise<void> {
   const compass = new Compass(store, () => {
     flight.turnTo(northAlpha(world.camera.alpha));
   });
-  app.append(compass.el, followChip.el);
+  app.append(compass.el, followChip.el, hint.el);
   const chrome = [
     brand,
     moment.el,
     timeline.el,
     compass.el,
     followChip.el,
+    hint.el,
     panel.el,
     info.el,
     shortcuts.el,
@@ -469,6 +493,7 @@ async function start(): Promise<void> {
     apply();
     world.tick(dt);
     features.tick(dt);
+    controls.tick(dt);
     flight.tick(dt);
     compass.update(world.camera.alpha);
     const now = performance.now();
@@ -490,9 +515,14 @@ async function start(): Promise<void> {
     engine.resize();
   });
   await world.scene.whenReadyAsync();
-  opening.ready(() => {
-    setSound(true);
-  });
+  opening.ready(
+    () => {
+      setSound(true);
+    },
+    () => {
+      hint.show();
+    },
+  );
   if (debug) Object.assign(window, { llandeiloDebug: { scene: world.scene } });
   document.body.dataset['ready'] = 'true';
   console.info(`dewidebug app ready backend=${backend}`);
@@ -510,7 +540,7 @@ start().catch((err: unknown) => {
   document.body.append(msg);
 });
 
-// The slider, the info tabs, form fields and the 3D view (camera turning) use the arrow keys
+// The slider, the info tabs, form fields and the 3D view (sliding the camera) use the arrow keys
 // themselves; everywhere else they step.
 function ownsArrows(focus: Element | null): boolean {
   if (!focus) return false;

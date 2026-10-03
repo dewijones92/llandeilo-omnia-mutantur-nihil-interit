@@ -110,6 +110,28 @@ export const STRINGS = {
     cy: 'Cliciwch drên i’w ddilyn gyda’r camera; mae Stopio yn dod â hynny i ben.',
   },
   clickLabel: { en: 'Click a place name to fly there.', cy: 'Cliciwch enw lle i hedfan yno.' },
+  keysView: { en: 'In the 3D view (click it first)', cy: 'Yn yr olygfa 3D (cliciwch arni’n gyntaf)' },
+  keySlide: { en: 'Slide across the land', cy: 'Llithro ar draws y tir' },
+  keyFaster: { en: 'Hold to slide faster', cy: 'Daliwch i lithro’n gyflymach' },
+  keyTurn: { en: 'Turn left or right', cy: 'Troi i’r chwith neu i’r dde' },
+  keyTilt: {
+    en: 'Tilt up towards the horizon, or down onto the map',
+    cy: 'Gogwyddo i fyny tua’r gorwel, neu i lawr at y map',
+  },
+  mouseDrag: { en: 'Drag to slide the land, as on a map.', cy: 'Llusgwch i symud y tir, fel ar fap.' },
+  mouseTurn: {
+    en: 'Right-drag (or Ctrl+drag) to turn and tilt.',
+    cy: 'Llusgwch â’r botwm de (neu Ctrl+llusgo) i droi a gogwyddo.',
+  },
+  mouseWheel: {
+    en: 'Scroll to zoom in or out where the pointer is.',
+    cy: 'Sgroliwch i chwyddo i mewn neu allan lle mae’r pwyntydd.',
+  },
+  mouseDouble: { en: 'Double-click a spot to fly there.', cy: 'Cliciwch ddwywaith ar fan i hedfan yno.' },
+  cameraHint: {
+    en: 'Drag to move, right-drag to turn, scroll to zoom',
+    cy: 'Llusgwch i symud, llusgwch â’r botwm de i droi, sgroliwch i chwyddo',
+  },
   welshAccent: {
     en: 'The Welsh voice is a standard one and does not reproduce southern speech, such as the south-west’s own dialect, Dyfedeg: there an "s" next to an "i" can sound as "sh" (mis, "month", as "mish"), and words differ (moyn for "want").',
     cy: 'Llais safonol yw’r llais Cymraeg, ac nid yw’n atgynhyrchu lleferydd y de, fel tafodiaith y de-orllewin ei hun, Dyfedeg: yno gall "s" wrth ymyl "i" swnio fel "sh" (mis fel "mish"), ac mae geiriau’n wahanol (moyn am "eisiau").',

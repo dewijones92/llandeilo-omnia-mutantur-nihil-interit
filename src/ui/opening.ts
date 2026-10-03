@@ -57,9 +57,11 @@ export class OpeningCard {
     return this.waiting;
   }
 
-  ready(onBegin: () => void): void {
+  /** `onBegin` runs inside the Begin click (so sound may start); `onOpen` runs once the valley is open either way. */
+  ready(onBegin: () => void, onOpen: () => void): void {
     if (!this.begin) {
       this.dismiss();
+      onOpen();
       return;
     }
     this.loading.hidden = true;
@@ -73,6 +75,7 @@ export class OpeningCard {
       this.setBehindInert(false);
       onBegin();
       this.dismiss();
+      onOpen();
     });
     this.beginButton.focus();
   }

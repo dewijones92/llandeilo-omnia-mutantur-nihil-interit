@@ -484,3 +484,16 @@ Milestones and what each one taught us. Newest last.
    four parallel shards and the deploy waits for all of them; CI's per-test limit is 7 minutes
    ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md)). Lesson: the job time is a budget that every
    merged feature spends, so watch the trend, not just the colour.
+17. **Map-style camera** ([ADR 0037](../adr/0037-map-style-camera-controls.md)). Dewi found himself
+   "just orbiting around a certain point": Babylon's stock inputs turned the view on a left-drag and
+   panned in the screen plane on the right button, and nothing said so. The stock inputs are now
+   detached and `MapControls` slides the land under the cursor, turns on a right-drag, zooms at the
+   cursor and adds keys; the maths is pure (`src/domain/camera-moves.ts`). Seen red first against the
+   unchanged build: every new unit test at its own assertion (stubs returning zeros; four tests that a
+   zero stub passed were tightened until it failed them), and in e2e the grabbed ground point not under
+   the cursor (1,897 units away, the drag had turned the view), a right-drag not turning (it panned),
+   WASD and the arrows not moving the target, the wheel not zooming in, no flight on a double-click, and
+   the keys panel without the new rows. The compass test had been passing without testing its drag: it
+   asserted a bearing over 10°, and the opening view already faces about 20°, so it passed even when the
+   drag (now a right-drag) did not turn the view at all (seen: 0° turned on the old build). It now asserts
+   the change. Lesson: assert the change an action makes, not a value the start state may already have.

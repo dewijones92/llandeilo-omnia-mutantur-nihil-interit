@@ -52,7 +52,7 @@ body {
   pointer-events: none;
 }
 
-#app > :not(.labels):not(.bubbles) {
+#app > :not(.labels):not(.bubbles):not(.camera-hint) {
   pointer-events: auto;
 }
 
@@ -1125,6 +1125,23 @@ button {
 }
 
 .follow-chip[hidden] {
+  display: none;
+}
+
+/* Text only, so the 3D view under it still takes the drag it describes. */
+.camera-hint {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  font-size: 15px;
+  color: var(--ink-soft);
+  animation: rise 0.35s ease;
+}
+
+.camera-hint[hidden],
+.follow-chip:not([hidden]) ~ .camera-hint {
   display: none;
 }
 

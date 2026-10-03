@@ -148,6 +148,11 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       2026-10-02 (1880 summer 23:00, 1282 winter 02:00 and 1880 noon): the rivers go dark navy with
       the land. No change was needed
 - [ ] Re-check autumn trees at overview distance by screenshot (the "glitter" fix was never re-shot)
+- [ ] **Map-style camera** (Dewi, 2026-10-03: "make the camera easier to move around"; he chose
+      map-style): drag slides the land, right-drag turns, the wheel zooms at the cursor, W A S D / Q E /
+      R F, double-click flies there, a one-time hint, the Keys panel in both languages
+      ([ADR 0037](../adr/0037-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
+      looked at (overview, dragged, turned, zoomed, 1860); awaiting the second-Opus review
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (today `town.style` only decides which towns get chimney smoke)

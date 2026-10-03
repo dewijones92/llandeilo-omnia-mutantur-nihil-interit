@@ -19,6 +19,16 @@ const GROUPS: readonly Group[] = [
     ],
   },
   {
+    where: 'keysView',
+    rows: [
+      [['W', 'A', 'S', 'D'], 'keySlide'],
+      [['↑', '←', '↓', '→'], 'keySlide'],
+      [['Shift'], 'keyFaster'],
+      [['Q', 'E'], 'keyTurn'],
+      [['R', 'F'], 'keyTilt'],
+    ],
+  },
+  {
     where: 'keysAlways',
     rows: [
       [['Esc'], 'keyEscape'],
@@ -27,7 +37,15 @@ const GROUPS: readonly Group[] = [
   },
 ];
 
-const CLICKS: readonly StringKey[] = ['clickCompass', 'clickTrain', 'clickLabel'];
+const CLICKS: readonly StringKey[] = [
+  'mouseDrag',
+  'mouseTurn',
+  'mouseWheel',
+  'mouseDouble',
+  'clickCompass',
+  'clickTrain',
+  'clickLabel',
+];
 
 export class Shortcuts {
   readonly el = h('div', { class: 'shortcuts panel', role: 'dialog', hidden: true });

@@ -101,7 +101,7 @@ test('the 3D view receives the mouse through the overlay layers, and keeps its a
   page.on('console', (m) => {
     if (m.text().includes('dewidebug timeline step')) steps.push(m.text());
   });
-  await page.goto('./?year=1282');
+  await page.goto('./?debug&year=1282');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   const target = await page.evaluate(
     () => document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2)?.id ?? '',
@@ -109,10 +109,13 @@ test('the 3D view receives the mouse through the overlay layers, and keeps its a
   expect(target).toBe('scene');
   await page.mouse.click(1100, 150);
   await expect(page.locator('#scene')).toBeFocused();
+  const before = await cameraState(page);
   await page.keyboard.press('ArrowRight');
   // The counter redraws only on a rendered frame (about 1fps here), so check the logged decision.
   await page.waitForTimeout(1000);
   expect(steps).toEqual([]);
+  // In the 3D view the arrows slide the camera across the land, as WASD does.
+  await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(1);
 });
 
 test('a place label flies the camera in and offers the whole valley back', async ({ page }) => {
@@ -252,13 +255,166 @@ test('the compass shows the heading and turns the view to face north', async ({ 
   const compass = page.locator('.compass');
   const box = await page.locator('#scene').boundingBox();
   if (!box) throw new Error('no canvas');
+  const bearing = async (): Promise<number> => Number(await compass.getAttribute('data-bearing'));
+  // The opening view already faces about 20°, so the test reads a change, not a value.
+  const start = await bearing();
+  const turned = async (): Promise<number> => {
+    const d = Math.abs((await bearing()) - start) % 360;
+    return Math.min(d, 360 - d);
+  };
   await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.3);
-  await page.mouse.down();
+  await page.mouse.down({ button: 'right' });
   await page.mouse.move(box.x + box.width * 0.75, box.y + box.height * 0.3, { steps: 6 });
-  await page.mouse.up();
-  await expect.poll(async () => Number(await compass.getAttribute('data-bearing'))).toBeGreaterThan(10);
+  await page.mouse.up({ button: 'right' });
+  await expect.poll(turned).toBeGreaterThan(10);
   await compass.click();
   await expect(compass).toHaveAttribute('data-bearing', '0', { timeout: 60_000 });
+});
+
+interface CameraState {
+  readonly x: number;
+  readonly y: number;
+  readonly z: number;
+  readonly alpha: number;
+  readonly beta: number;
+  readonly radius: number;
+}
+
+const cameraState = (page: Page): Promise<CameraState> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const cam: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+    if (!cam || typeof cam !== 'object') throw new Error('no camera');
+    const t: unknown = Reflect.get(cam, 'target');
+    const n = (o: unknown, k: string): number =>
+      Number(o && typeof o === 'object' ? Reflect.get(o, k) : Number.NaN);
+    return {
+      x: n(t, 'x'),
+      y: n(t, 'y'),
+      z: n(t, 'z'),
+      alpha: n(cam, 'alpha'),
+      beta: n(cam, 'beta'),
+      radius: n(cam, 'radius'),
+    };
+  });
+
+const moved = (a: CameraState, b: CameraState): number => Math.hypot(b.x - a.x, b.z - a.z);
+
+/** The point of the terrain (not a tree or a building) under a screen point. */
+const terrainAt = (page: Page, x: number, y: number): Promise<{ x: number; z: number }> =>
+  page.evaluate(
+    ([px, py]) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+      const pick: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'pick') : undefined;
+      if (typeof pick !== 'function') throw new Error('no scene.pick');
+      const isTerrain = (m: unknown): boolean =>
+        Boolean(m && typeof m === 'object' && Reflect.get(m, 'name') === 'terrain');
+      const info: unknown = Reflect.apply(pick, scene, [px, py, isTerrain]);
+      const p: unknown = info && typeof info === 'object' ? Reflect.get(info, 'pickedPoint') : undefined;
+      if (!p || typeof p !== 'object') throw new Error(`no terrain under ${String(px)},${String(py)}`);
+      return { x: Number(Reflect.get(p, 'x')), z: Number(Reflect.get(p, 'z')) };
+    },
+    [x, y],
+  );
+
+test('a left-drag slides the land under the cursor without turning, and the hint goes for good', async ({
+  page,
+}) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const hint = page.locator('.camera-hint');
+  // Read now and checked after the drag, so the drag's own assertions are the first that can fail.
+  const hintBefore = (await hint.isVisible()) ? await hint.textContent() : null;
+  const before = await cameraState(page);
+  const [ax, ay, bx, by] = [900, 520, 620, 380];
+  const grabbed = await terrainAt(page, ax, ay);
+  await page.mouse.move(ax, ay);
+  await page.mouse.down();
+  await page.mouse.move(bx, by, { steps: 8 });
+  // Still held: the ground point grabbed is now under the cursor, as on a map.
+  const under = await terrainAt(page, bx, by);
+  expect(Math.hypot(under.x - grabbed.x, under.z - grabbed.z)).toBeLessThan(6);
+  await page.mouse.up();
+  const after = await cameraState(page);
+  expect(moved(before, after)).toBeGreaterThan(50);
+  expect(after.alpha).toBeCloseTo(before.alpha, 5);
+  expect(after.beta).toBeCloseTo(before.beta, 5);
+  expect(hintBefore).toBe('Drag to move, right-drag to turn, scroll to zoom');
+  await expect(hint).toBeHidden();
+  await page.reload();
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.camera-hint')).toBeHidden();
+});
+
+test('a right-drag turns the view about the same spot', async ({ page }) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const before = await cameraState(page);
+  await page.mouse.move(700, 400);
+  await page.mouse.down({ button: 'right' });
+  await page.mouse.move(900, 340, { steps: 8 });
+  await page.mouse.up({ button: 'right' });
+  await expect
+    .poll(async () => Math.abs((await cameraState(page)).alpha - before.alpha))
+    .toBeGreaterThan(0.1);
+  expect(moved(before, await cameraState(page))).toBeLessThan(1);
+});
+
+test('WASD slides the camera, and Q turns it, once the 3D view has focus', async ({ page }) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.mouse.click(1100, 150);
+  await expect(page.locator('#scene')).toBeFocused();
+  const before = await cameraState(page);
+  await page.keyboard.down('w');
+  await page.waitForTimeout(1500);
+  await page.keyboard.up('w');
+  await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(5);
+  const mid = await cameraState(page);
+  // Forward is the way the camera faces, from the eye towards the target.
+  const facing = { x: -Math.cos(before.alpha), z: -Math.sin(before.alpha) };
+  expect((mid.x - before.x) * facing.x + (mid.z - before.z) * facing.z).toBeGreaterThan(0);
+  await page.keyboard.press('q');
+  await expect.poll(async () => (await cameraState(page)).alpha).toBeGreaterThan(mid.alpha);
+});
+
+test('the wheel zooms towards the point under the cursor', async ({ page }) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const before = await cameraState(page);
+  const [x, y] = [1050, 560];
+  const spot = await terrainAt(page, x, y);
+  await page.mouse.move(x, y);
+  for (let i = 0; i < 4; i++) await page.mouse.wheel(0, -100);
+  await expect.poll(async () => (await cameraState(page)).radius).toBeLessThan(before.radius * 0.6);
+  const after = await cameraState(page);
+  const gap = (s: CameraState): number => Math.hypot(spot.x - s.x, spot.z - s.z);
+  expect(gap(after)).toBeLessThan(gap(before) * 0.8);
+});
+
+test('a double-click on the land flies the camera there', async ({ page }) => {
+  const flights: string[] = [];
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug camera fly to')) flights.push(m.text());
+  });
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const [x, y] = [520, 600];
+  const spot = await terrainAt(page, x, y);
+  await page.mouse.dblclick(x, y);
+  await expect.poll(() => flights.length).toBe(1);
+  await expect
+    .poll(
+      async () => {
+        const s = await cameraState(page);
+        return Math.hypot(spot.x - s.x, spot.z - s.z);
+      },
+      { timeout: 60_000 },
+    )
+    .toBeLessThan(5);
+  await expect(page.getByRole('button', { name: 'Whole valley' })).toBeVisible();
 });
 
 test('tapping the train makes the camera follow it until you stop', async ({ page }) => {
@@ -489,11 +645,16 @@ test('the keys panel opens with ? or its button, and closes with Escape, in both
   await page.locator('body').press('?');
   await expect(dialog).toBeVisible();
   await expect(dialog).toContainText('PageUp');
+  await expect(dialog).toContainText('Slide across the land');
+  await expect(dialog).toContainText('Right-drag (or Ctrl+drag) to turn and tilt.');
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
   await page.getByRole('button', { name: 'Bysellau', exact: true }).click();
   await expect(page.getByRole('dialog', { name: 'Bysellau a rheolyddion' })).toBeVisible();
+  await expect(page.getByRole('dialog', { name: 'Bysellau a rheolyddion' })).toContainText(
+    'Llithro ar draws y tir',
+  );
   await page.getByRole('button', { name: 'Bysellau', exact: true }).click();
   await expect(page.getByRole('dialog', { name: 'Bysellau a rheolyddion' })).toBeHidden();
   await expect(page.getByRole('button', { name: 'Bysellau', exact: true })).toBeFocused();
