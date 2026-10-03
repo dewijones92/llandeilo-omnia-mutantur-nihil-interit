@@ -252,7 +252,7 @@ export class FeatureLayer {
 
   setLamps(state: LampState): void {
     this.buildings.setLamps(state);
-    this.streetLamps.set(state.colour, state.street);
+    this.streetLamps.set(state.street);
   }
 
   tick(dt: number): void {

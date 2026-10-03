@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { WORLD_CONTENT } from '../src/content/world.ts';
-import { hasStreetLamps } from '../src/domain/lamplight.ts';
+import { hasStreetLamps, lampsAt } from '../src/domain/lamplight.ts';
 import { drawnRailway, longestLine } from '../src/domain/rail.ts';
 import { snapshotAt } from '../src/domain/state.ts';
 import { keySteps } from '../src/domain/steps.ts';
@@ -82,9 +82,19 @@ describe('snapshotAt: how the night was lit', () => {
     expect(key(-7799).homes).toBe('hearth');
   });
 
-  it('lights the streets by electricity from 1902 while homes keep flame light, as far as the sources show', () => {
+  it('lights the streets by electricity from 1902, and draws homes with flame light as before, since home lighting is not recorded', () => {
     expect(key(1903).streets.kind).toBe('electric');
     expect([key(1903).homes, key(1903).warmth]).toEqual([key(1880).homes, key(1880).warmth]);
+  });
+
+  it('draws the electric street lamps of 1903 whiter than the gas lamps of 1880', () => {
+    // The colour the renderer gives the street lamps, at full evening lamp level.
+    const streetColour = (y: number) => {
+      const c = lampsAt(key(y), 1).street?.colour;
+      if (!c) throw new Error(`no street lamps in ${String(y)}`);
+      return c;
+    };
+    expect(streetColour(1903).b).toBeGreaterThan(streetColour(1880).b);
   });
 
   it('puts every light out in the blackout, dims it from 17 September 1944, and lights the streets again', () => {

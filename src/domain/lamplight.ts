@@ -31,7 +31,7 @@ export interface LampKey {
   readonly dated: Dated;
   readonly homes: HomeLight;
   readonly streets: Streets;
-  /** 0 is electric white, 1 is the orange of an open flame. */
+  /** The colour of lit windows: 0 is electric white, 1 the orange of an open flame. Street lamps take theirs from `streets`. */
   readonly warmth: number;
   /** Share of houses showing a lit window, 0..1. */
   readonly windows: number;
@@ -75,6 +75,8 @@ export function lampAlmanacAt(keys: NonEmptyArray<LampKey>, y: Year): AlmanacEnt
 export interface StreetGlow {
   readonly level: number;
   readonly area: LitArea;
+  /** The lamps' own colour, from what they burned, apart from the homes' windows. */
+  readonly colour: Rgb;
 }
 
 export interface LampState {
@@ -94,6 +96,14 @@ export function lampColour(warmth: number): Rgb {
 
 export type LitStreets = Extract<Streets, { readonly area: LitArea }>;
 
+// Gas is drawn as flame (no gas mantles are recorded here); electric light whiter. Dimmed lamps
+// burned low behind shades, so they are drawn warm too. Reconstructed, like every colour here.
+const STREET_WARMTH: Readonly<Record<LitStreets['kind'], number>> = {
+  gas: 0.85,
+  electric: 0.1,
+  dimmed: 0.8,
+};
+
 /** The one rule for whether street lamps stand and shine: not 'none' (none built), not 'off' (the blackout). */
 export function hasStreetLamps(streets: Streets): streets is LitStreets {
   return streets.kind !== 'none' && streets.kind !== 'off';
@@ -112,7 +122,9 @@ export function lampsAt(style: LampKey | undefined, level: number): LampState {
     windows: l * style.glow,
     windowShare: style.windows,
     hearth: l * style.hearth,
-    street: hasStreetLamps(s) ? { level: l * s.glow, area: s.area } : undefined,
+    street: hasStreetLamps(s)
+      ? { level: l * s.glow, area: s.area, colour: lampColour(STREET_WARMTH[s.kind]) }
+      : undefined,
   };
 }
 

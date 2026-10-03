@@ -1,5 +1,4 @@
 import { Color3, Matrix, MeshBuilder, StandardMaterial, type Mesh, type Scene } from './babylon.ts';
-import type { Rgb } from '../domain/colour.ts';
 import { WORLD } from '../domain/geo.ts';
 import { streetLampPoints, type LampSpacing, type StreetGlow } from '../domain/lamplight.ts';
 import type { GridRef } from '../domain/model.ts';
@@ -23,7 +22,7 @@ export class StreetLamps {
   private readonly placed = new Map<string, LampSet>();
   private town: string | undefined;
   private street: StreetGlow | undefined;
-  private colour: Rgb = { r: 0, g: 0, b: 0 };
+  private colourSaid = '';
   private key = '';
   private count = 0;
 
@@ -57,8 +56,14 @@ export class StreetLamps {
     this.refresh();
   }
 
-  set(colour: Rgb, street: StreetGlow | undefined): void {
-    this.colour = colour;
+  set(street: StreetGlow | undefined): void {
+    const said = street
+      ? [street.colour.r, street.colour.g, street.colour.b].map((c) => c.toFixed(2)).join(',')
+      : 'none';
+    if (said !== this.colourSaid) {
+      this.colourSaid = said;
+      console.info(`dewidebug street lamps colour=${said}`);
+    }
     this.street = street;
     this.place(street);
     this.refresh();
@@ -66,9 +71,9 @@ export class StreetLamps {
 
   private refresh(): void {
     const level = this.street?.level ?? 0;
-    const colour = this.colour;
+    const colour = this.street?.colour;
     this.mesh.isVisible = level > 0.02 && this.count > 0;
-    this.material.emissiveColor.set(colour.r * level, colour.g * level, colour.b * level);
+    if (colour) this.material.emissiveColor.set(colour.r * level, colour.g * level, colour.b * level);
   }
 
   private place(street: StreetGlow | undefined): void {
