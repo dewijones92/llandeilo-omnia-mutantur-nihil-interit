@@ -155,7 +155,14 @@ export interface LanguageSnapshot {
   readonly provenance: Provenance;
 }
 
-export type RollingStock = 'llanelly-1850s' | 'generic';
+export type RollingStock = 'llanelly-1850s' | 'generic' | 'diesel-unit';
+
+/** Whether the stock is a steam engine, so the drawn train makes steam. */
+export const STEAM: Readonly<Record<RollingStock, boolean>> = {
+  'llanelly-1850s': true,
+  generic: true,
+  'diesel-unit': false,
+};
 
 export type FeatureKind =
   | { readonly type: 'roundhouses'; readonly count: number; readonly spread: number }

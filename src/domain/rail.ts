@@ -1,4 +1,4 @@
-import type { Feature, GridRef, RollingStock } from './model.ts';
+import { STEAM, type Feature, type GridRef, type RollingStock } from './model.ts';
 import type { FeaturePresence } from './state.ts';
 
 /** A box of grid space; a bound left out is open. */
@@ -166,6 +166,7 @@ export interface DrawnSection {
 export interface DrawnTrain {
   readonly feature: Feature;
   readonly stock: RollingStock;
+  readonly steam: boolean;
   /** The stretch of its line the train runs on, as fractions of the line's length. */
   readonly span: readonly [number, number];
 }
@@ -205,6 +206,8 @@ export function drawnRailway(
   return {
     sections,
     train:
-      rail > TRAIN_DRAWN && train && span ? { feature: train.feature, stock: train.stock, span } : undefined,
+      rail > TRAIN_DRAWN && train && span
+        ? { feature: train.feature, stock: train.stock, steam: STEAM[train.stock], span }
+        : undefined,
   };
 }

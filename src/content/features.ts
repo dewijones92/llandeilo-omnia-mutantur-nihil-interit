@@ -847,7 +847,8 @@ export const FEATURES: readonly Feature[] = [
     kind: { type: 'train', stock: 'llanelly-1850s' },
     at: LLANDEILO_STATION,
     from: ad(1857),
-    to: ad(1872),
+    // To the end of 1872: the Great Western took over on 1 January 1873.
+    to: ad(1872.99),
     label: { en: 'A Llanelly Railway train', cy: 'Trên Rheilffordd Llanelli' },
     provenance: reconstructed(
       'The engine follows the one Llanelly Railway engine described in detail, a six-coupled Hackworth engine of 1841 (Board of Trade report, 1858). Which engine hauled Llandeilo’s trains is not known; the colours, tender and carriages are guesses. The company worked the line until the Great Western took it over on 1 January 1873; the two companies merged fully in 1889.',
@@ -860,12 +861,26 @@ export const FEATURES: readonly Feature[] = [
     kind: { type: 'train', stock: 'generic' },
     at: LLANDEILO_STATION,
     from: ad(1873),
-    to: NOW,
-    label: { en: 'A later train', cy: 'Trên diweddarach' },
+    // 13 June 1964, the last steam passenger trains (railwaylater:S2).
+    to: ad(1964.44),
+    label: { en: 'A later steam train', cy: 'Trên stêm diweddarach' },
     provenance: imagined(
-      'A placeholder. The engines and carriages that ran here after the Great Western took over in 1873 have not been researched yet.',
-      "Dalfan. Nid oes ymchwil eto i'r injans a'r cerbydau a oedd yn rhedeg yma ar ôl i'r Great Western gymryd drosodd yn 1873.",
-      ['victorian:S29'],
+      'A placeholder. The engines and carriages that ran here after the Great Western took over in 1873 are researched but not modelled yet. Steam passenger trains ended on 13 June 1964.',
+      "Dalfan. Mae ymchwil i'r injans a'r cerbydau a oedd yn rhedeg yma ar ôl i'r Great Western gymryd drosodd yn 1873, ond nid ydynt wedi'u modelu eto. Daeth trenau teithwyr stêm i ben ar 13 Mehefin 1964.",
+      ['victorian:S29', 'railwaylater:S2'],
+    ),
+  }),
+  feature({
+    id: 'train-diesel',
+    kind: { type: 'train', stock: 'diesel-unit' },
+    at: LLANDEILO_STATION,
+    from: ad(1964.45),
+    to: NOW,
+    label: { en: 'A diesel train', cy: 'Trên disel' },
+    provenance: imagined(
+      'A placeholder two-car diesel unit. Diesel units took over the passenger trains when steam ended on 13 June 1964; which classes ran here, and in what colours, is researched but not modelled yet.',
+      "Dalfan: uned ddisel dau gerbyd. Cymerodd unedau disel y trenau teithwyr drosodd pan ddaeth stêm i ben ar 13 Mehefin 1964; mae ymchwil i ba ddosbarthiadau a redai yma, ac ym mha liwiau, ond nid ydynt wedi'u modelu eto.",
+      ['railwaylater:S2', 'railwaylater:S52'],
     ),
   }),
   feature({

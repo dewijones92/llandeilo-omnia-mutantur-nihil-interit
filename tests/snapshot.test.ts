@@ -148,4 +148,11 @@ describe('snapshotAt: the railway on screen', () => {
     }
     expect(silent).toEqual([]);
   });
+
+  it('draws a steam train only until steam passenger trains ended on 13 June 1964, then a diesel unit', () => {
+    expect(drawnAt(1960).train?.steam).toBe(true);
+    const later = drawnAt(2000).train;
+    expect(later).toBeDefined();
+    expect(later?.steam).toBe(false);
+  });
 });

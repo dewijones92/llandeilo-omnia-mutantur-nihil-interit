@@ -76,6 +76,7 @@ export class FeatureLayer {
   private readonly train: Train | undefined;
   private readonly trainLine: MapLine | undefined;
   private stock: RollingStock | undefined;
+  private steam = false;
   private trainFeature: Feature | undefined;
   readonly ground: Ground;
   private readonly surface: Ground;
@@ -237,12 +238,13 @@ export class FeatureLayer {
     const railway = drawnRailway(present, this.trainLine?.points);
     const drawn = new Set(railway.sections.map((s) => s.feature.id));
     for (const [id, mesh] of this.rails) mesh.isVisible = drawn.has(id);
-    const said = `${[...drawn].join(',') || 'none'} train=${railway.train?.feature.id ?? 'none'}`;
+    const said = `${[...drawn].join(',') || 'none'} train=${railway.train?.feature.id ?? 'none'} steam=${String(railway.train?.steam ?? false)}`;
     if (said !== this.drawnRail) {
       this.drawnRail = said;
       console.info(`dewidebug rail drawn ${said}`);
     }
     this.stock = railway.train?.stock;
+    this.steam = railway.train?.steam ?? false;
     this.trainFeature = railway.train?.feature;
     this.train?.setSpan(railway.train?.span);
     this.roads.isVisible = road > 0.5;
@@ -265,7 +267,7 @@ export class FeatureLayer {
   trainSmoke(): SmokeSource | undefined {
     const mesh = this.train?.mesh;
     const chimney = this.train?.chimney;
-    if (!mesh || !chimney) return undefined;
+    if (!mesh || !chimney || !this.steam) return undefined;
     const p = mesh.position;
     return {
       key: `train-${mesh.name}`,

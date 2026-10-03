@@ -383,11 +383,10 @@ describe('trains', () => {
   });
 
   it('cover the whole life of the railway', () => {
-    const years = new Set<number>();
-    for (const t of trains) for (let y = t.when.from; y <= t.when.to; y++) years.add(y);
-    const missing: number[] = [];
+    const missing: string[] = [];
     if (railway)
-      for (let y = railway.when.from; y <= railway.when.to; y++) if (!years.has(y)) missing.push(y);
+      for (let y: number = railway.when.from; y <= railway.when.to; y += 0.25)
+        if (!trains.some((t) => contains(t.when, year(y)))) missing.push(y.toFixed(2));
     expect(missing).toEqual([]);
   });
 });

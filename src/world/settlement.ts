@@ -252,7 +252,8 @@ export function lineRibbons(
 
 interface Stock {
   readonly mesh: Mesh;
-  readonly chimney: Vector3;
+  /** Where steam leaves the engine; a diesel unit has none. */
+  readonly chimney?: Vector3;
   readonly lift: number;
 }
 
@@ -290,6 +291,7 @@ export class Train {
       console.info(`dewidebug train stock=${stock} model=${model.mesh.name} chimney=${chimney.toString()}`);
     }
     if (!this.stocks.has('generic')) this.stocks.set('generic', boxTrain(scene));
+    if (!this.stocks.has('diesel-unit')) this.stocks.set('diesel-unit', dieselUnit(scene));
   }
 
   get mesh(): Mesh | undefined {
@@ -351,4 +353,20 @@ function boxTrain(scene: Scene): Stock {
   mesh.material = mat;
   mesh.isVisible = false;
   return { mesh, chimney: new Vector3(1.1, 2.6, 0), lift: 0.4 };
+}
+
+// A placeholder two-car diesel unit, grey because the liveries are not modelled yet; no chimney.
+function dieselUnit(scene: Scene): Stock {
+  const parts = [0, 1].map((c) => {
+    const car = box(scene, 4.4, 1.5, 1.2, c === 0 ? '#6b7177' : '#646a70');
+    car.position.x = -c * 4.6;
+    car.bakeCurrentTransformIntoVertices();
+    return car;
+  });
+  const mesh = merge('diesel-unit', parts);
+  const mat = new StandardMaterial('diesel-unit-mat', scene);
+  mat.specularColor = new Color3(0.25, 0.25, 0.25);
+  mesh.material = mat;
+  mesh.isVisible = false;
+  return { mesh, lift: 0.4 };
 }
