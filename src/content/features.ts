@@ -75,9 +75,9 @@ const feature = (s: Spec): Feature => {
 };
 
 const NOW = ad(2026);
-// 13 June 1964, the last steam passenger trains (railwaylater:S2); the drawn train and the sound both
-// hand over from steam to diesel here.
-export const END_OF_STEAM = onDay(1964, 6, 13);
+// The last steam passenger trains ran on 13 June 1964 (railwaylater:S2), so the drawn train and the
+// sound hand over from steam to diesel at the END of that day: a last day takes the next day's onDay.
+export const END_OF_STEAM = onDay(1964, 6, 14);
 // 1 January 1873, when the Great Western took over the Llanelly company's lines (victorian:S29).
 const GWR_TAKES_OVER = ad(1873);
 const GARN_GOCH = { e: 269120, n: 224320 };

@@ -39,7 +39,8 @@ Years are astronomical (`bc(800)` is -799, `ad(1282)` is 1282). A feature is ful
 church) that starts on the year its predecessor ends crossfades cleanly; one with `datesExact` is on
 from `from` to `to` and never outside them (ADR 0034, 0035). When a source names the day, write it
 with `onDay(1840, 4, 10)` (the start of that day, leap years counted), not a decimal guessed from the
-month. Key dates marked `magnetic` snap the slider and show a moment card.
+month. For a source's last day (the last steam train), use the next day's `onDay`, so the change
+falls at the end of that day. Key dates marked `magnetic` snap the slider and show a moment card.
 
 ## Places and features
 

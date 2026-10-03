@@ -227,4 +227,10 @@ describe('snapshotAt: the railway on screen', () => {
     expect(later).toBeDefined();
     expect(later?.steam).toBe(false);
   });
+
+  it('still draws and plays steam through 13 June 1964, the day the last steam passenger trains ran', () => {
+    const lastAfternoon = onDay(1964, 6, 13) + 17 / 24 / 366;
+    expect(drawnAt(lastAfternoon).train?.steam).toBe(true);
+    expect(snapshotAt(W, tAt(W.timeline, ad(lastAfternoon))).sound.levels.train).toBeGreaterThan(0);
+  });
 });

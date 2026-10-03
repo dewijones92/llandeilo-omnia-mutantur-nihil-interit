@@ -26,7 +26,8 @@ function isLeap(y: number): boolean {
 
 /**
  * The start of a day a source names, as a fractional year: onDay(1840, 4, 10) is midnight beginning
- * 10 April 1840. Gregorian, so only for dates after Britain adopted it in 1752.
+ * 10 April 1840. For a source's LAST day, use the next day's onDay. Gregorian, so only for dates after
+ * Britain adopted it in 1752.
  */
 export function onDay(y: number, month: number, day: number): Year {
   const lengths = MONTH_DAYS.map((d, i) => (i === 1 && isLeap(y) ? 29 : d));

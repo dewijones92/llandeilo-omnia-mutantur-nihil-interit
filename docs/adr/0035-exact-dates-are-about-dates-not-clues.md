@@ -54,7 +54,7 @@ the history).
 ## Amended 2026-10-03 (fourth review)
 
 The fourth review found two sections carrying `datesExact` where "a source gives both ends as dates"
-was not true of all the track inside them. Dewi decided each:
+was not true of all the track inside them. Claude decided each, under the proactive mandate (ADR 0027), so Dewi can overrule either:
 
 - **A contested opening date may still be exact.** `datesExact` may cover a stretch whose opening date
   the sources dispute, drawn from the earlier sourced date, when the ⓘ names both dates. This is
