@@ -10,11 +10,17 @@ import {
   type Mesh,
   type Scene,
 } from './babylon.ts';
+import { HALOS } from '../domain/halo.ts';
+import { lampColour } from '../domain/lamplight.ts';
+import { Halos, type HaloPoint } from './halos.ts';
 import type { SmokeSource } from './smoke.ts';
-import type { Ground } from './structures.ts';
+import type { Ground, WorldPoint } from './structures.ts';
+
+const FIRE = lampColour(1);
 
 export class Firelight {
   readonly material: StandardMaterial;
+  readonly halos: Halos;
   private readonly glow: DynamicTexture;
   private readonly mesh: Mesh;
   private key = '';
@@ -48,27 +54,32 @@ export class Firelight {
     this.mesh.material = this.material;
     this.mesh.isPickable = false;
     this.mesh.isVisible = false;
+    this.halos = new Halos(scene, 'hearth', HALOS.hearth);
   }
 
-  show(sources: readonly SmokeSource[], level: number): void {
+  /** Ground pools at each hearth group, and a halo at every house in `houses` (ADR 0037). */
+  show(sources: readonly SmokeSource[], houses: readonly WorldPoint[], level: number): void {
     const hearths = sources.filter((s) => s.fire);
     this.mesh.isVisible = level > 0.02 && hearths.length > 0;
     this.glow.level = level * 1.6;
-    const key = hearths.map((s) => s.key).join('|');
-    if (key === this.key) return;
-    this.key = key;
-    const m = new Float32Array(Math.max(1, hearths.length) * 16);
-    hearths.forEach((s, i) => {
-      const r = 3 + s.density * 1.5 + s.spread * 0.4;
-      Matrix.Compose(
-        new Vector3(r, 1, r),
-        Quaternion.Identity(),
-        new Vector3(s.x, this.highest(s.x, s.z, r) + 0.3, s.z),
-      ).copyToArray(m, i * 16);
-    });
-    this.mesh.thinInstanceSetBuffer('matrix', m, 16, false);
-    this.mesh.thinInstanceCount = hearths.length;
-    console.info(`dewidebug firelight hearths=${hearths.length}`);
+    const key = `${hearths.map((s) => s.key).join('|')}#${String(houses.length)}`;
+    if (key !== this.key) {
+      this.key = key;
+      const m = new Float32Array(Math.max(1, hearths.length) * 16);
+      hearths.forEach((s, i) => {
+        const r = 3 + s.density * 1.5 + s.spread * 0.4;
+        Matrix.Compose(
+          new Vector3(r, 1, r),
+          Quaternion.Identity(),
+          new Vector3(s.x, this.highest(s.x, s.z, r) + 0.3, s.z),
+        ).copyToArray(m, i * 16);
+      });
+      this.mesh.thinInstanceSetBuffer('matrix', m, 16, false);
+      this.mesh.thinInstanceCount = hearths.length;
+      this.halos.setPoints(houses.map((h): HaloPoint => ({ ...h, weight: 1 })));
+      console.info(`dewidebug firelight hearths=${hearths.length} houses=${houses.length}`);
+    }
+    this.halos.setLight(FIRE, level);
   }
 
   private highest(x: number, z: number, r: number): number {

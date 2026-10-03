@@ -378,7 +378,34 @@ const meshState = async (page: Page, name: string): Promise<{ visible: boolean; 
     };
   }, name);
 
-test('the night is lit by the light of its time: gas lamps in 1880, the blackout in 1942', async ({
+// Mean luminance (0..1) of a part of the page, read back from a screenshot of it.
+const luminance = async (
+  page: Page,
+  clip: { x: number; y: number; width: number; height: number },
+): Promise<number> => {
+  const png = (await page.screenshot({ clip })).toString('base64');
+  return page.evaluate(async (b64) => {
+    const img = new Image();
+    img.src = `data:image/png;base64,${b64}`;
+    await img.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('no 2d context');
+    ctx.drawImage(img, 0, 0);
+    const d = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let sum = 0;
+    for (let i = 0; i < d.length; i += 4)
+      sum += 0.2126 * (d[i] ?? 0) + 0.7152 * (d[i + 1] ?? 0) + 0.0722 * (d[i + 2] ?? 0);
+    return sum / (d.length / 4) / 255;
+  }, png);
+};
+
+// Open countryside above the town at ?place=llandeilo, clear of the panels and the speech bubbles.
+const COUNTRYSIDE = { x: 420, y: 20, width: 660, height: 300 };
+
+test('the night is dark and lit by the light of its time: gas lamps glow in 1880, the 1942 blackout is black', async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -394,6 +421,17 @@ test('the night is lit by the light of its time: gas lamps in 1880, the blackout
   await expect.poll(async () => (await meshState(page, 'street-lamps')).visible).toBe(true);
   expect((await meshState(page, 'street-lamps')).count).toBeGreaterThan(10);
   expect((await meshState(page, 'building-windows')).count).toBeGreaterThan(0);
+  await expect(page.locator('.loader')).toHaveCount(0);
+  const night = await luminance(page, COUNTRYSIDE);
+  console.info(`dewidebug e2e night luminance 1880 21:00 = ${night.toFixed(3)}`);
+  expect(night).toBeLessThan(0.12);
+  // Halos that face the camera and stay a few pixels wide, so the lamps read from the overview too.
+  expect(await meshState(page, 'halos-street')).toEqual({
+    visible: true,
+    count: (await meshState(page, 'street-lamps')).count,
+  });
+  expect((await meshState(page, 'halos-window')).visible).toBe(true);
+  expect((await meshState(page, 'halos-window')).count).toBeGreaterThan(10);
   await page.getByRole('button', { name: 'Almanac' }).click();
   const light = page.locator('.info .info-list li', { hasText: 'Light after dark' });
   await expect(light).toContainText('By 1876 gas lamps');
@@ -407,6 +445,8 @@ test('the night is lit by the light of its time: gas lamps in 1880, the blackout
   await expect(debug).toContainText('(windows 0.00 hearth 0.00 street 0.00)');
   await expect.poll(async () => (await meshState(page, 'street-lamps')).visible).toBe(false);
   expect((await meshState(page, 'building-windows')).count).toBe(0);
+  for (const kind of ['window', 'street', 'hearth'])
+    expect((await meshState(page, `halos-${kind}`)).visible).toBe(false);
   await expect(page.locator('.loader')).toHaveCount(0);
   await page.screenshot({ path: 'test-results/light-1942-blackout.png' });
   expect(errors).toEqual([]);

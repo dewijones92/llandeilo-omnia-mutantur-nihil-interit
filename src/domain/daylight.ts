@@ -108,19 +108,23 @@ const SKY = {
   goldenHorizon: hex('#f8d2a2'),
   duskTop: hex('#4f6299'),
   duskHorizon: hex('#ee9f80'),
-  nightTop: hex('#101b36'),
-  nightHorizon: hex('#34476f'),
+  nightTop: hex('#050a18'),
+  nightHorizon: hex('#101829'),
   sunLow: hex('#ff9650'),
   sunMid: hex('#ffcb8c'),
-  moon: hex('#a8bde6'),
+  moon: hex('#8fa6d6'),
   glowLow: hex('#ffa868'),
   glowHigh: hex('#fff0d2'),
   ambientGolden: hex('#f2c9a0'),
   ambientDusk: hex('#b98fb0'),
-  ambientNight: hex('#5a6fa3'),
+  ambientNight: hex('#3a4a78'),
   groundDay: hex('#6b6659'),
-  groundNight: hex('#1f2538'),
+  groundNight: hex('#0b0f1b'),
 } as const;
+
+// A dark night (ADR 0037): how much moonlight, sky light and self-glow is left once the sun is well down.
+// Tuned by eye so the valley is a dim navy shape and the dated night light reads from the overview.
+const NIGHT = { moon: 0.3, ambient: 0.2, selfLit: 0.08 } as const;
 
 const MIST: Readonly<Record<Season, number>> = { spring: 0.6, summer: 0.35, autumn: 1, winter: 0.8 };
 
@@ -159,7 +163,7 @@ export function lightingAt(env: LightInput, clock: Clock): Lighting {
   const afterglow = 0.5 * smoothstep(-0.1, -0.02, s) * (1 - smoothstep(0.02, 0.1, s));
   const lightIntensity = sunUp
     ? 1.95 * smoothstep(-0.04, 0.12, s) * (0.72 + 0.34 * smoothstep(0.1, 0.6, s)) + afterglow
-    : 0.62 * smoothstep(-0.1, -0.2, s);
+    : NIGHT.moon * smoothstep(-0.1, -0.2, s);
 
   const dayAmbient = mix(env.skyTop, { r: 1, g: 1, b: 1 }, 0.45);
   let ambient = mix(dayAmbient, SKY.ambientGolden, golden * 0.35);
@@ -185,7 +189,7 @@ export function lightingAt(env: LightInput, clock: Clock): Lighting {
     lightIntensity,
     ambient,
     ambientGround: mix(SKY.groundDay, SKY.groundNight, night),
-    ambientIntensity: lerp(lerp(0.85, 0.55, night), 0.42, day),
+    ambientIntensity: lerp(lerp(0.85, NIGHT.ambient, night), 0.42, day),
     skyTop: top,
     skyHorizon: horizon,
     glow: mix(SKY.glowLow, SKY.glowHigh, smoothstep(0, 0.25, s)),
@@ -195,9 +199,9 @@ export function lightingAt(env: LightInput, clock: Clock): Lighting {
     stars: smoothstep(0.35, 1, night),
     night,
     lamps: smoothstep(0.15, 0.75, 1 - day) * (1 - 0.65 * asleep),
-    selfLit: lerp(0.2, 1, day),
+    selfLit: lerp(lerp(0.2, NIGHT.selfLit, night), 1, day),
     shadowDarkness: sunUp ? lerp(0.28, 0.4, golden) : 0.22,
-    exposure: 1 + night * 0.12,
+    exposure: 1,
     warmth: golden * 0.8 + twilight * 0.3 - night * 0.7,
   };
 }

@@ -18,9 +18,17 @@ const EARTH = hex('#8f935f');
 const RAMPART = hex('#8a7f6e');
 const LIMEWASH = hex('#f1ede2');
 
+export interface WorldPoint {
+  readonly x: number;
+  readonly y: number;
+  readonly z: number;
+}
+
 export interface Built {
   readonly mesh: Mesh;
   readonly casts: boolean;
+  /** Where each house's hearth glows through its door, in world space; empty for anything else. */
+  readonly hearths: readonly WorldPoint[];
 }
 
 export function buildFeature(
@@ -34,14 +42,19 @@ export function buildFeature(
   const random = rng(seed);
   const s = WORLD.landmarkScale / WORLD.metresPerUnit;
   const baseY = ground(ox, oz);
-  const at = (parts: Mesh[], name: string): Built => {
+  const at = (parts: Mesh[], name: string, hearths: readonly WorldPoint[] = []): Built => {
     const m = merge(name, parts);
     m.position = new Vector3(ox, baseY - 0.3, oz);
-    return { mesh: m, casts: true };
+    return {
+      mesh: m,
+      casts: true,
+      hearths: hearths.map((h) => ({ x: ox + h.x, y: baseY - 0.3 + h.y, z: oz + h.z })),
+    };
   };
   switch (kind.type) {
     case 'roundhouses': {
       const parts: Mesh[] = [];
+      const hearths: WorldPoint[] = [];
       for (let i = 0; i < kind.count; i++) {
         const a = random() * Math.PI * 2;
         const r = Math.sqrt(random()) * kind.spread * s;
@@ -50,20 +63,23 @@ export function buildFeature(
         const d = (6 + random() * 5) * s * 0.95;
         const y = ground(ox + x, oz + z) - baseY;
         parts.push(roundhouse(scene, d, x, y, z, a));
+        hearths.push({ x, y: y + d * 0.12, z });
       }
-      return at(parts, 'roundhouses');
+      return at(parts, 'roundhouses', hearths);
     }
     case 'hillfort':
-      return { mesh: rampart(scene, kind, ground, ox, oz), casts: true };
+      return { mesh: rampart(scene, kind, ground, ox, oz), casts: true, hearths: [] };
     case 'roman-fort':
       return at(romanFort(scene, kind.width * s, kind.length * s, kind.angle, random), 'roman-fort');
     case 'building':
       return {
         mesh: buildPlan(scene, kind.plan, kind.condition, seed, ground, ox, oz),
         casts: true,
+        hearths: [],
       };
     case 'hall-houses': {
       const parts: Mesh[] = [];
+      const hearths: WorldPoint[] = [];
       for (let i = 0; i < kind.count; i++) {
         const a = random() * Math.PI * 2;
         const r = Math.sqrt(random()) * kind.spread * s;
@@ -71,8 +87,9 @@ export function buildFeature(
         const z = Math.sin(a) * r;
         const y = ground(ox + x, oz + z) - baseY;
         parts.push(...longhouse(scene, x, y, z, random() * Math.PI, s));
+        hearths.push({ x, y: y + 5.5 * s * 0.8 * 0.3, z });
       }
-      return at(parts, 'hall-houses');
+      return at(parts, 'hall-houses', hearths);
     }
     case 'town':
     case 'countryside':

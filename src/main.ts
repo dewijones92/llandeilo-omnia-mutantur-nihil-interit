@@ -104,7 +104,9 @@ async function start(): Promise<void> {
   const smoke = new Smoke(world.scene);
   const firelight = new Firelight(world.scene, features.ground);
   world.addLamp(firelight.material);
+  world.addLamp(firelight.halos.material);
   let smokeSources = features.smokeSources([]);
+  let hearthLights = features.hearthLights([]);
 
   const debug = params.has('debug')
     ? new DebugOverlay(engine, backend, world.camera, () => world.graphics())
@@ -406,7 +408,7 @@ async function start(): Promise<void> {
     world.applyLighting(light);
     const lamps = lampsAt(snap.lamplight, light.lamps);
     features.setLamps(lamps);
-    firelight.show(smokeSources, lamps.hearth);
+    firelight.show(smokeSources, hearthLights, lamps.hearth);
     smoke.shade(light.selfLit);
     document.documentElement.classList.toggle('night', light.night > 0.5);
     skyControls.paintTrack(snap.environment);
@@ -446,6 +448,7 @@ async function start(): Promise<void> {
     features.apply(snap.features);
     applyCost.add(t1 - t0, performance.now() - t1, 0);
     smokeSources = features.smokeSources(snap.features);
+    hearthLights = features.hearthLights(snap.features);
     active = new Set(snap.conversations.map((c) => c.id));
     const open = panel.open;
     if (open && !active.has(open.id)) panel.close();

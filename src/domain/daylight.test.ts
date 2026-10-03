@@ -90,6 +90,33 @@ describe('lightingAt', () => {
     expect(l.skyTop.b).toBeLessThan(0.3);
   });
 
+  it('makes a winter 23:00 properly dark: a faint moon, little sky light and a near-black sky', () => {
+    const l = lightingAt(ENV, at(23, 'winter'));
+    const lum = (c: { r: number; g: number; b: number }): number =>
+      0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+    expect(l.lightIntensity).toBeLessThanOrEqual(0.35);
+    expect(l.ambientIntensity).toBeLessThanOrEqual(0.25);
+    expect(lum(l.ambient) * l.ambientIntensity).toBeLessThan(0.06);
+    expect(lum(l.skyTop)).toBeLessThan(0.04);
+    expect(lum(l.fog)).toBeLessThan(0.1);
+    expect(l.selfLit).toBeLessThanOrEqual(0.1);
+  });
+
+  it('leaves the day exactly as it was: the night work only touches the night', () => {
+    const r = (_k: string, v: unknown): unknown => (typeof v === 'number' ? Number(v.toFixed(4)) : v);
+    const day = (hour: number, season: Season): string =>
+      JSON.stringify(lightingAt(ENV, at(hour, season)), r);
+    expect(day(12, 'summer')).toMatchInlineSnapshot(
+      `"{"sun":{"x":0,"y":0.8627,"z":-0.5057},"direction":{"x":0,"y":0.8627,"z":-0.5057},"moon":false,"elevation":59.62,"light":{"r":0.9843,"g":0.9137,"b":0.7843},"lightIntensity":2.067,"ambient":{"r":0.7498,"g":0.8296,"b":0.9116},"ambientGround":{"r":0.4196,"g":0.4,"b":0.349},"ambientIntensity":0.42,"skyTop":{"r":0.5451,"g":0.6902,"b":0.8392},"skyHorizon":{"r":0.9333,"g":0.9294,"b":0.902},"glow":{"r":1,"g":0.9412,"b":0.8235},"glowStrength":0.12,"fog":{"r":0.9333,"g":0.9294,"b":0.902},"fogDensity":0.0001,"stars":0,"night":0,"lamps":0,"selfLit":1,"shadowDarkness":0.28,"exposure":1,"warmth":0}"`,
+    );
+    expect(day(12, 'winter')).toMatchInlineSnapshot(
+      `"{"sun":{"x":0,"y":0.291,"z":-0.9567},"direction":{"x":0,"y":0.291,"z":-0.9567},"moon":false,"elevation":16.92,"light":{"r":0.9933,"g":0.8461,"b":0.6491},"lightIntensity":1.6204,"ambient":{"r":0.7927,"g":0.8207,"b":0.8504},"ambientGround":{"r":0.4196,"g":0.4,"b":0.349},"ambientIntensity":0.42,"skyTop":{"r":0.535,"g":0.6759,"b":0.8299},"skyHorizon":{"r":0.9526,"g":0.8773,"b":0.7708},"glow":{"r":1,"g":0.9412,"b":0.8235},"glowStrength":0.6733,"fog":{"r":0.9526,"g":0.8773,"b":0.7708},"fogDensity":0.0001,"stars":0,"night":0,"lamps":0,"selfLit":1,"shadowDarkness":0.3538,"exposure":1,"warmth":0.4918}"`,
+    );
+    expect(day(9, 'spring')).toMatchInlineSnapshot(
+      `"{"sun":{"x":0.6976,"y":0.5591,"z":-0.448},"direction":{"x":0.6976,"y":0.5591,"z":-0.448},"moon":false,"elevation":33.996,"light":{"r":0.9843,"g":0.9137,"b":0.7843},"lightIntensity":2.0544,"ambient":{"r":0.752,"g":0.8291,"b":0.9084},"ambientGround":{"r":0.4196,"g":0.4,"b":0.349},"ambientIntensity":0.42,"skyTop":{"r":0.5446,"g":0.6895,"b":0.8387},"skyHorizon":{"r":0.9343,"g":0.9267,"b":0.8952},"glow":{"r":1,"g":0.9412,"b":0.8235},"glowStrength":0.1486,"fog":{"r":0.9343,"g":0.9267,"b":0.8952},"fogDensity":0.0001,"stars":0,"night":0,"lamps":0,"selfLit":1,"shadowDarkness":0.2838,"exposure":1,"warmth":0.0254}"`,
+    );
+  });
+
   it('dims most windows in the small hours', () => {
     expect(lightingAt(ENV, at(3)).lamps).toBeLessThan(lightingAt(ENV, at(23)).lamps);
   });

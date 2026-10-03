@@ -4,14 +4,14 @@ import type { Feature, FeatureId, RollingStock } from '../domain/model.ts';
 import type { LampState } from '../domain/lamplight.ts';
 import type { FeaturePresence } from '../domain/state.ts';
 import { hash2 } from '../domain/noise.ts';
-import { hidesFootprint, rotate } from '../domain/plan.ts';
+import { hidesFootprint, rotate, type Plan, type Pt } from '../domain/plan.ts';
 import { drawnRailway, longestLine, sectionLines } from '../domain/rail.ts';
 import { Surface } from '../domain/surface.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
 import { Buildings, lineRibbons, Train } from './settlement.ts';
 import { planClearing, planWorldScale } from './buildings.ts';
-import { buildFeature, type Ground } from './structures.ts';
+import { buildFeature, type Ground, type WorldPoint } from './structures.ts';
 import type { SmokeSource } from './smoke.ts';
 import type { Clearing } from './terrain.ts';
 import type { LoadedModel } from './models.ts';
@@ -19,6 +19,7 @@ import { StreetLamps } from './streetlamps.ts';
 
 interface Monument {
   readonly mesh: Mesh;
+  readonly hearths: readonly WorldPoint[];
 }
 
 interface TownSet {
@@ -100,6 +101,7 @@ export class FeatureLayer {
     this.buildings = new Buildings(scene, footprints, this.ground);
     for (const m of this.buildings.meshes) world.addCaster(m);
     world.addLamp(this.buildings.windowMaterial);
+    world.addLamp(this.buildings.halos.material);
     this.roads = lineRibbons(
       scene,
       'roads',
@@ -112,6 +114,7 @@ export class FeatureLayer {
     this.roads.isVisible = false;
     this.streetLamps = new StreetLamps(scene, roads, this.ground);
     world.addLamp(this.streetLamps.material);
+    world.addLamp(this.streetLamps.halos.material);
     const main = longestLine(railways);
     this.trainLine = main;
     this.train = main ? new Train(scene, main, this.ground, trainModels) : undefined;
@@ -149,7 +152,7 @@ export class FeatureLayer {
       const mat = scene.getMaterialByName('building-mat');
       if (mat) built.mesh.material = mat;
       if (built.casts) world.addCaster(built.mesh);
-      this.monuments.set(f.id, { mesh: built.mesh });
+      this.monuments.set(f.id, { mesh: built.mesh, hearths: built.hearths });
     }
     console.info(
       `dewidebug features built monuments=${this.monuments.size} towns=${this.towns.size} in ${Math.round(performance.now() - started)}ms`,
@@ -198,15 +201,12 @@ export class FeatureLayer {
           fire: false,
         });
       } else if (k.type === 'building' && k.condition === 'standing' && k.plan.hearth) {
-        const across = planWorldScale(k.plan).across;
-        const [hx, hz] = rotate(k.plan.hearth, k.plan.angle ?? 0);
-        const sx = x + hx * across;
-        const sz = z + hz * across;
+        const h = this.buildingHearth(k.plan, k.plan.hearth, x, z);
         out.push({
           key: p.feature.id,
-          x: sx,
-          y: this.surface(sx, sz) + 3,
-          z: sz,
+          x: h.x,
+          y: h.y + 3,
+          z: h.z,
           spread: 1.5,
           density: 0.5,
           style: 'hearth',
@@ -215,6 +215,31 @@ export class FeatureLayer {
       }
     }
     return out;
+  }
+
+  /** A glow per house with a lit hearth: every roundhouse and longhouse, and a standing building's hearth. */
+  hearthLights(present: readonly FeaturePresence[]): WorldPoint[] {
+    const out: WorldPoint[] = [];
+    for (const p of present) {
+      if (p.presence < 0.6) continue;
+      const k = p.feature.kind;
+      if (k.type === 'roundhouses' || k.type === 'hall-houses') {
+        out.push(...(this.monuments.get(p.feature.id)?.hearths ?? []));
+      } else if (k.type === 'building' && k.condition === 'standing' && k.plan.hearth) {
+        const { x, z } = toWorld(p.feature.at);
+        const h = this.buildingHearth(k.plan, k.plan.hearth, x, z);
+        out.push({ x: h.x, y: h.y + 1.2, z: h.z });
+      }
+    }
+    return out;
+  }
+
+  private buildingHearth(plan: Plan, hearth: Pt, x: number, z: number): WorldPoint {
+    const across = planWorldScale(plan).across;
+    const [hx, hz] = rotate(hearth, plan.angle ?? 0);
+    const sx = x + hx * across;
+    const sz = z + hz * across;
+    return { x: sx, y: this.surface(sx, sz), z: sz };
   }
 
   apply(present: readonly FeaturePresence[]): void {
