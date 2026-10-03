@@ -180,6 +180,9 @@ export interface Feature {
   readonly when: TimeRange;
   readonly provenance: Provenance;
   readonly label: Bilingual;
+  // Set only where a source gives both ends as attested years (an end at the present counts);
+  // most drawn ranges are rounded or inferred, and "When are we?" calls those clues only probable.
+  readonly datesExact?: true;
 }
 
 export const AMBIENT_BEDS = [

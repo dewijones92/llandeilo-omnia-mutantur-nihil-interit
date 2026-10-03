@@ -307,3 +307,23 @@ Milestones and what each one taught us. Newest last.
    key's reason as its own (`since` and `towards` now). Red runs: the two content tests (bells heard
    from 1851; 200 fade-in samples across the beds), the two `soundAt` unit tests, and the overlay
    e2e test (the river still "documented" at 1282).
+3. **"When are we?", a guess-the-year game** ([ADR 0029](../adr/0029-guess-game-hides-giveaways-by-one-root-class.md)).
+   Five rounds from the 19 key dates that have something drawn to date them by; the viewer drags a
+   ghost marker on the timeline, and the reveal sweeps from the guess to the answer and lists the
+   clues with their ⓘ and a "Show me" flight. Two things the first draft got wrong, both caught before
+   any UI existed: probing the real content showed features fading in or out offered as clues whose
+   dates did not include the year (Carreg Cennen's 1287 inner ward at 1282), and a unit fixture
+   showed the climate clue naming its period by its keys' years rather than the years the model
+   keeps the chill visible, so it could fall outside the year (it now reads c. 1456 to 1887 for the
+   Little Ice Age, and AD 933 to 1275 for the warm period).
+   Playwright treats a zero-width element as hidden, so the ghost is checked by its flag.
+4. **The game's review: firm had meant "documented", not "documented with exact dates".** The
+   second-Opus pass found every documented feature called a firm clue with bare dates, beside a
+   "c. 800 BC" answer: the Roman forts, an unexcavated hillfort, Dinefwr's rounded 1220 to 1600.
+   Features now carry `datesExact` (three do), and the rest read "c." as probable clues. The same
+   pass found four more things the tests had not asked: an inclusive range made a hillfort and its own
+   ruin both clues at AD 74; "the scene cannot tell them apart" ignored the people and the mapped
+   woodland; the climate clue claimed snow that summer never draws (the summer snow line is 995m at
+   the Little Ice Age peak, the highest ground 675m); and the almanac opened underneath the game
+   panel. Each was fixed behind a test seen red first. The tick labels under the slider at 800 BC
+   and AD 74 still give two answers away; that choice is left to Dewi.

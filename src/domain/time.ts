@@ -41,7 +41,7 @@ const ERA_LABEL: Record<Lang, { bc: string; ad: string; ago: string; million: st
   cy: { bc: 'CC', ad: 'OC', ago: 'o flynyddoedd yn ôl', million: 'miliwn o flynyddoedd yn ôl', circa: 'tua' },
 };
 
-function groupDigits(value: number, lang: Lang): string {
+export function groupDigits(value: number, lang: Lang): string {
   return Math.round(value).toLocaleString(lang === 'cy' ? 'cy-GB' : 'en-GB');
 }
 
@@ -58,4 +58,10 @@ export function formatYear(value: Year, lang: Lang, approximate = false): string
   if (y <= 0) return `${prefix}${groupDigits(1 - y, lang)} ${labels.bc}`;
   if (y < 1000) return `${prefix}${labels.ad} ${y}`;
   return `${prefix}${y}`;
+}
+
+// A year read off the slider rather than from a record: before AD 1000 the timeline is too
+// compressed for a single year to mean much, so it carries "c.".
+export function formatSliderYear(value: Year, lang: Lang): string {
+  return formatYear(value, lang, value < 1000);
 }

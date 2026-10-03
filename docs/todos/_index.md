@@ -280,7 +280,16 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
       `Contested<T>` type with exactly one preferred reading, a witnesses card, and a ⇄ switch only
       where the readings draw differently (Dryslwyn's middle ward, St Teilo's tower, 1403)
 - [ ] **When are we?** a guess-the-year game: hidden clues, read the landscape, a reveal that explains
-      which features gave it away and how firmly, by provenance
+      which features gave it away and how firmly, by provenance. Built 2026-10-03
+      ([ADR 0029](../adr/0029-guess-game-hides-giveaways-by-one-root-class.md)): `src/domain/guess.ts`
+      (clue ranking seen red, then green), `src/ui/guess.ts`, one e2e flow (seen red with the hiding
+      rule removed), screenshots at 800 BC, 1287 and 1987. Second-Opus review run 2026-10-03: firm
+      now needs exact dates, phases meeting at the year no longer both count, the same-scene check
+      covers people, woodland and sky, the climate clue's snow claim follows the season, and the
+      game panel steps aside for the almanac, each seen red first; screenshots at 1287 and 1485
+      (summer and winter). Not ticked: one IMPORTANT finding waits on Dewi. Two answers (c. 800 BC,
+      AD 74) sit on labelled ticks under the slider; jitter the hidden moment, or show unlabelled
+      ticks while guessing?
 - [ ] **Light after dark**: hearth, rushlight, candle, gas, electric light and the blackout, as content
       keys like the climate, each sourced
 - [ ] **When did we find out?** a discovery rail and a "found" line on every ⓘ (the forts in 2003,

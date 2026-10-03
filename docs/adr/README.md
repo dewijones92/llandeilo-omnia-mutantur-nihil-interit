@@ -60,6 +60,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0026](0026-open-licences-including-nc.md) | Any open licence, the non-commercial ones included | Accepted | 2026-10-02 |
 | [0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md) | Claude proposes and builds its own ideas, under a proactive mandate | Accepted, amends 0022 | 2026-10-02 |
 | [0028](0028-ambient-beds-carry-provenance.md) | Every ambient sound bed carries a provenance, on its own dated track | Accepted, amends 0011 | 2026-10-03 |
+| [0029](0029-guess-game-hides-giveaways-by-one-root-class.md) | The guess-the-year game hides giveaways with one root class, and draws its clues from provenance | Accepted | 2026-10-03 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

@@ -57,6 +57,7 @@ interface Spec {
   readonly label: { readonly en: string; readonly cy: string };
   readonly provenance: Provenance;
   readonly place?: string;
+  readonly datesExact?: true;
 }
 
 const feature = (s: Spec): Feature => {
@@ -69,7 +70,8 @@ const feature = (s: Spec): Feature => {
     label: s.label,
   };
   const place: PlaceId | undefined = s.place ? placeId(s.place) : undefined;
-  return place ? { ...base, place } : base;
+  const dated = s.datesExact ? { ...base, datesExact: s.datesExact } : base;
+  return place ? { ...dated, place } : dated;
 };
 
 const NOW = ad(2026);
@@ -413,6 +415,7 @@ export const FEATURES: readonly Feature[] = [
     at: CARREG_CENNEN_CASTLE,
     from: ad(1462),
     to: NOW,
+    datesExact: true,
     label: { en: 'Carreg Cennen, slighted and ruined', cy: 'Carreg Cennen, wedi’i chwalu' },
     provenance: documented(
       ['timeline:S36', 'timeline:S51'],
@@ -690,6 +693,7 @@ export const FEATURES: readonly Feature[] = [
     at: LLANDEILO_BRIDGE_AT,
     from: ad(1848),
     to: NOW,
+    datesExact: true,
     label: { en: 'Llandeilo Bridge', cy: 'Pont Llandeilo' },
     provenance: documented(
       ['timeline:S54', 'victorian:S22'],
@@ -775,6 +779,7 @@ export const FEATURES: readonly Feature[] = [
     at: { e: 263266, n: 222361 },
     from: ad(1857),
     to: NOW,
+    datesExact: true,
     label: { en: 'The railway through Llandeilo', cy: 'Y rheilffordd drwy Landeilo' },
     provenance: documented(
       ['victorian:S29', 'victorian:S28', 'victorian:S36'],

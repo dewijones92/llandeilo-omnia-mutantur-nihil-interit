@@ -2,6 +2,7 @@ import { PointerEventTypes, Vector3 } from './world/babylon.ts';
 import './ui/styles.css';
 import { WORLD_CONTENT } from './content/world.ts';
 import { toWorld } from './domain/geo.ts';
+import { highestM } from './domain/heightfield.ts';
 import { isLang } from './domain/i18n.ts';
 import { STRINGS } from './content/strings.ts';
 import { lightingAt, parseClock, seasonLook } from './domain/daylight.ts';
@@ -29,6 +30,7 @@ import { FollowChip } from './ui/follow-chip.ts';
 import { desktopBanner } from './ui/desktop-banner.ts';
 import { ConversationPanel } from './ui/conversation.ts';
 import { InfoPanel, type InfoTab } from './ui/info.ts';
+import { GuessGame } from './ui/guess.ts';
 import { Ambience } from './audio/ambience.ts';
 import { h } from './ui/dom.ts';
 import { Shortcuts } from './ui/shortcuts.ts';
@@ -146,10 +148,13 @@ async function start(): Promise<void> {
   let lightPending = true;
   console.info(`dewidebug sky start hour=${clock.hour} season=${clock.season}`);
   const sourceMap = new Map(content.sources.map((s) => [s.id, s]));
+  let onSeason: () => void = () => undefined;
   const skyControls = new SkyControls(store, clock, sourceMap, (next) => {
-    if (next.season !== clock.season) pending = true;
+    const seasonChanged = next.season !== clock.season;
+    if (seasonChanged) pending = true;
     clock = next;
     lightPending = true;
+    if (seasonChanged) onSeason();
   });
   // Opening a link at a key date shows its recorded sky, unless the link sets its own.
   const openedAt = nearestStep(steps, t, 1e-6)?.event.recordedSky;
@@ -223,6 +228,7 @@ async function start(): Promise<void> {
       return;
     }
     const meta: unknown = hit?.metadata;
+    if (guess.hidingTheYear) return;
     if (meta && typeof meta === 'object' && 'conversation' in meta) {
       const c = content.conversations.find((x) => x.id === meta.conversation);
       if (c) openConversation(c);
@@ -240,7 +246,7 @@ async function start(): Promise<void> {
     sound.textContent = store.t(soundOn ? 'soundOn' : 'soundOff');
   });
   const tabButton = (tab: InfoTab): HTMLButtonElement => {
-    const b = h('button', { class: 'tool', type: 'button' }, store.t(tab));
+    const b = h('button', { class: 'tool reveals-when', type: 'button' }, store.t(tab));
     b.addEventListener('click', () => {
       panel.close();
       info.open(tab);
@@ -265,6 +271,42 @@ async function start(): Promise<void> {
   store.onChange(() => {
     keysButton.textContent = store.t('keys');
   });
+  const guess = new GuessGame(store, {
+    world: content,
+    steps,
+    timeline,
+    sources: sourceMap,
+    highestGroundM: highestM(heightfield),
+    season() {
+      return clock.season;
+    },
+    jumpTo(next) {
+      timeline.jump(next);
+    },
+    sweepTo(step, done) {
+      const sky = step.event.recordedSky;
+      timeline.snapTo(step, () => {
+        if (sky) skyControls.adopt(sky);
+        done();
+      });
+    },
+    overview() {
+      flight.flyHome();
+      home.hidden = true;
+    },
+    showMe(at) {
+      const { x, z } = toWorld(at);
+      flight.flyTo(new Vector3(x, features.ground(x, z), z), FRAMING_RADIUS.site, 0.98);
+      home.hidden = false;
+    },
+    closePanels() {
+      panel.close();
+      info.close();
+    },
+  });
+  onSeason = () => {
+    guess.seasonChanged();
+  };
   const row2 = h(
     'div',
     { class: 'brand-row' },
@@ -273,12 +315,19 @@ async function start(): Promise<void> {
     tabButton('about'),
     sound,
     keysButton,
+    guess.button,
   );
   brand.append(row2, skyControls.el);
   brand.querySelector('.brand-row')?.append(home);
-  app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el, shortcuts.el);
+  // Everything that would give the year away during a "When are we?" round (see styles.css).
+  for (const el of [labels.el, bubbles.el, moment.el, panel.el, info.el, followChip.el, debug?.el]) {
+    el?.classList.add('reveals-when');
+  }
+  app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el, shortcuts.el, guess.el);
   const compact = (): void => {
     moment.el.classList.toggle('compact', panel.open !== undefined || info.isOpen);
+    // The game panel shares the right-hand slot with these, so it steps aside while one is open.
+    document.documentElement.classList.toggle('side-panel-open', panel.open !== undefined || info.isOpen);
   };
   panel.onVisibility = compact;
   info.onVisibility = compact;
@@ -316,7 +365,17 @@ async function start(): Promise<void> {
     flight.turnTo(northAlpha(world.camera.alpha));
   });
   app.append(compass.el, followChip.el);
-  const chrome = [brand, moment.el, timeline.el, compass.el, followChip.el, panel.el, info.el, shortcuts.el];
+  const chrome = [
+    brand,
+    moment.el,
+    timeline.el,
+    compass.el,
+    followChip.el,
+    panel.el,
+    info.el,
+    shortcuts.el,
+    guess.el,
+  ];
   if (debug) chrome.push(debug.el);
   const banner = desktopBanner(store);
   if (banner) app.append(banner);

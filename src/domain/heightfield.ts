@@ -22,6 +22,12 @@ export function createHeightfield(meta: HeightfieldMeta, data: Uint16Array): Hei
   return { meta, data };
 }
 
+export function highestM(h: Heightfield): number {
+  let top = 0;
+  for (const v of h.data) top = Math.max(top, v);
+  return top * h.meta.heightScale;
+}
+
 function at(h: Heightfield, col: number, row: number): number {
   const c = clamp(col, 0, h.meta.width - 1);
   const r = clamp(row, 0, h.meta.height - 1);

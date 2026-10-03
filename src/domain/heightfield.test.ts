@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createHeightfield, sampleHeight } from './heightfield.ts';
+import { createHeightfield, highestM, sampleHeight } from './heightfield.ts';
 
 describe('heightfield', () => {
   const meta = { originEasting: 0, originNorthing: 100, cellSize: 50, width: 2, height: 2, heightScale: 0.1 };
@@ -13,6 +13,10 @@ describe('heightfield', () => {
 
   it('interpolates between cells', () => {
     expect(sampleHeight(hf, { e: 50, n: 50 })).toBeCloseTo(150);
+  });
+
+  it('finds the highest ground in metres', () => {
+    expect(highestM(hf)).toBeCloseTo(300);
   });
 
   it('rejects data of the wrong size', () => {

@@ -2,7 +2,7 @@ import { ASSETS, EXTERNAL_CREDITS } from '../content/assets.ts';
 import { ALMANAC_TOPICS } from '../content/languages.ts';
 import type { AlmanacEntry, LanguageSnapshot } from '../domain/model.ts';
 import type { Source } from '../domain/provenance.ts';
-import { formatYear } from '../domain/time.ts';
+import { formatSliderYear } from '../domain/time.ts';
 import type { Snapshot } from '../domain/state.ts';
 import { h } from './dom.ts';
 import { provenanceBadge } from './provenance.ts';
@@ -55,7 +55,7 @@ export class InfoPanel {
     if (this.el.hidden) return;
     this.render();
     const lang = this.store.lang;
-    const when = `${formatYear(s.year, lang, s.year < 1000)}${s.era ? ` · ${s.era.name[lang]}` : ''}`;
+    const when = `${formatSliderYear(s.year, lang)}${s.era ? ` · ${s.era.name[lang]}` : ''}`;
     if (this.whenEl.textContent !== when) this.whenEl.textContent = when;
   }
 
@@ -103,7 +103,7 @@ export class InfoPanel {
     });
     const lang = this.store.lang;
     this.whenEl.textContent = s
-      ? `${formatYear(s.year, lang, s.year < 1000)}${s.era ? ` · ${s.era.name[lang]}` : ''}`
+      ? `${formatSliderYear(s.year, lang)}${s.era ? ` · ${s.era.name[lang]}` : ''}`
       : '';
     let body: HTMLElement;
     if (this.tab === 'almanac') body = this.almanac(s?.almanac ?? []);
