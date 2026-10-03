@@ -107,7 +107,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f4eee2',
     fog: 0.6,
     mappedWoodland: 0,
-    ambient: { wind: 0.8, river: 0.55, birds: 0.2 },
   },
   {
     year: bc(11500),
@@ -119,7 +118,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f7efe0',
     fog: 0.6,
     mappedWoodland: 0,
-    ambient: { wind: 0.8, river: 0.55, birds: 0.3 },
   },
   {
     year: bc(10900),
@@ -131,7 +129,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#eeebe3',
     fog: 0.8,
     mappedWoodland: 0,
-    ambient: { wind: 1, river: 0.5 },
   },
   {
     year: bc(9700),
@@ -143,7 +140,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f3eee4',
     fog: 0.7,
     mappedWoodland: 0,
-    ambient: { wind: 0.9, river: 0.5, birds: 0.2 },
   },
   {
     year: bc(9000),
@@ -155,7 +151,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fbf0dc',
     fog: 0.5,
     mappedWoodland: 0,
-    ambient: { wind: 0.55, river: 0.5, birds: 0.6, forest: 0.6 },
   },
   {
     year: bc(7000),
@@ -167,7 +162,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fff1d8',
     fog: 0.4,
     mappedWoodland: 0,
-    ambient: { wind: 0.4, river: 0.5, birds: 0.85, forest: 0.85 },
   },
   {
     year: bc(5000),
@@ -179,7 +173,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fff1d6',
     fog: 0.35,
     mappedWoodland: 0,
-    ambient: { wind: 0.3, river: 0.5, birds: 1, forest: 1 },
   },
   {
     year: bc(3500),
@@ -191,7 +184,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fff0d2',
     fog: 0.35,
     mappedWoodland: 0,
-    ambient: { wind: 0.3, river: 0.5, birds: 0.9, forest: 0.85, livestock: 0.1 },
   },
   {
     year: bc(2000),
@@ -203,7 +195,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fdeccc',
     fog: 0.4,
     mappedWoodland: 0,
-    ambient: { wind: 0.45, river: 0.5, birds: 0.8, forest: 0.6, livestock: 0.25 },
   },
   {
     year: bc(400),
@@ -215,7 +206,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f8e6c8',
     fog: 0.5,
     mappedWoodland: 0,
-    ambient: { wind: 0.55, river: 0.5, birds: 0.7, forest: 0.45, livestock: 0.4, forge: 0.15 },
   },
   {
     year: ad(120),
@@ -227,7 +217,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#faead0',
     fog: 0.45,
     mappedWoodland: 0,
-    ambient: { wind: 0.5, river: 0.5, birds: 0.6, forest: 0.4, livestock: 0.45, forge: 0.2 },
   },
   {
     year: ad(800),
@@ -239,7 +228,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f3e3c9',
     fog: 0.55,
     mappedWoodland: 0,
-    ambient: { wind: 0.55, river: 0.5, birds: 0.6, forest: 0.35, livestock: 0.5, chant: 0.25, bells: 0.1 },
   },
   {
     year: ad(1250),
@@ -251,16 +239,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fbe9c8',
     fog: 0.4,
     mappedWoodland: 0,
-    ambient: {
-      wind: 0.45,
-      river: 0.5,
-      birds: 0.6,
-      forest: 0.3,
-      livestock: 0.55,
-      forge: 0.35,
-      bells: 0.4,
-      market: 0.3,
-    },
   },
   {
     year: ad(1600),
@@ -272,16 +250,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f9ead0',
     fog: 0.4,
     mappedWoodland: 0,
-    ambient: {
-      wind: 0.45,
-      river: 0.5,
-      birds: 0.6,
-      forest: 0.25,
-      livestock: 0.6,
-      bells: 0.45,
-      market: 0.4,
-      forge: 0.3,
-    },
   },
   {
     year: ad(1850),
@@ -293,17 +261,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#f6e4c6',
     fog: 0.55,
     mappedWoodland: 0.25,
-    ambient: {
-      wind: 0.4,
-      river: 0.5,
-      birds: 0.5,
-      forest: 0.2,
-      livestock: 0.6,
-      bells: 0.5,
-      market: 0.55,
-      forge: 0.4,
-      train: 0.5,
-    },
   },
   {
     year: ad(1950),
@@ -315,16 +272,6 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fbf0dc',
     fog: 0.35,
     mappedWoodland: 0.8,
-    ambient: {
-      wind: 0.35,
-      river: 0.5,
-      birds: 0.55,
-      forest: 0.2,
-      livestock: 0.5,
-      bells: 0.35,
-      traffic: 0.3,
-      train: 0.3,
-    },
   },
   {
     year: ad(2026),
@@ -336,14 +283,5 @@ export const ENVIRONMENT: readonly EnvironmentKey[] = [
     sun: '#fff6e6',
     fog: 0.3,
     mappedWoodland: 1,
-    ambient: {
-      wind: 0.35,
-      river: 0.5,
-      birds: 0.6,
-      forest: 0.25,
-      livestock: 0.45,
-      bells: 0.25,
-      traffic: 0.45,
-    },
   },
 ];

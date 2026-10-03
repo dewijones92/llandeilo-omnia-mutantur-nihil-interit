@@ -7,10 +7,11 @@ import { STRINGS } from '../src/content/strings.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
-import { latestStarting } from '../src/domain/state.ts';
+import { AMBIENT_BEDS } from '../src/domain/model.ts';
+import { latestStarting, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
-import { contains } from '../src/domain/time.ts';
+import { ad, bc, contains, year } from '../src/domain/time.ts';
 import { tAt, yearAt } from '../src/domain/timeline.ts';
 
 const root = join(import.meta.dirname, '..');
@@ -129,6 +130,72 @@ describe('content integrity', () => {
       .sort((a, b) => a - b);
     const tooClose = ts.filter((t, i) => i > 0 && t - (ts[i - 1] ?? 0) < 0.004);
     expect(tooClose.length).toBeLessThan(3);
+  });
+});
+
+describe('ambient sound beds', () => {
+  const sources = new Set(W.sources.map((s) => s.id));
+  const points = AMBIENT_BEDS.flatMap((bed) =>
+    W.soundscape[bed].map((p, i) => ({ bed, i, p, key: `${bed} ${String(p.year)}` })),
+  );
+  const heard = points.flatMap(({ bed, i, p, key }) => (p.kind === 'heard' ? [{ bed, i, p, key }] : []));
+  const said = (b: { en: string; cy: string } | undefined): boolean =>
+    b !== undefined && b.en !== '' && b.cy !== '';
+
+  it('gives every heard point a level, sources that resolve, and the words its tier asks for', () => {
+    expect(heard.length).toBeGreaterThan(0);
+    const bad = heard.filter(({ p }) => {
+      const why = p.provenance;
+      const words =
+        why.kind === 'documented'
+          ? said(why.note)
+          : why.kind === 'reconstructed'
+            ? said(why.basis)
+            : said(why.groundedIn);
+      return !(p.level > 0 && p.level <= 1) || !words || why.sources.some((s) => !sources.has(s));
+    });
+    expect(bad.map((x) => x.key)).toEqual([]);
+  });
+
+  it('keeps each bed’s points in date order, on the timeline', () => {
+    const first = yearAt(W.timeline, 0);
+    const last = yearAt(W.timeline, 1);
+    const bad = points.filter(({ bed, i, p }) => {
+      const before = W.soundscape[bed][i - 1];
+      return p.year < first || p.year > last || (before !== undefined && before.year >= p.year);
+    });
+    expect(bad.map((x) => x.key)).toEqual([]);
+  });
+
+  it('rings no bell and runs no train before the railway opened in January 1857 (effects:S7)', () => {
+    expect(
+      heard.filter((x) => (x.bed === 'bells' || x.bed === 'train') && x.p.year < ad(1857)).map((x) => x.key),
+    ).toEqual([]);
+    const early: string[] = [];
+    for (let y: number = bc(12500); y < 1857; y += y < 1850 ? 5 : 0.25) {
+      const a = soundAt(W.soundscape, year(y)).levels;
+      if (a.bells > 0 || a.train > 0) early.push(String(y));
+    }
+    expect(early).toEqual([]);
+    const first = heard.find((x) => x.bed === 'bells');
+    expect(first?.p.year).toBe(ad(1857));
+    expect(first?.p.provenance.sources).toContain('effects:S7');
+  });
+
+  it('never fades a bed in from silence: it is heard only from the point that names it', () => {
+    const early: string[] = [];
+    for (const { bed, i, p } of heard) {
+      const before = W.soundscape[bed][i - 1];
+      if (before?.kind === 'heard') continue;
+      const from = before?.year ?? yearAt(W.timeline, 0);
+      for (let j = 0; j < 20; j++) {
+        const y = year(from + ((p.year - from) * j) / 20);
+        if (y < p.year && soundAt(W.soundscape, y).levels[bed] > 0) early.push(`${bed} ${y.toFixed(1)}`);
+      }
+      if (soundAt(W.soundscape, year(p.year - 0.01)).levels[bed] > 0)
+        early.push(`${bed} just before ${String(p.year)}`);
+    }
+    expect(early).toEqual([]);
   });
 });
 

@@ -2,12 +2,12 @@
 title: "ADR 0011: Procedural ambient sound"
 kind: adr
 status: accepted
-updated: 2026-09-28
+updated: 2026-10-03
 ---
 
 # ADR 0011: Procedural ambient sound
 
-- **Status:** Accepted
+- **Status:** Accepted; amended by [ADR 0028](0028-ambient-beds-carry-provenance.md) (2026-10-03): the beds now follow their own dated tracks, not the environment keyframes
 - **Date:** 2026-09-26
 
 ## Context

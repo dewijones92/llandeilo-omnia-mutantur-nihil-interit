@@ -1,5 +1,6 @@
 import type { WorldContent } from '../domain/state.ts';
 import { ALMANAC } from './almanac.ts';
+import { SOUNDSCAPE } from './ambience.ts';
 import { CLIMATE } from './climate.ts';
 import { CONVERSATIONS } from './conversations.ts';
 import { EVENTS } from './events.ts';
@@ -14,6 +15,7 @@ export const WORLD_CONTENT: WorldContent = {
   timeline: TIMELINE,
   eras: ERAS,
   environment: ENVIRONMENT,
+  soundscape: SOUNDSCAPE,
   climate: CLIMATE,
   places: PLACES,
   events: EVENTS,

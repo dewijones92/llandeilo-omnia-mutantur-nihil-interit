@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # Open questions
@@ -64,6 +64,20 @@ for the next pass. Each note's own "Open questions" section has the full list an
   (the app's trains now change then), but the LNWR had running powers from about 1868 and "became the
   main passenger operator" (railway-locomotives, era-victorian S28). Whose trains to draw from 1873 is
   open.
+- **The sound beds' gaps** (2026-10-03, from the honest-ambience review). Each bed now starts only at
+  a dated, sourced point ([ADR 0028](../adr/0028-ambient-beds-carry-provenance.md)), which leaves
+  sounds that surely began earlier silent until a source is found:
+  - **St Teilo's bells**: how many, when cast, and whether the 1857 peal (effects:S7, which does not
+    say whose bells) was St Teilo's. Dove's Guide could not be read ([soundscapes](soundscapes.md)).
+  - **Motor traffic**: when cars and lorries reached Llandeilo; the traffic bed starts at 1950.
+  - **St Teilo's Fair**: said to date from 1291, unconfirmed; the market bed starts at 1600.
+  - **Trains after 1950**: the train bed fades out towards 2026, though Class 153 units still run on
+    the Heart of Wales line (railwaylater:S35, a lead); steam passenger trains ended on 13 June 1964
+    (railwaylater:S2, single source), so the bed's sound after that is wrong in kind. The 1950 point
+    rests on photographs of 1958 to 1960 (railwaylater:S2, S3, one author).
+  - **The Tywi, the drovers and the Ffairfach smithy** rest on encyclopedia pages (deeptime:S40,
+    victorian:S37, victorian:S2), so their beds are reconstructed; a primary or reputable secondary
+    source would let them be documented.
 - **Mapped coordinates**: several lat/lon values came from aggregators and should be checked
   against Coflein or Cadw grid references before precise placement.
 

@@ -498,6 +498,9 @@ button {
   padding: 10px 12px;
   font-size: 12px;
   max-width: 320px;
+  /* Kept clear of the timeline, like .info and .convo; the sound lines made it tall enough to cover it. */
+  max-height: calc(100vh - var(--below-compass) - 150px);
+  overflow-y: auto;
   white-space: pre-wrap;
   font-variant-numeric: tabular-nums;
 }
