@@ -1,4 +1,4 @@
-import { Vector3, VertexBuffer, type AbstractMesh, type Mesh } from './babylon.ts';
+import { Vector3, type AbstractMesh, type Mesh } from './babylon.ts';
 import { toGrid, toWorld } from '../domain/geo.ts';
 import type { Feature, FeatureId, RollingStock } from '../domain/model.ts';
 import type { LampState } from '../domain/lamplight.ts';
@@ -7,14 +7,13 @@ import { hash2 } from '../domain/noise.ts';
 import { hidesFootprint, rotate, type Plan, type Pt } from '../domain/plan.ts';
 import { smokingFeatures } from '../domain/smoke.ts';
 import { drawnRailway, longestLine, sectionLines } from '../domain/rail.ts';
-import { Surface } from '../domain/surface.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
 import { Buildings, lineRibbons, Train } from './settlement.ts';
 import { planClearing, planWorldScale } from './buildings.ts';
 import { buildFeature, type Ground, type WorldPoint } from './structures.ts';
 import type { SmokeSource } from './smoke.ts';
-import type { Clearing } from './terrain.ts';
+import type { Clearing } from './landcover.ts';
 import type { LoadedModel } from './models.ts';
 import { StreetLamps } from './streetlamps.ts';
 
@@ -94,11 +93,10 @@ export class FeatureLayer {
   ) {
     const scene = world.scene;
     this.ground = (x, z) => world.terrain.heightAt(toGrid({ x, z }));
-    const surface = new Surface(world.terrain.mesh.getVerticesData(VertexBuffer.PositionKind) ?? []);
-    const onSurface: Ground = (x, z) => surface.heightAt(x, z) ?? this.ground(x, z);
+    const onSurface: Ground = (x, z) => world.terrain.surfaceAt(x, z);
     this.surface = onSurface;
     console.info(
-      `dewidebug surface vs grid at centre: surface=${surface.heightAt(0, 0)?.toFixed(2) ?? 'none'} grid=${this.ground(0, 0).toFixed(2)}`,
+      `dewidebug surface vs grid at centre: surface=${onSurface(0, 0).toFixed(2)} grid=${this.ground(0, 0).toFixed(2)}`,
     );
     this.buildings = new Buildings(scene, footprints, this.ground);
     for (const m of this.buildings.meshes) world.addCaster(m);

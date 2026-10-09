@@ -237,7 +237,13 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 The three issues come first (Dewi: "If possible please prioritise them"), and their material is credited
 rather than licence-checked (Dewi: "ignore licensing problems, just credit the person").
 
-- [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded
+- [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded.
+      **Built 2026-10-09, not ticked** (Claude, under the proactive mandate; [ADR 0041](../adr/0041-lidar-terrain-tiles-blended-into-terrain-50.md),
+      [`data/lidar.md`](../data/lidar.md)): the path's steps 1, 2, 4 and 6 are done (agreed; the data and its licence statements
+      researched from the publisher's own pages; built, with unit, data and e2e tests each seen red first; looked at on the GPU in
+      screenshots at 1282 and 2020), and steps 3 and 5, an independent check of the research and a second-Opus review, are not.
+      Left over: the ground edits are built and tested but nothing feeds them yet (the Roman fort work, #3, is their first user);
+      the mesh stops at 4m although the data is 2m; WebGPU is untested
 - [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort
 - [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09); a photo layer pinned to where each was taken, with credit and ⓘ, with its credit
 - [ ] Conversations by class in the three slice eras; in-world music and the hunter-gatherer scenes (after their research checks); a GPU terrain shader for smooth scrubbing; the later trains and the Dinefwr, Carreg Cennen and bridge models (Dewi picked all four on 2026-10-09)

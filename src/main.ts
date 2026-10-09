@@ -15,6 +15,7 @@ import { ad, calendarYear, year } from './domain/time.ts';
 import {
   loadBuildings,
   loadHeightfield,
+  loadLidar,
   loadRailways,
   loadRivers,
   loadRoads,
@@ -72,24 +73,24 @@ async function start(): Promise<void> {
   const opening = new OpeningCard(store, showsBegin(params, navigator.webdriver), [app, canvas]);
   document.body.append(opening.el);
 
-  const [{ engine, backend }, heightfield, rivers, woodland, footprints, railways, roads] = await Promise.all(
-    [
+  const [{ engine, backend }, heightfield, rivers, woodland, lidar, footprints, railways, roads] =
+    await Promise.all([
       createEngine(canvas, params.has('webgl')),
       loadHeightfield(),
       loadRivers(),
       loadWoodland(),
+      loadLidar(),
       loadBuildings(),
       loadRailways(),
       loadRoads(),
-    ],
-  );
+    ]);
   const chosen = chooseQuality({
     param: params.get('quality'),
     fx: params.get('fx'),
     stored: storedQuality(),
   });
   console.info(`dewidebug quality start=${chosen.quality} from=${chosen.source}`);
-  const world = new World(engine, heightfield, rivers, woodland, QUALITY[chosen.quality]);
+  const world = new World(engine, heightfield, rivers, woodland, lidar, QUALITY[chosen.quality]);
   const content = WORLD_CONTENT;
   const trainModels = new Map<RollingStock, LoadedModel>();
   const llanelly = await loadModel(
@@ -108,7 +109,13 @@ async function start(): Promise<void> {
   let smokeSources = features.smokeSources([]);
 
   const debug = params.has('debug')
-    ? new DebugOverlay(engine, backend, world.camera, () => world.graphics())
+    ? new DebugOverlay(
+        engine,
+        backend,
+        world.camera,
+        () => world.graphics(),
+        () => world.terrain.detailStats(),
+      )
     : undefined;
   let pending = true;
   let t = Number(params.get('t') ?? Number.NaN);
@@ -463,6 +470,7 @@ async function start(): Promise<void> {
     applyLight();
   };
   apply();
+  world.settleDetail();
 
   engine.runRenderLoop(() => {
     const dt = engine.getDeltaTime();
@@ -494,7 +502,15 @@ async function start(): Promise<void> {
   opening.ready(() => {
     setSound(true);
   });
-  if (debug) Object.assign(window, { llandeiloDebug: { scene: world.scene } });
+  if (debug)
+    Object.assign(window, {
+      llandeiloDebug: {
+        scene: world.scene,
+        detail: () => world.terrain.detailStats(),
+        seam: () => world.terrain.seam(),
+        terrain: world.terrain,
+      },
+    });
   document.body.dataset['ready'] = 'true';
   console.info(`dewidebug app ready backend=${backend}`);
 }

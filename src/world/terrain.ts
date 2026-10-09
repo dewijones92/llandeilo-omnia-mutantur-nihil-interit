@@ -1,18 +1,47 @@
 import { Color3, Mesh, StandardMaterial, VertexBuffer, VertexData, type Scene } from './babylon.ts';
 import Delaunator from 'delaunator';
-import { clamp, smoothstep } from '../domain/assert.ts';
 import { hex, type Rgb } from '../domain/colour.ts';
+import type { SeasonLook } from '../domain/daylight.ts';
 import { heightToWorld, toGrid, WORLD } from '../domain/geo.ts';
 import { sampleHeight, type Heightfield } from '../domain/heightfield.ts';
+import {
+  insideBounds,
+  RIM_SPACING,
+  RimProfile,
+  rimDistance,
+  type DetailGround,
+  type Eye,
+} from '../domain/lidar.ts';
 import type { GridRef } from '../domain/model.ts';
-import { seasonKey, snowCover, type SeasonLook } from '../domain/daylight.ts';
-import { fbm, hash2, rng } from '../domain/noise.ts';
+import { hash2, rng } from '../domain/noise.ts';
+import { carveChannel, RiverIndex } from '../domain/rivers.ts';
+import { applyEdits, checkEdit, editsKey, type GroundEdit } from '../domain/groundedit.ts';
+import { onRim, rimGap, type RimBox, type SeamReport } from '../domain/seam.ts';
 import type { Environment } from '../domain/state.ts';
+import { Surface } from '../domain/surface.ts';
+import { DetailTerrain, type DetailStats } from './detail-terrain.ts';
+import {
+  newScores,
+  paint,
+  paintContext,
+  RankTable,
+  scoreSurface,
+  terrainTriangles,
+  UPLAND_M,
+  COVER_CODE,
+  type Clearing,
+  type LandSurface,
+  type MutableRgb,
+  type RankTables,
+  type TerrainTriangles,
+} from './landcover.ts';
 import type { RiverLine } from '../platform/assets.ts';
 
 const SPACING_M = 105;
-const UPLAND_M = 290;
 const PLINTH_BOTTOM = -70;
+// Base points this close to the rim of the detail region are dropped, so that every rim edge is an
+// edge of the triangulation: the circle on a rim segment as its diameter then holds no other point.
+const RIM_CLEARANCE_M = RIM_SPACING * 0.55;
 
 export const MAIN_RIVERS: Readonly<Record<string, number>> = {
   'Afon Tywi': 42,
@@ -27,32 +56,6 @@ export const MAIN_RIVERS: Readonly<Record<string, number>> = {
   'Afon Dulas': 13,
 };
 
-const PALETTE = {
-  pasture: hex('#8fae6a'),
-  meadow: hex('#86ab66'),
-  meadowWet: hex('#7ea465'),
-  grass: hex('#a3b27a'),
-  scrub: hex('#97aa70'),
-  wood: hex('#5f7f4c'),
-  woodDark: hex('#557446'),
-  moor: hex('#b9ab7c'),
-  heather: hex('#a39487'),
-  uplandGrass: hex('#b3b584'),
-  rock: hex('#9c978d'),
-  tundra: hex('#b8b08e'),
-  snow: hex('#eef1f3'),
-} as const;
-
-const FIELD_COLOURS: readonly Rgb[] = [
-  '#9fb873',
-  '#a9bd7b',
-  '#93b16d',
-  '#a2b674',
-  '#b8b77a',
-  '#9cb56f',
-  '#c2b280',
-].map(hex);
-
 export interface RiverPath {
   readonly name: string;
   readonly width: number;
@@ -60,46 +63,28 @@ export interface RiverPath {
   readonly levels: readonly number[];
 }
 
-export interface TerrainTriangles {
-  readonly count: number;
-  readonly cx: Float32Array;
-  readonly cz: Float32Array;
-  readonly cy: Float32Array;
-  readonly heightM: Float32Array;
-  readonly slope: Float32Array;
-  readonly woodRank: Float32Array;
-  readonly farmRank: Float32Array;
-  readonly moorRank: Float32Array;
-  readonly floodplain: Uint8Array;
-  readonly field: Uint16Array;
-  readonly shade: Float32Array;
-  readonly mapped: Uint8Array;
-  readonly mix: Float32Array;
-  readonly north: Float32Array;
-}
-
-export type LandCover = 'wood' | 'farm' | 'meadow' | 'moor' | 'grass' | 'rock';
-
-export interface Clearing {
-  readonly x: number;
-  readonly z: number;
-  readonly radius: number;
-}
-
+// The one place that answers "how high is the ground here". The base surface is OS Terrain 50; where
+// the LiDAR tiles reach, the LiDAR is eased into it. Everything that stands on the ground asks here.
 export class Terrain {
   readonly mesh: Mesh;
   readonly plinth: Mesh;
   readonly tris: TerrainTriangles;
   readonly rivers: readonly RiverPath[];
   readonly cover: Uint8Array;
+  readonly detail: DetailTerrain;
   private readonly colours: Float32Array;
+  private readonly surface: Surface;
+  private readonly land: LandSurface;
   private lastKey = '';
+  private edits: readonly GroundEdit[] = [];
 
   constructor(
     private readonly scene: Scene,
     private readonly heightfield: Heightfield,
     riverLines: readonly RiverLine[],
     woodland: Uint8Array,
+    private readonly ground: DetailGround,
+    onDetailMesh: (mesh: Mesh, added: boolean) => void,
   ) {
     const started = performance.now();
     if (woodland.length !== heightfield.meta.width * heightfield.meta.height) {
@@ -107,19 +92,24 @@ export class Terrain {
         `woodland.bin has ${woodland.length} cells, expected ${heightfield.meta.width * heightfield.meta.height}`,
       );
     }
-    this.rivers = buildRiverPaths(heightfield, riverLines);
-    const { positions, tris } = triangulate(heightfield, this.rivers, woodland);
+    this.rivers = buildRiverPaths((g) => this.groundMetres(g), riverLines);
+    const land: LandSurface = {
+      heightfield,
+      woodland,
+      rivers: new RiverIndex(this.rivers),
+    };
+    this.land = land;
+    const rim = new RimProfile(ground.manifest.region, RIM_SPACING, (g) => sampleHeight(heightfield, g));
+    const { positions, tris, visible, ranks } = triangulate(land, this.rivers, ground, rim);
     this.tris = tris;
     this.cover = new Uint8Array(tris.count);
     this.colours = new Float32Array(tris.count * 12);
     this.mesh = new Mesh('terrain', scene);
     const data = new VertexData();
     data.positions = positions;
-    const indices = new Uint32Array(tris.count * 3);
-    for (let i = 0; i < indices.length; i++) indices[i] = i;
-    data.indices = indices;
+    data.indices = visible;
     const normals = new Float32Array(positions.length);
-    VertexData.ComputeNormals(positions, indices, normals);
+    VertexData.ComputeNormals(positions, visible, normals);
     data.normals = normals;
     data.colors = this.colours;
     data.applyToMesh(this.mesh, true);
@@ -131,46 +121,132 @@ export class Terrain {
     this.mesh.receiveShadows = true;
     this.mesh.isPickable = true;
     this.plinth = buildPlinth(scene, heightfield);
+    this.surface = new Surface(visibleCorners(positions, visible));
+    this.detail = new DetailTerrain({
+      scene,
+      ground,
+      material: mat,
+      baseMetres: (g) => sampleHeight(heightfield, g),
+      metresAt: (g) => this.metresAt(g),
+      shape: (g, metres) => this.shape(g, metres),
+      rim,
+      land,
+      ranks,
+      onMesh: onDetailMesh,
+    });
     console.info(
-      `dewidebug terrain mesh tris=${tris.count} rivers=${this.rivers.length} built in ${Math.round(performance.now() - started)}ms`,
+      `dewidebug terrain mesh tris=${tris.count} drawn=${visible.length / 3} (rest lie under the LiDAR) rivers=${this.rivers.length} built in ${Math.round(performance.now() - started)}ms`,
+    );
+  }
+
+  private groundMetres(g: GridRef): number {
+    return this.ground.metresAt(g, sampleHeight(this.heightfield, g));
+  }
+
+  // Where the LiDAR reaches, the river channels are cut into the ground and the period's ground edits
+  // laid over it, so the drawn surface and everything standing on it agree.
+  private shape(g: GridRef, metres: number): number {
+    if (!this.ground.contains(g)) return metres;
+    const w = this.ground.weightAt(g);
+    const channel = w > 0 ? this.land.rivers.channelAt(g.e, g.n) : undefined;
+    const carved = channel ? carveChannel(metres, channel, w) : metres;
+    return applyEdits(carved, g, this.edits);
+  }
+
+  metresAt(g: GridRef): number {
+    return this.shape(g, this.groundMetres(g));
+  }
+
+  setGroundEdits(edits: readonly GroundEdit[]): void {
+    if (editsKey(edits) === editsKey(this.edits)) return;
+    for (const e of edits) checkEdit(e, this.ground.manifest.region, this.ground.manifest.blendMetres);
+    const touched = [...this.edits, ...edits].map((e) => e.area);
+    this.edits = edits;
+    this.detail.invalidate(touched);
+    console.info(
+      `dewidebug terrain ground edits now [${editsKey(edits)}] touching ${String(touched.length)} areas`,
     );
   }
 
   heightAt(g: GridRef): number {
-    return heightToWorld(sampleHeight(this.heightfield, g));
+    return heightToWorld(this.metresAt(g));
   }
 
   heightMetres(g: GridRef): number {
-    return sampleHeight(this.heightfield, g);
+    return this.metresAt(g);
+  }
+
+  // The height of the drawn surface at world (x, z): the base mesh's own triangles outside the
+  // LiDAR region, the LiDAR ground inside it.
+  surfaceAt(x: number, z: number): number {
+    if (this.inDetail(x, z)) return this.heightAt(toGrid({ x, z }));
+    return this.surface.heightAt(x, z) ?? this.heightAt(toGrid({ x, z }));
+  }
+
+  // The land cover code under a tree at world (x, z) that stands on base triangle `tri`: the detail
+  // block's inside the LiDAR region, so trees stand on what the ground there is drawn as.
+  coverAt(x: number, z: number, tri: number): number {
+    if (this.inDetail(x, z)) {
+      const g = toGrid({ x, z });
+      const block = this.detail.coverAt(g.e, g.n);
+      if (block !== undefined) return block;
+    }
+    return this.cover[tri] ?? 0;
+  }
+
+  inDetail(x: number, z: number): boolean {
+    return insideBounds(this.ground.manifest.region, toGrid({ x, z }));
+  }
+
+  // How well the drawn LiDAR tiles meet the coarse terrain along the rim of the detail region.
+  seam(): SeamReport {
+    const region = this.ground.manifest.region;
+    const mpu = WORLD.metresPerUnit;
+    const box: RimBox = {
+      xMin: (region.eMin - WORLD.centre.e) / mpu,
+      xMax: (region.eMax - WORLD.centre.e) / mpu,
+      zMin: (region.nMin - WORLD.centre.n) / mpu,
+      zMax: (region.nMax - WORLD.centre.n) / mpu,
+    };
+    const positions = this.mesh.getVerticesData(VertexBuffer.PositionKind);
+    const indices = this.mesh.getIndices();
+    const base: number[] = [];
+    if (positions && indices) {
+      for (const v of indices) {
+        const x = positions[v * 3] ?? 0;
+        const z = positions[v * 3 + 2] ?? 0;
+        if (onRim(box, x, z)) base.push(x, positions[v * 3 + 1] ?? 0, z);
+      }
+    }
+    const report = rimGap(box, base, this.detail.rimVertices(box));
+    console.info(
+      `dewidebug terrain seam base=${String(report.baseVertices)} detail=${String(report.detailVertices)} maxGap=${report.maxGap.toFixed(4)} unmatched=${String(report.unmatched)}`,
+    );
+    return report;
+  }
+
+  updateDetail(eye: Eye, budgetMs: number): void {
+    this.detail.update(eye, budgetMs);
+  }
+
+  get detailBuilds(): number {
+    return this.detail.built;
+  }
+
+  detailStats(): DetailStats {
+    return this.detail.stats();
   }
 
   applyEnvironment(raw: Environment, look: SeasonLook, clearings: readonly Clearing[] = []): boolean {
-    const env = quantise(raw);
-    const key = `${seasonKey(look)}|${env.forest}|${env.farmland}|${env.moor}|${env.mappedWoodland}|${clearings.map((c) => `${Math.round(c.x)},${Math.round(c.z)},${Math.round(c.radius)}`).join(';')}`;
-    if (key === this.lastKey) return false;
-    this.lastKey = key;
+    const ctx = paintContext(raw, look, clearings);
+    if (ctx.key === this.lastKey) return false;
+    this.lastKey = ctx.key;
     const started = performance.now();
     const t = this.tris;
     const c = this.colours;
-    const farmShare = env.farmland / Math.max(0.0001, 1 - env.forest);
-    const cold = 1 - smoothstep(0.04, 0.2, env.forest);
-    const col = { r: 0, g: 0, b: 0 };
+    const col: MutableRgb = { r: 0, g: 0, b: 0 };
     for (let i = 0; i < t.count; i++) {
-      let cover = classify(t, i, env, farmShare);
-      if (cover === 'wood' && clearings.length > 0) {
-        const cx = t.cx[i] ?? 0;
-        const cz = t.cz[i] ?? 0;
-        for (const cl of clearings) {
-          const d = Math.hypot(cx - cl.x, cz - cl.z);
-          if (d < cl.radius * (0.75 + (t.mix[i] ?? 0) * 0.5)) {
-            cover = (t.heightM[i] ?? 0) >= UPLAND_M ? 'grass' : 'farm';
-            break;
-          }
-        }
-      }
-      this.cover[i] = COVER_CODE[cover];
-      colourInto(col, t, i, cover, env, cold);
-      seasonInto(col, t, i, cover, look);
+      this.cover[i] = COVER_CODE[paint(t, i, ctx, col)];
       const o = i * 12;
       for (let v = 0; v < 3; v++) {
         c[o + v * 4] = col.r;
@@ -182,158 +258,22 @@ export class Terrain {
     const computed = performance.now();
     this.mesh.updateVerticesData(VertexBuffer.ColorKind, c);
     const done = performance.now();
+    this.detail.setPaint(ctx);
     console.info(
-      `dewidebug terrain recolour key=${key.slice(0, 40)} tris=${String(t.count)} compute=${Math.round(computed - started)}ms upload=${Math.round(done - computed)}ms`,
+      `dewidebug terrain recolour key=${ctx.key.slice(0, 40)} tris=${String(t.count)} compute=${Math.round(computed - started)}ms upload=${Math.round(done - computed)}ms`,
     );
     return true;
   }
 
   dispose(): void {
+    this.detail.dispose();
     this.mesh.dispose();
     this.plinth.dispose();
     this.scene.getMaterialByName('terrain-mat')?.dispose();
   }
 }
 
-export const COVER_CODE: Readonly<Record<LandCover, number>> = {
-  wood: 1,
-  farm: 2,
-  meadow: 3,
-  moor: 4,
-  grass: 5,
-  rock: 6,
-};
-
-function classify(t: TerrainTriangles, i: number, env: Environment, farmShare: number): LandCover {
-  const slope = t.slope[i] ?? 0;
-  const h = t.heightM[i] ?? 0;
-  if (slope > 0.62) return 'rock';
-  const useMap = (t.mix[i] ?? 1) < env.mappedWoodland;
-  const wood = useMap ? ((t.mapped[i] ?? 0) === 1 ? 1 : 0) : (t.woodRank[i] ?? 0);
-  if (useMap && wood === 1) return 'wood';
-  if (h >= UPLAND_M) {
-    const treeLine = UPLAND_M + (h > 520 ? 0 : 230) * env.forest;
-    if (!useMap && h < treeLine && wood > 1 - env.forest * 0.85) return 'wood';
-    if ((t.moorRank[i] ?? 0) > 1 - env.moor) return 'moor';
-    return 'grass';
-  }
-  if ((t.floodplain[i] ?? 0) === 1 && env.forest < 0.75) return 'meadow';
-  if (!useMap && wood > 1 - env.forest) return 'wood';
-  if ((t.farmRank[i] ?? 0) > 1 - farmShare) return 'farm';
-  return 'grass';
-}
-
-const STEPS = 48;
-
-function q(v: number): number {
-  return Math.round(v * STEPS) / STEPS;
-}
-
-function quantise(env: Environment): Environment {
-  return {
-    ...env,
-    forest: q(env.forest),
-    farmland: q(env.farmland),
-    moor: q(env.moor),
-    mappedWoodland: q(env.mappedWoodland),
-  };
-}
-
-interface MutableRgb {
-  r: number;
-  g: number;
-  b: number;
-}
-
-function set(out: MutableRgb, c: Rgb): void {
-  out.r = c.r;
-  out.g = c.g;
-  out.b = c.b;
-}
-
-function blend(out: MutableRgb, c: Rgb, t: number): void {
-  out.r += (c.r - out.r) * t;
-  out.g += (c.g - out.g) * t;
-  out.b += (c.b - out.b) * t;
-}
-
-function colourInto(
-  out: MutableRgb,
-  t: TerrainTriangles,
-  i: number,
-  cover: LandCover,
-  env: Environment,
-  cold: number,
-): void {
-  const shade = t.shade[i] ?? 1;
-  const h = t.heightM[i] ?? 0;
-  switch (cover) {
-    case 'rock':
-      set(out, PALETTE.rock);
-      break;
-    case 'wood':
-      set(out, PALETTE.wood);
-      blend(out, PALETTE.woodDark, (t.woodRank[i] ?? 0) * 0.8);
-      break;
-    case 'farm':
-      set(out, FIELD_COLOURS[(t.field[i] ?? 0) % FIELD_COLOURS.length] ?? PALETTE.pasture);
-      blend(out, PALETTE.pasture, 0.25);
-      break;
-    case 'meadow':
-      set(out, PALETTE.meadow);
-      blend(out, PALETTE.meadowWet, shade - 0.975);
-      break;
-    case 'moor':
-      set(out, PALETTE.moor);
-      blend(out, PALETTE.heather, smoothstep(0.4, 0.8, t.moorRank[i] ?? 0) * 0.5);
-      blend(out, PALETTE.tundra, cold);
-      break;
-    case 'grass':
-      set(out, PALETTE.grass);
-      blend(out, PALETTE.scrub, 1 - env.farmland);
-      blend(out, PALETTE.uplandGrass, smoothstep(UPLAND_M - 60, UPLAND_M + 120, h));
-      blend(out, PALETTE.tundra, cold * 0.85);
-      break;
-  }
-  out.r *= shade;
-  out.g *= shade;
-  out.b *= shade;
-}
-
-function seasonInto(
-  out: MutableRgb,
-  t: TerrainTriangles,
-  i: number,
-  cover: LandCover,
-  look: SeasonLook,
-): void {
-  const shade = t.shade[i] ?? 1;
-  const tint = (c: Rgb, amount: number): void => {
-    blend(out, { r: c.r * shade, g: c.g * shade, b: c.b * shade }, amount);
-  };
-  switch (cover) {
-    case 'wood':
-      tint(look.woodFloor, look.woodFloorAmount);
-      break;
-    case 'farm':
-      tint(look.grass, look.grassAmount * 0.7);
-      if (((t.field[i] ?? 0) % 97) / 97 < look.fieldShare) tint(look.fields, 0.55);
-      break;
-    case 'meadow':
-    case 'grass':
-      tint(look.grass, look.grassAmount);
-      break;
-    case 'moor':
-      tint(look.moor, look.moorAmount);
-      break;
-    case 'rock':
-      break;
-  }
-  const snow = snowCover(look, t.heightM[i] ?? 0, t.north[i] ?? 0, t.mix[i] ?? 0.5);
-  if (snow > 0) blend(out, PALETTE.snow, snow * (cover === 'wood' ? 0.6 : 1));
-}
-
-function buildRiverPaths(hf: Heightfield, lines: readonly RiverLine[]): RiverPath[] {
+function buildRiverPaths(metresAt: (g: GridRef) => number, lines: readonly RiverLine[]): RiverPath[] {
   const out: RiverPath[] = [];
   for (const line of lines) {
     const width = line.name ? MAIN_RIVERS[line.name] : undefined;
@@ -342,7 +282,7 @@ function buildRiverPaths(hf: Heightfield, lines: readonly RiverLine[]): RiverPat
       (p) => Math.hypot(p.e - WORLD.centre.e, p.n - WORLD.centre.n) < WORLD.radiusMetres - 60,
     );
     if (pts.length < 2) continue;
-    const raw = pts.map((p) => lowestNear(hf, p, width * 0.6 + 40));
+    const raw = pts.map((p) => lowestNear(metresAt, p, width * 0.6 + 40));
     const levels = raw.map((_, i) => {
       let min = Infinity;
       for (let k = Math.max(0, i - 3); k <= Math.min(raw.length - 1, i + 3); k++)
@@ -369,11 +309,11 @@ function densify(points: readonly GridRef[], step: number): GridRef[] {
   return out;
 }
 
-function lowestNear(hf: Heightfield, p: GridRef, r: number): number {
-  let min = sampleHeight(hf, p);
+function lowestNear(metresAt: (g: GridRef) => number, p: GridRef, r: number): number {
+  let min = metresAt(p);
   for (let a = 0; a < 8; a++) {
     const ang = (a / 8) * Math.PI * 2;
-    min = Math.min(min, sampleHeight(hf, { e: p.e + Math.cos(ang) * r, n: p.n + Math.sin(ang) * r }));
+    min = Math.min(min, metresAt({ e: p.e + Math.cos(ang) * r, n: p.n + Math.sin(ang) * r }));
   }
   return min;
 }
@@ -386,16 +326,18 @@ interface Pt {
 }
 
 function triangulate(
-  hf: Heightfield,
+  land: LandSurface,
   rivers: readonly RiverPath[],
-  woodland: Uint8Array,
-): { positions: Float32Array; tris: TerrainTriangles } {
+  ground: DetailGround,
+  rim: RimProfile,
+): { positions: Float32Array; tris: TerrainTriangles; visible: Uint32Array; ranks: RankTables } {
+  const hf = land.heightfield;
+  const region = ground.manifest.region;
   const R = WORLD.radiusMetres;
   const pts: Pt[] = [];
   const random = rng(1282);
   const cell = SPACING_M;
-  const riverGrid = new Map<string, number>();
-  const key = (e: number, n: number): string => `${Math.floor(e / 200)},${Math.floor(n / 200)}`;
+  const nearRim = (e: number, n: number): boolean => rimDistance(region, { e, n }) < RIM_CLEARANCE_M;
 
   for (const river of rivers) {
     for (let i = 0; i < river.points.length; i += 1) {
@@ -414,35 +356,12 @@ function triangulate(
         for (const side of [-1, 1]) {
           const e = p.e + nx * half * side;
           const n = p.n + nn * half * side;
+          if (nearRim(e, n)) continue;
           pts.push({ x: e, z: n, hM: level + 0.4, river: true });
         }
       }
-      const k = key(p.e, p.n);
-      riverGrid.set(k, Math.max(riverGrid.get(k) ?? 0, river.width));
     }
   }
-
-  const nearRiver = (e: number, n: number): boolean => {
-    for (let dx = -1; dx <= 1; dx++) {
-      for (let dz = -1; dz <= 1; dz++) {
-        if (riverGrid.has(`${Math.floor(e / 200) + dx},${Math.floor(n / 200) + dz}`)) return true;
-      }
-    }
-    return false;
-  };
-  const riverDistance = (e: number, n: number, limit: number): number => {
-    let best = Infinity;
-    for (const river of rivers) {
-      for (let i = 0; i < river.points.length; i += 2) {
-        const p = river.points[i];
-        if (!p) continue;
-        const d = Math.hypot(p.e - e, p.n - n) - river.width / 2;
-        if (d < best) best = d;
-        if (best < limit * 0.1) return best;
-      }
-    }
-    return best;
-  };
 
   for (let gz = -R; gz <= R; gz += cell) {
     for (let gx = -R; gx <= R; gx += cell) {
@@ -451,7 +370,8 @@ function triangulate(
       if (x * x + z * z > (R - cell * 0.5) ** 2) continue;
       const e = WORLD.centre.e + x;
       const n = WORLD.centre.n + z;
-      if (nearRiver(e, n) && riverDistance(e, n, 200) < cell * 0.55) continue;
+      if (land.rivers.near(e, n) && land.rivers.distance(e, n, 200) < cell * 0.55) continue;
+      if (nearRim(e, n)) continue;
       pts.push({ x: e, z: n, hM: sampleHeight(hf, { e, n }), river: false });
     }
   }
@@ -462,6 +382,7 @@ function triangulate(
     const n = WORLD.centre.n + Math.sin(a) * R;
     pts.push({ x: e, z: n, hM: sampleHeight(hf, { e, n }), river: false });
   }
+  for (const p of rim.points) pts.push({ x: p.e, z: p.n, hM: sampleHeight(hf, p), river: false });
 
   const coords = new Float64Array(pts.length * 2);
   pts.forEach((p, i) => {
@@ -472,28 +393,14 @@ function triangulate(
   const triIdx = del.triangles;
   const count = triIdx.length / 3;
   const positions = new Float32Array(count * 9);
-  const tris: TerrainTriangles = {
-    count,
-    cx: new Float32Array(count),
-    cz: new Float32Array(count),
-    cy: new Float32Array(count),
-    heightM: new Float32Array(count),
-    slope: new Float32Array(count),
-    woodRank: new Float32Array(count),
-    farmRank: new Float32Array(count),
-    moorRank: new Float32Array(count),
-    floodplain: new Uint8Array(count),
-    field: new Uint16Array(count),
-    shade: new Float32Array(count),
-    mapped: new Uint8Array(count),
-    mix: new Float32Array(count),
-    north: new Float32Array(count),
-  };
+  const tris = terrainTriangles(count);
   const woodScore = new Float32Array(count);
   const farmScore = new Float32Array(count);
   const moorScore = new Float32Array(count);
   const lowland: number[] = [];
   const upland: number[] = [];
+  const drawn: number[] = [];
+  const scores = newScores();
 
   for (let t = 0; t < count; t++) {
     const ia = triIdx[t * 3] ?? 0;
@@ -518,6 +425,7 @@ function triangulate(
     const ex = (A.x + B.x + C.x) / 3;
     const ez = (A.z + B.z + C.z) / 3;
     const hM = (A.hM + B.hM + C.hM) / 3;
+    if (!insideBounds(region, { e: ex, n: ez })) drawn.push(t * 3, t * 3 + 1, t * 3 + 2);
     tris.cx[t] = (ex - WORLD.centre.e) / WORLD.metresPerUnit;
     tris.cz[t] = (ez - WORLD.centre.n) / WORLD.metresPerUnit;
     tris.cy[t] = sy / 3;
@@ -535,31 +443,30 @@ function triangulate(
     const slope = 1 - Math.abs(ny / nl);
     tris.slope[t] = slope;
     tris.north[t] = (ny < 0 ? -nz : nz) / nl;
-    const riverSide = A.river || B.river || C.river;
-    const large = fbm(ex / 2600, ez / 2600, 4, 7);
-    const medium = fbm(ex / 700, ez / 700, 3, 11);
-    const jitter = hash2(Math.round(ex), Math.round(ez), 3);
-    tris.shade[t] = 0.975 + jitter * 0.05;
-    const col = Math.floor((ex - hf.meta.originEasting) / hf.meta.cellSize);
-    const row = Math.floor((hf.meta.originNorthing - ez) / hf.meta.cellSize);
-    tris.mapped[t] = woodland[row * hf.meta.width + col] ?? 0;
-    tris.mix[t] = fbm(ex / 1800, ez / 1800, 3, 29) * 0.85 + jitter * 0.15;
-    woodScore[t] = large * 0.55 + medium * 0.2 + smoothstep(0.05, 0.35, slope) * 0.35 + jitter * 0.05;
-    const flat = 1 - smoothstep(0.03, 0.25, slope);
-    farmScore[t] = flat * 0.45 + (1 - clamp(hM / UPLAND_M, 0, 1)) * 0.3 + medium * 0.25;
-    moorScore[t] = clamp((hM - UPLAND_M) / 300, 0, 1) * 0.6 + large * 0.4;
-    const nearTywi = riverSide || (nearRiver(ex, ez) && riverDistance(ex, ez, 300) < 260);
-    tris.floodplain[t] = nearTywi && slope < 0.12 && hM < 120 ? 1 : 0;
-    const fx = Math.floor(ex / 420 + fbm(ex / 1400, ez / 1400, 2, 5) * 1.4);
-    const fz = Math.floor(ez / 330 + fbm(ez / 1400, ex / 1400, 2, 9) * 1.4);
-    tris.field[t] = Math.floor(hash2(fx, fz, 21) * 997);
+    scoreSurface(land, ex, ez, hM, slope, A.river || B.river || C.river, scores);
+    tris.shade[t] = scores.shade;
+    tris.mapped[t] = scores.mapped;
+    tris.mix[t] = scores.mix;
+    tris.floodplain[t] = scores.floodplain;
+    tris.field[t] = scores.field;
+    woodScore[t] = scores.woodScore;
+    farmScore[t] = scores.farmScore;
+    moorScore[t] = scores.moorScore;
     (hM < UPLAND_M ? lowland : upland).push(t);
   }
   rank(lowland, woodScore, tris.woodRank);
   rank(upland, woodScore, tris.woodRank);
   rank(lowland, farmScore, tris.farmRank);
   rank(upland, moorScore, tris.moorRank);
-  return { positions, tris };
+  const pick = (ids: readonly number[], score: Float32Array): RankTable =>
+    new RankTable(ids.map((id) => score[id] ?? 0));
+  const ranks: RankTables = {
+    lowWood: pick(lowland, woodScore),
+    highWood: pick(upland, woodScore),
+    lowFarm: pick(lowland, farmScore),
+    highMoor: pick(upland, moorScore),
+  };
+  return { positions, tris, visible: Uint32Array.from(drawn), ranks };
 }
 
 function rank(ids: readonly number[], score: Float32Array, out: Float32Array): void {
@@ -568,6 +475,18 @@ function rank(ids: readonly number[], score: Float32Array, out: Float32Array): v
   sorted.forEach((id, i) => {
     out[id] = i / n;
   });
+}
+
+// The corners of just the triangles that are drawn, three vertices each, for the surface lookup.
+function visibleCorners(positions: Float32Array, visible: Uint32Array): Float32Array {
+  const out = new Float32Array(visible.length * 3);
+  for (let i = 0; i < visible.length; i++) {
+    const v = (visible[i] ?? 0) * 3;
+    out[i * 3] = positions[v] ?? 0;
+    out[i * 3 + 1] = positions[v + 1] ?? 0;
+    out[i * 3 + 2] = positions[v + 2] ?? 0;
+  }
+  return out;
 }
 
 function buildPlinth(scene: Scene, hf: Heightfield): Mesh {

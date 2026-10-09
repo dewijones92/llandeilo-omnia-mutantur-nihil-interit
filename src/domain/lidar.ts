@@ -41,10 +41,10 @@ export interface Eye {
   readonly height: number;
 }
 
-export const LOD_STEPS: readonly number[] = [2, 4, 10, 20];
+export const LOD_STEPS: readonly number[] = [4, 10, 20];
 export const RIM_SPACING = 40;
 
-const BAND_EDGES: readonly number[] = [300, 700, 1800];
+const BAND_EDGES: readonly number[] = [320, 850];
 const HYSTERESIS = 0.15;
 const RIM_EPSILON = 1e-6;
 
@@ -101,6 +101,14 @@ export function insideBounds(b: Bounds, g: GridRef): boolean {
 export function rimWeight(g: GridRef, region: Bounds, margin: number): number {
   const inside = Math.min(g.e - region.eMin, region.eMax - g.e, g.n - region.nMin, region.nMax - g.n);
   return smoothstep(0, margin, inside);
+}
+
+// How far a point is from the rim, on whichever side it lies.
+export function rimDistance(region: Bounds, g: GridRef): number {
+  const dx = Math.max(region.eMin - g.e, 0, g.e - region.eMax);
+  const dn = Math.max(region.nMin - g.n, 0, g.n - region.nMax);
+  if (dx > 0 || dn > 0) return Math.hypot(dx, dn);
+  return Math.min(g.e - region.eMin, region.eMax - g.e, g.n - region.nMin, region.nMax - g.n);
 }
 
 type Edge = 'south' | 'east' | 'north' | 'west';
@@ -213,6 +221,53 @@ export class DetailGround {
       tileKey(Math.floor(e / tileSize) * tileSize, Math.floor(n / tileSize) * tileSize),
     );
     return field ? sampleHeight(field, g) : undefined;
+  }
+
+  // Heights in metres of the (tileSize / step + 1) squared vertices of a tile, row by row from the
+  // north-west corner. On the rim they take the rim profile; inside it they ease from the base
+  // surface to the LiDAR; deeper in they are the LiDAR itself. `shape` then adjusts every vertex off
+  // the rim (a carved river channel, a period's earthworks).
+  tileHeights(
+    tile: LidarTileInfo,
+    step: number,
+    baseAt: (g: GridRef) => number,
+    rim: RimProfile,
+    shape?: (g: GridRef, metres: number) => number,
+  ): Float32Array {
+    const { tileSize: size, heightScale, blendMetres, region } = this.manifest;
+    const stride = step / tile.step;
+    if (!Number.isInteger(stride) || stride < 1 || size % step !== 0)
+      throw new Error(`tile ${tileKey(tile.e, tile.n)} has no data for a step of ${String(step)}m`);
+    const field = this.fields.get(tileKey(tile.e, tile.n));
+    if (!field) throw new Error(`no data for tile ${tileKey(tile.e, tile.n)}`);
+    const side = size / step + 1;
+    const stored = size / tile.step + 1;
+    const deep =
+      Math.min(
+        tile.e - region.eMin,
+        region.eMax - tile.e - size,
+        tile.n - region.nMin,
+        region.nMax - tile.n - size,
+      ) >= blendMetres;
+    const out = new Float32Array(side * side);
+    for (let i = 0; i < side; i++) {
+      for (let j = 0; j < side; j++) {
+        const lidar = (field.data[i * stride * stored + j * stride] ?? 0) * heightScale;
+        if (deep && !shape) {
+          out[i * side + j] = lidar;
+          continue;
+        }
+        const g = { e: tile.e + j * step, n: tile.n + size - i * step };
+        const onRim = deep ? undefined : rim.heightAt(g);
+        if (onRim !== undefined) {
+          out[i * side + j] = onRim;
+          continue;
+        }
+        const eased = deep ? lidar : lerp(baseAt(g), lidar, this.weightAt(g));
+        out[i * side + j] = shape ? shape(g, eased) : eased;
+      }
+    }
+    return out;
   }
 
   metresAt(g: GridRef, baseMetres: number): number {

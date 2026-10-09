@@ -887,12 +887,13 @@
  "source": {
   "product": "Welsh Government LiDAR tile catalogue 2020-2023, 1m DTM (bare earth)",
   "publisher": "Welsh Government, via DataMapWales (https://datamap.gov.wales/)",
-  "credit": "Contains Welsh Government data (LiDAR 2020-2022, DataMapWales). Licence stated on the DataMapWales download page: Open Government Licence v3.0.",
+  "credit": "Contains Welsh Government data (LiDAR 1m DTM from the 2020-22 national survey, these tiles dated 01/12/2021 to 22/02/2022 in their file names), via DataMapWales. Licence stated on the DataMapWales download page: Open Government Licence v3.0.",
   "tiles": [
    {
     "grid": "SN6023",
     "file": "wg_del_18_260223_20211201dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20211201",
     "bytes": 1972073,
     "sha256": "d48feebbb002a0dec78a016c80e506c6c9fe6cf6a4036ec2577c41327f826c30"
    },
@@ -900,6 +901,7 @@
     "grid": "SN6024",
     "file": "wg_del_18_260224_20211201dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20211201",
     "bytes": 2201209,
     "sha256": "61d61d789752c09ef27c30c3d74f892aa3d0304be0f3fd503b63ffa23191f2a1"
    },
@@ -907,6 +909,7 @@
     "grid": "SN6123",
     "file": "wg_del_18_261223_20211201dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20211201",
     "bytes": 1920190,
     "sha256": "cd2ef70d2812c12455544551add1b01d2dd62915d295b42a141459a384ee7c3e"
    },
@@ -914,6 +917,7 @@
     "grid": "SN6124",
     "file": "wg_del_18_261224_20211201dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20211201",
     "bytes": 2268703,
     "sha256": "da2fdf0b4f439d09324c2f327d94fa6e644aec0113f570da14715994bfe03e0d"
    },
@@ -921,6 +925,7 @@
     "grid": "SN6223",
     "file": "wg_del_18_262223_20211201dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20211201",
     "bytes": 1956957,
     "sha256": "871812e055dd9c5d60d627cb09a9016e9d3737b418e080e959831388498c63d5"
    },
@@ -928,6 +933,7 @@
     "grid": "SN6224",
     "file": "wg_del_18_262224_20211201dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20211201",
     "bytes": 2289527,
     "sha256": "5a4eeb5b971d9d8fea8bc5466ca2742c36118502bb7db7cb588699b39e2fd0c7"
    },
@@ -935,6 +941,7 @@
     "grid": "SN6323",
     "file": "wg_del_18_263223_20211201dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20211201",
     "bytes": 1701304,
     "sha256": "daa6948ffb84377aee0af3a7cd5ff5caa28b4458435c36a2cafffaa3287cc16d"
    },
@@ -942,6 +949,7 @@
     "grid": "SN6324",
     "file": "wg_del_18_263224_20211201dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20211201",
     "bytes": 2074011,
     "sha256": "4170a02789cdcb55010556a1f3630840289910c317b686c83080eedfa39c1e0e"
    },
@@ -949,6 +957,7 @@
     "grid": "SN6423",
     "file": "wg_del_18_264223_20211201dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20211201",
     "bytes": 1462248,
     "sha256": "af0f368edc4c2efdf927e187910aac71b23ad0b53ccd8ef58455606eba885bcf"
    },
@@ -956,6 +965,7 @@
     "grid": "SN6424",
     "file": "wg_del_18_264224_20211201dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20211201",
     "bytes": 1680417,
     "sha256": "c76649d0b9020b51afeaa53fafcbad1ff61b53c28dce28fc1a69fb287910c239"
    },
@@ -963,6 +973,7 @@
     "grid": "SN6422",
     "file": "wg_del_20_264222_20220112dtm.tif",
     "surveyDate": "02-12-2021",
+    "fileDate": "20220112",
     "bytes": 2291325,
     "sha256": "f00d0257071326208e116e99729cd8f5e8a5278e10c7931770865f461442b0d6"
    },
@@ -970,6 +981,7 @@
     "grid": "SN6320",
     "file": "wg_del_21_263220_20220113dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
     "bytes": 2389424,
     "sha256": "1463b8d606e8709f02e8c548f94e29bd08a34646bf461e2ef369459971851178"
    },
@@ -977,6 +989,7 @@
     "grid": "SN6420",
     "file": "wg_del_21_264220_20220113dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
     "bytes": 2359013,
     "sha256": "3c0b505ed8e14952a76a2a1c5c2bca18ef332ec8cc32187b0e53adeed8fd8b7e"
    },
@@ -984,6 +997,7 @@
     "grid": "SN6421",
     "file": "wg_del_21_264221_20220113dtm.tif",
     "surveyDate": "12-01-2022",
+    "fileDate": "20220113",
     "bytes": 2346608,
     "sha256": "a7e15b127cb3d7c80a296dcebe968db53d807566f3a688f86d495b304068ceb3"
    },
@@ -991,6 +1005,7 @@
     "grid": "SN6020",
     "file": "wg_del_26_260220_20220113dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
     "bytes": 1935484,
     "sha256": "d9fca8e10eeefee673f5b3a538c0ca7c9bd60bcbbbf7ddd2a511c273f90b2aeb"
    },
@@ -998,6 +1013,7 @@
     "grid": "SN6021",
     "file": "wg_del_26_260221_20220113dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
     "bytes": 1539760,
     "sha256": "6b3492b1222fc317429edf5f5b87311fb73774197840c60880e3101dda78a0a6"
    },
@@ -1005,6 +1021,7 @@
     "grid": "SN6022",
     "file": "wg_del_26_260222_20220222dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220222",
     "bytes": 1957890,
     "sha256": "5b922d007de49f8817f821e78265d73123954f957162c32c33bd8277b146d31e"
    },
@@ -1012,6 +1029,7 @@
     "grid": "SN6120",
     "file": "wg_del_26_261220_20220113dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
     "bytes": 2070472,
     "sha256": "5d28b51cc1e646eca61cd20b9aafaf78af0b1f2e43289991a1c379d525678027"
    },
@@ -1019,6 +1037,7 @@
     "grid": "SN6121",
     "file": "wg_del_26_261221_20220113dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
     "bytes": 1716486,
     "sha256": "86eabc79b4f7a4fef67d05f95284cad5eed9949154a657ec283b6d2ceef3161a"
    },
@@ -1026,6 +1045,7 @@
     "grid": "SN6122",
     "file": "wg_del_26_261222_20220222dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220222",
     "bytes": 2101230,
     "sha256": "bd0b11feaedf1a908a2a1deba4234639041548c2f2f9df95f9de815c559ccbc2"
    },
@@ -1033,6 +1053,7 @@
     "grid": "SN6220",
     "file": "wg_del_26_262220_20220113dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
     "bytes": 2201035,
     "sha256": "32a1bf558d02053dfbad544e0266cf474efe54231ce9a48416f9ecda4ec4678e"
    },
@@ -1040,6 +1061,7 @@
     "grid": "SN6221",
     "file": "wg_del_26_262221_20220113dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
     "bytes": 1614740,
     "sha256": "814325972f1741cbe06f1f6ba3cc88dc8ac4100432c3a206f2e516e9720073d8"
    },
@@ -1047,6 +1069,7 @@
     "grid": "SN6222",
     "file": "wg_del_26_262222_20220222dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220222",
     "bytes": 1964338,
     "sha256": "974051baa32ea64ee8feff7c6c1782cd989d49c61afc1c3fb203edcdd1227a2b"
    },
@@ -1054,6 +1077,7 @@
     "grid": "SN6321",
     "file": "wg_del_26_263221_20220113dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
     "bytes": 1944677,
     "sha256": "74b3e42ba13f45c528d2c1e601282247cd6f123d0f79a0ebf6e9cf53b843dde0"
    },
@@ -1061,6 +1085,7 @@
     "grid": "SN6322",
     "file": "wg_del_26_263222_20220222dtm.tif",
     "surveyDate": "13-01-2022",
+    "fileDate": "20220222",
     "bytes": 1841507,
     "sha256": "3714fdacc2945cb3b15f4eb8d6252becd3de90a22e3f755a112f5dc148d434d9"
    }

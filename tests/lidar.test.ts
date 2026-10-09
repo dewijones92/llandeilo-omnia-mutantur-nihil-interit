@@ -138,6 +138,21 @@ describe('the LiDAR against OS Terrain 50', () => {
     expect(Math.abs(signed / count)).toBeLessThan(0.6);
   });
 
+  it('agrees tile by tile, so one tile transposed or shifted shows (unless the ground is nearly symmetric)', () => {
+    const size = manifest.tileSize;
+    for (const t of manifest.tiles) {
+      let total = 0;
+      let count = 0;
+      for (let e = t.e + 25; e < t.e + size; e += 50) {
+        for (let n = t.n + 25; n < t.n + size; n += 50) {
+          total += Math.abs((ground.lidarAt({ e, n }) ?? Number.NaN) - sampleHeight(t50, { e, n }));
+          count++;
+        }
+      }
+      expect(total / count, t.file).toBeLessThan(2);
+    }
+  });
+
   it('puts the blend at the rim: the surface there is the Terrain 50 surface', () => {
     const r = manifest.region;
     const g = { e: r.eMin, n: (r.nMin + r.nMax) / 2 };

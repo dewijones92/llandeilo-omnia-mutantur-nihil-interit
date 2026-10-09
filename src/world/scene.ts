@@ -18,7 +18,9 @@ import {
 } from './babylon.ts';
 import { lerp } from '../domain/assert.ts';
 import type { Direction, Lighting, SeasonLook } from '../domain/daylight.ts';
+import { WORLD } from '../domain/geo.ts';
 import type { Heightfield } from '../domain/heightfield.ts';
+import type { DetailGround, Eye } from '../domain/lidar.ts';
 import {
   SHADOW_FILTERS,
   type GraphicsState,
@@ -28,11 +30,14 @@ import {
 import type { Environment } from '../domain/state.ts';
 import type { RiverLine } from '../platform/assets.ts';
 import { Sky } from './sky.ts';
-import { Terrain, type Clearing } from './terrain.ts';
+import type { Clearing } from './landcover.ts';
+import { Terrain } from './terrain.ts';
 import { Forest } from './trees.ts';
 import { Water } from './water.ts';
 
 const SHADOW_INTERVAL_MS = 90;
+const DETAIL_BUDGET_MS = 6;
+const DETAIL_SHADOW_INTERVAL_MS = 700;
 const TILT_SHIFT = 0.026;
 const SHADOW_FILTER: Readonly<Record<ShadowFilter, number>> = {
   high: ShadowGenerator.QUALITY_HIGH,
@@ -57,6 +62,9 @@ export class World {
   private pendingDirection: Direction | undefined;
   private shadowDue = false;
   private shadowAt = 0;
+  private detailBuilds = 0;
+  private detailShadowDue = false;
+  private detailShadowAt = 0;
   readonly pipeline: DefaultRenderingPipeline;
 
   constructor(
@@ -64,6 +72,7 @@ export class World {
     heightfield: Heightfield,
     rivers: readonly RiverLine[],
     woodland: Uint8Array,
+    lidar: DetailGround,
     private settings: QualitySettings,
   ) {
     const scene = new Scene(engine);
@@ -114,7 +123,10 @@ export class World {
     if (shadowMap) shadowMap.refreshRate = 0;
 
     this.sky = new Sky(scene, camera);
-    this.terrain = new Terrain(scene, heightfield, rivers, woodland);
+    this.terrain = new Terrain(scene, heightfield, rivers, woodland, lidar, (mesh, added) => {
+      if (added) this.shadows.addShadowCaster(mesh);
+      else this.shadows.removeShadowCaster(mesh);
+    });
     this.shadows.addShadowCaster(this.terrain.mesh);
     this.water = new Water(scene, this.terrain.rivers);
     this.lamps.add(this.water.material);
@@ -250,9 +262,41 @@ export class World {
     this.curves.shadowsDensity = 10 + cool * 45 + warm * 12;
   }
 
+  // Builds every LiDAR tile mesh the camera wants now, however long it takes: for a start or a jump.
+  settleDetail(): void {
+    this.terrain.updateDetail(this.eye(), Number.POSITIVE_INFINITY);
+    this.detailBuilds = this.terrain.detailBuilds;
+    this.detailShadowDue = false;
+    this.refreshShadows();
+  }
+
+  private eye(): Eye {
+    const c = this.camera;
+    const flat = Math.sin(c.beta) * c.radius;
+    const x = c.target.x + Math.cos(c.alpha) * flat;
+    const y = c.target.y + Math.cos(c.beta) * c.radius;
+    const z = c.target.z + Math.sin(c.alpha) * flat;
+    return {
+      e: x * WORLD.metresPerUnit + WORLD.centre.e,
+      n: z * WORLD.metresPerUnit + WORLD.centre.n,
+      height: (y * WORLD.metresPerUnit) / WORLD.verticalExaggeration,
+    };
+  }
+
   tick(dt: number): void {
     this.water.tick(dt);
+    this.terrain.updateDetail(this.eye(), DETAIL_BUDGET_MS);
+    const builds = this.terrain.detailBuilds;
+    if (builds !== this.detailBuilds) {
+      this.detailBuilds = builds;
+      this.detailShadowDue = true;
+    }
     const now = performance.now();
+    if (this.detailShadowDue && now - this.detailShadowAt > DETAIL_SHADOW_INTERVAL_MS) {
+      this.detailShadowDue = false;
+      this.detailShadowAt = now;
+      this.refreshShadows();
+    }
     const d = this.pendingDirection;
     if (this.shadowDue && d && now - this.shadowAt > SHADOW_INTERVAL_MS) {
       this.shadowDue = false;

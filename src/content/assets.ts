@@ -1,4 +1,5 @@
 import type { Bilingual } from '../domain/i18n.ts';
+import lidar from '../../public/data/lidar/lidar.json';
 
 export interface AssetRecord {
   readonly files: RegExp;
@@ -36,8 +37,7 @@ export const ASSETS: readonly AssetRecord[] = [
   {
     files: /^data\/lidar\/.+\.(bin|json)$/,
     what: { en: 'Close-up terrain heights', cy: 'Uchderau’r tir manwl' },
-    source:
-      'Contains Welsh Government data (LiDAR 2020-2022 1m DTM, DataMapWales, https://datamap.gov.wales/); resampled to 2m and 10m by tools/terrain/build-lidar.py',
+    source: `${lidar.source.credit} Resampled to 2m and 10m by tools/terrain/build-lidar.py.`,
     licence: `${OGL}, as stated on the DataMapWales LiDAR download page (the tile catalogue's own entry states none)`,
     url: 'https://datamap.gov.wales/maps/lidar-data-download/',
   },

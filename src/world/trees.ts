@@ -12,12 +12,15 @@ import {
 import { snowCover, type SeasonLook } from '../domain/daylight.ts';
 import { hash2 } from '../domain/noise.ts';
 import { MAX_TREE_DENSITY } from '../domain/quality.ts';
-import { COVER_CODE, type Terrain } from './terrain.ts';
+import { COVER_CODE } from './landcover.ts';
+import type { Terrain } from './terrain.ts';
 
 type Rgb3 = readonly [number, number, number];
 
 interface Candidate {
   readonly tri: number;
+  readonly x: number;
+  readonly z: number;
   // Uniform in [0, 1): the tree is drawn when this is below the quality's tree density.
   readonly rank: number;
   readonly matrix: Float32Array;
@@ -97,10 +100,13 @@ export class Forest {
       const rot = Quaternion.RotationAxis(Vector3.Up(), hash2(i, 3, 9) * Math.PI * 2);
       const jx = (hash2(i, 5, 1) - 0.5) * 3;
       const jz = (hash2(i, 6, 1) - 0.5) * 3;
+      const x = (t.cx[i] ?? 0) + jx;
+      const z = (t.cz[i] ?? 0) + jz;
+      const y = terrain.inDetail(x, z) ? terrain.surfaceAt(x, z) : (t.cy[i] ?? 0);
       const m = Matrix.Compose(
         new Vector3(scale, scale * (0.9 + hash2(i, 8, 3) * 0.35), scale),
         rot,
-        new Vector3((t.cx[i] ?? 0) + jx, (t.cy[i] ?? 0) - 0.3, (t.cz[i] ?? 0) + jz),
+        new Vector3(x, y - 0.3, z),
       );
       const shade = 0.75 + hash2(i, 12, 4) * 0.35;
       const heightM = t.heightM[i] ?? 0;
@@ -109,6 +115,8 @@ export class Forest {
       m.copyToArray(arr);
       list.push({
         tri: i,
+        x,
+        z,
         rank: r,
         matrix: arr,
         shade,
@@ -142,7 +150,8 @@ export class Forest {
     const broad: Candidate[] = [];
     const con: Candidate[] = [];
     for (const c of this.candidates) {
-      if (c.rank < this.density && this.terrain.cover[c.tri] === code) (c.conifer ? con : broad).push(c);
+      if (c.rank < this.density && this.terrain.coverAt(c.x, c.z, c.tri) === code)
+        (c.conifer ? con : broad).push(c);
     }
     this.drawn = broad.length + con.length;
     console.info(`dewidebug forest visible=${String(this.drawn)} density=${this.density.toFixed(2)}`);

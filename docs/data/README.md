@@ -2,17 +2,20 @@
 title: Map data
 kind: guide
 status: current
-updated: 2026-09-26
+updated: 2026-10-09
 ---
 
 # Map data
 
-Everything drawn from real geography comes from Ordnance Survey OpenData under the Open Government
-Licence v3.0: "Contains OS data © Crown copyright and database right 2026".
+Almost everything drawn from real geography comes from Ordnance Survey OpenData under the Open
+Government Licence v3.0: "Contains OS data © Crown copyright and database right 2026". The close-up
+terrain is Welsh Government LiDAR, credited as "Contains Welsh Government data" (see
+[`lidar.md`](lidar.md) for what each source says about its licence).
 
 | Output (`public/data/`) | Built from | Script |
 |---|---|---|
 | `terrain.bin`, `terrain.json` | OS Terrain 50 (ASCII grid, tiles SN40–SN73), clipped to a 34km square at 50m | `tools/terrain/build-terrain.sh` |
+| `lidar/*.bin`, `lidar/lidar.json` | Welsh Government 1m LiDAR DTM (DataMapWales), resampled to 500m tiles of vertex heights, 2m for the town and the Roman forts and 10m for the 5km by 4km region round them. Described in [`lidar.md`](lidar.md) | `tools/terrain/fetch-lidar.sh`, `tools/terrain/build-lidar.py` |
 | `rivers.json` | OS Open Rivers, clipped and simplified | `tools/terrain/build-terrain.sh` |
 | `buildings.bin` | OS Open Map Local tile SN, building footprints as minimum rectangles (33,316) | `tools/geo/build-osdata.py` |
 | `railways.json` | OS Open Map Local railway track, chained into continuous lines | `tools/geo/build-osdata.py` |
@@ -32,7 +35,11 @@ The raw downloads are not committed. Fetch them into `~/code/data/llandeilo/` (o
 Then run `tools/terrain/build-terrain.sh` and `python3 tools/geo/build-osdata.py`. They need GDAL
 (`gdal-bin` and the Python bindings).
 
+The LiDAR tiles are rebuilt with `tools/terrain/fetch-lidar.sh` and `python3 tools/terrain/build-lidar.py`
+(GDAL's command-line tools and numpy; no key or account). The raw 1m downloads go to
+`~/code/data/llandeilo/lidar/raw/` and are never committed. Details, the exact download, the tile list
+and how to add an area are in [`lidar.md`](lidar.md).
+
 ## Planned
 
-- Welsh Government LiDAR (1–2m, OGL) for close-up terrain at the places you fly into.
 - A historical railway alignment for the closed 1864 line to Carmarthen.

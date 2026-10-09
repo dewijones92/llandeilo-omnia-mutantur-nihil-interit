@@ -5,6 +5,7 @@ import { hasStreetLamps, streetWarmth, type LampState } from '../domain/lampligh
 import type { Provenance } from '../domain/provenance.ts';
 import type { Snapshot, SoundingBed } from '../domain/state.ts';
 import { describeGraphics, type GraphicsState } from '../domain/quality.ts';
+import type { DetailStats } from '../world/detail-terrain.ts';
 import { h } from './dom.ts';
 
 const why = (p: Provenance): string => [p.kind, ...p.sources].join(' ');
@@ -24,6 +25,7 @@ export class DebugOverlay {
     private readonly backend: string,
     private readonly camera: ArcRotateCamera,
     private readonly graphics: () => GraphicsState,
+    private readonly detail: () => DetailStats,
   ) {
     setInterval(() => {
       this.render();
@@ -47,6 +49,7 @@ export class DebugOverlay {
     const lines = [
       `backend ${this.backend}  fps ${this.engine.getFps().toFixed(0)}`,
       describeGraphics(this.graphics()),
+      describeDetail(this.detail()),
       `camera x ${c.x.toFixed(0)} z ${c.z.toFixed(0)} r ${this.camera.radius.toFixed(0)}`,
       `t ${s.t.toFixed(4)}  year ${formatYear(s.year, 'en')}  era ${s.era?.id ?? '-'}`,
       `${this.sky}  chill ${s.chill.toFixed(2)}`,
@@ -59,6 +62,13 @@ export class DebugOverlay {
     ];
     this.el.textContent = lines.join('\n');
   }
+}
+
+function describeDetail(d: DetailStats): string {
+  const steps = Object.entries(d.byStep)
+    .map(([step, n]) => `${step}m x${String(n)}`)
+    .join(' ');
+  return `lidar tiles ${String(d.resident)}/${String(d.tiles)} drawn (${steps || 'none'}) ${String(d.triangles)} tris, ${String(d.pending)} to build, ${String(d.unpainted)} to paint`;
 }
 
 function lampLine(s: Snapshot): string {

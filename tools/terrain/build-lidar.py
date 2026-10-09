@@ -10,7 +10,7 @@ the north-west corner. Tiles in a priority area keep every `detailStep` metres; 
 region keeps every `contextStep` metres. The detail raster is the 1m DTM averaged to 2m, and the
 context vertices are taken from that same raster, so the two resolutions agree where they meet.
 """
-import hashlib, json, math, os, subprocess, sys
+import hashlib, json, math, os, re, subprocess, sys
 from pathlib import Path
 
 import numpy as np
@@ -23,10 +23,12 @@ RAW = DATA / 'lidar' / 'raw'
 CATALOGUE = DATA / 'lidar' / 'catalogue.json'
 HEIGHT_SCALE = 0.01
 
-CREDIT = (
-    'Contains Welsh Government data (LiDAR 2020-2022, DataMapWales). '
-    'Licence stated on the DataMapWales download page: Open Government Licence v3.0.'
-)
+def credit(flown):
+    return (
+        'Contains Welsh Government data (LiDAR 1m DTM from the 2020-22 national survey, '
+        f'these tiles dated {flown[0]} to {flown[1]} in their file names), via DataMapWales. '
+        'Licence stated on the DataMapWales download page: Open Government Licence v3.0.'
+    )
 
 
 def run(*args):
@@ -130,6 +132,9 @@ def main():
         f['properties']['dtm_link'].split('/')[-1]: f['properties']
         for f in json.loads(CATALOGUE.read_text())['features']
     }
+    stamps = sorted(re.search(r'_(\d{8})dtm\.tif$', p.name).group(1) for p in rasters)
+    pretty = lambda d: f'{d[6:8]}/{d[4:6]}/{d[0:4]}'
+    flown = (pretty(stamps[0]), pretty(stamps[-1]))
     sources = []
     for path in rasters:
         props = catalogue.get(path.name, {})
@@ -138,6 +143,7 @@ def main():
                 'grid': props.get('british_gr'),
                 'file': path.name,
                 'surveyDate': props.get('date'),
+                'fileDate': re.search(r'_(\d{8})dtm\.tif$', path.name).group(1),
                 'bytes': path.stat().st_size,
                 'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
             }
@@ -155,7 +161,7 @@ def main():
         'source': {
             'product': 'Welsh Government LiDAR tile catalogue 2020-2023, 1m DTM (bare earth)',
             'publisher': 'Welsh Government, via DataMapWales (https://datamap.gov.wales/)',
-            'credit': CREDIT,
+            'credit': credit(flown),
             'tiles': sources,
         },
     }

@@ -6,6 +6,7 @@ import {
   parseManifest,
   planSteps,
   RimProfile,
+  rimDistance,
   rimWeight,
   stepForDistance,
   tileDistance,
@@ -57,28 +58,26 @@ function ground(): DetailGround {
 
 describe('level of detail', () => {
   it('uses finer steps nearer the eye', () => {
-    expect(stepForDistance(0)).toBe(2);
-    expect(stepForDistance(299)).toBe(2);
-    expect(stepForDistance(300)).toBe(4);
-    expect(stepForDistance(699)).toBe(4);
-    expect(stepForDistance(700)).toBe(10);
-    expect(stepForDistance(1799)).toBe(10);
-    expect(stepForDistance(1800)).toBe(20);
+    expect(stepForDistance(0)).toBe(4);
+    expect(stepForDistance(319)).toBe(4);
+    expect(stepForDistance(320)).toBe(10);
+    expect(stepForDistance(849)).toBe(10);
+    expect(stepForDistance(850)).toBe(20);
     expect(stepForDistance(1e6)).toBe(20);
   });
 
   it('never goes finer than the data in the tile', () => {
-    expect(chooseStep(50, 2)).toBe(2);
+    expect(chooseStep(50, 2)).toBe(4);
     expect(chooseStep(50, 10)).toBe(10);
-    expect(chooseStep(500, 10)).toBe(10);
+    expect(chooseStep(300, 10)).toBe(10);
     expect(chooseStep(5000, 10)).toBe(20);
   });
 
   it('keeps the current step through a small wobble around a band edge', () => {
-    expect(chooseStep(320, 2, 2)).toBe(2);
-    expect(chooseStep(290, 2, 4)).toBe(4);
-    expect(chooseStep(400, 2, 2)).toBe(4);
-    expect(chooseStep(200, 2, 4)).toBe(2);
+    expect(chooseStep(340, 2, 4)).toBe(4);
+    expect(chooseStep(300, 2, 10)).toBe(10);
+    expect(chooseStep(450, 2, 4)).toBe(10);
+    expect(chooseStep(180, 2, 10)).toBe(4);
   });
 
   it('measures from the eye to the nearest point of the tile, height included', () => {
@@ -101,8 +100,8 @@ describe('level of detail', () => {
     });
     const tiles = [info(0, 2), info(500, 2), info(5000, 2), info(1000, 10)];
     const plan = planSteps(tiles, 500, { e: 250, n: 250, height: 60 }, new Map());
-    expect(plan.get(tileKey(0, 0))).toBe(2);
-    expect(plan.get(tileKey(500, 0))).toBe(2);
+    expect(plan.get(tileKey(0, 0))).toBe(4);
+    expect(plan.get(tileKey(500, 0))).toBe(4);
     expect(plan.get(tileKey(5000, 0))).toBe(20);
     expect(plan.get(tileKey(1000, 0))).toBe(10);
     expect(plan.size).toBe(4);
@@ -241,5 +240,91 @@ describe('the manifest', () => {
 
   it('refuses a region that is not a whole number of tiles', () => {
     expect(() => parseManifest({ ...rawManifest(), region: { ...REGION, eMax: 250 } })).toThrow(/region/);
+  });
+});
+
+describe('the distance to the rim', () => {
+  it('measures to the nearest edge, from either side', () => {
+    expect(rimDistance(REGION, { e: 50, n: 30 })).toBeCloseTo(30);
+    expect(rimDistance(REGION, { e: 190, n: 50 })).toBeCloseTo(10);
+    expect(rimDistance(REGION, { e: -7, n: 50 })).toBeCloseTo(7);
+    expect(rimDistance(REGION, { e: 210, n: 50 })).toBeCloseTo(10);
+    expect(rimDistance(REGION, { e: 203, n: 104 })).toBeCloseTo(5);
+    expect(rimDistance(REGION, { e: 100, n: 0 })).toBe(0);
+  });
+});
+
+describe('a tile of vertex heights', () => {
+  const base = (g: { e: number; n: number }): number => 100 + g.e / 10;
+  const rim = (): RimProfile => new RimProfile(REGION, 50, base);
+
+  it('reads the LiDAR through at the tile step', () => {
+    const wide = { eMin: -300, eMax: 500, nMin: -300, nMax: 400 };
+    const manifest = parseManifest({
+      ...rawManifest(),
+      region: wide,
+      blendMetres: 20,
+      tiles: Array.from({ length: 56 }, (_, i) =>
+        rawTile(-300 + (i % 8) * 100, { n: -300 + Math.floor(i / 8) * 100 }),
+      ),
+    });
+    const data = new Map(
+      manifest.tiles.map((t) => [tileKey(t.e, t.n), Uint16Array.from({ length: 9 }, (_, k) => 10 * (k + 1))]),
+    );
+    const g = new DetailGround(manifest, data);
+    const tile = manifest.tiles.find((t) => t.e === 0 && t.n === 0);
+    if (!tile) throw new Error('fixture');
+    const heights = g.tileHeights(tile, 50, base, rim());
+    expect(Array.from(heights)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    const coarse = g.tileHeights(tile, 100, base, rim());
+    expect(Array.from(coarse)).toEqual([1, 3, 7, 9]);
+  });
+
+  it('takes the rim profile on the rim and eases to the LiDAR inside it', () => {
+    const g = ground();
+    const tile = g.manifest.tiles[0];
+    if (!tile) throw new Error('fixture');
+    const h = g.tileHeights(tile, 50, base, rim());
+    expect(h[3]).toBeCloseTo(rim().heightAt({ e: 0, n: 50 }) ?? Number.NaN);
+    expect(h[0]).toBeCloseTo(rim().heightAt({ e: 0, n: 100 }) ?? Number.NaN);
+    expect(h[6]).toBeCloseTo(rim().heightAt({ e: 0, n: 0 }) ?? Number.NaN);
+    expect(h[1]).toBeCloseTo(rim().heightAt({ e: 50, n: 100 }) ?? Number.NaN);
+    expect(h[4]).toBeCloseTo(5);
+    expect(h[5]).toBeCloseTo(6);
+  });
+
+  it('gives two neighbouring tiles the same height on their shared edge', () => {
+    const g = ground();
+    const [west, east] = g.manifest.tiles;
+    if (!west || !east) throw new Error('fixture');
+    const a = g.tileHeights(west, 50, base, rim());
+    const b = g.tileHeights(east, 50, base, rim());
+    expect(a[5]).toBeCloseTo(6);
+    expect(a[2]).toBeCloseTo(rim().heightAt({ e: 100, n: 100 }) ?? Number.NaN);
+    for (let row = 0; row < 3; row++) expect(a[row * 3 + 2]).toBeCloseTo(b[row * 3] ?? Number.NaN);
+  });
+
+  it('lets the ground be shaped on every vertex off the rim, and never on the rim', () => {
+    const g = ground();
+    const tile = g.manifest.tiles[0];
+    if (!tile) throw new Error('fixture');
+    const seen: { e: number; n: number }[] = [];
+    const h = g.tileHeights(tile, 50, base, rim(), (at, metres) => {
+      seen.push(at);
+      return metres + 100;
+    });
+    expect(h[4]).toBeCloseTo(105);
+    expect(h[5]).toBeCloseTo(106);
+    expect(h[3]).toBeCloseTo(rim().heightAt({ e: 0, n: 50 }) ?? Number.NaN);
+    expect(seen).toContainEqual({ e: 50, n: 50 });
+    expect(seen).not.toContainEqual({ e: 0, n: 50 });
+  });
+
+  it('refuses a step the tile data cannot supply', () => {
+    const g = ground();
+    const tile = g.manifest.tiles[0];
+    if (!tile) throw new Error('fixture');
+    expect(() => g.tileHeights(tile, 20, base, rim())).toThrow(/step/);
+    expect(() => g.tileHeights(tile, 25, base, rim())).toThrow(/step/);
   });
 });
