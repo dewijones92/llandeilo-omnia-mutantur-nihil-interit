@@ -108,7 +108,7 @@ Written 2026-10-09 from pages fetched that day; the images were downloaded and e
 ## What was found
 
 31 photographs, each downloaded at the largest size PCW serves (about 2,100 to 3,100 px on the long edge),
-cropped to the print (the scans include the cream mount; Corrected 2026-10-09 (independent check): 2281916, 2281931, 2281961 and 2282186 still keep some of the mount), and saved at most 1,600 px on the long edge as
+cropped to the print (the scans include the cream mount; Corrected 2026-10-09 (independent check): 2281916, 2281931, 2281961 and 2282186 kept some of the mount and were re-cropped to the print the same day from the PCW originals), and saved at most 1,600 px on the long edge as
 JPEG in `public/photos/harries/<PCW item id>.jpg` (8.7 MB in all). The data, credits and placements are in
 `src/content/photographs.ts`. Titles are PCW's own. "Shows" is what the photograph shows, as looked at on
 2026-10-09, not the caption.
