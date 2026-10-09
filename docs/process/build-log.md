@@ -676,3 +676,9 @@ Milestones and what each one taught us. Newest last.
    had shifted the split so both heavy night tests landed in one shard. The night tests are now marked
    `test.slow` in CI and the e2e job runs six shards ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md),
    amended). Lesson: a per-test limit is a budget too, and the heaviest test sets it.
+
+4. **CI tests at Low graphics** (Dewi's call). The six-shard run still lost one shard, this time the
+   cutscene test, at 7 minutes on the CPU renderer at High (run 37977166640). CI now stores Low in every
+   test's browser (`E2E_QUALITY=low`); the graphics-menu test starts from the default High, and a new
+   test checks the stored level reaches the renderer, seen red without the config line.
+

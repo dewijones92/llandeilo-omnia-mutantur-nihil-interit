@@ -853,35 +853,51 @@ test('the Begin card shows the motto in both languages, and Begin opens the vall
   expect(errors).toEqual([]);
 });
 
-test('choosing Low graphics turns the effects off in the renderer, and the choice is remembered', async ({
-  page,
-}) => {
+test('runs at the graphics level E2E_QUALITY stores, when it is set', async ({ page }) => {
+  const wanted = process.env['E2E_QUALITY'];
+  test.skip(wanted === undefined, 'only when the run stores a graphics level (CI uses Low)');
   await page.goto('./?debug&year=1282');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  const debug = page.locator('.debug');
-  // The overlay reads these back from the renderer (pipeline, shadow map, forest), not from the table.
-  const live = async (): Promise<string> =>
-    ((await debug.textContent()) ?? '').split('\n').find((l) => l.startsWith('quality ')) ?? '';
-  const trees = (line: string): number => Number(/ trees (\d+) /.exec(line)?.[1] ?? Number.NaN);
-  await expect.poll(live).toMatch(/^quality high .* bloom on {2}dof on {2}sharpen on /);
-  const high = await live();
-  expect(Number(/shadows (\d+)\//.exec(high)?.[1])).toBeGreaterThan(2048);
-  const highTrees = trees(high);
-  expect(highTrees).toBeGreaterThan(0);
-  const graphics = page.getByRole('group', { name: 'Graphics' });
-  await expect(graphics.getByRole('button', { name: 'High' })).toHaveAttribute('aria-pressed', 'true');
-  await graphics.getByRole('button', { name: 'Low' }).click();
-  await expect(graphics.getByRole('button', { name: 'Low' })).toHaveAttribute('aria-pressed', 'true');
-  await expect.poll(live).toMatch(/^quality low /);
-  const low = await live();
-  expect(low).toContain('shadows 1024/low  msaa 1  bloom off  dof off  sharpen off');
-  // Low draws 0.31 of woodland triangles against High's 0.9.
-  const share = trees(low) / highTrees;
-  expect(share).toBeGreaterThan(0.25);
-  expect(share).toBeLessThan(0.45);
-  await page.reload();
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  await expect.poll(live).toMatch(/^quality low .* bloom off {2}dof off /);
+  const line = async (): Promise<string> =>
+    ((await page.locator('.debug').textContent()) ?? '').split('\n').find((l) => l.startsWith('quality ')) ??
+    '';
+  await expect.poll(line).toMatch(new RegExp(`^quality ${String(wanted)} `));
+});
+
+test.describe('at the default graphics level', () => {
+  // This test starts from the visitor's default (High), so it ignores CI's stored Low.
+  test.use({ storageState: { cookies: [], origins: [] } });
+
+  test('choosing Low graphics turns the effects off in the renderer, and the choice is remembered', async ({
+    page,
+  }) => {
+    await page.goto('./?debug&year=1282');
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    const debug = page.locator('.debug');
+    // The overlay reads these back from the renderer (pipeline, shadow map, forest), not from the table.
+    const live = async (): Promise<string> =>
+      ((await debug.textContent()) ?? '').split('\n').find((l) => l.startsWith('quality ')) ?? '';
+    const trees = (line: string): number => Number(/ trees (\d+) /.exec(line)?.[1] ?? Number.NaN);
+    await expect.poll(live).toMatch(/^quality high .* bloom on {2}dof on {2}sharpen on /);
+    const high = await live();
+    expect(Number(/shadows (\d+)\//.exec(high)?.[1])).toBeGreaterThan(2048);
+    const highTrees = trees(high);
+    expect(highTrees).toBeGreaterThan(0);
+    const graphics = page.getByRole('group', { name: 'Graphics' });
+    await expect(graphics.getByRole('button', { name: 'High' })).toHaveAttribute('aria-pressed', 'true');
+    await graphics.getByRole('button', { name: 'Low' }).click();
+    await expect(graphics.getByRole('button', { name: 'Low' })).toHaveAttribute('aria-pressed', 'true');
+    await expect.poll(live).toMatch(/^quality low /);
+    const low = await live();
+    expect(low).toContain('shadows 1024/low  msaa 1  bloom off  dof off  sharpen off');
+    // Low draws 0.31 of woodland triangles against High's 0.9.
+    const share = trees(low) / highTrees;
+    expect(share).toBeGreaterThan(0.25);
+    expect(share).toBeLessThan(0.45);
+    await page.reload();
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await expect.poll(live).toMatch(/^quality low .* bloom off {2}dof off /);
+  });
 });
 
 test('a cutscene plays from the moment card, moves its captions on, and Skip lands on its key date', async ({
