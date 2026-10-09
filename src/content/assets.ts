@@ -59,6 +59,15 @@ export const ASSETS: readonly AssetRecord[] = [
     url: 'https://www.railwaysarchive.co.uk/documents/BoT_Pantyffynnon1858.pdf',
   },
   {
+    files: /^photos\/harries\/\d+\.jpg$/,
+    what: { en: 'Photographs by D C Harries', cy: 'Ffotograffau gan D C Harries' },
+    source:
+      'D C Harries (Llandeilo photographer, c. 1888 to 1940); prints in the Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales; each photograph’s own credit and item number are in src/content/photographs.ts. PCW’s item pages state its Creative Archive Licence (non-commercial downloads)',
+    licence:
+      'People’s Collection Wales Creative Archive Licence (non-commercial), as stated on each item page; not checked per item',
+    url: 'https://www.peoplescollection.wales/collections/2287136',
+  },
+  {
     files: /^voices\/.+\.(mp3|json)$/,
     what: { en: 'Voices', cy: 'Lleisiau' },
     source: 'Microsoft neural text-to-speech via edge-tts, generated from this project’s own scripts',

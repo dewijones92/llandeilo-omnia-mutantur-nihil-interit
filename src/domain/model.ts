@@ -13,6 +13,7 @@ export type FeatureId = Brand<string, 'FeatureId'>;
 export type PersonId = Brand<string, 'PersonId'>;
 export type ConversationId = Brand<string, 'ConversationId'>;
 export type EraId = Brand<string, 'EraId'>;
+export type PhotoId = Brand<string, 'PhotoId'>;
 
 export interface GridRef {
   readonly e: number;
@@ -250,4 +251,38 @@ export interface EnvironmentKey {
   readonly sun: string;
   readonly fog: number;
   readonly mappedWoodland: number;
+}
+
+export type PhotoPlacement =
+  | {
+      readonly kind: 'placed';
+      readonly at: GridRef;
+      readonly accuracyM: number;
+      readonly basis: 'documented' | 'reconstructed';
+      readonly note: string;
+    }
+  | { readonly kind: 'unplaced'; readonly reason: string };
+
+/**
+ * A historical photograph: dated content with a place and a provenance like everything else.
+ * `when` is the range its date allows ("c. 1900" is 1895 to 1905); the text fields are the
+ * catalogue's English (`dateNote` and `placement.note` are ours, and say how sure each is).
+ */
+export interface Photograph {
+  readonly id: PhotoId;
+  readonly file: string;
+  readonly title: string;
+  readonly dated: string;
+  readonly when: TimeRange;
+  readonly dateNote: string;
+  readonly dateDisputed?: true;
+  readonly creator: string;
+  readonly credit: string;
+  readonly catalogueId: string;
+  readonly catalogueUrl: string;
+  readonly shows: string;
+  readonly where: string;
+  readonly status: 'ok' | 'miscaptioned';
+  readonly placement: PhotoPlacement;
+  readonly provenance: Provenance;
 }

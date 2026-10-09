@@ -1,8 +1,9 @@
-import { Matrix, Vector3, type Scene } from '../world/babylon.ts';
+import { Vector3, type Scene } from '../world/babylon.ts';
 import { toWorld } from '../domain/geo.ts';
 import type { Place, PlaceId } from '../domain/model.ts';
 import { namedLater } from '../domain/places.ts';
 import { h } from './dom.ts';
+import { overlaps, projector, type Box } from './screen-space.ts';
 import type { LangStore } from './store.ts';
 
 interface Label {
@@ -86,21 +87,12 @@ export class PlaceLabels {
   }
 
   update(avoid: readonly DOMRect[] = []): void {
-    const camera = this.scene.activeCamera;
-    if (!camera) return;
-    const engine = this.scene.getEngine();
-    const w = engine.getRenderWidth();
-    const hgt = engine.getRenderHeight();
-    const scale = window.innerWidth / w;
-    const viewport = camera.viewport.toGlobal(w, hgt);
-    const transform = this.scene.getTransformMatrix();
+    const project = projector(this.scene);
+    if (!project) return;
     // Labels are placed in priority order; one that would overlap an earlier label waits its turn.
     const placed: Box[] = [];
     for (const l of this.order) {
-      const p = Vector3.Project(l.world, Matrix.IdentityReadOnly, transform, viewport);
-      const visible = p.z > 0 && p.z < 1 && p.x > 0 && p.x < w && p.y > 0 && p.y < hgt;
-      const sx = p.x * scale;
-      const sy = p.y * scale;
+      const { x: sx, y: sy, inView: visible } = project(l.world);
       if (!l.size && l.el.style.display === '' && l.el.offsetWidth > 0) {
         l.size = { width: l.el.offsetWidth, height: l.el.offsetHeight };
       }
@@ -117,19 +109,8 @@ export class PlaceLabels {
       if (l.el.style.display !== display) l.el.style.display = display;
       if (!visible || covered) continue;
       placed.push(box);
-      const next = `translate(${Math.round(p.x * scale)}px, ${Math.round(p.y * scale)}px)`;
+      const next = `translate(${Math.round(sx)}px, ${Math.round(sy)}px)`;
       if (l.el.style.transform !== next) l.el.style.transform = next;
     }
   }
-}
-
-interface Box {
-  readonly left: number;
-  readonly right: number;
-  readonly top: number;
-  readonly bottom: number;
-}
-
-function overlaps(a: Box, b: Box): boolean {
-  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
 }

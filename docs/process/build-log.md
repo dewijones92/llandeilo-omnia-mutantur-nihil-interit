@@ -682,3 +682,47 @@ Milestones and what each one taught us. Newest last.
    test's browser (`E2E_QUALITY=low`); the graphics-menu test starts from the default High, and a new
    test checks the stored level reaches the renderer, seen red without the config line.
 
+
+5. **The Harries photographs: the independent check's corrections applied first** (commits 0cf7411 and 392ccaa). Five captions
+   were contradicted by the pictures themselves (a *Shoulder Arms* poster, Tariff Reform posters, an
+   R.O.P. petrol sign, and two doubtful 1920s dresses), the Post Office was on the wrong side of the
+   street, six descriptions of what a photograph shows were wrong, and "the 1890s map" was the 1905
+   revision. Lesson: the first research pass wrote "looked at" for each image and still read none of the
+   lettering; the check read every poster and sign. Each change is marked "Corrected 2026-10-09
+   (independent check)". Four prints that still showed the mount were re-cropped from the PCW originals by
+   finding the contiguous low-saturation block (the cream mount is the only strongly orange region).
+6. **The photo layer** ([ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md)): `Photograph`
+   moved into the domain model beside the places (a `TimeRange`, a placement, a provenance), `snapshotAt`
+   lists the pinned ones, `src/domain/photos.ts` holds the window and the fan-out of shared points, and the
+   UI is a pin layer, a panel and a remembered toggle. `provenanceBadge` was split so the photo's ⓘ reuses
+   the same badge (`infoBadge`) instead of a second popover.
+7. **Red runs, each at the assertion it names.** Unit: a stub of `src/domain/photos.ts` returning
+   nothing failed the window, the unplaced-never-pinned and the pin-position tests. E2E: with the pins
+   and the photo panel taken out of `reveals-when`, the guess game's giveaway list failed at `.pins`
+   ("Expected: hidden, Received: visible"); with the toggle ignored and the panel left out of the Escape
+   chain, the toggle test failed at 0 pins expected and 6 received, and the Escape and slider tests failed
+   at the panel still visible. The Welsh, About-credits and click-through e2e and the Welsh date label
+   were written after the code and were not run red.
+8. **A test trap, not a bug:** the ⓘ popover stays open while the mouse hovers its badge, so "Escape
+   closed it" needs the mouse moved away first, as the existing provenance test does.
+9. **Looked at:** pins in Llandeilo at 1900 and an open photograph with its ⓘ, in English and Welsh,
+   on the NVIDIA GPU (`docs/images/photo-layer/`, made by `tools/photo-shots.mjs`). The first look found
+   the credit below the fold and the ⓘ clipped by the panel's bottom edge; the credit moved under the
+   picture and the popover opens upwards.
+10. **The photo layer's review (ten findings, all fixed or answered).** (1) Two photographs captioned c. 1900
+   showed a motorcycle at the door, a knee-length dress, cloche hats and electric lamps, yet their pin began in
+   1895, so a 1920s scene appeared in the 1890s; the check had called them "doubtful" without reading the
+   motorcycle. Their ranges now start at 1920 and 1922. (2) Six "Corrected" markers had landed one entry too
+   early when the inline notes became comments, so the entries really corrected carried none and the log
+   overclaimed; a content test now pins each marker to its entry, and failed first with one marker moved back.
+   (3) A doubt about the photographer ("possibly", the NLW's "Unknown") sat only inside the ⓘ; it is in the
+   credit now, with a test. (4) The market hall's crowd was said to be seated; it stands. (5) "c. 1928" had
+   1926 to 1930 against the note's plus or minus five years; a test now holds every plain "c." date to it.
+   (6) The licence line put "at Dewi's request" on the public About tab. (7) The projection and the overlap test
+   were a third copy; `src/ui/screen-space.ts` is now the one. (8) The pin's collision box stopped 8 px short of
+   its stem; the pin and the box now read the same two constants. (9) The ⓘ's tier ignored a disputed date; it
+   is now `photoTier`. (10) The ADR said the panel closes when the slider leaves the photo's years; it closes
+   when the slider leaves the pin window. Tests were red first: the unit tier tests (missing function), the
+   range, caveat, licence, disputed-date and shows tests at their assertions, and the marker test at the
+   count. The e2e for the 1920s photograph failed first at "Expected: hidden, Received: visible" with its range put back to 1895. Looked at: the pins at 1925 (their stems now inside the collision boxes) and the White Hart panel reading Reconstructed (`docs/images/photo-layer/disputed-1925-en.jpg`). Lesson: **a research check that says "doubtful" is a lead, so look at the picture before leaving a
+   range that contradicts it.**

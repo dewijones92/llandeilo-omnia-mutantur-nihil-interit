@@ -8,6 +8,7 @@ import { FEATURES } from './features.ts';
 import { LAMPLIGHT } from './lamplight.ts';
 import { LANGUAGE } from './language.ts';
 import { PEOPLE } from './people.ts';
+import { HARRIES_PHOTOGRAPHS } from './photographs.ts';
 import { PLACES } from './places.ts';
 import { SOURCES } from './sources.ts';
 import { ENVIRONMENT, ERAS, TIMELINE } from './timeline.ts';
@@ -26,5 +27,6 @@ export const WORLD_CONTENT: WorldContent = {
   conversations: CONVERSATIONS,
   almanac: ALMANAC,
   language: LANGUAGE,
+  photographs: HARRIES_PHOTOGRAPHS,
   sources: SOURCES,
 };
