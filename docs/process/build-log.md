@@ -523,8 +523,9 @@ Milestones and what each one taught us. Newest last.
    just before 6 May 1841), the every-stretch test (the stub undrawn), the label test (no earliest
    dates) and the stub test.
 
-19. **Battles and black swans** (branch `feat/battles-and-black-swans`): four key dates from the
-   checked invasions and ripples notes. **1213**, Llandeilo burned by Rhys Gryg and Dinefwr besieged,
+19. **Battles and black swans** (branch `feat/battles-and-black-swans`): three key dates and a
+   minor marker (1849) from the checked invasions and ripples notes (*corrected 2026-10-09*: this
+   entry said four key dates; 1849 is a marker, not a key step). **1213**, Llandeilo burned by Rhys Gryg and Dinefwr besieged,
    with winter from the record and a dark plume over the town drawn only at that step; **1257**, Coed
    Llathen and Cymerau, at the recorded midday of 2 June in summer, with the camp at Llandeilo said to
    be in one chronicle, Bauzan's death, mostly Welsh foot soldiers and no site marked; **1849**, cholera
