@@ -11,7 +11,11 @@ Research for GitHub issue 3 (a detailed, modular 3D reconstruction of the Roman 
 sit on the LiDAR terrain). Agreed by Dewi on 2026-10-09, prioritised; choices here are made by Claude
 under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)). This is the **research
 stage only**: nothing is built from it yet. Written on 2026-10-09 from sources fetched that day; the brief is in
-[`briefs/roman-forts-and-vicus.md`](briefs/roman-forts-and-vicus.md). WebSearch was used 14 times, and
+[`briefs/roman-forts-and-vicus.md`](briefs/roman-forts-and-vicus.md). **Independently checked on
+2026-10-09** ([review](reviews/roman-forts-and-vicus-check-2026-10-09.md): 98 claims, 72 confirmed, 17 partly,
+2 not supported, 7 contradicted); the corrections are applied below, each marked *Corrected 2026-10-09
+(independent check)*. The archaeology held; the errors were in the derived placement and in what the first
+pass missed by not reaching Archwilio and llandeilo.org. WebSearch was used 14 times, and
 WebFetch or direct downloads for everything else; Coflein records were read in full.
 
 It extends [`roman-arrival.md`](roman-arrival.md) (the campaign, the road, the units, the kit) and the
@@ -35,15 +39,24 @@ says from what. **Imagined** means invented to fill a gap (the ⓘ marker applie
   samian absent, so a Flavian foundation is "most likely" [S1]. Fort 2: **no direct date**. It is
   later, and probably stratigraphically after Fort 1 (a ditch of Fort 1 lies under levelling deposits
   read as preparation for Fort 2) [S1];
-  Coflein puts it in a "garrison phase later in the Flavian period" [S2]. Its life runs "into the early
+  Coflein puts it in a "garrison phase later in the Flavian period" [S2]. The Heneb HER says "possibly around
+  82 AD" (PRN 47637) and "the construction of the later fort c.82AD" (PRN 47636), but those are 2013 summaries
+  "based on Hughes" and Hughes 2007 gives no such figure, so show it as the HER's reading, still unproven [S23].
+  *Corrected 2026-10-09 (independent check).* Its life runs "into the early
   part of the second century" [S2]; the report sees "a reduction in activity in the later Trajanic
-  period and abandonment under Hadrian", the site abandoned "by AD 140" [S1].
+  period and abandonment under Hadrian", the site abandoned "by AD 140" [S1]; the same paragraph adds that "it has been
+  suggested that southwest Wales was bereft of troops by the mid-120s" (Davies 2000), which bears on how late
+  Fort 2 is drawn. *Corrected 2026-10-09 (independent check).*
 - **"Around AD 90-100" for the second fort is unsupported as a foundation date.** The commenter's
-  Heneb PDF does not contain it (checked: its Roman text is two sentences and a caption) [S4]. No source
+  Heneb PDF does not contain it (checked: its Roman text is four sentences and a caption, none giving it; the
+  fourth names a possible villa at Llys Brychan near Bethlehem) [S4]. *Corrected 2026-10-09 (independent check).* No source
   read gives AD 90-100. The nearest items are weak: a 1993 fieldwalking assemblage whose samian "could
   have been discarded within c.AD 90-130", vicus-area samian of c. AD 90-110, and Coflein's "later in
   the Flavian period" (the Flavian dynasty ended in AD 96) [S1][S2]. Record it as **unsupported**,
-  and show Fort 2 as "after Fort 1, date not fixed".
+  and show Fort 2 as "after Fort 1, date not fixed". **The likely origin is found:** llandeilo.org captions
+  the same Ludlow painting "what the second fort may have looked like around 100AD (Drawing: Cambria
+  Archaeology)", so the commenter's date is very probably a date for the **scene in the picture**, not a
+  foundation date [S24]. *Corrected 2026-10-09 (independent check).*
 - **Gates.** Evidenced: Fort 1 has gateways in its south-east and south-west sides, and a six-post
   gate tower is inferred at the south-west gate from four excavated post-pits. Fort 2 has **three of
   four** entrances identified (front, left, right); the rear gate is **not demonstrated**: the outer
@@ -62,17 +75,20 @@ says from what. **Imagined** means invented to fill a gap (the ⓘ marker applie
   scattered, uneven anomalies, not a gridded town. The commenter's "more shambolic" reading is a fair
   description of the plot and nothing in the evidence supports the tidy rows of the Ludlow drawing
   (below) [S1][S4].
-- **The "survey the commenter means" is almost certainly the Stratascan magnetometer survey, as
-  published in the Hughes report's Fig 2, not anything in the linked PDF** [S1][S4]. I found no separate
-  vicus-only survey.
+- **The "survey the commenter means" is the Stratascan magnetometer survey, not anything in the linked PDF**
+  [S1][S4]. It is most likely the 2003 plot from Cambria's Summer 2003 newsletter that llandeilo.org shows
+  beside the Ludlow drawing, an earlier and partial view of the same survey that the Hughes report's Fig 2
+  shows in full [S24]. I found no separate vicus-only survey. *Corrected 2026-10-09 (independent check).*
 - **The "bathhouse" is probably not one.** The survey's rectangular building 30m by 18m with an apsidal
   room, north-west of the forts, produced brick the excavator calls "more likely to be post-medieval".
   A single possible box tile (hypocaust) in Trench 2 means a Roman bathhouse "somewhere in the vicinity
   ... cannot be excluded" [S1]. Heneb's project page still lists "a possible bathhouse" [S3].
-- **Placement is the weakest part.** The only grid reference for the complex is Coflein's SN 62187
-  22534 (a single point). Fort geometry must be taken from the report's figures; I georeferenced them
-  roughly (see [Exact placement](#exact-placement)), to about plus or minus 60m, and **the figures put
-  the forts about 50m east of that point**. Register on the LiDAR before building.
+- **Placement is better documented than the first pass said, but still needs the LiDAR.** Coflein gives
+  one point for the complex (SN 62187 22534), and the Heneb HER gives one for each fort: **Fort 1 PRN 47636,
+  SN 6218 2245; Fort 2 PRN 47637, SN 6217 2253**, plus the north-east road (PRN 47638, SN 6225 2260) [S2][S23].
+  Fig 1, re-measured with the same two anchors, puts Fort 2's centre within about 5m of Coflein's point, so
+  the figure and Coflein agree (see [Exact placement](#exact-placement)). Shape and orientation come from
+  Figs 1 and 2; register on the LiDAR before building. *Corrected 2026-10-09 (independent check).*
 
 ## What a reconstruction can show
 
@@ -93,7 +109,7 @@ says from what. **Imagined** means invented to fill a gap (the ⓘ marker applie
 | Fort 2 parade or practice area | An empty zone behind the headquarters | reconstructed (weak magnetic response only; could be later disturbance) | S1 |
 | Fort 1 interior | A barrack block (Phase 1 gullies, Trench 3); a kiln or large hearth in the south-east rampart; a rectangular building in the southern corner | documented (anomalies); reconstructed (function) | S1 |
 | All buildings | Timber frames, wattle and daub walls | documented (daub with wattle impressions; no stone) | S1 |
-| Roofs and cladding | Not evidenced locally; thatch, shingle or turf are unknowns | imagined | none; see [Gaps](#gaps-and-open-questions) |
+| Roofs and cladding | Not evidenced locally; thatch, shingle or turf are unknowns. Harder-fired Roman tile of a distinct fabric was found in fort and vicus contexts (2001, 4001) and one possible box tile, so tile on some building is possible but unproven. *Corrected 2026-10-09 (independent check).* | imagined (roof material); documented (tile fragments) | S1; see [Gaps](#gaps-and-open-questions) |
 | Vicus | Timber buildings alongside converging roads north-east of Fort 2, irregular rather than gridded | documented (roads, buildings, hearth); reconstructed (building form, plot layout) | S1; S10, S14 |
 | Roadside ditches that "funnel" the approach | Two substantial ditches turning away at right angles about 220m out | documented | S1 |
 | Practice camp enclosures | A ditched enclosure north-east of the forts and a second north-west, interiors nearly empty | reconstructed (excavator's "perhaps a practice camp") | S1 |
@@ -123,7 +139,7 @@ east of north on my reading of Fig 1 (see placement) [S1].
 |---|---|---|
 | Ditches, south-east side | three | S1 |
 | Ditches, south-west side | two, plus "a third possible defensive ditch ... approximately 55m to the southwest" | S1 |
-| Ditches, north-east corner | "at least three and possibly four ditches and associated ramparts" (phase 1 reading) | S1 |
+| Ditches, eastern corner | "at least three and possibly four ditches and associated ramparts" (phase 1 reading; the report says "eastern", not north-east) | S1 |
 | Inner ditch (Trench 1) | V-shaped, up to 1.7m wide and 1.1m deep, square butt-end where the gate causeway was | S1 |
 | Outer ditch (Trench 1) | V-shaped, up to 1.0m wide and 0.5m deep, rounded butt-end; "surprisingly shallow ... too slight to have provided an effective defence" unless cut from a higher level | S1 |
 | Rampart | **Turf**: the thick clay fill of the inner ditch "presumably represents the deliberate backfilling of the ditch with the turf rampart when the fort was decommissioned". No rampart bank survives | S1 |
@@ -146,6 +162,11 @@ buildings" (possibly post-holes). Trench 3 found gullies read as the foundations
 buildings in at least four phases; the earliest (Phase 1) "possibly a barrack block associated with
 Fort 1" [S1]. The report's Fig 7 shows the four phases. Fort 1's internal plan (barracks, principia,
 granaries) is **not known**; everything beyond this is analogy.
+
+**Garrison.** Not known; every figure is inference from area. Coflein: Fort 1 "would have housed a garrison of
+more than a thousand, drawn from several different units" [S2]. Hughes: "at the very least an ala quingenaria
+... or a cohors milliaria ... and perhaps even a larger legionary detachment", and the barley in its ditch is
+"consistent with" a cavalry or large unit [S1]. *Corrected 2026-10-09 (independent check).*
 
 **Date.** See Summary. The 2005 pottery report is the evidence: "On present evidence, a Flavian
 foundation is most likely. Certainly pre-Flavian forms are absent", and were the proportions of
@@ -199,7 +220,8 @@ stone-filled, implying a road surface up to 3.5m wide, since ploughed away) and 
 up to 0.7m wide in the south-east end, "possibly ... a colonnade fronting onto the Principia" [S1].
 The rest of the trench held later, complex layers.
 
-**Date and fate.** See Summary. Fort 2 was a "longer-lived" establishment (stronger magnetic readings)
+**Date and fate.** See Summary (including the HER's "possibly around 82 AD", an unproven 2013 reading [S23]).
+Fort 2 was a "longer-lived" establishment (stronger magnetic readings)
 "possibly dating to the 'garrison phase' of the Flavian conquest period"; the smaller size "suggests
 that it held a smaller unit, perhaps a cohors quingenaria peditata (a small infantry unit)" [S1]. That
 is an inference from area and the report names no unit.
@@ -210,7 +232,8 @@ bone, "suggesting a reuse of the area for burial" (the burnt bone had not yet be
 Later mortaria (Oxfordshire ware, c. AD 180-300) from fieldwalking suggest "some sort of activity
 probably in the first half of the 3rd century" nearby; the 2005 excavation "is silent" on it [S1].
 Coflein adds that "there is no direct evidence of the vicus at the fort lasting into the second half of
-the second century" [S2].
+the second century" [S2]. Hughes also notes that "it has been suggested that southwest Wales was bereft of
+troops by the mid-120s" (Davies 2000, 24), so the late end of Fort 2 is a bracket, not a date [S1]. *Corrected 2026-10-09 (independent check).*
 
 ## The vicus and the geophysical survey
 
@@ -245,8 +268,9 @@ the second century" [S2].
   right angles and fades after about 60m further; the southern branch approaches at a slight angle and
   is flanked by two substantial roadside ditches that "turn away from each other at right angles
   approximately 220m from the fort entrance, creating a funnel-like entrance" [S1]. Trench 7 tested one
-  such ditch: it was far bigger than a roadside drain, and two smaller ditches beside it were post-medieval,
-  "perhaps ... an indication that the survey is an under-representation of the complexity of the archaeology" [S1].
+  such ditch: it was far bigger than a roadside drain. Of two smaller ditches beside it, one (7007) held
+  post-medieval pottery and "suggests that this is not Roman in date"; the other (7008) held the base of a red
+  ware vessel "possibly a flagon" and a Dressel 20 amphora sherd [S1]. *Corrected 2026-10-09 (independent check).*
 - A road leaves Fort 2's south-east gate across the former north-eastern part of Fort 1, with "evidence
   for roadside development" probably tied to the later fort [S1]. There are "just hints of roadside
   ditches" beyond the north-west gate, and the road "ultimately extends ... [to] link up with the
@@ -281,14 +305,15 @@ supports:**
   one enclosure, **not** a regular street grid or terraced plots [S1].
 - Excavation found "small timber buildings" with narrow foundations and a hearth, drains, pits and
   amphorae: consistent with ordinary, irregular roadside building [S1].
-- Welsh comparanda point the same way: at Llanio, ribbon development along a road, with "several
-  phases of rectangular wooden buildings arranged with their short axes towards the road", each with a
-  hearth [S14]; in the Welsh and Cumbrian surveys that report cites, "most of the sites produced
+- Welsh comparanda point the same way: at Cefn Caer, Pennal (as S14 reports it, beside the Llanio survey),
+  ribbon development along a road, with "several phases of rectangular wooden buildings arranged with their
+  short axes towards the road", each with a hearth [S14]. *Corrected 2026-10-09 (independent check).* in the Welsh and Cumbrian surveys that report cites, "most of the sites produced
   evidence for the presence of vici in the form of ribbon development along at least one of the roads
   leading from the fort" [S14]. Caersws is the exception: "a developed series of streets, timber buildings" and a
   possible temple precinct [S10].
-- **But**: the Dinefwr vicus was only sampled (two small trenches), the plot under-represents
-  complexity [S1], and the **individual buildings, their shapes, the number of plots and their
+- **But**: the Dinefwr vicus was only sampled (two small trenches), the plot may under-represent
+  complexity (the report's own wording, tied to Trench 7, where one of the two ditches then proved
+  post-medieval, so weak support) [S1], and the **individual buildings, their shapes, the number of plots and their
   orientation are not known**. "Shambolic" is a reasonable reading of an under-resolved plot, **not a
   finding**. Show the vicus as irregular, ribbon-like and uncertain; the tidy, aligned rows of the
   Ludlow drawing are an **artist's reconstruction** (below) and are at best one possibility.
@@ -298,13 +323,22 @@ supports:**
 - A Roman building "identified as a temple" is recorded in the churchyard of St Tyfei's, Llandyfeisant
   (NPRN 114230), below the ridge, about 310m south of the Coflein point [S2]; the earlier note
   ([`era-iron-age.md`](era-iron-age.md)) records it as speculative and unsubstantiated, and the report
-  mentions only an antiquarian "possible Roman structure" there (PRN 7367) [S1].
+  mentions only an antiquarian "possible Roman structure" there (PRN 7367) [S1]. Coflein 114230 (SN 62192
+  22216) adds foundations noted about 1770 and an altar "recorded, but now lost" with "a cornucopia & augural
+  staff"; HER PRN 7367 adds "reported finds of tesserae during work in the churchyard ... in the latter part
+  of the 20th century" and calls it "either a villa or a temple" [S2][S23]. *Corrected 2026-10-09 (independent check).*
 - A coin hoard found c. 1800 about 150m south-west of the complex. Coflein's heading calls it "later
   Roman", yet the account it quotes (Fenton, c. 1800) describes silver denarii, "some of Domitian (AD
   81-96)", in a pot [S7]; the report lists two hoards, a possible mid to late 3rd century one (PRN 886)
-  and a possible late 1st century one (PRN 869) [S1]. Which is which is **unresolved**.
+  and a possible late 1st century one (PRN 869) [S1]. **Resolved by the HER:** PRN 869 is the hoard of
+  silver denarii, "some of Domitian (AD81-96)", in a pot, found in 1800 "300 yards west of Llandyfeisant
+  church" (the same find as Coflein 419158); PRN 886 is a separate find of six bronze coins of Gallienus to
+  Claudius Gothicus (mid to late 3rd century). Coflein's "later Roman" heading for 419158 is the error [S23].
+  *Corrected 2026-10-09 (independent check).*
 - Seven silver denarii (three Republican, one Augustan, three of AD 69-96) were found by a metal
-  detectorist near Home Farm in 2000 [S1].
+  detectorist near Home Farm in 2000 [S1]. HER PRN 47648 records **four** denarii (one of Augustus, three of
+  the 1st century AD including one and possibly two of Vespasian) with four findspots (SN618225, SN620226,
+  SN621224, SN623227); the counts disagree and both stay [S23]. *Corrected 2026-10-09 (independent check).*
 - Dyfed Archaeological Trust found "strong evidence for a substantial Roman building" near the North
   Heronry Dam, 2008 (a **possible villa**, NPRN 422436, SN 60880 22740), exact place unknown [S9]. It is
   c. 1.3km west of the forts and is not part of the vicus.
@@ -312,11 +346,14 @@ supports:**
 ## The Neil Ludlow drawing
 
 The commenter's PDF is Heneb's "Tywi Time Line" (eight A3 pages, created 2011) [S4]. Its Roman section
-reads, in full: "It is generally accepted that the Roman conquest of west Wales occurred as part of the
+reads, in full (*Corrected 2026-10-09 (independent check)*: the note quoted three sentences; there is a
+fourth, below): "It is generally accepted that the Roman conquest of west Wales occurred as part of the
 Flavian campaigns of AD74 and 75. The military presence was virtually withdrawn around AD120 (Davies,
 2000). Roads were constructed to enable the rapid deployment of military troops and supplies between
-established forts and two large forts, one partly overlying the other, were built at Dinefwr Park." The
-only other thing on that page is the caption **"Reconstruction of Llandeilo Roman Fort by Neil
+established forts and two large forts, one partly overlying the other, were built at Dinefwr Park." The fourth: "Roman finds have
+been discovered throughout the Tywi valley but, with the possible exception of Llys Brychan near Bethlehem,
+no extensive Roman villas have been unearthed" (Llys Brychan is inside the ten-mile circle and is not in any
+other research note) [S4]. The only other thing on that page is the caption **"Reconstruction of Llandeilo Roman Fort by Neil
 Ludlow"** (no date, no medium, no licence, no source plan) [S4].
 
 **What the PDF does not contain**: no "AD 90-100", no geophysical survey, no vicus text. The "useful
@@ -347,11 +384,14 @@ other photographs).
 | Retained annex with buildings | the excavator's suggestion, supported by Trench 3 phases | plausible, not proven |
 | Tidy vicus rows | irregular plot; two small trenches | **optimistic** (see above) |
 
-It is a **reference, not a source**, and its date is not stated. I could not find the drawing credited
-anywhere else, nor any note of which phase it shows. The commenter calls it "of around AD 90-100"; the
-file says nothing of the sort. Dewi has said to ignore licence problems and credit the person, so it may
-be used as a visual reference with the credit "Neil Ludlow, in Heneb's Tywi Time Line (2011)". That does
-not make it evidence.
+It is a **reference, not a source**. The Time Line gives it no date. **llandeilo.org captions the same
+picture** "Painting by Neil Ludlow of what the second fort may have looked like around 100AD (Drawing: Cambria
+Archaeology)", beside the 2003 geophysics plot [S24]. So it is the second fort, and "around AD 90-100" is the
+caption's date for the scene, not a foundation date and not a finding. (*Corrected 2026-10-09 (independent
+check)*: the first pass said it could not find the drawing credited anywhere else, nor which phase it shows.)
+The Time Line itself says nothing of the sort. Dewi has said to ignore licence problems and credit the
+person, so it may be used as a visual reference with the credit "Neil Ludlow, for Cambria Archaeology, in
+Heneb's Tywi Time Line (2011)". That does not make it evidence.
 
 ## Typical comparanda (analogy, not local evidence)
 
@@ -361,9 +401,9 @@ These are for filling gaps and for labelling reconstruction, not for stating wha
 |---|---|---|
 | **Caersws** (Powys), 3.2ha, 188m by 177m, "very early Flavian (c. AD 70)" then Trajanic and Hadrianic phases | A comparably early large Flavian fort; later annex and a large vicus with streets, timber buildings and a possible temple; the bathhouse lay outside to the south. Hughes compared Fort 1 (3.85ha) with "Caersws I at 3.8 hectares"; Coflein now gives 3.2ha, a size difference to note | S10, S1 |
 | **Castell Collen** (Llandrindod Wells), c. 182m by 114m, later cut to about 128m by 114m | Occupied from the 70s; "stone revetted and ditched banks" (as rebuilt); an extramural bathhouse | S11 |
-| **Caerau (Treflys, between Llandovery and Castell Collen)**, c. 170m by 115m, from c. 75 | An auxiliary fort with rounded corners; a **courtyard building in the north-east corner** (the front); extramural settlement on the north-west; a possible practice work, marching camps nearby | S12 |
+| **Caerau (between Llandovery and Castell Collen; the first pass wrongly added "Treflys", which S12 does not say)**, c. 170m by 115m, from c. 75 | An auxiliary fort with rounded corners; a **courtyard building in the north-east corner** (the front); extramural settlement on the north-west; a possible practice work, marching camps nearby | S12 |
 | **Carmarthen** (Moridunum), occupied from about AD 75 to at least 100 | A **second-phase fort reduced in size** from the first, as at Dinefwr and (per the earlier note) Pumsaint | S13 |
-| **Trawscoed** (Ceredigion), 165m by 125m (2.1ha) | Geophysics: **six blocks of barracks** in the northern quadrant, a veranda possible (a row of post-holes), "post holes of timbers supporting guard towers" beside the gate, a possible mansio near the gate. Wikipedia (a lead) adds a "clay-and-turf" rampart about 4.1m wide with a clay-and-turf revetment | S14, S15 |
+| **Trawscoed** (Ceredigion), 165m by 125m (2.1ha; the size and the rampart come from S15 only, S14's 160m by 120m is its survey area) | Geophysics: **six blocks of barracks** in the northern quadrant, a veranda possible (a row of post-holes), "post holes of timbers supporting guard towers" beside the gate, a possible mansio near the gate. Wikipedia (a lead) adds a "clay-and-turf" rampart about 4.1m wide with a clay-and-turf revetment | S14, S15 |
 | **Jay Lane, Herefordshire** (an earth fort, pre-Flavian, not Wales), c. 2ha | Excavated **timber gate towers on two rows of five posts**, about 2.9m (9.5ft) square, **six-post corner tower** about 4.6m by 2.4m, **four-post interval towers** about 2.4 to 3m square, a **double V-shaped ditch** 2m wide and 1m deep with a 1.5m berm, the rampart "no more than 10ft (3m)" to the walk and "about 15.5ft" with breastwork (those are **estimates**, no rampart bank survives) | S16 |
 
 **General fort plan.** A typical auxiliary fort had a central headquarters (principia) facing the front
@@ -371,8 +411,9 @@ gate, the commander's house (praetorium) beside it, granaries (horrea) and works
 it, and the rest filled with barracks, stables and stores in the front (praetentura) and rear
 (retentura); gates at the four sides, the front called the porta praetoria; roads called the via
 principalis (across, between the side gates), via praetoria (from the front gate) and via sagularis
-around the inside of the rampart [S18]. **A barrack is divided into rooms for eight-man units
-(contubernia), about 30 to 100m by 7 to 15m, usually with a veranda along the front** [S18]. A
+around the inside of the rampart [S18]. **S18 gives barracks "measuring 30-100 x 7-15m, and divided into contubernia", but that paragraph is about
+legionary fortresses (the page now redirects to "Castra"); "eight-man" is not in it.** For an auxiliary fort
+prefer Trawscoed's six barrack blocks and possible veranda [S14]. *Corrected 2026-10-09 (independent check).* A
 *cohors quingenaria* had 6 centuries of 80 men (480), an *ala quingenaria* 16 turmae of 30 or 32 (480
 or 512), a *cohors milliaria* 10 centuries of 80 (800), all "establishment" figures from the second
 century (the real strengths were "somewhat less") [S19]. **Applying these to Dinefwr is
@@ -398,7 +439,10 @@ documented and what is derived.
 | Item | Reference | Source | Note |
 |---|---|---|---|
 | Roman Fort Complex, Dynevor Park | **SN 62187 22534** = E 262187, N 222534 | Coflein NPRN 402271 [S2] | A single point for the whole complex, 6-figure plus; centre convention not stated |
-| Same complex, report's own | SN620 225 | Hughes report, Fig 1 caption [S1] | 6-figure, +/- 100m; not a point of the forts |
+| Same complex, report's own | SN620 225 | Hughes report, introduction text "(Fig. 1, SN620 225)" [S1] | 6-figure, +/- 100m; not a point of the forts. Corrected 2026-10-09 (independent check): it is in the text, not a figure caption |
+| **Fort 1** (PRN 47636) | **SN 6218 2245** = E 262180, N 222450 | Heneb HER (Archwilio) [S23] | The first documented reference for either fort. A 2013 summary "based on Hughes"; the HER's centre convention is not stated. *Corrected 2026-10-09 (independent check).* |
+| **Fort 2** (PRN 47637) | **SN 6217 2253** = E 262170, N 222530 | Heneb HER (Archwilio) [S23] | Within about 20m of Coflein's point. *Corrected 2026-10-09 (independent check).* |
+| Road leaving the front gate, north-east (PRN 47638) | SN 6225 2260 | Heneb HER (Archwilio) [S23] | *Corrected 2026-10-09 (independent check).* |
 | Same complex, Cadw | SN622224 | Wikipedia list of Cadw scheduled monuments, CM367 [S6] | Secondary source for Cadw's entry; the Cadw record itself was not retrieved. CM367 is also named in a Coflein archive record [S5] |
 | 2005 excavation (a trench, "with dig tents") | SN 6217 2256 | RCAHMW aerial photograph AP_2005_1285 caption [S21] | Probably Trench 2 (inside Fort 2); the caption does not say which |
 | Roman coin findspot | SN 61948 22295 | Coflein NPRN 419158 [S7] | "Some 150m south-west of the Roman Fort Complex" |
@@ -407,43 +451,53 @@ documented and what is derived.
 | Newton House (a fixed point for georeferencing) | SN 61432 22531 | Coflein NPRN 17603 [S20] | not Roman |
 | Dinefwr Castle (the other anchor) | SN 61150 21731 | [`building-models.md`](building-models.md) S21 | not Roman |
 
-**No source read gives separate grid references for Fort 1, Fort 2, the gates, the vicus or the
-bathhouse.** Coflein has one record for the complex.
+**The HER gives one reference for each fort and for the north-east road (above); no source read gives
+one for the gates, the vicus or the bathhouse.** Coflein has one record for the complex. *Corrected 2026-10-09 (independent check).* (The first
+pass said no source gave separate references, and that Archwilio was unreachable; its record pages answer at
+`archwilio.org.uk/arch/query/page.php?watprn=DAT<PRN>&dbname=dat&tbname=core`, though the site rate-limits
+after about a dozen calls. The community-site numbers 47636 and 47637 that the first pass told the builder
+not to use are the correct ones.)
 
 ### Derived geometry (from the report's figures; not documented grid references)
 
 I georeferenced the report's Fig 1 (the location map, OS-based, 500m scale bar, north up) to the two
 fixed points above, by pixel measurement. The scale checks out: the castle-to-Newton House distance
-read off the figure was 261m east and 786m north against 277m and 802m by grid reference, so the figure
-agrees with the map to about 16m over 840m. **Treat all the derived positions as approximate to plus or
-minus 60m in absolute terms** (the outlines are drawn loosely and my reading of them is by eye), and
-**plus or minus 10m relative to one another** (same figure).
+read off the figure was 284m east and 799m north against 282m and 800m by grid reference (re-measured by the
+independent check; the first pass read 261m and 786m against 277m and 802m, which was wrong on both sides, and
+its fort centres were about 45m too far east and 50m too far north). The figure agrees with the map and with
+its own scale bar to within about 2m. **Treat the derived positions as approximate to plus or minus 30m in
+absolute terms** (the outlines are drawn loosely and the anchor points were picked by eye), and **plus or
+minus 10m relative to one another** (same figure). *Corrected 2026-10-09 (independent check).*
 
 | Item | Derived | How |
 |---|---|---|
-| Fort 1 centre | about **E 262249, N 222517** | Fig 1 dashed outline, two anchors averaged |
-| Fort 2 centre | about **E 262231, N 222590** | Fig 1 solid outline |
-| Offset, Fort 2 centre from Fort 1 centre | about **18m west, 73m north** | same figure, relative |
+| Fort 1 centre | about **E 262206, N 222470** (HER: E 262180, N 222450) | Fig 1 dashed outline, re-measured 2026-10-09. *Corrected 2026-10-09 (independent check).* |
+| Fort 2 centre | about **E 262190, N 222538** (HER: E 262170, N 222530; Coflein: E 262187, N 222534) | Fig 1 solid outline, re-measured 2026-10-09. *Corrected 2026-10-09 (independent check).* |
+| Offset, Fort 2 centre from Fort 1 centre | about **16m west, 69m north** (HER: 10m west, 80m north) | same figure, relative |
 | Long axis, both forts | about **48 to 53 degrees** east of north (north-east to south-west) | outline sides |
-| Fort 1, outer outline | about 260m by 170m | outer edge of the ditches; consistent with 240m by 160m inside |
-| Fort 2, outer outline | about 135m by 155 to 165m | outer edge of the ditches; roughly consistent with 140m by 110m inside, but the drawn outline is loose and not a clean rectangle |
-| Vicus (dotted area) | about 108m east, 82m north of Fort 2's centre, spread north-east of its front gate | Fig 1 hatched area |
-| Fig 1 against Coflein's point | the figures put the forts **about 50m east** of SN 62187 22534 | derived centres compared |
+| Fort 1, drawn outline | about 250m by 168m | only about 10m larger than the 240m by 160m inside, so the line is the **inner circuit**, not the outer ditches, which lie outside it. *Corrected 2026-10-09 (independent check).* |
+| Fort 2, drawn outline | about 150m (north-east to south-west) by 130m | likewise about 10m outside the internal size (140m by 110m), loose and not a clean rectangle. *Corrected 2026-10-09 (independent check).* |
+| Vicus (dotted area) | about 109m east, 84m north of Fort 2's centre, spread north-east of its front gate | Fig 1 hatched area |
+| Fig 1 against Coflein's point | Fig 1 puts Fort 2's centre **within about 5m** of SN 62187 22534; the HER, Coflein, the 2005 trench photograph (SN 6217 2256, about 20m west and 20m north of Fort 2's centre, where Trench 2 lies on Fig 2) and Fig 1 agree to within about 30m | derived centres compared. Cadw's six-figure SN622224 is a 100m square and cannot discriminate. *Corrected 2026-10-09 (independent check).* |
 
 **What this means for the build.**
 
-- The Coflein point, the Cadw reference and the 2005 trench reference all sit **40 to 60m west** of my
-  derived centres. I cannot tell whether my reading of the figure or the single point is the one that is
-  out, and I did not use either to correct the other. **Do not place from my derived numbers alone.**
-  Register the forts on the LiDAR, using the report's Fig 2 plot as the overlay. The forts were found
+- *Corrected 2026-10-09 (independent check).* The first pass said the Coflein point, the Cadw reference and
+  the trench reference sat 40 to 60m west of the derived centres and that the figures put the forts about
+  50m east of Coflein's point. That was a measurement error; there is no conflict. **Place from the HER and
+  Coflein references, take shape and orientation from Figs 1 and 2, then register on the LiDAR**, using the
+  report's Fig 2 plot as the overlay. The forts were found
   by geophysics rather than as visible earthworks, so how much of them shows on the LiDAR is unknown.
 - **The orientation and the relative offset are the useful findings**: both forts' long axes run
   north-east to south-west along the ridge, and Fort 2 lies on the northern part of Fort 1 (centres about
-  75m apart), with Fort 1 extending south-west beyond it. The existing placeholder features
+  70m apart), with Fort 1 extending south-west beyond it. The existing placeholder features
   (`roman-fort-a` at Coflein's point, `roman-fort-b` at about 28m east and 29m south of it, both at
   angle 0.12) disagree with this on the relative offset (Fort 2 should be **north** of Fort 1's centre,
   not south-east) and on the orientation (about 0.12 radians is 7 degrees; the figure reads about 50
-  degrees). That is a **correction for the builder** to confirm, not a finished result.
+  degrees). That is a **correction for the builder** to confirm, not a finished result. *Corrected
+  2026-10-09 (independent check):* in `romanFort` (`src/world/structures.ts`) a positive angle turns the long
+  axis **west** of north, so the real gap is about 55 to 60 degrees, not 43; and Coflein's point is Fort 2's
+  centre, so `roman-fort-a` (the larger fort) sits on the smaller fort's centre.
 - The report's Fig 2 magnetometer plot is reproduced in `refs/roman-forts/` as the overlay, at the
   same scale as Fig 1 (the 200m scale bar is on the figure); the Stratascan interpretation figure is not
   available.
@@ -463,11 +517,11 @@ minus 60m in absolute terms** (the outlines are drawn loosely and my reading of 
 | Fort 1 date, soon after 74 | documented (as a range, hedged) | pottery; no scientific date | S1, S2 |
 | Fort 1 abandonment at 78-83 | **speculative**, not documented | "may suggest" and "remains speculative" | S1, S2 |
 | Fort 2 outline, 140m by 110m inside | documented | magnetometry of all four sides | S1, S2 |
-| Fort 2 start date | **unknown** | "no direct evidence"; AD 90-100 unsupported | S1, S2 |
+| Fort 2 start date | **unknown** | "no direct evidence"; AD 90-100 unsupported (probably the caption date of the Ludlow scene); the HER's "possibly around 82 AD" is an unproven 2013 summary. *Corrected 2026-10-09 (independent check).* | S1, S2, S23, S24 |
 | Fort 2 end, by AD 140 | documented (as a bracket) | samian predominance, little BB1 | S1 |
 | Turf rampart | reconstructed | inferred from ditch fill; no bank survives | S1 |
 | Rampart height, breastwork, wall-walk | imagined/reconstructed | analogy (Jay Lane estimates) | S16 |
-| Ditch counts and profiles | documented | magnetometry plus Trenches 1, 2 and 9/10 | S1 |
+| Ditch counts and profiles | documented | magnetometry plus Trenches 1 and 2 (and Test Area 6); Trenches 9 and 10 cut the north-west enclosure, not a fort. *Corrected 2026-10-09 (independent check).* | S1 |
 | Fort 1 gates: two evidenced | documented | survey | S1 |
 | Fort 1 six-post gate tower | documented (posts) / reconstructed (form) | four post-pits, 1.2m square | S1; S16 |
 | Fort 1 interval tower | documented ("probably") | four-post anomaly | S1 |
@@ -480,11 +534,11 @@ minus 60m in absolute terms** (the outlines are drawn loosely and my reading of 
 | Roads inside Fort 2 | documented / reconstructed | survey, one gully pair | S1 |
 | Roof, door, window, shutter, hinge details | imagined | none local | none |
 | Vicus extent and roads | documented (roads, activity) | survey and trenches | S1 |
-| Vicus building form and plan | reconstructed / imagined | analogy (Llanio ribbon development) | S14 |
+| Vicus building form and plan | reconstructed / imagined | analogy (Cefn Caer, Pennal ribbon development) | S14 |
 | Annex using Fort 1 ditches | reconstructed | excavator's suggestion | S1 |
 | Practice camp enclosures | reconstructed | "perhaps"; near-empty interiors | S1 |
 | Bathhouse | **contested** | survey anomaly vs post-medieval brick; one possible box tile | S1, S3 |
-| Garrison unit | unknown | size-based guesses only | S1 |
+| Garrison unit | unknown | size-based guesses only: Coflein's "more than a thousand, drawn from several different units" and Hughes's "at the very least an ala quingenaria ... or a cohors milliaria" for Fort 1; a cohors quingenaria peditata for Fort 2. *Corrected 2026-10-09 (independent check).* | S1, S2 |
 
 ## Contradictions, kept contested
 
@@ -494,7 +548,9 @@ minus 60m in absolute terms** (the outlines are drawn loosely and my reading of 
 | Fort 2 area | 1.54ha (Hughes) | 1.5ha (Coflein); 3.5 acres or 1.4ha (Rees via Wikipedia) | Agree within rounding |
 | Fort 1 start | perhaps soon after 74, earlier not excluded (Hughes) | "AD 70s, earlier cannot be ruled out" (Coflein); "about 74" (community page); Veranius AD 57/58 (roman-britain.co.uk, speculative) | Hughes; the early end stays open |
 | Fort 1 end | 78 to 83 (Coflein, "may suggest"; Hughes "speculative") | not given | Contested |
-| Fort 2 start | not dated (Hughes, Coflein) | "around AD 90-100" (commenter, no source) | Unsupported |
+| Fort 2 start | not dated (Hughes, Coflein); "possibly around 82 AD" (HER PRN 47637, a 2013 summary "based on Hughes") | "around AD 90-100" (commenter; llandeilo.org's caption for the Ludlow scene) | AD 90-100 unsupported as a foundation date; the HER reading unproven. *Corrected 2026-10-09 (independent check).* |
+| Coin hoards | PRN 869: silver denarii "some of Domitian", found 1800 west of Llandyfeisant church (late 1st century) | PRN 886: six bronze coins, mid to late 3rd century; Coflein's "later Roman" heading for 419158 | Resolved: Coflein's heading is the error. *Corrected 2026-10-09 (independent check).* |
+| 2000 metal-detector denarii | seven (Hughes) | four (HER PRN 47648, with findspots) | Both kept. *Corrected 2026-10-09 (independent check).* |
 | Fort 2 end | "by AD 140"; reduced in the later Trajanic period (Hughes) | "early part of the second century" (Coflein) | Both, as a range |
 | Survey method | magnetometer (Hughes) | "ground radar" (Wikipedia; also in search snippets of a community page) | Hughes |
 | "Bathhouse" | possible building 30m by 18m with an apse (the survey) | post-medieval brick, a kiln (excavation, Trench 6) | Contested; do not draw as fact |
@@ -508,7 +564,7 @@ ignore licence problems, credit the person. Credits:
 
 | File | What | Credit |
 |---|---|---|
-| `ludlow-reconstruction-tywi-timeline.png` | Aerial reconstruction of the later fort, annex, roads and vicus, 400 by 468 px, as embedded in the PDF | Neil Ludlow, "Reconstruction of Llandeilo Roman Fort", in Heneb (Dyfed Archaeological Trust), *Tywi Time Line*, 2011 [S4]. Heneb states its NLHF-funded digital outputs are CC BY 4.0, but whether that covers this PDF or drawing is **not confirmed** [S3] |
+| `ludlow-reconstruction-tywi-timeline.png` | Aerial reconstruction of the later fort, annex, roads and vicus, 400 by 468 px, as embedded in the PDF | Neil Ludlow, "Reconstruction of Llandeilo Roman Fort" (llandeilo.org: "Drawing: Cambria Archaeology" [S24]), in Heneb (Dyfed Archaeological Trust), *Tywi Time Line*, 2011 [S4]. Heneb states its NLHF-funded digital outputs are CC BY 4.0, but whether that covers this PDF or drawing is **not confirmed** [S3] |
 | `hughes-2007-fig1-location.jpg` | Location map with the outlines of Fort 1 and Fort 2 and the vicus area, 500m scale | Gwilym Hughes, Cambria Archaeology (Dyfed Archaeological Trust) for the National Trust, 2007, Fig 1; illustrations by Hubert Wilson; contains Ordnance Survey data, Crown copyright 2004 [S1] |
 | `hughes-2007-fig2-geophysics-and-trenches.jpg` | Magnetometer plot with trench positions, 200m scale | Geophysics by Stratascan; Hughes 2007, Fig 2 [S1] |
 | `hughes-2007-fig7-trench3-phasing.jpg` | Trench 3 plan and four suggested phases | Hughes 2007, Fig 7; illustration by Hubert Wilson [S1] |
@@ -518,14 +574,16 @@ Creative Archive Licence, non-commercial) [S21], which show the tents rather tha
 
 ## Gaps and open questions
 
-1. **The second fort's date.** Nothing read supports "AD 90-100". The next step is the primary
+1. **The second fort's date.** Nothing read supports "AD 90-100" as a foundation date (it is probably
+   llandeilo.org's caption date for the Ludlow scene [S24]); the HER's "possibly around 82 AD" is an unproven
+   2013 summary [S23]. The next step is the primary
    excavation reports: Hughes, *Carmarthenshire Antiquary* 39 (2003) 144-7 and 41 (2005) 168-74, and
    the Stratascan reports (2003; Heard 2005) [S1][S2]. Not found online. A fuller pottery report may
    narrow it.
-2. **Archwilio (the regional HER, Heneb).** Not reachable here (dynamic pages). Its primary record
-   numbers for the forts are not confirmed; a community website quotes PRN 47636 and 47637 for the two
-   forts and PRN 47647-50 for the nearby Roman finds, and the report itself uses PRN 47646-47648 for
-   fieldwalking finds, so **do not use the community numbers** without checking Archwilio.
+2. **Archwilio (the regional HER, Heneb).** *Corrected 2026-10-09 (independent check):* it is reachable
+   (URL under [Exact placement](#exact-placement)), and the community numbers are right: PRN 47636 is Fort 1,
+   47637 Fort 2, 47638 the north-east road, 47646-47650 the finds [S23]. It rate-limits after about a dozen
+   calls, so PRNs 972, 94533-94535 and the 2005 excavation event record (PRN 54934) were not read.
 3. **Britannia ("Roman Britain in 2005", *Britannia* 37, 2006).** Searched; the Dinefwr entry was not
    found and the Cambridge pages are paywalled. Burnham and Davies (*Britannia* 52, 2021, on Pen y Gaer's
    vici) was read as an abstract only [S22]. The Dinefwr entry may add dates.
@@ -534,30 +592,61 @@ Creative Archive Licence, non-commercial) [S21], which show the tents rather tha
 5. **The Stratascan interpretation plots** (Stratascan 2003 Fig 18, Heard 2005). Not online. They
    would give Fort 2's building anomalies and the vicus anomalies at a usable scale. **Ask Heneb or
    the National Trust** for them.
-6. **Local community page.** `llandeilo.org` ("Llandeilo's Roman Fort", quoting Cambria's 2003
-   newsletter) returned 404 here; its 3.9ha and "about AD 74" appeared only in search snippets
-   and are not used.
+6. **Local community page.** *Corrected 2026-10-09 (independent check):* `llandeilo.org` ("Llandeilo's Roman
+   Fort", quoting Cambria's 2003 newsletter) is live at `roman_settlement.html` (the `.php` address is the
+   dead one). It gives 3.9ha, "about AD 74", vicus activity "from 75 AD to 120 AD" (unsourced; the report
+   governs), the Ludlow caption and the 2003 plot [S24]. It also overstates one find ("a complete funeral
+   urn"; the report says the vessel held no substantial cremated bone).
 7. **Nothing on roofs and fittings.** No local evidence for roof material, windows, doors or shutters.
-   Only daub with wattle (burnt) and brick or tile fragments of uncertain use. The 2005 tile and brick
-   (appendix 4) are described as mostly post-medieval kiln waste; a possible box tile in Trench 2
-   ploughsoil may mean a hypocaust building nearby.
+   Only daub with wattle (burnt) and brick or tile fragments. *Corrected 2026-10-09 (independent check):*
+   Trench 6's brick is probably post-medieval kiln waste, but the fort and vicus contexts (2001, 4001)
+   produced harder-fired Roman tile of a distinct fabric, type not identified, plus a possible box tile in
+   Trench 2 ploughsoil (a hypocaust building nearby cannot be excluded). Roof material is still unknown, but
+   tile was present. A garbled small-finds line suggests some Trench 2 stone may have been used for roofing,
+   which "cannot be inferred from the recovered fragment": a lead, not evidence.
 8. **The orientation and offset need checking on LiDAR** (see placement). The existing placeholder
-   fort placements (offset and angle) disagree with my reading.
+   fort placements (offset and angle) disagree with the figures, by about 55 to 60 degrees of angle.
 9. **For Dewi:** how detailed should *unsourced* interiors be? Everything inside Fort 1, and Fort 2
    beyond its roads and predicted principia, is analogy. A detailed reconstruction must therefore mark
    almost every building as reconstructed or imagined (ⓘ). That fits the project's law, but it is a
    visible choice about the look.
 10. **The commenter's claims, checked.** "A geophysical survey ... showing the civilian town" is real
     (Stratascan, in the Hughes report) but is not in the linked PDF; "the second fort of around AD
-    90-100" has no source; the drawing is real and credited as above; "more shambolic" is a fair
+    90-100" has no source as a foundation date and is probably llandeilo.org's caption for the drawing
+    (*Corrected 2026-10-09 (independent check)*); the drawing is real and credited as above; "more shambolic" is a fair
     reading of an under-resolved plot, not a finding.
+
+## Further points from the independent check
+
+Added 2026-10-09 from the [check](reviews/roman-forts-and-vicus-check-2026-10-09.md); none changes a verdict
+above, but the builder should know them.
+
+- **The placeholder forts in the app are wrong on more than the angle.** `roman-fort-b` runs from AD 83 to
+  125, but the documented bracket ends "by AD 140" (with troops gone from the south-west perhaps by the
+  mid-120s), so 125 is defensible only as the earlier reading and should say so. The placeholder roofs are
+  `TILE` and the central building `LIMEWASH`, neither evidenced at Dinefwr. And `landmarkScale` 2.6 draws
+  the forts 2.6 times life size, so a 240m fort covers about 620m: a "detailed reconstruction on the LiDAR"
+  needs a decision on true scale.
+- **The Dyfed Archaeological Trust 2005 dig diary is a trap.** Written before excavation (Wayback copy of the
+  "Llandeilo Fort Dig Diary", cited by Wikipedia), it describes Fort 2 with a palisade, four "massive timber
+  gatehouses", "about 150m long by 100m wide" and "a grid pattern of roads ... barracks, granaries", all in
+  the conditional. Treat it as reconstruction, never evidence; the 2007 report supersedes it [S25].
+- **Fort 1's and Fort 2's alignments differ slightly** (HER 47835: the later fort over "an earlier, larger fort
+  with a slightly different alignment"); both long axes are still about 48 to 53 degrees east of north.
+- **Coflein 402271 cites NPRN 266170 as the fort complex**, but 266170 is the park and gardens record.
+- **Hughes's Trench 4 objective** mentions "the road approaching the northeast entrance to Fort 1";
+  everywhere else that road leads to Fort 2. A slip, worth knowing if the sentence is quoted.
+- **The 1993 fieldwalking list uses "Field 'E', SE Annex"** as a field label, which may help locate the annex
+  if the fieldwalking archive is found.
+- **The Cadw record's DAT number** in the Wikipedia list (27637) is wrong: Archwilio PRN 27637 is an unrelated
+  spoil heap.
 
 ## Sources
 
 - [S1] Gwilym Hughes, *The Llandeilo Roman Forts: Archaeological Investigations 2003-2007* (Cambria Archaeology report 2006/38, December 2007), PDF on Heneb. https://heneb.org.uk/wp-content/uploads/2025/09/llandeiloromanforts2003-2007.pdf : read in full with pdftotext and every figure viewed. The geophysical survey (Stratascan 2003; Heard 2005), Fort 1 and Fort 2 sizes, ditches, gateways, roads, vicus, Trenches 1-10, pottery (Webster), glass (Williams), plant remains (Caseldine and Griffiths), the preliminary discussion, brick and tile (appendix 4). Same report as roman:S1 and classes:S19.
 - [S2] Coflein (RCAHMW), "Roman Fort Complex, Dynevor Park, Llandeilo", NPRN 402271. https://coflein.gov.uk/en/site/402271/ : the 3.7ha and 1.5ha, the 70s, "78 and 83", "garrison phase", "no direct evidence of the vicus ... second half of the second century", grid SN 62187 22534, sources Hughes 2003 and 2005. Same record as roman:S2. Read directly.
 - [S3] Heneb, "Llandeilo Roman Forts" project page. https://heneb.org.uk/project/llandeilo-roman-forts/ : "two superimposed Roman forts, along with roads, a vicus ... and a possible bathhouse"; 2003 to 2007 National Trust project; the excavation image and the report PDF link; NLHF digital outputs "CC BY 4.0". Read directly.
-- [S4] Heneb (Dyfed Archaeological Trust), "Tywi Time Line" (eight A3 pages, PDF created April 2011), the file the issue commenter linked. https://heneb.org.uk/archive/dyfed/tywi/tywitimeline.pdf : the Roman section (two sentences) and the caption "Reconstruction of Llandeilo Roman Fort by Neil Ludlow"; contains no geophysical survey and no AD 90-100. Text read with pdftotext; all page images extracted and viewed.
+- [S4] Heneb (Dyfed Archaeological Trust), "Tywi Time Line" (eight A3 pages, PDF created April 2011), the file the issue commenter linked. https://heneb.org.uk/archive/dyfed/tywi/tywitimeline.pdf : the Roman section (four sentences, the fourth naming a possible villa at Llys Brychan; corrected 2026-10-09 by the independent check) and the caption "Reconstruction of Llandeilo Roman Fort by Neil Ludlow"; contains no geophysical survey and no AD 90-100. Text read with pdftotext; all page images extracted and viewed.
 - [S5] Coflein (RCAHMW), archive record 6170068, "CM367 - Cadw Scheduling Records". https://coflein.gov.uk/en/archive/6170068 : a file of Cadw scheduling notices for "Dinefwr Park Roman Forts (CM367)", c. 2006. Read directly.
 - [S6] Wikipedia, "List of Roman-to-modern scheduled monuments in Carmarthenshire". https://en.wikipedia.org/wiki/List_of_Roman-to-modern_scheduled_monuments_in_Carmarthenshire : Dinefwr Park Roman Forts, CM367, grid SN622224, "Two superimposed Roman forts ... both from the 70s and 80s AD". A lead only; the Cadw record was not read.
 - [S7] Coflein (RCAHMW), "Roman Coins, Findspot, Dynevor Park", NPRN 419158. https://coflein.gov.uk/en/site/419158/ : grid SN 61948 22295; "some 150m south-west of the Roman Fort Complex"; Fenton's account of denarii "some of Domitian". Read directly.
@@ -566,12 +655,15 @@ Creative Archive Licence, non-commercial) [S21], which show the tents rather tha
 - [S11] Coflein (RCAHMW), "Castell Collen Roman Fort", NPRN 95708. https://coflein.gov.uk/en/site/95708/ : from the 70s; about 182m by 114m, later 128m by 114m; "stone revetted and ditched banks"; extramural bathhouse. Read directly.
 - [S12] Coflein (RCAHMW), "Caerau Roman Military Settlement; Caerau Roman Fort", NPRN 92153. https://coflein.gov.uk/en/site/92153/ : about 170m by 115m, from about 75; a courtyard building in the north-east corner shown by geophysics; extramural settlement. Read directly.
 - [S13] Coflein (RCAHMW), "Carmarthen Roman Military Settlement", NPRN 92890. https://coflein.gov.uk/en/site/92890/ : occupied from about AD 75 to at least 100; "a second phase fort which was reduced in size". Read directly. A different record from roman:S33.
-- [S14] Gwynedd Archaeological Trust for Cambria Archaeology, *Roman Fort Environs: Geophysical Survey at Trawscoed and Llanio Roman Forts* (report 623, G1827). https://heneb.org.uk/wp-content/uploads/2025/09/llaniotrawscoedgeophys.pdf : vici as "ribbon development along at least one of the roads"; six barrack blocks and gate-tower post-holes at Trawscoed; rectangular wooden buildings with short axes to the road at Llanio. Downloaded and read with pdftotext.
+- [S14] Gwynedd Archaeological Trust for Cambria Archaeology, *Roman Fort Environs: Geophysical Survey at Trawscoed and Llanio Roman Forts* (report 623, G1827). https://heneb.org.uk/wp-content/uploads/2025/09/llaniotrawscoedgeophys.pdf : vici as "ribbon development along at least one of the roads"; six barrack blocks and gate-tower post-holes at Trawscoed; rectangular wooden buildings with short axes to the road (most likely at Cefn Caer, Pennal, not Llanio; corrected 2026-10-09 by the independent check). Downloaded and read with pdftotext.
 - [S15] Wikipedia, "Trawscoed fort". https://en.wikipedia.org/wiki/Trawscoed_fort : 165m by 125m; "clay-and-turf" rampart about 4.1m wide; rebuilt at least three times; around 2,000 people in fort and vicus at its height (a secondary estimate). A lead only.
 - [S16] Herefordshire Through Time, "Jay Lane Fort" (HER 578). https://htt.herefordshire.gov.uk/herefordshires-past/the-romano-british-period/herefordshires-roman-sites/major-roman-sites/jay-lane-fort : earth rampart with turf revetment, double V-shaped ditch, timber gate towers on two rows of five posts, six-post corner tower, four-post interval towers; "No internal buildings were excavated". Date given as AD 47-61 (pre-Flavian, so only for the form of timber gates and towers, not the date). Read directly.
-- [S18] Wikipedia, "Roman fort". https://en.wikipedia.org/wiki/Roman_fort : the standard plan (gates, roads, principia, praetorium, horrea, fabrica, barracks about 30-100m by 7-15m in contubernia). A lead only; the first 100,000 characters were read.
+- [S18] Wikipedia, "Roman fort" (now redirects to "Castra"; its barrack sizes are for legionary fortresses, checked 2026-10-09). https://en.wikipedia.org/wiki/Roman_fort : the standard plan (gates, roads, principia, praetorium, horrea, fabrica, barracks about 30-100m by 7-15m in contubernia). A lead only; the first 100,000 characters were read.
 - [S19] Wikipedia, "Auxilia". https://en.wikipedia.org/wiki/Auxilia : establishment strengths of the cohors and ala quingenaria and milliaria (a second-century table; the real strengths "somewhat less"). A lead only.
 - [S19a] Wikipedia, "Dinefwr Park National Nature Reserve". https://en.wikipedia.org/wiki/Dinefwr_Park_National_Nature_Reserve : repeats "ground radar" for the 2003 survey, eight acres and 3.5 acres, "up to 2000 men", a vicus "near its north east entrance" (from Rees, *Carmarthenshire*). A lead; contradicted by S1 on method.
 - [S20] Coflein (RCAHMW), "Newton House; Dynevor Castle; Plas Dinefwr, Llandeilo", NPRN 17603. https://coflein.gov.uk/en/site/17603/ : grid SN 61432 22531; used only as a fixed point to georeference the report's Fig 1.
 - [S21] People's Collection Wales, "Dinefwr Park Roman Forts, Llandeilo" (RCAHMW aerial photograph AP_2005_1285, Toby Driver, 11 July 2005). https://www.peoplescollection.wales/items/405712 : "excavation trench at SN 6217 2256 with dig tents, viewed from the west"; Crown copyright RCAHMW 2005; Creative Archive Licence (non-commercial). Read directly.
 - [S22] Barry C. Burnham and Jeffrey L. Davies, "Forts, Vici and Related Extramural Activity in Wales and the Marches: Recent Discoveries at the Roman Fort of Pen y Gaer (Powys) and their Wider Implications", *Britannia* 52 (2021), 67-95. https://www.cambridge.org/core/journals/britannia/article/abs/forts-vici-and-related-extramural-activity-in-wales-and-the-marches-recent-discoveries-at-the-roman-fort-of-pen-y-gaer-powys-and-their-wider-implications/17A306685384F5A6FCEA33238DD6ECAD : abstract only (no full text); named as the next read for how Welsh vici were laid out.
+- [S23] Heneb, Historic Environment Record (Archwilio), records PRN 47636 (Fort 1, SN 6218 2245), 47637 (Fort 2, SN 6217 2253), 47638 (the north-east road, SN 6225 2260), 47646-47650 (finds, including 47648, the 2000 denarii), 869 (the Domitian denarii hoard) and 886 (six 3rd-century bronze coins), 7367 (Llandyfeisant temple or villa), 47835 and 48198 (the 2003 survey and its assessment), 50045. https://archwilio.org.uk/arch/query/page.php?watprn=DAT47637&dbname=dat&tbname=core (replace the number for each record; rate-limited after about a dozen calls). Fort summaries are by M. Page, 2013, "based on Hughes"; they give Fort 2 "possibly around 82 AD". Read by the independent check, 2026-10-09.
+- [S24] llandeilo.org, "Llandeilo's Roman Fort". https://llandeilo.org/roman_settlement.html (the `.php` address is dead) : captions the Ludlow painting "what the second fort may have looked like around 100AD (Drawing: Cambria Archaeology)" beside the 2003 geophysics plot (Cambria Archaeology newsletter No 2, Summer 2003); 3.9 hectares, "about AD 74", vicus "from 75 AD to 120 AD" (unsourced; the report governs). A community page, a lead only. Read by the independent check, 2026-10-09.
+- [S25] Dyfed Archaeological Trust, "Llandeilo Fort Dig Diary" (2005), Wayback copy of 2 February 2021. http://web.archive.org/web/20210202144706/http://www.dyfedarchaeology.org.uk/digllandeilofort.htm : written before the excavation; a palisade, four timber gatehouses and a grid of roads "would have" existed. Reconstruction in the conditional, never evidence; superseded by the 2007 report [S1]. Read by the independent check, 2026-10-09.

@@ -597,4 +597,9 @@ Milestones and what each one taught us. Newest last.
    the primary report's Fig 2. The only grid reference is Coflein's single point, so the forts were
    georeferenced from the report's Fig 1 and came out about 50m east of it. Lesson: a source a commenter
    cites may not contain the claim; read the whole file (every page image, not just the text) before
-   deciding the claim is unsupported.
+   deciding the claim is unsupported. The independent check the same day applied corrections: the Fig 1
+   georeference was 45m east and 50m north out, so the "forts disagree with Coflein" finding was false; and
+   Archwilio and llandeilo.org, called unreachable, were reachable at other addresses (the HER gives each fort
+   a grid reference; llandeilo.org's caption explains "AD 90-100"). Lesson: when a page 404s, try the sibling
+   address and the Wayback copy before listing it as a gap, and re-measure a derived number against a second
+   anchor before reporting a conflict with a documented one.

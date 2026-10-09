@@ -4436,7 +4436,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "fort:S18",
-    "title": "Wikipedia, \"Roman fort\".",
+    "title": "Wikipedia, \"Roman fort\" (now redirects to \"Castra\"; its barrack sizes are for legionary fortresses, checked 2026-10-09).",
     "url": "https://en.wikipedia.org/wiki/Roman_fort",
     "doc": "docs/research/roman-forts-and-vicus.md"
   },
@@ -4468,6 +4468,24 @@ export const SOURCE_SEEDS = [
     "id": "fort:S22",
     "title": "Barry C. Burnham and Jeffrey L. Davies, \"Forts, Vici and Related Extramural Activity in Wales and the Marches: Recent Discoveries at the Roman Fort of Pen y Gaer (Powys) and their Wider Implications\", *Britannia* 52 (…",
     "url": "https://www.cambridge.org/core/journals/britannia/article/abs/forts-vici-and-related-extramural-activity-in-wales-and-the-marches-recent-discoveries-at-the-roman-fort-of-pen-y-gaer-powys-and-their-wider-implications/17A306685384F5A6FCEA33238DD6ECAD",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S23",
+    "title": "Heneb, Historic Environment Record (Archwilio), records PRN 47636 (Fort 1, SN 6218 2245), 47637 (Fort 2, SN 6217 2253), 47638 (the north-east road, SN 6225 2260), 47646-47650 (finds, including 47648, the 2000 denarii)…",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT47637&dbname=dat&tbname=core",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S24",
+    "title": "llandeilo.org, \"Llandeilo's Roman Fort\".",
+    "url": "https://llandeilo.org/roman_settlement.html",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S25",
+    "title": "Dyfed Archaeological Trust, \"Llandeilo Fort Dig Diary\" (2005), Wayback copy of 2 February 2021.",
+    "url": "http://web.archive.org/web/20210202144706/http://www.dyfedarchaeology.org.uk/digllandeilofort.htm",
     "doc": "docs/research/roman-forts-and-vicus.md"
   },
   {

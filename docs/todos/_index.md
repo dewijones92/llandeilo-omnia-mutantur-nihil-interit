@@ -239,10 +239,13 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
 
 - [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded
 - [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort.
-      2026-10-09: researched (`research/roman-forts-and-vicus.md`, draft, not checked yet; Claude under the proactive
-      mandate, [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)): both forts, three of
-      Fort 2's four gates evidenced, no stone, the vicus irregular and thinly known, the second fort's "AD 90-100"
-      unsupported. Still to do: an independent check, registering the forts on the LiDAR, then the build
+      2026-10-09: researched and independently checked (`research/roman-forts-and-vicus.md`, draft; check
+      [2026-10-09](../research/reviews/roman-forts-and-vicus-check-2026-10-09.md), corrections applied; Claude under
+      the proactive mandate, [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)): both
+      forts, three of Fort 2's four gates evidenced, no stone, the vicus irregular and thinly known, the second
+      fort's "AD 90-100" unsupported (probably the caption date of the Ludlow scene), the HER giving each fort a
+      grid reference (Fort 1 SN 6218 2245, Fort 2 SN 6217 2253) and Fig 1 agreeing with Coflein. Still to do:
+      registering the forts on the LiDAR, deciding true scale (the app draws forts at 2.6 times life size), then the build
 - [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09); a photo layer pinned to where each was taken, with credit and ⓘ, with its credit
 - [ ] Conversations by class in the three slice eras; in-world music and the hunter-gatherer scenes (after their research checks); a GPU terrain shader for smooth scrubbing; the later trains and the Dinefwr, Carreg Cennen and bridge models (Dewi picked all four on 2026-10-09)
 
