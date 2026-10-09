@@ -17,7 +17,9 @@ import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { hasStreetLamps, insideArea, streetWarmth } from '../src/domain/lamplight.ts';
 import { DEFAULT_CLOCK, sunElevation } from '../src/domain/daylight.ts';
+import type { Bilingual } from '../src/domain/i18n.ts';
 import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
+import type { Provenance } from '../src/domain/provenance.ts';
 import { latestStarting, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
@@ -149,6 +151,26 @@ describe('content integrity', () => {
       expect(insideArea(area, church)).toBe(true);
       expect(ffairfach.filter((p) => insideArea(area, p))).toEqual([]);
     }
+  });
+
+  it('says, in both languages, that farms’ lit windows are a guess in every key that lights a drawn farm', () => {
+    const farms = W.features.filter((f) => f.kind.type === 'countryside');
+    expect(farms.length).toBeGreaterThan(0);
+    const said = (p: Provenance): Bilingual | undefined =>
+      p.kind === 'documented' ? p.note : p.kind === 'reconstructed' ? p.basis : p.groundedIn;
+    const unlabelled = W.lamplight.filter((k, i) => {
+      const until = W.lamplight[i + 1]?.year ?? Number.POSITIVE_INFINITY;
+      const lightsFarms = k.windows > 0 && farms.some((f) => f.when.from < until && f.when.to > k.year);
+      const text = said(k.provenance);
+      const labelled =
+        text !== undefined &&
+        /farms/i.test(text.en) &&
+        /guess/i.test(text.en) &&
+        /ffermydd/i.test(text.cy) &&
+        /dyfal/i.test(text.cy);
+      return lightsFarms && !labelled;
+    });
+    expect(unlabelled.map((k) => k.year)).toEqual([]);
   });
 
   it('words every night-light key with the certainty of its date', () => {

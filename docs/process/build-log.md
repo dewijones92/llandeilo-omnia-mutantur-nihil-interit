@@ -553,3 +553,38 @@ Milestones and what each one taught us. Newest last.
    an unsearched absence documented. Seen red first: four marker-lane unit tests, three content tests
    (1213 by day, Llanarthne, the split), and three e2e assertions (13:00 at 1213, the real click, every
    marker's centre).
+
+21. **A night that reads as night** (Claude, under the proactive mandate; [ADR 0040](../adr/0040-a-dark-night-and-halos-that-keep-a-few-pixels.md)).
+   A winter 23:00 was a pale grey: the countryside above the town measured a mean luminance of 0.31 at
+   1880, 21:00, and the dated night light was a few orange pixels at the site framing. The moon,
+   sky light, night sky and self-glow are now darkened only where `night` weights them (0.07 there
+   now), and every lit house, street lamp and hearth gets a soft halo that faces the camera and never
+   shrinks below a few pixels, so the overview shows gas-lit 1880 orange, electric 1903 white at the
+   centre, the medieval hearths, a black 1942 and a lit 2000. The first halos were turned on the CPU
+   each frame the camera moved: 30ms a frame for 5,326 window halos, halving the orbit frame rate
+   (88 to 41fps); the turning and sizing now run in the vertex shader through a material plugin, and
+   the cost is lost in the noise. Two traps on the way: Babylon adds an emissive texture to the
+   emissive colour, so a tinted emissive colour drew every halo as a flat square (the tint now rides
+   on the per-halo colour), and a plugin's `hardBindForSubMesh` runs only when it sets
+   `registerForExtraEvents`, so the halos' size uniform stayed at zero and they vanished without an
+   error. Seen red first: the darkness unit test (moonlight 0.62 against at most 0.35), the halo
+   sizing test (a halo that did not grow with distance), and the night e2e on the old build (luminance
+   0.307 against under 0.12). Daytime is unchanged: three lightings pinned exactly in a unit test, and
+   noon at the overview identical to the pixel. `tools/frames.mjs` takes the screenshots and measures
+   idle, orbit and scrub frames on the GPU. Lesson: a light the size of a pixel is not shown by
+   making it brighter; it needs a size on screen of its own.
+
+22. **The second-Opus review of the dark night** (Claude, under the proactive mandate). Two IMPORTANT
+   findings, both confirmed. First, the farm halos are most of what the 1880 overview shows, but the
+   1876 gas key is 'Documented' and never said its lit windows, or the farms, were a guess; the
+   decision log and ADR 0040 claimed the keys already did. A content test now fails any key that
+   lights a drawn farm without saying so in both languages: red for 1200, 1750, 1864, 1876 and 1944
+   (the review named three of them), green after one sentence each, with no date or level changed.
+   Second, the halo e2e only read `isVisible` and instance counts, so neither of the two failures this
+   feature had already hit (an unbound size uniform, halos drawn as flat squares) could turn it red.
+   A new e2e counts warm lit pixels over the 1880 overview with the halos on and off: 2.6% against
+   0.08%, red at 0.08% with `registerForExtraEvents` removed and red at 15% with a tinted emissive
+   colour. Two suggestions applied: each fire's smoke source now carries its houses' glow points, so
+   one rule decides both smoke and halos, and two lightings in the fading-day band are pinned from main
+   (red when `selfLit` loses its night weighting). Lesson: a test that reads flags back from the
+   renderer proves the code ran, not that anything reached the screen; count the pixels.

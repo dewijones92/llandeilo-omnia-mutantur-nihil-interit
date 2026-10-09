@@ -378,7 +378,83 @@ const meshState = async (page: Page, name: string): Promise<{ visible: boolean; 
     };
   }, name);
 
-test('the night is lit by the light of its time: gas lamps in 1880, the blackout in 1942', async ({
+// Mean luminance (0..1) of a part of the page, and the share of its pixels that are warm and lit (a
+// lamp or window glow, not a white star or label), read back from a screenshot of it.
+const pixels = async (
+  page: Page,
+  clip: { x: number; y: number; width: number; height: number },
+): Promise<{ luminance: number; warm: number }> => {
+  const png = (await page.screenshot({ clip })).toString('base64');
+  return page.evaluate(async (b64) => {
+    const img = new Image();
+    img.src = `data:image/png;base64,${b64}`;
+    await img.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('no 2d context');
+    ctx.drawImage(img, 0, 0);
+    const d = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let sum = 0;
+    let warm = 0;
+    for (let i = 0; i < d.length; i += 4) {
+      const r = d[i] ?? 0;
+      const g = d[i + 1] ?? 0;
+      const b = d[i + 2] ?? 0;
+      sum += 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      if (r >= 90 && r > b * 1.4) warm++;
+    }
+    const n = d.length / 4;
+    return { luminance: sum / n / 255, warm: warm / n };
+  }, png);
+};
+const luminance = async (
+  page: Page,
+  clip: { x: number; y: number; width: number; height: number },
+): Promise<number> => (await pixels(page, clip)).luminance;
+
+// Shows or hides every halo mesh, then waits for a few frames so a screenshot shows the change.
+const setHalos = async (page: Page, enabled: boolean): Promise<number> =>
+  page.evaluate(async (on) => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    if (!scene || typeof scene !== 'object') throw new Error('no scene');
+    const meshes: unknown = Reflect.get(scene, 'meshes');
+    let changed = 0;
+    if (Array.isArray(meshes))
+      for (const m of meshes) {
+        if (!m || typeof m !== 'object') continue;
+        const name: unknown = Reflect.get(m, 'name');
+        const setEnabled: unknown = Reflect.get(m, 'setEnabled');
+        if (typeof name === 'string' && name.startsWith('halos-') && typeof setEnabled === 'function') {
+          Reflect.apply(setEnabled, m, [on]);
+          changed++;
+        }
+      }
+    const after: unknown = Reflect.get(scene, 'onAfterRenderObservable');
+    const add: unknown = after && typeof after === 'object' ? Reflect.get(after, 'add') : undefined;
+    const remove: unknown = after && typeof after === 'object' ? Reflect.get(after, 'remove') : undefined;
+    if (typeof add !== 'function' || typeof remove !== 'function') throw new Error('no render observable');
+    await new Promise<void>((resolve) => {
+      let frames = 0;
+      const observer: unknown = Reflect.apply(add, after, [
+        () => {
+          frames++;
+          if (frames >= 3) {
+            Reflect.apply(remove, after, [observer]);
+            resolve();
+          }
+        },
+      ]);
+    });
+    return changed;
+  }, enabled);
+
+// Open countryside above the town at ?place=llandeilo, clear of the panels and the speech bubbles.
+const COUNTRYSIDE = { x: 420, y: 20, width: 660, height: 300 };
+
+test('the night is dark and lit by the light of its time: gas lamps glow in 1880, the 1942 blackout is black', async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -394,6 +470,17 @@ test('the night is lit by the light of its time: gas lamps in 1880, the blackout
   await expect.poll(async () => (await meshState(page, 'street-lamps')).visible).toBe(true);
   expect((await meshState(page, 'street-lamps')).count).toBeGreaterThan(10);
   expect((await meshState(page, 'building-windows')).count).toBeGreaterThan(0);
+  await expect(page.locator('.loader')).toHaveCount(0);
+  const night = await luminance(page, COUNTRYSIDE);
+  console.info(`dewidebug e2e night luminance 1880 21:00 = ${night.toFixed(3)}`);
+  expect(night).toBeLessThan(0.12);
+  // Halos that face the camera and stay a few pixels wide, so the lamps read from the overview too.
+  expect(await meshState(page, 'halos-street')).toEqual({
+    visible: true,
+    count: (await meshState(page, 'street-lamps')).count,
+  });
+  expect((await meshState(page, 'halos-window')).visible).toBe(true);
+  expect((await meshState(page, 'halos-window')).count).toBeGreaterThan(10);
   await page.getByRole('button', { name: 'Almanac' }).click();
   const light = page.locator('.info .info-list li', { hasText: 'Light after dark' });
   await expect(light).toContainText('By 1876 gas lamps');
@@ -407,8 +494,40 @@ test('the night is lit by the light of its time: gas lamps in 1880, the blackout
   await expect(debug).toContainText('(windows 0.00 hearth 0.00 street 0.00)');
   await expect.poll(async () => (await meshState(page, 'street-lamps')).visible).toBe(false);
   expect((await meshState(page, 'building-windows')).count).toBe(0);
+  for (const kind of ['window', 'street', 'hearth'])
+    expect((await meshState(page, `halos-${kind}`)).visible).toBe(false);
   await expect(page.locator('.loader')).toHaveCount(0);
   await page.screenshot({ path: 'test-results/light-1942-blackout.png' });
+  expect(errors).toEqual([]);
+});
+
+// The diorama at the overview, clear of the side panel and the timeline.
+const OVERVIEW_LAND = { x: 330, y: 230, width: 760, height: 420 };
+
+test('the night light reads from the overview: the halos put the lit town and farms on screen', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?year=1880&hour=23&season=winter&debug');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.loader')).toHaveCount(0);
+  await expect.poll(async () => (await meshState(page, 'halos-window')).visible).toBe(true);
+  expect(await setHalos(page, true)).toBe(3);
+  const on = await pixels(page, OVERVIEW_LAND);
+  await page.screenshot({ path: 'test-results/halos-1880-overview-on.png' });
+  await setHalos(page, false);
+  const off = await pixels(page, OVERVIEW_LAND);
+  await page.screenshot({ path: 'test-results/halos-1880-overview-off.png' });
+  await setHalos(page, true);
+  console.info(
+    `dewidebug e2e overview 1880 23:00 warm on=${on.warm.toFixed(4)} off=${off.warm.toFixed(4)} luminance on=${on.luminance.toFixed(3)} off=${off.luminance.toFixed(3)}`,
+  );
+  // Without halos the windows are under a pixel from here, so nearly all the warm light is theirs.
+  expect(on.warm).toBeGreaterThan(0.004);
+  expect(on.warm).toBeGreaterThan(off.warm * 3);
+  // Soft round glows measured 0.026 here; a halo drawn as a flat square measured 0.15.
+  expect(on.warm).toBeLessThan(0.08);
   expect(errors).toEqual([]);
 });
 
