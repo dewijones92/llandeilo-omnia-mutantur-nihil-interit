@@ -8,6 +8,12 @@ const documented = (...keys: [SourceKey, ...SourceKey[]]): Provenance => ({
   sources: [src(keys[0]), ...keys.slice(1).map(src)],
 });
 
+const documentedNoting = (en: string, cy: string, ...keys: [SourceKey, ...SourceKey[]]): Provenance => ({
+  kind: 'documented',
+  sources: [src(keys[0]), ...keys.slice(1).map(src)],
+  note: { en, cy },
+});
+
 const reconstructed = (en: string, cy: string, ...keys: SourceKey[]): Provenance => ({
   kind: 'reconstructed',
   basis: { en, cy },
@@ -200,6 +206,37 @@ export const EVENTS: readonly KeyEvent[] = [
     ),
   },
   {
+    id: eventId('llandeilo-burned-1213'),
+    when: range(ad(1213), ad(1213)),
+    approximate: false,
+    title: { en: 'Llandeilo burned, Dinefwr besieged', cy: 'Llosgi Llandeilo, gwarchae ar Ddinefwr' },
+    summary: {
+      en: 'In late January 1213 an army backed by the king of England, led by young Rhys (Rhys Ieuanc) with Fawkes of Bréauté, camped at Trallwng Elgan, north of Talley Abbey. It beat Rhys Gryg in the field not far from Llandeilo, and Rhys Gryg burned Llandeilo himself as he withdrew. Ladders, siege engines, crossbowmen and miners were brought against Dinefwr; its garrison held out in one tower, then agreed to give the castle up unless help came by the next evening.',
+      cy: 'Ddiwedd Ionawr 1213 gwersyllodd byddin a gefnogid gan frenin Lloegr, dan arweiniad Rhys Ieuanc gyda Fawkes de Bréauté, yn Nhrallwng Elgan, i’r gogledd o Abaty Talyllychau. Trechodd y fyddin Rys Gryg mewn brwydr heb fod ymhell o Landeilo, a llosgodd Rhys Gryg Landeilo ei hun wrth gilio. Dygwyd ysgolion, peiriannau gwarchae, saethwyr bwa croes a chloddwyr yn erbyn Dinefwr; daliodd y garsiwn allan mewn un tŵr, yna cytunodd i ildio’r castell oni ddeuai cymorth erbyn noswaith drannoeth.',
+    },
+    magnetic: true,
+    shot: { framing: 'area' },
+    place: placeId('llandeilo'),
+    recordedSky: {
+      season: 'winter',
+      // Chosen by day so the smoke can be seen; a dark plume is lost against a night sky (ADR 0038).
+      hour: { kind: 'chosen', value: 13 },
+      note: {
+        en: 'Late January 1213 (the camp on 24 January by the Brut, 25 by Lloyd); the hour of the burning is not recorded.',
+        cy: 'Diwedd Ionawr 1213 (y gwersyll ar 24 Ionawr yn ôl y Brut, 25 yn ôl Lloyd); ni chofnodwyd awr y llosgi.',
+      },
+      sources: [src('invasions:S1'), src('invasions:S20')],
+    },
+    provenance: documentedNoting(
+      'The Brut tells the campaign: young Rhys’s brother Owain and Fawkes, seneschal of Cardiff, were with him, and Lloyd adds Engelard of Cigogné. Lloyd places the defeat “not far from Llandeilo”, and Trallwng Elgan, a holding of Talley’s canons, in the north of Talley parish; its exact site is not established. The smoke is drawn over the town the Brut says burned; how the town looked is reconstructed.',
+      'Mae’r Brut yn adrodd yr ymgyrch: roedd Owain, brawd Rhys Ieuanc, a Fawkes, distain Caerdydd, gydag ef, ac mae Lloyd yn ychwanegu Engelard de Cigogné. Mae Lloyd yn gosod y gorchfygiad “heb fod ymhell o Landeilo”, a Thrallwng Elgan, tir a berthynai i ganoniaid Talyllychau, yng ngogledd plwyf Talyllychau; ni wyddys ei union safle. Dangosir y mwg dros y dref y dywed y Brut iddi losgi; ail-greu yw golwg y dref.',
+      'invasions:S1',
+      'invasions:S5',
+      'invasions:S20',
+      'invasions:S19',
+    ),
+  },
+  {
     id: eventId('dryslwyn'),
     when: range(ad(1225), ad(1225)),
     approximate: true,
@@ -212,6 +249,38 @@ export const EVENTS: readonly KeyEvent[] = [
     shot: { framing: 'site' },
     place: placeId('dryslwyn'),
     provenance: documented('timeline:S13', 'medieval:S21'),
+  },
+  {
+    id: eventId('cymerau-1257'),
+    when: range(ad(1257), ad(1257)),
+    approximate: false,
+    title: { en: 'The battles of Coed Llathen and Cymerau', cy: 'Brwydrau Coed Llathen a Chymerau' },
+    summary: {
+      en: 'In 1257 a royal army under Stephen Bauzan, English-led knights with mostly Welsh foot soldiers, marched up from Carmarthen; one chronicle has it camp at Llandeilo “without any fear”. Harried from the woods, it lost its guide, Rhys Fychan, to Dinefwr, then its baggage at a wood, and about midday on 2 June it was overwhelmed at Cymerau. Bauzan was killed; the chronicles say two or three thousand died.',
+      cy: 'Yn 1257 gorymdeithiodd byddin frenhinol dan Stephen Bauzan, marchogion dan arweiniad Seisnig gyda milwyr traed o Gymry gan mwyaf, i fyny o Gaerfyrddin; yn ôl un cronicl gwersyllodd yn Llandeilo “heb ddim ofn”. Wedi i’r Cymry ymosod arni o’r coedwigoedd, collodd ei thywysydd, Rhys Fychan, i Ddinefwr, yna ei phaciau mewn coedwig, a thua chanol dydd ar 2 Mehefin fe’i gorchfygwyd yng Nghymerau. Lladdwyd Bauzan; mae’r croniclau’n dweud bod dwy neu dair mil wedi marw.',
+    },
+    magnetic: true,
+    shot: { framing: 'valley' },
+    recordedSky: {
+      season: 'summer',
+      hour: { kind: 'recorded', value: 12 },
+      note: {
+        en: 'About midday on Saturday 2 June 1257, when the army reached Cymerau (Annales Cambriae B).',
+        cy: 'Tua chanol dydd ddydd Sadwrn 2 Mehefin 1257, pan gyrhaeddodd y fyddin Gymerau (Annales Cambriae B).',
+      },
+      sources: [src('invasions:S3')],
+    },
+    provenance: documentedNoting(
+      'The army left Carmarthen on 31 May. The camp at Llandeilo is in one chronicle only, the Annales Cambriae B text, which Lloyd follows; the Brut sends the army to Dinefwr. The Welsh of Ceredigion and Ystrad Tywi harried it all the next day. On 2 June Rhys Fychan slipped away to his castle at Dinefwr (Annales Cambriae B); the Brut says its garrison seized him. The annalist calls the dead “Saxons”, but the army was English-led, with mostly Welsh foot soldiers (the battlefield survey and Coflein), and a modern estimate of the dead is 1,000 to 3,000. Bauzan’s death is in Lloyd and in Matthew Paris. Coed Llathen, near Broad Oak, is the likeliest site of the first fight, though the manuscript’s name for the wood may be a misreading of Llanarthne, which Coflein treats as the same place; Cymerau has been placed at the Tywi–Cothi confluence and near Talley: all inside these ten miles, none proven, so none is marked.',
+      'Gadawodd y fyddin Gaerfyrddin ar 31 Mai. Mewn un cronicl yn unig y mae’r gwersyll yn Llandeilo, testun B Annales Cambriae, a ddilynir gan Lloyd; mae’r Brut yn anfon y fyddin i Ddinefwr. Ymosododd Cymry Ceredigion ac Ystrad Tywi arni drwy’r dydd canlynol. Ar 2 Mehefin llithrodd Rhys Fychan ymaith i’w gastell yn Ninefwr (testun B Annales Cambriae); mae’r Brut yn dweud i’r garsiwn ei ddal. Mae’r analydd yn galw’r meirw yn “Saeson”, ond byddin dan arweiniad Seisnig oedd hi, gyda milwyr traed o Gymry gan mwyaf (yr arolwg o’r maes brwydr a Coflein), ac mae un amcangyfrif modern o’r meirw rhwng 1,000 a 3,000. Mae marwolaeth Bauzan yn Lloyd ac ym Matthew Paris. Coed Llathen, ger Broad Oak, yw’r safle mwyaf tebygol i’r ymladd cyntaf, er y gall enw’r llawysgrif ar y goedwig fod yn gamddarlleniad o Lanarthne, y mae Coflein yn ei thrin fel yr un lle; rhoddwyd Cymerau wrth gymer Tywi a Chothi a ger Talyllychau: i gyd o fewn y deg milltir hyn, dim un wedi’i brofi, felly ni nodir yr un.',
+      'invasions:S3',
+      'invasions:S1',
+      'invasions:S5',
+      'invasions:S17',
+      'invasions:S7',
+      'invasions:S15',
+      'invasions:S16',
+    ),
   },
   {
     id: eventId('english-1277'),
@@ -464,6 +533,24 @@ export const EVENTS: readonly KeyEvent[] = [
     provenance: documented('victorian:S23', 'timeline:S25'),
   },
   {
+    id: eventId('cholera-1849'),
+    when: range(ad(1849), ad(1849)),
+    approximate: false,
+    title: { en: 'Cholera reaches Llandeilo', cy: 'Colera yn cyrraedd Llandeilo' },
+    summary: {
+      en: 'During the cholera epidemic of 1849, Llandeilo’s people subscribed to fit up a house where destitute cholera patients could be taken and cared for. Only a few cases occurred in the town and its neighbourhood, so by December the subscribers had chosen to spend what was left on clothing and other necessaries for the town’s destitute poor. Lord Dynevor and Colonel Rice Trevor gave £10 each.',
+      cy: 'Yn ystod epidemig colera 1849, casglodd pobl Llandeilo arian i baratoi tŷ lle gellid mynd â chleifion colera anghenus a gofalu amdanynt. Dim ond ychydig o achosion a fu yn y dref a’r cyffiniau, felly erbyn mis Rhagfyr roedd y cyfranwyr wedi penderfynu gwario’r gweddill ar ddillad a phethau angenrheidiol eraill i dlodion anghenus y dref. Rhoddodd yr Arglwydd Dinefwr a’r Cyrnol Rice Trevor £10 yr un.',
+    },
+    magnetic: false,
+    shot: { framing: 'area' },
+    place: placeId('llandeilo'),
+    provenance: documentedNoting(
+      'One newspaper report, The Welshman of 21 December 1849, partly illegible: “town and neighbourhood” fills gaps in the print. No second report has been found, and where the house was and how many fell ill are not known, so nothing is drawn in the scene.',
+      'Un adroddiad papur newydd, The Welshman 21 Rhagfyr 1849, yn rhannol annarllenadwy: mae “y dref a’r cyffiniau” yn llenwi bylchau yn y print. Ni chafwyd hyd i ail adroddiad, ac ni wyddys ble roedd y tŷ na faint a aeth yn sâl, felly does dim yn cael ei ddangos yn yr olygfa.',
+      'ripples:S24',
+    ),
+  },
+  {
     id: eventId('railway'),
     when: range(ad(1857), ad(1857)),
     approximate: false,
@@ -485,6 +572,36 @@ export const EVENTS: readonly KeyEvent[] = [
       sources: [src('effects:S7')],
     },
     provenance: documented('timeline:S55', 'victorian:S29', 'victorian:S31', 'timeline:S20'),
+  },
+  {
+    id: eventId('influenza-1918'),
+    when: range(ad(1918), ad(1918)),
+    approximate: false,
+    title: { en: 'Influenza grips Llandeilo', cy: 'Y ffliw yn gafael yn Llandeilo' },
+    summary: {
+      en: 'At the end of October 1918 influenza was “levying a heavy toll on Llandilo and district”. Two of the town’s three doctors were ill, every school and Sunday school was shut, and the places of worship were sparsely attended. People died in the town, at Ffairfach and at Trap, one of them a soldier home on leave from France. By 21 November the schools had reopened.',
+      cy: 'Ddiwedd Hydref 1918 roedd y ffliw yn “codi toll drom ar Landeilo a’r cylch”. Roedd dau o dri meddyg y dref yn sâl, caewyd pob ysgol ac ysgol Sul, a phrin oedd y gynulleidfa yn y mannau addoli. Bu farw pobl yn y dref, yn Ffairfach ac yn Nhrap, un ohonynt yn filwr gartref ar seibiant o Ffrainc. Erbyn 21 Tachwedd roedd yr ysgolion wedi ailagor.',
+    },
+    magnetic: true,
+    shot: { framing: 'area' },
+    place: placeId('llandeilo'),
+    recordedSky: {
+      season: 'autumn',
+      note: {
+        en: 'The end of October to about 21 November 1918; the time of day is not recorded.',
+        cy: 'Diwedd Hydref hyd tua 21 Tachwedd 1918; ni chofnodwyd adeg y dydd.',
+      },
+      sources: [src('ripples:S37'), src('ripples:S38')],
+    },
+    provenance: documentedNoting(
+      'Cross-checked across four local papers. By 1 November the town was “in the grip” of it, and only one doctor, an elderly man, was left; the soldier had served four years in France; and the papers took the schools reopening as a sign the epidemic was abating. The names in the papers are left out on purpose.',
+      'Wedi’i wirio ar draws pedwar papur lleol. Erbyn 1 Tachwedd roedd y dref “yng ngafael” y clefyd, a dim ond un meddyg, dyn oedrannus, oedd ar ôl; roedd y milwr wedi gwasanaethu pedair blynedd yn Ffrainc; a chymerodd y papurau ailagor yr ysgolion yn arwydd fod yr haint yn cilio. Gadawyd yr enwau yn y papurau allan yn fwriadol.',
+      'ripples:S37',
+      'ripples:S36',
+      'ripples:S40',
+      'ripples:S38',
+      'ripples:S39',
+    ),
   },
   {
     id: eventId('guardianship'),

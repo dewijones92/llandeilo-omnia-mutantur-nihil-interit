@@ -63,6 +63,17 @@ because of it. The detail and sources are in each note; this is the summary a ne
   trilobite was a find probably made near Dinefwr, in a letter of **1698** (corrected 2026-10-02 from
   1688). **1166 is the last written mention of a wolf in Wales**, not the date wolves died out, which
   was probably the 13th or 14th century (corrected 2026-10-02). ([deep time](deep-time-and-natural-history.md))
+- **Besides the wars already on the timeline (1282, 1287, 1403), two invasions are recorded inside the
+  ten miles**: 1213, when Rhys Gryg burned Llandeilo and
+  Dinefwr was besieged, and 1257, when Bauzan's army camped at Llandeilo (one chronicle) and was
+  destroyed at Cymerau, its site contested. No Viking raid, no Norman castle of 1093–1116 and no Civil
+  War fighting is recorded inside the area. Both are key dates since 2026-10-03.
+  ([invasions](invasions-and-raids.md))
+- **Distant shocks recorded here are the 1849 cholera** (one partly illegible report) **and the 1918
+  influenza** (four papers); the others (the Black Death, 1816, potato blight and more) are recorded only for the county or the
+  region, or not in Wales at all. Both are in the app since 2026-10-03, the 1849 one as a card only. The Victorian note had said
+  no local cholera case was found; that, and the almanac line built on it, are corrected.
+  ([ripples](ripples-from-afar.md))
 
 ## Conversations by class (2026-09-28)
 
@@ -154,7 +165,9 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   the meltwater river and the first farmers' species are assumptions, and the golden eagle bones are
   older than the Late Ice Age. A fair at Llandeilo is now documented from 1290-91 and a Saturday
   market by 1326 (the *Gazetteer of Markets and Fairs to 1516*); when the market bed should start is
-  left for Dewi ([soundscapes](soundscapes.md)).
+  left for Dewi ([soundscapes](soundscapes.md)). *2026-10-03*: Dewi decided it starts in the Middle
+  Ages, so it now starts with the fair granted on 20 May 1290; the same gazetteer also calls Llandeilo a
+  "Market town c. 1600", citing Everitt, which now carries the 1600 point.
 - **Steam passenger trains ended on 13 June 1964** (railway-later), so the steam sound now ends then,
   and a reconstructed diesel-unit sound runs to today. **The Vale of Towy line north-east of the
   station opened on 1 April 1858** (era-victorian), so it is drawn from then, not from 1857
@@ -188,6 +201,26 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   back to become the Cawdor branch (1907 against 1933), when the 1926 railmotor service ended (June
   against 1 or 4 May) and how many halts it had, and S29 cites S74 for the dates they share, so those
   are not two independent sources (victorian:S74's annotation).
+- **The undated western lines are identified, and drawn as educated guesses** (2026-10-03, by Dewi's
+  decision; the dates are Claude's). The line near Pontyberem is the Burry Port and Gwendraeth Valley
+  Railway's top end, to a goods yard at Rhyd-y-cerig below Cwm-mawr (the six-inch map of 1905,
+  victorian:S82). Its sources disagree on the date: 1869 or 1870 (histories via Wikipedia, S77) against
+  June 1886 (the same page, a canal history, S90, and Coflein, S78). A tramroad was on the towpath above
+  the Hirwaun Isaf incline by 1865 (S77), and the **25-inch map surveyed in 1878–79 (S81) draws the
+  railway from about the incline's head**, but not below it. So 1886 is read as the line past the
+  incline, drawn across June 1886, and the rest from c. 1870, never before the opening of 23 June 1869.
+  Its last coal train ran on 29 March 1996 (S77, S88). The track past the 1907 line's join at
+  Gwaun-cae-Gurwen is a colliery line: the six-inch map surveyed in **1877 draws a Great Western branch
+  along it to Gwaun-cae-Gurwen Pit** (S83), the 1896 map runs it on to the Old Pit (S84), sunk about
+  1837 (S85, S86, S87, which disagree on who sank it), so it is drawn from 6 May 1841, when the railway
+  reached Gwaun-cae-Gurwen, as the probable course of the 1841 line. The "Cross Hands" stub is 35m of
+  narrow-gauge track (Ordnance Survey's own classing, S89) in farmland at Upper Tumble, not the
+  standard-gauge Mountain branch; no source names it, and the six-inch maps of 1905 and of 1913 with
+  additions in 1948 show no track there (S91, S92), so it is drawn `imagined` from c. 1950. Historic maps
+  were read through the National Library of Scotland's georeferenced mosaic and IIIF images, a method
+  worth reusing for any "when was this track laid?" question. *Corrected 2026-10-03 (review of the
+  estimates)*: this entry said the 1878–79 map draws the railway along the whole stretch, which it
+  does not, and left the stub undrawn.
 
 - **The motto** on the Begin card, *omnia mutantur, nihil interit*, is Ovid, *Metamorphoses* XV,
   in Pythagoras's speech. Checked 2026-10-03 in two online texts, both of which number it line 165:

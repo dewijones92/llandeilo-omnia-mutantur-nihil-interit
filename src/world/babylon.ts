@@ -23,6 +23,10 @@ export { ShadowGenerator } from '@babylonjs/core/Lights/Shadows/shadowGenerator.
 export { ColorCurves } from '@babylonjs/core/Materials/colorCurves.pure.js';
 export { ImageProcessingConfiguration } from '@babylonjs/core/Materials/imageProcessingConfiguration.js';
 export type { Material } from '@babylonjs/core/Materials/material.js';
+export { MaterialPluginBase } from '@babylonjs/core/Materials/materialPluginBase.js';
+export { ShaderLanguage } from '@babylonjs/core/Materials/shaderLanguage.js';
+export type { UniformBuffer } from '@babylonjs/core/Materials/uniformBuffer.js';
+export type { SubMesh } from '@babylonjs/core/Meshes/subMesh.js';
 export { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial.js';
 export { DynamicTexture } from '@babylonjs/core/Materials/Textures/dynamicTexture.js';
 export { Color3, Color4 } from '@babylonjs/core/Maths/math.color.js';

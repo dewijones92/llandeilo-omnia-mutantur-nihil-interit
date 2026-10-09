@@ -33,6 +33,21 @@ describe('presenceAt', () => {
     expect(exact(0.5)).toBe(1);
     expect(exact(0.505)).toBe(0);
   });
+
+  it('fades a "c." start in after a documented earliest date, never before it', () => {
+    const early = (t: number) => presenceAt(tl, { when, notBefore: ad(1195) }, t);
+    expect(early(0.1949)).toBe(0);
+    expect(early(0.1975)).toBeCloseTo(0.5, 5);
+    expect(early(0.2)).toBe(1);
+    // An earliest date further back than the fade leaves the fade as it was.
+    expect(presenceAt(tl, { when, notBefore: ad(1100) }, 0.194)).toBe(presenceAt(tl, { when }, 0.194));
+  });
+
+  it('switches a "c." start on at its earliest date when the two are the same', () => {
+    const same = (t: number) => presenceAt(tl, { when, notBefore: ad(1200) }, t);
+    expect(same(0.1999)).toBe(0);
+    expect(same(0.2)).toBe(1);
+  });
 });
 
 describe('latestStarting', () => {

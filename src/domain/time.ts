@@ -20,21 +20,25 @@ export function bc(value: number): Year {
 
 const MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] as const;
 
+// Britain changed from the Julian to the Gregorian calendar in September 1752; a source's day before
+// then is a Julian date, and 1752 itself, which lost eleven days, is left out.
 function isLeap(y: number): boolean {
+  if (y < 1752) return y % 4 === 0;
   return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
 }
 
 /**
  * The start of a day a source names, as a fractional year: onDay(1840, 4, 10) is midnight beginning
- * 10 April 1840. For a source's LAST day, use the next day's onDay. Gregorian, so only for dates after
- * Britain adopted it in 1752.
+ * 10 April 1840. For a source's LAST day, use the next day's onDay. Read in the calendar Britain used
+ * on that day: Gregorian from 1753, Julian before 1752 (years counted from 1 January).
  */
 export function onDay(y: number, month: number, day: number): Year {
   const lengths = MONTH_DAYS.map((d, i) => (i === 1 && isLeap(y) ? 29 : d));
   const inMonth = lengths[month - 1];
   if (
     !Number.isInteger(y) ||
-    y < 1753 ||
+    y < 1 ||
+    y === 1752 ||
     inMonth === undefined ||
     !Number.isInteger(day) ||
     day < 1 ||

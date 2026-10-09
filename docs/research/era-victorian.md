@@ -345,7 +345,40 @@ west of where an A road crosses the track in the OS data, which fits "just west 
 S74 measures from the east end of Garnant's platform, not from the station's site, so the join may lie
 somewhat further east. Beyond the join, today's track runs on to collieries; how much of it is the old
 line and when the rest was laid are not known, so it is not drawn, like the undated short lines near
-Cross Hands. Coflein's "Gwaun-Cae Gurwen Viaducts" [S76] stand on today's track about 65m east of the
+Cross Hands. (*Added 2026-10-03, after Dewi decided to draw undated lines as labelled estimates*: the
+six-inch map surveyed in 1877 draws the "Great Western Railway (Gwaun-cae-Gurwen Branch)" east from
+Pwll-y-wrach past Cae-newydd to "Gwaun-cae-gurwen Pit" [S83], and the 1896 revision runs a line from
+the level crossing past Maerdy and the New Pit to the Old Pit, on today's track [S84]. The Old Pit was
+sunk about 1837, by Charles Morgan [S85][S87] or Richard Hopkin [S86] (**contradiction**). In 1921 the
+colliery's own railways and sidings measured "about twenty miles", joined to the Great Western on the
+west [S87]. So the track past the join is the colliery line, probably on the 1841 line's course to the
+pit; the app draws it from 6 May 1841, the earliest the sources allow, labelled an educated guess.
+(*Corrected 2026-10-03, review of the estimates*: it had been dated "c. 1841" and so faded in from about
+1822, before any railway reached the valley.) The deep pits closed between 1948 or
+1958 (Maerdy, S85 against S86) and 1962 or 1963 (East Pit). The line near Pontyberem is the Burry Port
+and Gwendraeth Valley Railway, laid on the bed or towpath of the Kidwelly and Llanelly Canal: open to
+Pontyberem in 1869, to the foot of the Hirwaun Isaf incline in 1870, to "Cwm Mawr" in 1869 or June 1886
+by different histories [S77], "extended to Cwmmawr in 1886" by Coflein [S78] and in June 1886 by a
+canal history [S90]. Above the last incline, Hirwaun Isaf, a tramroad had been laid on the towpath by
+1865 [S77], and the 25-inch map surveyed in 1878–79 draws the railway from about the incline's head
+to Rhyd-y-cerig [S81]; that sheet does not reach the stretch below. The 1886 work is read here as the
+locomotive line past the incline, which "followed an alignment alongside rather than on the incline"
+[S79], with a ruling gradient of 1 in 14, eased to 1 in 40 with "considerable new earthworks" for the
+passenger trains of 1913 [S77]. So the app draws three stretches: below the incline's foot from c. 1870,
+never before the opening to Pontyberem on 23 June 1869; above its head from the same estimate, a guess
+between the tramroad of 1865 and the map of 1878–79; and the stretch beside the incline across June
+1886. No source maps the incline's foot: it is placed about 265m below the head (85ft at 1 in 10¼,
+[S90][S77]), against about 740m implied by "a mile short of Cwm Mawr" [S77]. The goods yard at the end
+of today's track is on the 1905 map [S82]. Passenger trains ran to Cwmmawr from 29 January 1913 to 1953
+[S77][S80], and the last coal train on 29 March 1996 [S77][S88]. (*Corrected 2026-10-03, review of the
+estimates*: this note had drawn the whole stretch from c. 1870 on the strength of the 1878–79 map, which
+covers only the part above the incline's head, and had left out the tramroad of 1865.) The short "Cross
+Hands" lines are about 35m of track that Ordnance Survey classes as narrow gauge [S89], in farmland at
+Upper Tumble, by Pen-y-graig on the old maps: not the Llanelly Railway's standard-gauge Mountain branch
+to Cross Hands (goods closed 1 November 1950, the branch 6 March 1963 [S29]), and not on any line in
+these notes. The six-inch maps revised in 1905 [S91] and in 1913 with additions in 1948 [S92] show old
+coal workings there and no track, so the app draws it, `imagined`, from c. 1950 and never before 1948,
+labelled a weak educated guess.) Coflein's "Gwaun-Cae Gurwen Viaducts" [S76] stand on today's track about 65m east of the
 placed join, but Coflein dates them to the years just before the First World War (perhaps for the
 unfinished line to Felin Fran that S29 describes), so they are not taken to be S74's five-arch viaduct of 1907 and are not used to
 place the join. Coflein's "Ammanford Railway Station" [S73] is the Amman valley branch's Cross Inn
@@ -789,6 +822,14 @@ above.)
 
 ## Health
 
+*Corrected 2026-10-03*: this section's finding is out of date. A later pass ([ripples-from-afar](ripples-from-afar.md),
+ripples:S24, independently checked 2026-10-02) read *The Welshman* of 21 December 1849, which reports a
+subscription at Llandeilo to fit up a house for destitute cholera patients and "few cases" in the town
+and neighbourhood (partly illegible), and a Pensarn inquest near Carmarthen on a suspected cholera death
+in July 1849 (ripples:S25). So a local response and a few local cases in 1849 are documented, by one
+report. The same check put Ystalyfera at about 12 miles (19 km), not "roughly 20". The rest of this
+section is left as written, so the earlier gap stays visible; the app's almanac follows the correction.
+
 **No confirmed local (Llandeilo or Carmarthenshire) cholera case, death, or public-health response
 was located for any of the national cholera years (1832, 1849, 1854, 1866) in this research pass**,
 despite two dedicated, independent searches. The nearest documented outbreak found is the 1866
@@ -953,7 +994,8 @@ Short, provenance-tagged items for the in-app almanac panel:
   time it reached them via the district's tangled turnpike trusts — a direct, quantified grievance
   behind the Rebecca Riots. [documented, S7]
 - **Health:** no confirmed local cholera case in this period — genuine gap, not a documented
-  "clean bill of health." [gap]
+  "clean bill of health." [gap] *Corrected 2026-10-03*: a few cases in 1849 are now documented by one
+  report (ripples:S24); see Health above.
 - **Travel:** before 1857, Llandeilo was reached by road/coach only, through at least three
   separate turnpike trusts; from January 1857, by rail directly to Llanelli, and from April 1858,
   onward to Llandovery too. [documented, S28][S29][S31]
@@ -1208,6 +1250,38 @@ project's ⓘ marker; none should be presented as a real quotation from a real n
 [S75] Wikipedia, "Garnant railway station" — https://en.wikipedia.org/wiki/Garnant_railway_station — opened as Cwmamman in April 1840, "resited half a mile to the west on 20 March 1865", closed 18 August 1958; coordinates 51.80268, −3.90641, which GDAL converts to E268648 N213279, 5m from today's track; the Gwaun-cae-Gurwen platforms ("Garnant Halt") opened 1 January 1908. Used only to place the cut at Garnant. Lead. Read directly (wikitext), 2026-10-03. *Corrected 2026-10-03 (fourth review)*: this annotation gave the page's grid reference, SN687131, as if it matched the coordinate. It does not: SN687131 is the 100m square E268700–268799 N213100–213199, 50 to 150m east of the coordinate's point and 50 to 60m south of today's track, which does not cross that square. The coordinate (the page marks it "source:Google") is used because it lies on the track, where a cut must be, and both are a lead, not a placing source. Coflein holds no record of Garnant station: searched 2026-10-03 for "garnant" (all 23 site records read, none a station or railway feature), "garnant station", "garnant railway", "garnant railway station", "garnant halt", "cwmamman", "cwmamman station" and "raven crossing".
 
 [S76] Coflein (RCAHMW), "Gwaun-Cae Gurwen Viaducts," NPRN 415116 — https://coflein.gov.uk/en/site/415116 — grid reference SN7006012085; the viaducts "date from the years immediately before the First World War", part of a Great Western programme "to improve access to Swansea docks"; "The northerly viaduct (SN 70060 12085) subsequently served an opencast washery, but construction of the southern viaduct (SN 70062 12056) was halted by the the start of the war and track was never laid on it" (citing Hughes and Reynolds 1989). The northerly viaduct's point lies on today's track about 65m east of where the app places the 1907 line's join. Whether it is, or replaced, S74's five-arch viaduct of 1907 is not known; not used to place anything. Read directly, 2026-10-03.
+
+[S77] Wikipedia, "Burry Port and Gwendraeth Valley Railway" — https://en.wikipedia.org/wiki/Burry_Port_and_Gwendraeth_Valley_Railway — the line "was officially opened as far as Pontyberem on 23 June 1869" (a note: "Date from Miller; Barrie says 'in July 1869', as do Carter and Bourne"); "The main line was completed to the foot of the Hirwaen Isaf incline, a mile short of Cwm Mawr in 1870" (a note: "From Miller. Bourne, Morgan and Cobb suggest that Cwm Mawr was reached in 1869. In addition, the designation 'Cwm Mawr' is ambiguous"); "The main line was finally completed to Cwm Mawr in June 1886" (citing Miller and Barrie); the line "laid as far as possible on the towpath"; Cwm Mawr passenger services from 29 January 1913; "The short section from the New Dynant North ground frame to the Cwmmawr terminus was closed on 1 May 1967"; "The very last train to Cwmmawr ran on Friday 29 March 1996, so that closure ... took place on 1 April 1996". Lead (an encyclopedia page summarising railway histories). Read directly (wikitext), 2026-10-03. *Added 2026-10-03 (review of the estimates)*: the page also says the canal's upper level "had three inclined planes, with gradients of 1 in 13, 1 in 7½ and 1 in 10¼. By 1865 the top portion of the canal above this last incline had become disused, and a tramroad was laid along the towpath" (citing Miller); that "The heritage of the canal inclined planes meant that the ruling gradient on the extension to Cwm Mawr was 1 in 14"; and that for passenger trains "considerable new earthworks were required to ease the gradient to 1 in 40", under a Light Railway Order confirmed on 4 October 1911, with passenger services from 29 January 1913. This annotation had left out the tramroad sentence, which bears on what the 1878–79 map [S81] shows above the incline.
+
+[S78] Coflein (RCAHMW), "Burry Port and Gwendraeth Valley Railway," NPRN 34695 — https://coflein.gov.uk/en/site/34695 — "The line was built on the canal bed or towpath. It opened in Pontyberem in 1869 and was extended to Cwmmawr in 1886"; "In 1989 the line was still carrying regular traffic from the washeries at Cwmmawr and Carway" (citing Hughes and Reynolds 1989). Agrees with S77's 1869 and 1886, from a different author. Read directly, 2026-10-03.
+
+[S79] Coflein (RCAHMW), "Hirwaunissa Inclined Plane," NPRN 309237 — https://coflein.gov.uk/en/site/309237 — grid reference SN5229012070, the incline's head, which lies beside today's track; "the Burry Port and Gwendraeth Valley Railway followed an alignment alongside rather than on the incline in order to ease its gradient at this point". Read directly, 2026-10-03.
+
+[S80] Wikipedia, "Cwmmawr railway station" — https://en.wikipedia.org/wiki/Cwmmawr_railway_station — opened for passengers 29 January 1913, closed 21 September 1953 (citing Butt, *The Directory of Railway Stations*, 1995); coordinates 51.7926, −4.1327, which GDAL converts to E253014 N212591, about 150m from the end of today's track; "The freight service continued for coal traffic until 1996". Lead. Read directly (wikitext), 2026-10-03.
+
+[S81] Ordnance Survey, 25-inch map, Carmarthenshire Sheet XLVII.7, surveyed 1878 to 1879, published 1880, National Library of Scotland — https://maps.nls.uk/view/135193777 — the sheet runs from about E250600 to E253000 and N212050 to N213700 (NLS sheet index). In its south-east corner, at Rhyd-y-cerig below Glyn-ystyn and the Gwendraeth Arms, it draws the "Burry Port & Gwendraeth Valley Railway" beside the "Old Canal" and the "Track of Canal", where today's track runs to its end. So the railway reached the east end of the drawn stretch by 1878–79, which does not fit S77 and S78's "extended to Cwmmawr in 1886" if Cwmmawr means that spot. Primary (a map). Viewed through NLS's IIIF images, by eye, not georeferenced, 2026-10-03. *Corrected 2026-10-03 (review of the estimates)*: this annotation said the map shows the railway along the drawn stretch. The sheet's south edge is about N212050, at the Hirwaun Isaf incline's head [S79] (the incline-head works sit in its bottom margin by BM 210.7), so it shows the railway only from about the head north-east to Rhyd-y-cerig: about the last 750m of the 2,033m stretch. The first 1,125m, including the incline, lies on the sheet to the south, not read. Re-read through NLS's IIIF images (sheet XLVII.7, 16800 by 11350 pixels), 2026-10-03.
+
+[S82] Ordnance Survey, six-inch map, Carmarthenshire Sheet XLVII.NE, revised 1905, published 1907, National Library of Scotland — https://maps.nls.uk/view/102179750 — the "Burry Port & Gwendraeth Valley Railway" past Hirwaun-isaf to a "Goods Yard" at Rhyd-y-cerig, below Pont-y-felin and Cwm-mawr; today's track (OS OpenMap Local) lies on the mapped line throughout. Primary (a map). Viewed in NLS's georeferenced six-inch mosaic of 1888 to 1913 with today's track overlaid, 2026-10-03; the sheet is the one NLS's index gives for that spot.
+
+[S83] Ordnance Survey, six-inch map, Glamorgan Sheet II, surveyed 1877, published 1883, National Library of Scotland — https://maps.nls.uk/view/102342400 — the "Great Western Railway (Gwaun-cae-Gurwen Branch)" running east from Pwll-y-wrach past Cae-newydd to "Gwaun-cae-gurwen Pit (Coal)". Primary (a map). Viewed through NLS's IIIF images, by eye, not georeferenced, 2026-10-03.
+
+[S84] Ordnance Survey, six-inch map, Glamorgan Sheet II.NE, revised 1896, published 1900, National Library of Scotland — https://maps.nls.uk/view/102350031 — a railway from the level crossing at Gwaun-cae-Gurwen east past "Maerdy" and "New Pit" (Gwaun-Cae-Gurwen Colliery) to the "Old Pit"; today's track past the 1907 join lies on it and ends at the Old Pit. Primary (a map). Viewed in NLS's georeferenced six-inch mosaic with today's track overlaid, 2026-10-03; the index gives this sheet and Carmarthenshire XLIX.NE (revised 1903 to 1905) for the spot, and which one the mosaic shows was not checked.
+
+[S85] Northern Mine Research Society, "Gwaun-cae-Gurwen East Pit" and "Gwaun-cae-Gurwen Maerdy Pit" — https://nmrs.org.uk/mines-map/coal-mining-in-the-british-isles/swales/pontardawe/gwaun-cae-gurwen-east-pit/ and https://nmrs.org.uk/mines-map/coal-mining-in-the-british-isles/swales/pontardawe/gwaun-cae-gurwen-maerdy-pit/ — "The first pit to be sunk in the Gwaun-cae-Gurwen complex was by Charles Morgan in 1837, it became known as the Old Pit"; the Maerdy Pit sunk 1886, the East Pit 1910, the Steer Pit 1924; "The Maerdy Pit was closed in January 1958"; "East Pit was closed in October 1962"; an opencast site, East Pit Extension, "between 1988 and 2001". Information supplied by Ray Lawrence. Read directly, 2026-10-03.
+
+[S86] Welsh Coal Mines, "Gwaun Cae Gurwen Colliery" — https://www.welshcoalmines.co.uk/GlamWest/Gwaun%20Cae%20Gurwen.htm — NGR SN710119; "Known locally as the Old Pit, Richard Hopkin sank the first pit (175 yards) at Gwaun Cae Gurwen in 1837"; Maerdy or "New pit" 1886; East Pit 1910; Steer 1922 to 1924; "The Maerdy pit was closed down by the N. C. B. in 1948. Steer pit closed in 1959, East pit in 1962/3". **Contradictions** with S85: who sank the Old Pit (Richard Hopkin or Charles Morgan) and when Maerdy closed (1948 or January 1958). Read directly, 2026-10-03.
+
+[S87] A. P. Barnett and D. Willson-Lloyd (eds), *The South Wales Coalfield* (Cardiff, 1921), extracts on the Gwaun-cae-Gurwen Colliery Co., as transcribed on People's Collection Wales — https://www.peoplescollection.wales/story/886956 — "The first pit was sunk by a Mr. Charles Morgan about 1837"; "On the west side the property is connected with the Great Western Railway, and on the east side with the Midland Railway"; "the private railways and sidings measuring about twenty miles"; "In 1910 ... the East Pit was sunk". A secondary account of 1921 in a transcription. Read directly, 2026-10-03.
+
+[S88] Colonel Stephens Society, "Burry Port & Gwendraeth Valley Light Railway" — http://colonelstephenssociety.co.uk/the%20colonels%20railways/burry%20port%20%26%20gwendraeth%20valley%20light%20railway/index.html — "passenger traffic lasted until 1953. The freight service continued far longer and coal traffic continued until 1996 when the local mines closed down". Society history page; agrees with S77 on 1953 and 1996. Read directly, 2026-10-03.
+
+[S89] Ordnance Survey, OS OpenMap Local, tile SN, `RailwayTrack` layer (Open Government Licence; the local copy behind `public/data/railways.json`, layer last updated 2 April 2026) — https://api.os.uk/downloads/v1/products/OpenMapLocal/downloads?area=SN&format=ESRI%C2%AE+Shapefile&redirect — the three short lines at E255490 to 255504, N210502 to 210535, about 35m in all, are classed "Narrow Gauge"; every other line inside the ten miles is "Single Track" or "Multi Track". Read locally with GDAL's ogrinfo, 2026-10-03.
+
+[S90] Wikipedia, "Kidwelly and Llanelly Canal" — https://en.wikipedia.org/wiki/Kidwelly_and_Llanelly_Canal — "an inclined plane with a rise of 52 feet (16 m) at Capel Ifan, one with a rise of 53 feet (16 m) at Pont Henry, and a third with a rise of 85 feet (26 m) at Hirwaunissa" (citing Jones and Morris 1974); "The Hirwaunissa incline was longer and narrower than the other two, and only included a single track" (citing Bowen 2001); the railway "opened in July 1869. An extension to Kidwelly harbour followed in June 1873, and one to Cwmmawr in June 1886" (citing Morris and Jones 1972); the Hirwaunissa plane listed at SN523121, "some remains", and Cwmmawr basin at SN532126. Which of S77's three gradients belongs to Hirwaunissa is an inference: S77 lists them in order up the valley and calls the third "this last incline", so 1 in 10¼; 85ft at 1 in 10¼ is about 265m, which is how the app places the incline's foot, since no source maps it. That differs from S77's "a mile short of Cwm Mawr" (about 740m along today's track, measured back from the basin), which S77 itself calls ambiguous. Lead (an encyclopedia page); a third account of June 1886, besides S77's Miller and Barrie, from different authors. Read directly (wikitext), 2026-10-03.
+
+[S91] Ordnance Survey, six-inch map, Carmarthenshire Sheet XLVIII.SW, revised 1905, published 1907, National Library of Scotland — https://maps.nls.uk/view/102179798 — at Pen-y-graig, by the sheet's west edge near E255500 N210500, field boundaries, old coal workings (hachured mounds) and circles that may be old shafts or pits, and no railway or tramway. Primary (a map). Viewed through NLS's IIIF images and in its georeferenced six-inch mosaic of 1888 to 1913, by eye, 2026-10-03.
+
+[S92] Ordnance Survey, six-inch map, Carmarthenshire Sheet XLVIII.SW, provisional edition, "Revision of 1913 with additions in 1948", published 1953, National Library of Scotland — https://maps.nls.uk/view/102179792 — at Pen-y-graig the same fields and old workings as S91, a small structure by the bench mark, and no railway or tramway where OS OpenMap Local draws narrow-gauge track today [S89]. Additions to a 1913 revision are selective, so this is weak evidence that no track was there in 1948. Primary (a map). Viewed through NLS's IIIF images, by eye, not georeferenced, 2026-10-03.
 
 **Method note (for anyone continuing this research):** this document was produced by a lead pass
 plus four parallel deep-research passes (Rebecca Riots; Dynevor estate/gentry; chapels/Blue Books/

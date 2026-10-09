@@ -103,7 +103,15 @@ describe('formatYear with fractional years (as the slider produces)', () => {
     expect(() => onDay(1900, 2, 29)).toThrow();
     expect(() => onDay(1907, 13, 1)).toThrow();
     expect(() => onDay(1907, 4, 0)).toThrow();
-    expect(() => onDay(1066, 10, 14)).toThrow();
+    expect(() => onDay(1752, 6, 1)).toThrow();
+    expect(() => onDay(0, 6, 1)).toThrow();
+  });
+
+  it('reads a day before 1752 in the Julian calendar Britain used then', () => {
+    expect(onDay(1290, 5, 20)).toBe(1290 + 139 / 365);
+    expect(onDay(1300, 3, 1)).toBe(1300 + 60 / 366);
+    expect(onDay(1700, 2, 29)).toBe(1700 + 59 / 366);
+    expect(() => onDay(1291, 2, 29)).toThrow();
   });
 
   it('settles a year within the float allowance onto the whole year, from either side, and leaves others alone', () => {

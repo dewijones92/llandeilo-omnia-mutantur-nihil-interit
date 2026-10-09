@@ -5,7 +5,8 @@ import { END_OF_STEAM } from '../src/content/features.ts';
 import { WORLD_CONTENT } from '../src/content/world.ts';
 import { hasStreetLamps, lampAlmanacAt, lampColour, lampsAt } from '../src/domain/lamplight.ts';
 import { drawnRailway, longestLine } from '../src/domain/rail.ts';
-import { latestStarting, snapshotAt } from '../src/domain/state.ts';
+import { latestStarting, presenceAt, snapshotAt } from '../src/domain/state.ts';
+import { smokingFeatures } from '../src/domain/smoke.ts';
 import { keySteps } from '../src/domain/steps.ts';
 import { ad, contains, onDay } from '../src/domain/time.ts';
 import { tAt } from '../src/domain/timeline.ts';
@@ -77,6 +78,26 @@ describe('snapshotAt at every key date', () => {
       almanac: [...ids(W.almanac.filter((a) => contains(a.when, y))), ...(light ? [light.id] : [])],
       conversations: ids(W.conversations.filter((c) => contains(c.when, y))),
     });
+  });
+});
+
+describe('snapshotAt: Llandeilo burning in 1213', () => {
+  const W = WORLD_CONTENT;
+  const step = keySteps(W.timeline, W.events).find((s) => s.event.id === 'llandeilo-burned-1213');
+  const burningAt = (t: number) =>
+    smokingFeatures(snapshotAt(W, t).features)
+      .filter((s) => s.plume.style === 'burning')
+      .map((s) => s.feature.id);
+
+  it('smokes over the town at the 1213 key step, and nowhere else on the slider', () => {
+    expect(step).toBeDefined();
+    const t = step?.t ?? 0;
+    expect(burningAt(t)).toEqual(['llandeilo-burning-1213']);
+    expect(burningAt(t - 1e-4)).toEqual([]);
+    expect(burningAt(t + 1e-4)).toEqual([]);
+    const elsewhere: string[] = [];
+    for (let i = 0; i <= 4000; i++) if (burningAt(i / 4000).length > 0) elsewhere.push(String(i / 4000));
+    expect(elsewhere).toEqual([]);
   });
 });
 
@@ -202,6 +223,39 @@ describe('snapshotAt: the railway on screen', () => {
   it('draws the line east of Garnant from its opening on 4 November 1907, and nothing of it before', () => {
     expect(ids(justBefore(1907, 11, 4))).not.toContain('railway-gwaun-cae-gurwen');
     expect(ids(justAfter(1907, 11, 4))).toContain('railway-gwaun-cae-gurwen');
+  });
+
+  // Sections dated "c." are educated guesses (Dewi, 2026-10-03). Each starts no earlier than a date its
+  // sources allow (ADR 0037), so the guess never puts track where no railway could yet have been:
+  // the colliery line not before the railway reached Gwaun-cae-Gurwen on 6 May 1841 (victorian:S74);
+  // the Gwendraeth line not before its opening to Pontyberem on 23 June 1869 (victorian:S77); the line
+  // past the Hirwaun Isaf incline not before June 1886 (victorian:S77, S78, S90); the narrow-gauge stub
+  // not before the six-inch map with additions of 1948, which shows no track there (victorian:S92).
+  const EARLIEST: Readonly<Record<string, readonly [number, number, number]>> = {
+    'railway-gwaun-cae-gurwen-colliery': [1841, 5, 6],
+    'railway-gwendraeth-valley': [1869, 6, 23],
+    'railway-gwendraeth-hirwaun-isaf': [1886, 6, 1],
+    'railway-cross-hands-narrow-gauge': [1948, 1, 1],
+  };
+
+  it('draws no estimated railway section before the earliest date its sources allow', () => {
+    const estimated = W.features.filter((f) => f.kind.type === 'railway' && !f.datesExact);
+    expect(estimated.map((f) => f.id).sort()).toEqual(Object.keys(EARLIEST).sort());
+    for (const f of estimated) {
+      const [y, m, d] = EARLIEST[f.id] ?? [0, 0, 0];
+      const presence = (t: number) => presenceAt(W.timeline, f, t);
+      expect(presence(justBefore(y, m, d)), f.id).toBe(0);
+      expect(ids(justBefore(y, m, d)), f.id).not.toContain(f.id);
+      // Fully drawn from its "c." date, fading in between the two where they differ.
+      const from = tAt(W.timeline, f.when.from);
+      const earliest = tAt(W.timeline, ad(onDay(y, m, d)));
+      expect(ids(from), f.id).toContain(f.id);
+      if (from - earliest > 1e-9) {
+        const mid = (earliest + from) / 2;
+        expect(presence(mid), f.id).toBeCloseTo(0.5, 5);
+        expect(presence(earliest + (from - earliest) / 4), f.id).toBeLessThan(presence(mid));
+      }
+    }
   });
 
   it('hands the drawn train and its sound over together when steam ended, to the instant', () => {

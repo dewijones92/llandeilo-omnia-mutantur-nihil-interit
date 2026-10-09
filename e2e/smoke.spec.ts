@@ -380,7 +380,83 @@ const meshState = async (page: Page, name: string): Promise<{ visible: boolean; 
     };
   }, name);
 
-test('the night is lit by the light of its time: gas lamps in 1880, the blackout in 1942', async ({
+// Mean luminance (0..1) of a part of the page, and the share of its pixels that are warm and lit (a
+// lamp or window glow, not a white star or label), read back from a screenshot of it.
+const pixels = async (
+  page: Page,
+  clip: { x: number; y: number; width: number; height: number },
+): Promise<{ luminance: number; warm: number }> => {
+  const png = (await page.screenshot({ clip })).toString('base64');
+  return page.evaluate(async (b64) => {
+    const img = new Image();
+    img.src = `data:image/png;base64,${b64}`;
+    await img.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('no 2d context');
+    ctx.drawImage(img, 0, 0);
+    const d = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let sum = 0;
+    let warm = 0;
+    for (let i = 0; i < d.length; i += 4) {
+      const r = d[i] ?? 0;
+      const g = d[i + 1] ?? 0;
+      const b = d[i + 2] ?? 0;
+      sum += 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      if (r >= 90 && r > b * 1.4) warm++;
+    }
+    const n = d.length / 4;
+    return { luminance: sum / n / 255, warm: warm / n };
+  }, png);
+};
+const luminance = async (
+  page: Page,
+  clip: { x: number; y: number; width: number; height: number },
+): Promise<number> => (await pixels(page, clip)).luminance;
+
+// Shows or hides every halo mesh, then waits for a few frames so a screenshot shows the change.
+const setHalos = async (page: Page, enabled: boolean): Promise<number> =>
+  page.evaluate(async (on) => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    if (!scene || typeof scene !== 'object') throw new Error('no scene');
+    const meshes: unknown = Reflect.get(scene, 'meshes');
+    let changed = 0;
+    if (Array.isArray(meshes))
+      for (const m of meshes) {
+        if (!m || typeof m !== 'object') continue;
+        const name: unknown = Reflect.get(m, 'name');
+        const setEnabled: unknown = Reflect.get(m, 'setEnabled');
+        if (typeof name === 'string' && name.startsWith('halos-') && typeof setEnabled === 'function') {
+          Reflect.apply(setEnabled, m, [on]);
+          changed++;
+        }
+      }
+    const after: unknown = Reflect.get(scene, 'onAfterRenderObservable');
+    const add: unknown = after && typeof after === 'object' ? Reflect.get(after, 'add') : undefined;
+    const remove: unknown = after && typeof after === 'object' ? Reflect.get(after, 'remove') : undefined;
+    if (typeof add !== 'function' || typeof remove !== 'function') throw new Error('no render observable');
+    await new Promise<void>((resolve) => {
+      let frames = 0;
+      const observer: unknown = Reflect.apply(add, after, [
+        () => {
+          frames++;
+          if (frames >= 3) {
+            Reflect.apply(remove, after, [observer]);
+            resolve();
+          }
+        },
+      ]);
+    });
+    return changed;
+  }, enabled);
+
+// Open countryside above the town at ?place=llandeilo, clear of the panels and the speech bubbles.
+const COUNTRYSIDE = { x: 420, y: 20, width: 660, height: 300 };
+
+test('the night is dark and lit by the light of its time: gas lamps glow in 1880, the 1942 blackout is black', async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -396,6 +472,17 @@ test('the night is lit by the light of its time: gas lamps in 1880, the blackout
   await expect.poll(async () => (await meshState(page, 'street-lamps')).visible).toBe(true);
   expect((await meshState(page, 'street-lamps')).count).toBeGreaterThan(10);
   expect((await meshState(page, 'building-windows')).count).toBeGreaterThan(0);
+  await expect(page.locator('.loader')).toHaveCount(0);
+  const night = await luminance(page, COUNTRYSIDE);
+  console.info(`dewidebug e2e night luminance 1880 21:00 = ${night.toFixed(3)}`);
+  expect(night).toBeLessThan(0.12);
+  // Halos that face the camera and stay a few pixels wide, so the lamps read from the overview too.
+  expect(await meshState(page, 'halos-street')).toEqual({
+    visible: true,
+    count: (await meshState(page, 'street-lamps')).count,
+  });
+  expect((await meshState(page, 'halos-window')).visible).toBe(true);
+  expect((await meshState(page, 'halos-window')).count).toBeGreaterThan(10);
   await page.getByRole('button', { name: 'Almanac' }).click();
   const light = page.locator('.info .info-list li', { hasText: 'Light after dark' });
   await expect(light).toContainText('By 1876 gas lamps');
@@ -409,8 +496,40 @@ test('the night is lit by the light of its time: gas lamps in 1880, the blackout
   await expect(debug).toContainText('(windows 0.00 hearth 0.00 street 0.00)');
   await expect.poll(async () => (await meshState(page, 'street-lamps')).visible).toBe(false);
   expect((await meshState(page, 'building-windows')).count).toBe(0);
+  for (const kind of ['window', 'street', 'hearth'])
+    expect((await meshState(page, `halos-${kind}`)).visible).toBe(false);
   await expect(page.locator('.loader')).toHaveCount(0);
   await page.screenshot({ path: 'test-results/light-1942-blackout.png' });
+  expect(errors).toEqual([]);
+});
+
+// The diorama at the overview, clear of the side panel and the timeline.
+const OVERVIEW_LAND = { x: 330, y: 230, width: 760, height: 420 };
+
+test('the night light reads from the overview: the halos put the lit town and farms on screen', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?year=1880&hour=23&season=winter&debug');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.loader')).toHaveCount(0);
+  await expect.poll(async () => (await meshState(page, 'halos-window')).visible).toBe(true);
+  expect(await setHalos(page, true)).toBe(3);
+  const on = await pixels(page, OVERVIEW_LAND);
+  await page.screenshot({ path: 'test-results/halos-1880-overview-on.png' });
+  await setHalos(page, false);
+  const off = await pixels(page, OVERVIEW_LAND);
+  await page.screenshot({ path: 'test-results/halos-1880-overview-off.png' });
+  await setHalos(page, true);
+  console.info(
+    `dewidebug e2e overview 1880 23:00 warm on=${on.warm.toFixed(4)} off=${off.warm.toFixed(4)} luminance on=${on.luminance.toFixed(3)} off=${off.luminance.toFixed(3)}`,
+  );
+  // Without halos the windows are under a pixel from here, so nearly all the warm light is theirs.
+  expect(on.warm).toBeGreaterThan(0.004);
+  expect(on.warm).toBeGreaterThan(off.warm * 3);
+  // Soft round glows measured 0.026 here; a halo drawn as a flat square measured 0.15.
+  expect(on.warm).toBeLessThan(0.08);
   expect(errors).toEqual([]);
 });
 
@@ -553,7 +672,7 @@ test('a key date whose season and hour a source records sets the sky to match, u
   await expect(page.locator('.sky-note')).toHaveText('Atmosphere only, not a record of this year');
 });
 
-test('the debug overlay names each sounding bed and its reason: no bells before the 1857 peal, fades labelled as fades', async ({
+test('the debug overlay names each sounding bed and its reason: no bells before the 1857 peal, a market from 1290, fades labelled as fades', async ({
   page,
 }) => {
   const debug = page.locator('.debug');
@@ -564,13 +683,17 @@ test('the debug overlay names each sounding bed and its reason: no bells before 
   await at(1282);
   await expect(debug).toContainText(/sound river 0\.\d\d reconstructed deeptime:S40/);
   await expect(debug).not.toContainText('sound bells');
+  await expect(debug).not.toContainText('sound market');
+  // The market from the fair granted in 1290, documented from the record of 1326 (sound:S20).
+  await at(1330);
+  await expect(debug).toContainText(/sound market 0\.\d\d documented sound:S20/);
   await at(1855);
   await expect(debug).toContainText('sound wind');
   await expect(debug).not.toContainText('sound bells');
   await expect(debug).not.toContainText('sound train');
   await at(1700);
   await expect(debug).toContainText(
-    /sound market 0\.\d\d reconstructed sound:S20, fading to documented victorian:S41 victorian:S65/,
+    /sound market 0\.\d\d documented sound:S20, fading to documented victorian:S41 victorian:S65/,
   );
   await at(1900);
   await expect(debug).toContainText(
@@ -820,4 +943,88 @@ test('a cutscene plays from the moment card, moves its captions on, and Skip lan
   await expect(page.getByRole('button', { name: /Watch/ })).toBeVisible();
   expect(landed.some((l) => l.includes('event=roman-forts skipped=true'))).toBe(true);
   expect(errors).toEqual([]);
+});
+
+const particleSystems = async (page: Page): Promise<string[]> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const systems: unknown =
+      scene && typeof scene === 'object' ? Reflect.get(scene, 'particleSystems') : undefined;
+    return Array.isArray(systems)
+      ? systems.map((s: unknown) => (s && typeof s === 'object' ? String(Reflect.get(s, 'name')) : ''))
+      : [];
+  });
+
+test('Next from Talley reaches Llandeilo burning in the winter of 1213, and on past Dryslwyn to Cymerau at its recorded midday in 1257', async ({
+  page,
+}) => {
+  await page.goto('./?debug&year=1185');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const next = page.getByRole('button', { name: /Next/ });
+  await next.click();
+  await expect(page.locator('.moment h2')).toHaveText('Llandeilo burned, Dinefwr besieged');
+  await expect(page.getByRole('button', { name: 'Winter' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sky-note')).toContainText('Late January 1213');
+  await expect(page.locator('.sky-readout')).toContainText('13:00');
+  await expect(page.locator('.debug')).toContainText('llandeilo-burning-1213@1.00[documented]');
+  await expect.poll(() => particleSystems(page)).toContain('smoke-llandeilo-burning-1213');
+  await page.waitForTimeout(4000);
+  await page.screenshot({ path: 'test-results/burning-1213.png' });
+  await next.click();
+  await expect(page.locator('.moment h2')).toHaveText('Dryslwyn Castle rises');
+  await expect.poll(() => particleSystems(page)).not.toContain('smoke-llandeilo-burning-1213');
+  await next.click();
+  await expect(page.locator('.moment h2')).toHaveText('The battles of Coed Llathen and Cymerau');
+  await expect(page.getByRole('button', { name: 'Summer' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sky-readout')).toContainText('12:00');
+  await page.locator('.moment .prov').click();
+  await expect(page.locator('.moment .prov-pop')).toContainText('none is marked');
+});
+
+test('the 1849 cholera marker opens its card and almanac, in both languages, with no claim that no case was found', async ({
+  page,
+}) => {
+  await page.goto('./?year=1857');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const marker = page.locator('.tl-marker[aria-label^="1849"]');
+  await expect(marker).toHaveCount(1);
+  await marker.click({ timeout: 10_000 });
+  await expect(page.locator('.moment h2')).toHaveText('Cholera reaches Llandeilo');
+  await page.getByRole('button', { name: 'Almanac' }).click();
+  await expect(page.locator('.info')).toContainText('Asiatic Cholera');
+  await expect(page.locator('.info')).not.toContainText('no case in Llandeilo');
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await expect(page.locator('.moment h2')).toHaveText('Colera yn cyrraedd Llandeilo');
+});
+
+test('Next from the railway reaches the 1918 influenza, in the autumn its papers record', async ({
+  page,
+}) => {
+  await page.goto('./?year=1857');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.getByRole('button', { name: /Next/ }).click();
+  await expect(page.locator('.moment h2')).toHaveText('Influenza grips Llandeilo');
+  await expect(page.getByRole('button', { name: 'Autumn' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.sky-note')).toContainText('about 21 November 1918');
+});
+
+test('every timeline marker can be clicked at its own centre, however close its neighbours', async ({
+  page,
+}) => {
+  await page.goto('./?year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const covered = (): Promise<string[]> =>
+    page.evaluate(() =>
+      [...document.querySelectorAll('.tl-marker')].flatMap((m) => {
+        const r = m.getBoundingClientRect();
+        const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        return hit?.closest('.tl-marker') === m ? [] : [m.getAttribute('aria-label') ?? '?'];
+      }),
+    );
+  await expect.poll(covered).toEqual([]);
+  await page.screenshot({ path: 'test-results/marker-lanes-1440.png' });
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await expect.poll(covered).toEqual([]);
+  await page.screenshot({ path: 'test-results/marker-lanes-1280.png' });
 });

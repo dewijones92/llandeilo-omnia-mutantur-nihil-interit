@@ -1,63 +1,91 @@
 import { Color4, DynamicTexture, ParticleSystem, Vector3, type AbstractMesh, type Scene } from './babylon.ts';
+import type { SmokeStyle } from '../domain/smoke.ts';
+import type { WorldPoint } from './structures.ts';
 
-export type PlumeStyle = 'hearth' | 'steam' | 'dust';
-
-export interface SmokeSource {
+interface SmokeAt {
   readonly key: string;
   readonly x: number;
   readonly y: number;
   readonly z: number;
   readonly spread: number;
   readonly density: number;
-  readonly style: PlumeStyle;
-  readonly fire: boolean;
+  readonly style: SmokeStyle;
   readonly follow?: { readonly mesh: AbstractMesh; readonly offset: Vector3 };
 }
 
+/** A fire's smoke carries the houses its hearths glow at, so one rule decides both (ADR 0040). */
+export type SmokeSource = SmokeAt &
+  ({ readonly fire: false } | { readonly fire: true; readonly houses: readonly WorldPoint[] });
+
 interface Look {
   readonly colours: readonly [Color4, Color4];
-  readonly size: readonly [number, number];
+  /** Puff size at birth and at death; Babylon's size gradient overrides min and max size. */
+  readonly grow: readonly [number, number];
   readonly life: readonly [number, number];
   readonly rate: number;
-  readonly gravity: Vector3;
+  /** Particles per unit of density, enough for the rate times the longest life. */
+  readonly capacity: number;
+  /** Drawn only while the eye is this close, across the ground; a town on fire shows from afar. */
+  readonly seenWithin: number;
+  /** Grey the smoke thins to as it dies. */
+  readonly dead: number;
+  readonly rise: Vector3;
+  /** Metres above the ground where the plume starts. */
   readonly lift: number;
-  readonly grow: number;
 }
 
-const LOOK: Readonly<Record<PlumeStyle, Look>> = {
-  steam: {
-    colours: [new Color4(0.93, 0.93, 0.94, 0.75), new Color4(0.55, 0.55, 0.58, 0.6)],
-    size: [0.7, 1.6],
-    life: [1.6, 3.2],
-    rate: 30,
-    gravity: new Vector3(0.1, 0.9, 0.05),
-    lift: 2.5,
-    grow: 2.4,
-  },
+// Burning smoke is darker and heavier than a hearth's; its numbers are tuned by eye.
+const LOOK: Readonly<Record<SmokeStyle, Look>> = {
   hearth: {
     colours: [new Color4(0.8, 0.81, 0.83, 0.55), new Color4(0.7, 0.71, 0.74, 0.42)],
-    size: [1.6, 3.4],
+    grow: [0.6, 2.4],
     life: [3, 6],
     rate: 8,
-    gravity: new Vector3(0.35, 0.5, 0.15),
+    capacity: 60,
+    seenWithin: 1600,
+    dead: 0.9,
+    rise: new Vector3(0.35, 0.5, 0.15),
     lift: 2.5,
-    grow: 2.4,
+  },
+  steam: {
+    colours: [new Color4(0.93, 0.93, 0.94, 0.75), new Color4(0.55, 0.55, 0.58, 0.6)],
+    grow: [0.6, 2.4],
+    life: [1.6, 3.2],
+    rate: 30,
+    capacity: 60,
+    seenWithin: 1600,
+    dead: 0.9,
+    rise: new Vector3(0.1, 0.9, 0.05),
+    lift: 2.5,
+  },
+  burning: {
+    colours: [new Color4(0.36, 0.33, 0.3, 0.8), new Color4(0.2, 0.19, 0.18, 0.65)],
+    grow: [5, 28],
+    life: [8, 16],
+    rate: 20,
+    capacity: 330,
+    seenWithin: 9000,
+    dead: 0.45,
+    rise: new Vector3(0.6, 1.4, 0.25),
+    lift: 2.5,
   },
   // Kicked up by feet and hooves: low, wide and slow to settle.
   dust: {
     colours: [new Color4(0.74, 0.66, 0.52, 0.32), new Color4(0.62, 0.56, 0.46, 0.22)],
-    size: [1.4, 3.2],
+    grow: [0.6, 3.2],
     life: [2.5, 5.5],
     rate: 10,
-    gravity: new Vector3(0.25, 0.12, 0.1),
+    capacity: 60,
+    seenWithin: 1600,
+    dead: 0.9,
+    rise: new Vector3(0.25, 0.12, 0.1),
     lift: 0.2,
-    grow: 3.2,
   },
 };
 
 export class Smoke {
   private readonly texture: DynamicTexture;
-  private readonly systems = new Map<string, { readonly ps: ParticleSystem; readonly style: PlumeStyle }>();
+  private readonly systems = new Map<string, { readonly ps: ParticleSystem; readonly style: SmokeStyle }>();
   private level = 1;
 
   constructor(private readonly scene: Scene) {
@@ -76,17 +104,22 @@ export class Smoke {
   show(sources: readonly SmokeSource[], cameraDistance: (x: number, z: number) => number): void {
     const wanted = new Set<string>();
     for (const s of sources) {
-      if (cameraDistance(s.x, s.z) > 1600) continue;
+      if (cameraDistance(s.x, s.z) > LOOK[s.style].seenWithin) continue;
       wanted.add(s.key);
       const sys = this.systems.get(s.key);
-      if (!sys) this.systems.set(s.key, { ps: this.make(s), style: s.style });
-      // A source that moves (dust under a marching column) carries its emitter with it; its old
-      // particles stay where they were made, so it leaves a trail.
-      else if (!s.follow && sys.ps.emitter instanceof Vector3)
-        sys.ps.emitter.set(s.x, s.y + LOOK[s.style].lift, s.z);
+      if (sys) {
+        // A source that moves (dust under a marching column) carries its emitter with it; its old
+        // particles stay where they were made, so it leaves a trail.
+        if (!s.follow && sys.ps.emitter instanceof Vector3)
+          sys.ps.emitter.set(s.x, s.y + LOOK[s.style].lift, s.z);
+        continue;
+      }
+      this.systems.set(s.key, { ps: this.make(s), style: s.style });
+      if (s.style === 'burning') console.info(`dewidebug smoke burning start ${s.key} spread=${s.spread}`);
     }
     for (const [key, sys] of this.systems) {
       if (wanted.has(key)) continue;
+      if (sys.style === 'burning') console.info(`dewidebug smoke burning stop ${key}`);
       sys.ps.stop();
       sys.ps.dispose(false);
       this.systems.delete(key);
@@ -99,17 +132,18 @@ export class Smoke {
     for (const sys of this.systems.values()) this.tint(sys.ps, sys.style);
   }
 
-  private tint(ps: ParticleSystem, style: PlumeStyle): void {
+  private tint(ps: ParticleSystem, style: SmokeStyle): void {
     const k = 0.35 + 0.65 * this.level;
-    const [a, b] = LOOK[style].colours;
+    const { colours, dead } = LOOK[style];
+    const [a, b] = colours;
     ps.color1.set(a.r * k, a.g * k, a.b * k, a.a);
     ps.color2.set(b.r * k, b.g * k, b.b * k, b.a);
-    ps.colorDead.set(0.9 * k, 0.9 * k, 0.9 * k, 0);
+    ps.colorDead.set(dead * k, dead * k, dead * k, 0);
   }
 
   private make(s: SmokeSource): ParticleSystem {
     const look = LOOK[s.style];
-    const ps = new ParticleSystem(`smoke-${s.key}`, Math.round(60 * s.density), this.scene);
+    const ps = new ParticleSystem(`smoke-${s.key}`, Math.round(look.capacity * s.density), this.scene);
     ps.particleTexture = this.texture;
     if (s.follow) {
       ps.emitter = s.follow.mesh;
@@ -124,18 +158,17 @@ export class Smoke {
     ps.color2 = new Color4();
     ps.colorDead = new Color4();
     this.tint(ps, s.style);
-    [ps.minSize, ps.maxSize] = look.size;
     [ps.minLifeTime, ps.maxLifeTime] = look.life;
     ps.emitRate = look.rate * s.density;
     ps.blendMode = ParticleSystem.BLENDMODE_STANDARD;
-    ps.gravity = look.gravity.clone();
+    ps.gravity = look.rise.clone();
     ps.direction1 = new Vector3(-0.1, 0.8, -0.1);
     ps.direction2 = new Vector3(0.2, 1.2, 0.2);
     ps.minEmitPower = 0.3;
     ps.maxEmitPower = 0.8;
     ps.updateSpeed = 0.012;
-    ps.addSizeGradient(0, 0.6);
-    ps.addSizeGradient(1, look.grow);
+    ps.addSizeGradient(0, look.grow[0]);
+    ps.addSizeGradient(1, look.grow[1]);
     ps.preWarmCycles = s.follow ? 0 : 90;
     ps.preWarmStepOffset = 6;
     ps.start();

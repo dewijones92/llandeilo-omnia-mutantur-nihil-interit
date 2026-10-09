@@ -36,3 +36,13 @@ should be reviewed, since some read "non-commercial" strictly.
 
 Ignoring licences entirely (risks a takedown of the public repo and site); keeping the narrow list
 (starves the sound and music work).
+
+## Amended 2026-10-09: the GitHub issues' material is credited, not licence-checked
+
+Dewi, 2026-10-09: "Regarding the GitHub issues, ignore licensing problems, just credit the person
+please." So for the material behind issues #1 (the D. C. Harries photographs) and #3 (the reconstruction
+drawings and surveys of the Roman forts), the "nothing all rights reserved" line above does not apply:
+each item is used with a credit to its maker and holder. Its asset-manifest record (`src/content/assets.ts`)
+still names the source and URL, and its `licence` field reads "Not checked: used with credit at Dewi's
+request (2026-10-09)", so the credits page says plainly that no licence was confirmed. The takedown
+risk this ADR names is his to accept, and he has. All other assets keep the rule above.
