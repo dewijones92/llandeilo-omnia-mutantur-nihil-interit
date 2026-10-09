@@ -2,7 +2,7 @@
 title: Music in and around Llandeilo, by era, class and setting
 kind: research
 status: draft
-updated: 2026-10-02
+updated: 2026-10-09
 ---
 
 # Music through time and places
@@ -10,6 +10,10 @@ updated: 2026-10-02
 Research for the agreed "music through time and places" work: what music was made and heard in and
 around Llandeilo in each era, by whom and where, and how the app could play it honestly and legally.
 Written 2026-10-02 from sources read in this session (brief: [`briefs/music-through-time.md`](briefs/music-through-time.md)).
+
+**Independently checked 2026-10-09** ([review](reviews/music-through-time-check-2026-10-09.md)):
+91 claims, 69 confirmed, 15 partly, 3 not supported, 4 contradicted. Every correction below is marked
+"Corrected 2026-10-09 (independent check)". The status stays `draft`.
 
 Labels: **cross-checked** (two independent sources agree), **single-source**, **search-summary only**
 (seen only in a search engine's summary, so a lead), **inference** (my reasoning, not a source's
@@ -37,8 +41,10 @@ references and are approximate (inference).
   and Edward Jones in 1794 gives "Court Brynn y Beirdd, the Court-hill of the Bards, near
   Llandeilo-vawr" [S8], which Coflein records as a 16th-century-or-earlier house in Dyffryn Cennen
   [S7]. That these three are one place is inference from the name.
-- **Robert ap Huw's manuscript (c.1613) is the only surviving source of the old harp music**, a
-  north Wales compilation, not local [S12][S14]. Its reading is genuinely unsettled: Greenhill wrote
+- **Robert ap Huw's manuscript (c.1613) is the main surviving source of the old harp music**, a
+  north Wales compilation, not local [S12][S14]. (*Corrected 2026-10-09 (independent check)*: the note said "the only surviving
+  source"; S12's own lead says "the main extant source", and its body "the only reliable source".
+  Part of the volume was written by Lewis Morris, not Robert ap Huw [S12][S14].) Its reading is genuinely unsettled: Greenhill wrote
   in 1995 that "no set of precise definitions for all its symbols ... has yet been proposed" [S17].
   Playing from it is an accepted scholarly and performing practice, always as interpretation [S16][S17].
 - **The Georgian evidence is good and local.** In 1791 Mary Morgan heard a "treble harp" at Tregib,
@@ -57,14 +63,14 @@ references and are approximate (inference).
   [effects:S7]; the 1850 church reopening had services but no recorded music [effects:S10].
 - **Playable today**: many CC BY-SA 3.0 recordings released by Sain to Wikimedia Commons under a
   verified permission ticket [S36] (triple harp, crwth, hymns, a cymanfa ganu, brass band, and a song
-  called "Ffair Llandeilo"), a public-domain 1899 "Ar Hyd y Nos" [S37] and a public-domain 1953
-  "Worthy is the Lamb" [S38]. The composition's status must still be checked piece by piece.
+  called "Ffair Llandeilo"), a public-domain 1899 "Ar Hyd y Nos" [S37] and a 1953
+  "Worthy is the Lamb" [S38] that is public domain in the EU and UK only (*Corrected 2026-10-09 (independent check)*: see licence flag L1). The composition's status must still be checked piece by piece.
 
 ## Iron Age and Roman (to c. AD 410)
 
 | Music | Who | Setting | Local link | Sources |
 |---|---|---|---|---|
-| Bronze trumpet of "Irish" type, a curved horn "with a narrow mouth and a flaring bell"; only a riveted tube section survives, 150 BCE-50 CE | Unknown; deposited with over 150 metal objects in a lake | Votive offering, Llyn Cerrig Bach, Anglesey | Regional (Wales, but 100+ miles away) | [S35] single-source (museum record) |
+| Bronze trumpet of "Irish" type, a curved horn "with a narrow mouth and a flaring bell"; only a riveted tube section survives, 150 BCE-50 CE | Unknown; found 1942-43 among a hoard of over 150 Iron Age metal objects placed in the lake (*Corrected 2026-10-09 (independent check)*: S35 says only "the margin of Llyn Cerrig Bach"; the count of over 150 objects, 181 recorded, is Wikipedia's [S40]) | Votive offering at the margin of Llyn Cerrig Bach, Anglesey | Regional (Wales, but about 100 miles away: 97 miles in a straight line) | [S35] single-source (museum record); [S40] lead for the hoard |
 | Carnyx: boar-headed war trumpet of sheet bronze and brass, c. AD 80-200, found at Deskford c. 1816; replica made 1992 by John Purser and John Creed | Warriors, ceremony (the source's interpretation) | Northern Scotland, outside the Roman province | Analogy | [S34] single-source |
 | Lyre: a burnt wooden bridge "with notches where strings would've been placed", c. 300 BC, "most likely a lyre" | Unknown | High Pasture Cave, Skye | Analogy | [S33][S34] cross-checked (S34 quotes S33's author, so not fully independent) |
 | Roman military or civilian music at the Dinefwr forts | Garrison | Forts | Gap: no source read | none |
@@ -79,11 +85,12 @@ sound file on Commons [S39] is a modern performance of unstated instrument prove
 | Music | Who | Setting | Local link | Sources |
 |---|---|---|---|---|
 | The bard of the household (bardd teulu): gets "a harp from the king, and a gold ring from the queen" on taking office and "is never to part with the harp"; before battle recites "the song called the 'Monarchy of Britain'" | Court poet, one of the court officers | The prince's hall and war-band | Regional (Dimetian Code, the south-west Wales lawbook) | [S3] single-source (1841 edition and translation) |
-| The chief of song (pencerdd): "a bard who shall have gained a chair"; sings "two songs ... one of God, and another of kings" at the entrance of the hall, then the household bard "the third song"; sings to the queen "in a moderate voice, so as not to disturb the hall" | Senior poet; "not of the number of the officers of the palace" | Hall and queen's chamber | Regional (Dimetian Code) | [S3] |
+| The chief of song (pencerdd): "a bard who shall have gained a chair"; sings "two songs ... one of God, and another of kings" at the entrance of the hall, then the household bard "the third song" | Senior poet; "not of the number of the officers of the palace" | Hall entrance | Regional (Dimetian Code) | [S3] |
+| When the queen wishes to hear a song in her chamber, the **bard of the household** (not the chief of song) sings "three elaborate songs, in a moderate voice, so as not to disturb the hall" (*Corrected 2026-10-09 (independent check)*: an earlier draft gave this to the chief of song; S3, Book I, "Of the chief of song", 5, and the Welsh text, "canet y bard [teulu] idi tri diamnaer o gerd", agree) | Household bard | Queen's chamber | Regional (Dimetian Code) | [S3] |
 | "Three legal harps: the harp of the king; and the harp of the chief of song", worth six score pence each with tuning keys of twelve pence, and the harp of an uchelwr at three score | King, chief poet, freeman | Court and gentry houses | Regional (Dimetian Code) | [S3] |
 | Each chief of song gets "a harp to one, a crowd to another, and pipes to a third"; youths "learning the harp" and minstrels "who have left off the hair-strung harp" | Musicians and apprentices | Court | Regional (the Anomalous Laws in the same edition, not a single code) | [S3] |
-| Harp music played with "rapid" fingers, "they always begin from B flat"; "three instruments, the harp, the pipe, and the crwth"; singing "in many different parts" rather than in unison; harps kept in each house for guests | Households of all ranks (Gerald's general claim) | Homes and gatherings across Wales | Regional (Gerald, c. 1190s, all Wales) | [S4] single-source (Hoare's translation, Dent 1912) |
-| The Lord Rhys's Christmas 1176 festival at Cardigan: "two sorts of contention; one between the bards and poets, and the other between the harpers, fiddlers, pipers, and various performers of instrumental music"; two chairs; "a young man of his own court, son to Cibon the fiddler" won the music | The Lord Rhys's court, guests from Wales, England, Scotland, Ireland | Cardigan Castle (about 35 miles away) | Regional: Rhys was lord of Dinefwr, and his own court musician won, so the same court culture was at home in this valley | [S1] primary; [S2] lead |
+| Harp music played with "rapid" fingers, "they always begin from B flat" (*Corrected 2026-10-09 (independent check)*: this passage repeats what Gerald "set forth in our Irish Topography" on the instruments of "the three nations", so it is his general claim for Ireland, Scotland and Wales; the B flat also appears in his Welsh part-singing paragraph, so it stands for Wales); "three instruments, the harp, the pipe, and the crwth"; singing "in many different parts" rather than in unison; harps kept in each house for guests | Households of all ranks (Gerald's general claim) | Homes and gatherings across Wales | Regional (Gerald, c. 1190s, all Wales) | [S4] single-source (Hoare's translation, Dent 1912) |
+| The Lord Rhys's festival at Cardigan, 1176 (*Corrected 2026-10-09 (independent check)*: "Christmas" is S2's, citing a BBC blog; the Brut [S1] gives the year only): "two sorts of contention; one between the bards and poets, and the other between the harpers, fiddlers, pipers, and various performers of instrumental music"; two chairs; "a young man of his own court, son to Cibon the fiddler" won the music | The Lord Rhys's court, guests from Wales, England, Scotland, Ireland | Cardigan Castle (about 30 miles away: 31.6 miles in a straight line) | Regional: Rhys was lord of Dinefwr, and his own court musician won, so the same court culture was at home in this valley | [S1] primary; [S2] lead |
 | Bells and chant at St Teilo's clas church | Clergy | Church | Inference from the church's existence; not described in any source read here | none |
 
 **Contradiction, the 1176 winner's father.** The 1860 Brut edition gives "son to Cibon the fiddler",
@@ -97,13 +104,16 @@ gathering and for Gerald on music. The primary texts are now read [S1][S4] and c
 
 **Caution.** The laws are prescriptive texts in manuscripts later than Hywel Dda, and the 1841 text
 is a 19th-century edition and translation [S3]. They say what a court should have, not what was
-played at Dinefwr on a given day.
+played at Dinefwr on a given day. *Corrected 2026-10-09 (independent check)*: S3's own preface dates the base manuscript of
+the Dimetian Code (British Museum, Titus D. ix) to "about the close of the thirteenth or early part of
+the fourteenth century", and the text records alterations by "Rys, son of Grufudd, Prince of that
+district, about 1180" [S3] (the second is the preface's lead, not a manuscript date).
 
 ## Talley Abbey: Premonstratensian chant (c. 1185 to 1536)
 
 | Music | Who | Setting | Local link | Sources |
 |---|---|---|---|---|
-| The Office and Mass sung by the white canons in a chant described as "a variant on the 'Gregorian' chant of the Roman Rite", each hour ending "with an anthem sung in honour of the Blessed Virgin Mary" | Canons | Abbey church, Talley | Documented that Talley was Premonstratensian (`medieval` and `models` notes); the chant itself is regional at best | [S10] single-source (modern Order) |
+| The Office and Mass, in the modern Order's own words, sung by the canons in a chant described as "a variant on the 'Gregorian' chant of the Roman Rite", each hour ending "with an anthem sung in honour of the Blessed Virgin Mary" | Canons | Abbey church, Talley | Documented that Talley was Premonstratensian (`medieval` and `models` notes); the chant itself is regional at best (*Corrected 2026-10-09 (independent check)*: S10 describes the Order's **current** practice, "Our canonry sings ..."; it says the Use "was effectively abandoned at the time of the post-conciliar reforms" and nothing about Talley or the Middle Ages) | [S10] single-source (modern Order) |
 | A 1130 statute required uniform books across the Order: "missal, gospel-book, epistle-book, collectar, gradual, antiphoner, hymnal, psalter, lectionary and calendar"; English visitation reports insist the chant be *secundum formam nostre religionis* | The Order | All houses | Regional (English houses) | [S9] single-source |
 | Psalmody sung "viva voce ... sed non cum protractione dictionum" with a pause long enough to take breath (mid-13th-century customs) | Canons | Choir | Analogy (Prémontré's customs) | [S9] |
 
@@ -111,8 +121,7 @@ King is plain about the limit: "It is, however, impossible to determine the cont
 rites, prayers and chants, as no manuscripts of the period have survived" [S9]. By the 17th century a
 Belgian abbot could answer "quid sit cantus Premonstratensis nescimus" [S9]. **So no Talley melody can
 be documented.** The honest choice is plainchant from a public-domain source, labelled as "the kind of
-chant sung here; Talley's own books are lost", with a Marian anthem at the end of each hour as the
-one Premonstratensian habit that is attested [S10].
+chant sung here; Talley's own books are lost", with, if one is used, a Marian anthem at the end of each hour labelled "modern Norbertine practice [S10], not shown for Talley" (*Corrected 2026-10-09 (independent check)*: an earlier draft called this "the one Premonstratensian habit that is attested"; S10 is today's Order and S9 has no word on Marian anthems).
 
 ## Later medieval: poets and patrons (1282 to c. 1530)
 
@@ -120,13 +129,17 @@ one Premonstratensian habit that is attested [S10].
 |---|---|---|---|---|
 | Praise poetry to Gruffudd ap Nicolas by Dafydd ab Edmwnd, Hywel ap Dafydd ap Ieuan ap Rhys, Rhys Llwyd ap Rhys ap Rhicert, Gwilym ap Ieuan Hen and Lewys Glyn Cothi | Professional poets (the *cywyddwyr*) and a gentry patron | His household; he held the lordship of Dinefwr as approver (1425) and farmer (1439) | Documented | [S5] single-source |
 | The mid-15th-century Carmarthen eisteddfod, Gruffudd ap Nicolas judge, chair to Dafydd ab Edmwnd; it "revised the bardic metres and regulated the bardic fraternity" | Poets and musicians | "Some maintain that it lasted three months at his cost at Dynevor and others state that it lasted a fortnight and that it was held at Carmarthen" | Documented that Dinefwr is one claimed venue; the venue itself is contested | [S5]; [S8] (OCR) |
-| Lewys Glyn Cothi (fl. 1447-1486): "He sang much to the gentry of Carmarthenshire, south Cardiganshire, and Radnorshire" | Poet | Gentry halls | Regional; his probable birthplace, Pwllcynbyd in Llanybydder parish, is about 15 miles away, outside the circle (inference) | [S6] single-source |
+| Lewys Glyn Cothi (fl. 1447-1486): "He sang much to the gentry of Carmarthenshire, south Cardiganshire, and Radnorshire" | Poet | Gentry halls | Regional; his probable birthplace, Pwllcynbyd in Llanybydder parish, is outside the circle (Llanybydder village is 14.7 miles away; Pwllcynbyd itself was not found on a gazetteer, so "about 15 miles" is inference) | [S6] single-source |
 | Bryn y Beirdd: Owain ap Gruffudd ap Nicolas was "heir of Bryn y Beirdd" [S5]; Edward Jones lists "Court Brynn y Beirdd, the Court-hill of the Bards, near Llandeilo-vawr" among place names recalling bards [S8]; Coflein's Cwrt Bryn-y-Beirdd, Dyffryn Cennen, SN 6633 1809, "16th century or earlier", with "3 tre-foiled lancets" [S7] | Gentry household | About 3.5 miles south-east of Llandeilo (inference) | Documented place; that the three refer to one house is inference | [S5][S7][S8] |
 
-**Correction to the brief.** The brief placed Lewys Glyn Cothi at Pumsaint. The Dictionary of Welsh
-Biography says he took his name from the forest of Glyn Cothi and was born "perhaps at Pwllcynbyd in
-the parish of Llanybydder" [S6]. It names Gruffudd ap Nicolas and Jasper Tudor among his patrons but
-no Dinefwr or Rhys poem; a poem by him to a house inside the circle was not found.
+**Lewys Glyn Cothi's place.** The Dictionary of Welsh Biography says he took his name from the forest
+of Glyn Cothi and was born "perhaps at Pwllcynbyd in the parish of Llanybydder" [S6]. It names Owen ap
+Gruffudd ap Nicholas as the outlaw with him, calls Jasper Tudor "his hero", and says he sang to Yorkist
+"patrons"; Gruffudd ap Nicolas himself is named as a subject of Lewys's praise only in S5. No Dinefwr or
+Rhys poem is named; a poem by him to a house inside the circle was not found. (*Corrected 2026-10-09 (independent check)*: an earlier
+draft headed this "Correction to the brief" and said the brief placed him at Pumsaint. The frozen brief
+never mentions Pumsaint, so that claim is dropped, and S6's patrons are as above, not "Gruffudd ap
+Nicolas and Jasper Tudor".)
 
 **Contradiction, the eisteddfod's date.** DWB: "reports vary between 1451 and 1453" [S5]. Edward
 Jones (1794, OCR, garbled): an eisteddfod at Carmarthen "about the year 1460" [S8]. The vicar of
@@ -165,18 +178,21 @@ harp played under a *cywydd*. Robert ap Huw (below) is the nearest evidence.
 **Contradictions.** Dart's article is dated 1963 in the Wikipedia citation [S12] and 1968 in Lindahl's
 bibliography [S14]; Crossref gives March 1968, vol. 21 [S13], so 1968 is right. IMSLP labels the
 facsimile "Manuscript, 1567" [S15] against the usual c. 1613 for the compilation [S12]; the 1567 may
-refer to a source date inside the manuscript, not checked.
+refer to a source date inside the manuscript, not checked. *Corrected 2026-10-09 (independent check)* (not counted as a
+verdict, an unsettled source contradiction): Bill Taylor's page dates *Welsh Music History* vol. 3 to
+1995 [S16]; S14's bibliography says 1999. Volume 3 is probably 1999, but only S14's date was confirmed.
 
 ## Tudor and Stuart (c. 1530 to 1714)
 
 | Music | Who | Setting | Local link | Sources |
 |---|---|---|---|---|
 | Edmwnd Prys's *Salmau Cân* (1621), metrical psalms "in a metre better adapted for setting to music", published with the Book of Common Prayer, with tunes: "the first Welsh book in which music was printed" | Parish congregations | Parish churches, incl. St Teilo's (inference) | Regional (all Wales) | [S18] single-source |
-| Ballads: a *baledwr* sang new ballads "during a fair, market or gwylmabsant festival" to draw buyers, to named tunes (e.g. *Gwêl yr Adeilad*) | Ballad singers and sellers | Fairs and markets | Regional | [S23] single-source; [S24] (about 4,000 digitised ballads, 18th and 19th century) |
+
+*Corrected 2026-10-09 (independent check)*: this section now holds only Prys. The ballad row was here, but S23 is about the 18th
+century (printing restrictions "relaxed at the end of the seventeenth century"), so it is under Georgian.
 
 No source read here describes music at St Teilo's, Dinefwr, Golden Grove or Aberglasney in this
-period. Llandeilo's fairs are documented in the 19th century (the 1857 Allhallowtide hiring fair
-[S25]); ballad singers at them are a reasonable inference, not a documented fact.
+period.
 
 ## Georgian (1714 to 1837)
 
@@ -185,14 +201,18 @@ period. Llandeilo's fairs are documented in the 19th century (the 1857 Allhallow
 | A "very fine treble harp" borrowed from Golden Grove: "I was quite in raptures ... the most charming instrument that ever was played upon" | Gentry hosts at Tregib, with a visitor | Tregib, a mansion near Llandeilo; the harp from Golden Grove | Documented | [S19] primary (OCR); [S20] cross-checked |
 | A blind harper, employed by "Mr Hughes near Llandeilo", who "played uncommonly well, and with more expression than I ever heard given to the harp" | The Duke of Rutland, a tourist, 1797 | The Bear Inn, Llandeilo | Documented | [S20] single-source (quoting Rutland's 1805 journal, p. 106) |
 | A harper at Llansawel playing "a variety of movements with variations" with "great adroitness", 1798 | William Reed, tourist | Llansawel (about 8 miles north) | Documented | [S20] single-source |
-| "Old Llandebie Harper" Morris, acting as Richard Fenton's guide, 1809 | Harper | Llandybie (about 5 miles south) | Documented | [S20] single-source |
+| "Old Llandebie Harper" Morris, acting as Richard Fenton's guide, 1809 | Harper | Llandybie (about 4 miles south by grid arithmetic) | Documented | [S20] single-source |
 | Lord Dynevor of "Dynevor-Castle, Caermarthenshire" in the subscription list of Edward Jones's *Musical and Poetical Relicks of the Welsh Bards* (1794), a book of Welsh harp tunes | Gentry patron | Dinefwr | Documented (as a subscriber; not proof he played or hired a harper) | [S8] primary (OCR) |
-| Hymns of Dafydd Jones of Caeo (1711-1777): a hymn in Williams Pantycelyn's *Aleluia* (1747); Watts's psalms in Welsh, *Salmau Dafydd* (1753); his own hymns, *Difyrrwch i'r Pererinion* (1763, 1764, 1770); "Many of his hymns continue to be sung" | Drover and hymn writer; Crug-y-bar Independents | Chapel | Documented (Caeo and Crug-y-bar are about 10 miles north-north-east, at the circle's edge; inference) | [S21] single-source |
+| Ballads: a *baledwr* sang new ballads "during a fair, market or gwylmabsant festival" to draw buyers, to named tunes (e.g. *Gwêl yr Adeilad*) (*Corrected 2026-10-09 (independent check)*: moved here from Tudor and Stuart; S23 is "the rise of the baled in the eighteenth century") | Ballad singers and sellers | Fairs and markets | Regional | [S23] single-source; [S24] (about 4,000 digitised ballads, mainly 18th and 19th century) |
+| Hymns of Dafydd Jones of Caeo (1711-1777): a hymn in Williams Pantycelyn's *Aleluia* (1747); Watts's psalms in Welsh, *Salmau Dafydd* (1753); his own hymns, *Difyrrwch i'r Pererinion* (1763, 1764, 1770); "Many of his hymns continue to be sung" | Drover and hymn writer; Crug-y-bar Independents | Chapel | Documented (Crug-y-bar is 9.7 miles north-north-east, at the circle's edge; Caeo village is 11.1 miles, outside it; inference) | [S21] single-source |
 | Thomas Lewis (1759-1842), blacksmith of Talley, co-founder of the Methodist church at Esgair-nant (1806); his hymn "Wrth gofio'i riddfannau'n yr ardd" first appeared in *Hymnau ar Amryw Destunau* (Carmarthen, 1823); buried in Talley churchyard | Smith and Methodist elder | Chapel | Documented | [S22] single-source |
 
 **Contradiction, a date.** Freeman heads the Tregib entry "1795" [S20]; Morgan's book is *A Tour to
 Milford Haven, in the Year 1791*, published 1795 [S19]. The visit was on the 1791 tour; 1795 is the
 book.
+
+Llandilo's fairs are documented in the 19th century (the 1857 Allhallowtide hiring fair [S25]); ballad
+singers at them are a reasonable inference, not a documented fact.
 
 **Instrument.** Morgan's "treble harp" [S19] is presumably the triple harp, the "Welsh harp" of the
 18th century, but she does not say so, and no scholarly source on the triple harp was read here
@@ -205,23 +225,23 @@ book.
 | Llandilo Harmonic Society: first public meeting "in the Shire Hall on the 13th inst." (November 1857); patrons D. Pugh MP, J. L. Thomas, R. Smith, D. Prothero; "Dr. Wastfield has been appointed conductor" | Town gentry and members | Shire Hall | Documented | [S25] single-source (primary) |
 | Railway opening, 20 January 1857: the Dafen Tin Works band played "a quick march" as the train left Llanelli; at Llandeilo "the booming of cannon, the merry pealing of bells, and the inspiriting strains of music"; the Oddfellows' procession "preceded by inscribed banners and a band of music"; a ball at the Cawdor Arms to a quadrille band | Works band, friendly-society band, dance band | Station, streets, Cawdor Arms | Documented | [effects:S7] (read in that pass, not re-read here) |
 | Church reopening, 10 October 1850: services in English and Welsh, nearly 2,000 present, "no bells mentioned"; hymns not described | Congregation | St Teilo's | Documented event; the music is a gap | [effects:S10] |
-| Llandilo Eisteddfod, held "on Monday" before the paper of Friday 2 June 1865, so 29 May 1865 (inference), run by an Aberdare committee in a marquee "at the back of the Castle Inn" seating some 5,000; about 2,000 present in the morning; excursion trains on the Carmarthen line "for the first time" | Choirs from the district and Glamorgan; the vicar presiding | Marquee | Documented | [S26] single-source (primary) |
-| 1865 pieces and choirs: "Manheim" (9 choirs incl. Tabernacle Llandilo, Llansadwrn, Llansawel); the glee "Yr Haf" (won by Llandilo Church choir; also Troedybryn Llansadwrn, Ystrad Towy Drysllwyn); the tunes "Nashville" and "St. Barnabas" (won by Nazareth, Aberdare); "Worthy is the Lamb" with the Amen chorus (Aberdare beat St David's, Carmarthen); "Unrhyw Glee"; the anthem "Manchester" (prize shared by Llanelli and Llandilo Church choirs) | Chapel and church choirs | Marquee | Documented | [S26] |
+| Llandilo Eisteddfod, held "on Monday" before the paper of Friday 2 June 1865, so 29 May 1865 (inference), run by an Aberdare committee in a marquee "at the back of the Castle Inn" seating some 5,000; about 2,000 present in the morning; the Llanelly Railway Company's first passenger trains over the Carmarthen and Llandilo line (*Corrected 2026-10-09 (independent check)*: the report says the company "ran passenger trains on this occasion for the first time" over that line, not that these were the first excursion trains); the meeting ran into the Tuesday at the Town Hall and closed with "Hen Wlad fy Nhadau"; the vicar dated the Cardigan gatherings "1177" | Choirs from the district and Glamorgan; the vicar presiding | Marquee | Documented | [S26] single-source (primary) |
+| 1865 pieces and choirs: "Manheim" (9 choirs incl. Tabernacle Llandilo, Llansadwrn, Llansawel); the glee "Yr Haf" (won by Llandilo Church choir; also Troedybryn Llansadwrn, Ystrad Towy Drysllwyn); the tunes "Nashville" and "St. Barnabas" (won by Nazareth, Aberdare); "Worthy is the Lamb" with the Amen chorus (Cwmbach, Aberdare beat St David's, Carmarthen: no Llandilo choir sang it); "Unrhyw Glee"; the anthem "Manchester" (*Corrected 2026-10-09 (independent check)*: the report calls it an anthem, the others tunes; prize shared by Llanelli and Llandilo Church choirs) | Chapel and church choirs | Marquee | Documented | [S26] |
 | A fife-band contest with one entrant, the Carmarthen Volunteer Band "under the leadership of Mr Albert R. Jones", on new instruments | Volunteer band | Marquee | Documented | [S26] |
 | The evening concert: a glee "May-day" by "the Llandilo glee party"; "Serch Hudol"; Miss Edmunds of Swansea sang "Clychau Aberdyfi"; violin solos | Concert performers | Marquee | Documented | [S26] |
 | Four-part congregational hymn singing in chapels | Chapel congregations | Chapels | Regional; the *cymanfa ganu* festival began at Aberdare in 1859, not here | [victorian:S32] (Wikipedia) |
-| "Llandilo Volunteer Band", "Llandilo Brass Band", "Llandilo Town Band", "Llandilo Choral Society", "Llandilo Male Voice" party | Town bands and choirs | Town | Documented by name in newspapers from the 1890s to 1910s; articles not read | [S27] search results only |
+| "Llandilo Volunteer Band", "Llandilo Brass Band", "Llandilo Town Band", "Llandilo Choral Society", "Llandilo Male Voice" party | Town bands and choirs | Town | Documented by name in newspapers from 1856 (*Corrected 2026-10-09 (independent check)*: an earlier draft said "from the 1890s to 1910s", which was only the relevance-ranked top of the lists). Earliest dated hits opened: Llandilo Choral Society, *The Welshman*, 18 July 1856 ("singing in very good style, a favourite glee"); Llandilo brass band, *The Welshman*, 9 June 1865 ("marched, headed by the Llandilo brass band"; hits for 1858 and 1863 not opened); Llandilo Volunteer Band, *South Wales Daily News*, 20 October 1881; Llandilo Male Voice party 1889; Llandilo Town Band 1901. A second Llandilo Eisteddfod appears in the *Aberystwith Observer*, 26 September 1885 (a lead, not opened) | [S27] search results, earliest hits opened |
 
 The 1865 report is the richest single source for how the district sounded: a church choir beating
 the chapels at a glee, a Glamorgan choir winning the Handel, a speech urging the audience to "acquire
 the English language without loss of time", and seats collapsing all morning to laughter [S26].
 
 **Hymn-tune identities are not established.** "Manheim", "Nashville", "St. Barnabas" and "Manchester"
-are tune names in the report [S26]. Which tunes these were, and their composers, was not checked
+are named in the report [S26] ("Manchester" is called an anthem there, the other three "the tune"). Which tunes these were, and their composers, was not checked
 (hymnary.org blocked automated reading). Do not render them until identified.
 
-**Crugybar**, a well-known Welsh hymn tune, carries the name of Crug-y-bar in Caeo. It was "first
-published in 1883, appearing in Moliant Seion" (search-summary only, hymnary.org) [S29]; the National
+**Crugybar**, a well-known Welsh hymn tune, carries the name of Crug-y-bar in Caeo. It was first
+published in 1883 (search-summary only, hymnary.org) [S29]; *Corrected 2026-10-09 (independent check)*: the earlier draft added "appearing in *Moliant Seion*", which could not be confirmed and is dropped until the hymnary page is read; the National
 Library holds Mansel Thomas's orchestral arrangement but says nothing of the tune's origin [S28]. A
 place-name tune is not evidence the melody came from there.
 
@@ -229,7 +249,7 @@ place-name tune is not evidence the melody came from there.
 
 | Music | Who | Setting | Local link | Sources |
 |---|---|---|---|---|
-| National Eisteddfod at Ammanford, 1922 | National festival | Ammanford (about 6 miles south; inference) | Documented | [S30] single-source |
+| National Eisteddfod at Ammanford, 1922, and at Ammanford and District, 1970 (*Corrected 2026-10-09 (independent check)*: the 1970 entry was omitted; S30's list also reads "1914 First World War - No Eisteddfod", and Carmarthen is 1911) | National festival | Ammanford (about 6 miles south; inference) | Documented | [S30] single-source |
 | National Eisteddfod, Bro Dinefwr (Llandeilo), 1996 | National festival, Gorsedd, Flower Dance | Llandeilo | Documented | [S30][S31] cross-checked |
 | St Teilo Singers, founded 1989 with Elwyn Jones (1925-2011); renamed Cantorion Llandeilo Singers in 2014 | Community choir | Town | Documented | [S32] single-source (the choir's own site) |
 | "Ffair Llandeilo", a track by Hergest on a 2010 Sain compilation | Folk-rock band | Recording | Documented title; who wrote it and what it is about not checked | [S36] |
@@ -243,6 +263,21 @@ the Calon Lân file page [S36]. That licenses Sain's recording; it does not by i
 composition, so any song written after about 1900 needs its writer checked. Internet Archive licence
 fields are uploader claims, not verified.
 
+**Licence flags (*Corrected 2026-10-09 (independent check)*; no music asset ships yet, so nothing in the app is affected).**
+All 19 Commons files exist and carry the licences stated below. Two points were missing:
+
+- **L1, Handel, Scherchen 1953 [S38].** Commons carries only `{{PD-EU-audio}}`. A 1953 recording is out of
+  term in the EU and UK, but the US term for a recording first published 1947-1956 is, in secondary
+  sources, 110 years from publication (to 2063; the statute was not read). GitHub Pages serves from the US
+  and the repo is public, so ADR 0026's one line (nothing "all rights reserved") is at risk. Prefer our own
+  rendering of the Amen chorus (Handel's composition is public domain) or a recording from before 1923.
+- **L2, Thomas L. Thomas 1944.** An uploader cannot licence it (the note's own reason), and the US term for
+  a 1944 recording (95 years from publication, to 2039; secondary sources) is a second. Keep it out.
+- Attribution wording for the credits manifest: Sain files are "Sain (Recordiau) Cyf., CC BY-SA 3.0, via
+  Wikimedia Commons"; share-alike applies to adaptations of the recordings, not to the app's own code.
+- Composition rights: Rachie is settled (Caradog Roberts, d. 1935). Still open, and not to ship until the
+  writers are named: Calon Lân, Cwm Rhondda, the 1865 hymn tunes and "Ffair Llandeilo".
+
 | Piece | URL | Performer | Licence as stated | Composition | Fit |
 |---|---|---|---|---|---|
 | Robert ap Huw manuscript, full facsimile | https://imslp.org/wiki/The_Robert_ap_Huw_Manuscript_(Anonymous) ; https://www.pbm.com/~lindahl/ap_huw/facsimile/ | (notation) | "Public Domain" (IMSLP) [S15] | c. 1340-1485 music, copied c. 1613: public domain | Medieval and Tudor gentry halls. Render it ourselves on a sampled harp in Pythagorean tuning with buzzing bray pins [S16]; label "reconstructed: one reading of a disputed notation; north Wales repertoire". Use our own reading of the facsimile, not a modern transcription, which is the editor's copyright (inference) |
@@ -252,23 +287,23 @@ fields are uploader claims, not verified.
 | Ar Hyd y Nos | https://commons.wikimedia.org/wiki/File:Ar_Hyd_Y_Nos_Madge_Breese.ogg | Madge Breese, Gramophone Company, 11 March 1899 (NLW copy) | Public domain (PD-US-record-expired, PD-old-100) | Traditional; named as a tune in 1794 [S8] | Late Victorian parlour. Period-appropriate, no local link. Very early recording quality |
 | Ar Hyd y Nos | https://commons.wikimedia.org/wiki/File:Ar_Hyd_y_Nos_-_Elinor_Bennett.ogg | Elinor Bennett, harp (Sain, 1991) | CC BY-SA 3.0 | Traditional | Harp in any era from the 18th century; no local link |
 | Conset y peipar coch / Marwnad yr heliwr | https://commons.wikimedia.org/wiki/File:Conset_y_peipar_coch_-_Marwnad_yr_heliwr_-_Cass_Meurig.ogg | Cass Meurig (Sain, 2003); whether this is crwth was not checked | CC BY-SA 3.0 | To check | Possibly medieval crwth texture; analogy only |
-| Worthy is the Lamb ... Amen (Handel, *Messiah*) | https://commons.wikimedia.org/wiki/File:Handel_-_Messiah,_Part_3_(Scherchen)_-_54._Worthy_is_the_Lamb._Amen.ogg | Scherchen, London Symphony Orchestra and London Philharmonic Choir, 1953 | Public domain (PD-EU-audio) | Handel, 1741: public domain | Documented local link: sung at the 1865 Llandilo Eisteddfod [S26]. An orchestral studio sound, not a Welsh village choir |
+| Worthy is the Lamb ... Amen (Handel, *Messiah*) | https://commons.wikimedia.org/wiki/File:Handel_-_Messiah,_Part_3_(Scherchen)_-_54._Worthy_is_the_Lamb._Amen.ogg | Scherchen, London Symphony Orchestra and London Philharmonic Choir, 1953 | Public domain in the EU and UK only (PD-EU-audio; US status: see L1) | Handel, 1741: public domain | A local link only in that the piece was sung at the 1865 Llandilo Eisteddfod by choirs from Aberdare and Carmarthen, not Llandilo [S26]. An orchestral studio sound, not a Welsh village choir |
 | Cwm Rhondda | https://commons.wikimedia.org/wiki/File:Cwm_Rhondda_-_Cymanfa_Tabernacl_Treforus,_1989.ogg | A cymanfa ganu at Tabernacl, Morriston, 1989 (Sain) | CC BY-SA 3.0 | Composer's death date not checked | Chapel congregation singing, 20th century; regional |
 | Calon Lân | https://commons.wikimedia.org/wiki/File:Calon_Lan_-_Llanelli_Male_Voice_Choir.ogg | Llanelli Male Voice Choir (Sain, 2013) | CC BY-SA 3.0 (VRT ticket) | Composer's dates not checked | Male voice choir, 20th century; Llanelli is outside the circle |
-| Rachie | https://commons.wikimedia.org/wiki/File:Rachie_-_Whitland_Male_Voice_Choir.ogg | Whitland Male Voice Choir (Sain, 2006) | CC BY-SA 3.0 | Composer not checked | 20th century choir; regional |
-| Cwm Rhondda; Dafydd y Garreg Wen | https://commons.wikimedia.org/wiki/File:Cwm_Rhondda_-_The_Trefor_Brass_Band.ogg ; https://commons.wikimedia.org/wiki/File:Dafydd_y_Garreg_Wen_-_The_Trefor_Brass_Band.ogg | Trefor Brass Band (Sain, 1997) | CC BY-SA 3.0 | Traditional / to check | Town band, from the 1890s; no local link |
+| Rachie | https://commons.wikimedia.org/wiki/File:Rachie_-_Whitland_Male_Voice_Choir.ogg | Whitland Male Voice Choir (Sain, 2006) | CC BY-SA 3.0 | Caradog Roberts (1878-1935), composed during the First World War: public domain in the UK and EU | 20th century choir; regional |
+| Cwm Rhondda; Dafydd y Garreg Wen | https://commons.wikimedia.org/wiki/File:Cwm_Rhondda_-_The_Trefor_Brass_Band.ogg ; https://commons.wikimedia.org/wiki/File:Dafydd_y_Garreg_Wen_-_The_Trefor_Brass_Band.ogg | Trefor Brass Band (Sain, 1997) | CC BY-SA 3.0 | Traditional / to check | Town band; no local link (Llandilo's own bands are in newspapers from 1865) |
 | Clychau Aberdyfi | https://commons.wikimedia.org/wiki/File:Clychau_Aberdyfi_-_Catrin_Finch.ogg | Catrin Finch, harp (Sain, 2003) | CC BY-SA 3.0 | 18th-century song (not checked) | The song was sung at the 1865 concert [S26]; this is a harp version |
 | Ffair Llandeilo | https://commons.wikimedia.org/wiki/File:Ffair_Llandeilo_-_Hergest.ogg | Hergest (Sain, 2010 compilation) | CC BY-SA 3.0 | Writer not checked: may be in copyright | Today or the 1970s; a strong local title, blocked until the song's writer and rights are confirmed |
 | Clychau Bethlehem (plygain carol) | https://commons.wikimedia.org/wiki/File:Clychau_Bethlehem_-_Ar_Dymor_Gaeaf_(Carolau_Plygain_Carols).ogg | Ar Dymor Gaeaf (Sain, 2008) | CC BY-SA 3.0 | To check | Plygain is not shown here to be a local custom; do not use without a source |
 | Rorate Caeli | https://commons.wikimedia.org/wiki/File:Rorate_Caeli_~_Gregorian_Chant.ogg | "Inritter", own work, 2018 | CC BY-SA 4.0 | Plainchant: public domain | Talley Abbey, analogy: Gregorian, not Premonstratensian |
-| Salve Regina (Hermann Contract) | https://commons.wikimedia.org/wiki/File:Petits_Chanteurs_de_Passy_-_Salve_Regina_de_Hermann_Contract.ogg | Les Petits Chanteurs de Passy, 2012 | CC BY-SA 3.0 | Medieval: public domain | A Marian anthem, the one Premonstratensian habit attested [S10]; but a boys' choir, not canons |
+| Salve Regina (Hermann Contract) | https://commons.wikimedia.org/wiki/File:Petits_Chanteurs_de_Passy_-_Salve_Regina_de_Hermann_Contract.ogg | Les Petits Chanteurs de Passy, 2012 | CC BY-SA 3.0 | Medieval: public domain | A Marian anthem, labelled "modern Norbertine practice [S10], not shown for Talley"; a boys' choir, not canons |
 | Carnyx | https://commons.wikimedia.org/wiki/File:Carnyx.ogg | "Kabuto 7", own work, 2012 | CC BY-SA 3.0 | n/a | Iron Age, analogy only; the instrument played is unstated |
 | O Fryniau Caersalem; Bryn Calfaria | https://archive.org/details/OFryniauCaersalemzonophoneTwinGramophoneRecord ; https://archive.org/details/BrynCalfariazonophoneTwinGramophoneRecord | "The Welsh Quartette", Zonophone Twin, c. 1908 | Public domain (uploader's claim) | 19th-century hymn tunes, composers not checked | Edwardian chapel; regional |
 | Jesus, Lover of My Soul, to "Aberystwyth" (Joseph Parry) | https://archive.org/details/jesus-lover-of-my-soul | Glyndwr Mountain Ash Welsh Male Choir, Victor 72813-B, 11 February 1920 | CC BY-NC 4.0 (uploader's claim, for the transfer) | Parry's dates not checked | Male voice choir; regional |
-| Welsh Traditional Songs (Dafydd y Garreg Wen, Bugeilio'r Gwenith Gwyn, Ar Hyd y Nos and others) | https://archive.org/details/WelshTraditionalSongs | Thomas L. Thomas, baritone; Edward Vito, harp; 1944 | CC BY-NC-SA 3.0 (uploader's claim) | Traditional | Doubtful: an uploader cannot licence a 1944 commercial recording they do not own; treat as unverified |
+| Welsh Traditional Songs (Dafydd y Garreg Wen, Bugeilio'r Gwenith Gwyn, Ar Hyd y Nos and others) | https://archive.org/details/WelshTraditionalSongs | Thomas L. Thomas, baritone; Edward Vito, harp; 1944 | CC BY-NC-SA 3.0 (uploader's claim) | Traditional | Doubtful: an uploader cannot licence a 1944 commercial recording they do not own, and the US term is a second reason (L2); keep it out |
 
 **Not usable or not found.** No openly licensed recording of music from the Robert ap Huw manuscript
-was found; Bill Taylor's, Paul Dooley's and Bragod's recordings are commercial [S14]. The 1865 hymn
+was found; Bill Taylor's and Paul Dooley's recordings are commercial [S14] (*Corrected 2026-10-09 (independent check)*: S14 lists no Bragod recording, only Bragod's website). The 1865 hymn
 tunes have no recordings checked. The Welsh Folk-Song Society journals were not found on the Internet
 Archive in this pass.
 
@@ -294,8 +329,10 @@ sound is "analogy".
    Tywi based? [S36]
 7. Did any Llandeilo chapel hold a cymanfa ganu in the 19th century? Search Welsh Newspapers Online by
    decade (the site's facet links could not be driven from the command line in this pass). [S27]
-8. When were the Llandilo brass, volunteer and town bands founded? Only 1890s-1910s mentions were
-   listed, by relevance, not date. [S27]
+8. When were the Llandilo brass, volunteer and town bands founded? (*Corrected 2026-10-09 (independent check)*: partly answered. Sorted by
+   date, the earliest hits are the Choral Society 1856, the brass band 1865, the Volunteer Band 1881, the
+   Male Voice party 1889 and the Town Band 1901; the 1858 and 1863 brass-band hits and the 1885 second
+   Llandilo Eisteddfod are unopened leads. Founding dates are still unknown.) [S27]
 9. Is there any evidence for music at Dinefwr or Newton House in the 18th and 19th centuries beyond
    Lord Dynevor's 1794 subscription? [S8]
 10. Where is a facsimile of Prys's *Salmau Cân* (1621), and which of its tunes are still known? [S18]
@@ -322,7 +359,7 @@ sound is "analogy".
 - [S16] Bill Taylor, "Medieval Welsh Bardic Music: Interpreting the Robert ap Huw MS." - https://www.billtaylor.eu/index.asp?pageid=74247 - horsehair or low-tension gut strings with bray pins; Pythagorean tuning; tunings *is gywair*, *cras gywair*, *go gywair*; "some of the patterns remain slightly ambiguous"; mistakes in the manuscript. Read via a fetch summary with quotes.
 - [S17] Peter Greenhill, *The Robert ap Huw Manuscript: An Exploration of its Possible Solutions*, Synopsis (1995), hosted at Cambridge Computer Laboratory - https://www.cl.cam.ac.uk/archive/rja14/musicfiles/manuscripts/aphuw/aphuw-s.pdf - "no set of precise definitions for all its symbols ... has yet been proposed"; chords "alien to the tonic-dominant principle"; index page notes Paul Dooley's recording of Greenhill's arrangements. Read directly (PDF text).
 - [S18] Dictionary of Welsh Biography, "PRYS, EDMWND (1544 - 1623)", John Wyn Roberts and William Llewelyn Davies - https://biography.wales/article/s-PRYS-EDM-1544.html - *Salmau Cân* 1621 with the Book of Common Prayer; tunes included, "the first Welsh book in which music was printed". Read directly.
-- [S19] Mary Morgan, *A Tour to Milford Haven, in the Year 1791* (London, 1795), Internet Archive text layer - https://archive.org/details/bim_eighteenth-century_a-tour-to-milford-haven-_morgan-mary-mrs_1795 - dinner at Tregib near Llandilo; "a very fine treble harp from Golden Grove ... the most charming instrument that ever was played upon"; a blind harper at an inn earlier in the tour. Primary. Read directly (OCR).
+- [S19] Mary Morgan, *A Tour to Milford Haven, in the Year 1791* (London, 1795), Internet Archive text layer - https://archive.org/details/bim_eighteenth-century_a-tour-to-milford-haven-_morgan-mary-mrs_1795 - dinner at Tregib near Llandilo; "a very fine treble harp from Golden Grove ... the most charming instrument that ever was played upon"; a blind harper at the bishop's house, Abergwili, at dinner and tea earlier in the tour (*Corrected 2026-10-09 (independent check)*: the earlier draft said "at an inn"; p. 317-318 has "At Aberguilly ... I heard the Welsh harp ... during dinner, in the hall ... into the drawing room at tea"). Primary. Read directly (OCR).
 - [S20] Michael Freeman, *Early Tourists in Wales*, "harpers, Carmarthenshire" - https://sublimewales.wordpress.com/material-culture/harpers/harpers-carmarthenshire/ - extracts: Morgan at Abergwili 1791 and Tregib (headed 1795); Rutland at the Bear Inn, Llandeilo, 1797 (*Journal of a tour*, 1805, p. 106); Reed at Llansawel 1798 (1815, p. 83); Fenton and "old Llandebie Harper" Morris, 1809 (*Arch. Camb.* supplement 1917, p. 59). Secondary compilation of primary quotations. Read via a fetch summary with quotes.
 - [S21] Dictionary of Welsh Biography, "JONES, DAFYDD (1711 - 1777), hymn-writer", Gomer Morgan Roberts (1959) - https://biography.wales/article/s-JONE-DAF-1711.html - born Cwm-gogerddan, Caeo; drover; Crug-y-bar; *Aleluia* 1747, *Salmau Dafydd* 1753, *Difyrrwch i'r Pererinion* 1763-70; died 30 August 1777. Read directly.
 - [S22] Dictionary of Welsh Biography, "LEWIS, THOMAS (1759 - 1842); hymn-writer", Gomer Morgan Roberts (1959) - https://biography.wales/article/s-LEWI-THO-1759.html - born Cwmcynwal, Llanwrda; smithy at Talley; Esgair-nant 1806; "Wrth gofio'i riddfannau'n yr ardd" in *Hymnau ar Amryw Destunau* (Carmarthen, 1823); died 14 September 1842, buried at Talley. Read directly.
@@ -330,16 +367,17 @@ sound is "analogy".
 - [S24] National Library of Wales, "Welsh Ballads" (Welsh Ballads Online) - https://www.library.wales/ballads - about 4,000 digitised ballads, mainly 18th and 19th century. Read via a fetch summary.
 - [S25] *The Welshman*, 20 November 1857, district news (Llandilo Allhallowtide fair; "Llandilo Harmonic Society"), Welsh Newspapers Online - https://newspapers.library.wales/view/4349660/4349663/9/ - first public meeting in the Shire Hall on the 13th; patrons; Dr Wastfield conductor; Mr G. Hughes secretary. Copyright status marked unknown. Primary. Read directly (OCR).
 - [S26] *The Welshman*, 2 June 1865, "Llandilo Eisteddfod", pp. 3 and continuation, Welsh Newspapers Online - https://newspapers.library.wales/view/4353080/4353083/13/ - the vicar presiding; Aberdare committee; marquee behind the Castle Inn; first excursion trains on the Carmarthen line; choirs and pieces; fife bands; the concert; the vicar's history of eisteddfodau. Continuation at https://newspapers.library.wales/view/4353080/4353084/14/ . Copyright status marked unknown. Primary. Read directly (OCR).
-- [S27] Welsh Newspapers Online, phrase searches "Llandilo Brass Band", "Llandilo Town Band", "Llandilo Volunteer Band", "Llandilo Choral Society", "Llandilo Male Voice", 2 October 2026 - https://newspapers.library.wales/search?query=%22Llandilo%20Brass%20Band%22 - result lists with dates (1890s to 1910s, ranked by relevance); articles not read. Search results only.
+- [S27] Welsh Newspapers Online, phrase searches "Llandilo Brass Band", "Llandilo Town Band", "Llandilo Volunteer Band", "Llandilo Choral Society", "Llandilo Male Voice", 2 October 2026 - https://newspapers.library.wales/search?query=%22Llandilo%20Brass%20Band%22 - result lists with dates (*Corrected 2026-10-09 (independent check)*: first read ranked by relevance, which gave 1890s to 1910s; re-run sorted by date ascending on 2026-10-09, with the earliest hits opened, as in the Victorian table). Search results, earliest hits opened.
 - [S28] National Library of Wales Archives, "Crugybar", reference P2/6 - https://archives.library.wales/index.php/crugybar - Mansel Thomas's manuscript orchestral arrangement of the hymn tune, [1930x1986]. Read via a fetch summary with quotes.
 - [S29] Hymnary.org, "Tune: CRUGYBAR" - https://hymnary.org/tune/crugybar_13333 - first published 1883 in *Moliant Seion*. Search-summary only (the site blocked automated reading).
-- [S30] National Eisteddfod of Wales, "Eisteddfod locations" - https://eisteddfod.wales/about/eisteddfod-locations - "1996 Bro Dinefwr (Llandeilo)"; Ammanford 1922; Carmarthen 1914. Read via a fetch summary with quotes.
+- [S30] National Eisteddfod of Wales, "Eisteddfod locations" - https://eisteddfod.wales/about/eisteddfod-locations - "1996 Bro Dinefwr (Llandeilo)"; Ammanford 1922; Ammanford and District 1970; Carmarthen 1911 (*Corrected 2026-10-09 (independent check)*: an earlier draft said 1914, which the list gives as "First World War - No Eisteddfod"). Read via a fetch summary with quotes.
 - [S31] People's Collection Wales, "Photograph of a National Eisteddfod Ceremony, Llandeilo, 1996" - https://www.peoplescollection.wales/items/2058666 - the Bro Dinefwr stage, the floral dance and Gorsedd; Creative Archive Licence (non-commercial). Read via a fetch summary with quotes.
 - [S32] Cantorion Llandeilo Singers, "About Us" - https://llandeilosingers.wixsite.com/llandeilo-singers/biography - founded 1989 as the St Teilo Singers with Elwyn Jones (1925-2011); renamed 2014. Read via a fetch summary with quotes.
 - [S33] Steven Birch, "Case Study: High Pasture Cave", Highland Archaeological Research Framework (ScARF) - https://scarf.scot/regional/higharf/highland-archaeological-research-framework-case-studies/high-pasture-cave/ - the wooden bridge, "most likely a lyre", "the earliest evidence for a stringed instrument in Western Europe". Read via a fetch summary with quotes.
 - [S34] Dig It! Scotland, "Unearthing Scotland's Musical Past Through Archaeology" - https://www.digitscotland.com/unearthing-scotlands-musical-past-through-archaeology/ - Deskford carnyx, found c. 1816, sheet bronze and brass, c. AD 80-200, replica 1992 by John Purser and John Creed; High Pasture Cave lyre c. 300 BC. Read via a fetch summary with quotes.
 - [S35] Amgueddfa Cymru, Collections Online, "Iron Age copper alloy trumpet", 44.32/74 - https://museum.wales/collections/online/object/8b9be422-c1c7-3133-88b2-4e99a55e0a37/Iron-Age-copper-alloy-trumpet/ - "Portion of trumpet of 'Irish' type", 150 BCE-50 CE, Llyn Cerrig Bach. Read via a fetch summary with quotes.
-- [S36] Wikimedia Commons, "Category:Audio files by Sain (Records) Ltd" and the file page "Calon Lan - Llanelli Male Voice Choir.ogg" - https://commons.wikimedia.org/wiki/Category:Audio_files_by_Sain_(Records)_Ltd - about 3,600 files; licence {{cc-by-sa-3.0|Sain (Recordiau) Cyf.}} with VRT permission ticket 2017050910011681; individual file pages named in the table were read through the Commons API. Read directly.
+- [S36] Wikimedia Commons, "Category:Audio files by Sain (Records) Ltd" and the file page "Calon Lan - Llanelli Male Voice Choir.ogg" - https://commons.wikimedia.org/wiki/Category:Audio_files_by_Sain_(Records)_Ltd - about 3,300 files (3,624 entries including 318 subcategories; *Corrected 2026-10-09 (independent check)*); licence {{cc-by-sa-3.0|Sain (Recordiau) Cyf.}} with VRT permission ticket 2017050910011681; individual file pages named in the table were read through the Commons API. Read directly.
 - [S37] Wikimedia Commons, "Ar Hyd Y Nos Madge Breese.ogg" - https://commons.wikimedia.org/wiki/File:Ar_Hyd_Y_Nos_Madge_Breese.ogg - Gramophone Company, London, 11 March 1899, from the National Library of Wales; PD-US-record-expired and PD-old-100. Read directly (API and wikitext).
-- [S38] Wikimedia Commons, "Handel - Messiah, Part 3 (Scherchen) - 54. Worthy is the Lamb. Amen.ogg" - https://commons.wikimedia.org/wiki/File:Handel_-_Messiah,_Part_3_(Scherchen)_-_54._Worthy_is_the_Lamb._Amen.ogg - 1953, Westminster; PD-EU-audio. Read directly (API and wikitext).
+- [S38] Wikimedia Commons, "Handel - Messiah, Part 3 (Scherchen) - 54. Worthy is the Lamb. Amen.ogg" - https://commons.wikimedia.org/wiki/File:Handel_-_Messiah,_Part_3_(Scherchen)_-_54._Worthy_is_the_Lamb._Amen.ogg - 1953, Westminster; PD-EU-audio only (see licence flag L1). Read directly (API and wikitext).
 - [S39] Wikimedia Commons, "Carnyx.ogg" - https://commons.wikimedia.org/wiki/File:Carnyx.ogg - "Kabuto 7", own work, 2012-05-06, CC BY-SA 3.0. Read directly (API).
+- [S40] Wikipedia, "Llyn Cerrig Bach" - https://en.wikipedia.org/wiki/Llyn_Cerrig_Bach - "over 150 Iron Age metal objects ... placed in the lake", 181 recorded; found 1942-43. Added 2026-10-09 (independent check) as a second source for the hoard's size, which S35 does not give. Lead (Wikipedia).

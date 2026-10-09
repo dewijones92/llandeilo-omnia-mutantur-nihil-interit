@@ -71,7 +71,7 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
   },
   {
     // Changes nothing in the scene (the levels match the hearth key); it gives the almanac the court's
-    // candles. 1200 only marks the Middle Ages: no source read dates the Deheubarth law-book itself.
+    // candles. 1200 only marks the Middle Ages: Owen dates the manuscript he printed to c. 1300 and the text records Rhys's changes of c. 1180 (music:S3).
     year: ad(1200),
     dated: 'in',
     homes: 'hearth',
@@ -87,8 +87,8 @@ export const LAMPLIGHT: NonEmptyArray<LampKey> = [
     provenance: {
       kind: 'reconstructed',
       basis: {
-        en: `A Welsh court burned candles: the Dimetian Code, as Aneurin Owen named the law-book associated with Deheubarth, seats a candle-bearer before the king and protects him "from the time of lighting the first candle, in the palace, until the last shall be extinguished". The earliest manuscripts of Welsh law, in Latin, are from the early 13th century; no source read dates this text’s own manuscripts, so the year 1200 here only marks the Middle Ages. A law-book says what a court should have, not what Dinefwr lit, so no candlelight is drawn at Dinefwr. Nothing read describes how ordinary homes were lit; they are drawn with firelight.${FARMS_WHERE_DRAWN.en}`,
-        cy: `Roedd llys Cymreig yn llosgi canhwyllau: mae’r Cod Dyfedaidd (Dimetian Code), fel y galwodd Aneurin Owen y llyfr cyfraith sy’n gysylltiedig â Deheubarth, yn gosod canhwyllydd o flaen y brenin, a’i nawdd yn para o gynnau’r gannwyll gyntaf yn y llys hyd nes diffodd yr olaf. Daw’r llawysgrifau cynharaf o gyfraith Cymru, yn Lladin, o ddechrau’r 13eg ganrif; nid oes ffynhonnell a ddarllenwyd yn dyddio llawysgrifau’r testun hwn ei hun, felly dim ond nodi’r Oesoedd Canol y mae’r flwyddyn 1200 yma. Dweud beth ddylai fod gan lys y mae llyfr cyfraith, nid beth a oleuwyd yn Ninefwr, felly ni ddangosir golau cannwyll yn Ninefwr. Nid oes dim a ddarllenwyd yn disgrifio sut y goleuwyd cartrefi cyffredin; fe’u dangosir â golau tân.${FARMS_WHERE_DRAWN.cy}`,
+        en: `A Welsh court burned candles: the Dimetian Code, as Aneurin Owen named the law-book associated with Deheubarth, seats a candle-bearer before the king and protects him "from the time of lighting the first candle, in the palace, until the last shall be extinguished". The earliest manuscripts of Welsh law, in Latin, are from the early 13th century. Aneurin Owen dates the manuscript he printed as the Dimetian text to about the close of the 13th century or early in the 14th, and the text itself records changes made by Rhys ap Gruffudd about 1180; so the year 1200 here only marks the Middle Ages. A law-book says what a court should have, not what Dinefwr lit, so no candlelight is drawn at Dinefwr. Nothing read describes how ordinary homes were lit; they are drawn with firelight.${FARMS_WHERE_DRAWN.en}`,
+        cy: `Roedd llys Cymreig yn llosgi canhwyllau: mae’r Cod Dyfedaidd (Dimetian Code), fel y galwodd Aneurin Owen y llyfr cyfraith sy’n gysylltiedig â Deheubarth, yn gosod canhwyllydd o flaen y brenin, a’i nawdd yn para o gynnau’r gannwyll gyntaf yn y llys hyd nes diffodd yr olaf. Daw’r llawysgrifau cynharaf o gyfraith Cymru, yn Lladin, o ddechrau’r 13eg ganrif. Mae Aneurin Owen yn dyddio’r llawysgrif a argraffodd fel y testun Dyfedaidd i tua diwedd y 13eg ganrif neu ddechrau’r 14eg, ac mae’r testun ei hun yn cofnodi newidiadau a wnaeth Rhys ap Gruffudd tua 1180; felly dim ond nodi’r Oesoedd Canol y mae’r flwyddyn 1200 yma. Dweud beth ddylai fod gan lys y mae llyfr cyfraith, nid beth a oleuwyd yn Ninefwr, felly ni ddangosir golau cannwyll yn Ninefwr. Nid oes dim a ddarllenwyd yn disgrifio sut y goleuwyd cartrefi cyffredin; fe’u dangosir â golau tân.${FARMS_WHERE_DRAWN.cy}`,
       },
       sources: [src('music:S3'), src('medieval:S41')],
     },
