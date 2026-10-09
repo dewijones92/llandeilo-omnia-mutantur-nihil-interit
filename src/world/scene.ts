@@ -81,7 +81,7 @@ export class World {
       new Vector3(-150, 30, -420),
       scene,
     );
-    camera.lowerRadiusLimit = 25;
+    camera.lowerRadiusLimit = 10;
     camera.upperRadiusLimit = 5200;
     camera.lowerBetaLimit = 0.15;
     camera.upperBetaLimit = 1.38;
@@ -262,7 +262,7 @@ export class World {
       this.refreshShadows();
     }
     if (this.settings.depthOfField) {
-      const focus = Math.max(40, this.camera.radius) * 1000;
+      const focus = Math.max(10, this.camera.radius) * 1000;
       this.pipeline.depthOfField.focusDistance = focus;
       this.pipeline.depthOfField.focalLength = focus * TILT_SHIFT;
     }

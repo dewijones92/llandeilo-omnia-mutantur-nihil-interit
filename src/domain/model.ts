@@ -175,7 +175,6 @@ export type FeatureKind =
       readonly stone: boolean;
       readonly ruined: boolean;
     }
-  | { readonly type: 'roman-fort'; readonly width: number; readonly length: number; readonly angle: number }
   | { readonly type: 'hall-houses'; readonly count: number; readonly spread: number }
   | {
       readonly type: 'town';
@@ -206,11 +205,12 @@ export interface FeatureBase {
  * the present counts), and the feature is drawn nothing outside them (ADR 0034); this says nothing of
  * provenance, so a reconstructed feature can have them, and only a documented one with them is a firm
  * clue (ADR 0035). Otherwise its dates are "c.", and it may carry the earliest date a source allows for
- * its start, before which it is never drawn (ADR 0037).
+ * its start, before which it is never drawn (ADR 0037), and the latest date it allows for its end,
+ * after which it is never drawn (ADR 0041).
  */
 export type FeatureDating =
-  | { readonly datesExact: true; readonly notBefore?: never }
-  | { readonly datesExact?: never; readonly notBefore?: Year };
+  | { readonly datesExact: true; readonly notBefore?: never; readonly notAfter?: never }
+  | { readonly datesExact?: never; readonly notBefore?: Year; readonly notAfter?: Year };
 
 export type Feature = FeatureBase & FeatureDating;
 

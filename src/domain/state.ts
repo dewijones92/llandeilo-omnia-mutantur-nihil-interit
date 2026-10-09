@@ -170,11 +170,17 @@ export function latestStarting<T extends { readonly when: TimeRange }>(
  * How present a dated thing is at t, 0..1. One whose dates a source gives exactly (`datesExact`) is
  * never present outside them: on at `from`, gone after `to` (ADR 0034). One whose dates are "c."
  * fades in over the stretch before `from` and out over the stretch after `to`, but never starts to
- * fade in before a documented earliest date (`notBefore`, ADR 0037).
+ * fade in before a documented earliest date (`notBefore`, ADR 0037), nor out after a documented latest
+ * one (`notAfter`, ADR 0041).
  */
 export function presenceAt(
   timeline: Timeline,
-  item: { readonly when: TimeRange; readonly datesExact?: true; readonly notBefore?: Year },
+  item: {
+    readonly when: TimeRange;
+    readonly datesExact?: true;
+    readonly notBefore?: Year;
+    readonly notAfter?: Year;
+  },
   t: number,
 ): number {
   const from = tAt(timeline, item.when.from);
@@ -183,7 +189,8 @@ export function presenceAt(
   const start =
     item.notBefore === undefined ? from - FADE_T : Math.max(from - FADE_T, tAt(timeline, item.notBefore));
   const fadeIn = start < from ? smoothstep(start, from, t) : t >= from ? 1 : 0;
-  const fadeOut = 1 - smoothstep(to, to + FADE_T, t);
+  const end = item.notAfter === undefined ? to + FADE_T : Math.min(to + FADE_T, tAt(timeline, item.notAfter));
+  const fadeOut = end > to ? 1 - smoothstep(to, end, t) : t <= to ? 1 : 0;
   return Math.min(fadeIn, fadeOut);
 }
 

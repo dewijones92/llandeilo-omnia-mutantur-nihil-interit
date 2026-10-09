@@ -13,10 +13,8 @@ const MOSS = hex('#8a9a6c');
 const THATCH = hex('#d2b172');
 const DAUB = hex('#d4c29a');
 const TIMBER = hex('#7a5a3c');
-const TILE = hex('#b5613f');
 const EARTH = hex('#8f935f');
 const RAMPART = hex('#8a7f6e');
-const LIMEWASH = hex('#f1ede2');
 
 export interface WorldPoint {
   readonly x: number;
@@ -26,6 +24,8 @@ export interface WorldPoint {
 
 export interface Built {
   readonly mesh: Mesh;
+  /** The same thing in full, where `mesh` leaves out its small parts: it is drawn instead of `mesh` when the camera is near (ADR 0043). */
+  readonly near?: Mesh;
   readonly casts: boolean;
   /** Where each house's hearth glows through its door, in world space; empty for anything else. */
   readonly hearths: readonly WorldPoint[];
@@ -69,14 +69,27 @@ export function buildFeature(
     }
     case 'hillfort':
       return { mesh: rampart(scene, kind, ground, ox, oz), casts: true, hearths: [] };
-    case 'roman-fort':
-      return at(romanFort(scene, kind.width * s, kind.length * s, kind.angle, random), 'roman-fort');
-    case 'building':
-      return {
-        mesh: buildPlan(scene, kind.plan, kind.condition, seed, ground, ox, oz),
-        casts: true,
-        hearths: [],
-      };
+    case 'building': {
+      const detailed = kind.plan.parts.some((p) => p.detail);
+      const mesh = buildPlan(
+        scene,
+        kind.plan,
+        kind.condition,
+        seed,
+        ground,
+        ox,
+        oz,
+        detailed ? 'far' : 'near',
+      );
+      return detailed
+        ? {
+            mesh,
+            near: buildPlan(scene, kind.plan, kind.condition, seed, ground, ox, oz, 'near'),
+            casts: true,
+            hearths: [],
+          }
+        : { mesh, casts: true, hearths: [] };
+    }
     case 'hall-houses': {
       const parts: Mesh[] = [];
       const hearths: WorldPoint[] = [];
@@ -164,51 +177,6 @@ function rampart(
   const merged = merge('hillfort', parts);
   merged.position = new Vector3(ox, base, oz);
   return merged;
-}
-
-function romanFort(scene: Scene, w: number, l: number, angle: number, random: () => number): Mesh[] {
-  const parts: Mesh[] = [];
-  const bank = (x: number, z: number, len: number, rot: number): void => {
-    parts.push(place(box(scene, len, 1.3, 2.4, EARTH), x, 0, z, rot));
-    parts.push(place(box(scene, len, 2.6, 0.35, TIMBER), x, 1.2, z, rot));
-  };
-  const rot = (x: number, z: number): [number, number] => [
-    x * Math.cos(angle) - z * Math.sin(angle),
-    x * Math.sin(angle) + z * Math.cos(angle),
-  ];
-  const edges: [number, number, number, number][] = [
-    [0, l / 2, w, 0],
-    [0, -l / 2, w, 0],
-    [w / 2, 0, l, Math.PI / 2],
-    [-w / 2, 0, l, Math.PI / 2],
-  ];
-  for (const [x, z, len, r] of edges) {
-    const [rx, rz] = rot(x, z);
-    bank(rx, rz, len, -angle + r);
-  }
-  for (const [x, z] of [
-    [0, l / 2],
-    [0, -l / 2],
-    [w / 2, 0],
-    [-w / 2, 0],
-  ] as const) {
-    const [rx, rz] = rot(x, z);
-    parts.push(place(box(scene, 3.2, 5.2, 3.2, TIMBER), rx, 0, rz, -angle));
-  }
-  const rows = Math.max(2, Math.round(w / 9));
-  for (let i = 0; i < rows; i++) {
-    for (const side of [-1, 1]) {
-      const x = -w / 2 + (w / (rows + 1)) * (i + 1);
-      const z = side * l * 0.26;
-      const [rx, rz] = rot(x, z);
-      const len = l * 0.3 * (0.85 + random() * 0.15);
-      parts.push(place(box(scene, 2.2, 1.8, len, DAUB), rx, 0, rz, -angle));
-      parts.push(place(gable(scene, len, 2.8, 1.1, TILE), rx, 1.8, rz, -angle + Math.PI / 2));
-    }
-  }
-  parts.push(place(box(scene, w * 0.22, 2.4, l * 0.16, LIMEWASH), 0, 0, 0, -angle));
-  parts.push(place(gable(scene, w * 0.22, l * 0.18, 1.2, TILE), 0, 2.4, 0, -angle));
-  return parts;
 }
 
 function longhouse(scene: Scene, x: number, y: number, z: number, rot: number, s: number): Mesh[] {

@@ -17,10 +17,16 @@ import type { SmokeSource } from './smoke.ts';
 import type { Clearing } from './terrain.ts';
 import type { LoadedModel } from './models.ts';
 import { StreetLamps } from './streetlamps.ts';
+import { levelFor, type Level } from '../domain/lod.ts';
 
 interface Monument {
   readonly mesh: Mesh;
+  /** The full-detail mesh, drawn instead of `mesh` when the camera is near. */
+  readonly near: Mesh | undefined;
+  readonly at: { readonly x: number; readonly z: number };
   readonly hearths: readonly WorldPoint[];
+  level: Level;
+  visible: boolean;
 }
 
 interface TownSet {
@@ -35,7 +41,6 @@ const TOWN_CORE_RADIUS = 1300;
 const CLEARING: Readonly<Record<Exclude<Feature['kind']['type'], 'building'>, number>> = {
   roundhouses: 40,
   hillfort: 85,
-  'roman-fort': 60,
   'hall-houses': 45,
   town: 110,
   countryside: 0,
@@ -149,12 +154,21 @@ export class FeatureLayer {
       }
       const built = buildFeature(scene, f.kind, Math.floor(hash2(x, z, 7) * 1e6), onSurface, x, z);
       if (!built) continue;
-      built.mesh.setEnabled(false);
-      built.mesh.receiveShadows = true;
       const mat = scene.getMaterialByName('building-mat');
-      if (mat) built.mesh.material = mat;
-      if (built.casts) world.addCaster(built.mesh);
-      this.monuments.set(f.id, { mesh: built.mesh, hearths: built.hearths });
+      for (const mesh of built.near ? [built.mesh, built.near] : [built.mesh]) {
+        mesh.setEnabled(false);
+        mesh.receiveShadows = true;
+        if (mat) mesh.material = mat;
+        if (built.casts) world.addCaster(mesh);
+      }
+      this.monuments.set(f.id, {
+        mesh: built.mesh,
+        near: built.near,
+        at: { x, z },
+        hearths: built.hearths,
+        level: 'far',
+        visible: false,
+      });
     }
     console.info(
       `dewidebug features built monuments=${this.monuments.size} towns=${this.towns.size} in ${Math.round(performance.now() - started)}ms`,
@@ -203,8 +217,13 @@ export class FeatureLayer {
     const active = new Map(present.map((p) => [p.feature.id, p]));
     for (const [id, m] of this.monuments) {
       const p = active.get(id)?.presence ?? 0;
-      m.mesh.setEnabled(p > 0.01);
-      if (p > 0.01) m.mesh.scaling.y = 0.05 + 0.95 * (1 - Math.pow(1 - p, 3));
+      m.visible = p > 0.01;
+      if (m.visible) {
+        const rise = 0.05 + 0.95 * (1 - Math.pow(1 - p, 3));
+        m.mesh.scaling.y = rise;
+        if (m.near) m.near.scaling.y = rise;
+      }
+      this.show(m);
     }
     const selections: { id: string; order: Int32Array; count: number }[] = [];
     let lampTown: { id: string; presence: number } | undefined;
@@ -230,6 +249,39 @@ export class FeatureLayer {
     this.trainFeature = railway.train?.feature;
     this.train?.setSpan(railway.train?.span);
     this.roads.isVisible = road > 0.5;
+  }
+
+  private show(m: Monument): void {
+    const full = m.near && m.level === 'near';
+    m.mesh.setEnabled(m.visible && !full);
+    m.near?.setEnabled(m.visible && full === true);
+  }
+
+  /** Swaps each detailed monument between its levels by how far the camera is; true if any swapped, so the shadows can be redrawn. */
+  setViewer(eye: { readonly x: number; readonly y: number; readonly z: number }): boolean {
+    let swapped = false;
+    for (const [id, m] of this.monuments) {
+      if (!m.near) continue;
+      const g = this.surface(m.at.x, m.at.z);
+      const distance = Math.hypot(eye.x - m.at.x, eye.y - g, eye.z - m.at.z);
+      const level = levelFor(distance, m.level);
+      if (level === m.level) continue;
+      m.level = level;
+      swapped = true;
+      this.show(m);
+      console.info(
+        `dewidebug lod ${id} now ${level} at ${Math.round(distance)} units from the camera (${m.visible ? 'drawn' : 'not drawn now'})`,
+      );
+    }
+    return swapped;
+  }
+
+  /** Where each detailed monument is drawn, for the debug overlay. */
+  levels(): string {
+    return [...this.monuments]
+      .filter(([, m]) => m.near)
+      .map(([id, m]) => `${id}=${m.level}`)
+      .join(' ');
   }
 
   setLamps(state: LampState): void {

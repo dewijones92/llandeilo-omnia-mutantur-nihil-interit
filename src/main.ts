@@ -108,7 +108,13 @@ async function start(): Promise<void> {
   let smokeSources = features.smokeSources([]);
 
   const debug = params.has('debug')
-    ? new DebugOverlay(engine, backend, world.camera, () => world.graphics())
+    ? new DebugOverlay(
+        engine,
+        backend,
+        world.camera,
+        () => world.graphics(),
+        () => features.levels(),
+      )
     : undefined;
   let pending = true;
   let t = Number(params.get('t') ?? Number.NaN);
@@ -174,7 +180,7 @@ async function start(): Promise<void> {
   store.onChange(() => {
     brand.querySelector('p')?.replaceChildren(store.t('subtitle'));
   });
-  const moment = new MomentCard(store, sourceMap, places);
+  const moment = new MomentCard(store, sourceMap, places, content.features);
   const flight = new Flight(world.camera);
   const home = h('button', { class: 'tool home', type: 'button', hidden: true }, store.t('overview'));
   home.addEventListener('click', () => {
@@ -470,6 +476,7 @@ async function start(): Promise<void> {
     apply();
     world.tick(dt);
     features.tick(dt);
+    if (features.setViewer(world.camera.globalPosition)) world.refreshShadows();
     flight.tick(dt);
     compass.update(world.camera.alpha);
     const now = performance.now();

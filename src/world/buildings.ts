@@ -1,6 +1,7 @@
 import { Vector3, type Mesh, type Scene } from './babylon.ts';
 import { hex, mix, type Rgb } from '../domain/colour.ts';
 import { WORLD } from '../domain/geo.ts';
+import type { Level } from '../domain/lod.ts';
 import { rng } from '../domain/noise.ts';
 import {
   archSoffit,
@@ -28,6 +29,7 @@ export type Ground = (x: number, z: number) => number;
 const SCALE: Readonly<Record<Setting, { readonly across: number; readonly up: number }>> = {
   landscape: { across: WORLD.landmarkScale, up: WORLD.landmarkScale },
   map: { across: 1, up: WORLD.verticalExaggeration },
+  true: { across: 1, up: 1 },
 };
 
 const MATERIAL: Readonly<Record<Material, Rgb>> = {
@@ -49,6 +51,9 @@ const MATERIAL: Readonly<Record<Material, Rgb>> = {
 const WEATHER = hex('#8a9a6c');
 const OPENING = hex('#3a3631');
 const DITCH = hex('#4b4d39');
+const DITCH_SIDE = mix(DITCH, hex('#8a8c6a'), 0.55);
+const FLAT_LIFT = 0.05;
+const GROUND_STEP = 6;
 const FOUNDATION = 0.5;
 const MERLON_SPACING = 2.4;
 const PARAPET_INSET = 0.8;
@@ -73,9 +78,10 @@ export function planClearing(plan: Plan): number {
   const standing = { ...plan, parts: plan.parts.filter((p) => p.type !== 'bridge') };
   if (standing.parts.length === 0) return 0;
   const extent = planExtent(standing) * planWorldScale(plan).across;
-  return extent + (plan.setting === 'map' ? 6 : 30);
+  return extent + (plan.setting === 'landscape' ? 30 : 6);
 }
 
+/** `near` draws every part; `far` leaves out the parts marked `detail`, which are too small to see from afar (ADR 0043). */
 export function buildPlan(
   scene: Scene,
   plan: Plan,
@@ -84,6 +90,7 @@ export function buildPlan(
   ground: Ground,
   ox: number,
   oz: number,
+  level: Level = 'near',
 ): Mesh {
   const baseY = ground(ox, oz);
   const scale = planWorldScale(plan);
@@ -105,11 +112,14 @@ export function buildPlan(
       platforms.some((p) => insideConvex([x, z], p.outline)) ? Math.max(0, terrain(x, z)) : terrain(x, z),
     terrain,
   };
+  const drawn = plan.parts.filter((p) => level === 'near' || !p.detail);
   for (const p of platforms) platform(f, p.face, p.outline);
-  for (const part of plan.parts) buildPart(f, part);
-  const mesh = f.sculpt.toMesh(scene, `plan-${condition}`);
+  for (const part of drawn) buildPart(f, part);
+  const mesh = f.sculpt.toMesh(scene, `plan-${condition}-${level}`);
   mesh.position = new Vector3(ox, baseY, oz);
-  console.info(`dewidebug plan built ${condition} parts=${plan.parts.length} tris=${f.sculpt.triangles}`);
+  console.info(
+    `dewidebug plan built ${condition} ${level} parts=${drawn.length}/${plan.parts.length} tris=${f.sculpt.triangles}`,
+  );
   return mesh;
 }
 
@@ -185,6 +195,9 @@ function buildPart(f: Frame, part: Part): void {
     case 'ditch':
       ditch(f, part);
       return;
+    case 'road':
+      road(f, part);
+      return;
     case 'bridge':
       bridge(f, part);
       return;
@@ -234,7 +247,7 @@ function wall(f: Frame, w: Extract<Part, { type: 'wall' }>): void {
     const angle = Math.atan2(b[1] - a[1], b[0] - a[0]);
     const n = divide(len / f.across, 7);
     if (f.condition === 'standing') {
-      standingWall(f, a, b, angle, n, thick, base + height, colour, w.top === 'battlements');
+      standingWall(f, a, b, angle, n, thick, base + height, colour, w.top === 'battlements', w.taper ?? 1);
       continue;
     }
     const heights = ruinHeights(f.random, left, n);
@@ -266,6 +279,7 @@ function standingWall(
   rise: number,
   colour: Rgb,
   battlements: boolean,
+  taper: number,
 ): void {
   const ux = Math.cos(angle);
   const uz = Math.sin(angle);
@@ -288,6 +302,7 @@ function standingWall(
   const ceiling = Math.max(...rows.map((r) => r.high));
   f.sculpt.band(floor, ceiling);
   const at = (r: { p: V2 }, side: number, y: number): V3 => [r.p[0] + nx * side, y, r.p[1] + nz * side];
+  const crown = (r: { p: V2 }, side: number, y: number): V3 => at(r, side * taper, y);
   for (let k = 0; k < n; k++) {
     const r0 = rows[k];
     const r1 = rows[k + 1];
@@ -297,17 +312,20 @@ function standingWall(
       f.sculpt.quad(
         at(r0, side, r0.low),
         at(r1, side, r1.low),
-        at(r1, side, r1.high),
-        at(r0, side, r0.high),
+        crown(r1, side, r1.high),
+        crown(r0, side, r0.high),
         colour,
         inside,
       );
     }
-    f.sculpt.quad(at(r0, -1, r0.high), at(r1, -1, r1.high), at(r1, 1, r1.high), at(r0, 1, r0.high), colour, [
-      inside[0],
-      Math.min(r0.high, r1.high) - 1,
-      inside[2],
-    ]);
+    f.sculpt.quad(
+      crown(r0, -1, r0.high),
+      crown(r1, -1, r1.high),
+      crown(r1, 1, r1.high),
+      crown(r0, 1, r0.high),
+      colour,
+      [inside[0], Math.min(r0.high, r1.high) - 1, inside[2]],
+    );
     if (battlements) {
       const mid = Math.min(r0.high, r1.high);
       merlons(f, r0.p, r1.p, mid, thick * 0.55, colour);
@@ -320,7 +338,7 @@ function standingWall(
       [first, 1],
       [last, -1],
     ] as const) {
-      f.sculpt.quad(at(r, -1, r.low), at(r, 1, r.low), at(r, 1, r.high), at(r, -1, r.high), colour, [
+      f.sculpt.quad(at(r, -1, r.low), at(r, 1, r.low), crown(r, 1, r.high), crown(r, -1, r.high), colour, [
         r.p[0] + ux * dir,
         (r.low + r.high) / 2,
         r.p[1] + uz * dir,
@@ -438,7 +456,7 @@ function towerTop(
         towerOutline(f, t, cx, cz, r * 1.08),
         top,
         [cx, top + t.size * 0.95 * f.up, cz],
-        MATERIAL.slate,
+        MATERIAL[t.roofMaterial ?? 'slate'],
       );
       return;
     case 'pyramid':
@@ -446,7 +464,7 @@ function towerTop(
         rect(cx, cz, r * 2.1, r * 2.1, turnOf(f, t)),
         top,
         [cx, top + t.size * 0.35 * f.up, cz],
-        MATERIAL.slate,
+        MATERIAL[t.roofMaterial ?? 'slate'],
       );
       return;
   }
@@ -645,24 +663,72 @@ function prism(f: Frame, p: Extract<Part, { type: 'prism' }>): void {
     }
 }
 
-function ditch(f: Frame, d: Extract<Part, { type: 'ditch' }>): void {
-  const pts = d.path.map((p) => world(f, p));
-  const half = (d.width / 2) * f.across;
-  const left: V3[] = [];
-  const right: V3[] = [];
-  const lift = 0.12;
+function densify(pts: readonly V2[], step: number): V2[] {
+  const out: V2[] = [];
+  pts.forEach((p, i) => {
+    const prev = pts[i - 1];
+    if (prev) {
+      const pieces = divide(Math.hypot(p[0] - prev[0], p[1] - prev[1]), step);
+      for (let k = 1; k < pieces; k++) {
+        const t = k / pieces;
+        out.push([prev[0] + (p[0] - prev[0]) * t, prev[1] + (p[1] - prev[1]) * t]);
+      }
+    }
+    out.push(p);
+  });
+  return out;
+}
+
+/** The edges of a ribbon along a path, each `share` of the way across it from the centre (-1 to 1), laid on the ground. */
+function edges(f: Frame, pts: readonly V2[], half: number, lift: number, shares: readonly number[]): V3[][] {
+  const rows = shares.map((): V3[] => []);
   pts.forEach((p, i) => {
     const prev = pts[Math.max(0, i - 1)] ?? p;
     const next = pts[Math.min(pts.length - 1, i + 1)] ?? p;
     const dx = next[0] - prev[0];
     const dz = next[1] - prev[1];
     const len = Math.hypot(dx, dz) || 1;
-    const nx = (-dz / len) * half;
-    const nz = (dx / len) * half;
-    left.push([p[0] + nx, f.ground(p[0] + nx, p[1] + nz) + lift, p[1] + nz]);
-    right.push([p[0] - nx, f.ground(p[0] - nx, p[1] - nz) + lift, p[1] - nz]);
+    shares.forEach((share, k) => {
+      const x = p[0] + (-dz / len) * half * share;
+      const z = p[1] + (dx / len) * half * share;
+      rows[k]?.push([x, f.ground(x, z) + lift, z]);
+    });
   });
-  f.sculpt.band(-1e3, 1e3).ribbon(left, right, DITCH);
+  return rows;
+}
+
+function ribbons(f: Frame, rows: readonly (readonly V3[])[], colours: readonly Rgb[]): void {
+  f.sculpt.band(-1e3, 1e3);
+  colours.forEach((colour, i) => {
+    const a = rows[i];
+    const b = rows[i + 1];
+    if (a && b) f.sculpt.ribbon(a, b, colour);
+  });
+}
+
+function ditch(f: Frame, d: Extract<Part, { type: 'ditch' }>): void {
+  const pts = densify(
+    d.path.map((p) => world(f, p)),
+    GROUND_STEP * f.across,
+  );
+  const half = (d.width / 2) * f.across;
+  if (d.fill) {
+    ribbons(f, edges(f, pts, half, FLAT_LIFT * 0.6, [1, -1]), [MATERIAL[d.fill]]);
+    return;
+  }
+  if (d.depth === undefined) {
+    ribbons(f, edges(f, pts, half, 0.12, [1, -1]), [DITCH]);
+    return;
+  }
+  ribbons(f, edges(f, pts, half, FLAT_LIFT, [1, 0.5, -0.5, -1]), [DITCH_SIDE, DITCH, DITCH_SIDE]);
+}
+
+function road(f: Frame, r: Extract<Part, { type: 'road' }>): void {
+  const pts = densify(
+    r.path.map((p) => world(f, p)),
+    GROUND_STEP * f.across,
+  );
+  ribbons(f, edges(f, pts, (r.width / 2) * f.across, FLAT_LIFT * 0.8, [1, -1]), [MATERIAL[r.material]]);
 }
 
 function bridge(f: Frame, b: Extract<Part, { type: 'bridge' }>): void {
