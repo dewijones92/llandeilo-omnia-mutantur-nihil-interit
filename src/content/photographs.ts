@@ -103,10 +103,9 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'The date is the uploader’s caption (c. 1910), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries (item text: "possibly")',
     credit:
-      'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2281961',
+      'D C Harries (the item text says only “possibly taken by”). Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2281961',
     catalogueId: 'PCW 2281961',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2281961',
-    // Corrected 2026-10-09 (independent check): it said “lychgate”, but the gates are iron between capped piers and nothing is roofed.
     shows:
       'A horse-drawn hearse and a crowd of men in dark coats at a funeral, outside a brick building with a shop window.',
     where: 'New Road, opposite Salem Methodist Chapel (the building is no. 15 New Road today)',
@@ -155,6 +154,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282066',
     catalogueId: 'PCW 2282066',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282066',
+    // Corrected 2026-10-09 (independent check): it said “lychgate”, but the gates are iron between capped piers and nothing is roofed.
     shows:
       'The church and its tower under snow, with the churchyard gates, a lamp over them, and the graveyard wall in the foreground.',
     where: "St Teilo's church, Llandeilo",
@@ -208,7 +208,6 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282096',
     catalogueId: 'PCW 2282096',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282096',
-    // Corrected 2026-10-09 (independent check): it said “coach board”.
     shows:
       'NOT a station. Rows of loaded coal wagons lettered "PANTYFFYNNON BEST ANTHRACITE COAL" beside a large timber-and-iron screening plant still under construction.',
     where: 'Unknown colliery (the wagons name Pantyffynnon); the caption says "Llandilo Railway Station"',
@@ -230,9 +229,10 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'Corrected 2026-10-09 (independent check): the National Library of Wales holds the same photograph (People’s Collection Wales item 408896) dated 1914-1918, with the creator given as “Unknown”; the print’s own note reads “(World War One)”. People’s Collection Wales credits Harries for its copy and the NLW does not, so the attribution rests on that one record.',
     creator: 'D C Harries',
     credit:
-      'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282111',
+      'D C Harries, as People’s Collection Wales credits it (the National Library of Wales holds the same photograph with the creator “Unknown”). Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282111',
     catalogueId: 'PCW 2282111',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282111',
+    // Corrected 2026-10-09 (independent check): it said “coach board”.
     shows:
       'A dense crowd of men, women and children on a platform beside a train; the station nameboard reads LLANDILO; a later note on the print reads “(World War One)”. The NLW holds the same photograph, creator unknown, as civilians waiting for a troop train.',
     where: 'Llandeilo railway station, platform',
@@ -259,7 +259,6 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282126',
     catalogueId: 'PCW 2282126',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282126',
-    // Corrected 2026-10-09 (independent check): the lettering was not read before.
     shows:
       'A long view down an empty platform: a canopy, station buildings with a nameboard reading LLANDILO, lamp posts, benches, a water tower at the right, several tracks; the print is fogged at the edges.',
     where: 'Llandeilo railway station',
@@ -278,7 +277,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     file: 'photos/harries/2282141.jpg',
     title: 'A photograph of an accident on Llandeilo Bridge involving a bus, by D C Harries, c. 1928',
     dated: 'c. 1928',
-    when: range(year(1926), year(1930)),
+    when: range(year(1923), year(1933)),
     dateNote:
       'The date is the uploader’s caption (c. 1928), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
@@ -286,6 +285,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282141',
     catalogueId: 'PCW 2282141',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282141',
+    // Corrected 2026-10-09 (independent check): the lettering was not read before.
     shows:
       'A single-decker bus has gone through the parapet of a stone bridge and hangs over the edge; two men stand below beside the tall masonry, a corrugated shed to the right. The bus is lettered AMMANFORD, which ties it to the Llandeilo to Ammanford bus accident the NLW describes.',
     where: 'Llandeilo Bridge (the Tywi bridge)',
@@ -304,7 +304,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     file: 'photos/harries/2282156.jpg',
     title: 'A photograph of an accident on Llandeilo Bridge involving a bus, by D C Harries, c. 1928',
     dated: 'c. 1928',
-    when: range(year(1926), year(1930)),
+    when: range(year(1923), year(1933)),
     dateNote:
       'The date is the uploader’s caption (c. 1928), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
@@ -312,7 +312,6 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282156',
     catalogueId: 'PCW 2282156',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282156',
-    // Corrected 2026-10-09 (independent check): it said a chapel gable and mounted men.
     shows:
       'The same accident from further back: the bus sits on the parapet above the arch, a crowd of onlookers along the top of the wall, a hillside seen through the arch. The bus is lettered AMMANFORD.',
     where: 'Llandeilo Bridge',
@@ -331,7 +330,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     file: 'photos/harries/2282171.jpg',
     title: 'A photograph of an accident on Llandeilo Bridge involving a bus, by D C Harries, c. 1928',
     dated: 'c. 1928',
-    when: range(year(1926), year(1930)),
+    when: range(year(1923), year(1933)),
     dateNote:
       'The date is the uploader’s caption (c. 1928), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
@@ -472,6 +471,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282246',
     catalogueId: 'PCW 2282246',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282246',
+    // Corrected 2026-10-09 (independent check): it said a chapel gable and mounted men.
     shows:
       'Mounted soldiers in uniform drawn up along the kerb, an officer facing them, in front of a rendered hall with an inscribed pediment (the Drill Hall on the 1905-revised map, today’s Civic Hall), with Capel Newydd’s Gothic front behind.',
     where: 'Crescent Road, between the Civic Hall and Capel Newydd',
@@ -489,18 +489,19 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     id: photoId('harries-2282261'),
     file: 'photos/harries/2282261.jpg',
     title: 'A photograph of the White Hart Inn on Carmarthen Road in Llandeilo, by D C Harries, c. 1900',
-    dated: 'c. 1900 (clothes look 1920s)',
-    when: range(year(1895), year(1930)),
+    dated: 'looks 1920s (caption c. 1900)',
+    when: range(year(1920), year(1930)),
+    dateDisputed: true,
     dateNote:
-      'Corrected 2026-10-09 (independent check): the caption says c. 1900, but a woman’s knee-length drop-waist dress and bobbed hair, and a man’s wide trousers, look like the mid to late 1920s. The range is widened to run from the caption’s date to 1930; which is right is not settled. Claude under the proactive mandate (ADR 0027).',
+      'Corrected 2026-10-09 (independent check): the caption says c. 1900, but on a second look at the picture a man sits astride a motorcycle at the door, a woman wears a knee-length drop-waist dress, and the men wear flat caps and wide trousers. Motorcycles were all but absent in rural Wales before about 1905 and knee-length hems are of the 1920s, so the picture is no earlier than about 1920. The range runs from 1920 to 1930; the end is a judgement from the dress, not a source, and why the caption says c. 1900 is not settled. Claude under the proactive mandate (ADR 0027).',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282261',
     catalogueId: 'PCW 2282261',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282261',
-    // Corrected 2026-10-09 (independent check): it said three storeys and one child.
+    // Corrected 2026-10-09 (independent check): the motorcycle and the woman were not read before, and the terrace on the right is houses, not outbuildings.
     shows:
-      'A long two-storey inn with a sign reading WHITE HART INN, men and a motorcycle outside, outbuildings to the right.',
+      'A long two-storey rendered inn with a stone gable end on the left, enamel signs and a sign reading WHITE HART INN, a group of men and a woman in a knee-length dress standing at the door, a man astride a motorcycle at the right, and a terrace of houses beyond.',
     where: 'White Hart Inn, Carmarthen Road',
     status: 'ok',
     provenance: PHOTOGRAPH_PROVENANCE,
@@ -552,6 +553,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282291',
     catalogueId: 'PCW 2282291',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282291',
+    // Corrected 2026-10-09 (independent check): it said three storeys and one child.
     shows:
       'A two-storey rendered building with attic dormers, pedimented windows, a round-arched doorway and two children at the door.',
     where: 'Abbeyfield (Abbeyfield House, no. 1 George Street, formerly the George Hotel)',
@@ -578,7 +580,6 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282306',
     catalogueId: 'PCW 2282306',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282306',
-    // Corrected 2026-10-09 (independent check): the Post Office was not noticed before.
     shows:
       'A rough road with a horse and cart and a few people, a row of white terraced houses and a hillside beyond, a stone building at the right.',
     where: 'New Road, by the Victoria Hotel',
@@ -623,17 +624,19 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     id: photoId('harries-2282336'),
     file: 'photos/harries/2282336.jpg',
     title: 'A photograph inside the Market Hall in Llandeilo, Carmarthen Street, by D C Harries, c. 1900',
-    dated: 'c. 1900 (clothes look 1920s)',
-    when: range(year(1895), year(1930)),
+    dated: 'looks 1920s (caption c. 1900)',
+    when: range(year(1922), year(1930)),
+    dateDisputed: true,
     dateNote:
-      'Corrected 2026-10-09 (independent check): the caption says c. 1900, but many women in the crowd wear cloche hats, which were popular from about 1922 to 1933. The range is widened to run from the caption’s date to 1930; which is right is not settled. Claude under the proactive mandate (ADR 0027).',
+      'Corrected 2026-10-09 (independent check): the caption says c. 1900, but on a second look at the picture many women in the crowd wear cloche hats, which were popular from about 1922 to 1933, and electric pendant lamps hang from the roof. The range runs from 1922 to 1930; the end is a judgement from the hats, not a source, and why the caption says c. 1900 is not settled. Claude under the proactive mandate (ADR 0027).',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282336',
     catalogueId: 'PCW 2282336',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282336',
+    // Corrected 2026-10-09 (independent check): it said the crowd was seated at long tables, but it is standing between trestle tables of goods.
     shows:
-      'The interior of a large market hall under an iron roof hung with bunting, packed with people seated at long tables.',
+      'The interior of a large market hall under an iron roof hung with bunting and electric pendant lamps, packed with a standing crowd in hats between trestle tables of goods and produce.',
     where: 'The Market Hall (Provisions Market), Carmarthen Street',
     status: 'ok',
     provenance: PHOTOGRAPH_PROVENANCE,
@@ -758,6 +761,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282411',
     catalogueId: 'PCW 2282411',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282411',
+    // Corrected 2026-10-09 (independent check): the Post Office was not noticed before.
     shows:
       'A street receding, a hanging sign reading D. C. HARRIES on the building at the left, a man and a dog in the road, shops and a rendered terrace beyond; the banded-brick Post Office of 1897 stands across the street on the right.',
     where: "Rhosmaen Street, at D C Harries' studio",

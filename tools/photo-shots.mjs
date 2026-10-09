@@ -3,8 +3,8 @@ import { chromium } from '@playwright/test';
 import { existsSync } from 'node:fs';
 
 // Screenshots of the photo layer: a pin in the scene at 1900, and an open photograph, in English and Welsh.
-// Usage: node tools/photo-shots.mjs <base url, ending in /> <out dir> [photo id]
-const [base, out, photo = 'harries-2282291'] = process.argv.slice(2);
+// Usage: node tools/photo-shots.mjs <base url, ending in /> <out dir> [photo id] [year]
+const [base, out, photo = 'harries-2282291', year = '1900'] = process.argv.slice(2);
 const local = `${process.env.HOME}/.cache/ms-playwright/chromium-1169/chrome-linux/chrome`;
 const gpu = process.env.SHOT_GPU !== '0' && existsSync('/dev/dxg');
 const browser = await chromium.launch({
@@ -19,10 +19,10 @@ const browser = await chromium.launch({
 for (const lang of ['en', 'cy']) {
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
   page.on('pageerror', (e) => console.log(`[pageerror] ${e.message}`));
-  await page.goto(`${base}?lang=${lang}&photos=1&year=1900&place=llandeilo&radius=140`);
+  await page.goto(`${base}?lang=${lang}&photos=1&year=${year}&place=llandeilo&radius=140`);
   await page.waitForFunction(() => document.body.dataset.ready !== undefined, null, { timeout: 120000 });
   await page.waitForTimeout(2500);
-  await page.screenshot({ path: `${out}/pin-1900-${lang}.png` });
+  await page.screenshot({ path: `${out}/pin-${year}-${lang}.png` });
   const pin = page.locator(`.pin[data-photo="${photo}"]`);
   const pins = await page.locator('.pin').filter({ visible: true }).count();
   console.log(

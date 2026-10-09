@@ -1,5 +1,5 @@
 import type { Photograph } from '../domain/model.ts';
-import { datedLabel, isPlaced } from '../domain/photos.ts';
+import { datedLabel, isPlaced, photoTier } from '../domain/photos.ts';
 import type { Source } from '../domain/provenance.ts';
 import { formatYear } from '../domain/time.ts';
 import { h } from './dom.ts';
@@ -58,9 +58,8 @@ export class PhotoPanel {
   private surety(photo: Photograph): HTMLElement {
     const t = (k: Parameters<LangStore['t']>[0]): string => this.store.t(k);
     const placed = isPlaced(photo) ? photo.placement : undefined;
-    const kind = placed?.basis ?? 'reconstructed';
     const range = `${formatYear(photo.when.from, this.store.lang)}–${formatYear(photo.when.to, this.store.lang)}`;
-    return infoBadge(kind, this.store, [
+    return infoBadge(photoTier(photo), this.store, [
       h(
         'span',
         { class: 'prov-basis' },

@@ -1121,6 +1121,28 @@ test('a pin opens its photograph with the credit and an ⓘ for the date and the
   await expect(panel).toBeHidden();
 });
 
+test('a photograph whose caption its picture contradicts is not pinned in 1900, and reads as reconstructed in the 1920s', async ({
+  page,
+}) => {
+  const inn = photoFor('harries-2282261');
+  await page.goto('./?year=1900&photos=1&place=llandeilo&radius=400');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
+  await expect(page.locator(`.pin[data-photo="${inn.id}"]`)).toBeHidden();
+  await page.goto('./?year=1925&photos=1&place=llandeilo&radius=400');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const pin = page.locator(`.pin[data-photo="${inn.id}"]`);
+  await expect(pin).toBeVisible();
+  await pin.click();
+  const panel = page.locator('.photo');
+  await expect(panel.locator('h2')).toHaveText(inn.title);
+  await panel.locator('.prov').click();
+  const pop = panel.locator('.prov-pop');
+  await expect(pop).toContainText('Reconstructed');
+  await expect(pop).toContainText('motorcycle');
+  await expect(panel.locator('.prov')).toContainText('Reconstructed');
+});
+
 test('a photograph closes when the slider leaves its years or Photos is switched off', async ({ page }) => {
   await page.goto(`${AT_1900}&photos=1`);
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });

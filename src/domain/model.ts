@@ -275,6 +275,7 @@ export interface Photograph {
   readonly dated: string;
   readonly when: TimeRange;
   readonly dateNote: string;
+  readonly dateDisputed?: true;
   readonly creator: string;
   readonly credit: string;
   readonly catalogueId: string;

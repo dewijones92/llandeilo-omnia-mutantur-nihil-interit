@@ -42,7 +42,8 @@ kind of thing without a recorded reason.
   bus accident, two of the station, two of St Teilo's) fan 15 m round it in id order, so each pin can be
   reached. A pin does not move with the year or with other photographs.
 - **Pins are page elements projected from the scene**, like place labels and conversation bubbles
-  (`src/ui/photo-pins.ts`): a camera glyph in sepia, a button with an accessible name, keyboard reachable.
+  (`src/ui/photo-pins.ts`, projecting through `src/ui/screen-space.ts`, the one projection and overlap test
+  the labels, the bubbles and the pins share): a camera glyph in sepia, a button with an accessible name, keyboard reachable.
   A pin that would overlap an earlier pin, or a panel, waits until the camera is nearer, as labels do.
   They carry `reveals-when`, so the guess game hides them ([ADR 0029](0029-guess-game-hides-giveaways-by-one-root-class.md))
   and `Snapshot.photographs` is "not seen" there.
@@ -52,19 +53,32 @@ kind of thing without a recorded reason.
 - **The photo opens in a side panel** (`src/ui/photo-panel.ts`) in the slot the conversation and info
   panels use, wide enough for the picture: the catalogue's title, the picture, its credit with a link to the
   catalogue page, the ⓘ, then the date, what it shows and where. Escape closes it after any open popover;
-  it closes when Photos is switched off or the slider leaves the photograph's years; it shares the
+  it closes when Photos is switched off or the slider leaves the photograph's pin window (its years plus
+  `PHOTO_LINGER_YEARS`, not its years alone); it shares the
   right-hand slot, so the other panels close it and it closes them.
-- **The ⓘ is the existing tier badge** (`infoBadge`, extracted from `provenanceBadge`): the placement's tier
-  (documented or reconstructed) and its meaning, then how sure the date is (the range and a note of what
+- **The ⓘ is the existing tier badge** (`infoBadge`, extracted from `provenanceBadge`): the photograph's tier
+  (`photoTier`: the placement's, but reconstructed where the date itself is disputed, `dateDisputed`) and its
+  meaning, then how sure the date is (the range and a note of what
   the date rests on, including where the independent check overturned the caption), how sure the placement
   is (accuracy and note), the sources, and the English-only notice below.
 - **Language.** The panel's labels, the toggle, the pin names, the dates ("tua 1900") and the ⓘ headings
   follow the Cymraeg/English toggle. The catalogue's words (title, what it shows, credit) and our notes on
   each photograph are English only, marked `lang="en"`, and the ⓘ says so. Translating them is a Welsh
   check that is parked with the rest ([`todos`](../todos/_index.md)).
-- **Credits.** The asset manifest keeps one record for `photos/harries/*.jpg` (source and the
-  "not checked, used with credit" licence line, [ADR 0026](0026-open-licences-including-nc.md)); the About tab
+- **Credits.** The asset manifest keeps one record for `photos/harries/*.jpg` (source and a licence line that
+  says PCW's Creative Archive Licence is stated on each item page and was not checked per item, [ADR 0026](0026-open-licences-including-nc.md);
+  the instruction to credit without checking is in the decision log, not on the public page). A doubt about who took a
+  photograph ("possibly", or the NLW's "Unknown") is written into the credit itself, which is what
+  visitors read; the About tab
   lists each photograph's credit and catalogue link under it, from the same content.
+
+## Corrections after the first review (2026-10-09)
+
+- Two photographs captioned c. 1900 (2282261, 2282336) showed a motorcycle, a knee-length dress, cloche hats
+  and electric lamps. A pin may never show a scene before it can exist, so their ranges now start at 1920 and
+  1922 (they had been widened to start at 1895); the date is marked disputed and the caption stays in `dated`.
+- A plain "c." date takes plus or minus five years everywhere; the three bus-accident photographs had
+  1926 to 1930 for "c. 1928" and now run 1923 to 1933.
 
 ## Not built
 

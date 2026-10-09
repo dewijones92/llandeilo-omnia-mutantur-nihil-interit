@@ -251,8 +251,8 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
       the Photos toggle, camera pins, the photo panel with credit and ⓘ, the About credits, in both languages;
       unit, content and e2e tests (red runs in the [build log](../process/build-log.md)). **Looked at ✓**
       (`docs/images/photo-layer/`). **Still to do: the second-Opus review** before it ships in a release.
-      Owner's decisions: the credit wording, whether the layer should be on by default, whether to widen or
-      keep the c. 1900 captions of 2282261 and 2282336 (widened to 1895-1930 for now), and whether to gather
+      Owner's decisions: the credit wording, whether the layer should be on by default, whether to keep the c. 1900 captions of 2282261 and 2282336 (their ranges
+      start at 1920 and 1922 for now, because a motorcycle, a knee-length dress, cloche hats and electric lamps are 1920s), and whether to gather
       other photographers' c. 1900 station and street views. Not built: a "Then and now" flight (no record
       of a camera direction), a way in for the three unplaced photographs, Welsh for the catalogue's words
 - [ ] **Photo layer follow-ups** (Claude, proactive, ADR 0027; not started): a count of the photographs

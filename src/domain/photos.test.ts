@@ -1,7 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { mint } from './brand.ts';
 import type { Photograph, PhotoId } from './model.ts';
-import { PHOTO_LINGER_YEARS, datedLabel, isPlaced, photoWindow, pinAnchors, pinnedPhotos } from './photos.ts';
+import {
+  PHOTO_LINGER_YEARS,
+  datedLabel,
+  isPlaced,
+  photoTier,
+  photoWindow,
+  pinAnchors,
+  pinnedPhotos,
+} from './photos.ts';
 import { range, year } from './time.ts';
 
 const photo = (id: string, from: number, to: number, extra: Partial<Photograph> = {}): Photograph => ({
@@ -101,5 +109,25 @@ describe('the date as shown', () => {
     const p = photo('c', 1918, 1930, { dated: 'after 1918 (caption c. 1910)' });
     expect(datedLabel(p, 'en')).toBe('after 1918 (caption c. 1910)');
     expect(datedLabel(p, 'cy')).toBe('1918–1930');
+  });
+});
+
+describe('how sure we are of a photograph as a whole', () => {
+  it('takes the placement’s tier when the date is not in doubt', () => {
+    expect(photoTier(photo('a', 1895, 1905))).toBe('documented');
+    const reconstructed = photo('b', 1895, 1905, {
+      placement: {
+        kind: 'placed',
+        at: { e: 1, n: 1 },
+        accuracyM: 60,
+        basis: 'reconstructed',
+        note: 'a note',
+      },
+    });
+    expect(photoTier(reconstructed)).toBe('reconstructed');
+  });
+
+  it('is only reconstructed when the date is disputed, even where the placement is documented', () => {
+    expect(photoTier(photo('c', 1920, 1930, { dateDisputed: true }))).toBe('reconstructed');
   });
 });

@@ -1778,10 +1778,10 @@ button {
   pointer-events: auto;
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: var(--pin-px);
+  height: var(--pin-px);
   padding: 0;
-  margin-top: -8px;
+  margin-top: calc(-1 * var(--pin-stem));
   border: 2px solid #fff;
   border-radius: 50%;
   background: var(--photo);
@@ -1796,7 +1796,7 @@ button {
   left: 50%;
   top: 100%;
   width: 2px;
-  height: 8px;
+  height: var(--pin-stem);
   margin-left: -1px;
   background: var(--photo);
 }

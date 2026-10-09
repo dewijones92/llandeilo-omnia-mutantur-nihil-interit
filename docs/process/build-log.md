@@ -670,3 +670,20 @@ Milestones and what each one taught us. Newest last.
    on the NVIDIA GPU (`docs/images/photo-layer/`, made by `tools/photo-shots.mjs`). The first look found
    the credit below the fold and the ⓘ clipped by the panel's bottom edge; the credit moved under the
    picture and the popover opens upwards.
+6. **The photo layer's review (ten findings, all fixed or answered).** (1) Two photographs captioned c. 1900
+   showed a motorcycle at the door, a knee-length dress, cloche hats and electric lamps, yet their pin began in
+   1895, so a 1920s scene appeared in the 1890s; the check had called them "doubtful" without reading the
+   motorcycle. Their ranges now start at 1920 and 1922. (2) Six "Corrected" markers had landed one entry too
+   early when the inline notes became comments, so the entries really corrected carried none and the log
+   overclaimed; a content test now pins each marker to its entry, and failed first with one marker moved back.
+   (3) A doubt about the photographer ("possibly", the NLW's "Unknown") sat only inside the ⓘ; it is in the
+   credit now, with a test. (4) The market hall's crowd was said to be seated; it stands. (5) "c. 1928" had
+   1926 to 1930 against the note's plus or minus five years; a test now holds every plain "c." date to it.
+   (6) The licence line put "at Dewi's request" on the public About tab. (7) The projection and the overlap test
+   were a third copy; `src/ui/screen-space.ts` is now the one. (8) The pin's collision box stopped 8 px short of
+   its stem; the pin and the box now read the same two constants. (9) The ⓘ's tier ignored a disputed date; it
+   is now `photoTier`. (10) The ADR said the panel closes when the slider leaves the photo's years; it closes
+   when the slider leaves the pin window. Tests were red first: the unit tier tests (missing function), the
+   range, caveat, licence, disputed-date and shows tests at their assertions, and the marker test at the
+   count. The e2e for the 1920s photograph failed first at "Expected: hidden, Received: visible" with its range put back to 1895. Looked at: the pins at 1925 (their stems now inside the collision boxes) and the White Hart panel reading Reconstructed (`docs/images/photo-layer/disputed-1925-en.jpg`). Lesson: **a research check that says "doubtful" is a lead, so look at the picture before leaving a
+   range that contradicts it.**

@@ -26,6 +26,12 @@ export function pinnedPhotos(photos: readonly Photograph[], y: Year): readonly P
   });
 }
 
+/** The tier of the photograph as a whole: its placement's, unless the date itself is in dispute. */
+export function photoTier(photo: Photograph): 'documented' | 'reconstructed' {
+  if (photo.dateDisputed) return 'reconstructed';
+  return photo.placement.kind === 'placed' ? photo.placement.basis : 'reconstructed';
+}
+
 const spot = (g: GridRef): string => `${String(g.e)},${String(g.n)}`;
 
 /**

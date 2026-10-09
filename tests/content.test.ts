@@ -547,6 +547,8 @@ describe('the Harries photographs', () => {
     expect(by('2282111').when.to).toBeLessThanOrEqual(1918);
     expect(by('2282111').when.from).toBeGreaterThanOrEqual(1914);
     for (const n of ['2282261', '2282336']) expect(by(n).when.to, n).toBeGreaterThanOrEqual(1925);
+    expect(by('2282261').when.from).toBeGreaterThanOrEqual(1920);
+    expect(by('2282336').when.from).toBeGreaterThanOrEqual(1922);
     for (const n of ['2281901', '2281916', '2281931', '2282111', '2282411', '2282261', '2282336'])
       expect(by(n).dateNote, n).toContain('Corrected 2026-10-09 (independent check)');
     const post = by('2282186').placement;
@@ -555,6 +557,86 @@ describe('the Harries photographs', () => {
       expect(post.at).toEqual({ e: 262968, n: 222446 });
       expect(post.basis).toBe('documented');
     }
+  });
+
+  it('says what the 1920s pictures really show: the motorcycle and the dress, and a standing crowd, not a seated one', () => {
+    const by = (n: string): (typeof HARRIES_PHOTOGRAPHS)[number] => {
+      const found = HARRIES_PHOTOGRAPHS.find((p) => p.catalogueId === `PCW ${n}`);
+      if (!found) throw new Error(`No photograph ${n}`);
+      return found;
+    };
+    const inn = by('2282261');
+    expect(inn.shows).toContain('motorcycle');
+    expect(inn.shows).toContain('woman');
+    expect(inn.dateNote).toContain('motorcycle');
+    expect(inn.dateNote).toContain('knee-length');
+    const hall = by('2282336');
+    expect(hall.shows).not.toContain('seated');
+    expect(hall.shows).toContain('standing');
+    expect(hall.dateNote).toContain('pendant');
+  });
+
+  it('puts each independent-check correction marker on the entry whose text it corrected', () => {
+    const source = readFileSync(join(root, 'src/content/photographs.ts'), 'utf8');
+    const entries = source.split("id: photoId('harries-").slice(1);
+    const marker = /^\s*\/\/ Corrected 2026-10-09 \(independent check\): (.*)$/gm;
+    const found = entries.flatMap((entry) => {
+      const id = /^(\d+)/.exec(entry)?.[1] ?? '?';
+      return [...entry.matchAll(marker)].map((m) => `${id} ${m[1] ?? ''}`);
+    });
+    const expected: readonly (readonly [string, string])[] = [
+      ['2281901', 'poster'],
+      ['2281916', 'posters'],
+      ['2281931', 'signs'],
+      ['2282066', 'lychgate'],
+      ['2282081', 'Gothic'],
+      ['2282111', 'coach board'],
+      ['2282141', 'lettering'],
+      ['2282186', 'fretted'],
+      ['2282246', 'chapel gable'],
+      ['2282261', 'motorcycle'],
+      ['2282291', 'three storeys'],
+      ['2282336', 'seated'],
+      ['2282411', 'Post Office'],
+      ['2282426', 'sands'],
+    ];
+    expect(found.length).toBe(expected.length);
+    for (const [id, word] of expected) {
+      expect(
+        found.some((f) => f.startsWith(`${id} `) && f.includes(word)),
+        `${id} should carry the ${word} marker; found ${JSON.stringify(found)}`,
+      ).toBe(true);
+    }
+  });
+
+  it('shows a doubt about who took a photograph in the credit visitors read, not only in the ⓘ', () => {
+    const doubtful = HARRIES_PHOTOGRAPHS.filter((p) =>
+      /possibly|unknown/i.test(`${p.creator} ${p.dateNote}`),
+    );
+    expect(doubtful.map((p) => p.catalogueId).sort()).toEqual(['PCW 2281961', 'PCW 2282111']);
+    for (const p of doubtful) expect(p.credit, p.id).toMatch(/possibly|unknown/i);
+  });
+
+  it('gives a plain “c.” date the project’s plus-or-minus five years, so a picture is not missed', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      const plain = /^c\. (\d{4})$/.exec(p.dated)?.[1];
+      if (!plain) continue;
+      expect(p.when.from, p.id).toBeLessThanOrEqual(Number(plain) - 5);
+      expect(p.when.to, p.id).toBeGreaterThanOrEqual(Number(plain) + 5);
+    }
+  });
+
+  it('marks a date as disputed exactly where the note says which date is right is not settled', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      expect(p.dateDisputed === true, p.id).toBe(p.dateNote.includes('not settled'));
+    }
+    expect(HARRIES_PHOTOGRAPHS.filter((p) => p.dateDisputed).length).toBeGreaterThan(0);
+  });
+
+  it('records the photographs’ licence as read, not as a private instruction', () => {
+    const asset = ASSETS.find((a) => a.files.test('photos/harries/2281901.jpg'));
+    expect(asset?.licence).toContain('Creative Archive Licence');
+    expect(asset?.licence).not.toMatch(/Dewi|request/);
   });
 
   it('is part of the world, so the snapshot pins photographs at 1900 and none before any was taken', () => {

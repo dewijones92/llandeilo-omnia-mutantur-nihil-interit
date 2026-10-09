@@ -1,12 +1,14 @@
-import { Matrix, Vector3, type Scene } from '../world/babylon.ts';
+import { Vector3, type Scene } from '../world/babylon.ts';
 import { toWorld } from '../domain/geo.ts';
 import type { Photograph, PhotoId } from '../domain/model.ts';
 import { isPlaced, pinAnchors } from '../domain/photos.ts';
 import { h } from './dom.ts';
+import { overlaps, projector } from './screen-space.ts';
 import type { LangStore } from './store.ts';
 
 const SVG = 'http://www.w3.org/2000/svg';
 const PIN_PX = 32;
+const PIN_STEM_PX = 8;
 const PIN_LIFT = 6;
 
 interface Pin {
@@ -54,6 +56,8 @@ export class PhotoPins {
     private readonly store: LangStore,
     onOpen: (photo: Photograph) => void,
   ) {
+    this.el.style.setProperty('--pin-px', `${String(PIN_PX)}px`);
+    this.el.style.setProperty('--pin-stem', `${String(PIN_STEM_PX)}px`);
     const anchors = pinAnchors(photos);
     for (const photo of photos.filter(isPlaced)) {
       const at = anchors.get(photo.id) ?? photo.placement.at;
@@ -93,23 +97,15 @@ export class PhotoPins {
 
   update(avoid: readonly DOMRect[]): void {
     this.visible.length = 0;
-    const camera = this.scene.activeCamera;
-    if (!camera) return;
-    const engine = this.scene.getEngine();
-    const w = engine.getRenderWidth();
-    const hgt = engine.getRenderHeight();
-    const scale = window.innerWidth / w;
-    const viewport = camera.viewport.toGlobal(w, hgt);
-    const transform = this.scene.getTransformMatrix();
+    const project = projector(this.scene);
+    if (!project) return;
     for (const pin of this.pins) {
       const on = this.shown.has(pin.photo.id);
-      const p = on ? Vector3.Project(pin.world, Matrix.IdentityReadOnly, transform, viewport) : undefined;
-      const inView = p !== undefined && p.z > 0 && p.z < 1 && p.x > 0 && p.x < w && p.y > 0 && p.y < hgt;
+      const p = on ? project(pin.world) : undefined;
       let display = 'none';
-      if (inView) {
-        const sx = p.x * scale;
-        const sy = p.y * scale;
-        const box = new DOMRect(sx - PIN_PX / 2, sy - PIN_PX, PIN_PX, PIN_PX);
+      if (p?.inView === true) {
+        const { x: sx, y: sy } = p;
+        const box = new DOMRect(sx - PIN_PX / 2, sy - PIN_PX - PIN_STEM_PX, PIN_PX, PIN_PX + PIN_STEM_PX);
         const covered = [...avoid, ...this.visible].some((b) => overlaps(box, b));
         if (!covered) {
           display = '';
@@ -121,8 +117,4 @@ export class PhotoPins {
       if (pin.el.style.display !== display) pin.el.style.display = display;
     }
   }
-}
-
-function overlaps(a: DOMRect, b: DOMRect): boolean {
-  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
 }
