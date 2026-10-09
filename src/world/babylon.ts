@@ -7,6 +7,7 @@ import '@babylonjs/loaders/glTF/2.0/glTFLoader.js';
 import { CreateBox } from '@babylonjs/core/Meshes/Builders/boxBuilder.js';
 import { CreateCylinder } from '@babylonjs/core/Meshes/Builders/cylinderBuilder.js';
 import { CreateIcoSphere } from '@babylonjs/core/Meshes/Builders/icoSphereBuilder.js';
+import { CreateTorus } from '@babylonjs/core/Meshes/Builders/torusBuilder.js';
 
 export { VertexBuffer } from '@babylonjs/core/Buffers/buffer.js';
 export { ArcRotateCamera } from '@babylonjs/core/Cameras/arcRotateCamera.js';
@@ -39,4 +40,4 @@ export { ParticleSystem } from '@babylonjs/core/Particles/particleSystem.js';
 export { ImportMeshAsync } from '@babylonjs/core/Loading/sceneLoader.js';
 export { Scene } from '@babylonjs/core/scene.js';
 
-export const MeshBuilder = { CreateBox, CreateCylinder, CreateIcoSphere } as const;
+export const MeshBuilder = { CreateBox, CreateCylinder, CreateIcoSphere, CreateTorus } as const;

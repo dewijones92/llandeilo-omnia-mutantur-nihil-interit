@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Build log
@@ -589,3 +589,54 @@ Milestones and what each one taught us. Newest last.
    one rule decides both smoke and halos, and two lightings in the fading-day band are pinned from main
    (red when `selfLit` loses its night weighting). Lesson: a test that reads flags back from the
    renderer proves the code ran, not that anything reached the screen; count the pixels.
+23. **The first cutscene: the Roman army arrives** (branch `feat/cutscene-roman-arrival`). One data model
+   and one pure clock ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)): six shots over 79
+   seconds, about 650 thin-instanced figures in nine draw calls, dust from the smoke layer, procedural
+   cornu calls, tramping feet, hooves, mules and axes through the one mixer, and narration in both
+   languages from edge-tts, with a content test that every caption is up for as long as its narration
+   runs. **Watch** on the AD 74 moment card plays it; Skip or Escape lands on the key date. Lessons:
+   (1) **never run `vite` (dev) in a worktree whose `node_modules` is a symlink to the main clone**: its
+   dependency optimiser rewrote the main clone's `node_modules/.vite/deps` ("Re-optimizing dependencies
+   because vite config has changed"), under the always-on dev server on :5051. The main server still
+   served its modules afterwards, but a reload there may re-optimise once. Worktrees should look at
+   their work with `vite build` and `vite preview`, which leave that cache alone. (2) **The letterbox
+   hides part of the frame**: the first watchers' shot put them below the bottom bar, so camera keys are
+   checked by screenshot, not by geometry alone. (3) The over-the-shoulder shot's depth of field falls on
+   the column, not the watchers in front, because focus follows the camera's distance with a floor of
+   400m; it reads as intended, but a scene cannot yet choose its focus. Bundle: the main chunk is 477,928
+   bytes gzipped after this branch.
+24. **The cutscene review: the later fort stood on the ridge all along.** The second-Opus review found
+   that a scene overrode only the features it builds, so the smaller fort, whose "c. AD 83" fade starts
+   well before AD 74 on the slider, stood finished on the Dinefwr ridge while the column marched up to
+   it, and the two forts were drawn one over the other once fort A rose. Every unit test passed because
+   none looked at what a scene frame draws. Now `sceneFeatures` draws the world at the scene's year, and
+   a content test samples every frame of every scene through the same functions the renderer uses
+   ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)); it failed first with `roman-fort-b@0s=0.93`,
+   the number the reviewer measured. The same pass: an open ⓘ pauses the scene and Escape closes it
+   without skipping; the interface behind is inert; one polyline helper replaces six copies
+   ([ADR 0043](../adr/0043-one-polyline-helper.md)); the garrison caption is hedged. Looking at the
+   paused popover found one more fault the review had not: the letterbox's caption badge holder had
+   `white-space: nowrap`, which the popover inherited, so its text ran off the box and off the screen at
+   1440px; an e2e check now fails if any of its text spills. Lessons: (1) **a scene shows a moment, the
+   slider shows a blur**: anything that sits on top of the timeline at one year must not inherit the
+   slider's fades. (2) **`vite build` and `vite preview` both need `PAGES_BASE`** in every shell: a build
+   made without it serves its assets at `/assets/`, which 404 under the test base, and the e2e reports
+   it as the page never becoming ready, which looks exactly like the known GPU load hang. Three runs
+   went to it before the console showed the 404s. (3) Under SwiftShader a scene opened part-way with
+   `?cutsceneAt=` runs on to its end while the page loads, so a screenshot of a moment needs the GPU.
+   (4) Merging main (the dark night, the battles) meant one real conflict: both sides had rewritten the
+   smoke layer, so `dust` became a fourth `SmokeStyle` in the dark night's look table, with a `lift`
+   field for where a plume starts. Main had also taken ADRs 0037 to 0040, so the cutscene ADRs became
+   0041 to 0043; a branch's ADR numbers are only provisional until it merges.
+25. **The second cutscene review: claims in the docs that the code did not keep.** Five findings, none
+   of them a visible fault. (1) The narrator comment and decision log said no Roman-era character uses the
+   narrator's voice; Nia, the Welsh narrator, also reads the woman at the fort (Welsh has two voices), so
+   the claim was corrected and the overlap recorded in `docs/content/voices.md`. (2) The timeline lock's
+   "a press ends the scene" path was dead, since the timeline is inert behind the scene; `lock` is now a
+   plain guard and the design note says Skip and Escape end a scene. (3) Smoke, hearth glow and forest
+   clearings read the slider's presence rather than the scene's; they now share the one filtered list
+   (no behaviour change at AD 74, so no test could fail first; the e2e covers the wiring). (4) The train
+   still had its own walk along a line, though ADR 0043 said every copy was gone; `segmentAt` is now
+   shared (a unit test failed first on the missing function, then on the edge cases). (5) The bundle is
+   490,121 bytes gzipped, recorded in CLAUDE.md. Lesson: **an ADR that says "every copy now uses it" is a
+   claim to grep for, not to write from memory.**

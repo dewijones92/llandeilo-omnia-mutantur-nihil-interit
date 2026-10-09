@@ -116,8 +116,8 @@ export const EVENTS: readonly KeyEvent[] = [
     approximate: true,
     title: { en: 'Rome builds forts at Dinefwr', cy: 'Rhufain yn codi caerau yn Ninefwr' },
     summary: {
-      en: 'Two Roman forts, one after the other, stood in what is now Dinefwr Park. The first, about 3.8ha, held more than a thousand soldiers and was probably built soon after AD 74, though an earlier date cannot be ruled out. The smaller second fort was in use into the early 2nd century, and the site was abandoned by about AD 140.',
-      cy: "Safai dwy gaer Rufeinig, y naill ar ôl y llall, yn yr hyn sydd bellach yn Barc Dinefwr. Roedd y gyntaf, tua 3.8ha, yn dal mwy na mil o filwyr, ac mae'n debyg iddi gael ei chodi yn fuan ar ôl 74 OC, er na ellir diystyru dyddiad cynharach. Roedd yr ail gaer, lai, yn cael ei defnyddio hyd ddechrau'r 2il ganrif, a gadawyd y safle erbyn tua 140 OC.",
+      en: 'Two Roman forts, one after the other, stood in what is now Dinefwr Park. The first, about 3.8ha, was big enough for perhaps a thousand soldiers or more, and was probably built soon after AD 74, though an earlier date cannot be ruled out. The smaller second fort was in use into the early 2nd century, and the site was abandoned by about AD 140.',
+      cy: "Safai dwy gaer Rufeinig, y naill ar ôl y llall, yn yr hyn sydd bellach yn Barc Dinefwr. Roedd y gyntaf, tua 3.8ha, yn ddigon mawr, efallai, i fil o filwyr neu fwy, ac mae'n debyg iddi gael ei chodi yn fuan ar ôl 74 OC, er na ellir diystyru dyddiad cynharach. Roedd yr ail gaer, lai, yn cael ei defnyddio hyd ddechrau'r 2il ganrif, a gadawyd y safle erbyn tua 140 OC.",
     },
     magnetic: true,
     shot: { framing: 'site' },

@@ -1561,3 +1561,202 @@ button {
   color: var(--documented);
   font-weight: 700;
 }
+
+/* Cutscenes: a letterbox over the scene, captions in the lower bar, the rest of the interface faded. */
+.cutscene {
+  --cs-top: clamp(64px, 10vh, 104px);
+  --cs-bottom: clamp(132px, 20vh, 200px);
+  --cs-ink: #f6f1e7;
+  --cs-soft: #cfc6b6;
+  --cs-bar: #0e0d0b;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  color: var(--cs-ink);
+}
+
+.cutscene[hidden] {
+  display: none;
+}
+
+/* A dip from black as the scene starts. */
+.cutscene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  animation: cs-open 1.4s ease-out;
+}
+
+@keyframes cs-open {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.cs-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--cs-bar);
+  animation: cs-bars 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.cs-top {
+  top: 0;
+  height: var(--cs-top);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 28px;
+  transform-origin: top;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.cs-bottom {
+  bottom: 0;
+  height: var(--cs-bottom);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 28px 18px;
+  transform-origin: bottom;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes cs-bars {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.cs-heading {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.cs-title {
+  font: 600 19px/1.2 var(--display);
+  letter-spacing: 0.01em;
+  color: #ead9b4;
+}
+
+.cs-note {
+  font-size: 13px;
+  color: var(--cs-soft);
+}
+
+.cs-top .prov-pop {
+  top: calc(100% + 8px);
+  bottom: auto;
+  left: auto;
+  right: 0;
+  color: var(--ink);
+}
+
+/* The badge holder does not wrap, so the popover must wrap again; it opens leftwards from the badge. */
+.cs-bottom .prov-pop {
+  left: auto;
+  right: 0;
+  color: var(--ink);
+}
+
+.cutscene .prov-pop {
+  white-space: normal;
+}
+
+.tool.cs-skip {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--cs-ink);
+}
+
+.tool.cs-skip:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.cs-line {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1040px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.cs-caption {
+  margin: 0;
+  font: 400 clamp(19px, 2.1vw, 26px) / 1.38 var(--display);
+  text-align: center;
+  text-wrap: balance;
+  min-height: 1.4em;
+}
+
+.cs-caption-prov {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.cs-caption-prov:empty {
+  display: none;
+}
+
+.cs-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cs-progress-bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #c79a4b;
+}
+
+.moment-watch {
+  margin-left: 8px;
+  vertical-align: middle;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.moment-watch:hover {
+  background: #39404a;
+}
+
+/* While a scene plays everything else steps back; the timeline is hidden as well as locked. */
+.cutscene-playing
+  :is(
+    .brand,
+    .moment,
+    .timeline,
+    .compass,
+    .follow-chip,
+    .convo,
+    .info,
+    .shortcuts,
+    .guess,
+    .labels,
+    .bubbles,
+    .desktop-banner
+  ) {
+  opacity: 0;
+  pointer-events: none !important;
+  transition: opacity 0.4s ease;
+}

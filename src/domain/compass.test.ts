@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { bearingOf, northAlpha } from './compass.ts';
+import { bearingOf, cameraAngles, northAlpha } from './compass.ts';
 
 describe('compass', () => {
   it('reads the bearing the camera is facing, clockwise from north', () => {
@@ -23,5 +23,14 @@ describe('compass', () => {
       expect(bearingOf(target)).toBeCloseTo(0);
       expect(Math.abs(target - alpha)).toBeLessThanOrEqual(Math.PI + 1e-9);
     }
+  });
+
+  it('finds the camera angles that look along a bearing, tilted down by a pitch', () => {
+    for (const bearing of [0, 45, 90, 180, 238, 359]) {
+      const { alpha } = cameraAngles(bearing, 20);
+      expect(Math.abs(((bearingOf(alpha) - bearing + 540) % 360) - 180)).toBeCloseTo(0);
+    }
+    expect(cameraAngles(0, 0).beta).toBeCloseTo(Math.PI / 2);
+    expect(cameraAngles(0, 90).beta).toBeCloseTo(0);
   });
 });

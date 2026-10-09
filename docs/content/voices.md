@@ -2,7 +2,7 @@
 title: Voices and text-to-speech
 kind: guide
 status: current
-updated: 2026-10-02
+updated: 2026-10-09
 ---
 
 # Voices and text-to-speech
@@ -46,6 +46,15 @@ Paid services (ElevenLabs) were considered overkill for a family project.
 - 1282: the priest says *"Pax vobiscum"*; the bard sings a real Middle Welsh line (Peryf ap
   Cedifor, c. 1170), marked as a genuine quote.
 - 1843, 1860s, today: Welsh and English.
+- Cutscenes: a narrator reads every caption in the interface language, `en-GB-SoniaNeural` in
+  English and `cy-GB-NiaNeural` in Welsh, at +4% rate (2026-10-03). The clips are keyed
+  `<scene>-<caption>-<lang>`, and `build-voices.ts` writes each one's length to
+  `src/content/generated/narration.ts`, so a test can check every caption stays up while it is read.
+  **Known overlap:** edge-tts has only two Welsh voices, so Nia, the Welsh narrator, also reads the
+  woman at the Roman fort (`at-the-fort-1`, `-3`, AD 76-125). That conversation does not play during
+  the scene (AD 74), so nothing clashes on screen; the English narrator's voice is used by no
+  Roman-era line. (Corrected 2026-10-09: this note and the decision log first said no Roman-era
+  character used the narrator's voice.)
 
 ## Known mismatches (from the language research)
 

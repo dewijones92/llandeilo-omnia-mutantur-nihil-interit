@@ -1,5 +1,6 @@
 import { PointerEventTypes, Vector3 } from './world/babylon.ts';
 import './ui/styles.css';
+import { CUTSCENES } from './content/cutscenes.ts';
 import { WORLD_CONTENT } from './content/world.ts';
 import { toWorld } from './domain/geo.ts';
 import { highestM } from './domain/heightfield.ts';
@@ -7,11 +8,12 @@ import { isLang } from './domain/i18n.ts';
 import { STRINGS } from './content/strings.ts';
 import { lightingAt, parseClock, seasonLook } from './domain/daylight.ts';
 import { lampsAt } from './domain/lamplight.ts';
-import { snapshotAt, type Snapshot } from './domain/state.ts';
+import { snapshotAt, type FeaturePresence, type Snapshot } from './domain/state.ts';
 import { keySteps, nearestStep, shotFor } from './domain/steps.ts';
-import type { Framing, KeyEvent, RollingStock } from './domain/model.ts';
+import { sceneFeatures, type Cutscene } from './domain/cutscene.ts';
+import type { FeatureId, Framing, KeyEvent, RollingStock } from './domain/model.ts';
 import { tAt } from './domain/timeline.ts';
-import { ad, calendarYear, year } from './domain/time.ts';
+import { ad, calendarYear, year, type Year } from './domain/time.ts';
 import {
   loadBuildings,
   loadHeightfield,
@@ -23,6 +25,7 @@ import {
 import { DebugOverlay } from './ui/debug.ts';
 import { PlaceLabels } from './ui/labels.ts';
 import { MomentCard } from './ui/moment.ts';
+import { CutscenePlayer } from './ui/cutscene.ts';
 import { Bubbles } from './ui/bubbles.ts';
 import { loadModel, type LoadedModel } from './world/models.ts';
 import { Compass } from './ui/compass.ts';
@@ -48,6 +51,9 @@ import { FeatureLayer } from './world/features.ts';
 import { Firelight } from './world/firelight.ts';
 import { Flight } from './world/flight.ts';
 import { People } from './world/people.ts';
+import { Crowd } from './world/crowd.ts';
+import { Stage } from './world/stage.ts';
+import type { SmokeSource } from './world/smoke.ts';
 import { Smoke } from './world/smoke.ts';
 import { World } from './world/scene.ts';
 
@@ -174,8 +180,29 @@ async function start(): Promise<void> {
   store.onChange(() => {
     brand.querySelector('p')?.replaceChildren(store.t('subtitle'));
   });
-  const moment = new MomentCard(store, sourceMap, places);
+  const scenes = new Map(CUTSCENES.map((c) => [c.event, c]));
+  const moment = new MomentCard(store, sourceMap, places, scenes, (scene) => {
+    player.play(scene);
+  });
   const flight = new Flight(world.camera);
+  const stage = new Stage(world.camera, flight, new Crowd(world.scene, features.ground), features.ground);
+  let dust: SmokeSource[] = [];
+  // While a cutscene plays: its year, and the presence of the features it builds (ADR 0042).
+  let sceneWorld: { readonly year: Year; built: ReadonlyMap<FeatureId, number> } | undefined;
+  let shadowsAt = 0;
+  let sceneSaid = '';
+  const withScene = (present: readonly FeaturePresence[]): readonly FeaturePresence[] => {
+    if (!sceneWorld) return present;
+    const drawn = sceneFeatures(present, sceneWorld.built, sceneWorld.year, (id) => featureMap.get(id));
+    const kept = new Set(drawn.map((p) => p.feature.id));
+    const hidden = present.filter((p) => !kept.has(p.feature.id)).map((p) => p.feature.id);
+    const said = `year=${String(sceneWorld.year)} hidden=${hidden.join(',') || 'none'}`;
+    if (said !== sceneSaid) {
+      sceneSaid = said;
+      console.info(`dewidebug scene world ${said} (dates do not contain the scene's year)`);
+    }
+    return drawn;
+  };
   const home = h('button', { class: 'tool home', type: 'button', hidden: true }, store.t('overview'));
   home.addEventListener('click', () => {
     flight.flyHome();
@@ -221,7 +248,7 @@ async function start(): Promise<void> {
   });
   const bubbles = new Bubbles(world.scene, people.groups.values(), store, openConversation);
   world.scene.onPointerObservable.add((info) => {
-    if (info.type !== PointerEventTypes.POINTERTAP) return;
+    if (info.type !== PointerEventTypes.POINTERTAP || player.playing) return;
     const hit = info.pickInfo?.pickedMesh;
     const tracked = features.trackable(hit);
     if (hit && tracked) {
@@ -317,6 +344,56 @@ async function start(): Promise<void> {
   onSeason = () => {
     guess.seasonChanged();
   };
+  const eventsById = new Map(content.events.map((e) => [e.id, e]));
+  const keyDateOf = (scene: Cutscene): KeyEvent => {
+    const ev = eventsById.get(scene.event);
+    if (!ev) throw new Error(`Cutscene ${scene.id} names no event ${scene.event}`);
+    return ev;
+  };
+  // The faded interface behind a playing scene, and the canvas, are inert, so Tab and Enter cannot
+  // reach them; the stage holds the camera meanwhile.
+  const behindScene = (inert: boolean): void => {
+    const els = [canvas, ...app.children].filter(
+      (el): el is HTMLElement => el instanceof HTMLElement && el !== player.el,
+    );
+    for (const el of els) el.inert = inert;
+    console.info(`dewidebug cutscene interface behind inert=${String(inert)} elements=${String(els.length)}`);
+  };
+  const player = new CutscenePlayer(store, sourceMap, {
+    onStart(scene) {
+      const ev = keyDateOf(scene);
+      behindScene(true);
+      panel.close();
+      info.close();
+      if (shortcuts.isOpen) shortcuts.close();
+      flight.stopFollowing('cutscene');
+      sceneWorld = { year: ev.when.from, built: new Map() };
+      timeline.jump(tAt(content.timeline, ev.when.from));
+      timeline.lock(true);
+      stage.begin();
+      ambience?.duck(true);
+    },
+    onEnd(scene, skipped) {
+      const ev = keyDateOf(scene);
+      behindScene(false);
+      ambience?.stopCues();
+      ambience?.duck(false);
+      stage.end();
+      dust = [];
+      sceneWorld = undefined;
+      timeline.lock(false);
+      timeline.jump(tAt(content.timeline, ev.when.from));
+      world.refreshShadows();
+      console.info(`dewidebug cutscene landed event=${ev.id} skipped=${String(skipped)}`);
+      goToShot(ev);
+    },
+    soundOn() {
+      return soundOn;
+    },
+    cue(sound, seconds) {
+      ambience?.cue(sound, seconds);
+    },
+  });
   const row2 = h(
     'div',
     { class: 'brand-row' },
@@ -336,7 +413,18 @@ async function start(): Promise<void> {
   for (const el of [labels.el, bubbles.el, moment.el, panel.el, info.el, followChip.el, debug?.el]) {
     el?.classList.add('reveals-when');
   }
-  app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el, shortcuts.el, guess.el);
+  app.append(
+    labels.el,
+    bubbles.el,
+    brand,
+    moment.el,
+    timeline.el,
+    panel.el,
+    info.el,
+    shortcuts.el,
+    guess.el,
+    player.el,
+  );
   const compact = (): void => {
     moment.el.classList.toggle('compact', panel.open !== undefined || info.isOpen);
     // The game panel shares the right-hand slot with these, so it steps aside while one is open.
@@ -347,6 +435,18 @@ async function start(): Promise<void> {
   document.addEventListener('keydown', (e) => {
     if (opening.isWaiting) {
       console.info(`dewidebug key ${e.key} ignored while the Begin card waits`);
+      return;
+    }
+    if (player.playing) {
+      if (e.key === 'Escape' && e.defaultPrevented) {
+        console.info('dewidebug Escape closed an ⓘ; the cutscene plays on');
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        player.skip('escape');
+      } else if (e.key.startsWith('Arrow') || e.key === '?' || e.key.startsWith('Page')) {
+        e.preventDefault();
+        console.info(`dewidebug key ${e.key} ignored while a cutscene plays`);
+      }
       return;
     }
     const stepKey = e.key === 'ArrowRight' || e.key === 'ArrowLeft';
@@ -364,7 +464,12 @@ async function start(): Promise<void> {
       return;
     }
     if (e.key !== 'Escape') return;
-    if (document.querySelector('.prov-wrap.open') || document.activeElement?.closest('.prov-wrap')) return;
+    if (
+      e.defaultPrevented ||
+      document.querySelector('.prov-wrap.open') ||
+      document.activeElement?.closest('.prov-wrap')
+    )
+      return;
     if (shortcuts.isOpen) shortcuts.close();
     else if (panel.open) panel.close();
     else if (info.isOpen) info.close();
@@ -400,6 +505,7 @@ async function start(): Promise<void> {
 
   let active = new Set<(typeof content.conversations)[number]['id']>();
   let snap: Snapshot = snapshotAt(content, t);
+  let drawn: readonly FeaturePresence[] = [];
   const applyLight = (): void => {
     if (!lightPending) return;
     lightPending = false;
@@ -424,11 +530,7 @@ async function start(): Promise<void> {
     if (!heavyDue || now - heavyAt < HEAVY_INTERVAL_MS) return;
     heavyDue = false;
     heavyAt = now;
-    world.applyEnvironment(
-      snap.environment,
-      seasonLook(clock.season, snap.chill),
-      features.clearings(snap.features),
-    );
+    world.applyEnvironment(snap.environment, seasonLook(clock.season, snap.chill), features.clearings(drawn));
     world.refreshShadows();
     applyCost.add(0, 0, performance.now() - now);
   };
@@ -444,9 +546,10 @@ async function start(): Promise<void> {
     const t0 = performance.now();
     snap = snapshotAt(content, t);
     const t1 = performance.now();
-    features.apply(snap.features);
+    drawn = withScene(snap.features);
+    features.apply(drawn);
     applyCost.add(t1 - t0, performance.now() - t1, 0);
-    smokeSources = features.smokeSources(snap.features);
+    smokeSources = features.smokeSources(drawn);
     active = new Set(snap.conversations.map((c) => c.id));
     const open = panel.open;
     if (open && !active.has(open.id)) panel.close();
@@ -468,6 +571,27 @@ async function start(): Promise<void> {
     const dt = engine.getDeltaTime();
     skyControls.tick(dt);
     apply();
+    const frame = player.tick(dt);
+    if (frame) {
+      dust = stage.show(frame, performance.now());
+      const scene = sceneWorld;
+      if (scene && frame.features.size) {
+        const changed = [...frame.features].some(
+          ([id, p]) => Math.abs((scene.built.get(id) ?? -1) - p) > 0.004,
+        );
+        if (changed) {
+          scene.built = frame.features;
+          drawn = withScene(snap.features);
+          features.apply(drawn);
+          smokeSources = features.smokeSources(drawn);
+          const now = performance.now();
+          if (now - shadowsAt > 250) {
+            shadowsAt = now;
+            world.refreshShadows();
+          }
+        }
+      }
+    }
     world.tick(dt);
     features.tick(dt);
     flight.tick(dt);
@@ -476,7 +600,7 @@ async function start(): Promise<void> {
     people.show(active, now);
     const eye = world.camera.globalPosition;
     const trainSmoke = features.trainSmoke();
-    smoke.show(trainSmoke ? [...smokeSources, trainSmoke] : smokeSources, (x, z) =>
+    smoke.show([...smokeSources, ...(trainSmoke ? [trainSmoke] : []), ...dust], (x, z) =>
       Math.hypot(eye.x - x, eye.z - z),
     );
     const train = features.trainPosition();
@@ -495,6 +619,14 @@ async function start(): Promise<void> {
     setSound(true);
   });
   if (debug) Object.assign(window, { llandeiloDebug: { scene: world.scene } });
+  // ?cutscene=<id>&cutsceneAt=<seconds> starts a scene part-way through, for screenshots.
+  const sceneParam = CUTSCENES.find((c) => c.id === params.get('cutscene'));
+  if (sceneParam) {
+    player.play(sceneParam);
+    const at = Number(params.get('cutsceneAt') ?? 0);
+    if (Number.isFinite(at) && at > 0) player.tick(at * 1000);
+    console.info(`dewidebug cutscene from url id=${sceneParam.id} at=${String(at)}`);
+  }
   document.body.dataset['ready'] = 'true';
   console.info(`dewidebug app ready backend=${backend}`);
 }

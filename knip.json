@@ -3,5 +3,5 @@
   "entry": ["tools/**/*.mjs", "tools/**/*.ts", "e2e/**/*.spec.ts"],
   "project": ["src/**/*.ts", "tools/**/*.mjs", "tools/**/*.ts", "e2e/**/*.ts"],
   "ignoreExportsUsedInFile": true,
-  "ignoreBinaries": ["edge-tts"]
+  "ignoreBinaries": ["edge-tts", "ffprobe"]
 }

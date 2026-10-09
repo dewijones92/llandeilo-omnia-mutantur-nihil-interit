@@ -298,7 +298,7 @@ same GPU, High, 1903 overview at 23:00 with 5,374 halos, vsync off via `node too
 --perf --uncapped`): idle 150-159fps before and 162-165 after, orbiting 72-105 before and 92-109
 after, the scrub's apply cost 59ms (features) and 250ms (environment) before, 45 and 246 after: no
 cost measurable through the noise of a shared GPU. With vsync on both hold 60fps idle. Local runs can use the GPU: see the WSL recipe in Build & test. Bundle: the main chunk is
-390KB gzipped (399,487 bytes, 2026-09-28 after merging the atmosphere work; 387KB on 2026-09-26), plus
+490KB gzipped (490,121 bytes, 2026-10-09 on the cutscene branch merged with main; 399,487 bytes on 2026-09-28; 387KB on 2026-09-26), plus
 chunks fetched only when needed (about 980KB gzipped across all JS). There is **no size limit**
 (Dewi, 2026-09-28; the 450KB CI budget was mine, never his, and is removed, [ADR 0016](docs/adr/0016-no-bundle-size-limit.md)).
 CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*.js | wc -c`.

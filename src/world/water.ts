@@ -1,6 +1,7 @@
 import { Color3, DynamicTexture, Mesh, StandardMaterial, VertexData, type Scene } from './babylon.ts';
 import { mix, type Rgb } from '../domain/colour.ts';
 import { heightToWorld, WORLD } from '../domain/geo.ts';
+import { cumulativeLengths } from '../domain/polyline.ts';
 import type { RiverPath } from './terrain.ts';
 
 const RIPPLE = 128;
@@ -135,7 +136,7 @@ function buildWater(scene: Scene, rivers: readonly RiverPath[]): Mesh {
   let v = 0;
   for (const river of rivers) {
     const pts = river.points;
-    let along = 0;
+    const run = cumulativeLengths(pts);
     for (let i = 0; i < pts.length; i++) {
       const p = pts[i];
       const prev = pts[Math.max(0, i - 1)];
@@ -149,7 +150,7 @@ function buildWater(scene: Scene, rivers: readonly RiverPath[]): Mesh {
       const nx = (-dn / len) * half;
       const nn = (dx / len) * half;
       const y = heightToWorld(level) + 0.55;
-      if (i > 0) along += Math.hypot(p.e - (pts[i - 1]?.e ?? p.e), p.n - (pts[i - 1]?.n ?? p.n));
+      const along = run[i] ?? 0;
       for (const side of [-1, 1]) {
         positions.push(
           (p.e + nx * side - WORLD.centre.e) / WORLD.metresPerUnit,
