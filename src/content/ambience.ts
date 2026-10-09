@@ -1,6 +1,6 @@
 import type { BedPoint, Soundscape } from '../domain/model.ts';
 import type { Provenance } from '../domain/provenance.ts';
-import { ad, bc, type Year } from '../domain/time.ts';
+import { ad, bc, onDay, type Year } from '../domain/time.ts';
 import { END_OF_STEAM } from './features.ts';
 import { src } from './ids.ts';
 
@@ -179,13 +179,31 @@ export const FFAIRFACH_SMITHY: Provenance = {
   sources: [src('victorian:S2')],
 };
 
-export const FAIRS: Provenance = {
+export const FAIR_GRANTED: Provenance = {
   kind: 'reconstructed',
   basis: {
-    en: 'Fairs and markets in a small market town. Edward I granted the Bishop of St Davids a fair here in 1290 and again in 1291, held around St Barnabas’s day (11 June), and a Saturday market is recorded by 1326. When this became St Teilo’s Fair in the churchyard is not known.',
-    cy: 'Ffeiriau a marchnadoedd mewn tref farchnad fechan. Rhoddodd Edward I ffair yma i Esgob Tyddewi yn 1290 ac eto yn 1291, a gynhelid o gwmpas gŵyl Sant Barnabas (11 Mehefin), ac mae marchnad ddydd Sadwrn wedi’i chofnodi erbyn 1326. Ni wyddys pryd y daeth hon yn Ffair Teilo yn y fynwent.',
+    en: 'A fair, granted by Edward I to the Bishop of St Davids on 20 May 1290 and again on 20 September 1291, to be held on the eve, the feast and the three days after St Barnabas’s day (11 June). The grants are recorded; that the fair was held from then, and how it sounded, is reconstructed.',
+    cy: 'Ffair, a roddwyd gan Edward I i Esgob Tyddewi ar 20 Mai 1290 ac eto ar 20 Medi 1291, i’w chynnal ar noswyl, ar ŵyl ac ar y tridiau wedi gŵyl Sant Barnabas (11 Mehefin). Mae’r rhoddion wedi’u cofnodi; ail-greu yw bod y ffair wedi’i chynnal o hynny ymlaen, a sut roedd hi’n swnio.',
   },
   sources: [src('sound:S20')],
+};
+
+export const MEDIEVAL_MARKET: Provenance = {
+  kind: 'documented',
+  sources: [src('sound:S20')],
+  note: {
+    en: 'Recorded in 1326: a Saturday market, and the bishop holding a three-day fair at St Barnabas’s day, in a borough of fourteen burgesses. Their sound is not recorded; it is reconstructed, and kept quiet for so small a town.',
+    cy: 'Wedi’u cofnodi yn 1326: marchnad ddydd Sadwrn, a’r esgob yn cynnal ffair dridiau ar ŵyl Sant Barnabas, mewn bwrdeistref o bedwar ar ddeg o fwrdeisiaid. Ni chofnodwyd eu sŵn; mae wedi’i ail-greu, ac yn dawel i dref mor fach.',
+  },
+};
+
+export const MARKET_TOWN_1600: Provenance = {
+  kind: 'documented',
+  sources: [src('sound:S20')],
+  note: {
+    en: 'Still a market town about 1600, by a study the gazetteer cites. When the Barnabas fair became St Teilo’s Fair is not known. The sound is reconstructed.',
+    cy: 'Yn dal yn dref farchnad tua 1600, yn ôl astudiaeth a nodir gan y gasetiadur. Ni wyddys pryd y daeth ffair Barnabas yn Ffair Teilo. Mae’r sŵn wedi’i ail-greu.',
+  },
 };
 
 export const MARKET_TOWN: Provenance = {
@@ -275,7 +293,8 @@ export const CLAS_SINGING: Provenance = {
 };
 
 // A track starts where its first point says, with no fade-in from silence (ADR 0028): bells and the
-// train on 20 January 1857, the market at 1600, motor traffic at 1950. A silent point ends a bed.
+// train on 20 January 1857, the market with the fair granted on 20 May 1290, motor traffic at 1950.
+// A silent point ends a bed.
 export const SOUNDSCAPE: Soundscape = {
   wind: [
     heard(bc(12500), 0.8, WIND),
@@ -364,7 +383,13 @@ export const SOUNDSCAPE: Soundscape = {
     heard(ad(1950), 0.35, BELLS_SINCE),
     heard(ad(2026), 0.25, BELLS_SINCE),
   ],
-  market: [heard(ad(1600), 0.4, FAIRS), heard(ad(1850), 0.55, MARKET_TOWN), silent(ad(1950))],
+  market: [
+    heard(onDay(1290, 5, 20), 0.15, FAIR_GRANTED),
+    heard(ad(1326), 0.2, MEDIEVAL_MARKET),
+    heard(ad(1600), 0.3, MARKET_TOWN_1600),
+    heard(ad(1850), 0.55, MARKET_TOWN),
+    silent(ad(1950)),
+  ],
   // Steam stops at the instant the drawn train turns diesel: a heard point and a silent one at the
   // same year are a cut, not a fade.
   train: [

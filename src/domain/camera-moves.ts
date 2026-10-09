@@ -1,4 +1,4 @@
-// The maths of the map-style camera (ADR 0037): sliding the land, zooming at the cursor, gliding.
+// The maths of the map-style camera (ADR 0041): sliding the land, zooming at the cursor, gliding.
 // World axes: x east, z north, y up; an ArcRotate camera sits at target + r·(cos α sin β, cos β, sin α sin β).
 
 export interface Vec3 {

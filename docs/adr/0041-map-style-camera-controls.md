@@ -1,16 +1,18 @@
 ---
-title: "ADR 0037: Map-style camera controls"
+title: "ADR 0041: Map-style camera controls"
 kind: adr
 status: accepted
 updated: 2026-10-03
 ---
 
-# ADR 0037: Map-style camera controls
+# ADR 0041: Map-style camera controls
 
 - **Status:** Accepted
 - **Date:** 2026-10-03
-- **Number:** the next free one on `main` when written; other branches in flight were adding ADRs too,
-  so it may be renumbered at merge.
+- **Number:** written as 0037 on its branch, renumbered to 0041 when `main` (which had taken 0037 to
+  0040) was merged in.
+- **Amended 2026-10-09 by [0042](0042-one-welcome-panel.md):** the one-time hint and the Keys panel
+  described below are replaced by the welcome panel, which lists the same controls.
 
 ## Context
 

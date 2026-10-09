@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Backlog
@@ -50,6 +50,9 @@ below links the issue.
 
 | Issue | Seen | Idea (our summary) | Status | Notes |
 |---|---|---|---|---|
+| [#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1) | 2026-10-09T17:16:07Z | Gather a local studio photographer's photos of Llandeilo's streets and station from about 1900, and place each on the map | ✅ agreed 2026-10-09 | The glass negatives are at the National Library of Wales, copies on People's Collection Wales; the photographer died in 1940, so UK copyright has probably expired, to be checked per image. Shown in the app with its credit, pinned with credit and an ⓘ; otherwise a modelling reference only |
+| [#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2) | 2026-10-09T17:16:08Z | Detailed real-scale terrain for the town and the Roman fort area from LiDAR, tiled with levels of detail, the base ground kept apart from changes by period | ✅ agreed 2026-10-09 | The agreed close-up LiDAR terrain (CLAUDE.md, Terrain) was never built; Welsh Government 1m LiDAR covers the area, licence to confirm per file |
+| [#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3) | 2026-10-09T17:16:09Z | A modular, editable reconstruction of the Roman fort and its civilian settlement on that terrain, ready for animation later | ✅ agreed 2026-10-09 | Research first: published plans and surveys, documented kept apart from reconstruction; a linked reconstruction drawing states no licence; it is used with a credit to its maker (Dewi, 2026-10-09: credit, no licence check), and the second fort's date and the settlement survey still need their sources. Built detailed in the app (Dewi, 2026-10-09) |
 
 ## Done: the vertical slice (2026-09-26)
 
@@ -84,9 +87,16 @@ below links the issue.
 - [ ] Earliest environment keyframes (12,500–10,900 BC): check they use calendar, not uncalibrated pollen, dates
 - [ ] Railway loose ends: Victoria's weight (18 vs 14 tons), the unconfirmed "Victor" of 1864, the 1858 Beyer Peacock engines
 - [ ] Railway lines' own dates: whether Pantyffynnon to Duffryn opened in 1840 or May 1841, when the
-      Amman valley branch closed or was lifted, what the undated lines near Pontyberem and Cross
-      Hands are, and the 1841 line east of Garnant's own course (not drawn until dated; [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md),
-      [open questions](../research/open-questions.md))
+      Amman valley branch closed or was lifted, and the 1841 line east of Garnant's own course
+      ([ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md), [open questions](../research/open-questions.md)).
+      *Done in part 2026-10-03, by Dewi's decision to draw the undated lines as labelled estimates*:
+      the line near Pontyberem is the Burry Port and Gwendraeth Valley Railway to Cwmmawr, drawn from
+      c. 1870 (never before 23 June 1869) except the stretch beside the Hirwaun Isaf incline, drawn
+      across June 1886; the track past the 1907 join at Gwaun-cae-Gurwen is the colliery line, drawn
+      from 6 May 1841; the Cross Hands stub, 35m of narrow-gauge track no source names, is drawn
+      `imagined` from c. 1950. All are labelled educated guesses with their sources, and none is drawn
+      before the earliest date its sources allow (ADR 0037), seen red first. The second-Opus review
+      ran, and its findings are fixed. Still to do: where the incline's foot was, and what the stub is
 - [ ] Independent verification of every research note, as conversations-by-class had (it found 13 corrections).
       Done 2026-10-02: era-medieval-to-1282, event-effects, railway-later, anglo-norman-and-middle-english
       (reports in `docs/research/reviews/`), corrections applied to content and notes. Still to do:
@@ -97,7 +107,7 @@ below links the issue.
 - [x] Every English/Welsh text pair audited for dropped facts: 16 meaning gaps and 7 small ones fixed,
       all in the same direction (the Welsh had lost caveats and numbers) (2026-10-02)
 - [ ] Check every place against its Coflein grid reference (only some were verified)
-- [ ] Human check of the Welsh text (parked); include the Keys panel's camera rows, whose Shift line was
+- [ ] Human check of the Welsh text (parked); include the welcome panel's text and the camera rows, whose Shift line was
       reworded on 2026-10-03 after a review read the first wording as "keep on sliding faster"
       New terms need it first: "tyllau taflu" (machicolations), "bwtresi hedfan" (flying buttresses),
       and the strings added on 2026-10-02: the About panel's scale sentence, the "About the voice"
@@ -142,7 +152,15 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] **A night that reads as night** (Claude, under the proactive mandate, 2026-10-03): a winter 23:00
   is still a pale moonlit grey, so the dated night light (ADR 0030) only shows zoomed in: at the
   site framing the 1903 windows and lamps are a few orange pixels. Darker nights, window glow and lamp
-  halos (bloom) strong enough to read from the overview, and the 1942 blackout as a black town
+  halos (bloom) strong enough to read from the overview, and the 1942 blackout as a black town.
+  *Built 2026-10-03 on `feat/darker-night`* ([ADR 0040](../adr/0040-a-dark-night-and-halos-that-keep-a-few-pixels.md)):
+  a darker night (day unchanged), halos a few pixels wide at every lit house, street lamp and hearth,
+  turned in the vertex shader; red-first unit and e2e tests; looked at in 1282, 1880, 1903, 1942 and
+  2000 at the overview and the site, and at noon. *Second-Opus review 2026-10-03*: its two IMPORTANT
+  findings fixed (farm windows labelled a guess in every key that lights them; an e2e that counts the
+  halos' pixels) and both suggestions applied. Awaiting review of the fixes, so not ticked
+- [ ] Check the night halos on WebGPU on a real desktop: their WGSL vertex code (ADR 0040) has never
+      run, because WebGPU through WSL stalls and CI has no GPU
 - [ ] Sound follows the clock: birds at dawn, owls and quiet at night
 - [ ] Conversations and speech bubbles follow the clock: nobody chatting outdoors at 3am
 - [x] Rivers stay vivid blue at night while the land goes dark: already fixed when re-shot on
@@ -152,11 +170,17 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] **Map-style camera** (Dewi, 2026-10-03: "make the camera easier to move around"; he chose
       map-style): drag slides the land, right-drag turns, the wheel zooms at the cursor, W A S D / Q E /
       R F, double-click flies there, a one-time hint, the Keys panel in both languages
-      ([ADR 0037](../adr/0037-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
+      ([ADR 0041](../adr/0041-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
       looked at (overview, dragged, turned, zoomed, 1860). Second-Opus review 2026-10-03: the sky no
       longer throws the camera (wheel zooms at the centre, a sky drag turns, a slide waits above the
       horizon), tests for a drag ending a follow and a flight and for the hint after Begin, and the
       Welsh for Shift reworded (in the parked human Welsh check); awaiting Dewi
+- [ ] **Welcome panel** (Dewi, 2026-10-03, as quoted in the task brief: controls and info at start,
+      closeable, an obvious icon to reopen): "How to explore" opens after Begin (or at once without it),
+      replaces the Keys panel and the camera hint, explains the controls, timeline, provenance labels, ⓘ,
+      "When are we?" and the settings, with "Show this at start" and a round "?" icon
+      ([ADR 0042](../adr/0042-one-welcome-panel.md)). Built 2026-10-09 with tests seen red by mutation
+      and looked at in English and Welsh; awaiting Dewi. The Welsh text is in the parked human check
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (today `town.style` only decides which towns get chimney smoke)
@@ -223,6 +247,16 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [x] Tap the train to follow it with the camera; Stop, a flight or Whole valley ends it (Dewi, 2026-09-28)
 - [ ] More things to follow: animals, carts, drovers, boats, once they exist
 
+## Agreed 2026-10-09 (Dewi, before the second weekend run)
+
+The three issues come first (Dewi: "If possible please prioritise them"), and their material is credited
+rather than licence-checked (Dewi: "ignore licensing problems, just credit the person").
+
+- [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded
+- [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort
+- [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09); a photo layer pinned to where each was taken, with credit and ⓘ, with its credit
+- [ ] Conversations by class in the three slice eras; in-world music and the hunter-gatherer scenes (after their research checks); a GPU terrain shader for smooth scrubbing; the later trains and the Dinefwr, Carreg Cennen and bridge models (Dewi picked all four on 2026-10-09)
+
 ## Agreed for the weekend run (Dewi, 2026-10-02)
 
 Moved here from "Proposed" when Dewi agreed them. Each goes through the full path above.
@@ -233,7 +267,10 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       in phases. Still to do from the same research: Dinefwr (keep in the south-east angle, ward 34-38m,
       north-west tower only from the later 13th century), Carreg Cennen (gatehouse centred on the north
       wall, barbican route, second cross wall), the bridge (a stone bridge by 1577)
-- [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md))
+- [ ] Effects per event: forge sparks, siege, bells, weather ([`design/timeline-experience.md`](../design/timeline-experience.md)).
+      2026-10-03: a recorded fire is now a dated `burning` feature drawn as a dark plume (first at
+      1213, [ADR 0038](../adr/0038-recorded-burnings-are-dated-features.md)); the 1403 burning of
+      Llandeilo could use it next
 - [ ] The later trains (the Great Western from 1873, the LNWR and LMS through trains, British Rail,
       today's Heart of Wales line): researched and checked 2026-10-02 (`research/railway-later.md`); models
       still to build. Since 2026-10-03 the drawn train is a steam placeholder to 13 June 1964 and a
@@ -252,7 +289,15 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       eruptions thousands of miles away, pandemics, famines, wars) shown only where a source records
       their effect here or in this part of Wales, with the distant cause as context (Dewi: "black swan
       events such as a volcano erupting thousands of miles away"). Brings the later-phase "Ripples from
-      afar" forward
+      afar" forward. **Part done 2026-10-03** (branch `feat/battles-and-black-swans`): the two
+      events the checked note records here, the 1849 cholera (a minor marker, card and almanac only:
+      one partly illegible report) and the 1918 influenza (a key step, autumn from the record), each
+      with content tests and an e2e flow seen red first; screenshots at 1849 and 1918. The almanac's
+      stale "no case in Llandeilo" is corrected. First second-Opus review done 2026-10-03 and its
+      findings fixed (markers fanned into lanes so 1849 can be clicked, [ADR 0039](../adr/0039-timeline-markers-fan-into-lanes.md);
+      the cholera almanac line split into dated entries). **Still to
+      do**: the regional-only ripples (Black Death, 1816, potato blight, cattle plague, Krakatoa) as
+      cards that say where the effect is recorded, and a second witness for 1849
 - [ ] **Music through time and place**: what was played and sung in and around Llandeilo in each era
       and by each class (harp and crwth, plainchant at Talley, the bards, ballads, hymns and chapel
       singing, eisteddfodau, brass bands), heard in the scene and explained in the almanac, from
@@ -300,7 +345,15 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       Irish settlement in Dyfed, Viking raids, the Normans after 1093, the English conquest of 1277-83,
       Glyndŵr in 1403, the Civil War, each as key dates (and cutscenes where the research supports one),
       shown only as far as the sources put them in this valley; a raid recorded only on the coast is
-      shown as news reaching here, not invented here
+      shown as news reaching here, not invented here. **Part done 2026-10-03** (branch
+      `feat/battles-and-black-swans`): the two invasions the checked note puts inside the area, 1213
+      (Llandeilo burned, Dinefwr besieged, with smoke over the town, [ADR 0038](../adr/0038-recorded-burnings-are-dated-features.md))
+      and 1257 (Coed Llathen and Cymerau, at the recorded midday), with content and snapshot tests and an
+      e2e flow seen red first; screenshots at 1213 and 1257. First second-Opus review done 2026-10-03 and
+      its findings fixed (1213 arrives at a chosen 13:00 so the smoke shows; the 1257 ⓘ names the
+      Llanarthne reading).
+      **Still to do**: news cards for raids recorded only nearby (St Davids, Aber Tywi 1044, 1116,
+      Carmarthen 1645), and Dewi's choice of Cymerau markers (none shown meanwhile)
 - [ ] **Early people hunting and gathering** (Dewi: "early people hunting stuff"): Late Upper
       Palaeolithic and Mesolithic hunter-gatherers in the valley, what they hunted, fished and gathered
       in each environment, with the animals of "animals through time", as scenes and cutscenes at the
@@ -327,7 +380,7 @@ From the ranked ideas board ([`../design/ideas.md`](../design/ideas.md); full no
       ran on 2026-10-03 ([review](../research/reviews/soundscapes-check-2026-10-03.md)) and its
       corrections are applied (bed reasons and sources, a 1290-91 fair source); steam now ends on
       13 June 1964 and a reconstructed diesel-unit bed runs to today, seen red first. Still to do:
-      the second-Opus review of those changes (step 5); the market bed's start date waits on Dewi
+      the second-Opus review of those changes (step 5). *2026-10-03*: Dewi decided the market starts in the Middle Ages ("yes ok"); it now starts with the fair granted on 20 May 1290, seen red first
 - [ ] **Honest ambience, step two**: sound shaped by distance and space
 - [ ] **Contested points, shown as contested**: one register of every source disagreement, a
       `Contested<T>` type with exactly one preferred reading, a witnesses card, and a ⇄ switch only

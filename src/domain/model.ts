@@ -187,9 +187,11 @@ export type FeatureKind =
   | { readonly type: 'building'; readonly plan: Plan; readonly condition: Condition }
   | { readonly type: 'railway'; readonly section: RailSection }
   | { readonly type: 'train'; readonly stock: RollingStock }
-  | { readonly type: 'roads' };
+  | { readonly type: 'roads' }
+  // A fire a source records, drawn as smoke (and its glow at night) for exactly its dates (ADR 0038).
+  | { readonly type: 'burning'; readonly spread: number; readonly density: number };
 
-export interface Feature {
+export interface FeatureBase {
   readonly id: FeatureId;
   readonly kind: FeatureKind;
   readonly at: GridRef;
@@ -197,11 +199,20 @@ export interface Feature {
   readonly when: TimeRange;
   readonly provenance: Provenance;
   readonly label: Bilingual;
-  // Set only where a source gives both ends as attested years (an end at the present counts); such a
-  // feature is drawn nothing outside them (ADR 0034). It says nothing of provenance: a reconstructed
-  // feature can have exact dates, and only a documented one with them is a firm clue (ADR 0035).
-  readonly datesExact?: true;
 }
+
+/**
+ * How firm a feature's start is. Exact dates: a source gives both ends as attested years (an end at
+ * the present counts), and the feature is drawn nothing outside them (ADR 0034); this says nothing of
+ * provenance, so a reconstructed feature can have them, and only a documented one with them is a firm
+ * clue (ADR 0035). Otherwise its dates are "c.", and it may carry the earliest date a source allows for
+ * its start, before which it is never drawn (ADR 0037).
+ */
+export type FeatureDating =
+  | { readonly datesExact: true; readonly notBefore?: never }
+  | { readonly datesExact?: never; readonly notBefore?: Year };
+
+export type Feature = FeatureBase & FeatureDating;
 
 export const AMBIENT_BEDS = [
   'wind',

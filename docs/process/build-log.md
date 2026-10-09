@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Build log
@@ -484,7 +484,111 @@ Milestones and what each one taught us. Newest last.
    four parallel shards and the deploy waits for all of them; CI's per-test limit is 7 minutes
    ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md)). Lesson: the job time is a budget that every
    merged feature spends, so watch the trend, not just the colour.
-17. **Map-style camera** ([ADR 0037](../adr/0037-map-style-camera-controls.md)). Dewi found himself
+17. **Two decisions from Dewi, built the same day.** The market sound now starts in the Middle Ages
+   ("yes ok"): with the fair granted on 20 May 1290, reconstructed, then documented from the record of
+   1326, then the gazetteer's "Market town c. 1600". The first medieval day a bed named exposed that
+   `onDay` refused every day before 1753; it now reads earlier days in the Julian calendar and refuses
+   only 1752. And the undated railway lines are drawn as labelled estimates ("put draw and give
+   estimgate for dates but please label them as educated gueessess with sources?"): the line near
+   Pontyberem is the Burry Port and Gwendraeth Valley Railway (c. 1870), the track past the 1907 join
+   is Gwaun-cae-Gurwen's colliery line (c. 1841). The research turned on old maps: the National Library
+   of Scotland's georeferenced six-inch mosaic, with today's track drawn over it, matched both lines
+   to the railways on the 1896 and 1905 maps, and its IIIF images of the 1877 and 1878–79 surveys dated
+   them, the second contradicting the "1886" both Coflein and Wikipedia give for Cwmmawr. The NLS sheet
+   index (a WFS layer on geoserver.nls.uk) names the sheet and survey years for any grid point. The
+   "Cross Hands" stub turned out to be 35m of narrow-gauge track, by OS's own attribute, that no source
+   names, so it is the one stretch left undrawn. Seen red first: the market test (at the start date),
+   the Julian `onDay` test, the every-stretch-in-one-section test, the educated-guess label test and
+   the "c." fade test. Dead end: the Welsh Newspapers search returned nothing useful for "Cwmmawr" in
+   1884 to 1887 (it errors on some queries and matches farm names on others).
+
+18. **The review of the estimates.** The second-Opus review of entry 17 found three things worth
+   keeping. A "c." date fades in over about 17 years before it, so the colliery line guessed "c. 1841"
+   was half drawn by 1830, a decade before any railway reached the Amman valley, and the new test had
+   locked that in. The fix is `notBefore`, the earliest date a source allows, before which an estimate
+   never starts to fade in (ADR 0037); the colliery line now switches on at 6 May 1841. Second, the
+   1878–79 map that "decided" the Gwendraeth line's date covers only its upper part: the sheet's south
+   edge sits at the Hirwaun Isaf incline's head, and the page the note quoted also said a tramroad ran
+   on the towpath above that incline by 1865. So the line is now three stretches, with the one beside
+   the incline drawn across June 1886. The incline's foot is mapped by no source, so it is placed from
+   the canal's 85ft rise at 1 in 10¼; the georeferenced 1905 map shows no incline label to check it by.
+   Third, the Cross Hands stub was left undrawn against Dewi's "draw", and Claude's dates sat inside the
+   decision log's "Dewi's decision" cells. The stub is now drawn `imagined` from c. 1950: the six-inch
+   sheets of 1905 and of 1913 with 1948 additions, read through NLS's IIIF images, show old coal
+   workings at Pen-y-graig and no track. Lessons: check that a map actually covers the stretch it is
+   cited for; and a fade is a claim about dates, so it must not cross a documented one. Gotcha: NLS's
+   IIIF server refuses any request over about 512 by 512 output pixels ("pixel area exceeds the maximum
+   threshold"), so a sheet is read by stitching 512px regions, scaled down from larger ones. Seen red
+   first: the two `presenceAt` earliest-date tests, the snapshot test (the colliery line fully present
+   just before 6 May 1841), the every-stretch test (the stub undrawn), the label test (no earliest
+   dates) and the stub test.
+
+19. **Battles and black swans** (branch `feat/battles-and-black-swans`): four key dates from the
+   checked invasions and ripples notes. **1213**, Llandeilo burned by Rhys Gryg and Dinefwr besieged,
+   with winter from the record and a dark plume over the town drawn only at that step; **1257**, Coed
+   Llathen and Cymerau, at the recorded midday of 2 June in summer, with the camp at Llandeilo said to
+   be in one chronicle, Bauzan's death, mostly Welsh foot soldiers and no site marked; **1849**, cholera
+   in Llandeilo, a card and an almanac note but no scene, since one partly illegible report is all there
+   is; **1918**, influenza, cross-checked in four papers, in autumn. The almanac's "no case in Llandeilo
+   itself has been found" for the whole Victorian era was stale since the ripples note read the 1849
+   report; it is corrected, with a content test that went red on it. Three lessons. The
+   world is 10m to a unit, so the first "spread 60" was 1.2km of emitter and invisible; and Babylon's
+   size gradient overrides a particle system's min and max size, so every hearth puff has always been
+   0.6 to 2.4 units whatever those said. Which features smoke is now one domain rule, tested through
+   `snapshotAt` ([ADR 0038](../adr/0038-recorded-burnings-are-dated-features.md)). And the
+   first long 1257 and 1918 cards ran up over the sky panel's record caption at 1600×900, found only by
+   looking; both cards were cut to about 60 words, with the detail moved into the ⓘ.
+
+20. **The battles branch's first review: markers you could not click, and smoke you could not see.**
+   The 1849 cholera dot sat under nothing but on top of the 1848 church dot, 0.9px away, and the e2e
+   test clicked it with `dispatchEvent`, which skips hit-testing. A test that asks `elementFromPoint`
+   for each marker's own centre found nine covered at 1440×860, seven of them older than the branch
+   (Carreg Cennen's 1287 grant sat exactly on the siege). Markers now keep their x and fan into lanes
+   ([ADR 0039](../adr/0039-timeline-markers-fan-into-lanes.md)); the cholera test clicks with a real
+   mouse. The 1213 plume was drawn but invisible: the step set winter and kept the default 17:30, which
+   in January is night, and only a hand-set midday screenshot had shown it. It now sets a chosen 13:00
+   ([ADR 0038](../adr/0038-recorded-burnings-are-dated-features.md), amended); the lesson is to look at
+   the screen a viewer actually lands on, not one set up by hand. Also: the 1257 ⓘ names the Llanarthne
+   reading, and the Victorian cholera almanac line is split so it neither shows 1849 in 1840 nor calls
+   an unsearched absence documented. Seen red first: four marker-lane unit tests, three content tests
+   (1213 by day, Llanarthne, the split), and three e2e assertions (13:00 at 1213, the real click, every
+   marker's centre).
+
+21. **A night that reads as night** (Claude, under the proactive mandate; [ADR 0040](../adr/0040-a-dark-night-and-halos-that-keep-a-few-pixels.md)).
+   A winter 23:00 was a pale grey: the countryside above the town measured a mean luminance of 0.31 at
+   1880, 21:00, and the dated night light was a few orange pixels at the site framing. The moon,
+   sky light, night sky and self-glow are now darkened only where `night` weights them (0.07 there
+   now), and every lit house, street lamp and hearth gets a soft halo that faces the camera and never
+   shrinks below a few pixels, so the overview shows gas-lit 1880 orange, electric 1903 white at the
+   centre, the medieval hearths, a black 1942 and a lit 2000. The first halos were turned on the CPU
+   each frame the camera moved: 30ms a frame for 5,326 window halos, halving the orbit frame rate
+   (88 to 41fps); the turning and sizing now run in the vertex shader through a material plugin, and
+   the cost is lost in the noise. Two traps on the way: Babylon adds an emissive texture to the
+   emissive colour, so a tinted emissive colour drew every halo as a flat square (the tint now rides
+   on the per-halo colour), and a plugin's `hardBindForSubMesh` runs only when it sets
+   `registerForExtraEvents`, so the halos' size uniform stayed at zero and they vanished without an
+   error. Seen red first: the darkness unit test (moonlight 0.62 against at most 0.35), the halo
+   sizing test (a halo that did not grow with distance), and the night e2e on the old build (luminance
+   0.307 against under 0.12). Daytime is unchanged: three lightings pinned exactly in a unit test, and
+   noon at the overview identical to the pixel. `tools/frames.mjs` takes the screenshots and measures
+   idle, orbit and scrub frames on the GPU. Lesson: a light the size of a pixel is not shown by
+   making it brighter; it needs a size on screen of its own.
+
+22. **The second-Opus review of the dark night** (Claude, under the proactive mandate). Two IMPORTANT
+   findings, both confirmed. First, the farm halos are most of what the 1880 overview shows, but the
+   1876 gas key is 'Documented' and never said its lit windows, or the farms, were a guess; the
+   decision log and ADR 0040 claimed the keys already did. A content test now fails any key that
+   lights a drawn farm without saying so in both languages: red for 1200, 1750, 1864, 1876 and 1944
+   (the review named three of them), green after one sentence each, with no date or level changed.
+   Second, the halo e2e only read `isVisible` and instance counts, so neither of the two failures this
+   feature had already hit (an unbound size uniform, halos drawn as flat squares) could turn it red.
+   A new e2e counts warm lit pixels over the 1880 overview with the halos on and off: 2.6% against
+   0.08%, red at 0.08% with `registerForExtraEvents` removed and red at 15% with a tinted emissive
+   colour. Two suggestions applied: each fire's smoke source now carries its houses' glow points, so
+   one rule decides both smoke and halos, and two lightings in the fading-day band are pinned from main
+   (red when `selfLit` loses its night weighting). Lesson: a test that reads flags back from the
+   renderer proves the code ran, not that anything reached the screen; count the pixels.
+23. **Map-style camera** ([ADR 0041](../adr/0041-map-style-camera-controls.md)). Dewi found himself
    "just orbiting around a certain point": Babylon's stock inputs turned the view on a left-drag and
    panned in the screen plane on the right button, and nothing said so. The stock inputs are now
    detached and `MapControls` slides the land under the cursor, turns on a right-drag, zooms at the
@@ -497,7 +601,7 @@ Milestones and what each one taught us. Newest last.
    asserted a bearing over 10°, and the opening view already faces about 20°, so it passed even when the
    drag (now a right-drag) did not turn the view at all (seen: 0° turned on the old build). It now asserts
    the change. Lesson: assert the change an action makes, not a value the start state may already have.
-18. **The camera and the sky** (second-Opus review of the map-style camera). At the steepest tilt the top
+24. **The camera and the sky** (second-Opus review of the map-style camera). At the steepest tilt the top
    of the view is sky, and a cursor ray that missed the ground fell back to a point 9,000 units along
    it, high in the air: one wheel notch moved the target about 1,500 units (seen red in e2e: 1,499.99,
    exactly as the reviewer measured on the GPU), and a drag on the sky threw the camera across the map.
@@ -508,3 +612,15 @@ Milestones and what each one taught us. Newest last.
    3D view; it now checks the element under the start point first, so that failure names itself. The
    Welsh for "Hold to slide faster" had read as "keep on sliding faster" ("dal i" + verb-noun means
    "continue to"); it is now "Daliwch hi i lawr i lithro'n gyflymach", pending the parked human check.
+25. **One welcome panel** (Claude, under the proactive mandate; [ADR 0042](../adr/0042-one-welcome-panel.md)).
+   Dewi asked for the controls and other info at start, closeable, with an obvious icon to reopen it.
+   The Keys panel and the one-time camera hint became one "How to explore" panel; the Begin card and
+   the welcome share one `setInert`. The panel was built before this pass, so the tests were seen red by mutation: the unit tests for
+   `welcomeAtStart` with the
+   viewer's stored choice removed (two failed at their own assertions), and the e2e with the remembered
+   choice never written (failed at "hidden after reload", line 828). Two things a screenshot found that
+   green tests did not: the first panel had no height limit inside the wash (a grid area does not
+   resolve `max-height: 100%`), so its footer, with the checkbox and About, was off screen and the click
+   on About timed out as "outside of the viewport"; and a screenshot taken as the panel rose showed it
+   half transparent, so the test now waits for its animation. Lesson: a button that exists in the DOM
+   may be off the screen; click it, and look.
