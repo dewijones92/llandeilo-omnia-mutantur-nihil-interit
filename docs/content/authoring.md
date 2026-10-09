@@ -2,7 +2,7 @@
 title: Authoring content
 kind: guide
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # How research becomes content
@@ -87,7 +87,7 @@ There is no per-castle or per-era code.
   true in plan **and in height** and hide only the footprint they stand on (ADR 0046).
 - **Parts that carry their own tier** (the forts): give a part `id`, `name` and `provenance` (the same
   union as a feature's), and mark small parts `detail: true` so they draw only near the camera (ADR
-  0043). Build repeated parts from small helpers rather than by hand (`src/content/forts.ts`,
+  0047). Build repeated parts from small helpers rather than by hand (`src/content/forts.ts`,
   `src/domain/fort.ts`), keep each part's `id` for good, and write the basis beside the part. A content
   test (`tests/forts.test.ts`) holds such a plan to its evidence; copy it for the next one.
 - **A feature's dates**: "c." dates may carry `notBefore` (never drawn before it, ADR 0037) and

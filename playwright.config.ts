@@ -27,6 +27,8 @@ const renderer = gpu
 
 export default defineConfig({
   testDir: 'e2e',
+  // The GPU kit's own spec runs only under playwright.gpu.config.ts (tools/gpu/run.sh).
+  testIgnore: 'gpu.spec.ts',
   // CI renders on the CPU; since the High-quality default (2026-10-03) its tests run about twice as
   // long as on 2026-10-02, and the longest multi-page ones passed 3 minutes.
   timeout: process.env['CI'] ? 420_000 : 180_000,

@@ -9,7 +9,7 @@ updated: 2026-10-10
 
 The data behind the detailed ground at Llandeilo town and the Roman forts in Dinefwr Park
 ([GitHub issue 2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2),
-[ADR 0048](../adr/0048-lidar-terrain-tiles-blended-into-terrain-50.md)). Written by Claude under the
+[ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md)). Written by Claude under the
 proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
 2026-10-09; the licence and accuracy statements were read from the sources named, on that date.
 
@@ -176,9 +176,9 @@ python3 tools/terrain/build-lidar.py  # needs GDAL's command-line tools and nump
   renderer, the manifest reader and the tests need no change. Keep every area 300m (the blend margin)
   inside the region.
 - **A finer mesh** is a change to the level-of-detail steps in `src/domain/lidar.ts`; the 2m data is
-  already there for it (see ADR 0048 for why the mesh stops at 4m).
+  already there for it (see ADR 0049 for why the mesh stops at 4m).
 - **Later periods' changes** (a rampart, a ditch, a lost road, a re-cut river) are ground edits laid over
-  this base ground at runtime, never written into these tiles ([ADR 0048](../adr/0048-lidar-terrain-tiles-blended-into-terrain-50.md)).
+  this base ground at runtime, never written into these tiles ([ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md)).
 
 ## An editable Blender model
 

@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Build log
@@ -821,9 +821,47 @@ Milestones and what each one taught us. Newest last.
    asterisks (176 titles), so the Hughes report reads "*The Llandeilo Roman Forts...*".
    Not done: a visual comparison against the Ludlow drawing's compass orientation (still open in the note).
 
-15. **Real ground for the town and the Roman forts** (Claude, under the proactive mandate, GitHub issue 2;
-   [ADR 0048](../adr/0048-lidar-terrain-tiles-blended-into-terrain-50.md), [`data/lidar.md`](../data/lidar.md);
-   merged with main on 2026-10-10, which took ADR 0041 to 0047, so this ADR became 0048). The long-agreed
+
+2026-10-10, second-Opus findings on the Roman forts merge, fixed and verified:
+   - **The grain sellers stood inside Fort 1.** "Outside the Roman fort" was placed at E 262280 N 222450, 41.6m
+     across and 64.4m down Fort 1's plan, inside its rampart. Moved to E 262286 N 222408, outside the south-east
+     gate. A new test checks that every conversation at the forts lies outside each fort, and the levelled
+     ditches, drawn at any time in its dates; red on the old position for Fort 1 and its levelled ditches.
+   - **Fort 2's ⓘ** no longer cites a GitHub commenter ("a later date of AD 90 to 100 seen online"), hedges the
+     order ("the excavator reads Fort 2 as the later") with AD 83 as a choice, says the annex may have kept
+     part of Fort 1 in use, and says the levelling evidence once.
+   - **Backfilled ditches** are drawn with `profileOf`, so ring 2 of a two-ditch side is 1.0m, not 1.4m; the test
+     was red at the named assertion.
+   - Also: ADR 0047 (not 0043) for detail parts in the authoring guide; `geo.ts` no longer says the forts are
+     drawn larger than life.
+
+15. **The GPU e2e kit: WebGPU tested for the first time** (Dewi's idea, "Chrome exe in windows has beefy
+   GPU, maybe run any graphics stuff on there?", and his choice of a self-hosted runner; the design Claude
+   under the proactive mandate, ADR 0027; [ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md)).
+   `npm run e2e:gpu` builds and serves the site in WSL and runs Playwright on Windows against Windows
+   Chrome on the NVIDIA GPU. First full run: WebGPU on `nvidia lovelace` with no WebGPU errors, the night
+   halos' WGSL running at last, 7 GPU tests and 37 e2e specs green at High in 5m15s (numbers in
+   CLAUDE.md). Lessons: (1) **WSL cannot reach a Windows browser, but a Windows browser can reach WSL**, so
+   the browser and Playwright go to Windows and only the server stays; a probe showed headless Chrome gets
+   the same NVIDIA adapter as a visible window, so nothing opens on the desktop. (2) **Windows' npm is
+   6.14 through Volta**, older than the lockfile format, so the Windows side installs only Playwright, at
+   the lockfile's version. (3) **A whole-run `--uncapped` stalled once; the cause is not known.** The
+   frame test ran, then each page load slowed until one sat on "Raising the Tywi valley…" for 150s, the
+   next navigation aborted, and output from Windows stopped reaching WSL while the run hung past its
+   limit. WSL's swap was 15.4 of 16 GB full at the time, so memory pressure is as likely as the flags.
+   `--uncapped` now launches a browser for the frame test alone and the rerun was clean (one rerun, so
+   not proof). The run has a 30-minute Playwright limit per pass and `windows.ps1` kills a pass's process
+   tree on a timeout. (4) the summary's
+   duration printed 59.6s as `0m60s` until its unit test caught it. (5) **The first review found the
+   kit's own guards weak**, and each was fixed and checked: the "no WebGPU errors" check could not see
+   Babylon's warnings (so "no WebGPU errors" above was true but unproven; a rerun with the fixed guard
+   is clean, and a self-test now proves the guard fires); `npm ci` ran on a file-time comparison and would
+   have deleted the dev server's `node_modules`; `timeout` left Windows `node.exe` and Chrome running;
+   and a `kill -9` left an orphan preview holding the lock.
+
+16. **Real ground for the town and the Roman forts** (Claude, under the proactive mandate, GitHub issue 2;
+   [ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), [`data/lidar.md`](../data/lidar.md);
+   merged with main on 2026-10-10, which took ADR 0041 to 0047, so this ADR became 0048, and 0049 when the GPU kit took 0048). The long-agreed
    close-up LiDAR was built: 25 one-kilometre Welsh Government 1m tiles became 80 tiles of 500m in one 3MB
    file (2m for the town and forts, 10m round them), drawn as flat-shaded meshes at 4, 10 or 20m by distance,
    in a hole in the Terrain 50 mesh whose rim is watertight by construction (read back from the real vertex

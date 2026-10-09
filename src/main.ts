@@ -82,7 +82,7 @@ async function start(): Promise<void> {
   const opening = new OpeningCard(store, showsBegin(params, navigator.webdriver), [app, canvas]);
   document.body.append(opening.el);
 
-  const [{ engine, backend }, heightfield, rivers, woodland, lidar, footprints, railways, roads] =
+  const [{ engine, backend, gpu }, heightfield, rivers, woodland, lidar, footprints, railways, roads] =
     await Promise.all([
       createEngine(canvas, params.has('webgl')),
       loadHeightfield(),
@@ -120,7 +120,7 @@ async function start(): Promise<void> {
   const debug = params.has('debug')
     ? new DebugOverlay(
         engine,
-        backend,
+        `${backend} (${gpu})`,
         world.camera,
         () => world.graphics(),
         () => world.terrain.detailStats(),
@@ -688,6 +688,8 @@ async function start(): Promise<void> {
     Object.assign(window, {
       llandeiloDebug: {
         scene: world.scene,
+        backend,
+        gpu,
         detail: () => world.terrain.detailStats(),
         seam: () => world.terrain.seam(),
         terrain: world.terrain,

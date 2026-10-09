@@ -3,6 +3,7 @@ public/data
 package-lock.json
 playwright-report
 test-results
+test-results-gpu
 docs/research
 docs/brief.md
 *.md

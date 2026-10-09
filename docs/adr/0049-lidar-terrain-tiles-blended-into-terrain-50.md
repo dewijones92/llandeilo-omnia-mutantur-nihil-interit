@@ -1,15 +1,15 @@
 ---
-title: "ADR 0048: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart"
+title: "ADR 0049: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart"
 kind: adr
 status: accepted
 updated: 2026-10-10
 ---
 
-# ADR 0048: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart
+# ADR 0049: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart
 
 - **Status:** Accepted, extends [ADR 0009](0009-terrain-os-terrain50-low-poly.md)
 - **Date:** 2026-10-09; amended 2026-10-10 (the review's findings, and the merge with main, which took ADRs
-  0041 to 0047: this was 0041 on its branch and became 0048)
+  0041 to 0048: this was 0041 on its branch, became 0048 at the first merge, and 0049 when the GPU kit took 0048)
 - **Decided by:** Claude, under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
   so Dewi can overrule it. Dewi agreed the work itself (GitHub issue 2, 2026-10-09) and said to credit
   the source and not chase licence problems; every design choice below is Claude's.

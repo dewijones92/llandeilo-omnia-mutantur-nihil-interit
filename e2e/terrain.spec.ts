@@ -251,7 +251,7 @@ test('a period change to the ground rebuilds only the tiles under it and leaves 
   expect(raised - before).toBeGreaterThan(0.7);
   expect(raised - before).toBeLessThan(0.74);
   // What everything that stands on the ground asks (`heightMetres`) rises by the edit's 3m too. Objects
-  // already placed at start, such as the roads and trees, do not move with it yet (ADR 0048, decision 8).
+  // already placed at start, such as the roads and trees, do not move with it yet (ADR 0049, decision 8).
   expect((await asked()) - askedBefore).toBeCloseTo(3, 1);
   const rebuilt = (await detail(page)).builds - builds;
   expect(rebuilt).toBeGreaterThanOrEqual(1);

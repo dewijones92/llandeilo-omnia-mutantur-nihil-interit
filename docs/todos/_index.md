@@ -69,6 +69,8 @@ below links the issue.
 ## Next: verify on real hardware
 
 - [ ] Check WebGPU on a real desktop GPU (everything automated uses WebGL2 via SwiftShader)
+      *2026-10-09: automated by the GPU kit (`npm run e2e:gpu`, ADR 0048): WebGPU on the NVIDIA GPU in
+      Windows Chrome, no WebGPU errors, every e2e spec green at High. Awaiting review, so not ticked*
 - [ ] Open it in desktop Firefox and Safari: every automated check runs in Chromium, and WebGPU support differs
 - [ ] Record performance numbers in CLAUDE.md: first load, scrub frame rate, terrain recolour time
 - [ ] Listen to the ambient sound and voices on real speakers; tune levels
@@ -160,6 +162,8 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
   halos' pixels) and both suggestions applied. Awaiting review of the fixes, so not ticked
 - [ ] Check the night halos on WebGPU on a real desktop: their WGSL vertex code (ADR 0040) has never
       run, because WebGPU through WSL stalls and CI has no GPU
+      *2026-10-09: they now run on WebGPU in the GPU kit's 1903 night frame test with no WebGPU errors,
+      and its screenshot shows them lit; not yet compared with the WebGL halos up close*
 - [ ] Sound follows the clock: birds at dawn, owls and quiet at night
 - [ ] Conversations and speech bubbles follow the clock: nobody chatting outdoors at 3am
 - [x] Rivers stay vivid blue at night while the land goes dark: already fixed when re-shot on
@@ -238,7 +242,7 @@ The three issues come first (Dewi: "If possible please prioritise them"), and th
 rather than licence-checked (Dewi: "ignore licensing problems, just credit the person").
 
 - [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded.
-      **Built 2026-10-09, not ticked** (Claude, under the proactive mandate; [ADR 0048](../adr/0048-lidar-terrain-tiles-blended-into-terrain-50.md),
+      **Built 2026-10-09, not ticked** (Claude, under the proactive mandate; [ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md),
       [`data/lidar.md`](../data/lidar.md)): the path's steps 1, 2, 4 and 6 are done (agreed; the data and its licence statements
       researched from the publisher's own pages; built, with unit, data and e2e tests each seen red first; looked at on the GPU in
       screenshots at 1282 and 2020), and steps 3 and 5, an independent check of the research and a second-Opus review, are not.

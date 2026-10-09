@@ -367,6 +367,21 @@ describe('what each part of the Roman forts rests on', () => {
     }
   });
 
+  it('draws each backfilled ditch with the width the measured profile gives that ring, 1.0m for the second ring where a side has two ditches', () => {
+    const levelled = (side: string, ring: number) =>
+      parts('roman-fort-a-levelled').filter(
+        (p) => p.type === 'ditch' && p.id?.includes(`/ditch-${String(ring)}-${side}-`),
+      );
+    const widths = (side: string, ring: number): number[] =>
+      levelled(side, ring).flatMap((p) => (p.type === 'ditch' ? [p.width] : []));
+    expect(widths('sw', 1).length).toBeGreaterThan(0);
+    expect(widths('sw', 2).length).toBeGreaterThan(0);
+    expect(new Set(widths('sw', 1))).toEqual(new Set([1.7]));
+    expect(new Set(widths('sw', 2))).toEqual(new Set([1]));
+    expect(new Set(widths('se', 2))).toEqual(new Set([1.4]));
+    expect(new Set(widths('se', 3))).toEqual(new Set([1]));
+  });
+
   it('draws timber and earth only: no stone, no limewash, no tile or slate, no palisade', () => {
     const stone = [
       'rubble',
@@ -523,6 +538,28 @@ describe('levels of detail', () => {
       ))
         expect(p.detail, p.id).toBe(true);
     }
+  });
+});
+
+describe('conversations placed at the forts', () => {
+  it('stand outside every fort, its levelled ditches included, that is drawn at any time during their dates', () => {
+    const placed = W.conversations.filter((c) => c.place === placeId('roman-forts'));
+    expect(placed.length).toBeGreaterThan(0);
+    const inside: string[] = [];
+    for (const c of placed) {
+      for (const id of ['roman-fort-a', 'roman-fort-b', 'roman-fort-a-levelled'] as const) {
+        const f = feature(id);
+        let drawn = false;
+        for (let y: number = c.when.from; y <= c.when.to; y += 0.25) drawn ||= presence(id, y) > 0;
+        if (!drawn) continue;
+        const ditches = parts(id).filter((q) => q.type === 'ditch');
+        const hx = Math.max(...ditches.flatMap((q) => q.path.map((pt) => Math.abs(pt[0]))));
+        const hy = Math.max(...ditches.flatMap((q) => q.path.map((pt) => Math.abs(pt[1]))));
+        const [x, y] = rotate([c.at.e - f.at.e, c.at.n - f.at.n], -(plan(id).angle ?? 0));
+        if (Math.abs(x) <= hx + 5 && Math.abs(y) <= hy + 5) inside.push(`${c.id} in ${id}`);
+      }
+    }
+    expect(inside).toEqual([]);
   });
 });
 
