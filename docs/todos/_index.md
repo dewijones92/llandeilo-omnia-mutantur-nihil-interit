@@ -50,9 +50,9 @@ below links the issue.
 
 | Issue | Seen | Idea (our summary) | Status | Notes |
 |---|---|---|---|---|
-| [#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1) | 2026-10-09T17:16:07Z | Gather a local studio photographer's photos of Llandeilo's streets and station from about 1900, and place each on the map | ✅ agreed 2026-10-09 | The glass negatives are at the National Library of Wales, copies on People's Collection Wales; the photographer died in 1940, so UK copyright has probably expired, to be checked per image. Shown in the app with its credit, pinned with credit and an ⓘ; otherwise a modelling reference only |
+| [#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1) | 2026-10-09T22:41:53Z | Gather a local studio photographer's photos of Llandeilo's streets and station from about 1900, and place each on the map | ✅ agreed 2026-10-09 | The glass negatives are at the National Library of Wales, copies on People's Collection Wales; the photographer died in 1940, so UK copyright has probably expired, to be checked per image. Shown in the app with its credit, pinned with credit and an ⓘ; otherwise a modelling reference only |
 | [#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2) | 2026-10-09T17:16:08Z | Detailed real-scale terrain for the town and the Roman fort area from LiDAR, tiled with levels of detail, the base ground kept apart from changes by period | ✅ agreed 2026-10-09 | The agreed close-up LiDAR terrain (CLAUDE.md, Terrain) was never built; Welsh Government 1m LiDAR covers the area, licence to confirm per file |
-| [#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3) | 2026-10-09T17:16:09Z | A modular, editable reconstruction of the Roman fort and its civilian settlement on that terrain, ready for animation later | ✅ agreed 2026-10-09 | Research first: published plans and surveys, documented kept apart from reconstruction; a linked reconstruction drawing states no licence; it is used with a credit to its maker (Dewi, 2026-10-09: credit, no licence check), and the second fort's date and the settlement survey still need their sources. Built detailed in the app (Dewi, 2026-10-09) |
+| [#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3) | 2026-10-09T17:16:09Z | A modular, editable reconstruction of the Roman fort and its civilian settlement on that terrain, ready for animation later | ✅ agreed 2026-10-09 | Research first: published plans and surveys, documented kept apart from reconstruction; a linked reconstruction drawing states no licence; it is used with a credit to its maker (Dewi, 2026-10-09: credit, no licence check), and the second fort's date and the settlement survey still need their sources. Built detailed in the app (Dewi, 2026-10-09). Researched 2026-10-09 ([note](../research/roman-forts-and-vicus.md)): the survey is Stratascan's magnetometry in the Hughes report, not in the linked PDF; "AD 90-100" has no source |
 
 ## Done: the vertical slice (2026-09-26)
 
@@ -238,14 +238,45 @@ The three issues come first (Dewi: "If possible please prioritise them"), and th
 rather than licence-checked (Dewi: "ignore licensing problems, just credit the person").
 
 - [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded.
-      **Built 2026-10-09, not ticked** (Claude, under the proactive mandate; [ADR 0041](../adr/0041-lidar-terrain-tiles-blended-into-terrain-50.md),
+      **Built 2026-10-09, not ticked** (Claude, under the proactive mandate; [ADR 0048](../adr/0048-lidar-terrain-tiles-blended-into-terrain-50.md),
       [`data/lidar.md`](../data/lidar.md)): the path's steps 1, 2, 4 and 6 are done (agreed; the data and its licence statements
       researched from the publisher's own pages; built, with unit, data and e2e tests each seen red first; looked at on the GPU in
       screenshots at 1282 and 2020), and steps 3 and 5, an independent check of the research and a second-Opus review, are not.
       Left over: the ground edits are built and tested but nothing feeds them yet (the Roman fort work, #3, is their first user);
       the mesh stops at 4m although the data is 2m; WebGPU is untested
-- [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort
-- [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09); a photo layer pinned to where each was taken, with credit and ⓘ, with its credit
+- [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort.
+      2026-10-09: researched and independently checked (`research/roman-forts-and-vicus.md`, draft; check
+      [2026-10-09](../research/reviews/roman-forts-and-vicus-check-2026-10-09.md), corrections applied; Claude under
+      the proactive mandate, [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)).
+      2026-10-09: **built** ([ADRs 0045, 0046 and 0047](../adr/README.md)): Fort 1, Fort 2, Fort 1's backfilled
+      ditches and the vicus as plans of 66, 83, 15 and 18 parts, each part with its own tier, at true size and
+      height, with a far and a near mesh, shown on the first Roman key date's card part by part; the placeholder
+      boxes (wrong place, angle and roofs) are gone. Seen: screenshots at AD 74, 80, 110 and 140, near and far;
+      unit, content and e2e tests. 2026-10-09 (review of the build, ADR 0045 and 0046 amended): Fort 2 starts at 83 so
+      the forts never overlap, the settlement is an estimate, ditch profiles are by side, the annex is said, the
+      arrival cutscene ends at Fort 1's south-east gate, and the card lists what the slider's year draws. Still to do
+      before it is ticked: registering the forts on the LiDAR terrain when issue 2 lands. Not built (the issue's own later phases): a
+      Blender project, animation, walkable interiors, characters
+- [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09), then a photo layer pinned to where each was taken, with credit and ⓘ.
+      **Agreed ✓. Researched ✓ 2026-10-09** ([`research/dc-harries-photographs.md`](../research/dc-harries-photographs.md)):
+      31 photographs found and downloaded (`public/photos/harries/`, data and credits in
+      `src/content/photographs.ts`), all on People's Collection Wales from the Llandeilo Fawr Town Council
+      collection; 28 placed on the OS grid (15 documented, 13 reconstructed), 3 not.
+      **Research checked ✓ 2026-10-09** ([independent check](../research/reviews/dc-harries-photographs-check-2026-10-09.md)),
+      every correction applied the same day, marked "Corrected 2026-10-09 (independent check)": five dates
+      the pictures contradict, the Post Office's point, six wrong descriptions, the 1905 map, the NLW's second
+      fonds. **Built ✓ 2026-10-09** ([ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md)):
+      the Photos toggle, camera pins, the photo panel with credit and ⓘ, the About credits, in both languages;
+      unit, content and e2e tests (red runs in the [build log](../process/build-log.md)). **Looked at ✓**
+      (`docs/images/photo-layer/`). **Still to do: the second-Opus review** before it ships in a release.
+      Owner's decisions: the credit wording, whether the layer should be on by default, whether to keep the c. 1900 captions of 2282261 and 2282336 (their ranges
+      start at 1920 and 1922 for now, because a motorcycle, a knee-length dress, cloche hats and electric lamps are 1920s), and whether to gather
+      other photographers' c. 1900 station and street views. Not built: a "Then and now" flight (no record
+      of a camera direction), a way in for the three unplaced photographs, Welsh for the catalogue's words
+- [ ] **Photo layer follow-ups** (Claude, proactive, ADR 0027; not started): a count of the photographs
+      available at the year on the Photos button so the layer is found; a camera-direction field and "Then and
+      now" flight once any record gives one; the other-photographers' views listed in the research note
+      (needs an owner decision); the three unplaced photographs in a list
 - [ ] Conversations by class in the three slice eras; in-world music and the hunter-gatherer scenes (after their research checks); a GPU terrain shader for smooth scrubbing; the later trains and the Dinefwr, Carreg Cennen and bridge models (Dewi picked all four on 2026-10-09)
 
 ## Agreed for the weekend run (Dewi, 2026-10-02)
@@ -294,7 +325,9 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       singing, eisteddfodau, brass bands), heard in the scene and explained in the almanac, from
       sources and licensed recordings or performed from period notation (Dewi: "music through time and
       places"). The app stays inside the agreed ten miles or so around Llandeilo. Dewi chose
-      in-world music where the research puts it, plus a light labelled score that can be turned off
+      in-world music where the research puts it, plus a light labelled score that can be turned off.
+      Research checked 2026-10-09 and the corrections applied ([review](../research/reviews/music-through-time-check-2026-10-09.md));
+      two recordings are US-licence flagged and no music asset ships yet
 - [x] **A Begin screen**: a title card with the Ovid motto; its click turns the sound on (browsers
       need one) and can start the opening flight (Dewi chose this, 2026-10-02). Done 2026-10-03: the
       loading card becomes the Begin card once the valley is ready, veiled over the scene, with the
@@ -331,7 +364,22 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       not code per era, every element labelled by provenance, with a narrator in the UI language
       (Dewi's choice) and captions always on. First: the Roman army arriving at
       Dinefwr, c. AD 74. Builds on the agreed "people arriving from afar" journeys, the guided tour and
-      the opening cinematic flight
+      the opening cinematic flight. **2026-10-03: the engine and the Roman arrival are built** on branch
+      `feat/cutscene-roman-arrival` ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)): researched
+      and checked (roman-arrival and its 2026-10-02 check), built with unit tests and an e2e flow seen red
+      first, screenshots looked at across the scene in English and Welsh. Second-Opus review 2026-10-03
+      done; its CRITICAL (the later fort standing on the ridge through the scene) and IMPORTANT (Escape on
+      an ⓘ skipped the scene) findings fixed with tests seen red first, and its suggestions applied
+      ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md), [ADR 0043](../adr/0043-one-polyline-helper.md)).
+      **Not ticked**: the fixes have not had their own second-Opus pass, and the other scenes (Dryslwyn
+      1287, the Walk Gate 1843, the first train 1857, the 1848 flood) are not started
+- [ ] **For Dewi: the later Roman fort shows at the AD 74 key date.** `roman-fort-b` (c. AD 83) fades
+      in over the slider before its date, so at the AD 74 key date it is drawn at 0.93 beside fort A,
+      though Coflein puts it later and over part of the first. On main since before the cutscene; inside
+      a scene it is now hidden ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)). Whether "c."
+      dates should fade in before their year at a key date, or stop at the nearest key date, changes
+      [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md) and is his call. Found by the
+      second-Opus review, 2026-10-03
 - [ ] **Invasions and raids that reached the valley** (Dewi: "norman, viking etc etc etc invasions"):
       Irish settlement in Dyfed, Viking raids, the Normans after 1093, the English conquest of 1277-83,
       Glyndŵr in 1403, the Civil War, each as key dates (and cutscenes where the research supports one),
@@ -348,7 +396,10 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
 - [ ] **Early people hunting and gathering** (Dewi: "early people hunting stuff"): Late Upper
       Palaeolithic and Mesolithic hunter-gatherers in the valley, what they hunted, fished and gathered
       in each environment, with the animals of "animals through time", as scenes and cutscenes at the
-      level the finds support (here, nearby, or Wales-wide analogy)
+      level the finds support (here, nearby, or Wales-wide analogy). Research checked 2026-10-09 and the
+      corrections applied ([review](../research/reviews/hunter-gatherers-check-2026-10-09.md)); the
+      Waun Fignen Felen key date and almanac entry moved. Still to do: the scenes themselves, and a
+      decision on Heneb's HER terms ([open questions](../research/open-questions.md))
 
 ## Claude's own ideas, building first (proactive mandate, 2026-10-02)
 

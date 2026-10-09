@@ -29,25 +29,18 @@ import {
   TALLEY_PARISH,
   TOWER_CHURCH,
 } from './buildings.ts';
-import { featureId, placeId, src, type SourceKey } from './ids.ts';
-
-const documented = (keys: readonly [SourceKey, ...SourceKey[]], en?: string, cy?: string): Provenance => ({
-  kind: 'documented',
-  sources: [src(keys[0]), ...keys.slice(1).map(src)],
-  ...(en && cy ? { note: { en, cy } } : {}),
-});
-
-const reconstructed = (en: string, cy: string, keys: readonly SourceKey[]): Provenance => ({
-  kind: 'reconstructed',
-  basis: { en, cy },
-  sources: keys.map(src),
-});
-
-const imagined = (en: string, cy: string, keys: readonly SourceKey[]): Provenance => ({
-  kind: 'imagined',
-  groundedIn: { en, cy },
-  sources: keys.map(src),
-});
+import { featureId, placeId } from './ids.ts';
+import {
+  FORT_1,
+  FORT_1_AT,
+  FORT_1_LEVELLED,
+  FORT_2,
+  FORT_2_AT,
+  FORT_PROVENANCE,
+  ROMAN_VICUS,
+  VICUS_AT,
+} from './forts.ts';
+import { documented, imagined, reconstructed } from './provenance.ts';
 
 type Spec = {
   readonly id: string;
@@ -72,9 +65,11 @@ const feature = (s: Spec): Feature => {
   const place: PlaceId | undefined = s.place ? placeId(s.place) : undefined;
   const dated: Feature = s.datesExact
     ? { ...base, datesExact: s.datesExact }
-    : s.notBefore === undefined
-      ? base
-      : { ...base, notBefore: s.notBefore };
+    : {
+        ...base,
+        ...(s.notBefore === undefined ? {} : { notBefore: s.notBefore }),
+        ...(s.notAfter === undefined ? {} : { notAfter: s.notAfter }),
+      };
   return place ? { ...dated, place } : dated;
 };
 
@@ -251,30 +246,50 @@ export const FEATURES: readonly Feature[] = [
   ),
   feature({
     id: 'roman-fort-a',
-    kind: { type: 'roman-fort', width: 160, length: 240, angle: 0.12 },
-    at: { e: 262187, n: 222534 },
+    kind: { type: 'building', plan: FORT_1, condition: 'standing' },
+    at: FORT_1_AT,
     from: ad(74),
-    to: ad(83),
-    label: { en: 'The larger Roman fort', cy: 'Y gaer Rufeinig fwyaf' },
-    provenance: documented(
-      ['timeline:S15', 'classes:S19', 'ironage:S15'],
-      'Probably built soon after AD 74, though an earlier date cannot be ruled out: about 3.8ha inside its defences (240m by 160m), one of the largest forts in Wales. It may have been given up between AD 78 and 83, but that is not proven, so it is shown until 83. The internal layout is a standard Roman plan.',
-      "Mae'n debyg iddi gael ei chodi yn fuan ar ôl 74 OC, er na ellir diystyru dyddiad cynharach: tua 3.8ha o fewn ei hamddiffynfeydd (240m wrth 160m), un o'r caerau mwyaf yng Nghymru. Efallai iddi gael ei gadael rhwng 78 ac 83 OC, ond nid yw hynny wedi'i brofi, felly fe'i dangosir tan 83. Cynllun Rhufeinig safonol yw'r trefniant mewnol.",
-    ),
+    to: ad(78),
+    notBefore: ad(70),
+    notAfter: ad(83),
+    label: { en: 'The larger Roman fort (Fort 1)', cy: 'Y gaer Rufeinig fwyaf (Caer 1)' },
+    provenance: FORT_PROVENANCE.fort1,
     place: 'roman-forts',
   }),
   feature({
     id: 'roman-fort-b',
-    kind: { type: 'roman-fort', width: 110, length: 140, angle: 0.12 },
-    at: { e: 262215, n: 222505 },
+    kind: { type: 'building', plan: FORT_2, condition: 'standing' },
+    at: FORT_2_AT,
     from: ad(83),
     to: ad(125),
-    label: { en: 'The smaller Roman fort', cy: 'Y gaer Rufeinig lai' },
-    provenance: documented(
-      ['timeline:S15', 'classes:S19', 'ironage:S15'],
-      'About 140m by 110m inside (1.54ha), in use into the early 2nd century; the site was abandoned by about AD 140. When it was built is disputed, so its start date here is approximate.',
-      "Tua 140m wrth 110m y tu mewn (1.54ha), yn cael ei defnyddio hyd ddechrau'r 2il ganrif; gadawyd y safle erbyn tua 140 OC. Mae dadl ynghylch pryd y'i codwyd, felly bras yw'r dyddiad dechrau yma.",
-    ),
+    notBefore: ad(83),
+    notAfter: ad(140),
+    label: { en: 'The smaller Roman fort (Fort 2)', cy: 'Y gaer Rufeinig lai (Caer 2)' },
+    provenance: FORT_PROVENANCE.fort2,
+    place: 'roman-forts',
+  }),
+  feature({
+    id: 'roman-fort-a-levelled',
+    kind: { type: 'building', plan: FORT_1_LEVELLED, condition: 'standing' },
+    at: FORT_1_AT,
+    from: ad(83),
+    to: ad(125),
+    notBefore: ad(83),
+    notAfter: ad(140),
+    label: { en: 'Fort 1’s ditches, backfilled', cy: 'Ffosydd Caer 1, wedi’u llenwi' },
+    provenance: FORT_PROVENANCE.levelled,
+    place: 'roman-forts',
+  }),
+  feature({
+    id: 'roman-vicus',
+    kind: { type: 'building', plan: ROMAN_VICUS, condition: 'standing' },
+    at: VICUS_AT,
+    from: ad(83),
+    to: ad(135),
+    notBefore: ad(83),
+    notAfter: ad(140),
+    label: { en: 'The civilian settlement (vicus)', cy: 'Yr anheddiad sifil (vicus)' },
+    provenance: FORT_PROVENANCE.vicus,
     place: 'roman-forts',
   }),
   feature({

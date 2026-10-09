@@ -1,9 +1,12 @@
 import { expect, test, type Page } from '@playwright/test';
+import { CUTSCENES } from '../src/content/cutscenes.ts';
 import { EVENTS } from '../src/content/events.ts';
+import { HARRIES_PHOTOGRAPHS } from '../src/content/photographs.ts';
 import { TIMELINE } from '../src/content/timeline.ts';
 import { toWorld } from '../src/domain/geo.ts';
 import { keySteps, stepFrom } from '../src/domain/steps.ts';
 import { tAt } from '../src/domain/timeline.ts';
+import { formatSliderYear, year } from '../src/domain/time.ts';
 
 test('the valley loads and the slider moves through time', async ({ page }) => {
   const errors: string[] = [];
@@ -457,6 +460,10 @@ const COUNTRYSIDE = { x: 420, y: 20, width: 660, height: 300 };
 test('the night is dark and lit by the light of its time: gas lamps glow in 1880, the 1942 blackout is black', async ({
   page,
 }) => {
+  test.slow(
+    Boolean(process.env['CI']),
+    'two night scenes with thousands of halos, rendered on the CPU in CI',
+  );
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   const debug = page.locator('.debug');
@@ -507,6 +514,11 @@ const OVERVIEW_LAND = { x: 330, y: 230, width: 760, height: 420 };
 test('the night light reads from the overview: the halos put the lit town and farms on screen', async ({
   page,
 }) => {
+  // About 5,400 halos over the whole valley; on CI's CPU renderer this ran 7 minutes on 2026-10-09.
+  test.slow(
+    Boolean(process.env['CI']),
+    'the whole valley at night with every halo, rendered on the CPU in CI',
+  );
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./?year=1880&hour=23&season=winter&debug');
@@ -727,6 +739,8 @@ test('When are we? hides the year, takes a guess on the timeline, then reveals i
     '.moment',
     '.labels',
     '.bubbles',
+    '.pins',
+    '.photo',
     '.info',
     '.debug',
   ]) {
@@ -842,35 +856,121 @@ test('the Begin card shows the motto in both languages, and Begin opens the vall
   expect(errors).toEqual([]);
 });
 
-test('choosing Low graphics turns the effects off in the renderer, and the choice is remembered', async ({
-  page,
-}) => {
+test('runs at the graphics level E2E_QUALITY stores, when it is set', async ({ page }) => {
+  const wanted = process.env['E2E_QUALITY'];
+  test.skip(wanted === undefined, 'only when the run stores a graphics level (CI uses Low)');
   await page.goto('./?debug&year=1282');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  const debug = page.locator('.debug');
-  // The overlay reads these back from the renderer (pipeline, shadow map, forest), not from the table.
-  const live = async (): Promise<string> =>
-    ((await debug.textContent()) ?? '').split('\n').find((l) => l.startsWith('quality ')) ?? '';
-  const trees = (line: string): number => Number(/ trees (\d+) /.exec(line)?.[1] ?? Number.NaN);
-  await expect.poll(live).toMatch(/^quality high .* bloom on {2}dof on {2}sharpen on /);
-  const high = await live();
-  expect(Number(/shadows (\d+)\//.exec(high)?.[1])).toBeGreaterThan(2048);
-  const highTrees = trees(high);
-  expect(highTrees).toBeGreaterThan(0);
-  const graphics = page.getByRole('group', { name: 'Graphics' });
-  await expect(graphics.getByRole('button', { name: 'High' })).toHaveAttribute('aria-pressed', 'true');
-  await graphics.getByRole('button', { name: 'Low' }).click();
-  await expect(graphics.getByRole('button', { name: 'Low' })).toHaveAttribute('aria-pressed', 'true');
-  await expect.poll(live).toMatch(/^quality low /);
-  const low = await live();
-  expect(low).toContain('shadows 1024/low  msaa 1  bloom off  dof off  sharpen off');
-  // Low draws 0.31 of woodland triangles against High's 0.9.
-  const share = trees(low) / highTrees;
-  expect(share).toBeGreaterThan(0.25);
-  expect(share).toBeLessThan(0.45);
-  await page.reload();
+  const line = async (): Promise<string> =>
+    ((await page.locator('.debug').textContent()) ?? '').split('\n').find((l) => l.startsWith('quality ')) ??
+    '';
+  await expect.poll(line).toMatch(new RegExp(`^quality ${String(wanted)} `));
+});
+
+test.describe('at the default graphics level', () => {
+  // This test starts from the visitor's default (High), so it ignores CI's stored Low.
+  test.use({ storageState: { cookies: [], origins: [] } });
+
+  test('choosing Low graphics turns the effects off in the renderer, and the choice is remembered', async ({
+    page,
+  }) => {
+    await page.goto('./?debug&year=1282');
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    const debug = page.locator('.debug');
+    // The overlay reads these back from the renderer (pipeline, shadow map, forest), not from the table.
+    const live = async (): Promise<string> =>
+      ((await debug.textContent()) ?? '').split('\n').find((l) => l.startsWith('quality ')) ?? '';
+    const trees = (line: string): number => Number(/ trees (\d+) /.exec(line)?.[1] ?? Number.NaN);
+    await expect.poll(live).toMatch(/^quality high .* bloom on {2}dof on {2}sharpen on /);
+    const high = await live();
+    expect(Number(/shadows (\d+)\//.exec(high)?.[1])).toBeGreaterThan(2048);
+    const highTrees = trees(high);
+    expect(highTrees).toBeGreaterThan(0);
+    const graphics = page.getByRole('group', { name: 'Graphics' });
+    await expect(graphics.getByRole('button', { name: 'High' })).toHaveAttribute('aria-pressed', 'true');
+    await graphics.getByRole('button', { name: 'Low' }).click();
+    await expect(graphics.getByRole('button', { name: 'Low' })).toHaveAttribute('aria-pressed', 'true');
+    await expect.poll(live).toMatch(/^quality low /);
+    const low = await live();
+    expect(low).toContain('shadows 1024/low  msaa 1  bloom off  dof off  sharpen off');
+    // Low draws 0.31 of woodland triangles against High's 0.9.
+    const share = trees(low) / highTrees;
+    expect(share).toBeGreaterThan(0.25);
+    expect(share).toBeLessThan(0.45);
+    await page.reload();
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await expect.poll(live).toMatch(/^quality low .* bloom off {2}dof off /);
+  });
+});
+
+test('a cutscene plays from the moment card, moves its captions on, and Skip lands on its key date', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  const landed: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug cutscene landed')) landed.push(m.text());
+  });
+  const scene = CUTSCENES.find((c) => c.id === 'roman-arrival');
+  const captions = scene?.tracks.flatMap((t) => (t.kind === 'caption' ? [t.text.en] : [])) ?? [];
+  expect(captions.length).toBeGreaterThan(1);
+  const ad74 = formatSliderYear(year(74), 'en');
+  await page.goto('./?year=74');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  await expect.poll(live).toMatch(/^quality low .* bloom off {2}dof off /);
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  await page.getByRole('button', { name: /Watch/ }).click();
+  const overlay = page.locator('.cutscene');
+  await expect(overlay).toBeVisible();
+  await expect(page.locator('html')).toHaveClass(/cutscene-playing/);
+  await expect(page.locator('.cs-caption')).toHaveText(captions[0] ?? '');
+  // The scene clock runs on rendered frames (about one a second in CI), so give the next caption time.
+  await expect(page.locator('.cs-caption')).toHaveText(captions[1] ?? '', { timeout: 90_000 });
+  // The faded interface behind the scene cannot take focus: Tab stays in the letterbox.
+  for (let i = 0; i < 16; i++) {
+    await page.keyboard.press('Tab');
+    const where = await page.evaluate(() => {
+      const f = document.activeElement;
+      if (!f || f === document.body || f.closest('.cutscene')) return 'ok';
+      return `${f.tagName}.${f.className}`;
+    });
+    expect(where, `Tab ${String(i + 1)} reached the interface behind the scene`).toBe('ok');
+  }
+  // Reading a caption's sources pauses the scene, and Escape closes the ⓘ without skipping the scene.
+  await page.locator('.cs-caption-prov .prov').click();
+  await expect(page.locator('.cs-caption-prov .prov-pop')).toBeVisible();
+  // Text wraps inside the popover, and the popover stays on screen.
+  const fit = await page.locator('.cs-caption-prov .prov-pop').evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    const spill = [...el.querySelectorAll('*')].some((c) => c.getBoundingClientRect().right > r.right + 1);
+    return { spill, onScreen: r.left >= 0 && r.right <= window.innerWidth };
+  });
+  expect(fit).toEqual({ spill: false, onScreen: true });
+  await expect(overlay).toHaveClass(/paused/);
+  const progress = page.locator('.cs-progress-bar');
+  const held = await progress.getAttribute('style');
+  await page.waitForTimeout(3000);
+  await expect(progress).toHaveAttribute('style', held ?? '');
+  await expect(page.locator('.cs-caption')).toHaveText(captions[1] ?? '');
+  await page.keyboard.press('Escape');
+  await page.mouse.move(5, 5);
+  await expect(page.locator('.cs-caption-prov .prov-pop')).toBeHidden();
+  await expect(overlay).toBeVisible();
+  await expect(overlay).not.toHaveClass(/paused/);
+  await expect.poll(() => progress.getAttribute('style'), { timeout: 60_000 }).not.toBe(held);
+  await expect(page.locator('.timeline')).toHaveClass(/locked/);
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('.tl-year')).toHaveText(ad74);
+  await page.screenshot({ path: 'test-results/cutscene-roman-arrival.png' });
+  await page.getByRole('button', { name: /Skip/ }).click();
+  await expect(overlay).toBeHidden();
+  await expect(page.locator('html')).not.toHaveClass(/cutscene-playing/);
+  await expect(page.locator('.timeline')).not.toHaveClass(/locked/);
+  await expect(page.locator('.tl-year')).toHaveText(ad74);
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  await expect(page.getByRole('button', { name: /Watch/ })).toBeVisible();
+  expect(landed.some((l) => l.includes('event=roman-forts skipped=true'))).toBe(true);
+  expect(errors).toEqual([]);
 });
 
 const particleSystems = async (page: Page): Promise<string[]> =>
@@ -955,4 +1055,347 @@ test('every timeline marker can be clicked at its own centre, however close its 
   await page.setViewportSize({ width: 1280, height: 720 });
   await expect.poll(covered).toEqual([]);
   await page.screenshot({ path: 'test-results/marker-lanes-1280.png' });
+});
+
+const AT_1900 = './?year=1900&place=llandeilo&radius=140';
+
+const photoFor = (id: string | null): (typeof HARRIES_PHOTOGRAPHS)[number] => {
+  const found = HARRIES_PHOTOGRAPHS.find((p) => p.id === id);
+  if (!found) throw new Error(`No photograph ${String(id)}`);
+  return found;
+};
+
+test('the Photos toggle pins photographs in Llandeilo in 1900, none in 1850, and the choice is remembered', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto(AT_1900);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const toggle = page.getByRole('button', { name: 'Photos', exact: true });
+  const pins = page.locator('.pin').filter({ visible: true });
+  await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  await expect(pins).toHaveCount(0);
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(() => pins.count()).toBeGreaterThanOrEqual(3);
+  for (const pin of await pins.all()) {
+    const p = photoFor(await pin.getAttribute('data-photo'));
+    await expect(pin).toHaveAccessibleName(`Photograph: ${p.where}`);
+    expect(p.placement.kind).toBe('placed');
+  }
+  await page.screenshot({ path: 'test-results/photo-pins-1900.png' });
+  await page.reload();
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
+  await page.goto('./?year=1850&place=llandeilo&radius=140');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await page.waitForTimeout(1500);
+  await expect(page.locator('.pin').filter({ visible: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Photos', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'false',
+  );
+  expect(errors).toEqual([]);
+});
+
+test('a pin opens its photograph with the credit and an ⓘ for the date and the placement, and Escape closes it', async ({
+  page,
+}) => {
+  await page.goto(`${AT_1900}&photos=1`);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const pin = page.locator('.pin').filter({ visible: true }).first();
+  await expect(pin).toBeVisible();
+  const p = photoFor(await pin.getAttribute('data-photo'));
+  await pin.click();
+  const panel = page.locator('.photo');
+  await expect(panel).toBeVisible();
+  await expect(panel.locator('h2')).toHaveText(p.title);
+  const image = panel.locator('img');
+  await expect(image).toHaveAttribute('src', new RegExp(`${p.file.replaceAll('.', '\\.')}$`));
+  await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(500);
+  await expect(panel.locator('figcaption')).toContainText('D C Harries');
+  await expect(panel.locator('figcaption')).toContainText('People’s Collection Wales');
+  await expect(panel.locator('figcaption a')).toHaveAttribute('href', p.catalogueUrl);
+  await expect(panel).toContainText(p.dated);
+  const [box, compass] = [await panel.boundingBox(), await page.locator('.compass').boundingBox()];
+  expect(box && compass && box.y < compass.y + compass.height && box.x + box.width > compass.x).toBe(false);
+  await panel.locator('.prov').click();
+  const pop = panel.locator('.prov-pop');
+  await expect(pop).toBeVisible();
+  await expect(pop).toContainText('Date:');
+  await expect(pop).toContainText(p.dateNote.slice(0, 40));
+  await expect(pop).toContainText('Placement:');
+  if (p.placement.kind === 'placed') await expect(pop).toContainText(`${String(p.placement.accuracyM)} m`);
+  await expect(pop.locator('a').first()).toHaveAttribute('href', /^https?:\/\//);
+  await page.screenshot({ path: 'test-results/photo-open-1900.png' });
+  await page.keyboard.press('Escape');
+  await page.mouse.move(5, 5);
+  await expect(pop).toBeHidden();
+  await expect(panel).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(panel).toBeHidden();
+});
+
+test('a photograph whose caption its picture contradicts is not pinned in 1900, and reads as reconstructed in the 1920s', async ({
+  page,
+}) => {
+  const inn = photoFor('harries-2282261');
+  await page.goto('./?year=1900&photos=1&place=llandeilo&radius=400');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
+  await expect(page.locator(`.pin[data-photo="${inn.id}"]`)).toBeHidden();
+  await page.goto('./?year=1925&photos=1&place=llandeilo&radius=400');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const pin = page.locator(`.pin[data-photo="${inn.id}"]`);
+  await expect(pin).toBeVisible();
+  await pin.click();
+  const panel = page.locator('.photo');
+  await expect(panel.locator('h2')).toHaveText(inn.title);
+  await panel.locator('.prov').click();
+  const pop = panel.locator('.prov-pop');
+  await expect(pop).toContainText('Reconstructed');
+  await expect(pop).toContainText('motorcycle');
+  await expect(panel.locator('.prov')).toContainText('Reconstructed');
+});
+
+test('a photograph closes when the slider leaves its years or Photos is switched off', async ({ page }) => {
+  await page.goto(`${AT_1900}&photos=1`);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.locator('.pin').filter({ visible: true }).first().click();
+  await expect(page.locator('.photo')).toBeVisible();
+  await page.getByRole('button', { name: 'Photos', exact: true }).click();
+  await expect(page.locator('.photo')).toBeHidden();
+  await page.getByRole('button', { name: 'Photos', exact: true }).click();
+  await page.locator('.pin').filter({ visible: true }).first().click();
+  await expect(page.locator('.photo')).toBeVisible();
+  const slider = page.getByRole('slider', { name: /Timeline|Llinell amser/ });
+  await slider.focus();
+  await page.keyboard.press('Home');
+  await expect(page.locator('.photo')).toBeHidden();
+});
+
+test('the photo layer reads in Welsh: the toggle, the pin names, the panel’s labels and the ⓘ', async ({
+  page,
+}) => {
+  await page.goto(`${AT_1900}&photos=1&lang=cy`);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.getByRole('button', { name: 'Lluniau', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  const pin = page.locator('.pin').filter({ visible: true }).first();
+  await expect(pin).toBeVisible();
+  const p = photoFor(await pin.getAttribute('data-photo'));
+  await expect(pin).toHaveAccessibleName(`Ffotograff: ${p.where}`);
+  await pin.click();
+  const panel = page.locator('.photo');
+  await expect(panel).toBeVisible();
+  await expect(panel.getByRole('button', { name: 'Cau' })).toBeVisible();
+  await expect(panel).toContainText('Cydnabyddiaeth:');
+  await expect(panel).toContainText('Dyddiad');
+  await expect(panel).toContainText('Yr hyn a welir');
+  await expect(panel).toContainText('Pa mor sicr ydym ni?');
+  await expect(panel.locator('figcaption a')).toHaveText('Gweld yng Nghasgliad y Werin Cymru');
+  await panel.locator('.prov').click();
+  const pop = panel.locator('.prov-pop');
+  await expect(pop).toContainText('Dyddiad:');
+  await expect(pop).toContainText('Lleoliad:');
+  await expect(pop).toContainText('Wedi’i leoli o fewn tua');
+  await expect(pop).toContainText('yn Saesneg yn unig');
+  await expect(panel.locator('h2')).toHaveAttribute('lang', 'en');
+  await page.screenshot({ path: 'test-results/photo-open-1900-cy.png' });
+  await page.getByRole('button', { name: 'English' }).click();
+  await expect(panel.getByRole('button', { name: 'Close' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Photos', exact: true })).toBeVisible();
+});
+
+test('the credits on the About tab list every photograph with its credit and catalogue link', async ({
+  page,
+}) => {
+  await page.goto('./?year=1900');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.getByRole('button', { name: 'About' }).click();
+  const credits = page.locator('.photo-credits li');
+  await expect(credits).toHaveCount(HARRIES_PHOTOGRAPHS.length);
+  const first = HARRIES_PHOTOGRAPHS[0];
+  if (!first) throw new Error('no photographs');
+  const item = page.locator(`[data-photo-credit="${first.id}"]`);
+  await expect(item).toContainText('D C Harries');
+  await expect(item.locator('a')).toHaveAttribute('href', first.catalogueUrl);
+  await expect(page.locator('.info-credits').first()).toContainText('Photographs by D C Harries');
+});
+
+const presenceOf = async (page: Page, id: string): Promise<number | undefined> => {
+  const text = (await page.locator('.debug').textContent()) ?? '';
+  const m = new RegExp(`${id}@(\\d\\.\\d\\d)\\[`).exec(text);
+  return m?.[1] ? Number(m[1]) : undefined;
+};
+
+const drawnPlans = async (page: Page): Promise<{ near: number; far: number }> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const meshes: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'meshes') : undefined;
+    const enabled = (m: unknown): boolean => {
+      if (!m || typeof m !== 'object') return false;
+      const isEnabled: unknown = Reflect.get(m, 'isEnabled');
+      if (typeof isEnabled !== 'function') return false;
+      const on: unknown = isEnabled.call(m);
+      return on === true;
+    };
+    const on = (level: string): number =>
+      Array.isArray(meshes)
+        ? meshes.filter(
+            (m: unknown) =>
+              m !== null &&
+              typeof m === 'object' &&
+              Reflect.get(m, 'name') === `plan-standing-${level}` &&
+              enabled(m),
+          ).length
+        : 0;
+    return { near: on('near'), far: on('far') };
+  });
+
+test('flying to the Roman forts at AD 80 shows Fort 1 going and nothing of Fort 2, and at AD 84 Fort 2 whole over Fort 1’s backfilled ditches, with the settlement, read through ?debug', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?debug&place=roman-forts&year=80&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const debug = page.locator('.debug');
+  await expect(debug).toContainText('year AD 80');
+  await expect.poll(() => presenceOf(page, 'roman-fort-a')).toBeGreaterThan(0.3);
+  expect(await presenceOf(page, 'roman-fort-a')).toBeLessThan(0.9);
+  for (const id of ['roman-fort-b', 'roman-fort-a-levelled', 'roman-vicus'])
+    expect(await presenceOf(page, id), id).toBeUndefined();
+  await expect(debug).toContainText('roman-fort-a@');
+  await expect(debug).toContainText('[documented]');
+  await expect(debug).toContainText(
+    /plan roman-fort-a: \d+ parts \(\d+ documented, \d+ reconstructed, \d+ imagined\), \d+ detail only/,
+  );
+  await expect(debug).not.toContainText('plan roman-fort-b');
+  await expect(debug).toContainText('detail roman-fort-a=near');
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 1, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-80.png' });
+  await page.goto('./?debug&place=roman-forts&year=84&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(debug).toContainText('year AD 84');
+  await expect.poll(() => presenceOf(page, 'roman-fort-b')).toBe(1);
+  expect(await presenceOf(page, 'roman-fort-a')).toBeUndefined();
+  expect(await presenceOf(page, 'roman-fort-a-levelled')).toBe(1);
+  expect(await presenceOf(page, 'roman-vicus')).toBe(1);
+  await expect(debug).toContainText('roman-vicus@1.00[reconstructed]');
+  await expect(debug).toContainText(/plan roman-fort-b: \d+ parts/);
+  await expect(debug).toContainText('detail roman-fort-a=near roman-fort-b=near roman-vicus=near');
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-84.png' });
+  expect(errors).toEqual([]);
+});
+
+test('at AD 110 Fort 2 stands over Fort 1’s backfilled ditches beside the settlement, and from afar only their defences are drawn', async ({
+  page,
+}) => {
+  await page.goto('./?debug&place=roman-forts&year=110&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect.poll(() => presenceOf(page, 'roman-fort-b')).toBe(1);
+  expect(await presenceOf(page, 'roman-fort-a')).toBeUndefined();
+  expect(await presenceOf(page, 'roman-fort-a-levelled')).toBe(1);
+  expect(await presenceOf(page, 'roman-vicus')).toBe(1);
+  await expect(page.locator('.debug')).toContainText(
+    'detail roman-fort-a=near roman-fort-b=near roman-vicus=near',
+  );
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-110-near.png' });
+  await page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const camera: unknown =
+      scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+    if (camera && typeof camera === 'object') Reflect.set(camera, 'radius', 420);
+  });
+  await expect(page.locator('.debug')).toContainText(
+    'detail roman-fort-a=far roman-fort-b=far roman-vicus=far',
+    {
+      timeout: 60_000,
+    },
+  );
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 1, far: 2 });
+  await page.screenshot({ path: 'test-results/roman-forts-110-far.png' });
+});
+
+test('the Roman forts are there from AD 74 and gone by AD 140, and nothing of them stands in between the years the sources rule out', async ({
+  page,
+}) => {
+  await page.goto('./?debug&place=roman-forts&year=74&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect.poll(() => presenceOf(page, 'roman-fort-a')).toBe(1);
+  expect(await presenceOf(page, 'roman-fort-b')).toBeUndefined();
+  await page.screenshot({ path: 'test-results/roman-forts-74.png' });
+  await page.goto('./?debug&place=roman-forts&year=140&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.debug')).toContainText('year AD 140');
+  await expect(page.locator('.debug')).not.toContainText(/features \d+:[^\n]*roman-(fort-|vicus)/);
+  expect(await drawnPlans(page)).toEqual({ near: 0, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-140.png' });
+});
+
+test('the first Roman key date lists what is drawn, part by part, and each part says how it is known, in both languages, with the credit', async ({
+  page,
+}) => {
+  await page.goto('./?year=74&place=roman-forts&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  const parts = page.locator('.moment-parts');
+  await expect(parts.locator('summary')).toHaveText('What is drawn here, part by part');
+  await parts.locator('summary').click();
+  await expect(parts.locator('h3').first()).toHaveText('The larger Roman fort (Fort 1)');
+  await expect(parts.locator('h4.tier-documented').first()).toContainText('Documented');
+  await expect(parts.locator('h4.tier-reconstructed').first()).toContainText('Reconstructed');
+  await expect(parts.locator('h4.tier-imagined').first()).toContainText('Imagined');
+  const gate = parts.locator('details[data-part="fort1/gate-sw/tower-right"]');
+  await gate.locator('summary').click();
+  await expect(gate).toContainText('six-post gate tower');
+  await expect(gate).toContainText('Hughes');
+  await page.screenshot({ path: 'test-results/roman-forts-parts.png' });
+  await page.locator('.moment > .prov-wrap .prov').click();
+  await expect(page.locator('.moment > .prov-wrap .prov-pop')).toContainText('Neil Ludlow');
+  await page.keyboard.press('Escape');
+  await page.mouse.move(900, 200);
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await expect(page.locator('.moment-parts summary')).toHaveText(
+    'Beth sy’n cael ei dynnu yma, rhan wrth ran',
+  );
+  await page.locator('.moment-parts summary').click();
+  await expect(page.locator('.moment-parts h3').first()).toHaveText('Y gaer Rufeinig fwyaf (Caer 1)');
+});
+
+test('at AD 110 the card lists what is drawn then, Fort 2 with its rear gate shown as unproven and not Fort 1, which has gone', async ({
+  page,
+}) => {
+  await page.goto('./?year=110&place=roman-forts&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  const parts = page.locator('.moment-parts');
+  await parts.locator('summary').click();
+  await expect(parts.locator('h3')).toHaveText([
+    'The smaller Roman fort (Fort 2)',
+    'Fort 1’s ditches, backfilled',
+    'The civilian settlement (vicus)',
+  ]);
+  await expect(parts.locator('details[data-part^="fort1/"]')).toHaveCount(0);
+  const rear = parts.locator('details[data-part="fort2/gate-sw/passage"]');
+  await rear.locator('summary').click();
+  await expect(rear).toContainText('not demonstrated');
+  await page.screenshot({ path: 'test-results/roman-forts-parts-110.png' });
 });

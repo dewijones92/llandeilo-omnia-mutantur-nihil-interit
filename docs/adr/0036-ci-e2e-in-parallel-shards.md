@@ -38,3 +38,22 @@ tests had hit the 3-minute per-test limit. The same tests passed 31 of 31 locall
 - Wall time is roughly the slowest shard (about a quarter of the tests) plus setup, and four runners'
   minutes are spent instead of one, which is free for a public repo.
 - Why the High-quality scenes are so much slower on SwiftShader is not measured; it is in the todo file.
+
+## Amended 2026-10-09: six shards, and the two night tests marked slow
+
+Run 37974359599 (commit 3e2b935) failed one shard: the whole-valley night halo test took 7.0 minutes
+on the CPU renderer and ran out of its 7-minute limit while taking a screenshot, after the same tests
+had passed on the two runs before. Adding the cutscene test had moved both heavy night tests into one
+shard. The night tests are now marked `test.slow` in CI (three times the limit), and the e2e job runs
+six shards instead of four, so no shard carries both and the wall time stays about the same.
+
+## Amended again 2026-10-09: CI tests at Low graphics
+
+Dewi, 2026-10-09: "The ci tests etc should just use low quality graphics option get me?". This reverses
+the alternative rejected above ("CI would not test the default"). The e2e job sets `E2E_QUALITY=low`, and
+`playwright.config.ts` stores that level in each test's browser the way the app stores a visitor's
+choice, so every page starts at Low unless it asks otherwise. The graphics-menu test opts out and still
+starts from the default High; a test asserts the stored level reaches the renderer (seen red with the
+config line removed: "quality high", expected "quality low"). The run on 2026-10-09 that prompted it:
+the cutscene test ran past its 7-minute limit on the CPU renderer at High (run 37977166640). Local runs
+on the GPU keep the default unless `E2E_QUALITY` is set.

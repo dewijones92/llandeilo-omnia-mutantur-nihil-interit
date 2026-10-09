@@ -13,7 +13,9 @@ import {
   type Eye,
 } from '../domain/lidar.ts';
 import type { GridRef } from '../domain/model.ts';
-import { hash2, rng } from '../domain/noise.ts';
+import { seasonKey, snowCover, type SeasonLook } from '../domain/daylight.ts';
+import { fbm, hash2, rng } from '../domain/noise.ts';
+import { densify } from '../domain/polyline.ts';
 import { carveChannel, RiverIndex } from '../domain/rivers.ts';
 import { applyEdits, checkEdit, editsKey, type GroundEdit } from '../domain/groundedit.ts';
 import { onRim, rimGap, type RimBox, type SeamReport } from '../domain/seam.ts';
@@ -291,21 +293,6 @@ function buildRiverPaths(metresAt: (g: GridRef) => number, lines: readonly River
     });
     out.push({ name: line.name, width, points: pts, levels });
   }
-  return out;
-}
-
-function densify(points: readonly GridRef[], step: number): GridRef[] {
-  const out: GridRef[] = [];
-  for (let i = 0; i < points.length - 1; i++) {
-    const a = points[i];
-    const b = points[i + 1];
-    if (!a || !b) continue;
-    const d = Math.hypot(b.e - a.e, b.n - a.n);
-    const n = Math.max(1, Math.ceil(d / step));
-    for (let k = 0; k < n; k++) out.push({ e: a.e + ((b.e - a.e) * k) / n, n: a.n + ((b.n - a.n) * k) / n });
-  }
-  const last = points[points.length - 1];
-  if (last) out.push(last);
   return out;
 }
 

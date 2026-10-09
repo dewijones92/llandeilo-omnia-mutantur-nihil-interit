@@ -2,7 +2,7 @@
 title: Research index
 kind: index
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Research
@@ -30,18 +30,20 @@ the research drove.
 | [anglo-norman-and-middle-english](anglo-norman-and-middle-english.md) | Anglo-Norman French and Middle English for 1282 and 1185 | draft | [2026-10-02](reviews/anglo-norman-and-middle-english-check-2026-10-02.md), applied | [brief](briefs/anglo-norman-and-middle-english.md) |
 | [building-models](building-models.md) | Measured, phased models of the important buildings | draft | [2026-10-02](reviews/building-models-check-2026-10-02.md); corrections used in the app and the todo file, not yet marked in the note | [brief](briefs/building-models.md) |
 | [roman-arrival](roman-arrival.md) | The Roman army arrives in the Tywi valley, c. AD 74 | draft | [2026-10-02](reviews/roman-arrival-check-2026-10-02.md), applied | [brief](briefs/roman-arrival.md) |
+| [roman-forts-and-vicus](roman-forts-and-vicus.md) | The two Dinefwr Roman forts and their vicus for a detailed reconstruction: plans, defences, gates, the Stratascan survey, comparanda, placement, provenance per element; reference images in [`refs/roman-forts/`](refs/roman-forts/) | draft | [2026-10-09](reviews/roman-forts-and-vicus-check-2026-10-09.md), applied | [brief](briefs/roman-forts-and-vicus.md) |
 | [ripples-from-afar](ripples-from-afar.md) | Distant shocks (eruptions, pandemics, famines, wars) and their evidence in the valley | draft | [2026-10-02](reviews/ripples-from-afar-check-2026-10-02.md), applied | [brief](briefs/ripples-from-afar.md) |
 | [invasions-and-raids](invasions-and-raids.md) | Invasions, raids and conquests that reached the Tywi valley | draft | [2026-10-02](reviews/invasions-and-raids-check-2026-10-02.md), applied | [brief](briefs/invasions-and-raids.md) |
-| [music-through-time](music-through-time.md) | Music in and around Llandeilo, by era, class and setting | draft | not yet checked | [brief](briefs/music-through-time.md) |
+| [music-through-time](music-through-time.md) | Music in and around Llandeilo, by era, class and setting | draft | [2026-10-09](reviews/music-through-time-check-2026-10-09.md), applied (two US-licence flags recorded; no music asset ships yet) | [brief](briefs/music-through-time.md) |
 | [soundscapes](soundscapes.md) | What the valley sounded like, era by era, and where to get the sounds | draft | [2026-10-03](reviews/soundscapes-check-2026-10-03.md), applied (the market bed's start is left for Dewi) | [brief](briefs/soundscapes.md) |
-| [hunter-gatherers](hunter-gatherers.md) | Hunter-gatherers from the ice to the first farmers (c. 13,000 to 4000 BC) | draft | not yet checked | [brief](briefs/hunter-gatherers.md) |
+| [hunter-gatherers](hunter-gatherers.md) | Hunter-gatherers from the ice to the first farmers (c. 13,000 to 4000 BC) | draft | [2026-10-09](reviews/hunter-gatherers-check-2026-10-09.md), applied (the Waun Fignen Felen key date and almanac entry moved; the BP scale is still an inference) | [brief](briefs/hunter-gatherers.md) |
 | [light-after-dark](light-after-dark.md) | How homes and streets were lit after dark: hearth, rushlight, oil, gas (1864, streets by 1876), electric (1902), the blackout | draft | [2026-10-03](reviews/light-after-dark-check-2026-10-03.md), applied | none (written inline, 2026-10-03) |
+| [dc-harries-photographs](dc-harries-photographs.md) | D. C. Harries's photographs of Llandeilo's streets and station, c. 1900 to c. 1928: who he was, where the collection is, 31 photographs found and downloaded, each placed on the OS grid with its accuracy | draft | not yet checked | none (written inline, 2026-10-09) |
 
 The first six were produced in one pass on 2026-09-26, with WebSearch quota exhausted part way
 through (see [`process.md`](process.md)); `conversations-by-class` was added on 2026-09-28 and the rest
 on 2026-10-02.
 
-**Independent checks.** `conversations-by-class` had a verification pass on 2026-09-28 (recorded in
+**Independent checks.** `roman-forts-and-vicus` was checked on 2026-10-09 (98 claims; corrections applied and marked in the note). `conversations-by-class` had a verification pass on 2026-09-28 (recorded in
 the note). On 2026-10-02 fourteen notes were checked independently against their sources, each
 check kept in [`reviews/`](reviews/); the corrections are applied in the notes (each marked
 *Corrected 2026-10-02 (independent check)*), except where the table says otherwise. *Corrected

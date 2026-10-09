@@ -13,6 +13,7 @@ export type FeatureId = Brand<string, 'FeatureId'>;
 export type PersonId = Brand<string, 'PersonId'>;
 export type ConversationId = Brand<string, 'ConversationId'>;
 export type EraId = Brand<string, 'EraId'>;
+export type PhotoId = Brand<string, 'PhotoId'>;
 
 export interface GridRef {
   readonly e: number;
@@ -175,7 +176,6 @@ export type FeatureKind =
       readonly stone: boolean;
       readonly ruined: boolean;
     }
-  | { readonly type: 'roman-fort'; readonly width: number; readonly length: number; readonly angle: number }
   | { readonly type: 'hall-houses'; readonly count: number; readonly spread: number }
   | {
       readonly type: 'town';
@@ -206,11 +206,12 @@ export interface FeatureBase {
  * the present counts), and the feature is drawn nothing outside them (ADR 0034); this says nothing of
  * provenance, so a reconstructed feature can have them, and only a documented one with them is a firm
  * clue (ADR 0035). Otherwise its dates are "c.", and it may carry the earliest date a source allows for
- * its start, before which it is never drawn (ADR 0037).
+ * its start, before which it is never drawn (ADR 0037), and the latest date it allows for its end,
+ * after which it is never drawn (ADR 0045).
  */
 export type FeatureDating =
-  | { readonly datesExact: true; readonly notBefore?: never }
-  | { readonly datesExact?: never; readonly notBefore?: Year };
+  | { readonly datesExact: true; readonly notBefore?: never; readonly notAfter?: never }
+  | { readonly datesExact?: never; readonly notBefore?: Year; readonly notAfter?: Year };
 
 export type Feature = FeatureBase & FeatureDating;
 
@@ -250,4 +251,38 @@ export interface EnvironmentKey {
   readonly sun: string;
   readonly fog: number;
   readonly mappedWoodland: number;
+}
+
+export type PhotoPlacement =
+  | {
+      readonly kind: 'placed';
+      readonly at: GridRef;
+      readonly accuracyM: number;
+      readonly basis: 'documented' | 'reconstructed';
+      readonly note: string;
+    }
+  | { readonly kind: 'unplaced'; readonly reason: string };
+
+/**
+ * A historical photograph: dated content with a place and a provenance like everything else.
+ * `when` is the range its date allows ("c. 1900" is 1895 to 1905); the text fields are the
+ * catalogue's English (`dateNote` and `placement.note` are ours, and say how sure each is).
+ */
+export interface Photograph {
+  readonly id: PhotoId;
+  readonly file: string;
+  readonly title: string;
+  readonly dated: string;
+  readonly when: TimeRange;
+  readonly dateNote: string;
+  readonly dateDisputed?: true;
+  readonly creator: string;
+  readonly credit: string;
+  readonly catalogueId: string;
+  readonly catalogueUrl: string;
+  readonly shows: string;
+  readonly where: string;
+  readonly status: 'ok' | 'miscaptioned';
+  readonly placement: PhotoPlacement;
+  readonly provenance: Provenance;
 }

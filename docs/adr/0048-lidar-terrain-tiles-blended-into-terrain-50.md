@@ -1,11 +1,11 @@
 ---
-title: "ADR 0041: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart"
+title: "ADR 0048: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart"
 kind: adr
 status: accepted
 updated: 2026-10-09
 ---
 
-# ADR 0041: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart
+# ADR 0048: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart
 
 - **Status:** Accepted, extends [ADR 0009](0009-terrain-os-terrain50-low-poly.md)
 - **Date:** 2026-10-09

@@ -2,6 +2,8 @@ import type { AbstractEngine, ArcRotateCamera } from '../world/babylon.ts';
 import { formatYear } from '../domain/time.ts';
 import type { Clock, Lighting } from '../domain/daylight.ts';
 import { hasStreetLamps, streetWarmth, type LampState } from '../domain/lamplight.ts';
+import type { Feature } from '../domain/model.ts';
+import { partsByTier, TIERS } from '../domain/plan.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import type { Snapshot, SoundingBed } from '../domain/state.ts';
 import { describeGraphics, type GraphicsState } from '../domain/quality.ts';
@@ -26,6 +28,7 @@ export class DebugOverlay {
     private readonly camera: ArcRotateCamera,
     private readonly graphics: () => GraphicsState,
     private readonly detail: () => DetailStats,
+    private readonly levels: () => string,
   ) {
     setInterval(() => {
       this.render();
@@ -57,6 +60,8 @@ export class DebugOverlay {
       `forest ${env.forest.toFixed(2)} farm ${env.farmland.toFixed(2)} moor ${env.moor.toFixed(2)} fog ${env.fog.toFixed(2)}`,
       ...s.sound.beds.map(heard),
       `features ${s.features.length}: ${s.features.map((f) => `${f.feature.id}@${f.presence.toFixed(2)}[${f.feature.provenance.kind}]`).join(', ')}`,
+      `detail ${this.levels() || '-'}`,
+      ...s.features.flatMap((f) => planLine(f.feature)),
       `conversations ${s.conversations.map((c) => c.id).join(', ') || '-'}`,
       `almanac ${s.almanac.length}  language ${s.language?.id ?? '-'}  nearest ${s.nearestEvent?.id ?? '-'}`,
     ];
@@ -78,4 +83,13 @@ function lampLine(s: Snapshot): string {
   const streets = hasStreetLamps(st) ? `${st.kind} in ${st.area.id}` : st.kind;
   const streetColour = hasStreetLamps(st) ? ` street warmth ${streetWarmth(st).toFixed(2)}` : '';
   return `light homes ${k.homes} street ${streets} ${k.dated} ${k.year.toFixed(2)} [${k.provenance.kind}] share ${k.windows.toFixed(2)} glow ${k.glow.toFixed(2)} warmth ${k.warmth.toFixed(2)}${streetColour}`;
+}
+
+function planLine(f: Feature): string[] {
+  if (f.kind.type !== 'building' || !f.kind.plan.parts.some((p) => p.provenance)) return [];
+  const by = partsByTier(f.kind.plan);
+  const parts = f.kind.plan.parts;
+  return [
+    `plan ${f.id}: ${String(parts.length)} parts (${TIERS.map((t) => `${String(by[t].length)} ${t}`).join(', ')}), ${String(parts.filter((p) => p.detail).length)} detail only`,
+  ];
 }

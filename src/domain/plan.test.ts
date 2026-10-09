@@ -102,6 +102,13 @@ describe('building plans', () => {
     expect(hidesFootprint(church, at, neighbour)).toBe(true);
     expect(hidesFootprint(church, at, { ...neighbour, e: 1040 })).toBe(false);
   });
+
+  it('hides no modern building under a plan drawn at true size, such as a Roman fort, only the one it stands on', () => {
+    const fort: Plan = { setting: 'true', parts: [hall] };
+    const at = { e: 1000, n: 1000 };
+    expect(hidesFootprint(fort, at, { e: 1010, n: 1005, width: 6, depth: 4, angle: 0 })).toBe(false);
+    expect(hidesFootprint(fort, at, { e: 1002, n: 1001, width: 30, depth: 20, angle: 0 })).toBe(true);
+  });
 });
 
 describe('divide', () => {

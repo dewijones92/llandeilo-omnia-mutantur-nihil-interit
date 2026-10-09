@@ -2,7 +2,7 @@
 title: Release notes
 kind: log
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Release notes
@@ -10,6 +10,93 @@ updated: 2026-10-03
 What changed in the app, for family and visitors, newest first. Each section is also published as a
 GitHub release, tagged with the version in `package.json` ([ADR 0025](../adr/0025-releases-at-visible-milestones.md)).
 Corrections to history are called out: when we get something wrong, we say so.
+
+## v0.6.0 (2026-10-09): the Roman army arrives, and D. C. Harries's photographs of Llandeilo
+
+**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
+
+**The first cutscene: the Roman army arrives at Dinefwr.** On the AD 74 card, press **Watch**: the
+camera follows a Roman column marching down the Tywi valley from Llandovery to build its fort,
+narrated in English or Welsh when the sound is on, with captions always shown. No source describes
+the arrival itself, so every caption carries its ⓘ and says what is known (the forts and their
+dates), what is reconstructed (the route, the order of march, the kit) and what is imagined (the
+farmers watching). **Skip** or Escape ends it and leaves you at the date.
+
+![The Roman column marching down the valley, c. AD 74](../images/releases/v0.6.0/roman-arrival-march.jpg)
+![Horsemen, standards and infantry on the march](../images/releases/v0.6.0/roman-arrival-column.jpg)
+
+**D. C. Harries's photographs of Llandeilo** (from a suggestion on GitHub). Turn on **Photos** and
+move the slider to around 1900 to 1930: camera pins mark where 28 of his 31 photographs were taken
+(three can't be placed, one of them a colliery wrongly captioned as the station). They run from about
+1900 to the late 1920s: Rhosmaen Street, the Cawdor Arms, the Post Office, Bridge Street, King
+Street, the Market Hall, Salem chapel, the bridge and the station. Click a pin to see the photograph
+with its date, what it shows, and how sure we are of where and when it was taken. Each is credited
+to D. C. Harries (one only "possibly") and the Llandeilo Fawr Town Council collection on People's
+Collection Wales. Each place was checked against the 1905 Ordnance Survey map, and each picture was
+searched for clues to its date. Some show things later than their catalogue dates: a 1918 film
+poster in one dated c. 1910, a petrol sign from 1924 or later in one dated c. 1920, and a motorcycle
+and cloche hats in two dated c. 1900, so their dates now follow what the picture shows.
+
+![Photo pins in Llandeilo in 1900](../images/releases/v0.6.0/photo-pins-1900.jpg)
+![Rhosmaen Street c. 1900, by D. C. Harries](../images/releases/v0.6.0/photo-rhosmaen-street.jpg)
+
+**History corrected:**
+
+- **The hunters' burning on the high heath is about 9,000 years ago (c. 7000 BC), not 8,000.** The
+  published figure is probably in radiocarbon years (the study doesn't say); turned into calendar
+  years it is about a thousand years older. The ⓘ says the date is our own calculation.
+- **Candlelight at a medieval Welsh court:** the ⓘ said nothing dated the Welsh law-book manuscript it
+  quotes; its edition dates that manuscript to the late 13th or early 14th century. (Our research
+  notes on music were also corrected: the laws give the queen's songs to the household bard, not the
+  chief of song. There is no music in the app yet.)
+
+Sent by Claude
+
+## v0.5.0 (2026-10-09): battles and plagues, a night that reads as night, and the railways' gaps filled
+
+**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
+
+**Three new key dates, and a new marker**, each from research checked against its sources:
+
+- **1213: Llandeilo burned, Dinefwr besieged.** Rhys Gryg burned the town as he withdrew, and
+  Dinefwr's garrison held out in one tower. Arriving at the date sets the late January season from the
+  record, and a plume of smoke rises over the town (how it looked is a reconstruction).
+- **1257: the battles of Coed Llathen and Cymerau.** A royal army under Stephen Bauzan, English-led
+  with mostly Welsh foot soldiers, was overwhelmed about midday on 2 June. No battle site is marked, because none is
+  proven, and both readings of the wood's name are given.
+- **1918: influenza**, cross-checked in four newspapers: schools shut and two of the town's three
+  doctors ill.
+- **1849: cholera in Llandeilo** (a marker, not a key date), from one partly illegible report, so it
+  has a card and an almanac note rather than a scene.
+
+![1213: smoke over Llandeilo](../images/releases/v0.5.0/burning-1213-close.jpg)
+![1257: the battles, at the recorded midday in June](../images/releases/v0.5.0/cymerau-1257.jpg)
+![1918: influenza grips Llandeilo, in the autumn its papers record](../images/releases/v0.5.0/flu-1918.jpg)
+
+**A night that reads as night.** Nights are now properly dark, and every lit window, street
+lamp and hearth carries a soft glow that stays visible from the whole-valley view. In 1880 the gas-lit town
+and the farms' windows glow orange across the valley, and the 1942 blackout is a black valley. Whether the farms had lit windows is
+not recorded, and the ⓘ says so.
+
+![1880 at 23:00: gas-lit Llandeilo and the farms](../images/releases/v0.5.0/night-1880.jpg)
+![1942 at 23:00: the blackout](../images/releases/v0.5.0/night-1942.jpg)
+
+**Every marker on the timeline can be clicked.** Where key dates crowd together, their markers now
+fan out above and below the line instead of hiding each other.
+
+**The market from the Middle Ages.** The market's sound now starts with the fair Edward I granted in
+1290, with a Saturday market on record by 1326 (the sound itself is a reconstruction).
+
+**The railway lines with no known date are drawn as educated guesses**, each saying so in its ⓘ,
+with the reasons and the sources: the Burry Port and Gwendraeth Valley line from about 1870 (its
+stretch beside the Hirwaun Isaf incline is dated to June 1886, but where it ran is a guess), the Gwaun-cae-Gurwen colliery line from 1841, and
+a short narrow-gauge track near Cross Hands, a weak guess, from about 1950. An estimated line is never
+drawn before the earliest date its sources allow.
+
+**History corrected:** the almanac had said no case of cholera was ever found in Llandeilo itself,
+although the 1849 report records cases; it now says what the report says.
+
+Sent by Claude
 
 ## v0.4.0 (2026-10-03): night light through time, honest sound, and a guess-the-year game
 

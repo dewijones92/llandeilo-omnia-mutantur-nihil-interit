@@ -619,6 +619,144 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/conversations-by-class.md"
   },
   {
+    "id": "harries:S1",
+    "title": "National Library of Wales, \"The D C Harries Collection\"",
+    "url": "https://www.library.wales/catalogues-searching/about-our-collections/photographs/the-d-c-harries-collection",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S2",
+    "title": "Wikipedia, \"D. C. Harries\"",
+    "url": "https://en.wikipedia.org/wiki/D._C._Harries",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S3",
+    "title": "National Library of Wales Archives and Manuscripts, \"D C Harries Collection: Military Portraits\"",
+    "url": "https://archives.library.wales/index.php/d-c-harries-collection-military-portraits",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S4",
+    "title": "People's Collection Wales, \"Llandeilo Fawr Town Council Collection\" (collection 2287136)",
+    "url": "https://www.peoplescollection.wales/collections/2287136",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S5",
+    "title": "People's Collection Wales, tag \"d c harries\" (251856) and tag \"carmarthenshire\" (8118)",
+    "url": "https://www.peoplescollection.wales/discover/tags/251856",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S6",
+    "title": "National Library of Wales, \"D C Harries' First World War military portraits\"",
+    "url": "https://www.library.wales/discover-learn/digital-exhibitions/photographs/d-c-harries-first-world-war-military-portraits",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S7",
+    "title": "Coflein (RCAHMW), \"Llandeilo Bridge (New Bridge)\", NPRN 43102",
+    "url": "https://coflein.gov.uk/en/site/43102/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S8",
+    "title": "Coflein (RCAHMW), \"Provisions Market, Llandeilo\", NPRN 411976",
+    "url": "https://coflein.gov.uk/en/site/411976/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S9",
+    "title": "Coflein (RCAHMW), \"Llandeilo Railway Station, Central Wales Line\", NPRN 80442",
+    "url": "https://coflein.gov.uk/en/site/80442/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S10",
+    "title": "British Listed Buildings (Cadw listing 11080), \"The Cawdor Arms Hotel, Llandeilo\"",
+    "url": "https://britishlistedbuildings.co.uk/300011080-the-cawdor-arms-hotel-llandeilo",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S11",
+    "title": "British Listed Buildings (Cadw listing), \"No. 1 George Street, Llandeilo\" (Abbeyfield House)",
+    "url": "https://britishlistedbuildings.co.uk/300011062-no1-george-street-dyfed-llandeilo",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S12",
+    "title": "Ordnance Survey, OS Open Map Local, tile SN (Shapefile, April 2026)",
+    "url": "https://www.ordnancesurvey.co.uk/products/os-open-map-local",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S13",
+    "title": "OpenStreetMap contributors, via the Overpass API",
+    "url": "https://overpass-api.de/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S14",
+    "title": "National Library of Scotland, Ordnance Survey 25 inch England and Wales, 1892 to 1914 (georeferenced tiles)",
+    "url": "https://maps.nls.uk/os/25inch-england-and-wales/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S15",
+    "title": "People's Collection Wales, \"Postcard image of the Post Office, Llandilo / Llandeilo, c. 1908\" (item 2084276)",
+    "url": "https://www.peoplescollection.wales/items/2084276",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S16",
+    "title": "People's Collection Wales, postcards of Llandeilo station c. 1900 by A. W. Williams (items 2084711, 2084726)",
+    "url": "https://www.peoplescollection.wales/items/2084711",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S17",
+    "title": "People's Collection Wales, NLW-owned photographs \"Civilians waiting for a Troop Train to Arrive at Llandeilo Railway Station 1914-1918\" (item 408896) and \"Soldiers and Civilians on Llandeilo Railway Station 1914-1918\"…",
+    "url": "https://www.peoplescollection.wales/items/408896",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S18",
+    "title": "Coflein (RCAHMW), \"TL9_047 - Thomas Lloyd Collection\", archive 6194830",
+    "url": "https://coflein.gov.uk/en/archive/6194830",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S19",
+    "title": "National Library of Wales Archives and Manuscripts, \"D C Harries : Vintage Prints\", GB 0210 DCHARRIESPRINTS",
+    "url": "https://archives.library.wales/index.php/d-c-harries-vintage-prints",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S20",
+    "title": "Coflein (RCAHMW), \"Salem Welsh Calvinistic Methodist Chapel, New Road, Llandeilo\", NPRN 6334",
+    "url": "https://coflein.gov.uk/en/site/6334/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S21",
+    "title": "Coflein (RCAHMW), \"Capel Newydd Welsh Independent Chapel, Crescent Road\", NPRN 6328",
+    "url": "https://coflein.gov.uk/en/site/6328/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S22",
+    "title": "National Library of Scotland, OS 25 inch England and Wales county list, Carmarthenshire",
+    "url": "https://maps.nls.uk/os/25inch-england-and-wales/county/carmarthenshire",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S23",
+    "title": "Dating evidence for the photographs: *Shoulder Arms* (Wikipedia, released 20 October 1918); Tariff Reform League (Wikipedia, formed 1903); *Weekly Mail* 21 May 1910 p. 4 and *Carmarthen Journal* 15 May 1908 p. 7 (Wels…",
+    "url": "https://newspapers.library.wales/view/3763549/3763556/57/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
     "id": "deeptime:S1",
     "title": "\"Geology of Brecon Beacons National Park,\" Wikipedia,",
     "url": "https://en.wikipedia.org/wiki/Geology_of_Brecon_Beacons_National_Park",
@@ -3301,6 +3439,18 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/music-through-time.md"
   },
   {
+    "id": "music:S40",
+    "title": "Wikipedia, \"Llyn Cerrig Bach\"",
+    "url": "https://en.wikipedia.org/wiki/Llyn_Cerrig_Bach",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S41",
+    "title": "Wikipedia, \"Rachie\"",
+    "url": "https://en.wikipedia.org/wiki/Rachie",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
     "id": "railwaylater:S1",
     "title": "Rob Gittins and Dorian Spencer Davies, *Heart of Wales Railway Line: A Brief History* (Gomer Press, 1985), pp. 2–14, as transcribed on Terry Norman's Ammanford site (updated 26 Nov 2010)",
     "url": "http://www.users.ic24.net/~terrynorm/heart%20of%20wales%20history.htm",
@@ -4343,6 +4493,150 @@ export const SOURCE_SEEDS = [
     "title": "roman-britain.co.uk, \"Dynevor Park (Llandeilo) Roman Fort\".",
     "url": "https://www.roman-britain.co.uk/places/llandeilo/",
     "doc": "docs/research/roman-arrival.md"
+  },
+  {
+    "id": "fort:S1",
+    "title": "Gwilym Hughes, *The Llandeilo Roman Forts: Archaeological Investigations 2003-2007* (Cambria Archaeology report 2006/38, December 2007), PDF on Heneb.",
+    "url": "https://heneb.org.uk/wp-content/uploads/2025/09/llandeiloromanforts2003-2007.pdf",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S2",
+    "title": "Coflein (RCAHMW), \"Roman Fort Complex, Dynevor Park, Llandeilo\", NPRN 402271.",
+    "url": "https://coflein.gov.uk/en/site/402271/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S3",
+    "title": "Heneb, \"Llandeilo Roman Forts\" project page.",
+    "url": "https://heneb.org.uk/project/llandeilo-roman-forts/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S4",
+    "title": "Heneb (Dyfed Archaeological Trust), \"Tywi Time Line\" (eight A3 pages, PDF created April 2011), the file the issue commenter linked.",
+    "url": "https://heneb.org.uk/archive/dyfed/tywi/tywitimeline.pdf",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S5",
+    "title": "Coflein (RCAHMW), archive record 6170068, \"CM367 - Cadw Scheduling Records\".",
+    "url": "https://coflein.gov.uk/en/archive/6170068",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S6",
+    "title": "Wikipedia, \"List of Roman-to-modern scheduled monuments in Carmarthenshire\".",
+    "url": "https://en.wikipedia.org/wiki/List_of_Roman-to-modern_scheduled_monuments_in_Carmarthenshire",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S7",
+    "title": "Coflein (RCAHMW), \"Roman Coins, Findspot, Dynevor Park\", NPRN 419158.",
+    "url": "https://coflein.gov.uk/en/site/419158/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S9",
+    "title": "Coflein (RCAHMW), \"North Heronry Dam, Dinefwr Park, Possible Roman Villa\", NPRN 422436.",
+    "url": "https://coflein.gov.uk/en/site/422436/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S10",
+    "title": "Coflein (RCAHMW), \"Caersws Roman Fort\", NPRN 92468.",
+    "url": "https://coflein.gov.uk/en/site/92468/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S11",
+    "title": "Coflein (RCAHMW), \"Castell Collen Roman Fort\", NPRN 95708.",
+    "url": "https://coflein.gov.uk/en/site/95708/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S12",
+    "title": "Coflein (RCAHMW), \"Caerau Roman Military Settlement; Caerau Roman Fort\", NPRN 92153.",
+    "url": "https://coflein.gov.uk/en/site/92153/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S13",
+    "title": "Coflein (RCAHMW), \"Carmarthen Roman Military Settlement\", NPRN 92890.",
+    "url": "https://coflein.gov.uk/en/site/92890/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S14",
+    "title": "Gwynedd Archaeological Trust for Cambria Archaeology, *Roman Fort Environs: Geophysical Survey at Trawscoed and Llanio Roman Forts* (report 623, G1827).",
+    "url": "https://heneb.org.uk/wp-content/uploads/2025/09/llaniotrawscoedgeophys.pdf",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S15",
+    "title": "Wikipedia, \"Trawscoed fort\".",
+    "url": "https://en.wikipedia.org/wiki/Trawscoed_fort",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S16",
+    "title": "Herefordshire Through Time, \"Jay Lane Fort\" (HER 578).",
+    "url": "https://htt.herefordshire.gov.uk/herefordshires-past/the-romano-british-period/herefordshires-roman-sites/major-roman-sites/jay-lane-fort",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S18",
+    "title": "Wikipedia, \"Roman fort\" (now redirects to \"Castra\"; its barrack sizes are for legionary fortresses, checked 2026-10-09).",
+    "url": "https://en.wikipedia.org/wiki/Roman_fort",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S19",
+    "title": "Wikipedia, \"Auxilia\".",
+    "url": "https://en.wikipedia.org/wiki/Auxilia",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S19a",
+    "title": "Wikipedia, \"Dinefwr Park National Nature Reserve\".",
+    "url": "https://en.wikipedia.org/wiki/Dinefwr_Park_National_Nature_Reserve",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S20",
+    "title": "Coflein (RCAHMW), \"Newton House; Dynevor Castle; Plas Dinefwr, Llandeilo\", NPRN 17603.",
+    "url": "https://coflein.gov.uk/en/site/17603/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S21",
+    "title": "People's Collection Wales, \"Dinefwr Park Roman Forts, Llandeilo\" (RCAHMW aerial photograph AP_2005_1285, Toby Driver, 11 July 2005).",
+    "url": "https://www.peoplescollection.wales/items/405712",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S22",
+    "title": "Barry C. Burnham and Jeffrey L. Davies, \"Forts, Vici and Related Extramural Activity in Wales and the Marches: Recent Discoveries at the Roman Fort of Pen y Gaer (Powys) and their Wider Implications\", *Britannia* 52 (…",
+    "url": "https://www.cambridge.org/core/journals/britannia/article/abs/forts-vici-and-related-extramural-activity-in-wales-and-the-marches-recent-discoveries-at-the-roman-fort-of-pen-y-gaer-powys-and-their-wider-implications/17A306685384F5A6FCEA33238DD6ECAD",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S23",
+    "title": "Heneb, Historic Environment Record (Archwilio), records PRN 47636 (Fort 1, SN 6218 2245), 47637 (Fort 2, SN 6217 2253), 47638 (the north-east road, SN 6225 2260), 47646-47650 (finds, including 47648, the 2000 denarii)…",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT47637&dbname=dat&tbname=core",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S24",
+    "title": "llandeilo.org, \"Llandeilo's Roman Fort\".",
+    "url": "https://llandeilo.org/roman_settlement.html",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S25",
+    "title": "Dyfed Archaeological Trust, \"Llandeilo Fort Dig Diary\" (2005), Wayback copy of 2 February 2021.",
+    "url": "http://web.archive.org/web/20210202144706/http://www.dyfedarchaeology.org.uk/digllandeilofort.htm",
+    "doc": "docs/research/roman-forts-and-vicus.md"
   },
   {
     "id": "sound:S1",

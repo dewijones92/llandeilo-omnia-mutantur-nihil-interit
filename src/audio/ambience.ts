@@ -1,3 +1,4 @@
+import type { CueSound } from '../domain/cutscene.ts';
 import { AMBIENT_BEDS, type AmbientBed } from '../domain/model.ts';
 
 type Levels = Readonly<Record<AmbientBed, number>>;
@@ -35,6 +36,11 @@ function impulse(ctx: AudioContext, seconds: number): AudioBuffer {
 export class Ambience {
   private readonly ctx: AudioContext;
   private readonly master: GainNode;
+  // The beds go through one bus so a cutscene can lower them; cues go through another, which is
+  // swapped for a fresh one when a scene is skipped so anything already scheduled falls silent.
+  private readonly bedsBus: GainNode;
+  private cueBus: GainNode;
+  private readonly loops = new Map<CueSound, number>();
   private readonly reverb: ConvolverNode;
   private readonly beds = new Map<AmbientBed, GainNode>();
   private levels: Levels | undefined;
@@ -49,6 +55,9 @@ export class Ambience {
     this.master = this.ctx.createGain();
     this.master.gain.value = 0;
     this.master.connect(this.ctx.destination);
+    this.bedsBus = this.ctx.createGain();
+    this.bedsBus.connect(this.master);
+    this.cueBus = this.newCueBus();
     this.reverb = this.ctx.createConvolver();
     this.reverb.buffer = impulse(this.ctx, 3);
     const wet = this.ctx.createGain();
@@ -59,7 +68,7 @@ export class Ambience {
     for (const bed of AMBIENT_BEDS) {
       const g = this.ctx.createGain();
       g.gain.value = 0;
-      g.connect(this.master);
+      g.connect(this.bedsBus);
       if (bed === 'bells' || bed === 'chant' || bed === 'birds') g.connect(this.reverb);
       this.beds.set(bed, g);
     }
@@ -163,6 +172,7 @@ export class Ambience {
   private tick(): void {
     if (!this.on) return;
     const t = this.ctx.currentTime + 0.05;
+    this.tickCues(t);
     if (this.chance('birds', 1.6)) {
       this.voice('birds', t, (out, at) => {
         const base = 2200 + Math.random() * 2600;
@@ -296,6 +306,131 @@ export class Ambience {
       }, 1500);
     }
     console.info(`dewidebug audio ${on ? 'on' : 'off'}`);
+  }
+
+  private newCueBus(): GainNode {
+    const bus = this.ctx.createGain();
+    bus.gain.value = 1;
+    bus.connect(this.master);
+    return bus;
+  }
+
+  /** Plays a cutscene's sound for `seconds`: a one-off call now, or a texture kept up by the tick. */
+  cue(sound: CueSound, seconds: number): void {
+    if (!this.on) {
+      console.info(`dewidebug cue ${sound} skipped: sound is off`);
+      return;
+    }
+    const t = this.ctx.currentTime + 0.05;
+    console.info(`dewidebug cue ${sound} for ${seconds.toFixed(1)}s`);
+    if (sound === 'cornu') {
+      this.cornu(t);
+      return;
+    }
+    this.loops.set(sound, t + seconds);
+  }
+
+  stopCues(): void {
+    this.loops.clear();
+    const old = this.cueBus;
+    old.gain.setTargetAtTime(0, this.ctx.currentTime, 0.08);
+    window.setTimeout(() => {
+      old.disconnect();
+    }, 1500);
+    this.cueBus = this.newCueBus();
+    console.info('dewidebug cues stopped');
+  }
+
+  /** Lowers the ambient beds under a cutscene's own sound and narration. */
+  duck(on: boolean): void {
+    this.bedsBus.gain.setTargetAtTime(on ? 0.4 : 1, this.ctx.currentTime, 0.5);
+    console.info(`dewidebug ambience duck=${String(on)}`);
+  }
+
+  private cueOut(pan: number): GainNode {
+    const out = this.ctx.createGain();
+    const p = this.ctx.createStereoPanner();
+    p.pan.value = pan;
+    out.connect(p).connect(this.cueBus);
+    return out;
+  }
+
+  // A rough few notes from one harmonic series, loud and out of tune with each other, never a melody
+  // (the Pompeii cornua study); echoed off the valley sides.
+  private cornu(t: number): void {
+    const out = this.cueOut(Math.random() * 0.6 - 0.3);
+    out.connect(this.reverb);
+    const base = 98;
+    const notes = [3, 4, 4, 5, 4, 6, 4] as const;
+    let time = t;
+    for (const [i, h] of notes.entries()) {
+      const dur = i === notes.length - 1 ? 1.3 : 0.32 + Math.random() * 0.22;
+      const f = base * h * (1 + (Math.random() - 0.5) * 0.04);
+      const filt = this.ctx.createBiquadFilter();
+      filt.type = 'lowpass';
+      filt.frequency.value = 1700 + h * 140;
+      filt.Q.value = 3;
+      filt.connect(out);
+      this.tone(filt, time, f, dur, 0.13, 'sawtooth', f * 0.985);
+      this.tone(filt, time, f * 1.005, dur, 0.05, 'square');
+      time += dur * 0.92;
+    }
+  }
+
+  private tickCues(t: number): void {
+    for (const [sound, until] of this.loops) {
+      if (t >= until) {
+        this.loops.delete(sound);
+        continue;
+      }
+      switch (sound) {
+        case 'tramp':
+          // Many feet out of step: soft thuds on a muddy track, now and then a clink of kit.
+          for (let i = 0; i < 4; i++) this.thud(t + i * 0.05 + Math.random() * 0.04, 260, 0.06);
+          if (Math.random() < 0.6)
+            this.tone(
+              this.cueOut(Math.random() - 0.5),
+              t + Math.random() * 0.2,
+              3200 + Math.random() * 1800,
+              0.05,
+              0.012,
+              'sine',
+            );
+          break;
+        case 'hooves':
+          for (const d of [0, 0.09]) this.thud(t + d + Math.random() * 0.03, 900, 0.045);
+          break;
+        case 'mules':
+          if (Math.random() < 0.09) this.bray(t);
+          break;
+        case 'axes':
+          if (Math.random() < 0.3) {
+            this.thud(t, 1200, 0.12);
+            this.tone(this.cueOut(Math.random() * 0.8 - 0.4), t, 190, 0.09, 0.05, 'triangle', 150);
+          }
+          break;
+        case 'cornu':
+          break;
+      }
+    }
+  }
+
+  private thud(t: number, freq: number, peak: number): void {
+    this.burst(this.cueOut(Math.random() * 0.8 - 0.4), t, 0.11, freq, peak);
+  }
+
+  private bray(t: number): void {
+    const filt = this.ctx.createBiquadFilter();
+    filt.type = 'bandpass';
+    filt.frequency.value = 900;
+    filt.Q.value = 1.2;
+    filt.connect(this.cueOut(Math.random() * 0.8 - 0.4));
+    let time = t;
+    for (let i = 0; i < 3; i++) {
+      this.tone(filt, time, 540, 0.32, 0.08, 'sawtooth', 430);
+      this.tone(filt, time + 0.36, 260, 0.42, 0.08, 'sawtooth', 200);
+      time += 0.85;
+    }
   }
 
   dispose(): void {

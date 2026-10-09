@@ -3,8 +3,14 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSETS } from '../src/content/assets.ts';
+import { HARRIES_PHOTOGRAPHS, PHOTOGRAPH_PROVENANCE } from '../src/content/photographs.ts';
 import { STRINGS } from '../src/content/strings.ts';
-import { voiceLines, voiceSignature } from '../src/content/voices.ts';
+import { CUTSCENES } from '../src/content/cutscenes.ts';
+import { NARRATION_SECONDS } from '../src/content/generated/narration.ts';
+import { narrationKey, narrationLines, voiceLines, voiceSignature } from '../src/content/voices.ts';
+import { frameAt, sceneFeatures, type CaptionTrack } from '../src/domain/cutscene.ts';
+import { polylineLength } from '../src/domain/polyline.ts';
+import { LANGS } from '../src/domain/i18n.ts';
 import {
   CROSS_HANDS_NARROW_GAUGE,
   DUFFRYN_STATION,
@@ -20,7 +26,7 @@ import { DEFAULT_CLOCK, sunElevation } from '../src/domain/daylight.ts';
 import type { Bilingual } from '../src/domain/i18n.ts';
 import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
 import type { Provenance } from '../src/domain/provenance.ts';
-import { latestStarting, soundAt } from '../src/domain/state.ts';
+import { latestStarting, snapshotAt, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
 import { sectionLines, type GridBox } from '../src/domain/rail.ts';
@@ -326,7 +332,7 @@ describe('languages', () => {
 });
 
 describe('voices', () => {
-  const lines = voiceLines(W.conversations, W.people);
+  const lines = [...voiceLines(W.conversations, W.people), ...narrationLines(CUTSCENES)];
   const manifestPath = join(root, 'public/voices/manifest.json');
   const raw: unknown = JSON.parse(readFileSync(manifestPath, 'utf8'));
   const manifest: Record<string, string> = {};
@@ -349,10 +355,301 @@ describe('voices', () => {
   });
 });
 
+describe('cutscenes', () => {
+  const events = new Map(W.events.map((e) => [e.id, e]));
+  const features = new Map(W.features.map((f) => [f.id, f]));
+  const captions = (scene: (typeof CUTSCENES)[number]): CaptionTrack[] =>
+    scene.tracks.flatMap((t) => (t.kind === 'caption' ? [t] : []));
+
+  it('each belong to a key date of their own, where they leave the viewer', () => {
+    expect(CUTSCENES.filter((c) => events.get(c.event)?.magnetic !== true).map((c) => c.id)).toEqual([]);
+    expect(unique(CUTSCENES.map((c) => c.event))).toEqual([]);
+    expect(unique(CUTSCENES.map((c) => c.id))).toEqual([]);
+  });
+
+  it('keep every camera key and track inside the scene, in time order', () => {
+    for (const c of CUTSCENES) {
+      const times = c.camera.map((k) => k.at);
+      expect(times[0]).toBe(0);
+      expect(times.every((t, i) => i === 0 || t >= (times[i - 1] ?? 0))).toBe(true);
+      expect(times.every((t) => t <= c.duration)).toBe(true);
+      expect(c.tracks.filter((t) => !(t.from < t.to && t.to <= c.duration)).map((t) => t.kind)).toEqual([]);
+    }
+  });
+
+  it('show one caption at a time, and keep each up for as long as the narrator reads it', () => {
+    for (const c of CUTSCENES) {
+      const list = captions(c);
+      expect(list.length).toBeGreaterThan(0);
+      list.forEach((cap, i) => {
+        const next = list[i + 1];
+        if (next) expect(next.from).toBeGreaterThanOrEqual(cap.to);
+        for (const lang of LANGS) {
+          const read = NARRATION_SECONDS[narrationKey(c, i, lang)];
+          expect(read, `${c.id} caption ${String(i)} ${lang}`).toBeDefined();
+          expect(cap.to - cap.from, `${c.id} caption ${String(i)} ${lang}`).toBeGreaterThanOrEqual(read ?? 0);
+        }
+      });
+    }
+  });
+
+  it('march only along routes inside the ten-mile disc, ending where they are long enough to go', () => {
+    for (const c of CUTSCENES) {
+      for (const t of c.tracks) {
+        if (t.kind !== 'actors') continue;
+        const outside = t.route.points.filter(
+          (p) => Math.hypot(p.e - WORLD.centre.e, p.n - WORLD.centre.n) > WORLD.radiusMetres,
+        );
+        expect(outside).toEqual([]);
+        expect(Math.max(t.head.from, t.head.to)).toBeLessThanOrEqual(polylineLength(t.route.points) + 500);
+        expect(t.count).toBeGreaterThan(0);
+        expect(t.abreast).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('point the camera inside the disc', () => {
+    for (const c of CUTSCENES)
+      expect(
+        c.camera.filter(
+          (k) => Math.hypot(k.target.e - WORLD.centre.e, k.target.n - WORLD.centre.n) > WORLD.radiusMetres,
+        ),
+      ).toEqual([]);
+  });
+
+  it('only build features that stand at the scene’s own date', () => {
+    for (const c of CUTSCENES) {
+      const when = events.get(c.event)?.when.from;
+      for (const t of c.tracks) {
+        if (t.kind !== 'feature') continue;
+        const f = features.get(t.feature);
+        expect(f, t.feature).toBeDefined();
+        expect(f && when !== undefined && contains(f.when, when)).toBe(true);
+      }
+    }
+  });
+});
+
+describe('a cutscene on screen: what the world draws in every frame', () => {
+  const events = new Map(W.events.map((e) => [e.id, e]));
+  const features = new Map(W.features.map((f) => [f.id, f]));
+  for (const c of CUTSCENES) {
+    const ev = events.get(c.event);
+    if (!ev) throw new Error(`Cutscene ${c.id} names no event`);
+    const when = ev.when.from;
+    const snap = snapshotAt(W, tAt(W.timeline, when));
+    const builds = c.tracks.flatMap((t) => (t.kind === 'feature' ? [t] : []));
+    const named = new Set(builds.map((t) => t.feature));
+    const frames = Array.from({ length: Math.ceil(c.duration * 4) + 1 }, (_, i) => frameAt(c, i / 4));
+    const drawn = (s: number) => {
+      const frame = frameAt(c, s);
+      return sceneFeatures(snap.features, frame.features, when, (id) => features.get(id)).filter(
+        (p) => p.presence > 0,
+      );
+    };
+
+    it(`${c.id}: draws nothing whose dates do not contain the scene’s year, unless the scene builds it`, () => {
+      const wrong = frames.flatMap((f) =>
+        drawn(f.s)
+          .filter((p) => !named.has(p.feature.id) && !contains(p.feature.when, when))
+          .map((p) => `${p.feature.id}@${String(f.s)}s=${p.presence.toFixed(2)}`),
+      );
+      expect(wrong.slice(0, 5)).toEqual([]);
+    });
+
+    it(`${c.id}: stands nothing at a building site before its build starts`, () => {
+      for (const t of builds) {
+        const place = features.get(t.feature)?.place;
+        expect(place, t.feature).toBeDefined();
+        const early = frames
+          .filter((f) => f.s < t.from)
+          .flatMap((f) =>
+            drawn(f.s)
+              .filter((p) => p.feature.place === place)
+              .map((p) => `${p.feature.id}@${String(f.s)}s`),
+          );
+        expect(early.slice(0, 5)).toEqual([]);
+      }
+    });
+  }
+});
+
 describe('assets', () => {
   it('records the source and licence of every shipped file', () => {
     const shipped = files(join(root, 'public')).map((f) => relative(join(root, 'public'), f));
     expect(shipped.filter((f) => !ASSETS.some((a) => a.files.test(f)))).toEqual([]);
+  });
+});
+
+describe('the Harries photographs', () => {
+  const centre = { e: 262900, n: 222500 };
+  const tenMiles = 16093;
+
+  it('has unique ids and one file on disk per photograph, and no stray files', () => {
+    expect(unique(HARRIES_PHOTOGRAPHS.map((p) => p.id))).toEqual([]);
+    const onDisk = readdirSync(join(root, 'public/photos/harries')).map((f) => `photos/harries/${f}`);
+    expect(onDisk.sort()).toEqual(HARRIES_PHOTOGRAPHS.map((p) => p.file).sort());
+  });
+
+  it('credits every photograph to Harries with a catalogue id and a URL ending in that id', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      expect(p.creator, p.id).toContain('D C Harries');
+      expect(p.credit, p.id).toContain('D C Harries');
+      expect(p.catalogueUrl, p.id).toBe(
+        `https://www.peoplescollection.wales/items/${p.catalogueId.replace('PCW ', '')}`,
+      );
+      expect(p.id, p.id).toBe(`harries-${p.catalogueId.replace('PCW ', '')}`);
+      expect(p.when.from, p.id).toBeLessThanOrEqual(p.when.to);
+    }
+  });
+
+  it('places every usable photograph inside the ten miles, and never places a miscaptioned one', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      if (p.status === 'miscaptioned') {
+        expect(p.placement.kind, p.id).toBe('unplaced');
+      }
+      if (p.placement.kind === 'placed') {
+        const { at, accuracyM } = p.placement;
+        expect(Math.hypot(at.e - centre.e, at.n - centre.n), p.id).toBeLessThan(tenMiles);
+        expect(accuracyM, p.id).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('gives every photograph a credit, a date and how sure it is of the date, and every placed one a basis, an accuracy and a note', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      expect(p.credit.length, p.id).toBeGreaterThan(20);
+      expect(p.dated, p.id).toMatch(/\d{4}/);
+      expect(p.dateNote.length, p.id).toBeGreaterThan(20);
+      expect(p.title.length, p.id).toBeGreaterThan(5);
+      expect(p.shows.length, p.id).toBeGreaterThan(20);
+      expect(p.when.from, p.id).toBeGreaterThan(1850);
+      expect(p.when.to, p.id).toBeLessThan(1960);
+      if (p.placement.kind === 'placed') {
+        expect(['documented', 'reconstructed'], p.id).toContain(p.placement.basis);
+        expect(p.placement.note.length, p.id).toBeGreaterThan(20);
+      } else {
+        expect(p.placement.reason.length, p.id).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('keeps the 2026-10-09 independent check’s corrections: dates the pictures contradict, and the Post Office', () => {
+    const by = (n: string): (typeof HARRIES_PHOTOGRAPHS)[number] => {
+      const found = HARRIES_PHOTOGRAPHS.find((p) => p.catalogueId === `PCW ${n}`);
+      if (!found) throw new Error(`No photograph ${n}`);
+      return found;
+    };
+    expect(by('2281901').when.from).toBeGreaterThanOrEqual(1918);
+    expect(by('2281916').when.from).toBeGreaterThanOrEqual(1903);
+    expect(by('2281931').when.from).toBeGreaterThanOrEqual(1924);
+    expect(by('2282411').when.from).toBeGreaterThanOrEqual(1897);
+    expect(by('2282111').when.to).toBeLessThanOrEqual(1918);
+    expect(by('2282111').when.from).toBeGreaterThanOrEqual(1914);
+    for (const n of ['2282261', '2282336']) expect(by(n).when.to, n).toBeGreaterThanOrEqual(1925);
+    expect(by('2282261').when.from).toBeGreaterThanOrEqual(1920);
+    expect(by('2282336').when.from).toBeGreaterThanOrEqual(1922);
+    for (const n of ['2281901', '2281916', '2281931', '2282111', '2282411', '2282261', '2282336'])
+      expect(by(n).dateNote, n).toContain('Corrected 2026-10-09 (independent check)');
+    const post = by('2282186').placement;
+    expect(post.kind).toBe('placed');
+    if (post.kind === 'placed') {
+      expect(post.at).toEqual({ e: 262968, n: 222446 });
+      expect(post.basis).toBe('documented');
+    }
+  });
+
+  it('says what the 1920s pictures really show: the motorcycle and the dress, and a standing crowd, not a seated one', () => {
+    const by = (n: string): (typeof HARRIES_PHOTOGRAPHS)[number] => {
+      const found = HARRIES_PHOTOGRAPHS.find((p) => p.catalogueId === `PCW ${n}`);
+      if (!found) throw new Error(`No photograph ${n}`);
+      return found;
+    };
+    const inn = by('2282261');
+    expect(inn.shows).toContain('motorcycle');
+    expect(inn.shows).toContain('woman');
+    expect(inn.dateNote).toContain('motorcycle');
+    expect(inn.dateNote).toContain('knee-length');
+    const hall = by('2282336');
+    expect(hall.shows).not.toContain('seated');
+    expect(hall.shows).toContain('standing');
+    expect(hall.dateNote).toContain('pendant');
+  });
+
+  it('puts each independent-check correction marker on the entry whose text it corrected', () => {
+    const source = readFileSync(join(root, 'src/content/photographs.ts'), 'utf8');
+    const entries = source.split("id: photoId('harries-").slice(1);
+    const marker = /^\s*\/\/ Corrected 2026-10-09 \(independent check\): (.*)$/gm;
+    const found = entries.flatMap((entry) => {
+      const id = /^(\d+)/.exec(entry)?.[1] ?? '?';
+      return [...entry.matchAll(marker)].map((m) => `${id} ${m[1] ?? ''}`);
+    });
+    const expected: readonly (readonly [string, string])[] = [
+      ['2281901', 'poster'],
+      ['2281916', 'posters'],
+      ['2281931', 'signs'],
+      ['2282066', 'lychgate'],
+      ['2282081', 'Gothic'],
+      ['2282111', 'coach board'],
+      ['2282141', 'lettering'],
+      ['2282186', 'fretted'],
+      ['2282246', 'chapel gable'],
+      ['2282261', 'motorcycle'],
+      ['2282291', 'three storeys'],
+      ['2282336', 'seated'],
+      ['2282411', 'Post Office'],
+      ['2282426', 'sands'],
+    ];
+    expect(found.length).toBe(expected.length);
+    for (const [id, word] of expected) {
+      expect(
+        found.some((f) => f.startsWith(`${id} `) && f.includes(word)),
+        `${id} should carry the ${word} marker; found ${JSON.stringify(found)}`,
+      ).toBe(true);
+    }
+  });
+
+  it('shows a doubt about who took a photograph in the credit visitors read, not only in the ⓘ', () => {
+    const doubtful = HARRIES_PHOTOGRAPHS.filter((p) =>
+      /possibly|unknown/i.test(`${p.creator} ${p.dateNote}`),
+    );
+    expect(doubtful.map((p) => p.catalogueId).sort()).toEqual(['PCW 2281961', 'PCW 2282111']);
+    for (const p of doubtful) expect(p.credit, p.id).toMatch(/possibly|unknown/i);
+  });
+
+  it('gives a plain “c.” date the project’s plus-or-minus five years, so a picture is not missed', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      const plain = /^c\. (\d{4})$/.exec(p.dated)?.[1];
+      if (!plain) continue;
+      expect(p.when.from, p.id).toBeLessThanOrEqual(Number(plain) - 5);
+      expect(p.when.to, p.id).toBeGreaterThanOrEqual(Number(plain) + 5);
+    }
+  });
+
+  it('marks a date as disputed exactly where the note says which date is right is not settled', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      expect(p.dateDisputed === true, p.id).toBe(p.dateNote.includes('not settled'));
+    }
+    expect(HARRIES_PHOTOGRAPHS.filter((p) => p.dateDisputed).length).toBeGreaterThan(0);
+  });
+
+  it('records the photographs’ licence as read, not as a private instruction', () => {
+    const asset = ASSETS.find((a) => a.files.test('photos/harries/2281901.jpg'));
+    expect(asset?.licence).toContain('Creative Archive Licence');
+    expect(asset?.licence).not.toMatch(/Dewi|request/);
+  });
+
+  it('is part of the world, so the snapshot pins photographs at 1900 and none before any was taken', () => {
+    expect(W.photographs).toBe(HARRIES_PHOTOGRAPHS);
+    expect(snapshotAt(W, tAt(W.timeline, ad(1900))).photographs.length).toBeGreaterThan(5);
+    expect(snapshotAt(W, tAt(W.timeline, ad(1850))).photographs).toEqual([]);
+  });
+
+  it('cites sources that exist', () => {
+    const cited = PHOTOGRAPH_PROVENANCE.sources;
+    expect(cited.length).toBeGreaterThan(0);
+    const known = new Set(W.sources.map((s) => s.id));
+    for (const s of cited) expect(known.has(s), s).toBe(true);
   });
 });
 
@@ -463,6 +760,19 @@ describe('the railway', () => {
   it('never gives a feature an earliest date after its "c." start (ADR 0037)', () => {
     const late = W.features.filter((f) => f.notBefore !== undefined && f.notBefore > f.when.from);
     expect(late.map((f) => f.id)).toEqual([]);
+  });
+
+  it('never gives a feature a latest date before its "c." end, and only a feature without exact dates (ADR 0045)', () => {
+    const early = W.features.filter((f) => f.notAfter !== undefined && f.notAfter < f.when.to);
+    expect(early.map((f) => f.id)).toEqual([]);
+    const exact = W.features.filter((f) => f.notAfter !== undefined && f.datesExact);
+    expect(exact.map((f) => f.id)).toEqual([]);
+    expect(W.features.filter((f) => f.notAfter !== undefined).map((f) => f.id)).toEqual([
+      'roman-fort-a',
+      'roman-fort-b',
+      'roman-fort-a-levelled',
+      'roman-vicus',
+    ]);
   });
 
   it('draws the narrow-gauge stub near Cross Hands as imagined, since no source names it', () => {
@@ -815,5 +1125,42 @@ describe('the About panel', () => {
       expect(text).toContain(` ${String(WORLD.verticalExaggeration)} `);
       expect(text).toContain(` ${String(WORLD.landmarkScale)} `);
     }
+  });
+
+  it('does not say the Roman forts are drawn larger than life: they keep their true size and height (ADR 0046)', () => {
+    expect(STRINGS.aboutBody.en).not.toContain('Roman forts and early houses');
+    expect(STRINGS.aboutBody.en).toContain('Roman forts and their settlement');
+    expect(STRINGS.aboutBody.cy).not.toContain('caerau Rhufeinig a thai cynnar');
+    expect(STRINGS.aboutBody.cy).toContain('caerau Rhufeinig a’u hanheddiad');
+  });
+});
+
+describe('hunters burning the high heath at Waun Fignen Felen', () => {
+  const burning = W.events.find((e) => e.id === 'mesolithic-burning');
+  const fire = W.almanac.find((a) => a.id === 'mesolithic-fire');
+
+  it('sits at about 7000 BC, the calibration of ca. 8000 BP, and says "about 9,000 years ago" in both languages', () => {
+    expect(burning?.when.from).toBe(bc(7000));
+    expect(burning?.when.to).toBe(bc(7000));
+    expect(burning?.summary.en).toContain('about 9,000 years ago');
+    expect(burning?.summary.cy).toContain('tua 9,000 o flynyddoedd yn ôl');
+    expect(burning?.summary.en).not.toContain('8,000');
+    expect(burning?.summary.cy).not.toContain('8,000');
+  });
+
+  it('cites the pollen study and Coflein, and says in both languages that the date is our calibration', () => {
+    const why = burning?.provenance;
+    if (why?.kind !== 'documented') throw new Error('mesolithic-burning must be documented');
+    expect(why.sources).toEqual(expect.arrayContaining(['hunters:S19', 'hunters:S17']));
+    expect(why.sources).not.toContain('deeptime:S12');
+    expect(why.sources).toHaveLength(2);
+    expect(why.note?.en).toContain('IntCal20');
+    expect(why.note?.cy).toContain('IntCal20');
+  });
+
+  it('runs the almanac fire from about 7000 to 4500 BC, citing the same pollen study', () => {
+    expect(fire?.when.from).toBe(bc(7000));
+    expect(fire?.when.to).toBe(bc(4500));
+    expect(fire?.provenance.sources).toContain('hunters:S19');
   });
 });

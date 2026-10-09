@@ -2,7 +2,7 @@ import { assertNever } from './assert.ts';
 import type { FeatureKind } from './model.ts';
 import type { FeaturePresence } from './state.ts';
 
-export type SmokeStyle = 'hearth' | 'steam' | 'burning';
+export type SmokeStyle = 'hearth' | 'steam' | 'burning' | 'dust';
 
 /** What smoke a feature makes: the renderer only places it. `fire` also lights its glow at night. */
 export interface Plume {
@@ -34,7 +34,6 @@ export function plumeOf(kind: FeatureKind): Plume | undefined {
     case 'burning':
       return { style: 'burning', fire: true, spread: kind.spread, density: kind.density };
     case 'hillfort':
-    case 'roman-fort':
     case 'countryside':
     case 'railway':
     case 'train':

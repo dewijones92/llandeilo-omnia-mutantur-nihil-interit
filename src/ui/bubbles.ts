@@ -1,7 +1,8 @@
-import { Matrix, Vector3, type Scene } from '../world/babylon.ts';
+import { Vector3, type Scene } from '../world/babylon.ts';
 import type { Conversation, ConversationId } from '../domain/model.ts';
 import type { Group } from '../world/people.ts';
 import { h } from './dom.ts';
+import { projector } from './screen-space.ts';
 import type { LangStore } from './store.ts';
 
 interface Bubble {
@@ -42,23 +43,16 @@ export class Bubbles {
 
   update(active: ReadonlySet<ConversationId>, now: number): void {
     const camera = this.scene.activeCamera;
-    if (!camera) return;
-    const engine = this.scene.getEngine();
-    const w = engine.getRenderWidth();
-    const hgt = engine.getRenderHeight();
-    const scale = window.innerWidth / w;
-    const viewport = camera.viewport.toGlobal(w, hgt);
-    const transform = this.scene.getTransformMatrix();
+    const project = projector(this.scene);
+    if (!camera || !project) return;
     const lang = this.store.lang;
     this.visible.length = 0;
     for (const b of this.bubbles) {
       const c = b.group.conversation;
       const on = active.has(c.id);
       const distance = Vector3.Distance(camera.globalPosition, b.group.anchor);
-      const p = on
-        ? Vector3.Project(b.group.anchor, Matrix.IdentityReadOnly, transform, viewport)
-        : undefined;
-      const visible = p !== undefined && p.z > 0 && p.z < 1 && p.x > 0 && p.x < w && p.y > 0 && p.y < hgt;
+      const p = on ? project(b.group.anchor) : undefined;
+      const visible = p?.inView === true;
       b.el.style.display = visible ? '' : 'none';
       if (!visible) continue;
       const near = distance < 1400;
@@ -72,7 +66,7 @@ export class Bubbles {
         b.info.textContent = why;
         b.el.title = why;
       }
-      const pos = `translate(${Math.round(p.x * scale)}px, ${Math.round(p.y * scale)}px)`;
+      const pos = `translate(${Math.round(p.x)}px, ${Math.round(p.y)}px)`;
       if (b.el.style.transform !== pos) b.el.style.transform = pos;
       this.visible.push(b.el.getBoundingClientRect());
     }
