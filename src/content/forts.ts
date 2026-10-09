@@ -15,7 +15,7 @@ import type { Part, PartShape, Plan, Pt } from '../domain/plan.ts';
 import { rotate } from '../domain/plan.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import type { SourceKey } from './ids.ts';
-import { documented, imagined, reconstructed } from './tiers.ts';
+import { documented, imagined, reconstructed } from './provenance.ts';
 
 // Everything here is in metres, in each plan's own frame: x along the long axis towards the front gate
 // (north-east), y across it towards the left (north-west). Fort 1's shape is the area inside its inner
@@ -44,6 +44,11 @@ const DITCHES = [
   { offset: 3.9, width: 1.4, depth: 0.8 },
   { offset: 6.6, width: 1.0, depth: 0.5 },
 ] as const;
+
+// Fort 1's two-ditch sides take the two profiles Trench 1 measured on the south-west side; a side with three also
+// has the middle one, which no trench measured.
+const profileOf = (count: number, ring: number): (typeof DITCHES)[number] =>
+  DITCHES[count === 2 && ring === 1 ? 2 : ring] ?? DITCHES[0];
 
 const SIDE_EN: Readonly<Record<FortSide, string>> = {
   ne: 'north-east',
@@ -265,9 +270,10 @@ function circuit(shape: FortShape, p: string, gates: readonly GateSpec[], ditchi
   DITCHES.forEach((d, ring) => {
     const runs: Run[] = ringRuns(shape, d.offset, (s) => ditching.counts[s] > ring, ditching.gaps(ring));
     runs.forEach((run, i) => {
+      const profile = profileOf(ditching.counts[run.side], ring);
       parts.push(
         part(
-          { type: 'ditch', path: run.path, width: d.width, depth: d.depth },
+          { type: 'ditch', path: run.path, width: profile.width, depth: profile.depth },
           `${p}/ditch-${String(ring + 1)}-${run.side}-${String(i)}`,
           {
             en: `Ditch ${String(ring + 1)} of ${String(ditching.counts[run.side])}, ${SIDE_EN[run.side]}${pieceOf(runs, i).en}`,
@@ -298,8 +304,8 @@ function cornerTowers(shape: FortShape, p: string): Part[] {
       `${p}/corner-tower-${s}`,
       { en: `Corner tower, ${CORNER_EN[s]}`, cy: `Tŵr cornel, ${CORNER_CY[s]}` },
       reconstructed(
-        'No corner tower is evidenced at either fort. One is drawn at each rounded corner by analogy: timber corner towers on six posts, about 4.6m by 2.4m, were excavated at Jay Lane, a 1st-century earth fort in Herefordshire.',
-        'Ni cheir tystiolaeth o dŵr cornel yn yr un gaer. Tynnir un ar bob cornel gron ar sail cymariaethau: cloddiwyd tyrau cornel pren ar chwe phostyn, tua 4.6m wrth 2.4m, yn Jay Lane, caer bridd o’r 1af ganrif yn Swydd Henffordd.',
+        'No corner tower is evidenced at either fort. One is drawn at each rounded corner by analogy: a corner tower at Jay Lane, a 1st-century earth fort in Herefordshire, thought to have stood on six posts (four were found), was about 4.6m by 2.4m.',
+        'Ni cheir tystiolaeth o dŵr cornel yn yr un gaer. Tynnir un ar bob cornel gron ar sail cymariaethau: roedd tŵr cornel yn Jay Lane, caer bridd o’r 1af ganrif yn Swydd Henffordd, y credir iddo sefyll ar chwe phostyn (canfuwyd pedwar), tua 4.6m wrth 2.4m.',
         ['fort:S16'],
       ),
       true,
@@ -435,14 +441,40 @@ const FORT_1_GATES: readonly GateSpec[] = [
   },
 ];
 
+const onGround = (at: GridRef, bearing: number, p: Pt): GridRef => {
+  const [x, y] = rotate(p, planAngle(bearing));
+  return { e: at.e + x, n: at.n + y };
+};
+
+const FORT_1_SE_GATE_U = FORT_1_GATES.find((g) => g.id === 'se')?.u ?? 0;
+
+/** Where the arriving column ends: outside Fort 1's evidenced south-east gate, coming round the east corner. */
+const ARRIVAL_PLAN: readonly Pt[] = [
+  [200, -130],
+  [FORT_1_SE_GATE_U, -105],
+  [FORT_1_SE_GATE_U, -FORT_1_SHAPE.halfWidth - 10],
+];
+export const FORT_1_ARRIVAL: readonly GridRef[] = ARRIVAL_PLAN.map((p) =>
+  onGround(FORT_1_AT, FORT_1_BEARING, p),
+);
+
 const FORT_1_DITCHING: Ditching = {
   counts: { se: 3, sw: 2, ne: 3, nw: 2 },
   gaps: () => FORT_1_GATES.map((g) => ({ side: g.side, u: g.u, width: DITCH_GAP })),
   provenance: (s, ring) => {
-    if (s === 'se' || s === 'sw')
+    if (s === 'sw')
       return sameDitch(
-        `${s === 'se' ? 'Three' : 'Two'} ditches are seen on this side by survey and excavation; V-shaped, the inner 1.7m wide and 1.1m deep and the outer 1.0m by 0.5m (Trench 1). ${ring === 0 ? 'The inner ditch ended in a square butt where the gate causeway was.' : s === 'se' && ring === 1 ? 'The middle ditch’s profile was not recorded and is drawn between the two measured.' : ''}`,
-        `${s === 'se' ? 'Gwelir tair' : 'Gwelir dwy'} ffos ar yr ochr hon o’r arolwg a’r cloddio; siâp V, y fewnol 1.7m o led ac 1.1m o ddyfnder a’r allanol 1.0m wrth 0.5m (Ffos Brawf 1). ${ring === 0 ? 'Daeth y ffos fewnol i ben mewn pen sgwâr lle roedd cob y porth.' : s === 'se' && ring === 1 ? 'Ni chofnodwyd proffil y ffos ganol ac fe’i tynnir rhwng y ddwy a fesurwyd.' : ''}`,
+        ring === 0
+          ? 'Trench 1 cut the north side of the south-west gateway and showed two V-shaped ditches on this side. The inner one was 1.7m wide and 1.1m deep and ended in a square butt where the gate causeway was.'
+          : 'Trench 1 cut the north side of the south-west gateway and showed two V-shaped ditches on this side. The outer one was 1.0m wide and 0.5m deep.',
+        ring === 0
+          ? 'Torrodd ochr ogleddol y fynedfa de-orllewinol gan Ffos Brawf 1, a dangosodd ddwy ffos siâp V ar yr ochr hon. Roedd y fewnol 1.7m o led ac 1.1m o ddyfnder ac yn dod i ben mewn pen sgwâr lle roedd cob y porth.'
+          : 'Torrodd ochr ogleddol y fynedfa de-orllewinol gan Ffos Brawf 1, a dangosodd ddwy ffos siâp V ar yr ochr hon. Roedd yr allanol 1.0m o led a 0.5m o ddyfnder.',
+      );
+    if (s === 'se')
+      return sameDitch(
+        `Three ditches are seen on this side, by survey. Their profiles were not measured here: they are drawn like the south-west side’s, where Trench 1 measured the inner at 1.7m by 1.1m and the outer at 1.0m by 0.5m.${ring === 1 ? ' The middle ditch’s profile was not recorded anywhere and is drawn between the two.' : ''}`,
+        `Gwelir tair ffos ar yr ochr hon, o’r arolwg. Ni fesurwyd eu proffiliau yma: fe’u tynnir fel rhai’r ochr dde-orllewinol, lle mesurodd Ffos Brawf 1 y fewnol yn 1.7m wrth 1.1m a’r allanol yn 1.0m wrth 0.5m.${ring === 1 ? ' Ni chofnodwyd proffil y ffos ganol yn unman ac fe’i tynnir rhwng y ddwy.' : ''}`,
       );
     return reconstructed(
       'This side lies under Fort 2 or is unsurveyed. The survey shows at least three ditches at the eastern corner, so the north-east side is drawn with three and the north-west with two, as the nearest sides measured.',
@@ -546,8 +578,8 @@ function ringParts(): Part[] {
             cy: `Ffos ${String(ring + 1)} wedi’i llenwi, ${SIDE_CY[run.side]}${pieceOf(runs, i).cy}`,
           },
           reconstructed(
-            'The inner ditch’s thick clay fill reads as the turf rampart deliberately pushed back in when the fort was decommissioned (Trench 1), and a Fort 1 ditch lies under the levelling laid for Fort 2 (Trench 2). A buried ditch shows on the ground at most as a soil mark, so the pale line is a picture of where it lay, not something a Roman would have seen.',
-            'Mae clai trwchus llenwad y ffos fewnol yn ymddangos fel y rhagfur tyweirch a wthiwyd yn ôl yn fwriadol pan ddatgomisiynwyd y gaer (Ffos Brawf 1), ac mae ffos o Gaer 1 o dan y lefelu a wnaed ar gyfer Caer 2 (Ffos Brawf 2). Ni fyddai ffos gladdedig yn dangos ar y ddaear ond fel marc pridd, felly llun o ble y gorweddai yw’r llinell welw, nid rhywbeth y byddai Rhufeiniwr wedi’i weld.',
+            'The inner ditch’s thick clay fill reads as the turf rampart deliberately pushed back in when the fort was decommissioned (Trench 1), and a Fort 1 ditch lies under the levelling laid for Fort 2 (Trench 2). The excavator also suggests that part of Fort 1’s northern and eastern defences stayed in use as an annex to Fort 2 (Trench 3), so some of these ditches may have stayed open; which is not known, and all are drawn backfilled. A buried ditch shows on the ground at most as a soil mark, so the pale line is a picture of where it lay, not something a Roman would have seen.',
+            'Mae clai trwchus llenwad y ffos fewnol yn ymddangos fel y rhagfur tyweirch a wthiwyd yn ôl yn fwriadol pan ddatgomisiynwyd y gaer (Ffos Brawf 1), ac mae ffos o Gaer 1 o dan y lefelu a wnaed ar gyfer Caer 2 (Ffos Brawf 2). Mae’r cloddiwr hefyd yn awgrymu bod rhan o amddiffynfeydd gogleddol a dwyreiniol Caer 1 wedi parhau i gael eu defnyddio fel atodiad i Gaer 2 (Ffos Brawf 3), felly mae’n bosibl bod rhai o’r ffosydd hyn wedi aros ar agor; ni wyddys pa rai, a thynnir pob un wedi’i llenwi. Ni fyddai ffos gladdedig yn dangos ar y ddaear ond fel marc pridd, felly llun o ble y gorweddai yw’r llinell welw, nid rhywbeth y byddai Rhufeiniwr wedi’i weld.',
             ['fort:S1'],
           ),
         ),
@@ -668,8 +700,8 @@ const FORT_2_DITCHING: Ditching = (() => {
     provenance: (s) =>
       s === 'se'
         ? sameDitch(
-            'At least three ditches are seen on the south-east side (survey), with a slightly wider berm between the second and third. Their profiles at Fort 2 were not measured; they are drawn like Fort 1’s.',
-            'Gwelir o leiaf tair ffos ar yr ochr dde-ddwyreiniol (arolwg), â berm ychydig yn lletach rhwng yr ail a’r drydedd. Ni fesurwyd eu proffiliau yng Nghaer 2; fe’u tynnir fel rhai Caer 1.',
+            'At least three ditches are seen on the south-east side (survey), with a slightly wider berm between the second and third; the wider berm is not drawn, both berms being the same width. Their profiles at Fort 2 were not measured; they are drawn like Fort 1’s.',
+            'Gwelir o leiaf tair ffos ar yr ochr dde-ddwyreiniol (arolwg), â berm ychydig yn lletach rhwng yr ail a’r drydedd; ni thynnir y berm lletach, gan fod y ddau berm yr un lled. Ni fesurwyd eu proffiliau yng Nghaer 2; fe’u tynnir fel rhai Caer 1.',
           )
         : reconstructed(
             s === 'sw'
@@ -851,18 +883,18 @@ export const FORT_PROVENANCE = {
   ),
   fort2: documented(
     FEATURE_SOURCES,
-    `About 140m by 110m inside (1.54ha), on the northern part of Fort 1, its long axis about ${String(FORT_2_BEARING)}° east of north (the Heneb record says the two alignments differ slightly). Later than Fort 1: a Fort 1 ditch lies under the levelling for it. It has no direct date: Coflein puts it later in the Flavian period, and the Heneb record’s “possibly around 82 AD” is an unproven 2013 summary, so it is drawn from about 82; “around AD 90–100” is the caption date of Neil Ludlow’s painting, not a founding date. It was abandoned by AD 140, and it has been suggested that south-west Wales was bereft of troops by the mid-120s, so it is drawn to about 125 and fades out by 140. Three of its four gates are evidenced (front, left, right); the rear is not demonstrated and is drawn as unproven. Timber buildings and no stone. ${ANALOGY_ONLY} ${CREDIT}`,
-    `Tua 140m wrth 110m o fewn (1.54ha), ar ran ogleddol Caer 1, ei hechel hir tua ${String(FORT_2_BEARING)}° i’r dwyrain o’r gogledd (mae cofnod Heneb yn dweud bod y ddau aliniad ychydig yn wahanol). Yn ddiweddarach na Chaer 1: mae ffos o Gaer 1 o dan y lefelu ar ei chyfer. Nid oes dyddiad uniongyrchol iddi: mae Coflein yn ei gosod yn ddiweddarach yn y cyfnod Flafiaidd, ac mae “possibly around 82 AD” cofnod Heneb yn grynodeb heb ei brofi o 2013, felly fe’i tynnir o tua 82; dyddiad capsiwn paentiad Neil Ludlow yw “tua 90–100 OC”, nid dyddiad sefydlu. Fe’i gadawyd erbyn 140 OC, ac awgrymwyd bod de-orllewin Cymru heb filwyr erbyn canol y 120au, felly fe’i tynnir hyd tua 125 ac mae’n pylu erbyn 140. Ceir tystiolaeth o dri o’i phedwar porth (blaen, chwith, de); ni ddangoswyd y cefn ac fe’i tynnir fel un heb ei brofi. Adeiladau pren a dim carreg. ${ANALOGY_ONLY_CY} ${CREDIT_CY}`,
+    `About 140m by 110m inside (1.54ha), on the northern part of Fort 1, its long axis about ${String(FORT_2_BEARING)}° east of north (the Heneb record says the two alignments differ slightly). Later than Fort 1: a Fort 1 ditch lies under the levelling for it. It has no direct date: Coflein puts it later in the Flavian period, and the Heneb record’s “possibly around 82 AD” is an unproven 2013 summary, so it is drawn from AD 83, once Fort 1 is gone, because a Fort 1 ditch lies under Fort 2’s levelling and the two did not stand together; the commenter’s “around AD 90–100” probably comes from llandeilo.org’s caption of Neil Ludlow’s painting, which shows the fort “around 100AD”: a date for the scene, not a founding date. It was abandoned by AD 140, and it has been suggested that south-west Wales was bereft of troops by the mid-120s, so it is drawn to about 125 and fades out by 140. Three of its four gates are evidenced (front, left, right); the rear is not demonstrated and is drawn as unproven. Timber buildings and no stone. ${ANALOGY_ONLY} ${CREDIT}`,
+    `Tua 140m wrth 110m o fewn (1.54ha), ar ran ogleddol Caer 1, ei hechel hir tua ${String(FORT_2_BEARING)}° i’r dwyrain o’r gogledd (mae cofnod Heneb yn dweud bod y ddau aliniad ychydig yn wahanol). Yn ddiweddarach na Chaer 1: mae ffos o Gaer 1 o dan y lefelu ar ei chyfer. Nid oes dyddiad uniongyrchol iddi: mae Coflein yn ei gosod yn ddiweddarach yn y cyfnod Flafiaidd, ac mae “possibly around 82 AD” cofnod Heneb yn grynodeb heb ei brofi o 2013, felly fe’i tynnir o 83 OC, wedi i Gaer 1 fynd, gan fod ffos o Gaer 1 o dan y lefelu ar gyfer Caer 2 ac na safai’r ddwy gyda’i gilydd; mae “tua 90–100 OC” y sylwebydd yn tarddu, mae’n debyg, o gapsiwn llandeilo.org i baentiad Neil Ludlow, sy’n dangos y gaer “around 100AD”: dyddiad i’r olygfa, nid dyddiad sefydlu. Fe’i gadawyd erbyn 140 OC, ac awgrymwyd bod de-orllewin Cymru heb filwyr erbyn canol y 120au, felly fe’i tynnir hyd tua 125 ac mae’n pylu erbyn 140. Ceir tystiolaeth o dri o’i phedwar porth (blaen, chwith, de); ni ddangoswyd y cefn ac fe’i tynnir fel un heb ei brofi. Adeiladau pren a dim carreg. ${ANALOGY_ONLY_CY} ${CREDIT_CY}`,
   ),
   levelled: reconstructed(
-    'Where Fort 1’s ditches lay once the larger fort was given up: backfilled, with Fort 2 laid partly over them. See each part for what is documented.',
-    'Lle gorweddai ffosydd Caer 1 unwaith y rhoddwyd y gaer fwy i fyny: wedi’u llenwi, â Chaer 2 wedi’i gosod yn rhannol drostynt. Gweler pob rhan i weld beth sydd wedi’i ddogfennu.',
+    'Where Fort 1’s ditches lay once the larger fort was given up: backfilled, with Fort 2 laid partly over them. The excavator suggests part of Fort 1’s northern and eastern defences stayed in use as an annex to Fort 2; which stretches is not known, so all are drawn backfilled and this is a simplification. See each part for what is documented.',
+    'Lle gorweddai ffosydd Caer 1 unwaith y rhoddwyd y gaer fwy i fyny: wedi’u llenwi, â Chaer 2 wedi’i gosod yn rhannol drostynt. Mae’r cloddiwr yn awgrymu bod rhan o amddiffynfeydd gogleddol a dwyreiniol Caer 1 wedi parhau i gael eu defnyddio fel atodiad i Gaer 2; ni wyddys pa ddarnau, felly tynnir pob un wedi’i llenwi ac mae hyn yn symleiddio. Gweler pob rhan i weld beth sydd wedi’i ddogfennu.',
     ['fort:S1', 'fort:S2'],
   ),
   vicus: reconstructed(
-    'The survey and Trenches 4 and 5 show a small roadside settlement north-east of Fort 2 where its roads meet, dated by pottery to about AD 70 to 135. Documented: the roads, the place and the dates, and small timber buildings, a hearth, pits and drains. How it was laid out is not known: the survey plot shows scattered, uneven anomalies, not a street grid (“shambolic” is a fair reading of an under-resolved plot, not a finding), so the houses are drawn irregular and each is marked imagined. No tile and no stone. ' +
+    'The survey and Trenches 4 and 5 show a small roadside settlement north-east of Fort 2 where its roads meet, dated by pottery to about AD 70 to 135. Documented: the roads, the place and the dates, and small timber buildings, a hearth, pits and drains. It is drawn from AD 83, with Fort 2, because its roads are laid out from Fort 2’s front gate; pottery of about AD 70 to 90 shows activity here earlier, which is not drawn as streets. How it was laid out is not known: the survey plot shows scattered, uneven anomalies, not a street grid (“shambolic” is a fair reading of an under-resolved plot, not a finding), so the houses are drawn irregular and each is marked imagined. No tile roofs are drawn: Roman tile fragments were found here, but not what they roofed; and no stone building is evidenced. ' +
       CREDIT,
-    'Mae’r arolwg a Ffosydd Prawf 4 a 5 yn dangos anheddiad bach glan ffordd i’r gogledd-ddwyrain o Gaer 2 lle mae ei ffyrdd yn cwrdd, wedi’i ddyddio gan grochenwaith i tua 70 i 135 OC. Dogfennwyd: y ffyrdd, y lle a’r dyddiadau, ac adeiladau pren bach, aelwyd, pyllau a gwteri. Ni wyddys sut y’i trefnwyd: mae cynllun yr arolwg yn dangos anomaleddau gwasgaredig, anwastad, nid grid o strydoedd (darlleniad teg o gynllun heb ei ddatrys yn llawn yw “anniben”, nid canfyddiad), felly tynnir y tai’n afreolaidd a nodir bod pob un wedi’i ddychmygu. Dim teilsen a dim carreg. ' +
+    'Mae’r arolwg a Ffosydd Prawf 4 a 5 yn dangos anheddiad bach glan ffordd i’r gogledd-ddwyrain o Gaer 2 lle mae ei ffyrdd yn cwrdd, wedi’i ddyddio gan grochenwaith i tua 70 i 135 OC. Dogfennwyd: y ffyrdd, y lle a’r dyddiadau, ac adeiladau pren bach, aelwyd, pyllau a gwteri. Fe’i tynnir o 83 OC, gyda Chaer 2, gan fod ei ffyrdd wedi’u gosod o borth blaen Caer 2; mae crochenwaith o tua 70 i 90 OC yn dangos gweithgarwch yma’n gynharach, na thynnir fel strydoedd. Ni wyddys sut y’i trefnwyd: mae cynllun yr arolwg yn dangos anomaleddau gwasgaredig, anwastad, nid grid o strydoedd (darlleniad teg o gynllun heb ei ddatrys yn llawn yw “anniben”, nid canfyddiad), felly tynnir y tai’n afreolaidd a nodir bod pob un wedi’i ddychmygu. Ni thynnir toeau teils: cafwyd darnau teilsen Rufeinig yma, ond nid beth roeddent yn ei doi; ac ni cheir tystiolaeth o adeilad carreg. ' +
       CREDIT_CY,
     ['fort:S1', 'fort:S4', 'fort:S24', 'fort:S14'],
   ),

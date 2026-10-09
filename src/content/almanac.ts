@@ -53,12 +53,12 @@ export const ALMANAC: readonly AlmanacEntry[] = [
   ),
   entry(
     'mesolithic-fire',
-    bc(6000),
-    bc(4000),
+    bc(7000),
+    bc(4500),
     'nature',
     'On the Black Mountain plateau, just east of this map, hunters burn heath and open birch woodland to draw large game.',
     "Ar lwyfandir y Mynydd Du, ychydig i'r dwyrain o'r map hwn, mae helwyr yn llosgi rhos a choetir bedw agored i ddenu helfilod mawr.",
-    doc('deeptime:S12'),
+    doc('deeptime:S12', 'hunters:S19'),
   ),
   entry(
     'wildwood',

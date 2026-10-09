@@ -19,12 +19,25 @@ function listenOnce(): void {
   if (listening) return;
   listening = true;
   document.addEventListener('click', closeAll);
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-    closeAll();
-    const active = document.activeElement;
-    if (active instanceof HTMLElement && active.closest('.prov-wrap')) active.blur();
-  });
+  // Capture phase, so it runs before the app's own Escape handling; a handled Escape is marked with
+  // preventDefault, and the app leaves it alone (closing an ⓘ must not also skip a scene).
+  document.addEventListener(
+    'keydown',
+    (e) => {
+      if (e.key !== 'Escape') return;
+      const active = document.activeElement;
+      const focused = active instanceof HTMLElement && active.closest('.prov-wrap') !== null;
+      const open = document.querySelector('.prov-wrap.open') !== null;
+      if (!open && !focused) return;
+      e.preventDefault();
+      closeAll();
+      if (focused) active.blur();
+      console.info(
+        `dewidebug provenance Escape closed the ⓘ open=${String(open)} focused=${String(focused)}`,
+      );
+    },
+    true,
+  );
 }
 
 export function basisOf(p: Provenance, lang: Lang): string | null {

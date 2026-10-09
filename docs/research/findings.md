@@ -48,14 +48,17 @@ because of it. The detail and sources are in each note; this is the summary a ne
   Coflein agree (the first pass's "about 50m east" was a measurement error), the "AD 90-100" is probably the
   caption date of the Ludlow painting on llandeilo.org, and Roman tile was found in the fort and vicus.
   ([roman forts](roman-forts-and-vicus.md))
-- **Built 2026-10-09 ([ADR 0042](../adr/0042-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)),
+- **Built 2026-10-09 ([ADR 0045](../adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)),
   and the placeholders corrected:** the app's two forts had been boxes at the wrong place and angle (the larger
   fort on the smaller's centre, the smaller 28m east and 29m south of it, both at about 7 degrees against the
   figures' 48 to 53, with tiled roofs and a limewashed headquarters, at 2.6 times life size). They are now
   Fort 1 about E 262206 N 222470 and Fort 2 about E 262190 N 222538 (within 40m and 30m of the HER's points, Fort 2
   within 5m of Coflein's), drawn in true size, timber and earth only, each part marked documented,
-  reconstructed or imagined. Fort 1 is shown from AD 74 and gone by 83, Fort 2 from about 82 (the HER's
-  unproven reading) to 125 and gone by 140. Registration on the LiDAR is still open.
+  reconstructed or imagined. Fort 1 is shown from AD 74 and gone by 83, Fort 2 from 83 (the HER's
+  "possibly around 82" stays in the ⓘ as unproven; a Fort 1 ditch lies under Fort 2's levelling, so they were not
+  together) to 125 and gone by 140. The settlement is drawn from 83 to 135; its pottery from about AD 70 shows
+  earlier activity, not drawn as streets. Fort 1's measured ditch profiles (1.7m by 1.1m, 1.0m by 0.5m) are the
+  south-west side's, from Trench 1; the south-east side's are drawn like them and marked not measured. Registration on the LiDAR is still open.
 - **The Llandeilo Gospels' "Surexit" note** is called "the earliest surviving document in the Welsh
   language", recorded at Llandeilo; the Cadfan Stone at Tywyn may be older as a text, and the note's
   exact date is debated. ([language](language-by-class.md))
@@ -167,6 +170,28 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   New finds: from October 1902 the town lamps were lit from half an hour after sunset till 11 o'clock
   all year, 16 new lamp posts were ordered in April 1902, and one corner (Trallwm to Station Road) was
   unlit in December 1902 ([light-after-dark](light-after-dark.md)).
+- **The music and hunter-gatherer independent checks (2026-10-09)** ([music](reviews/music-through-time-check-2026-10-09.md),
+  [hunters](reviews/hunter-gatherers-check-2026-10-09.md)). Music, 91 claims: 69 confirmed, 15 partly, 3 not
+  supported, 4 contradicted. The household bard, not the chief of song, sings to the queen (Dimetian Code);
+  ballad singers at fairs are 18th-century, not Tudor; Llandilo's choral society (1856), brass band (1865)
+  and volunteer band (1881) are far earlier than the "1890s to 1910s" the first search listed; Carmarthen's
+  National Eisteddfod was 1911, not 1914; the Talley Marian anthem, the "blind harper at an inn" and
+  Lewys Glyn Cothi "at Pumsaint" had no source behind them. S3's preface does date the Dimetian Code's base
+  manuscript (to the close of the 13th or early 14th century), which corrects the lamplight basis and
+  the 2026-10-03 light check's own correction. Two recordings (Handel 1953, Thomas L. Thomas 1944) are public
+  domain only outside the US; no music ships yet. Hunter-gatherers, 70 claims: 47 confirmed, 20 partly, 2 not
+  supported, 1 contradicted, and every IntCal20 calibration reproduced. Ogof Garreg Hir is on the
+  Castlemartin Cliffs, not Caldey, and its bones are undated; the Poulton elk's "17 lesions" and "late
+  winter" are the superseded reading (the 2013 reanalysis: hunted unsuccessfully, many lesions excavation
+  damage); the Younger Dryas shows "no dated people", not "no people"; the Carreg Cennen cave's bones and tooth
+  are queried in the HER ("Inhumation?", "Ornament?"). The app's Waun Fignen Felen burning moves from 6000 BC
+  to about 7000 BC ("about 9,000 years ago"), with an ⓘ saying the date is our IntCal20 calibration of "ca.
+  8000 years BP", which we assume (no source says) is in radiocarbon years; the almanac fire runs about 7000
+  to 4500 BC. Both notes stay drafts.
+  *Review of those corrections, 2026-10-09*: the US term for a 1944 recording is 100 years, to the end of
+  2044 (Music Modernization Act; secondary sources), not 95 years to 2039; the burning event cites one
+  Coflein key, not two; and the sibling notes `soundscapes.md` and `deep-time-and-natural-history.md` now
+  carry the c. 7000 BC date and point at the hunters note.
 - **How Llandeilo's homes were lit in 1902 is not recorded**, but by October 1902 "so many of the
   tradespeople of the town are having the light installed" (Carmarthen Journal, 10 October 1902,
   light:S31, re-read 2026-10-03), and the council sold electricity by the meter. The app draws homes
@@ -248,6 +273,13 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   Latin Library numbers it 164; it numbers it 165. The English ("everything changes, nothing
   perishes") is the project's own rendering, and the Welsh ("Mae popeth yn newid, does dim byd yn
   darfod", and "Ofydd" for Ovid) is Claude's, awaiting the parked human Welsh check.
+
+- **The Roman fort's garrison is an estimate, not a count** (corrected 2026-10-03, second-Opus review
+  of the cutscene branch). The Roman forts' summary and the first cutscene said the fort "held more
+  than a thousand" men. Coflein (roman:S2) says it "would have housed a garrison of more than a
+  thousand, drawn from several different units"; the excavator (roman:S1) says its size suggests "at
+  the very least an *ala quingenaria* ... or a *cohors milliaria*", a lower minimum. Both now say it was
+  big enough for perhaps a thousand men or more, with both sources in the ⓘ.
 
 ## Decisions the research drove
 

@@ -3,6 +3,7 @@ import { hex, mix, type Rgb } from '../domain/colour.ts';
 import { WORLD } from '../domain/geo.ts';
 import type { Level } from '../domain/lod.ts';
 import { rng } from '../domain/noise.ts';
+import { densify } from '../domain/polyline.ts';
 import {
   archSoffit,
   divide,
@@ -81,7 +82,7 @@ export function planClearing(plan: Plan): number {
   return extent + (plan.setting === 'landscape' ? 30 : 6);
 }
 
-/** `near` draws every part; `far` leaves out the parts marked `detail`, which are too small to see from afar (ADR 0043). */
+/** `near` draws every part; `far` leaves out the parts marked `detail`, which are too small to see from afar (ADR 0046). */
 export function buildPlan(
   scene: Scene,
   plan: Plan,
@@ -663,21 +664,11 @@ function prism(f: Frame, p: Extract<Part, { type: 'prism' }>): void {
     }
 }
 
-function densify(pts: readonly V2[], step: number): V2[] {
-  const out: V2[] = [];
-  pts.forEach((p, i) => {
-    const prev = pts[i - 1];
-    if (prev) {
-      const pieces = divide(Math.hypot(p[0] - prev[0], p[1] - prev[1]), step);
-      for (let k = 1; k < pieces; k++) {
-        const t = k / pieces;
-        out.push([prev[0] + (p[0] - prev[0]) * t, prev[1] + (p[1] - prev[1]) * t]);
-      }
-    }
-    out.push(p);
-  });
-  return out;
-}
+const alongPath = (pts: readonly V2[], step: number): V2[] =>
+  densify(
+    pts.map(([e, n]) => ({ e, n })),
+    step,
+  ).map((p) => [p.e, p.n]);
 
 /** The edges of a ribbon along a path, each `share` of the way across it from the centre (-1 to 1), laid on the ground. */
 function edges(f: Frame, pts: readonly V2[], half: number, lift: number, shares: readonly number[]): V3[][] {
@@ -707,7 +698,7 @@ function ribbons(f: Frame, rows: readonly (readonly V3[])[], colours: readonly R
 }
 
 function ditch(f: Frame, d: Extract<Part, { type: 'ditch' }>): void {
-  const pts = densify(
+  const pts = alongPath(
     d.path.map((p) => world(f, p)),
     GROUND_STEP * f.across,
   );
@@ -724,7 +715,7 @@ function ditch(f: Frame, d: Extract<Part, { type: 'ditch' }>): void {
 }
 
 function road(f: Frame, r: Extract<Part, { type: 'road' }>): void {
-  const pts = densify(
+  const pts = alongPath(
     r.path.map((p) => world(f, p)),
     GROUND_STEP * f.across,
   );

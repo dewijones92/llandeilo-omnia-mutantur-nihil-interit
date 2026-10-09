@@ -14,6 +14,7 @@ import type { LampState } from '../domain/lamplight.ts';
 import { WORLD } from '../domain/geo.ts';
 import type { GridRef, RollingStock } from '../domain/model.ts';
 import { hash2 } from '../domain/noise.ts';
+import { cumulativeLengths, segmentAt } from '../domain/polyline.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import { box, gable, merge, place, solidMaterial } from './meshkit.ts';
 import { Halos, type HaloPoint } from './halos.ts';
@@ -292,12 +293,8 @@ export class Train {
       const z = (p.n - WORLD.centre.n) / WORLD.metresPerUnit;
       return { x, y: ground(x, z), z };
     });
-    this.lengths = [0];
-    for (let i = 1; i < this.path.length; i++) {
-      const a = this.path[i - 1];
-      const b = this.path[i];
-      this.lengths.push((this.lengths[i - 1] ?? 0) + (a && b ? Math.hypot(b.x - a.x, b.z - a.z) : 0));
-    }
+    // World units are grid metres scaled down, so lengths along the path scale the same way.
+    this.lengths = cumulativeLengths(line.points).map((l) => l / WORLD.metresPerUnit);
     this.total = this.lengths[this.lengths.length - 1] ?? 0;
     for (const [stock, model] of models) {
       const chimney = model.anchors.get('chimney');
@@ -343,13 +340,10 @@ export class Train {
     this.distance = (this.distance + dt * 0.012) % (run * 2);
     const d = from + (this.distance > run ? run * 2 - this.distance : this.distance);
     const forward = this.distance <= run;
-    let i = 1;
-    while (i < this.lengths.length - 1 && (this.lengths[i] ?? 0) < d) i++;
-    const a = this.path[i - 1];
-    const b = this.path[i];
+    const { index, f } = segmentAt(this.lengths, d);
+    const a = this.path[index];
+    const b = this.path[index + 1];
     if (!a || !b) return;
-    const seg = (this.lengths[i] ?? 0) - (this.lengths[i - 1] ?? 0) || 1;
-    const f = (d - (this.lengths[i - 1] ?? 0)) / seg;
     next.mesh.position.set(a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f + next.lift, a.z + (b.z - a.z) * f);
     const heading = Math.atan2(b.z - a.z, b.x - a.x);
     next.mesh.rotation.y = -heading + (forward ? 0 : Math.PI);

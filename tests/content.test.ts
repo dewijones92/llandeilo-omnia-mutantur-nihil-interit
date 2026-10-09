@@ -4,7 +4,12 @@ import { join, relative } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSETS } from '../src/content/assets.ts';
 import { STRINGS } from '../src/content/strings.ts';
-import { voiceLines, voiceSignature } from '../src/content/voices.ts';
+import { CUTSCENES } from '../src/content/cutscenes.ts';
+import { NARRATION_SECONDS } from '../src/content/generated/narration.ts';
+import { narrationKey, narrationLines, voiceLines, voiceSignature } from '../src/content/voices.ts';
+import { frameAt, sceneFeatures, type CaptionTrack } from '../src/domain/cutscene.ts';
+import { polylineLength } from '../src/domain/polyline.ts';
+import { LANGS } from '../src/domain/i18n.ts';
 import {
   CROSS_HANDS_NARROW_GAUGE,
   DUFFRYN_STATION,
@@ -20,7 +25,7 @@ import { DEFAULT_CLOCK, sunElevation } from '../src/domain/daylight.ts';
 import type { Bilingual } from '../src/domain/i18n.ts';
 import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
 import type { Provenance } from '../src/domain/provenance.ts';
-import { latestStarting, soundAt } from '../src/domain/state.ts';
+import { latestStarting, snapshotAt, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
 import { sectionLines, type GridBox } from '../src/domain/rail.ts';
@@ -326,7 +331,7 @@ describe('languages', () => {
 });
 
 describe('voices', () => {
-  const lines = voiceLines(W.conversations, W.people);
+  const lines = [...voiceLines(W.conversations, W.people), ...narrationLines(CUTSCENES)];
   const manifestPath = join(root, 'public/voices/manifest.json');
   const raw: unknown = JSON.parse(readFileSync(manifestPath, 'utf8'));
   const manifest: Record<string, string> = {};
@@ -347,6 +352,125 @@ describe('voices', () => {
     const onDisk = readdirSync(join(root, 'public/voices')).filter((f) => f.endsWith('.mp3'));
     expect(onDisk.filter((f) => !keys.has(f.slice(0, -4)))).toEqual([]);
   });
+});
+
+describe('cutscenes', () => {
+  const events = new Map(W.events.map((e) => [e.id, e]));
+  const features = new Map(W.features.map((f) => [f.id, f]));
+  const captions = (scene: (typeof CUTSCENES)[number]): CaptionTrack[] =>
+    scene.tracks.flatMap((t) => (t.kind === 'caption' ? [t] : []));
+
+  it('each belong to a key date of their own, where they leave the viewer', () => {
+    expect(CUTSCENES.filter((c) => events.get(c.event)?.magnetic !== true).map((c) => c.id)).toEqual([]);
+    expect(unique(CUTSCENES.map((c) => c.event))).toEqual([]);
+    expect(unique(CUTSCENES.map((c) => c.id))).toEqual([]);
+  });
+
+  it('keep every camera key and track inside the scene, in time order', () => {
+    for (const c of CUTSCENES) {
+      const times = c.camera.map((k) => k.at);
+      expect(times[0]).toBe(0);
+      expect(times.every((t, i) => i === 0 || t >= (times[i - 1] ?? 0))).toBe(true);
+      expect(times.every((t) => t <= c.duration)).toBe(true);
+      expect(c.tracks.filter((t) => !(t.from < t.to && t.to <= c.duration)).map((t) => t.kind)).toEqual([]);
+    }
+  });
+
+  it('show one caption at a time, and keep each up for as long as the narrator reads it', () => {
+    for (const c of CUTSCENES) {
+      const list = captions(c);
+      expect(list.length).toBeGreaterThan(0);
+      list.forEach((cap, i) => {
+        const next = list[i + 1];
+        if (next) expect(next.from).toBeGreaterThanOrEqual(cap.to);
+        for (const lang of LANGS) {
+          const read = NARRATION_SECONDS[narrationKey(c, i, lang)];
+          expect(read, `${c.id} caption ${String(i)} ${lang}`).toBeDefined();
+          expect(cap.to - cap.from, `${c.id} caption ${String(i)} ${lang}`).toBeGreaterThanOrEqual(read ?? 0);
+        }
+      });
+    }
+  });
+
+  it('march only along routes inside the ten-mile disc, ending where they are long enough to go', () => {
+    for (const c of CUTSCENES) {
+      for (const t of c.tracks) {
+        if (t.kind !== 'actors') continue;
+        const outside = t.route.points.filter(
+          (p) => Math.hypot(p.e - WORLD.centre.e, p.n - WORLD.centre.n) > WORLD.radiusMetres,
+        );
+        expect(outside).toEqual([]);
+        expect(Math.max(t.head.from, t.head.to)).toBeLessThanOrEqual(polylineLength(t.route.points) + 500);
+        expect(t.count).toBeGreaterThan(0);
+        expect(t.abreast).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('point the camera inside the disc', () => {
+    for (const c of CUTSCENES)
+      expect(
+        c.camera.filter(
+          (k) => Math.hypot(k.target.e - WORLD.centre.e, k.target.n - WORLD.centre.n) > WORLD.radiusMetres,
+        ),
+      ).toEqual([]);
+  });
+
+  it('only build features that stand at the scene’s own date', () => {
+    for (const c of CUTSCENES) {
+      const when = events.get(c.event)?.when.from;
+      for (const t of c.tracks) {
+        if (t.kind !== 'feature') continue;
+        const f = features.get(t.feature);
+        expect(f, t.feature).toBeDefined();
+        expect(f && when !== undefined && contains(f.when, when)).toBe(true);
+      }
+    }
+  });
+});
+
+describe('a cutscene on screen: what the world draws in every frame', () => {
+  const events = new Map(W.events.map((e) => [e.id, e]));
+  const features = new Map(W.features.map((f) => [f.id, f]));
+  for (const c of CUTSCENES) {
+    const ev = events.get(c.event);
+    if (!ev) throw new Error(`Cutscene ${c.id} names no event`);
+    const when = ev.when.from;
+    const snap = snapshotAt(W, tAt(W.timeline, when));
+    const builds = c.tracks.flatMap((t) => (t.kind === 'feature' ? [t] : []));
+    const named = new Set(builds.map((t) => t.feature));
+    const frames = Array.from({ length: Math.ceil(c.duration * 4) + 1 }, (_, i) => frameAt(c, i / 4));
+    const drawn = (s: number) => {
+      const frame = frameAt(c, s);
+      return sceneFeatures(snap.features, frame.features, when, (id) => features.get(id)).filter(
+        (p) => p.presence > 0,
+      );
+    };
+
+    it(`${c.id}: draws nothing whose dates do not contain the scene’s year, unless the scene builds it`, () => {
+      const wrong = frames.flatMap((f) =>
+        drawn(f.s)
+          .filter((p) => !named.has(p.feature.id) && !contains(p.feature.when, when))
+          .map((p) => `${p.feature.id}@${String(f.s)}s=${p.presence.toFixed(2)}`),
+      );
+      expect(wrong.slice(0, 5)).toEqual([]);
+    });
+
+    it(`${c.id}: stands nothing at a building site before its build starts`, () => {
+      for (const t of builds) {
+        const place = features.get(t.feature)?.place;
+        expect(place, t.feature).toBeDefined();
+        const early = frames
+          .filter((f) => f.s < t.from)
+          .flatMap((f) =>
+            drawn(f.s)
+              .filter((p) => p.feature.place === place)
+              .map((p) => `${p.feature.id}@${String(f.s)}s`),
+          );
+        expect(early.slice(0, 5)).toEqual([]);
+      }
+    });
+  }
 });
 
 describe('assets', () => {
@@ -465,7 +589,7 @@ describe('the railway', () => {
     expect(late.map((f) => f.id)).toEqual([]);
   });
 
-  it('never gives a feature a latest date before its "c." end, and only a feature without exact dates (ADR 0041)', () => {
+  it('never gives a feature a latest date before its "c." end, and only a feature without exact dates (ADR 0044)', () => {
     const early = W.features.filter((f) => f.notAfter !== undefined && f.notAfter < f.when.to);
     expect(early.map((f) => f.id)).toEqual([]);
     const exact = W.features.filter((f) => f.notAfter !== undefined && f.datesExact);
@@ -474,6 +598,7 @@ describe('the railway', () => {
       'roman-fort-a',
       'roman-fort-b',
       'roman-fort-a-levelled',
+      'roman-vicus',
     ]);
   });
 
@@ -829,10 +954,40 @@ describe('the About panel', () => {
     }
   });
 
-  it('does not say the Roman forts are drawn larger than life: they keep their true size and height (ADR 0042)', () => {
+  it('does not say the Roman forts are drawn larger than life: they keep their true size and height (ADR 0045)', () => {
     expect(STRINGS.aboutBody.en).not.toContain('Roman forts and early houses');
     expect(STRINGS.aboutBody.en).toContain('Roman forts and their settlement');
     expect(STRINGS.aboutBody.cy).not.toContain('caerau Rhufeinig a thai cynnar');
     expect(STRINGS.aboutBody.cy).toContain('caerau Rhufeinig a’u hanheddiad');
+  });
+});
+
+describe('hunters burning the high heath at Waun Fignen Felen', () => {
+  const burning = W.events.find((e) => e.id === 'mesolithic-burning');
+  const fire = W.almanac.find((a) => a.id === 'mesolithic-fire');
+
+  it('sits at about 7000 BC, the calibration of ca. 8000 BP, and says "about 9,000 years ago" in both languages', () => {
+    expect(burning?.when.from).toBe(bc(7000));
+    expect(burning?.when.to).toBe(bc(7000));
+    expect(burning?.summary.en).toContain('about 9,000 years ago');
+    expect(burning?.summary.cy).toContain('tua 9,000 o flynyddoedd yn ôl');
+    expect(burning?.summary.en).not.toContain('8,000');
+    expect(burning?.summary.cy).not.toContain('8,000');
+  });
+
+  it('cites the pollen study and Coflein, and says in both languages that the date is our calibration', () => {
+    const why = burning?.provenance;
+    if (why?.kind !== 'documented') throw new Error('mesolithic-burning must be documented');
+    expect(why.sources).toEqual(expect.arrayContaining(['hunters:S19', 'hunters:S17']));
+    expect(why.sources).not.toContain('deeptime:S12');
+    expect(why.sources).toHaveLength(2);
+    expect(why.note?.en).toContain('IntCal20');
+    expect(why.note?.cy).toContain('IntCal20');
+  });
+
+  it('runs the almanac fire from about 7000 to 4500 BC, citing the same pollen study', () => {
+    expect(fire?.when.from).toBe(bc(7000));
+    expect(fire?.when.to).toBe(bc(4500));
+    expect(fire?.provenance.sources).toContain('hunters:S19');
   });
 });

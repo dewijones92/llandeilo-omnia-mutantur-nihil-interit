@@ -84,14 +84,14 @@ There is no per-castle or per-era code.
   exaggeration. A `map` plan hides any OS building footprint it covers, so the church is not
   drawn twice; any plan hides the OS footprint that contains its grid reference (the landmark's own
   outline), and nothing else. `true` plans (the Roman forts, whose dimensions are the evidence) are
-  true in plan **and in height** and hide only the footprint they stand on (ADR 0042).
+  true in plan **and in height** and hide only the footprint they stand on (ADR 0045).
 - **Parts that carry their own tier** (the forts): give a part `id`, `name` and `provenance` (the same
   union as a feature's), and mark small parts `detail: true` so they draw only near the camera (ADR
   0043). Build repeated parts from small helpers rather than by hand (`src/content/forts.ts`,
   `src/domain/fort.ts`), keep each part's `id` for good, and write the basis beside the part. A content
   test (`tests/forts.test.ts`) holds such a plan to its evidence; copy it for the next one.
 - **A feature's dates**: "c." dates may carry `notBefore` (never drawn before it, ADR 0037) and
-  `notAfter` (never drawn after it, ADR 0041), the earliest and latest dates their sources allow.
+  `notAfter` (never drawn after it, ADR 0044), the earliest and latest dates their sources allow.
 - **Orientation**: use a documented one (OS footprint, road line, a described side) and say so;
   otherwise the note says orientation is approximate.
 - A town at a documented size uses the `nearest` OS footprints to its centre. The count can be
@@ -107,6 +107,27 @@ There is no per-castle or per-era code.
 
 UI strings live in `src/content/strings.ts`, and every content text is `{ en, cy }`. Welsh place
 names come first. A human check of the Welsh is still pending.
+
+## Cutscenes
+
+A cutscene (`src/content/cutscenes.ts`, the model in `src/domain/cutscene.ts`,
+[ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)) belongs to one magnetic key date and lands
+on it. Write it as data:
+
+- **Routes** are grid references from the research (Coflein records, a dated road line), each with its
+  own provenance saying how far the line is known. Check the terrain heights along a route and at
+  every camera position; the stage lifts a camera that would sit inside a hill, which shows in
+  `?debug` logs as `dewidebug stage camera lifted`.
+- **Actors** name a kind of figure (`src/world/crowd.ts` draws each kind), how many, ranks and files,
+  and where the front rank is along the route at the track's start and end. A standing group has the
+  same start and end and `faces` a point.
+- **Captions** carry their own provenance, say what is known and what is not, and are read aloud: run
+  `node tools/voices/build-voices.ts` after changing one, then retime it if the content test says the
+  narration outlasts its window.
+- **Camera keys** are checked by screenshot: `?cutscene=<id>&cutsceneAt=<seconds>` opens a scene
+  part-way through. Remember the letterbox covers the top and bottom of the frame.
+- The scene's own provenance lists what is documented, reconstructed and imagined, including the
+  weather and time of day when no source gives them.
 
 ## Conversations and voices
 

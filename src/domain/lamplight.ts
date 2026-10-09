@@ -2,6 +2,7 @@ import { clamp, type NonEmptyArray } from './assert.ts';
 import { hex, mix, type Rgb } from './colour.ts';
 import type { Bilingual } from './i18n.ts';
 import type { AlmanacEntry, GridRef } from './model.ts';
+import { legs } from './polyline.ts';
 import type { Provenance } from './provenance.ts';
 import { PRESENT_YEAR, range, year, type Year } from './time.ts';
 
@@ -167,11 +168,7 @@ function pointsAlong(
   const far = (p: GridRef): boolean => out.every((q) => Math.hypot(q.e - p.e, q.n - p.n) >= spacing.minGap);
   for (const line of lines) {
     let carry = 0;
-    for (let i = 1; i < line.points.length; i++) {
-      const a = line.points[i - 1];
-      const b = line.points[i];
-      if (!a || !b) continue;
-      const len = Math.hypot(b.e - a.e, b.n - a.n);
+    for (const { a, b, length: len } of legs(line.points)) {
       for (let d = carry; d < len; d += spacing.every) {
         const f = d / len;
         const p = { e: a.e + (b.e - a.e) * f, n: a.n + (b.n - a.n) * f };

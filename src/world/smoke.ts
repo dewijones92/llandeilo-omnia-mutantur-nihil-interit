@@ -30,6 +30,8 @@ interface Look {
   /** Grey the smoke thins to as it dies. */
   readonly dead: number;
   readonly rise: Vector3;
+  /** Metres above the ground where the plume starts. */
+  readonly lift: number;
 }
 
 // Burning smoke is darker and heavier than a hearth's; its numbers are tuned by eye.
@@ -43,6 +45,7 @@ const LOOK: Readonly<Record<SmokeStyle, Look>> = {
     seenWithin: 1600,
     dead: 0.9,
     rise: new Vector3(0.35, 0.5, 0.15),
+    lift: 2.5,
   },
   steam: {
     colours: [new Color4(0.93, 0.93, 0.94, 0.75), new Color4(0.55, 0.55, 0.58, 0.6)],
@@ -53,6 +56,7 @@ const LOOK: Readonly<Record<SmokeStyle, Look>> = {
     seenWithin: 1600,
     dead: 0.9,
     rise: new Vector3(0.1, 0.9, 0.05),
+    lift: 2.5,
   },
   burning: {
     colours: [new Color4(0.36, 0.33, 0.3, 0.8), new Color4(0.2, 0.19, 0.18, 0.65)],
@@ -63,6 +67,19 @@ const LOOK: Readonly<Record<SmokeStyle, Look>> = {
     seenWithin: 9000,
     dead: 0.45,
     rise: new Vector3(0.6, 1.4, 0.25),
+    lift: 2.5,
+  },
+  // Kicked up by feet and hooves: low, wide and slow to settle.
+  dust: {
+    colours: [new Color4(0.74, 0.66, 0.52, 0.32), new Color4(0.62, 0.56, 0.46, 0.22)],
+    grow: [0.6, 3.2],
+    life: [2.5, 5.5],
+    rate: 10,
+    capacity: 60,
+    seenWithin: 1600,
+    dead: 0.9,
+    rise: new Vector3(0.25, 0.12, 0.1),
+    lift: 0.2,
   },
 };
 
@@ -89,7 +106,14 @@ export class Smoke {
     for (const s of sources) {
       if (cameraDistance(s.x, s.z) > LOOK[s.style].seenWithin) continue;
       wanted.add(s.key);
-      if (this.systems.has(s.key)) continue;
+      const sys = this.systems.get(s.key);
+      if (sys) {
+        // A source that moves (dust under a marching column) carries its emitter with it; its old
+        // particles stay where they were made, so it leaves a trail.
+        if (!s.follow && sys.ps.emitter instanceof Vector3)
+          sys.ps.emitter.set(s.x, s.y + LOOK[s.style].lift, s.z);
+        continue;
+      }
       this.systems.set(s.key, { ps: this.make(s), style: s.style });
       if (s.style === 'burning') console.info(`dewidebug smoke burning start ${s.key} spread=${s.spread}`);
     }
@@ -126,7 +150,7 @@ export class Smoke {
       ps.minEmitBox = s.follow.offset.add(new Vector3(-0.1, 0, -0.1));
       ps.maxEmitBox = s.follow.offset.add(new Vector3(0.1, 0.1, 0.1));
     } else {
-      ps.emitter = new Vector3(s.x, s.y + 2.5, s.z);
+      ps.emitter = new Vector3(s.x, s.y + look.lift, s.z);
       ps.minEmitBox = new Vector3(-s.spread, 0, -s.spread);
       ps.maxEmitBox = new Vector3(s.spread, 0.5, s.spread);
     }

@@ -15,6 +15,7 @@ import {
   type LanguageSnapshot,
   type Person,
   type Place,
+  type PlaceId,
   type Soundscape,
 } from './model.ts';
 import type { Provenance, Source } from './provenance.ts';
@@ -67,6 +68,22 @@ export interface Sound {
 export interface FeaturePresence {
   readonly feature: Feature;
   readonly presence: number;
+}
+
+/** What is drawn at a place now whose plan's parts each carry their own tier: the features a key date's card lists part by part. */
+export function listedAt(
+  present: readonly FeaturePresence[],
+  place: PlaceId | undefined,
+  least = 0.01,
+): Feature[] {
+  return present.flatMap(({ feature, presence }) =>
+    presence > least &&
+    feature.place === place &&
+    feature.kind.type === 'building' &&
+    feature.kind.plan.parts.some((p) => p.provenance)
+      ? [feature]
+      : [],
+  );
 }
 
 export interface Snapshot {
@@ -171,7 +188,7 @@ export function latestStarting<T extends { readonly when: TimeRange }>(
  * never present outside them: on at `from`, gone after `to` (ADR 0034). One whose dates are "c."
  * fades in over the stretch before `from` and out over the stretch after `to`, but never starts to
  * fade in before a documented earliest date (`notBefore`, ADR 0037), nor out after a documented latest
- * one (`notAfter`, ADR 0041).
+ * one (`notAfter`, ADR 0044).
  */
 export function presenceAt(
   timeline: Timeline,

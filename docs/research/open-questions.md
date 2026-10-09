@@ -21,7 +21,7 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | When the larger Dinefwr Roman fort was given up | Coflein suggests AD 78–83; the park's Wikipedia page "both ... early in the 2nd Century" (size and founding date closed 2026-10-02 by the primary report) | [iron age](era-iron-age.md) |
 | The second Dinefwr Roman fort's date | "Around AD 90-100" (an issue comment, no source) vs no direct date: Coflein "garrison phase later in the Flavian period", the report "reduction in activity in the later Trajanic period", abandoned "by AD 140". Nothing read supports AD 90-100 (added 2026-10-09) | [roman forts](roman-forts-and-vicus.md) |
 | Whether the survey's "bathhouse" is Roman | A 30m by 18m building with an apse, north-west of the forts (the survey) vs post-medieval brick, probably a kiln (Trench 6); one possible box tile elsewhere keeps a bathhouse "in the vicinity" open (added 2026-10-09) | [roman forts](roman-forts-and-vicus.md) |
-| Whether the Dinefwr forts lie where the references put them | Coflein SN 62187 22534 (the complex), the HER's Fort 1 SN 6218 2245 and Fort 2 SN 6217 2253, and Fig 1 agree to within about 30m (corrected 2026-10-09: the first pass's "about 50m east" was a measurement error); built 2026-10-09 from these figures at true scale ([ADR 0042](../adr/0042-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)); still to register on the LiDAR when it lands (added 2026-10-09) | [roman forts](roman-forts-and-vicus.md) |
+| Whether the Dinefwr forts lie where the references put them | Coflein SN 62187 22534 (the complex), the HER's Fort 1 SN 6218 2245 and Fort 2 SN 6217 2253, and Fig 1 agree to within about 30m (corrected 2026-10-09: the first pass's "about 50m east" was a measurement error); built 2026-10-09 from these figures at true scale ([ADR 0045](../adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)); still to register on the LiDAR when it lands (added 2026-10-09) | [roman forts](roman-forts-and-vicus.md) |
 | Llandeilo's bridge in 1750 | Gwilym Teilo (1858) "four narrow stone arches" vs seven arches in Cadw and the 1790s drawings | [victorian](era-victorian.md) |
 | Victoria's weight (the 1841 engine) | 18 tons (Board of Trade, 1858) vs 14 tons working weight (1985 history) | [railway](railway-locomotives.md) |
 | The red kite's 1930s low point | fewer than ten pairs (BTO) vs a single known nest (Aberystwyth University) | [deep time](deep-time-and-natural-history.md) |
@@ -38,6 +38,25 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | The date of the 1213 camp | 24 January (the Brut's reckoning) vs 25 January (Lloyd's *History of Carmarthenshire*); the app says late January and gives both (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 
 ## Gaps worth a dedicated pass
+
+- **Heneb HER terms of use** (found by the hunter-gatherers check, 2026-10-09; for Dewi). Every Heneb HER
+  (Archwilio) page says: "All output resulting from the use of the data must acknowledge the source as
+  follows: Derived from information held by the Heneb HER Charitable Trust copyright", and "If you wish to
+  use information derived from material held by the Heneb HER Charitable Trust for publication in printed or
+  multimedia form ... prior permission must be obtained in writing." The app is a public multimedia site and
+  cites HER records (`hunters:S1`, `S2`, `S5` and others, and `archwilio.org.uk` elsewhere); no recorded
+  permission or acknowledgement line was found in `src/`, `docs/adr/` or `docs/process/`. ADR 0026 covers
+  asset licences, not data terms. Coflein's footer says "Non-commercial Government Licence". **Dewi's
+  2026-10-09 rule is to credit the material in the issues rather than licence-check it**; that rule is about
+  issue content, and has not been extended to HER data. Decide before more HER-derived content goes in:
+  ask Heneb for written permission, or add the fixed acknowledgement line to the credits page and treat the
+  existing citations as facts only (not decided).
+- **Waun Fignen Felen's BP scale** (2026-10-09): the app now dates the burning at about 7000 BC on the
+  inference that "ca. 8000 years BP" is radiocarbon. The lab dates in Smith and Cloutman (1988, full text
+  not obtained: the Royal Society page returns 403) or in Barton and others (1995) would settle it.
+- **Recordings public domain outside the US only** (music check, 2026-10-09): Handel, Scherchen 1953
+  (US term to 2063 on secondary sources) and Thomas L. Thomas 1944 (to the end of 2044: 100 years from publication under the Music Modernization Act; secondary sources; corrected 2026-10-09 from "2039"). Neither ships; prefer our own
+  rendering or a pre-1923 recording ([music note](music-through-time.md), L1 and L2).
 
 - **The Dinefwr Roman forts, for a detailed model** (added 2026-10-09; [roman forts](roman-forts-and-vicus.md)):
   the Stratascan interpretation plots (2003, Heard 2005), Hughes in *Carmarthenshire Antiquary* 39 and 41,

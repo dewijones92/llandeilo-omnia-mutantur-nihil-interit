@@ -75,24 +75,24 @@ or feature is in the named note; everything else in the plan is a labelled recon
 
 Still to do from the phase list above: Garn Goch keeps its earlier builder.
 
-### The Roman forts and their settlement (built 2026-10-09, [ADR 0042](../adr/0042-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md))
+### The Roman forts and their settlement (built 2026-10-09, [ADR 0045](../adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md))
 
 Four features, all plans in `src/content/forts.ts`, in true size and height (the `true` setting). Each part
 has an id, a name and its own tier, and is listed on the key date's card.
 
 | Feature | Dates | Parts | Documented | Reconstructed (analogy, said on each part) |
 |---|---|---|---|---|
-| Fort 1, the larger | AD 74 (never before 70) to 78, gone by 83 | 66 | Inner ditches round 240m by 160m; three ditches south-east, two south-west (V-shaped, 1.7m by 1.1m inner, 1.0m by 0.5m outer); gateways south-east and south-west, a six-post tower at the south-west; a four-post interval tower near the eastern corner | Turf rampart (inferred from ditch fill; 3m, 4m base, 1.7m breastwork), corner towers, the other gate towers and walkways, the interior (principia, praetorium, granaries, 16 barracks), the roads; roofs and gate leaves imagined |
-| Fort 2, the smaller | about AD 82 (never before 78) to 125, gone by 140 | 83 | Inner ditches round 140m by 110m; three or more ditches south-east with the outer two joined at the right gate; front, left and right gates; the survey's via principalis and via praetoria | Rampart, towers, interior (six barracks), the rear gate (drawn smaller, unroofed, "not demonstrated"), the other three sides' ditches |
-| Fort 1's ditches, backfilled | with Fort 2 | 15 | the backfill of the inner ditch | the pale line itself |
-| The settlement (vicus) | c. AD 70 to 135, exact | 18 | Two roads from Fort 2's front gate | 16 timber houses, small and irregular, each imagined (the survey shows no street grid) |
+| Fort 1, the larger | AD 74 (never before 70) to 78, gone by 83 | 66 | Inner ditches round 240m by 160m; two ditches south-west, measured by Trench 1 (V-shaped, 1.7m by 1.1m inner, 1.0m by 0.5m outer), three south-east by survey (profiles drawn like the south-west's, not measured there); gateways south-east and south-west, a six-post tower at the south-west; a four-post interval tower near the eastern corner | Turf rampart (inferred from ditch fill; 3m, 4m base, 1.7m breastwork), corner towers, the other gate towers and walkways, the interior (principia, praetorium, granaries, 16 barracks), the roads; roofs and gate leaves imagined |
+| Fort 2, the smaller | AD 83 (the HER's "possibly around 82" is in the ⓘ, unproven) to 125, gone by 140 | 83 | Inner ditches round 140m by 110m; three or more ditches south-east with the outer two joined at the right gate; front, left and right gates; the survey's via principalis and via praetoria | Rampart, towers, interior (six barracks), the rear gate (drawn smaller, unroofed, "not demonstrated"), the other three sides' ditches |
+| Fort 1's ditches, backfilled | with Fort 2 | 15 | the backfill of the inner ditch | the pale line itself; the excavator suggests some stretches stayed open as an annex, which is not drawn |
+| The settlement (vicus) | AD 83 to 135, fading out by 140 (the pottery's c. AD 70 to 90 is earlier activity, not drawn as streets) | 18 | Two roads from Fort 2's front gate | 16 timber houses, small and irregular, each imagined (the survey shows no street grid) |
 
-Not drawn, because the note marks each "perhaps" or contested: the annex, the practice camps, the possible
+Not drawn, because the note marks each "perhaps" or contested: the annex (noted on the backfilled ditches' ⓘ only), the practice camps, the possible
 bathhouse, Fort 1's kiln, its north-east and north-west gates (not found) and third possible ditch, the vicus's
 funnel ditches and enclosure, the cremations. No stone, tile or limewash. Credit: "Neil Ludlow, for Cambria
 Archaeology" (reference, not evidence) and the Hughes report in each ⓘ. Screenshots: [`../images/roman-forts/`](../images/roman-forts/).
 
-**Levels of detail** ([ADR 0043](../adr/0043-detailed-monuments-have-a-far-and-a-near-mesh.md)): a far mesh
+**Levels of detail** ([ADR 0046](../adr/0046-detailed-monuments-have-a-far-and-a-near-mesh.md)): a far mesh
 (rampart, ditches, gate towers, roads) beyond 2.3km and a near one inside 2km. **Editing**: a part is a data entry
 (`fort1/gate-sw/tower-left`); gates are separate parts (towers, walkway, passage, two leaves) so a leaf can
 become its own object, though the renderer merges them today. **Not done**: the issue's Blender project (Dewi

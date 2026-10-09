@@ -24,7 +24,7 @@ export interface WorldPoint {
 
 export interface Built {
   readonly mesh: Mesh;
-  /** The same thing in full, where `mesh` leaves out its small parts: it is drawn instead of `mesh` when the camera is near (ADR 0043). */
+  /** The same thing in full, where `mesh` leaves out its small parts: it is drawn instead of `mesh` when the camera is near (ADR 0046). */
   readonly near?: Mesh;
   readonly casts: boolean;
   /** Where each house's hearth glows through its door, in world space; empty for anything else. */

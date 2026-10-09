@@ -1,11 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { TYWI_ROAD_FROM_LLANDOVERY } from '../src/content/cutscenes.ts';
+import { placeId } from '../src/content/ids.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { distanceToPath } from '../src/domain/fort.ts';
 import type { Feature } from '../src/domain/model.ts';
-import { hidesFootprint, partsByTier, rotate, type Part, type Plan } from '../src/domain/plan.ts';
-import { snapshotAt } from '../src/domain/state.ts';
+import { hidesFootprint, partsByTier, rotate, type Part, type Plan, type Pt } from '../src/domain/plan.ts';
+import { listedAt, snapshotAt } from '../src/domain/state.ts';
 import { ad } from '../src/domain/time.ts';
 import { tAt } from '../src/domain/timeline.ts';
 
@@ -77,7 +79,7 @@ describe('where the Roman forts stand', () => {
     expect(inner('roman-fort-b').width).toBeCloseTo(110, 0);
   });
 
-  it('draws them at true size and true height, not at the 2.6 times landmark scale or the hills’ exaggeration (ADR 0042)', () => {
+  it('draws them at true size and true height, not at the 2.6 times landmark scale or the hills’ exaggeration (ADR 0045)', () => {
     for (const id of FORT_IDS) expect(plan(id).setting, id).toBe('true');
   });
 
@@ -123,9 +125,15 @@ describe('when the Roman forts stand', () => {
     const a = feature('roman-fort-a');
     expect([a.when.from, a.when.to, a.notBefore, a.notAfter]).toEqual([74, 78, 70, 83]);
     const b = feature('roman-fort-b');
-    expect([b.when.from, b.when.to, b.notBefore, b.notAfter]).toEqual([82, 125, 78, 140]);
+    expect([b.when.from, b.when.to, b.notBefore, b.notAfter]).toEqual([83, 125, 83, 140]);
     const v = feature('roman-vicus');
-    expect([v.when.from, v.when.to, v.datesExact]).toEqual([70, 135, true]);
+    expect([v.when.from, v.when.to, v.notBefore, v.notAfter, v.datesExact]).toEqual([
+      83,
+      135,
+      83,
+      140,
+      undefined,
+    ]);
   });
 
   it('draws Fort 1 from soon after AD 74, never before the Flavian period, and gone by 83', () => {
@@ -139,16 +147,23 @@ describe('when the Roman forts stand', () => {
     expect(presence('roman-fort-a', 110)).toBe(0);
   });
 
-  it('lets Fort 2 arrive as Fort 1 goes, so that in AD 80 both are in the picture, each part-present', () => {
+  it('hands the ground from Fort 1 to Fort 2 in turn: while Fort 1 fades out, nothing of Fort 2, its levelled ditches or the settlement is drawn', () => {
     const a = presence('roman-fort-a', 80);
-    const b = presence('roman-fort-b', 80);
     expect(a).toBeGreaterThan(0);
-    expect(b).toBeGreaterThan(0);
     expect(a).toBeLessThan(1);
-    expect(b).toBeLessThan(1);
+    for (const id of ['roman-fort-b', 'roman-fort-a-levelled', 'roman-vicus'])
+      expect(presence(id, 80), id).toBe(0);
     expect(presence('roman-fort-b', 70)).toBe(0);
     expect(presence('roman-fort-b', 90)).toBe(1);
     expect(presence('roman-fort-b', 120)).toBe(1);
+  });
+
+  it('never draws anything with Fort 1 above a whisper while Fort 1 stands: a Fort 1 ditch lies under Fort 2’s levelling, so they were not together', () => {
+    const together: string[] = [];
+    for (let y = 60; y <= 150; y += 0.25)
+      for (const id of ['roman-fort-b', 'roman-fort-a-levelled', 'roman-vicus'])
+        if (presence('roman-fort-a', y) > 0.01 && presence(id, y) > 0.01) together.push(`${id}@${String(y)}`);
+    expect(together).toEqual([]);
   });
 
   it('draws Fort 2 until about 125, fading to nothing by 140, when the site was abandoned', () => {
@@ -159,26 +174,59 @@ describe('when the Roman forts stand', () => {
     expect(presence('roman-fort-b', 160)).toBe(0);
   });
 
-  it('draws the backfilled Fort 1 ditches under Fort 2 for as long as Fort 2 stands, and the vicus c. AD 70 to 135 only', () => {
+  it('draws the backfilled Fort 1 ditches under Fort 2 for as long as Fort 2 stands, and the vicus from Fort 2’s arrival, fading out after 135 like a "c." date', () => {
     expect(presence('roman-fort-a-levelled', 100)).toBe(1);
     expect(presence('roman-fort-a-levelled', 150)).toBe(0);
-    expect(presence('roman-vicus', 69)).toBe(0);
-    expect(presence('roman-vicus', 70)).toBe(1);
+    expect(presence('roman-vicus', 74)).toBe(0);
+    expect(presence('roman-vicus', 82)).toBe(0);
+    expect(presence('roman-vicus', 100)).toBe(1);
     expect(presence('roman-vicus', 135)).toBe(1);
-    expect(presence('roman-vicus', 136)).toBe(0);
+    const late = presence('roman-vicus', 137);
+    expect(late).toBeGreaterThan(0);
+    expect(late).toBeLessThan(1);
+    expect(presence('roman-vicus', 141)).toBe(0);
+  });
+
+  it('says in the settlement’s ⓘ that earlier activity (pottery from about AD 70) is not drawn as streets, because its layout hangs on Fort 2’s gate', () => {
+    const v = featureText(feature('roman-vicus'));
+    expect(v).toContain('AD 70 to 90');
+    expect(v).toContain('not drawn as streets');
+    expect(v).toContain('Fort 2’s front gate');
   });
 
   it('keeps the contested dates contested in the ⓘ: the HER’s 82, the painting’s 90 to 100, and the speculative 78 to 83', () => {
     const b = featureText(feature('roman-fort-b'));
     expect(b).toContain('possibly around 82 AD');
     expect(b).toContain('unproven');
-    expect(b).toContain('caption date');
+    expect(b).toContain('around 100AD');
+    expect(b).toContain('caption');
+    expect(b).toContain('not a founding date');
+    expect(b).toContain('drawn from AD 83');
     expect(b).toContain('mid-120s');
     expect(feature('roman-fort-b').when.from).not.toBe(90);
     expect(feature('roman-fort-b').when.from).not.toBe(100);
     const a = featureText(feature('roman-fort-a'));
     expect(a).toContain('perhaps soon after AD 74');
     expect(a).toContain('speculative');
+  });
+});
+
+describe('the parts list on the key date’s card', () => {
+  const listed = (year: number): string[] =>
+    listedAt(snapshotAt(W, tAt(W.timeline, ad(year))).features, placeId('roman-forts')).map((f) => f.id);
+
+  it('lists what is drawn at the year the slider is at, not at the key date’s own year', () => {
+    expect(listed(74)).toEqual(['roman-fort-a']);
+    expect(listed(80)).toEqual(['roman-fort-a']);
+    expect(listed(110).sort()).toEqual(['roman-fort-a-levelled', 'roman-fort-b', 'roman-vicus']);
+    expect(listed(132).sort()).toEqual(['roman-fort-a-levelled', 'roman-fort-b', 'roman-vicus']);
+    expect(listed(138).sort()).toEqual(['roman-fort-a-levelled', 'roman-fort-b', 'roman-vicus']);
+    expect(listed(150)).toEqual([]);
+  });
+
+  it('lists no feature of another place, and none without parts that carry their own tier', () => {
+    const here = listedAt(snapshotAt(W, tAt(W.timeline, ad(110))).features, placeId('somewhere-else'));
+    expect(here).toEqual([]);
   });
 });
 
@@ -295,6 +343,30 @@ describe('what each part of the Roman forts rests on', () => {
     expect(profile('roman-fort-a', 3)).toEqual({ width: 1, depth: 0.5 });
   });
 
+  it('gives Fort 1’s south-west side the profiles Trench 1 measured, 1.7m by 1.1m and 1.0m by 0.5m, and says the south-east side’s are not measured', () => {
+    const sw = (ring: number) =>
+      parts('roman-fort-a').filter((p) => p.type === 'ditch' && p.id?.includes(`/ditch-${String(ring)}-sw-`));
+    for (const [ring, width, depth] of [
+      [1, 1.7, 1.1],
+      [2, 1, 0.5],
+    ] as const) {
+      expect(sw(ring).length, `ring ${String(ring)}`).toBeGreaterThan(0);
+      for (const d of sw(ring)) {
+        expect(d.type === 'ditch' && [d.width, d.depth]).toEqual([width, depth]);
+        expect(d.provenance?.kind, d.id).toBe('documented');
+        expect(text(d.provenance), d.id).toContain('Trench 1');
+      }
+    }
+    expect(text(sw(1)[0]?.provenance)).toContain('square butt');
+    const se = parts('roman-fort-a').filter((p) => p.type === 'ditch' && /\/ditch-\d-se-/.test(p.id ?? ''));
+    expect(se.length).toBeGreaterThan(2);
+    for (const d of se) {
+      expect(text(d.provenance), d.id).toContain('not measured here');
+      expect(text(d.provenance), d.id).not.toContain('square butt');
+      expect(text(d.provenance), d.id).not.toContain('excavation');
+    }
+  });
+
   it('draws timber and earth only: no stone, no limewash, no tile or slate, no palisade', () => {
     const stone = [
       'rubble',
@@ -359,6 +431,37 @@ describe('what each part of the Roman forts rests on', () => {
   });
 });
 
+describe('what the notes say no more than the sources do', () => {
+  it('keeps the excavator’s suggestion that Fort 1’s northern and eastern defences stayed in use as an annex beside the backfilled ditches', () => {
+    expect(featureText(feature('roman-fort-a-levelled'))).toContain('annex');
+    for (const d of parts('roman-fort-a-levelled').filter((p) => p.type === 'ditch')) {
+      expect(text(d.provenance), d.id).toContain('annex');
+      expect(d.provenance?.kind, d.id).toBe('reconstructed');
+    }
+  });
+
+  it('says the settlement draws no tile roofs although Roman tile was found there, and no stone', () => {
+    const v = featureText(feature('roman-vicus'));
+    expect(v).not.toContain('No tile and no stone');
+    expect(v).toContain('Roman tile fragments were found');
+    expect(v).toContain('No tile roofs are drawn');
+    expect(v).toContain('darnau teilsen Rufeinig');
+  });
+
+  it('says one corner tower was found at Jay Lane, thought to be six-post from four posts, not that towers were excavated', () => {
+    const c = parts('roman-fort-a').find((p) => p.id === 'fort1/corner-tower-ne');
+    const t = text(c?.provenance);
+    expect(t).not.toContain('towers on six posts');
+    expect(t).toContain('thought to have stood on six posts');
+    expect(t).toContain('four were found');
+  });
+
+  it('does not cite a wider berm between Fort 2’s second and third ditches without saying it is not drawn', () => {
+    const d = parts('roman-fort-b').find((p) => p.id?.includes('/ditch-1-se-'));
+    expect(text(d?.provenance)).toContain('not drawn');
+  });
+});
+
 describe('the civilian settlement', () => {
   const houses = (): Extract<Part, { type: 'hall' }>[] =>
     parts('roman-vicus').flatMap((p) => (p.type === 'hall' ? [p] : []));
@@ -420,5 +523,44 @@ describe('levels of detail', () => {
       ))
         expect(p.detail, p.id).toBe(true);
     }
+  });
+});
+
+describe('the arrival cutscene’s road', () => {
+  const fort = feature('roman-fort-a');
+  const inFort = (p: { e: number; n: number }): Pt =>
+    rotate([p.e - fort.at.e, p.n - fort.at.n], -(plan('roman-fort-a').angle ?? 0));
+  const route = TYWI_ROAD_FROM_LLANDOVERY.points;
+
+  it('ends outside Fort 1’s evidenced south-east gate, at true scale, not at a placeholder’s edge', () => {
+    const end = inFort(route[route.length - 1] ?? fort.at);
+    expect(Math.abs(end[0] - 18)).toBeLessThan(2);
+    expect(end[1]).toBeLessThan(-80);
+    expect(end[1]).toBeGreaterThan(-100);
+  });
+
+  it('goes round the fort rather than through it, keeping clear of its outermost ditch', () => {
+    const inside: string[] = [];
+    route.forEach((p, i) => {
+      const [x, y] = inFort(p);
+      if (Math.abs(x) < 120 + 12 && Math.abs(y) < 80 + 12 && i < route.length - 1) inside.push(String(i));
+    });
+    expect(inside).toEqual([]);
+    for (let i = 1; i < route.length; i++) {
+      const a = inFort(route[i - 1] ?? fort.at);
+      const b = inFort(route[i] ?? fort.at);
+      for (let k = 0; k <= 50; k++) {
+        const x = a[0] + ((b[0] - a[0]) * k) / 50;
+        const y = a[1] + ((b[1] - a[1]) * k) / 50;
+        if (i < route.length - 1)
+          expect(Math.abs(x) < 120 && Math.abs(y) < 80, `leg ${String(i)}`).toBe(false);
+      }
+    }
+  });
+
+  it('says in its ⓘ that the gate chosen is a choice, not a record', () => {
+    const p = TYWI_ROAD_FROM_LLANDOVERY.provenance;
+    expect(p.kind === 'reconstructed' && p.basis.en).toContain('south-east gate');
+    expect(p.kind === 'reconstructed' && p.basis.cy).toContain('de-ddwyreiniol');
   });
 });

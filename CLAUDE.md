@@ -110,9 +110,9 @@ The summary lives in [`docs/research/findings.md`](docs/research/findings.md), a
   chosen by ear on 2026-09-26; Roman-era Latin lines carry an ⓘ saying Romans pronounced it
   differently. Brittonic and Old/Middle Welsh are voiced as modern Welsh stand-ins and labelled so.
 - **The Roman forts are drawn true size and true height, as plans whose every part carries its own tier**
-  ([ADR 0042](docs/adr/0042-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)):
+  ([ADR 0045](docs/adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)):
   never at the 2.6 times landmark scale, no stone, tile or limewash, no gate without evidence (Fort 2's rear
-  gate is drawn as unproven), the second fort's "AD 90–100" a caption date and not a founding date.
+  gate is drawn as unproven), the second fort's "AD 90–100" probably from a painting's caption ("around 100AD"), a scene date and not a founding date; Fort 2 starts at AD 83 once Fort 1 is gone, since a Fort 1 ditch lies under Fort 2's levelling.
 - **Research is a draft until independently reviewed.** Each note is `status: draft`; a review pass
   against the notes is part of shipping new content.
 
@@ -302,7 +302,7 @@ same GPU, High, 1903 overview at 23:00 with 5,374 halos, vsync off via `node too
 --perf --uncapped`): idle 150-159fps before and 162-165 after, orbiting 72-105 before and 92-109
 after, the scrub's apply cost 59ms (features) and 250ms (environment) before, 45 and 246 after: no
 cost measurable through the noise of a shared GPU. With vsync on both hold 60fps idle. Local runs can use the GPU: see the WSL recipe in Build & test. Bundle: the main chunk is
-390KB gzipped (399,487 bytes, 2026-09-28 after merging the atmosphere work; 387KB on 2026-09-26), plus
+490KB gzipped (490,121 bytes, 2026-10-09 on the cutscene branch merged with main; 399,487 bytes on 2026-09-28; 387KB on 2026-09-26), plus
 chunks fetched only when needed (about 980KB gzipped across all JS). There is **no size limit**
 (Dewi, 2026-09-28; the 450KB CI budget was mine, never his, and is removed, [ADR 0016](docs/adr/0016-no-bundle-size-limit.md)).
 CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*.js | wc -c`.

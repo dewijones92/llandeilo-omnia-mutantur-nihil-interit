@@ -1,9 +1,11 @@
 import { expect, test, type Page } from '@playwright/test';
+import { CUTSCENES } from '../src/content/cutscenes.ts';
 import { EVENTS } from '../src/content/events.ts';
 import { TIMELINE } from '../src/content/timeline.ts';
 import { toWorld } from '../src/domain/geo.ts';
 import { keySteps, stepFrom } from '../src/domain/steps.ts';
 import { tAt } from '../src/domain/timeline.ts';
+import { formatSliderYear, year } from '../src/domain/time.ts';
 
 test('the valley loads and the slider moves through time', async ({ page }) => {
   const errors: string[] = [];
@@ -457,6 +459,10 @@ const COUNTRYSIDE = { x: 420, y: 20, width: 660, height: 300 };
 test('the night is dark and lit by the light of its time: gas lamps glow in 1880, the 1942 blackout is black', async ({
   page,
 }) => {
+  test.slow(
+    Boolean(process.env['CI']),
+    'two night scenes with thousands of halos, rendered on the CPU in CI',
+  );
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   const debug = page.locator('.debug');
@@ -507,6 +513,11 @@ const OVERVIEW_LAND = { x: 330, y: 230, width: 760, height: 420 };
 test('the night light reads from the overview: the halos put the lit town and farms on screen', async ({
   page,
 }) => {
+  // About 5,400 halos over the whole valley; on CI's CPU renderer this ran 7 minutes on 2026-10-09.
+  test.slow(
+    Boolean(process.env['CI']),
+    'the whole valley at night with every halo, rendered on the CPU in CI',
+  );
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./?year=1880&hour=23&season=winter&debug');
@@ -873,6 +884,76 @@ test('choosing Low graphics turns the effects off in the renderer, and the choic
   await expect.poll(live).toMatch(/^quality low .* bloom off {2}dof off /);
 });
 
+test('a cutscene plays from the moment card, moves its captions on, and Skip lands on its key date', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  const landed: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug cutscene landed')) landed.push(m.text());
+  });
+  const scene = CUTSCENES.find((c) => c.id === 'roman-arrival');
+  const captions = scene?.tracks.flatMap((t) => (t.kind === 'caption' ? [t.text.en] : [])) ?? [];
+  expect(captions.length).toBeGreaterThan(1);
+  const ad74 = formatSliderYear(year(74), 'en');
+  await page.goto('./?year=74');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  await page.getByRole('button', { name: /Watch/ }).click();
+  const overlay = page.locator('.cutscene');
+  await expect(overlay).toBeVisible();
+  await expect(page.locator('html')).toHaveClass(/cutscene-playing/);
+  await expect(page.locator('.cs-caption')).toHaveText(captions[0] ?? '');
+  // The scene clock runs on rendered frames (about one a second in CI), so give the next caption time.
+  await expect(page.locator('.cs-caption')).toHaveText(captions[1] ?? '', { timeout: 90_000 });
+  // The faded interface behind the scene cannot take focus: Tab stays in the letterbox.
+  for (let i = 0; i < 16; i++) {
+    await page.keyboard.press('Tab');
+    const where = await page.evaluate(() => {
+      const f = document.activeElement;
+      if (!f || f === document.body || f.closest('.cutscene')) return 'ok';
+      return `${f.tagName}.${f.className}`;
+    });
+    expect(where, `Tab ${String(i + 1)} reached the interface behind the scene`).toBe('ok');
+  }
+  // Reading a caption's sources pauses the scene, and Escape closes the ⓘ without skipping the scene.
+  await page.locator('.cs-caption-prov .prov').click();
+  await expect(page.locator('.cs-caption-prov .prov-pop')).toBeVisible();
+  // Text wraps inside the popover, and the popover stays on screen.
+  const fit = await page.locator('.cs-caption-prov .prov-pop').evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    const spill = [...el.querySelectorAll('*')].some((c) => c.getBoundingClientRect().right > r.right + 1);
+    return { spill, onScreen: r.left >= 0 && r.right <= window.innerWidth };
+  });
+  expect(fit).toEqual({ spill: false, onScreen: true });
+  await expect(overlay).toHaveClass(/paused/);
+  const progress = page.locator('.cs-progress-bar');
+  const held = await progress.getAttribute('style');
+  await page.waitForTimeout(3000);
+  await expect(progress).toHaveAttribute('style', held ?? '');
+  await expect(page.locator('.cs-caption')).toHaveText(captions[1] ?? '');
+  await page.keyboard.press('Escape');
+  await page.mouse.move(5, 5);
+  await expect(page.locator('.cs-caption-prov .prov-pop')).toBeHidden();
+  await expect(overlay).toBeVisible();
+  await expect(overlay).not.toHaveClass(/paused/);
+  await expect.poll(() => progress.getAttribute('style'), { timeout: 60_000 }).not.toBe(held);
+  await expect(page.locator('.timeline')).toHaveClass(/locked/);
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('.tl-year')).toHaveText(ad74);
+  await page.screenshot({ path: 'test-results/cutscene-roman-arrival.png' });
+  await page.getByRole('button', { name: /Skip/ }).click();
+  await expect(overlay).toBeHidden();
+  await expect(page.locator('html')).not.toHaveClass(/cutscene-playing/);
+  await expect(page.locator('.timeline')).not.toHaveClass(/locked/);
+  await expect(page.locator('.tl-year')).toHaveText(ad74);
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  await expect(page.getByRole('button', { name: /Watch/ })).toBeVisible();
+  expect(landed.some((l) => l.includes('event=roman-forts skipped=true'))).toBe(true);
+  expect(errors).toEqual([]);
+});
+
 const particleSystems = async (page: Page): Promise<string[]> =>
   page.evaluate(() => {
     const debug: unknown = Reflect.get(window, 'llandeiloDebug');
@@ -988,7 +1069,7 @@ const drawnPlans = async (page: Page): Promise<{ near: number; far: number }> =>
     return { near: on('near'), far: on('far') };
   });
 
-test('flying to the Roman forts at AD 80 shows both phases, Fort 1 going and Fort 2 coming, with the settlement, read through ?debug', async ({
+test('flying to the Roman forts at AD 80 shows Fort 1 going and nothing of Fort 2, and at AD 84 Fort 2 whole over Fort 1’s backfilled ditches, with the settlement, read through ?debug', async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -999,20 +1080,29 @@ test('flying to the Roman forts at AD 80 shows both phases, Fort 1 going and For
   await expect(debug).toContainText('year AD 80');
   await expect.poll(() => presenceOf(page, 'roman-fort-a')).toBeGreaterThan(0.3);
   expect(await presenceOf(page, 'roman-fort-a')).toBeLessThan(0.9);
-  await expect.poll(() => presenceOf(page, 'roman-fort-b')).toBeGreaterThan(0.2);
-  expect(await presenceOf(page, 'roman-fort-b')).toBeLessThan(0.8);
-  expect(await presenceOf(page, 'roman-vicus')).toBe(1);
+  for (const id of ['roman-fort-b', 'roman-fort-a-levelled', 'roman-vicus'])
+    expect(await presenceOf(page, id), id).toBeUndefined();
   await expect(debug).toContainText('roman-fort-a@');
   await expect(debug).toContainText('[documented]');
-  await expect(debug).toContainText('roman-vicus@1.00[reconstructed]');
   await expect(debug).toContainText(
     /plan roman-fort-a: \d+ parts \(\d+ documented, \d+ reconstructed, \d+ imagined\), \d+ detail only/,
   );
+  await expect(debug).not.toContainText('plan roman-fort-b');
+  await expect(debug).toContainText('detail roman-fort-a=near');
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 1, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-80.png' });
+  await page.goto('./?debug&place=roman-forts&year=84&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(debug).toContainText('year AD 84');
+  await expect.poll(() => presenceOf(page, 'roman-fort-b')).toBe(1);
+  expect(await presenceOf(page, 'roman-fort-a')).toBeUndefined();
+  expect(await presenceOf(page, 'roman-fort-a-levelled')).toBe(1);
+  expect(await presenceOf(page, 'roman-vicus')).toBe(1);
+  await expect(debug).toContainText('roman-vicus@1.00[reconstructed]');
   await expect(debug).toContainText(/plan roman-fort-b: \d+ parts/);
   await expect(debug).toContainText('detail roman-fort-a=near roman-fort-b=near roman-vicus=near');
-  await expect.poll(() => drawnPlans(page)).toMatchObject({ far: 0 });
-  expect((await drawnPlans(page)).near).toBeGreaterThanOrEqual(4);
-  await page.screenshot({ path: 'test-results/roman-forts-80.png' });
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-84.png' });
   expect(errors).toEqual([]);
 });
 
@@ -1091,4 +1181,24 @@ test('the first Roman key date lists what is drawn, part by part, and each part 
   );
   await page.locator('.moment-parts summary').click();
   await expect(page.locator('.moment-parts h3').first()).toHaveText('Y gaer Rufeinig fwyaf (Caer 1)');
+});
+
+test('at AD 110 the card lists what is drawn then, Fort 2 with its rear gate shown as unproven and not Fort 1, which has gone', async ({
+  page,
+}) => {
+  await page.goto('./?year=110&place=roman-forts&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  const parts = page.locator('.moment-parts');
+  await parts.locator('summary').click();
+  await expect(parts.locator('h3')).toHaveText([
+    'The smaller Roman fort (Fort 2)',
+    'Fort 1’s ditches, backfilled',
+    'The civilian settlement (vicus)',
+  ]);
+  await expect(parts.locator('details[data-part^="fort1/"]')).toHaveCount(0);
+  const rear = parts.locator('details[data-part="fort2/gate-sw/passage"]');
+  await rear.locator('summary').click();
+  await expect(rear).toContainText('not demonstrated');
+  await page.screenshot({ path: 'test-results/roman-forts-parts-110.png' });
 });

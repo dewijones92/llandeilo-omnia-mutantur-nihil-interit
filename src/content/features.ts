@@ -40,7 +40,7 @@ import {
   ROMAN_VICUS,
   VICUS_AT,
 } from './forts.ts';
-import { documented, imagined, reconstructed } from './tiers.ts';
+import { documented, imagined, reconstructed } from './provenance.ts';
 
 type Spec = {
   readonly id: string;
@@ -260,9 +260,9 @@ export const FEATURES: readonly Feature[] = [
     id: 'roman-fort-b',
     kind: { type: 'building', plan: FORT_2, condition: 'standing' },
     at: FORT_2_AT,
-    from: ad(82),
+    from: ad(83),
     to: ad(125),
-    notBefore: ad(78),
+    notBefore: ad(83),
     notAfter: ad(140),
     label: { en: 'The smaller Roman fort (Fort 2)', cy: 'Y gaer Rufeinig lai (Caer 2)' },
     provenance: FORT_PROVENANCE.fort2,
@@ -272,9 +272,9 @@ export const FEATURES: readonly Feature[] = [
     id: 'roman-fort-a-levelled',
     kind: { type: 'building', plan: FORT_1_LEVELLED, condition: 'standing' },
     at: FORT_1_AT,
-    from: ad(82),
+    from: ad(83),
     to: ad(125),
-    notBefore: ad(78),
+    notBefore: ad(83),
     notAfter: ad(140),
     label: { en: 'Fort 1’s ditches, backfilled', cy: 'Ffosydd Caer 1, wedi’u llenwi' },
     provenance: FORT_PROVENANCE.levelled,
@@ -284,9 +284,10 @@ export const FEATURES: readonly Feature[] = [
     id: 'roman-vicus',
     kind: { type: 'building', plan: ROMAN_VICUS, condition: 'standing' },
     at: VICUS_AT,
-    from: ad(70),
+    from: ad(83),
     to: ad(135),
-    datesExact: true,
+    notBefore: ad(83),
+    notAfter: ad(140),
     label: { en: 'The civilian settlement (vicus)', cy: 'Yr anheddiad sifil (vicus)' },
     provenance: FORT_PROVENANCE.vicus,
     place: 'roman-forts',

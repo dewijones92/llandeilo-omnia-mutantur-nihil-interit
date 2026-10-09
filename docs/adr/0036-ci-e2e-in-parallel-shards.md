@@ -38,3 +38,11 @@ tests had hit the 3-minute per-test limit. The same tests passed 31 of 31 locall
 - Wall time is roughly the slowest shard (about a quarter of the tests) plus setup, and four runners'
   minutes are spent instead of one, which is free for a public repo.
 - Why the High-quality scenes are so much slower on SwiftShader is not measured; it is in the todo file.
+
+## Amended 2026-10-09: six shards, and the two night tests marked slow
+
+Run 37974359599 (commit 3e2b935) failed one shard: the whole-valley night halo test took 7.0 minutes
+on the CPU renderer and ran out of its 7-minute limit while taking a screenshot, after the same tests
+had passed on the two runs before. Adding the cutscene test had moved both heavy night tests into one
+shard. The night tests are now marked `test.slow` in CI (three times the limit), and the e2e job runs
+six shards instead of four, so no shard carries both and the wall time stays about the same.

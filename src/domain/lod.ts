@@ -1,6 +1,6 @@
 export type Level = 'far' | 'near';
 
-/** Metres are world units of 10m: a monument closer than this to the camera is drawn in full (ADR 0043). */
+/** Metres are world units of 10m: a monument closer than this to the camera is drawn in full (ADR 0046). */
 export const NEAR = 200;
 const HOLD = 1.15;
 

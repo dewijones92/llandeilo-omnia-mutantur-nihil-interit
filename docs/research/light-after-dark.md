@@ -34,8 +34,12 @@ used.
   Dinefwr on a given night. Nothing read here describes lighting in a medieval Llandeilo house.
   (*Corrected 2026-10-03 (independent check)*: the app said the Deheubarth law-book was "in manuscripts from the early 13th
   century". [medieval:S41] says that of Welsh law's earliest surviving manuscripts in general, which
-  are Latin; no source read dates the Deheubarth text's own manuscripts. Owen's introduction says the
-  Dimetian Code mentions alterations by Rhys ap Gruffudd "about 1180", a lead, not a manuscript date.)
+  are Latin. Owen's introduction says the Dimetian Code mentions alterations by Rhys ap Gruffudd "about 1180",
+  a lead, not a manuscript date. *Corrected 2026-10-09 (independent check)*: the 2026-10-03 correction also
+  said "no source read dates the Deheubarth text's own manuscripts", which was wrong: [music:S3]'s preface
+  dates the base manuscript of the Dimetian Code (British Museum, Titus D. ix) to "about the close of the
+  thirteenth or early part of the fourteenth century". The key year 1200 and the 13th-century wording of the
+  key's text are unaffected.)
 - **Rushlights in farmhouses and cottages, by the 18th century.** At Cilewent, a long-house from
   Llansanffraid Cwmteuddwr near Rhayader, furnished at St Fagans to 1750, "in the evening, lighting
   was provided by a rushlight holder ... Reeds were dipped in fat, lit and placed between the two iron

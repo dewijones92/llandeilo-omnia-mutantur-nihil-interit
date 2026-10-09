@@ -2,7 +2,7 @@
 title: Decision log
 kind: log
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Decision log
@@ -137,6 +137,33 @@ with the full context and consequences.
 | Every night-light key that lights a drawn farm says, in both languages, that the farms' lit windows are a guess: the 1200 (from 1650, when farms are first drawn), 1750, 1864, 1876 and 1944 keys join 1902 and 1945, and the 1876 key also says its homes' oil lamps and share of lit windows are guessed. A content test fails any key that lights farms without saying so | The halos made an invented detail the most visible thing at the overview, so it must carry its label wherever it shows. Only words were added: no date, level or colour changed. Decided by Claude under the proactive mandate (ADR 0027), so Dewi can overrule it |
 | A roundhouse or longhouse group glows at every house, not once at the group's centre | One glow per group of nine longhouses read as one light; a glow per house matches what is drawn. Decided by Claude under the proactive mandate (ADR 0027) |
 
+### The first cutscene: the Roman army arrives (2026-10-03)
+
+Built on the agreed cutscene item. Every choice below was decided by Claude under the proactive
+mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), so Dewi
+can overrule it; the narrator in the UI language and captions always on are Dewi's (2026-10-02 row).
+
+| Decision | Why |
+|---|---|
+| The army comes down the Tywi from the north-east, along the line of the later Roman road (Coflein's segments past Llanwrda and Manordeilo, the parchmark entering Llandeilo), and walks in at the fort's east gate as drawn | The research's verdict: the more likely direction, inferred from the forts and the marching camps east of Llandovery; the caption says no record gives the direction. On the day there was no finished road, which the route's ⓘ says |
+| The column is about 650 figures in Josephus's order (scouts, horsemen, road party, standards, trumpeters, the main body in sixes, baggage mules with servants, a rearguard), scaled down | Josephus (AD 67) is the only order of march found; his "six men in depth" is drawn six abreast, though it could mean six ranks deep, and the ⓘ says so; the arriving force's size is unknown, and the garrison estimate is in a caption, hedged as an estimate (row below) |
+| Auxiliaries in mail with flat oval shields and spears; no legionaries; plain caps for helmets; no eagle | No unit is named and no kit was found at Dinefwr; a legionary detachment is possible but not proven; helmets were not researched (open question), so a plain cap stands in and the ⓘ says so |
+| Horsemen are shown, labelled possible | The barley in the ditch fits cavalry or a large infantry or mixed unit; the ⓘ says horsemen are not implied by the evidence |
+| Watching farmers on the hillside, imagined | What the Demetae did is not recorded; the caption says so and the figures carry an imagined ⓘ |
+| Dust under the column; the viewer's own sky | Weather and time of day are not recorded; the first caption says the hour is not recorded and the scene's ⓘ lists the dust and weather as imagined |
+| The fort rises in seconds as the column arrives, with a caption saying how long it took is not recorded, and the header saying time is compressed | A minute cannot show a day's march and weeks of building; saying so beats hiding it |
+| The narrator is Sonia (English) and Nia (Welsh) | Sonia is no Roman-era line's voice; Welsh has only two voices, so Nia also reads the woman at the fort (AD 76-125, not during the scene). The first wording here said no Roman-era character used either; corrected 2026-10-09 |
+| The scene runs 79 seconds, longer than the 20 to 60 the design suggested | Each caption must stay up while it is read in both languages; the Welsh clips run up to 9.8 seconds |
+| The timeline is hidden as well as locked while a scene plays, so Skip and Escape end it rather than a click on the timeline | The letterbox and captions need the space ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)) |
+| **Review fixes, 2026-10-03** (second-Opus review of the branch): while a scene plays, the world is drawn at the scene's year, so the later fort no longer stands on the ridge before the army arrives | The review found fort B (from AD 83) faded in to 0.93 at AD 74 and drawn for the whole scene, on top of fort A once it rose; Coflein puts it later and over part of the first ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)) |
+| An ⓘ open, focused or hovered in the letterbox pauses the scene and its narration; Escape closes the ⓘ and does not skip | Reading the sources is the core promise; Escape used to skip the whole scene, and each new caption replaced the open popover |
+| The interface behind a scene is inert, so Tab and Enter cannot reach it | It was invisible but still worked underneath; the Begin card already holds focus the same way |
+| The garrison caption and the Roman forts' summary now say the fort was big enough for perhaps a thousand men or more, an estimate | Coflein says it "would have housed" more than a thousand; Hughes (roman:S1) says at the very least an *ala quingenaria* or a *cohors milliaria*, a lower minimum. The old wording ("held more than a thousand") stated an estimate as a count |
+| The fade of the later fort at the AD 74 key date outside a scene is left as it is, for Dewi | It is the "c." date fade of [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md), on main before this branch; changing how "c." dates fade is his call (todo file) |
+| **Second review fixes, 2026-10-09** (Claude, under the proactive mandate, [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)): a click on the timeline does not end a scene; only Skip and Escape do | The timeline is hidden and inert while a scene plays, so the "press ends it" path could never run; the design note now says what the build does ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)) |
+| A scene's smoke, hearth glow and forest clearings are drawn from the same scene-filtered presence as its features | One rule for everything the scene draws ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)); no visible change at AD 74 |
+| The train walks its path with the shared `segmentAt` helper | The review found a sixth copy of the walk along a line ([ADR 0043](../adr/0043-one-polyline-helper.md)) |
+
 ## 2026-10-09
 
 | Decision | Why |
@@ -149,8 +176,12 @@ with the full context and consequences.
 | For the issues' material (the Harries photographs, the fort's reconstruction drawings and surveys), licences are not checked; the maker is credited in the asset manifest and the ⓘ | Dewi, 2026-10-09: "Regarding the GitHub issues, ignore licensing problems, just credit the person please" |
 | The three issues are done first, before the rest of the weekend's work | Dewi, 2026-10-09: "If possible please prioritise them" |
 | Anything Claude posts on Dewi's behalf (issue comments, release notes) ends with "Sent by Claude"; the three replies of 2026-10-09 were edited to add it | Dewi, 2026-10-09: "can you say that you know sent by Claude at the end please?" |
-| The Roman forts and the vicus are drawn at true size and true height, not at the 2.6 times landmark scale or the hills' exaggeration | Claude, under the proactive mandate (ADR 0027), [ADR 0042](../adr/0042-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md): the evidence is metric and the plan must register on a real-scale terrain; Dewi can overrule it |
+| The Roman forts and the vicus are drawn at true size and true height, not at the 2.6 times landmark scale or the hills' exaggeration | Claude, under the proactive mandate (ADR 0027), [ADR 0045](../adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md): the evidence is metric and the plan must register on a real-scale terrain; Dewi can overrule it |
 | Each part of a fort's model carries its own tier, and the key date's card lists them part by part | Claude, under the proactive mandate, so no reconstructed or imagined part can pass for documented; Fort 2's rear gate is drawn as unproven, Fort 1's unfound gates are not drawn |
-| Fort 1 is shown from AD 74 to 78 and gone by 83; Fort 2 from about 82 to 125 and gone by 140; the settlement c. AD 70 to 135 | Claude, under the proactive mandate, [ADR 0041](../adr/0041-estimated-ends-carry-a-latest-date.md): each is the hedged reading of the report, Coflein and the Heneb record, and the ⓘ names the contested ones (the HER's "possibly around 82 AD" unproven; "around AD 90-100" a caption date) |
+| Fort 1 is shown from AD 74 to 78 and gone by 83; Fort 2 and its backfilled ditches from 83 to 125 and gone by 140; the settlement from 83 to 135, fading out by 140 (amended 2026-10-09: the first build overlapped the forts from 79 to 82 and drew the settlement from 70 on Fort 1's rampart) | Claude, under the proactive mandate, [ADR 0044](../adr/0044-estimated-ends-carry-a-latest-date.md): each is the hedged reading of the report, Coflein and the Heneb record, and the ⓘ names the contested ones (the HER's "possibly around 82 AD" unproven; "around AD 90-100" a caption date) |
 | The camera may come in to 10 units (100m), not 25, and the depth of field follows | Claude, under the proactive mandate, so a fort's detail can be reached; Dewi can overrule it |
-
+| **Review fixes for the Roman forts, 2026-10-09** (Claude, under the proactive mandate): Fort 2 starts at AD 83, once Fort 1 is gone, and the settlement with it | A Fort 1 ditch lies under Fort 2's levelling, so the forts did not stand together; the HER's "possibly around 82 AD" stays in the ⓘ as that record's reading; [ADR 0044](../adr/0044-estimated-ends-carry-a-latest-date.md), amended |
+| Fort 1's south-west side has the two ditch profiles Trench 1 measured; the south-east side's are marked "not measured here" | The trench cut the south-west gateway, not the south-east side |
+| The backfilled ditches stay drawn everywhere, and the ⓘ says the excavator suggests some stayed open as an annex | Which stretches is not known; the other choice would draw a guess as a finding |
+| The arrival cutscene's road ends outside Fort 1's south-east gate at true scale, and says the gate is a choice | The placeholder it had walked to is gone; two gates are evidenced |
+| The key date's parts list follows the slider's year | At AD 110 it had listed Fort 1, which is not drawn, and never Fort 2 |

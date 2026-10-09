@@ -242,12 +242,14 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
       2026-10-09: researched and independently checked (`research/roman-forts-and-vicus.md`, draft; check
       [2026-10-09](../research/reviews/roman-forts-and-vicus-check-2026-10-09.md), corrections applied; Claude under
       the proactive mandate, [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)).
-      2026-10-09: **built** ([ADRs 0041, 0042 and 0043](../adr/README.md)): Fort 1, Fort 2, Fort 1's backfilled
+      2026-10-09: **built** ([ADRs 0044, 0045 and 0046](../adr/README.md)): Fort 1, Fort 2, Fort 1's backfilled
       ditches and the vicus as plans of 66, 83, 15 and 18 parts, each part with its own tier, at true size and
       height, with a far and a near mesh, shown on the first Roman key date's card part by part; the placeholder
       boxes (wrong place, angle and roofs) are gone. Seen: screenshots at AD 74, 80, 110 and 140, near and far;
-      unit, content and e2e tests. Still to do before it is ticked: the second-Opus review of the diff, and
-      registering the forts on the LiDAR terrain when issue 2 lands. Not built (the issue's own later phases): a
+      unit, content and e2e tests. 2026-10-09 (review of the build, ADR 0044 and 0045 amended): Fort 2 starts at 83 so
+      the forts never overlap, the settlement is an estimate, ditch profiles are by side, the annex is said, the
+      arrival cutscene ends at Fort 1's south-east gate, and the card lists what the slider's year draws. Still to do
+      before it is ticked: registering the forts on the LiDAR terrain when issue 2 lands. Not built (the issue's own later phases): a
       Blender project, animation, walkable interiors, characters
 - [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09); a photo layer pinned to where each was taken, with credit and ⓘ, with its credit
 - [ ] Conversations by class in the three slice eras; in-world music and the hunter-gatherer scenes (after their research checks); a GPU terrain shader for smooth scrubbing; the later trains and the Dinefwr, Carreg Cennen and bridge models (Dewi picked all four on 2026-10-09)
@@ -298,7 +300,9 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       singing, eisteddfodau, brass bands), heard in the scene and explained in the almanac, from
       sources and licensed recordings or performed from period notation (Dewi: "music through time and
       places"). The app stays inside the agreed ten miles or so around Llandeilo. Dewi chose
-      in-world music where the research puts it, plus a light labelled score that can be turned off
+      in-world music where the research puts it, plus a light labelled score that can be turned off.
+      Research checked 2026-10-09 and the corrections applied ([review](../research/reviews/music-through-time-check-2026-10-09.md));
+      two recordings are US-licence flagged and no music asset ships yet
 - [x] **A Begin screen**: a title card with the Ovid motto; its click turns the sound on (browsers
       need one) and can start the opening flight (Dewi chose this, 2026-10-02). Done 2026-10-03: the
       loading card becomes the Begin card once the valley is ready, veiled over the scene, with the
@@ -335,7 +339,22 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       not code per era, every element labelled by provenance, with a narrator in the UI language
       (Dewi's choice) and captions always on. First: the Roman army arriving at
       Dinefwr, c. AD 74. Builds on the agreed "people arriving from afar" journeys, the guided tour and
-      the opening cinematic flight
+      the opening cinematic flight. **2026-10-03: the engine and the Roman arrival are built** on branch
+      `feat/cutscene-roman-arrival` ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)): researched
+      and checked (roman-arrival and its 2026-10-02 check), built with unit tests and an e2e flow seen red
+      first, screenshots looked at across the scene in English and Welsh. Second-Opus review 2026-10-03
+      done; its CRITICAL (the later fort standing on the ridge through the scene) and IMPORTANT (Escape on
+      an ⓘ skipped the scene) findings fixed with tests seen red first, and its suggestions applied
+      ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md), [ADR 0043](../adr/0043-one-polyline-helper.md)).
+      **Not ticked**: the fixes have not had their own second-Opus pass, and the other scenes (Dryslwyn
+      1287, the Walk Gate 1843, the first train 1857, the 1848 flood) are not started
+- [ ] **For Dewi: the later Roman fort shows at the AD 74 key date.** `roman-fort-b` (c. AD 83) fades
+      in over the slider before its date, so at the AD 74 key date it is drawn at 0.93 beside fort A,
+      though Coflein puts it later and over part of the first. On main since before the cutscene; inside
+      a scene it is now hidden ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)). Whether "c."
+      dates should fade in before their year at a key date, or stop at the nearest key date, changes
+      [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md) and is his call. Found by the
+      second-Opus review, 2026-10-03
 - [ ] **Invasions and raids that reached the valley** (Dewi: "norman, viking etc etc etc invasions"):
       Irish settlement in Dyfed, Viking raids, the Normans after 1093, the English conquest of 1277-83,
       Glyndŵr in 1403, the Civil War, each as key dates (and cutscenes where the research supports one),
@@ -352,7 +371,10 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
 - [ ] **Early people hunting and gathering** (Dewi: "early people hunting stuff"): Late Upper
       Palaeolithic and Mesolithic hunter-gatherers in the valley, what they hunted, fished and gathered
       in each environment, with the animals of "animals through time", as scenes and cutscenes at the
-      level the finds support (here, nearby, or Wales-wide analogy)
+      level the finds support (here, nearby, or Wales-wide analogy). Research checked 2026-10-09 and the
+      corrections applied ([review](../research/reviews/hunter-gatherers-check-2026-10-09.md)); the
+      Waun Fignen Felen key date and almanac entry moved. Still to do: the scenes themselves, and a
+      decision on Heneb's HER terms ([open questions](../research/open-questions.md))
 
 ## Claude's own ideas, building first (proactive mandate, 2026-10-02)
 

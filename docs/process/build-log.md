@@ -589,10 +589,94 @@ Milestones and what each one taught us. Newest last.
    one rule decides both smoke and halos, and two lightings in the fading-day band are pinned from main
    (red when `selfLit` loses its night weighting). Lesson: a test that reads flags back from the
    renderer proves the code ran, not that anything reached the screen; count the pixels.
+23. **The first cutscene: the Roman army arrives** (branch `feat/cutscene-roman-arrival`). One data model
+   and one pure clock ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)): six shots over 79
+   seconds, about 650 thin-instanced figures in nine draw calls, dust from the smoke layer, procedural
+   cornu calls, tramping feet, hooves, mules and axes through the one mixer, and narration in both
+   languages from edge-tts, with a content test that every caption is up for as long as its narration
+   runs. **Watch** on the AD 74 moment card plays it; Skip or Escape lands on the key date. Lessons:
+   (1) **never run `vite` (dev) in a worktree whose `node_modules` is a symlink to the main clone**: its
+   dependency optimiser rewrote the main clone's `node_modules/.vite/deps` ("Re-optimizing dependencies
+   because vite config has changed"), under the always-on dev server on :5051. The main server still
+   served its modules afterwards, but a reload there may re-optimise once. Worktrees should look at
+   their work with `vite build` and `vite preview`, which leave that cache alone. (2) **The letterbox
+   hides part of the frame**: the first watchers' shot put them below the bottom bar, so camera keys are
+   checked by screenshot, not by geometry alone. (3) The over-the-shoulder shot's depth of field falls on
+   the column, not the watchers in front, because focus follows the camera's distance with a floor of
+   400m; it reads as intended, but a scene cannot yet choose its focus. Bundle: the main chunk is 477,928
+   bytes gzipped after this branch.
+24. **The cutscene review: the later fort stood on the ridge all along.** The second-Opus review found
+   that a scene overrode only the features it builds, so the smaller fort, whose "c. AD 83" fade starts
+   well before AD 74 on the slider, stood finished on the Dinefwr ridge while the column marched up to
+   it, and the two forts were drawn one over the other once fort A rose. Every unit test passed because
+   none looked at what a scene frame draws. Now `sceneFeatures` draws the world at the scene's year, and
+   a content test samples every frame of every scene through the same functions the renderer uses
+   ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)); it failed first with `roman-fort-b@0s=0.93`,
+   the number the reviewer measured. The same pass: an open ⓘ pauses the scene and Escape closes it
+   without skipping; the interface behind is inert; one polyline helper replaces six copies
+   ([ADR 0043](../adr/0043-one-polyline-helper.md)); the garrison caption is hedged. Looking at the
+   paused popover found one more fault the review had not: the letterbox's caption badge holder had
+   `white-space: nowrap`, which the popover inherited, so its text ran off the box and off the screen at
+   1440px; an e2e check now fails if any of its text spills. Lessons: (1) **a scene shows a moment, the
+   slider shows a blur**: anything that sits on top of the timeline at one year must not inherit the
+   slider's fades. (2) **`vite build` and `vite preview` both need `PAGES_BASE`** in every shell: a build
+   made without it serves its assets at `/assets/`, which 404 under the test base, and the e2e reports
+   it as the page never becoming ready, which looks exactly like the known GPU load hang. Three runs
+   went to it before the console showed the 404s. (3) Under SwiftShader a scene opened part-way with
+   `?cutsceneAt=` runs on to its end while the page loads, so a screenshot of a moment needs the GPU.
+   (4) Merging main (the dark night, the battles) meant one real conflict: both sides had rewritten the
+   smoke layer, so `dust` became a fourth `SmokeStyle` in the dark night's look table, with a `lift`
+   field for where a plume starts. Main had also taken ADRs 0037 to 0040, so the cutscene ADRs became
+   0041 to 0043; a branch's ADR numbers are only provisional until it merges.
+25. **The second cutscene review: claims in the docs that the code did not keep.** Five findings, none
+   of them a visible fault. (1) The narrator comment and decision log said no Roman-era character uses the
+   narrator's voice; Nia, the Welsh narrator, also reads the woman at the fort (Welsh has two voices), so
+   the claim was corrected and the overlap recorded in `docs/content/voices.md`. (2) The timeline lock's
+   "a press ends the scene" path was dead, since the timeline is inert behind the scene; `lock` is now a
+   plain guard and the design note says Skip and Escape end a scene. (3) Smoke, hearth glow and forest
+   clearings read the slider's presence rather than the scene's; they now share the one filtered list
+   (no behaviour change at AD 74, so no test could fail first; the e2e covers the wiring). (4) The train
+   still had its own walk along a line, though ADR 0043 said every copy was gone; `segmentAt` is now
+   shared (a unit test failed first on the missing function, then on the edge cases). (5) The bundle is
+   490,121 bytes gzipped, recorded in CLAUDE.md. Lesson: **an ADR that says "every copy now uses it" is a
+   claim to grep for, not to write from memory.**
 
 ## 2026-10-09
 
-1. **Research stage for the Roman forts and vicus** (issue 3; Claude under the proactive mandate, ADR 0027):
+1. **The music and hunter-gatherer checks applied** (Claude under the proactive mandate, ADR 0027). Two
+   independent checks (91 and 70 claims) found 10 contradicted or unsupported claims and 35 partly
+   supported ones; every correction is in the notes marked "Corrected 2026-10-09 (independent check)", and
+   the two checks sit in `docs/research/reviews/`. App changes: the Waun Fignen Felen burning moved from 6000
+   BC to about 7000 BC ("about 9,000 years ago", EN and CY) with the pollen study and Coflein cited and an ⓘ
+   that says the date is our calibration of a BP figure whose scale is assumed; the almanac fire now runs
+   about 7000 to 4500 BC; the lamplight 1200 entry's basis now says S3 dates its manuscript to about 1300.
+   A content test failed first on the year and the sources. The key date is not magnetic, so the
+   magnetic-spacing test and the key-date e2e flows were unaffected. Lessons: (1) **a correction can be
+   wrong itself**: the 2026-10-03 light check said no source dated the Deheubarth law-book's manuscripts,
+   and S3's own preface does; "no source read" is a claim about the reader, so grep the preface before
+   writing it. (2) **a check that recomputes a figure is worth more than one that re-reads the prose**: the
+   IntCal20 calibrations all held, and the open question was the scale, not the arithmetic.
+
+2. **The review of those corrections, applied** (Claude under the proactive mandate, ADR 0027). A review of
+   the two applied checks found that corrections had reached the body of a note but not its source entries
+   (S26 still said "first excursion trains", S29 still said *Moliant Seion*, S35 still carried the general
+   fishing-area reading), that the burning event cited the same Coflein record under two keys
+   (`deeptime:S12` and `hunters:S17`; the event now keeps `hunters:S19` and `hunters:S17`, and a content test
+   asserts the duplicate is gone, seen red first), that two sibling notes still gave the old 8000-year date
+   or the open BP question (`soundscapes.md`, `deep-time-and-natural-history.md`), and that the check's own
+   US term for the 1944 recording was wrong (100 years to 2044 under the Music Modernization Act, not 95
+   years to 2039; secondary sources). The Rachie composer claim got a source (S41, added at the end).
+   Lessons: (1) **a correction has to be carried to every place the claim lives, source entries included**:
+   grep the claim's key phrase across the whole of `docs/research/` after applying it. (2) **a check can
+   mis-state a statute**, so a licence flag is a lead until the statute is read.
+
+3. **CI timed out again, on one shard.** The push of the cutscene merge (run 37974359599) failed one
+   e2e shard: the whole-valley night halo test took 7.0 minutes on CI's CPU renderer and ran past its
+   7-minute limit while taking a screenshot. It had passed on the two runs before; the new cutscene test
+   had shifted the split so both heavy night tests landed in one shard. The night tests are now marked
+   `test.slow` in CI and the e2e job runs six shards ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md),
+   amended). Lesson: a per-test limit is a budget too, and the heaviest test sets it.
+4. **Research stage for the Roman forts and vicus** (issue 3; Claude under the proactive mandate, ADR 0027):
    `research/roman-forts-and-vicus.md`, reference images in `research/refs/roman-forts/`. The commenter's
    Heneb "Tywi Time Line" PDF held no survey and no "AD 90-100"; the survey is Stratascan's magnetometry in
    the primary report's Fig 2. The only grid reference is Coflein's single point, so the forts were
@@ -605,17 +689,17 @@ Milestones and what each one taught us. Newest last.
    address and the Wayback copy before listing it as a gap, and re-measure a derived number against a second
    anchor before reporting a conflict with a documented one.
 
-2. **The Roman forts and their vicus, built detailed** (issue 3; Claude under the proactive mandate, ADRs
-   [0041](../adr/0041-estimated-ends-carry-a-latest-date.md),
-   [0042](../adr/0042-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md),
-   [0043](../adr/0043-detailed-monuments-have-a-far-and-a-near-mesh.md)). From the checked note: Fort 1, Fort 2,
+5. **The Roman forts and their vicus, built detailed** (issue 3; Claude under the proactive mandate, ADRs
+   [0044](../adr/0044-estimated-ends-carry-a-latest-date.md),
+   [0045](../adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md),
+   [0046](../adr/0046-detailed-monuments-have-a-far-and-a-near-mesh.md)). From the checked note: Fort 1, Fort 2,
    Fort 1's backfilled ditches and the settlement are four `building` features with plans of 66, 83, 15 and 18
    parts, each with its own id, name, provenance and level of detail; the `roman-fort` feature kind and its own
    renderer are gone. **The placeholders were wrong and are corrected**: `roman-fort-a` sat on Fort 2's
    centre (Coflein's point), `roman-fort-b` 28m east and 29m south of it, both at 0.12 radians (7 degrees),
    with tiled roofs and a limewashed headquarters, at 2.6 times life size; Fort 1 is now centred about E 262206
    N 222470 and Fort 2 about E 262190 N 222538, long axes at bearings 48 and 53, in true size and height.
-   Built in this order, red first where a bug could show: the latest-date rule (ADR 0041) and the fort-ring
+   Built in this order, red first where a bug could show: the latest-date rule (ADR 0044) and the fort-ring
    geometry in unit tests; the plan model's new parts; a screenshot of the first build; then the content
    tests. What the pictures taught, each cheaper to find by looking than by test:
    - **The content tests passed while the feature was wrong.** `notAfter` was in the type and the unit
@@ -625,7 +709,7 @@ Milestones and what each one taught us. Newest last.
      passed it on. Lesson: test what the snapshot says, not what the data says.
    - **Vertical exaggeration made a fort a farm.** On the `map` setting a 3m barrack drew 7m tall and the
      headquarters read as a barn. A new `true` setting (across 1, up 1) fixed it; the screenshot with
-     `up: 1` against `up: 2.4` is the evidence for ADR 0042.
+     `up: 1` against `up: 2.4` is the evidence for ADR 0045.
    - **Depth of field blurred the whole screen at a close radius.** Its focus was clamped to 40 units while
      the camera's lower limit was 25, so a fort at radius 14 was soft everywhere; both limits now follow the
      detail (10 units).
@@ -645,4 +729,40 @@ Milestones and what each one taught us. Newest last.
    and 160 (the key-date framing), and the card's part list. A card line "Ditch 1 of 2, south-west" appeared
    twice on the first look at the list, one per piece of a side cut by a gate; a content test now holds every
    part's name to be its own, in both languages.
+
+6. **The review of the forts build, and the merge with main** (Claude under the proactive mandate). Eleven
+   commits of main had landed, among them the Roman arrival cutscene, whose `drawnEastGate('roman-fort-a')` read
+   the `roman-fort` kind this branch deleted: it merged with no conflict and would have thrown at load. Lessons
+   and fixes, in the order they bit:
+   - **Auto-merged is not compatible.** `tsc` caught the deleted kind in `cutscenes.ts` and its test; the real
+     fix was not a patch but moving the army's road to end outside Fort 1's evidenced south-east gate at true
+     scale, with a test that it goes round the fort and ends within 2m of the gate's line, and the last shot's
+     lead computed from the road's length so the head arrives. The cutscene's own content test then caught the
+     settlement standing at AD 70, before any fort ("nothing drawn whose dates do not contain the scene's
+     year"): the second symptom of the settlement's exact dates.
+   - **A fade window is not a stratigraphy.** Fort 2 started at about 82 with a fade-in from 78, so in AD 79 to
+     82 both forts stood at near full height on one ground, and my own test asserted it. The soft handover was
+     wrong, not the numbers: the evidence rules out coexistence. Fort 2, the levelled ditches and the settlement
+     now start at 83 (the latest end of Fort 1), and a test steps the whole timeline in quarter years and fails
+     on any pair drawn together above 0.01. Red first at the old dates, seen on all of them.
+   - **A trench belongs to one side.** The measured outer ditch (1.0m by 0.5m) sat on the unexcavated
+     south-east side while the south-west side, where Trench 1 actually cut, drew the middle profile; the old
+     test only looked at the south-east side so it could not see it. Profiles are now chosen by side, with a
+     test on the south-west side and on the "not measured here" wording on the south-east.
+   - **The card named the key date's year, not the slider's.** At AD 110 it listed Fort 1, which is gone, and
+     never Fort 2. `listedAt` takes the snapshot's presences; the card rebuilds when the set changes and keeps
+     an open list open. The unit test was red (no such function); the e2e at AD 110 checks the three headings
+     and the rear gate's "not demonstrated" entry.
+   - **Duplicates after a merge.** `tiers.ts` was byte-for-byte main's `provenance.ts`; and ADR 0043 had said
+     every `densify` copy was gone while `terrain.ts` and my `buildings.ts` each still had one. One `densify`
+     now lives in `domain/polyline.ts` with a test. ADRs 0041 to 0043 were also main's, so this branch's are
+     0044 to 0046.
+   - **Contested points stay contested.** The annex (the excavator's suggestion, Trench 3) is now said on the
+     backfilled ditches and kept drawn as a stated simplification; the tile finds, the Jay Lane tower and the
+     unwritten wider berm are worded as the sources are.
+   Looked at (GPU, `tools/shot.mjs`, `docs/images/roman-forts/`): AD 74, 80, 84, 110 and 140 at radii 45 and 160
+   (80 is Fort 1 alone, 84 is Fort 2 over the pale backfilled ditches with the settlement), and the card's parts
+   list at AD 110 (`parts-panel-110.jpg`). Found, not fixed: every source title in the credits shows its markdown
+   asterisks (176 titles), so the Hughes report reads "*The Llandeilo Roman Forts...*".
+   Not done: a visual comparison against the Ludlow drawing's compass orientation (still open in the note).
 
