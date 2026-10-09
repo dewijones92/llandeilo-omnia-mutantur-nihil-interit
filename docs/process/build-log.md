@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Build log
@@ -821,3 +821,16 @@ Milestones and what each one taught us. Newest last.
    asterisks (176 titles), so the Hughes report reads "*The Llandeilo Roman Forts...*".
    Not done: a visual comparison against the Ludlow drawing's compass orientation (still open in the note).
 
+
+2026-10-10, second-Opus findings on the Roman forts merge, fixed and verified:
+   - **The grain sellers stood inside Fort 1.** "Outside the Roman fort" was placed at E 262280 N 222450, 41.6m
+     across and 64.4m down Fort 1's plan, inside its rampart. Moved to E 262286 N 222408, outside the south-east
+     gate. A new test checks that every conversation at the forts lies outside each fort, and the levelled
+     ditches, drawn at any time in its dates; red on the old position for Fort 1 and its levelled ditches.
+   - **Fort 2's ⓘ** no longer cites a GitHub commenter ("a later date of AD 90 to 100 seen online"), hedges the
+     order ("the excavator reads Fort 2 as the later") with AD 83 as a choice, says the annex may have kept
+     part of Fort 1 in use, and says the levelling evidence once.
+   - **Backfilled ditches** are drawn with `profileOf`, so ring 2 of a two-ditch side is 1.0m, not 1.4m; the test
+     was red at the named assertion.
+   - Also: ADR 0047 (not 0043) for detail parts in the authoring guide; `geo.ts` no longer says the forts are
+     drawn larger than life.

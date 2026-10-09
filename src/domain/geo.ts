@@ -5,8 +5,8 @@ export const WORLD = {
   radiusMetres: 16093,
   metresPerUnit: 10,
   verticalExaggeration: 2.4,
-  // Landscape plans (castles, the abbey, country houses, follies), Roman forts, roundhouses and
-  // longhouses are drawn this much larger than life so they read. Hillforts and the town are true size.
+  // Landscape plans (castles, the abbey, country houses, follies), roundhouses and longhouses are
+  // drawn this much larger than life so they read. Hillforts, the Roman forts and the town are true size.
   landmarkScale: 2.6,
 } as const;
 

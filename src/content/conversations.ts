@@ -83,7 +83,7 @@ export const CONVERSATIONS: readonly Conversation[] = [
     id: conversationId('at-the-fort'),
     when: range(ad(76), ad(125)),
     place: placeId('roman-forts'),
-    at: { e: 262280, n: 222450 },
+    at: { e: 262286, n: 222408 },
     setIn: { en: 'Outside the Roman fort, about AD 80', cy: 'Y tu allan i’r gaer Rufeinig, tua 80 OC' },
     title: { en: 'Selling grain to the garrison', cy: "Gwerthu grawn i'r garsiwn" },
     people: people('marcus', 'ceri'),
