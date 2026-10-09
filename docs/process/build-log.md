@@ -682,3 +682,21 @@ Milestones and what each one taught us. Newest last.
    test's browser (`E2E_QUALITY=low`); the graphics-menu test starts from the default High, and a new
    test checks the stored level reaches the renderer, seen red without the config line.
 
+
+5. **The GPU e2e kit: WebGPU tested for the first time** (Dewi's idea, "Chrome exe in windows has beefy
+   GPU, maybe run any graphics stuff on there?", and his choice of a self-hosted runner; the design Claude
+   under the proactive mandate, ADR 0027; [ADR 0044](../adr/0044-gpu-e2e-on-windows-chrome.md)).
+   `npm run e2e:gpu` builds and serves the site in WSL and runs Playwright on Windows against Windows
+   Chrome on the NVIDIA GPU. First full run: WebGPU on `nvidia lovelace` with no WebGPU errors, the night
+   halos' WGSL running at last, 7 GPU tests and 37 e2e specs green at High in 5m15s (numbers in
+   CLAUDE.md). Lessons: (1) **WSL cannot reach a Windows browser, but a Windows browser can reach WSL**, so
+   the browser and Playwright go to Windows and only the server stays; a probe showed headless Chrome gets
+   the same NVIDIA adapter as a visible window, so nothing opens on the desktop. (2) **Windows' npm is
+   6.14 through Volta**, older than the lockfile format, so the Windows side installs only Playwright, at
+   the lockfile's version. (3) **vsync and the frame-rate limit off for a whole run stalled it**: the
+   frame test ran, then each page load slowed until one sat on "Raising the Tywi valley…" for 150s, the
+   next navigation aborted, and output from Windows stopped reaching WSL while the run hung past its
+   limit (WSL's swap was 15.4 of 16 GB full at the time; the cause is not established). `--uncapped` now
+   launches a browser for the frame test alone, the run has a 30-minute Playwright limit and a `timeout`
+   backstop around the Windows side, and the rerun's screenshots took 8s each again. (4) the summary's
+   duration printed 59.6s as `0m60s` until its unit test caught it.

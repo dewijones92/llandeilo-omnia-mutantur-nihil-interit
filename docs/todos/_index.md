@@ -69,6 +69,8 @@ below links the issue.
 ## Next: verify on real hardware
 
 - [ ] Check WebGPU on a real desktop GPU (everything automated uses WebGL2 via SwiftShader)
+      *2026-10-09: automated by the GPU kit (`npm run e2e:gpu`, ADR 0044): WebGPU on the NVIDIA GPU in
+      Windows Chrome, no WebGPU errors, every e2e spec green at High. Awaiting review, so not ticked*
 - [ ] Open it in desktop Firefox and Safari: every automated check runs in Chromium, and WebGPU support differs
 - [ ] Record performance numbers in CLAUDE.md: first load, scrub frame rate, terrain recolour time
 - [ ] Listen to the ambient sound and voices on real speakers; tune levels
@@ -160,6 +162,8 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
   halos' pixels) and both suggestions applied. Awaiting review of the fixes, so not ticked
 - [ ] Check the night halos on WebGPU on a real desktop: their WGSL vertex code (ADR 0040) has never
       run, because WebGPU through WSL stalls and CI has no GPU
+      *2026-10-09: they now run on WebGPU in the GPU kit's 1903 night frame test with no WebGPU errors,
+      and its screenshot shows them lit; not yet compared with the WebGL halos up close*
 - [ ] Sound follows the clock: birds at dawn, owls and quiet at night
 - [ ] Conversations and speech bubbles follow the clock: nobody chatting outdoors at 3am
 - [x] Rivers stay vivid blue at night while the land goes dark: already fixed when re-shot on

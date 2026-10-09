@@ -276,20 +276,37 @@ node tools/voices/build-voices.ts    # after any change to conversation text (ne
 tools/terrain/build-terrain.sh && python3 tools/geo/build-osdata.py   # rebuild map data (see docs/data)
 node tools/shot.mjs '<url>' out.png  # screenshot, using the Chromium that works on this WSL box
 node tools/frames.mjs '<url>' <dir> [--perf] [--uncapped]  # shots at several years (YEARS, HOUR, SEASON, PLACES) and GPU frame timings
+npm run e2e:gpu                      # tools/gpu/run.sh [--gpu-only] [--uncapped] [--skip-build]: WebGPU, frame timings and every e2e spec on Windows Chrome's GPU (ADR 0044)
 ```
 
 **Local GPU:** WSL can render WebGL on the laptop's NVIDIA GPU: launch Chromium with the env
 `GALLIUM_DRIVER=d3d12 MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA` and flags `--use-angle=gl
 --ignore-gpu-blocklist`, and add `?webgl` (WebGPU through WSL stalls). CI has no GPU and keeps
-SwiftShader.
+SwiftShader. **For WebGPU, use Windows Chrome:** `npm run e2e:gpu` builds and serves the site in WSL
+(a `vite preview` on a free port, never 5051) and runs Playwright on Windows (`tools/gpu/windows.ps1`,
+`playwright.gpu.config.ts`) against Windows Chrome, headless, at High, with throwaway profiles, so
+Dewi's own Chrome is never touched. WSL cannot reach a Windows browser (the Hyper-V firewall blocks
+WSL→Windows TCP) but Windows reaches WSL's `localhost`. Results come back to `test-results-gpu/`
+(`webgpu.json`, `frames.json`, screenshots, `summary.txt`); the exit code is Playwright's. Windows
+keeps `C:\llandeilo-gpu\` (Playwright at the lockfile's version, cached; a fresh copy of the test code
+each run). A self-hosted CI runner job only calls `tools/gpu/run.sh` and uploads `test-results-gpu/`.
 
 Run `git config core.hooksPath .githooks` once per clone. Local Playwright uses Chromium 136 because
-newer Chromium cannot navigate on this WSL machine; CI uses the bundled browser. Everything
-automated renders with WebGL2 through SwiftShader at about 1fps, so **WebGPU and real frame rates
-are not measured yet** (a gap, tracked in docs/todos). Particle effects barely advance at 1fps, so
+newer Chromium cannot navigate on this WSL machine; CI uses the bundled browser. Every
+CI run renders with WebGL2 through SwiftShader at about 1fps; WebGPU and real frame rates are measured
+only by `npm run e2e:gpu` (see Local GPU). Particle effects barely advance at 1fps, so
 check them with the particle probe in `?debug` (`window.llandeiloDebug.scene`) rather than by eye.
 
-**Performance numbers** (2026-10-02, WebGL on an NVIDIA RTX 2000 Ada laptop GPU through WSL's D3D12
+**Performance numbers, WebGPU** (2026-10-09, `npm run e2e:gpu`: Windows Chrome 155 headless on the
+NVIDIA RTX 2000 Ada laptop GPU, WebGPU, High, 1920×1080, the 1903 winter overview at 23:00): ready in
+about 8s; vsync on (headless paints at about 57fps here) idle 57fps (p90 18ms), orbiting 57fps (p90
+18ms), scrubbing 27-28fps (median 17ms, p90 83-105ms, worst 418ms); vsync off (`--uncapped`) idle
+213-217fps (median 4.4ms), orbiting 125-127fps (p90 13-14ms), scrubbing 99-101fps (p90 7-9ms). The
+whole kit, build to summary, took 5m15s: 7 GPU tests and 37 e2e specs passed (1 skipped, the stored-
+quality test), against CI's six CPU shards. Why the vsync-on scrub has long frames that the uncapped one
+does not is not known yet.
+
+**Performance numbers, WebGL** (2026-10-02, WebGL on an NVIDIA RTX 2000 Ada laptop GPU through WSL's D3D12
 layer, 1920×1080, `?webgl`): ready in 17s from a warm dev server; idle 41fps; scrubbing 2fps before
 the heavy pass was throttled, about 15fps after (median frame 16.8ms, p90 52ms); terrain recolour about
 30ms for 153,944 triangles when idle, far more when frames queue (`dewidebug terrain recolour`,
