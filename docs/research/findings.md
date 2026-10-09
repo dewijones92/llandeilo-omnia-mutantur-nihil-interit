@@ -168,6 +168,10 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   to about 7000 BC ("about 9,000 years ago"), with an ⓘ saying the date is our IntCal20 calibration of "ca.
   8000 years BP", which we assume (no source says) is in radiocarbon years; the almanac fire runs about 7000
   to 4500 BC. Both notes stay drafts.
+  *Review of those corrections, 2026-10-09*: the US term for a 1944 recording is 100 years, to the end of
+  2044 (Music Modernization Act; secondary sources), not 95 years to 2039; the burning event cites one
+  Coflein key, not two; and the sibling notes `soundscapes.md` and `deep-time-and-natural-history.md` now
+  carry the c. 7000 BC date and point at the hunters note.
 - **How Llandeilo's homes were lit in 1902 is not recorded**, but by October 1902 "so many of the
   tradespeople of the town are having the light installed" (Carmarthen Journal, 10 October 1902,
   light:S31, re-read 2026-10-03), and the council sold electricity by the meter. The app draws homes

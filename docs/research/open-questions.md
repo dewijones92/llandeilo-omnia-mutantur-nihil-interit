@@ -52,7 +52,7 @@ for the next pass. Each note's own "Open questions" section has the full list an
   inference that "ca. 8000 years BP" is radiocarbon. The lab dates in Smith and Cloutman (1988, full text
   not obtained: the Royal Society page returns 403) or in Barton and others (1995) would settle it.
 - **Recordings public domain outside the US only** (music check, 2026-10-09): Handel, Scherchen 1953
-  (US term to 2063 on secondary sources) and Thomas L. Thomas 1944 (to 2039). Neither ships; prefer our own
+  (US term to 2063 on secondary sources) and Thomas L. Thomas 1944 (to the end of 2044: 100 years from publication under the Music Modernization Act; secondary sources; corrected 2026-10-09 from "2039"). Neither ships; prefer our own
   rendering or a pre-1923 recording ([music note](music-through-time.md), L1 and L2).
 
 - **The 1849 cholera at Llandeilo** rests on one partly illegible report (*The Welshman*, 21 December

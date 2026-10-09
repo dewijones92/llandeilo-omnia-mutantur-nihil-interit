@@ -112,7 +112,7 @@ were in the 10 miles is not settled (see the timeline note).
 ## Middle Stone Age (9,500 to 4,001 BC)
 
 Birch and pine, then hazel, then closed oak wildwood [deeptime:S10]. Hunter-gatherers burned heath and
-birch at Waun Fignen Felen from about 8000 years ago [deeptime:S12].
+birch at Waun Fignen Felen from about 9,000 years ago (c. 7200 to 6600 BC, our calibration of "ca. 8000 years BP", hunter-gatherers.md S19) [deeptime:S12]. *Corrected 2026-10-09 (independent check)*: this said "about 8000 years ago", which read BP as calendar years.
 
 | Sound | Setting | Tier | Sources |
 |---|---|---|---|

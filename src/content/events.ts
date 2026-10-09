@@ -64,7 +64,6 @@ export const EVENTS: readonly KeyEvent[] = [
     provenance: documentedNoting(
       'The date is our own calibration. The published figure is “ca. 8000 years BP” (Smith and Cloutman, 1988), which we assume is in radiocarbon years, as the source does not say; the IntCal20 curve turns it into about 7200 to 6600 BC, with an error of ±100 years that we assumed. Coflein’s own wording is “the eighth millennium BP”.',
       'Ein graddnodiad ni yw’r dyddiad. Y ffigur a gyhoeddwyd yw “ca. 8000 years BP” (Smith a Cloutman, 1988), a thybiwn ei fod mewn blynyddoedd radiocarbon, gan nad yw’r ffynhonnell yn dweud; mae cromlin IntCal20 yn ei droi’n tua 7200 i 6600 CC, gyda gwall o ±100 mlynedd a dybiwyd gennym. Geiriad Coflein ei hun yw “wythfed mileniwm BP”.',
-      'deeptime:S12',
       'hunters:S19',
       'hunters:S17',
     ),

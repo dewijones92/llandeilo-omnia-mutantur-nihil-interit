@@ -656,3 +656,16 @@ Milestones and what each one taught us. Newest last.
    and S3's own preface does; "no source read" is a claim about the reader, so grep the preface before
    writing it. (2) **a check that recomputes a figure is worth more than one that re-reads the prose**: the
    IntCal20 calibrations all held, and the open question was the scale, not the arithmetic.
+
+2. **The review of those corrections, applied** (Claude under the proactive mandate, ADR 0027). A review of
+   the two applied checks found that corrections had reached the body of a note but not its source entries
+   (S26 still said "first excursion trains", S29 still said *Moliant Seion*, S35 still carried the general
+   fishing-area reading), that the burning event cited the same Coflein record under two keys
+   (`deeptime:S12` and `hunters:S17`; the event now keeps `hunters:S19` and `hunters:S17`, and a content test
+   asserts the duplicate is gone, seen red first), that two sibling notes still gave the old 8000-year date
+   or the open BP question (`soundscapes.md`, `deep-time-and-natural-history.md`), and that the check's own
+   US term for the 1944 recording was wrong (100 years to 2044 under the Music Modernization Act, not 95
+   years to 2039; secondary sources). The Rachie composer claim got a source (S41, added at the end).
+   Lessons: (1) **a correction has to be carried to every place the claim lives, source entries included**:
+   grep the claim's key phrase across the whole of `docs/research/` after applying it. (2) **a check can
+   mis-state a statute**, so a licence flag is a lead until the statute is read.

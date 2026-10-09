@@ -58,7 +58,7 @@ radius of 16.1km.
   the circle: a scatter of 453 struck flints and chert pieces at Love Lodge Farm, Ffairfach, "from the
   Mesolithic period onwards", **1.2km from the centre** [S1]; a "large flint scatter of Mesolithic date"
   at Nantgaredig, 13.5km west, with one implement the HER queries as "Aurignacian? or late
-  Palaeolithic" [S5][S6]; a cave under **Carreg Cennen Castle** (5.2km) with bones, probably human
+  Palaeolithic" [S5][S6]; a cave under **Carreg Cennen Castle** (5.2km) with bones, possibly human
   (the HER types them "Inhumation?", and a 2018 visit saw "fragments of bone, possibly human"), of two adults
   and one or two children and a **perforated horse tooth** (the HER's "Ornament?") sealed in stalagmite,
   "conventionally dated to the Upper Palaeolithic", with no radiocarbon date recorded in the HER or Coflein
@@ -82,7 +82,7 @@ radius of 16.1km.
   the Caldey Island dead ate a lot of marine food, while the Early Mesolithic people buried at Worm's
   Head, then about 20km from the sea, ate almost none [S30].
 - **Fire on the uplands, re-dated:** at Waun Fignen Felen (20.1km east, just off the map) the clearing
-  and burning that the app dates "about 8,000 years ago" (6000 BC) is ca. 8000 BP [S19], very probably radiocarbon years (no source
+  and burning that the app dated, before 2026-10-09, "about 8,000 years ago" (6000 BC) is ca. 8000 BP [S19], very probably radiocarbon years (no source
   states the scale),
   which is **c. 7200 to 6600 BC** in calendar years if so (my calibration, assumed ±100). The app's event and
   almanac entry were moved about a thousand years earlier on 2026-10-09.
@@ -303,7 +303,8 @@ most of those rows single-source, resting on a Wikipedia list), and is given onl
 | Roe deer | not attested | not attested | not attested | yes | Goldcliff [S33] (Garreg Hir's bones are undated [S30]) | still here |
 | Brown bear | yes | not attested | not attested | yes | Hoyle's Mouth cut phalanx 13,934 cal BP; Kendrick's beads; Whitesands; Pant-y-llyn molar (undated) [S10][S22][S25][S27] | c. 500 CE (deep-time) |
 | Wolf | yes | not attested | not attested | yes | Little Hoyle; Goldcliff [S27][S33] (Garreg Hir's bones are undated [S30]) | Wales probably 13th or 14th century (deep-time check) |
-| Fox, hare | yes (arctic fox, arctic hare) | not attested | yes (Howick fox, analogy) | undated only (Garreg Hir) | [S27][S30][S36] | |
+| Fox | yes (arctic fox) | not attested | yes (Howick fox, analogy) | undated only (Garreg Hir) | [S27][S30][S36] | |
+| Hare | yes (arctic hare) | not attested | not attested (Howick gives fox but no hare; Garreg Hir is undated) | undated only (Garreg Hir) | [S27][S30][S36] | *Corrected 2026-10-09 (independent check)*: the Later Mesolithic "yes" rested on the Howick fox alone |
 | Lemmings, cold voles | yes | yes | no | no | Little Hoyle microfauna [S27] | at the start of the Holocene [S27] |
 | Otter | | | | yes | Goldcliff bones [S33] | still here |
 | Common crane | | | | yes | Goldcliff prints, summer [S33][S35] | lost later, now returning [S33] |
@@ -408,7 +409,7 @@ Recorded here; the two Mesolithic entries below were changed on 2026-10-09 (*Cor
 - [S32] Coflein (RCAHMW), "The Nab Head, Site I", NPRN 308819 (after A. David 2007, BAR British Series 448) – https://coflein.gov.uk/en/sites/308819 – 39,863 flaked items, 143 microliths, 114 scrapers, axes and adzes; 692 shale beads from the nearby beach; the "phallus", "amulet" or "figurine". Read directly.
 - [S33] M. Bell, T. Walker and A. Turner, "Fleeting finds: investigating intertidal discoveries in the Severn Estuary", Current Archaeology (The Past) – https://the-past.com/feature/fleeting-finds-investigating-intertidal-discoveries-in-the-severn-estuary/ – Goldcliff from c. 5800 BC to Site J c. 4800 BC; prey bones (red deer, roe deer, boar, aurochs, otter, wolf, birds) and eels; wooden objects; fish traps 5310-4912 BC; children's footprints; tracks of deer, aurochs, "a probable dog or wolf" and cranes in summer silts. Its "BC" range follows "radiocarbon dates" without saying calibrated (*Corrected 2026-10-09 (independent check)*). The excavators' own account; read directly.
 - [S34] Current Archaeology 408 (The Past news), "Mesolithic fish trap found in the Severn Estuary" (27 January 2024) – https://the-past.com/news/mesolithic-fish-trap-found-in-the-severn-estuary/ – a V-shaped wattle fish trap about 7,000 years old, the first of the period in Britain; hearths with heat-fractured stones; 350 human footprints over the years. Read directly.
-- [S35] K. Barr (2018), "Prehistoric avian, mammalian and H. sapiens footprint-tracks from intertidal sediments as evidence of human palaeoecology", PhD thesis, University of Reading – https://centaur.reading.ac.uk/83015/ – abstract: 856 footprint-tracks 2001-2017, 342 human, 270 bird (46% common crane), 67 mammal; 29% of human trails by children, some perhaps four or under; a path to a fishing area. Read directly.
+- [S35] K. Barr (2018), "Prehistoric avian, mammalian and H. sapiens footprint-tracks from intertidal sediments as evidence of human palaeoecology", PhD thesis, University of Reading – https://centaur.reading.ac.uk/83015/ – abstract: 856 footprint-tracks 2001-2017, 342 human, 270 bird (46% common crane), 67 mammal; 29% (6 of 21) of trails by children, some perhaps four or under; Site N read as a path used by children and possibly adult females to reach a fishing area (*Corrected 2026-10-09 (independent check)*: the earlier entry read it as a path to a fishing area in general). Read directly.
 - [S36] C. Waddington, G. Bailey, A. Bayliss et al. (2003), "A Mesolithic settlement site at Howick, Northumberland: a preliminary report", Archaeologia Aeliana – https://eprints.whiterose.ac.uk/id/eprint/1195/1/waddington_bailey_et_al_AA0032_0.pdf – round structure averaging 6m, sunken floor, three phases; 21 AMS dates, construction "c. 7800 BC (Cal.)"; hazelnut and acorn shell; burnt bone of wild pig, fox, birds and dog or wolf. A 2003 preliminary report with more dates awaited (*Corrected 2026-10-09 (independent check)*). Read directly.
 - [S37] J. H. Sachers, "The Dawn of Archery: Mesolithic Bows from Denmark and Northern Europe", Bow International (4 March 2022) – https://www.bow-international.com/features/the-dawn-of-archery-mesolithic-bows-from-denmark-and-northern-europe/ – nocked shafts "none older than approximately 10,000 BC"; Holmegård IV bows "circa 6,500 BC", elm (*Ulmus glabra*). Secondary; read directly.
 - [S38] Wikipedia, "History of archery" – https://en.wikipedia.org/wiki/History_of_archery – Stellmoor pine arrows with foreshafts and flint points, grooved for a bow; Holmegaard bows "about 8,000 BP". Lead only.

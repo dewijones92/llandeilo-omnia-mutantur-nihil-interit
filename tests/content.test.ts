@@ -959,6 +959,8 @@ describe('hunters burning the high heath at Waun Fignen Felen', () => {
     const why = burning?.provenance;
     if (why?.kind !== 'documented') throw new Error('mesolithic-burning must be documented');
     expect(why.sources).toEqual(expect.arrayContaining(['hunters:S19', 'hunters:S17']));
+    expect(why.sources).not.toContain('deeptime:S12');
+    expect(why.sources).toHaveLength(2);
     expect(why.note?.en).toContain('IntCal20');
     expect(why.note?.cy).toContain('IntCal20');
   });
