@@ -146,7 +146,12 @@ at the rim.
   the Delaunay triangles. A tree's identity now comes from where its triangle is (`treeSeed` in
   `src/domain/tree.ts`, from the rounded centroid), so an unchanged triangle keeps its tree whatever the
   triangulation does elsewhere, and a later widening of the region will not reshuffle the forest again.
-  The trees on triangles that really did change (those within about 70m of the rim) differ from before.
+  Measured against main on 2026-10-10 (a build of main's `ce58bbb` beside this branch, year 2020): all
+  148,111 coarse triangles more than 500m outside the region have the same centroid in both, so each
+  keeps its tree; the 277 triangles outside it that changed all lie within 103m of the region. The
+  switch itself re-rolls every tree on the map once, because the traits now come from a different hash
+  of a different key, so no tree stands where it did on main; the forest looks the same in kind and
+  nothing refers to a single tree.
 - Cost, measured on the RTX 2000 Ada laptop GPU through WSL, 1920x1080, uncapped, in `?debug`: `node tools/frames.mjs <url> <dir> --perf --uncapped`, the town at 400m from the camera in 2020: idle 110 to 124fps against 139 to 175 before, orbiting 66 to 69 against 68 to 81, the slider scrub 41 to 47 against 58 to 77, with about 290,000 more triangles drawn (13 tiles at 10m, 4 at 4m, 63 at 20m). At the 1903 overview idle was 92 to 129 against 164 to 171. The laptop was shared with other agents' test runs (load average 15 to 18), so a figure moves by a third between runs: read it as about a quarter less when idle and about the same orbiting. With vsync on both hold 60.
   Start-up fetches two more files (the 2.95MB data file and the manifest) and builds and paints 80 meshes: from the page loading to ready took 12.9 to 13.1s against 11.5 to 14.7s before, within the noise of that load; settling all 80 tiles at start was 1.7 to 2.3s of it.
 - The detail mesh is flat at 4m: the fort's banks (a metre or so high and a few metres wide) show as

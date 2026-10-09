@@ -41,7 +41,9 @@ problems and credit the source, so this is recorded rather than resolved.
    flood modelling", so it may need cleaning before use for that, which does not touch a diorama.
 
 The credit the app shows is written once, by `build-lidar.py`, into `public/data/lidar/lidar.json`
-(`source.credit`), and `src/content/assets.ts` reads it from there for the About page: *Contains Welsh
+(`source.credit`) and, from the same string, into `src/content/generated/lidar-credit.ts`, which
+`src/content/assets.ts` imports for the About page (so the 20.7KB manifest is not bundled into the app to read
+one sentence; `tests/lidar.test.ts` checks the two agree): *Contains Welsh
 Government data (LiDAR 1m DTM from the 2020-22 national survey, these tiles dated 01/12/2021 to
 22/02/2022 in their file names), via DataMapWales. Licence stated on the DataMapWales download page:
 Open Government Licence v3.0.* The catalogue's own silence is noted beside it in `assets.ts`. Nothing is
@@ -61,7 +63,10 @@ Open Government Licence v3.0.* The catalogue's own silence is noted beside it in
    resuming a partial file, skipping one whose size matches the server's `Content-Length`.
 4. Result: 25 files, 48MB, in `~/code/data/llandeilo/lidar/raw/` (outside the repository, never
    committed; `*.tif` is in `.gitignore` as a second guard). `build-lidar.py` records the name, size and
-   SHA-256 of each in `public/data/lidar/lidar.json`, so a rebuild can be checked against these.
+   SHA-256 of each in `public/data/lidar/lidar.json`, and `python3 tools/terrain/build-lidar.py --verify`
+   checks the raw files against them (it fails on a changed file, a missing one, or a stray `.tif`). The
+   build reads the file list from `links.txt`, not from a glob, so a raster left over from a wider region is
+   never built or credited.
 
 The catalogue's `date` column and the date in the file name disagree for 16 of the 25 tiles (checked
 2026-10-10 from `surveyDate` and `fileDate` in the manifest, which keeps both). Ten differ by one day, the
@@ -168,6 +173,7 @@ the LiDAR holds there: field boundaries, tracks, ridge and furrow, ponds, and tr
 ```bash
 tools/terrain/fetch-lidar.sh          # downloads the tiles for the region (needs curl and python3)
 python3 tools/terrain/build-lidar.py  # needs GDAL's command-line tools and numpy
+python3 tools/terrain/build-lidar.py --verify   # checks the raw tiles against the manifest; builds nothing
 ```
 
 - **A new area** (the issue's "expand later without rebuilding the initial terrain"): add an entry to

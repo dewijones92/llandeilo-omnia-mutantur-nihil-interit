@@ -245,9 +245,12 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
       **Built 2026-10-09, not ticked** (Claude, under the proactive mandate; [ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md),
       [`data/lidar.md`](../data/lidar.md)): the path's steps 1, 2, 4 and 6 are done (agreed; the data and its licence statements
       researched from the publisher's own pages; built, with unit, data and e2e tests each seen red first; looked at on the GPU in
-      screenshots at 1282 and 2020), and steps 3 and 5, an independent check of the research and a second-Opus review, are not.
-      Left over: the ground edits are built and tested but nothing feeds them yet (the Roman fort work, #3, is their first user);
-      the mesh stops at 4m although the data is 2m; WebGPU is untested
+      screenshots at 1282 and 2020), and step 5, a second-Opus review, was run and its findings fixed on 2026-10-10 (roads
+      and rails sinking between their vertices, every tree reshuffled, the seam check proving heights only, the credit and
+      the data note; the fixes themselves are not re-reviewed); step 3, an independent check of the research, is not done.
+      Left over: the ground edits are built and tested but nothing feeds them (the Roman forts landed without using them), and
+      objects placed at start do not follow an edit yet (ADR 0049, decision 8); the mesh stops at 4m although the data is 2m;
+      WebGPU is untested
 - [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort.
       2026-10-09: researched and independently checked (`research/roman-forts-and-vicus.md`, draft; check
       [2026-10-09](../research/reviews/roman-forts-and-vicus-check-2026-10-09.md), corrections applied; Claude under
@@ -259,7 +262,7 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
       unit, content and e2e tests. 2026-10-09 (review of the build, ADR 0045 and 0046 amended): Fort 2 starts at 83 so
       the forts never overlap, the settlement is an estimate, ditch profiles are by side, the annex is said, the
       arrival cutscene ends at Fort 1's south-east gate, and the card lists what the slider's year draws. Still to do
-      before it is ticked: registering the forts on the LiDAR terrain when issue 2 lands. Not built (the issue's own later phases): a
+      before it is ticked: checking the forts' registration against the LiDAR's saddle and two knolls (issue 2 has landed and the forts stand on it: looked at on the GPU at AD 80, 110 and 140 on 2026-10-10, their ditch and road ribbons and the settlement's roads follow the ground, [`docs/images/lidar/`](../images/lidar/); whether the Coflein-based placement matches the saddle is not judged). Not built (the issue's own later phases): a
       Blender project, animation, walkable interiors, characters
 - [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09), then a photo layer pinned to where each was taken, with credit and ⓘ.
       **Agreed ✓. Researched ✓ 2026-10-09** ([`research/dc-harries-photographs.md`](../research/dc-harries-photographs.md)):
