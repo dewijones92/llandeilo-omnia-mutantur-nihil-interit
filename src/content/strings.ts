@@ -226,6 +226,25 @@ export const STRINGS = {
     en: 'A reconstruction: time is compressed, and what is invented is marked.',
     cy: 'Ail-greu: mae amser wedi’i gywasgu, ac mae’r hyn sydd wedi’i ddyfeisio wedi’i nodi.',
   },
+  photos: { en: 'Photos', cy: 'Lluniau' },
+  photosHelp: {
+    en: 'Show old photographs, pinned where each was taken',
+    cy: 'Dangos hen ffotograffau, wedi’u pinio lle tynnwyd pob un',
+  },
+  photo: { en: 'Photograph', cy: 'Ffotograff' },
+  photoDate: { en: 'Date', cy: 'Dyddiad' },
+  photoShows: { en: 'What it shows', cy: 'Yr hyn a welir' },
+  photoWhere: { en: 'Where', cy: 'Lle' },
+  photoCredit: { en: 'Credit', cy: 'Cydnabyddiaeth' },
+  photoView: { en: 'View it on People’s Collection Wales', cy: 'Gweld yng Nghasgliad y Werin Cymru' },
+  photoSure: { en: 'How sure are we?', cy: 'Pa mor sicr ydym ni?' },
+  photoPlacement: { en: 'Placement', cy: 'Lleoliad' },
+  photoWithin: { en: 'Placed to within about', cy: 'Wedi’i leoli o fewn tua' },
+  photoEnglishOnly: {
+    en: 'The catalogue’s words and our notes on the photographs are in English only.',
+    cy: 'Mae geiriau’r catalog a’n nodiadau ar y ffotograffau yn Saesneg yn unig.',
+  },
+  photoCredits: { en: 'Photographs', cy: 'Ffotograffau' },
 } as const satisfies Record<string, Bilingual>;
 
 export type StringKey = keyof typeof STRINGS;

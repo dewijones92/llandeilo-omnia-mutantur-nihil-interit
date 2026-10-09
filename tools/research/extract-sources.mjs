@@ -25,6 +25,7 @@ const PREFIX = {
   'hunter-gatherers': 'hunters',
   'light-after-dark': 'light',
   'roman-forts-and-vicus': 'fort',
+  'dc-harries-photographs': 'harries',
 };
 
 const entries = [];

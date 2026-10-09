@@ -272,13 +272,14 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
 ## Build & test
 
 ```bash
-npm run dev                          # the always-on dev server on :5051 (?debug for the overlay, ?year=1282, ?place=garn-goch, ?quality=low, ?begin=1)
+npm run dev                          # the always-on dev server on :5051 (?debug for the overlay, ?year=1282, ?place=garn-goch, ?quality=low, ?begin=1, ?photos=1)
 npm run check                        # format, types, lint, unit tests, knip (the pre-push hook runs the same)
 npx vite build && npx playwright test   # production build and e2e (needs PAGES_BASE to match CI)
 node tools/research/extract-sources.mjs # after any change to docs/research/*.md
 node tools/voices/build-voices.ts    # after any change to conversation text (needs edge-tts)
 tools/terrain/build-terrain.sh && python3 tools/geo/build-osdata.py   # rebuild map data (see docs/data)
 node tools/shot.mjs '<url>' out.png  # screenshot, using the Chromium that works on this WSL box
+node tools/photo-shots.mjs <base url/> <out dir>  # the photo layer: pins at 1900 and an open photograph, English and Welsh
 node tools/frames.mjs '<url>' <dir> [--perf] [--uncapped]  # shots at several years (YEARS, HOUR, SEASON, PLACES) and GPU frame timings
 ```
 

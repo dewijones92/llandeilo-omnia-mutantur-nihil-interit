@@ -14,10 +14,12 @@ import {
   type KeyEvent,
   type LanguageSnapshot,
   type Person,
+  type Photograph,
   type Place,
   type PlaceId,
   type Soundscape,
 } from './model.ts';
+import { pinnedPhotos, type PlacedPhoto } from './photos.ts';
 import type { Provenance, Source } from './provenance.ts';
 import { contains, type TimeRange, type Year } from './time.ts';
 import { tAt, yearAt, type Timeline } from './timeline.ts';
@@ -36,6 +38,7 @@ export interface WorldContent {
   readonly conversations: readonly Conversation[];
   readonly almanac: readonly AlmanacEntry[];
   readonly language: readonly LanguageSnapshot[];
+  readonly photographs: readonly Photograph[];
   readonly sources: readonly Source[];
 }
 
@@ -99,6 +102,8 @@ export interface Snapshot {
   readonly conversations: readonly Conversation[];
   readonly almanac: readonly AlmanacEntry[];
   readonly language: LanguageSnapshot | undefined;
+  /** The photographs that have a pin at this year (ADR 0044). */
+  readonly photographs: readonly PlacedPhoto[];
   readonly nearestEvent: KeyEvent | undefined;
 }
 
@@ -244,6 +249,7 @@ export function snapshotAt(world: WorldContent, t: number): Snapshot {
       lampAlmanacAt(world.lamplight, y),
     ),
     language: latestStarting(world.language, y),
+    photographs: pinnedPhotos(world.photographs, y),
     nearestEvent,
   };
 }

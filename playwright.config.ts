@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
 
 const base = process.env['PAGES_BASE'] ?? '/';
+const storedQuality = process.env['E2E_QUALITY'];
 // Each checkout gets its own preview port (4200-4999, from its path), so two clones or worktrees
 // never share a server. The server is never reused: a run must only test the build it started.
 const fromPath =
@@ -40,6 +41,21 @@ export default defineConfig({
   outputDir: 'test-results',
   use: {
     baseURL: `http://localhost:${String(port)}${base}`,
+    // CI renders on the CPU, so it tests at Low graphics (Dewi, 2026-10-09); a test that needs another
+    // level sets it itself. The app reads this stored choice the way it reads a visitor's own.
+    ...(storedQuality
+      ? {
+          storageState: {
+            cookies: [],
+            origins: [
+              {
+                origin: `http://localhost:${String(port)}`,
+                localStorage: [{ name: 'llandeilo.quality', value: storedQuality }],
+              },
+            ],
+          },
+        }
+      : {}),
     viewport: { width: 1440, height: 860 },
     launchOptions: {
       ...(existsSync(localChromium) ? { executablePath: localChromium } : {}),

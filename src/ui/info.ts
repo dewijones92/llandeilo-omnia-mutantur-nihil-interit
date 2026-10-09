@@ -1,6 +1,6 @@
 import { ASSETS, EXTERNAL_CREDITS } from '../content/assets.ts';
 import { ALMANAC_TOPICS } from '../content/languages.ts';
-import type { AlmanacEntry, LanguageSnapshot } from '../domain/model.ts';
+import type { AlmanacEntry, LanguageSnapshot, Photograph } from '../domain/model.ts';
 import type { Source } from '../domain/provenance.ts';
 import { formatSliderYear } from '../domain/time.ts';
 import type { Snapshot } from '../domain/state.ts';
@@ -20,7 +20,12 @@ export class InfoPanel {
   constructor(
     private readonly store: LangStore,
     private readonly sources: ReadonlyMap<string, Source>,
-    private readonly counts: { readonly sources: number; readonly events: number; readonly features: number },
+    private readonly counts: {
+      readonly sources: number;
+      readonly events: number;
+      readonly features: number;
+      readonly photographs: readonly Photograph[];
+    },
   ) {
     store.onChange(() => {
       this.key = '';
@@ -173,6 +178,19 @@ export class InfoPanel {
             h('b', {}, `${a.what[this.store.lang]}: `),
             `${a.source}. `,
             h('a', { href: a.url, target: '_blank', rel: 'noopener' }, a.licence),
+          ),
+        ),
+      ),
+      h('h3', {}, this.store.t('photoCredits')),
+      h(
+        'ul',
+        { class: 'info-credits photo-credits' },
+        ...this.counts.photographs.map((p) =>
+          h(
+            'li',
+            { 'data-photo-credit': p.id },
+            h('span', { lang: 'en' }, `${p.where}, ${p.dated}. ${p.credit}. `),
+            h('a', { href: p.catalogueUrl, target: '_blank', rel: 'noopener' }, p.catalogueId),
           ),
         ),
       ),

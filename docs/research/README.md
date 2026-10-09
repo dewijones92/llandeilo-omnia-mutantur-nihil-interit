@@ -37,6 +37,7 @@ the research drove.
 | [soundscapes](soundscapes.md) | What the valley sounded like, era by era, and where to get the sounds | draft | [2026-10-03](reviews/soundscapes-check-2026-10-03.md), applied (the market bed's start is left for Dewi) | [brief](briefs/soundscapes.md) |
 | [hunter-gatherers](hunter-gatherers.md) | Hunter-gatherers from the ice to the first farmers (c. 13,000 to 4000 BC) | draft | [2026-10-09](reviews/hunter-gatherers-check-2026-10-09.md), applied (the Waun Fignen Felen key date and almanac entry moved; the BP scale is still an inference) | [brief](briefs/hunter-gatherers.md) |
 | [light-after-dark](light-after-dark.md) | How homes and streets were lit after dark: hearth, rushlight, oil, gas (1864, streets by 1876), electric (1902), the blackout | draft | [2026-10-03](reviews/light-after-dark-check-2026-10-03.md), applied | none (written inline, 2026-10-03) |
+| [dc-harries-photographs](dc-harries-photographs.md) | D. C. Harries's photographs of Llandeilo's streets and station, c. 1900 to c. 1928: who he was, where the collection is, 31 photographs found and downloaded, each placed on the OS grid with its accuracy | draft | not yet checked | none (written inline, 2026-10-09) |
 
 The first six were produced in one pass on 2026-09-26, with WebSearch quota exhausted part way
 through (see [`process.md`](process.md)); `conversations-by-class` was added on 2026-09-28 and the rest
