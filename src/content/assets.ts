@@ -62,9 +62,8 @@ export const ASSETS: readonly AssetRecord[] = [
     files: /^photos\/harries\/\d+\.jpg$/,
     what: { en: 'Photographs by D C Harries', cy: 'Ffotograffau gan D C Harries' },
     source:
-      'D C Harries (Llandeilo photographer, c. 1888 to 1940); prints in the Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales; each photograph’s own credit and item number are in src/content/photographs.ts',
-    licence:
-      'People’s Collection Wales: Creative Archive Licence (non-commercial); credited as the project owner instructed',
+      'D C Harries (Llandeilo photographer, c. 1888 to 1940); prints in the Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales; each photograph’s own credit and item number are in src/content/photographs.ts. PCW’s item pages state its Creative Archive Licence (non-commercial downloads)',
+    licence: 'Not checked: used with credit at Dewi’s request (2026-10-09)',
     url: 'https://www.peoplescollection.wales/collections/2287136',
   },
   {

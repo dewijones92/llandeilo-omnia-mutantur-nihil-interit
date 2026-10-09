@@ -240,6 +240,14 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
 - [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded
 - [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort
 - [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09); a photo layer pinned to where each was taken, with credit and ⓘ, with its credit
+      **Researched 2026-10-09, not yet checked** ([`research/dc-harries-photographs.md`](../research/dc-harries-photographs.md)):
+      31 photographs found and downloaded (`public/photos/harries/`, data and credits in
+      `src/content/photographs.ts`), all on People's Collection Wales from the Llandeilo Fawr Town Council
+      collection, none an NLW catalogue item; 28 placed on the OS grid (14 documented, 14 reconstructed),
+      3 not; two of the station (c. 1910 and c. 1918, not c. 1900); one captioned as the station is a colliery
+      (marked miscaptioned). Still to do: the independent check, then the photo layer and its tests.
+      Owner's decisions in the note: the credit wording, and whether to gather other photographers' c. 1900
+      station and street views
 - [ ] Conversations by class in the three slice eras; in-world music and the hunter-gatherer scenes (after their research checks); a GPU terrain shader for smooth scrubbing; the later trains and the Dinefwr, Carreg Cennen and bridge models (Dewi picked all four on 2026-10-09)
 
 ## Agreed for the weekend run (Dewi, 2026-10-02)

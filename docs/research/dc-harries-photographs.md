@@ -12,7 +12,8 @@ Research and gathering for [GitHub issue #1](https://github.com/dewijones92/llan
 [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)). This is the
 research stage only: the in-app photo layer is built later. Dewi's instruction for this item
 (2026-10-09): "ignore licensing problems, just credit the person", so every photo carries a credit and a
-catalogue id and URL, and no licence check blocks it ([ADR 0026](../adr/0026-open-licences-including-nc.md)).
+catalogue id and URL, and no licence check blocks it (the asset manifest's licence field reads "Not checked: used with credit at
+Dewi's request (2026-10-09)"; PCW's own item pages state its Creative Archive Licence, non-commercial downloads) ([ADR 0026](../adr/0026-open-licences-including-nc.md)).
 Written 2026-10-09 from pages fetched that day; the images were downloaded and each one looked at.
 
 ## Summary
