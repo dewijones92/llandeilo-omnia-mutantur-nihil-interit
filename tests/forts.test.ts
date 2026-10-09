@@ -79,7 +79,7 @@ describe('where the Roman forts stand', () => {
     expect(inner('roman-fort-b').width).toBeCloseTo(110, 0);
   });
 
-  it('draws them at true size and true height, not at the 2.6 times landmark scale or the hills’ exaggeration (ADR 0045)', () => {
+  it('draws them at true size and true height, not at the 2.6 times landmark scale or the hills’ exaggeration (ADR 0046)', () => {
     for (const id of FORT_IDS) expect(plan(id).setting, id).toBe('true');
   });
 

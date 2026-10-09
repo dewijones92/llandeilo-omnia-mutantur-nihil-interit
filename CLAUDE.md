@@ -110,7 +110,7 @@ The summary lives in [`docs/research/findings.md`](docs/research/findings.md), a
   chosen by ear on 2026-09-26; Roman-era Latin lines carry an ⓘ saying Romans pronounced it
   differently. Brittonic and Old/Middle Welsh are voiced as modern Welsh stand-ins and labelled so.
 - **The Roman forts are drawn true size and true height, as plans whose every part carries its own tier**
-  ([ADR 0045](docs/adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)):
+  ([ADR 0046](docs/adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)):
   never at the 2.6 times landmark scale, no stone, tile or limewash, no gate without evidence (Fort 2's rear
   gate is drawn as unproven), the second fort's "AD 90–100" probably from a painting's caption ("around 100AD"), a scene date and not a founding date; Fort 2 starts at AD 83 once Fort 1 is gone, since a Fort 1 ditch lies under Fort 2's levelling.
 - **Research is a draft until independently reviewed.** Each note is `status: draft`; a review pass

@@ -589,7 +589,7 @@ describe('the railway', () => {
     expect(late.map((f) => f.id)).toEqual([]);
   });
 
-  it('never gives a feature a latest date before its "c." end, and only a feature without exact dates (ADR 0044)', () => {
+  it('never gives a feature a latest date before its "c." end, and only a feature without exact dates (ADR 0045)', () => {
     const early = W.features.filter((f) => f.notAfter !== undefined && f.notAfter < f.when.to);
     expect(early.map((f) => f.id)).toEqual([]);
     const exact = W.features.filter((f) => f.notAfter !== undefined && f.datesExact);
@@ -954,7 +954,7 @@ describe('the About panel', () => {
     }
   });
 
-  it('does not say the Roman forts are drawn larger than life: they keep their true size and height (ADR 0045)', () => {
+  it('does not say the Roman forts are drawn larger than life: they keep their true size and height (ADR 0046)', () => {
     expect(STRINGS.aboutBody.en).not.toContain('Roman forts and early houses');
     expect(STRINGS.aboutBody.en).toContain('Roman forts and their settlement');
     expect(STRINGS.aboutBody.cy).not.toContain('caerau Rhufeinig a thai cynnar');

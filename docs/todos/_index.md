@@ -242,11 +242,11 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
       2026-10-09: researched and independently checked (`research/roman-forts-and-vicus.md`, draft; check
       [2026-10-09](../research/reviews/roman-forts-and-vicus-check-2026-10-09.md), corrections applied; Claude under
       the proactive mandate, [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)).
-      2026-10-09: **built** ([ADRs 0044, 0045 and 0046](../adr/README.md)): Fort 1, Fort 2, Fort 1's backfilled
+      2026-10-09: **built** ([ADRs 0045, 0046 and 0047](../adr/README.md)): Fort 1, Fort 2, Fort 1's backfilled
       ditches and the vicus as plans of 66, 83, 15 and 18 parts, each part with its own tier, at true size and
       height, with a far and a near mesh, shown on the first Roman key date's card part by part; the placeholder
       boxes (wrong place, angle and roofs) are gone. Seen: screenshots at AD 74, 80, 110 and 140, near and far;
-      unit, content and e2e tests. 2026-10-09 (review of the build, ADR 0044 and 0045 amended): Fort 2 starts at 83 so
+      unit, content and e2e tests. 2026-10-09 (review of the build, ADR 0045 and 0046 amended): Fort 2 starts at 83 so
       the forts never overlap, the settlement is an estimate, ditch profiles are by side, the annex is said, the
       arrival cutscene ends at Fort 1's south-east gate, and the card lists what the slider's year draws. Still to do
       before it is ticked: registering the forts on the LiDAR terrain when issue 2 lands. Not built (the issue's own later phases): a

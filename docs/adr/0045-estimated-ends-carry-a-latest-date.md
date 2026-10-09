@@ -1,11 +1,11 @@
 ---
-title: "ADR 0044: An estimated end can carry the latest date its sources allow"
+title: "ADR 0045: An estimated end can carry the latest date its sources allow"
 kind: adr
 status: accepted
 updated: 2026-10-09
 ---
 
-# ADR 0044: An estimated end can carry the latest date its sources allow
+# ADR 0045: An estimated end can carry the latest date its sources allow
 
 - **Status:** Accepted, amends [0035](0035-exact-dates-are-about-dates-not-clues.md) alongside [0037](0037-estimates-carry-an-earliest-date.md)
 - **Date:** 2026-10-09

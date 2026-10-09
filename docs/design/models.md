@@ -75,7 +75,7 @@ or feature is in the named note; everything else in the plan is a labelled recon
 
 Still to do from the phase list above: Garn Goch keeps its earlier builder.
 
-### The Roman forts and their settlement (built 2026-10-09, [ADR 0045](../adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md))
+### The Roman forts and their settlement (built 2026-10-09, [ADR 0046](../adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md))
 
 Four features, all plans in `src/content/forts.ts`, in true size and height (the `true` setting). Each part
 has an id, a name and its own tier, and is listed on the key date's card.
@@ -92,7 +92,7 @@ bathhouse, Fort 1's kiln, its north-east and north-west gates (not found) and th
 funnel ditches and enclosure, the cremations. No stone, tile or limewash. Credit: "Neil Ludlow, for Cambria
 Archaeology" (reference, not evidence) and the Hughes report in each ⓘ. Screenshots: [`../images/roman-forts/`](../images/roman-forts/).
 
-**Levels of detail** ([ADR 0046](../adr/0046-detailed-monuments-have-a-far-and-a-near-mesh.md)): a far mesh
+**Levels of detail** ([ADR 0047](../adr/0047-detailed-monuments-have-a-far-and-a-near-mesh.md)): a far mesh
 (rampart, ditches, gate towers, roads) beyond 2.3km and a near one inside 2km. **Editing**: a part is a data entry
 (`fort1/gate-sw/tower-left`); gates are separate parts (towers, walkway, passage, two leaves) so a leaf can
 become its own object, though the renderer merges them today. **Not done**: the issue's Blender project (Dewi

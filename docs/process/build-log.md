@@ -690,16 +690,16 @@ Milestones and what each one taught us. Newest last.
    anchor before reporting a conflict with a documented one.
 
 5. **The Roman forts and their vicus, built detailed** (issue 3; Claude under the proactive mandate, ADRs
-   [0044](../adr/0044-estimated-ends-carry-a-latest-date.md),
-   [0045](../adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md),
-   [0046](../adr/0046-detailed-monuments-have-a-far-and-a-near-mesh.md)). From the checked note: Fort 1, Fort 2,
+   [0045](../adr/0045-estimated-ends-carry-a-latest-date.md),
+   [0046](../adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md),
+   [0047](../adr/0047-detailed-monuments-have-a-far-and-a-near-mesh.md)). From the checked note: Fort 1, Fort 2,
    Fort 1's backfilled ditches and the settlement are four `building` features with plans of 66, 83, 15 and 18
    parts, each with its own id, name, provenance and level of detail; the `roman-fort` feature kind and its own
    renderer are gone. **The placeholders were wrong and are corrected**: `roman-fort-a` sat on Fort 2's
    centre (Coflein's point), `roman-fort-b` 28m east and 29m south of it, both at 0.12 radians (7 degrees),
    with tiled roofs and a limewashed headquarters, at 2.6 times life size; Fort 1 is now centred about E 262206
    N 222470 and Fort 2 about E 262190 N 222538, long axes at bearings 48 and 53, in true size and height.
-   Built in this order, red first where a bug could show: the latest-date rule (ADR 0044) and the fort-ring
+   Built in this order, red first where a bug could show: the latest-date rule (ADR 0045) and the fort-ring
    geometry in unit tests; the plan model's new parts; a screenshot of the first build; then the content
    tests. What the pictures taught, each cheaper to find by looking than by test:
    - **The content tests passed while the feature was wrong.** `notAfter` was in the type and the unit
@@ -709,7 +709,7 @@ Milestones and what each one taught us. Newest last.
      passed it on. Lesson: test what the snapshot says, not what the data says.
    - **Vertical exaggeration made a fort a farm.** On the `map` setting a 3m barrack drew 7m tall and the
      headquarters read as a barn. A new `true` setting (across 1, up 1) fixed it; the screenshot with
-     `up: 1` against `up: 2.4` is the evidence for ADR 0045.
+     `up: 1` against `up: 2.4` is the evidence for ADR 0046.
    - **Depth of field blurred the whole screen at a close radius.** Its focus was clamped to 40 units while
      the camera's lower limit was 25, so a fort at radius 14 was soft everywhere; both limits now follow the
      detail (10 units).
@@ -755,8 +755,8 @@ Milestones and what each one taught us. Newest last.
      and the rear gate's "not demonstrated" entry.
    - **Duplicates after a merge.** `tiers.ts` was byte-for-byte main's `provenance.ts`; and ADR 0043 had said
      every `densify` copy was gone while `terrain.ts` and my `buildings.ts` each still had one. One `densify`
-     now lives in `domain/polyline.ts` with a test. ADRs 0041 to 0043 were also main's, so this branch's are
-     0044 to 0046.
+     now lives in `domain/polyline.ts` with a test. ADRs 0041 to 0043 were also main's, and main then took 0044 for
+     the photographs, so this branch's are 0045 to 0047.
    - **Contested points stay contested.** The annex (the excavator's suggestion, Trench 3) is now said on the
      backfilled ditches and kept drawn as a stated simplification; the tile finds, the Jay Lane tower and the
      unwritten wider berm are worded as the sources are.

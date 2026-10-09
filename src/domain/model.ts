@@ -206,7 +206,7 @@ export interface FeatureBase {
  * provenance, so a reconstructed feature can have them, and only a documented one with them is a firm
  * clue (ADR 0035). Otherwise its dates are "c.", and it may carry the earliest date a source allows for
  * its start, before which it is never drawn (ADR 0037), and the latest date it allows for its end,
- * after which it is never drawn (ADR 0044).
+ * after which it is never drawn (ADR 0045).
  */
 export type FeatureDating =
   | { readonly datesExact: true; readonly notBefore?: never; readonly notAfter?: never }

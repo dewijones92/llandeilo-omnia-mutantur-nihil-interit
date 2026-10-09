@@ -10,7 +10,7 @@ updated: 2026-10-09
 Research for GitHub issue 3 (a detailed, modular 3D reconstruction of the Roman fort at Llandeilo, to
 sit on the LiDAR terrain). Agreed by Dewi on 2026-10-09, prioritised; choices here are made by Claude
 under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)). **Built the same day** from this
-note and its check ([ADR 0045](../adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md), `src/content/forts.ts`);
+note and its check ([ADR 0046](../adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md), `src/content/forts.ts`);
 the choices the build made are in the ADR and the build log. Written on 2026-10-09 from sources fetched that day; the brief is in
 [`briefs/roman-forts-and-vicus.md`](briefs/roman-forts-and-vicus.md). **Independently checked on
 2026-10-09** ([review](reviews/roman-forts-and-vicus-check-2026-10-09.md): 98 claims, 72 confirmed, 17 partly,

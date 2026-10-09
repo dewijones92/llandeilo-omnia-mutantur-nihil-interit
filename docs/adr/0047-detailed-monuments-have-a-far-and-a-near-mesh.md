@@ -1,11 +1,11 @@
 ---
-title: "ADR 0046: A detailed monument has a far and a near mesh, chosen by the camera's distance"
+title: "ADR 0047: A detailed monument has a far and a near mesh, chosen by the camera's distance"
 kind: adr
 status: accepted
 updated: 2026-10-09
 ---
 
-# ADR 0046: A detailed monument has a far and a near mesh, chosen by the camera's distance
+# ADR 0047: A detailed monument has a far and a near mesh, chosen by the camera's distance
 
 - **Status:** Accepted
 - **Date:** 2026-10-09

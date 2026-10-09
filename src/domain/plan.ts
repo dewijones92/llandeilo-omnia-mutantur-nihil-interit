@@ -47,8 +47,8 @@ export interface Built {
 
 /**
  * What a part says about itself, for a plan whose parts are held to their sources one by one (the
- * Roman forts, ADR 0045): an id that names it for good, a name to show, its own provenance, and
- * `detail`, a part too small to see from afar, drawn only when the camera is near (ADR 0046).
+ * Roman forts, ADR 0046): an id that names it for good, a name to show, its own provenance, and
+ * `detail`, a part too small to see from afar, drawn only when the camera is near (ADR 0047).
  */
 export interface PartMeta {
   readonly id?: string;
@@ -127,7 +127,7 @@ export type Part = PartShape & PartMeta;
 /**
  * How a plan is scaled: `landscape` larger than life so it reads from afar, `map` true in plan and as tall as
  * the hills are exaggerated (the town), `true` true in plan and in height, for a place whose dimensions
- * are the evidence (the Roman forts, ADR 0045). Only `map` hides the modern buildings under it.
+ * are the evidence (the Roman forts, ADR 0046). Only `map` hides the modern buildings under it.
  */
 export type Setting = 'landscape' | 'map' | 'true';
 

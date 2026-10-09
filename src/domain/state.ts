@@ -188,7 +188,7 @@ export function latestStarting<T extends { readonly when: TimeRange }>(
  * never present outside them: on at `from`, gone after `to` (ADR 0034). One whose dates are "c."
  * fades in over the stretch before `from` and out over the stretch after `to`, but never starts to
  * fade in before a documented earliest date (`notBefore`, ADR 0037), nor out after a documented latest
- * one (`notAfter`, ADR 0044).
+ * one (`notAfter`, ADR 0045).
  */
 export function presenceAt(
   timeline: Timeline,

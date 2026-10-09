@@ -48,7 +48,7 @@ because of it. The detail and sources are in each note; this is the summary a ne
   Coflein agree (the first pass's "about 50m east" was a measurement error), the "AD 90-100" is probably the
   caption date of the Ludlow painting on llandeilo.org, and Roman tile was found in the fort and vicus.
   ([roman forts](roman-forts-and-vicus.md))
-- **Built 2026-10-09 ([ADR 0045](../adr/0045-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)),
+- **Built 2026-10-09 ([ADR 0046](../adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)),
   and the placeholders corrected:** the app's two forts had been boxes at the wrong place and angle (the larger
   fort on the smaller's centre, the smaller 28m east and 29m south of it, both at about 7 degrees against the
   figures' 48 to 53, with tiled roofs and a limewashed headquarters, at 2.6 times life size). They are now

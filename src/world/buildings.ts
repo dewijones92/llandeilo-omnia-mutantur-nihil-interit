@@ -82,7 +82,7 @@ export function planClearing(plan: Plan): number {
   return extent + (plan.setting === 'landscape' ? 30 : 6);
 }
 
-/** `near` draws every part; `far` leaves out the parts marked `detail`, which are too small to see from afar (ADR 0046). */
+/** `near` draws every part; `far` leaves out the parts marked `detail`, which are too small to see from afar (ADR 0047). */
 export function buildPlan(
   scene: Scene,
   plan: Plan,
