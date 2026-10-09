@@ -24,7 +24,6 @@ import { DebugOverlay } from './ui/debug.ts';
 import { PlaceLabels } from './ui/labels.ts';
 import { MomentCard } from './ui/moment.ts';
 import { Bubbles } from './ui/bubbles.ts';
-import { CameraHint } from './ui/camera-hint.ts';
 import { loadModel, type LoadedModel } from './world/models.ts';
 import { Compass } from './ui/compass.ts';
 import { northAlpha } from './domain/compass.ts';
@@ -36,14 +35,14 @@ import { GuessGame } from './ui/guess.ts';
 import { langToggle } from './ui/lang-toggle.ts';
 import { OpeningCard } from './ui/opening.ts';
 import { QualityMenu, storedQuality } from './ui/quality.ts';
-import { showsBegin } from './domain/opening.ts';
+import { showsBegin, welcomeAtStart } from './domain/opening.ts';
 import { chooseQuality, QUALITY } from './domain/quality.ts';
 import { Ambience } from './audio/ambience.ts';
 import { h } from './ui/dom.ts';
-import { Shortcuts } from './ui/shortcuts.ts';
 import { SkyControls } from './ui/sky.ts';
 import { LangStore } from './ui/store.ts';
 import { TimelineBar } from './ui/timeline.ts';
+import { storedWelcome, WelcomePanel } from './ui/welcome.ts';
 import { MapControls } from './world/controls.ts';
 import { createEngine } from './world/engine.ts';
 import { FeatureLayer } from './world/features.ts';
@@ -244,10 +243,8 @@ async function start(): Promise<void> {
     const c = conversationOf(hit);
     if (c) openConversation(c);
   });
-  const hint = new CameraHint(store);
   const controls = new MapControls(world.camera, world.scene, canvas, features.ground, flight, {
-    onMove(move, byDrag) {
-      if (byDrag) hint.dismiss();
+    onMove(move) {
       if (move !== 'turn') home.hidden = false;
     },
     onDoubleClick(at, x, y) {
@@ -290,14 +287,18 @@ async function start(): Promise<void> {
   store.onChange(() => {
     sound.textContent = store.t(soundOn ? 'soundOn' : 'soundOff');
   });
-  const shortcuts = new Shortcuts(store);
+  const welcome = new WelcomePanel(store, [app, canvas], () => {
+    panel.close();
+    info.open('about');
+  });
+  document.body.append(welcome.el);
   const keysButton = h(
     'button',
     { class: 'tool', type: 'button', 'aria-keyshortcuts': '?' },
     store.t('keys'),
   );
   keysButton.addEventListener('click', () => {
-    shortcuts.toggle();
+    welcome.open('controls');
   });
   store.onChange(() => {
     keysButton.textContent = store.t('keys');
@@ -358,7 +359,7 @@ async function start(): Promise<void> {
   for (const el of [labels.el, bubbles.el, moment.el, panel.el, info.el, followChip.el, debug?.el]) {
     el?.classList.add('reveals-when');
   }
-  app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el, shortcuts.el, guess.el);
+  app.append(labels.el, bubbles.el, brand, moment.el, timeline.el, panel.el, info.el, guess.el);
   const compact = (): void => {
     moment.el.classList.toggle('compact', panel.open !== undefined || info.isOpen);
     // The game panel shares the right-hand slot with these, so it steps aside while one is open.
@@ -371,6 +372,16 @@ async function start(): Promise<void> {
       console.info(`dewidebug key ${e.key} ignored while the Begin card waits`);
       return;
     }
+    const helpKey = e.key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey;
+    // The welcome is modal: Escape and ? close it, and every other key stays with it (scrolling it,
+    // ticking its box) rather than stepping the timeline behind it.
+    if (welcome.isOpen) {
+      if (e.key === 'Escape' || helpKey) {
+        e.preventDefault();
+        welcome.close(e.key);
+      }
+      return;
+    }
     const stepKey = e.key === 'ArrowRight' || e.key === 'ArrowLeft';
     const modified = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     const focus = document.activeElement;
@@ -380,15 +391,14 @@ async function start(): Promise<void> {
       return;
     }
     const typing = focus instanceof HTMLInputElement && focus.type !== 'range';
-    if (e.key === '?' && !typing && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    if (helpKey && !typing) {
       e.preventDefault();
-      shortcuts.toggle();
+      welcome.open('controls');
       return;
     }
     if (e.key !== 'Escape') return;
     if (document.querySelector('.prov-wrap.open') || document.activeElement?.closest('.prov-wrap')) return;
-    if (shortcuts.isOpen) shortcuts.close();
-    else if (panel.open) panel.close();
+    if (panel.open) panel.close();
     else if (info.isOpen) info.close();
   });
   const startPlace = content.places.find((p) => p.id === params.get('place'));
@@ -403,17 +413,17 @@ async function start(): Promise<void> {
   const compass = new Compass(store, () => {
     flight.turnTo(northAlpha(world.camera.alpha));
   });
-  app.append(compass.el, followChip.el, hint.el);
+  app.append(compass.el, welcome.button, followChip.el);
   const chrome = [
     brand,
     moment.el,
     timeline.el,
     compass.el,
+    welcome.button,
+    welcome.panel,
     followChip.el,
-    hint.el,
     panel.el,
     info.el,
-    shortcuts.el,
     guess.el,
   ];
   if (debug) chrome.push(debug.el);
@@ -520,7 +530,9 @@ async function start(): Promise<void> {
       setSound(true);
     },
     () => {
-      hint.show();
+      const atStart = welcomeAtStart(params, navigator.webdriver, storedWelcome());
+      console.info(`dewidebug welcome at start show=${String(atStart.show)} why=${atStart.why}`);
+      if (atStart.show) welcome.open('top');
     },
   );
   if (debug) Object.assign(window, { llandeiloDebug: { scene: world.scene } });

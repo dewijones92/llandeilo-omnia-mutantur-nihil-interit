@@ -91,7 +91,65 @@ export const STRINGS = {
   aboutLanguage: { en: 'About the language:', cy: 'Am yr iaith:' },
   aboutVoice: { en: 'About the voice:', cy: 'Am y llais:' },
   keys: { en: 'Keys', cy: 'Bysellau' },
-  keysTitle: { en: 'Keys and controls', cy: 'Bysellau a rheolyddion' },
+  welcomeTitle: { en: 'How to explore', cy: 'Sut i grwydro' },
+  welcomeButton: {
+    en: 'How to explore: the controls, and what the labels mean',
+    cy: 'Sut i grwydro: y rheolyddion, a beth mae’r labeli’n ei olygu',
+  },
+  welcomeIntro: {
+    en: 'Llandeilo and the land ten miles around it, from the earliest people here to today. Travel through time with the timeline at the bottom, and around the valley with the mouse.',
+    cy: 'Llandeilo a’r tir deg milltir o’i chwmpas, o’r bobl gynharaf yma hyd heddiw. Teithiwch drwy amser gyda’r llinell amser ar y gwaelod, ac o gwmpas y dyffryn gyda’r llygoden.',
+  },
+  welcomeMove: { en: 'Moving around the valley', cy: 'Symud o gwmpas y dyffryn' },
+  welcomeTime: { en: 'Moving through time', cy: 'Symud drwy amser' },
+  welcomeSlider: {
+    en: 'Drag the timeline at the bottom to travel through time; the scene changes as you go.',
+    cy: 'Llusgwch y llinell amser ar y gwaelod i deithio drwy amser; mae’r olygfa’n newid wrth i chi fynd.',
+  },
+  welcomeKeyDates: {
+    en: 'The marks on it are key dates. Let go near one and it snaps there, with a card about what happened.',
+    cy: 'Dyddiadau allweddol yw’r marciau arni. Gollyngwch ger un ac fe neidiwch ato, gyda cherdyn am yr hyn a ddigwyddodd.',
+  },
+  welcomeSteps: {
+    en: 'Previous and Next, or the ← and → keys, step from one key date to the next.',
+    cy: 'Mae Blaenorol a Nesaf, neu’r bysellau ← a →, yn camu o un dyddiad allweddol i’r nesaf.',
+  },
+  welcomePanels: {
+    en: 'Almanac and Language describe daily life, and who spoke what, at the date shown.',
+    cy: 'Mae Almanac ac Iaith yn disgrifio bywyd bob dydd, a phwy oedd yn siarad beth, ar y dyddiad a ddangosir.',
+  },
+  welcomeTruth: {
+    en: 'What is true, and what is invented',
+    cy: 'Beth sy’n wir, a beth sydd wedi’i ddyfeisio',
+  },
+  welcomeTruthIntro: {
+    en: 'Everything in the valley carries one of three labels:',
+    cy: 'Mae un o dri label ar bopeth yn y dyffryn:',
+  },
+  welcomeInfo: {
+    en: 'The ⓘ, on a speech bubble or an Imagined label, marks something invented to fill a gap, such as a conversation. Hover over or click a label to see what it is based on, and its sources.',
+    cy: 'Mae’r ⓘ, ar swigen siarad neu label Dychmygol, yn dangos rhywbeth wedi’i ddyfeisio i lenwi bwlch, fel sgwrs. Hofrwch dros label neu ei glicio i weld ar beth mae’n seiliedig, a’i ffynonellau.',
+  },
+  welcomeGame: {
+    en: 'A game: the year is hidden, you look around the valley and guess when it is, then see how you could have known.',
+    cy: 'Gêm: mae’r flwyddyn yn gudd, rydych chi’n edrych o gwmpas y dyffryn ac yn dyfalu pryd yw hi, yna’n gweld sut y gallech chi fod wedi gwybod.',
+  },
+  welcomeSettings: { en: 'Language, graphics and sound', cy: 'Iaith, graffeg a sain' },
+  welcomeLanguage: {
+    en: 'English and Cymraeg switch the whole app. People speak the language of their time, with a translation.',
+    cy: 'Mae English a Cymraeg yn newid yr ap cyfan. Mae pobl yn siarad iaith eu cyfnod, gyda chyfieithiad.',
+  },
+  welcomeGraphics: {
+    en: 'Graphics: High looks best; choose Medium or Low if the valley moves slowly on this computer. The choice is remembered.',
+    cy: 'Graffeg: Uchel sy’n edrych orau; dewiswch Canolig neu Isel os yw’r dyffryn yn symud yn araf ar y cyfrifiadur hwn. Caiff y dewis ei gofio.',
+  },
+  welcomeSound: {
+    en: 'Sound turns the background sounds of each era on or off. To hear people talk, open a conversation from its speech bubble and press Play conversation.',
+    cy: 'Mae Sain yn troi synau cefndir pob oes ymlaen neu i ffwrdd. I glywed pobl yn siarad, agorwch sgwrs o’i swigen siarad a phwyswch Chwarae’r sgwrs.',
+  },
+  welcomeAtStart: { en: 'Show this at start', cy: 'Dangos hwn wrth ddechrau' },
+  welcomeAbout: { en: 'About this project', cy: 'Am y prosiect hwn' },
+  welcomeStart: { en: 'Start exploring', cy: 'Dechrau crwydro' },
   keysAnywhere: {
     en: 'Anywhere but the sliders, tabs and the 3D view',
     cy: 'Unrhyw le ond y llithryddion, y tabiau a’r olygfa 3D',
@@ -103,7 +161,7 @@ export const STRINGS = {
   keyNudgeMore: { en: 'Move further through time', cy: 'Symud ymhellach drwy amser' },
   keyEnds: { en: 'The earliest date or today', cy: 'Y dyddiad cynharaf neu heddiw' },
   keyEscape: { en: 'Close a panel or a popup', cy: 'Cau panel neu naidlen' },
-  keyHelp: { en: 'Show or hide this list', cy: 'Dangos neu guddio’r rhestr hon' },
+  keyHelp: { en: 'Show or hide this help', cy: 'Dangos neu guddio’r cymorth hwn' },
   clickCompass: { en: 'Click the compass to face north.', cy: 'Cliciwch y cwmpawd i wynebu’r gogledd.' },
   clickTrain: {
     en: 'Click a train to follow it with the camera; Stop ends it.',
@@ -128,10 +186,6 @@ export const STRINGS = {
     cy: 'Sgroliwch i chwyddo i mewn neu allan lle mae’r pwyntydd.',
   },
   mouseDouble: { en: 'Double-click a spot to fly there.', cy: 'Cliciwch ddwywaith ar fan i hedfan yno.' },
-  cameraHint: {
-    en: 'Drag to move, right-drag to turn, scroll to zoom',
-    cy: 'Llusgwch i symud, llusgwch â’r botwm de i droi, sgroliwch i chwyddo',
-  },
   welshAccent: {
     en: 'The Welsh voice is a standard one and does not reproduce southern speech, such as the south-west’s own dialect, Dyfedeg: there an "s" next to an "i" can sound as "sh" (mis, "month", as "mish"), and words differ (moyn for "want").',
     cy: 'Llais safonol yw’r llais Cymraeg, ac nid yw’n atgynhyrchu lleferydd y de, fel tafodiaith y de-orllewin ei hun, Dyfedeg: yno gall "s" wrth ymyl "i" swnio fel "sh" (mis fel "mish"), ac mae geiriau’n wahanol (moyn am "eisiau").',

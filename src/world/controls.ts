@@ -40,7 +40,7 @@ const TILT_RATE = 0.8;
 export type CameraMove = 'pan' | 'turn' | 'zoom';
 
 export interface ControlHooks {
-  onMove(move: CameraMove, byDrag: boolean): void;
+  onMove(move: CameraMove): void;
   onDoubleClick(at: Vector3, x: number, y: number): void;
 }
 
@@ -195,7 +195,7 @@ export class MapControls {
         `dewidebug camera drag start kind=${d.kind} button=${e.button} onSky=${String(d.onSky)} grab=${d.grab.x.toFixed(0)},${d.grab.z.toFixed(0)} flying=${String(this.flight.flying)} following=${String(this.flight.following)}`,
       );
       this.flight.interrupt(d.kind);
-      this.hooks.onMove(d.kind, true);
+      this.hooks.onMove(d.kind);
     }
     if (d.kind === 'turn') {
       this.camera.inertialAlphaOffset -= (x - d.lastX) / this.camera.angularSensibilityX;
@@ -257,7 +257,7 @@ export class MapControls {
     this.zoomAt = under?.point;
     this.zoomLog = clamp(this.zoomLog + log, -MAX_ZOOM_LOG, MAX_ZOOM_LOG);
     this.flight.interrupt('zoom');
-    this.hooks.onMove('zoom', false);
+    this.hooks.onMove('zoom');
   }
 
   private doubleClick(e: MouseEvent): void {
@@ -307,17 +307,17 @@ export class MapControls {
       this.flight.interrupt('pan');
       this.setTarget(c.target.x + dir.x * step, c.target.y, c.target.z + dir.z * step);
       this.settling = true;
-      this.hooks.onMove('pan', false);
+      this.hooks.onMove('pan');
     }
     if (turn !== 0) {
       this.flight.interrupt('turn');
       c.alpha += turn * TURN_RATE * s;
-      this.hooks.onMove('turn', false);
+      this.hooks.onMove('turn');
     }
     if (tilt !== 0) {
       this.flight.interrupt('turn');
       c.beta = clamp(c.beta + tilt * TILT_RATE * s, c.lowerBetaLimit ?? 0, c.upperBetaLimit ?? Math.PI);
-      this.hooks.onMove('turn', false);
+      this.hooks.onMove('turn');
     }
     for (const code of this.releasing) this.held.delete(code);
     this.releasing.clear();

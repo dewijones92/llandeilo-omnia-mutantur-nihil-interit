@@ -52,7 +52,7 @@ body {
   pointer-events: none;
 }
 
-#app > :not(.labels):not(.bubbles):not(.camera-hint) {
+#app > :not(.labels):not(.bubbles) {
   pointer-events: auto;
 }
 
@@ -1128,23 +1128,6 @@ button {
   display: none;
 }
 
-/* Text only, so the 3D view under it still takes the drag it describes. */
-.camera-hint {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 8px 16px;
-  font-size: 15px;
-  color: var(--ink-soft);
-  animation: rise 0.35s ease;
-}
-
-.camera-hint[hidden],
-.follow-chip:not([hidden]) ~ .camera-hint {
-  display: none;
-}
-
 .sky {
   margin-top: 12px;
   padding-top: 12px;
@@ -1284,72 +1267,6 @@ button {
 .sky-seasons button {
   flex: 1;
   padding: 6px 4px;
-}
-
-.shortcuts {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(460px, calc(100vw - 32px));
-  max-height: calc(100vh - 200px);
-  overflow-y: auto;
-  padding: 14px 18px 16px;
-  z-index: 20;
-}
-
-.shortcuts[hidden] {
-  display: none;
-}
-
-.shortcuts h2 {
-  outline: none;
-  margin: 0;
-  font: 700 20px/1.2 var(--display);
-}
-
-.shortcuts-where {
-  margin: 14px 0 4px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.shortcuts table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.shortcuts th {
-  width: 44%;
-  padding: 4px 8px 4px 0;
-  text-align: left;
-  font-weight: 400;
-  white-space: nowrap;
-}
-
-.shortcuts td {
-  padding: 4px 0;
-  color: var(--ink-soft);
-}
-
-.shortcuts kbd {
-  display: inline-block;
-  min-width: 24px;
-  margin-right: 4px;
-  padding: 1px 6px;
-  border: 1px solid var(--line);
-  border-bottom-width: 2px;
-  border-radius: 5px;
-  background: var(--panel-solid);
-  font: 600 13px/1.5 var(--ui);
-  text-align: center;
-}
-
-.shortcuts-clicks {
-  margin: 14px 0 0;
-  padding-left: 18px;
-  color: var(--ink-soft);
 }
 
 .sky-note.recorded {
@@ -1577,4 +1494,252 @@ button {
 .guess-best.new {
   color: var(--documented);
   font-weight: 700;
+}
+
+/* The help button sits left of the compass, centred on it, so it is always in the same top corner. */
+.help-button {
+  position: absolute;
+  top: 16px;
+  right: 92px;
+  width: 64px;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.help-mark {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--panel-solid);
+  font: 700 30px/1 var(--display);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease;
+}
+
+.help-button:hover .help-mark {
+  transform: scale(1.06);
+  background: var(--ink-soft);
+}
+
+.help-caption {
+  padding: 1px 7px;
+  border-radius: 6px;
+  background: var(--panel-solid);
+  box-shadow: var(--shadow);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--ink);
+}
+
+/* Under the Begin card (z-index 100), over everything in the app. */
+.welcome-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: rgba(233, 238, 242, 0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.welcome-scrim[hidden] {
+  display: none;
+}
+
+/* Solid, so labels and bubbles never show through the text. */
+.welcome {
+  display: flex;
+  flex-direction: column;
+  width: min(1000px, 100%);
+  max-height: calc(100dvh - 48px);
+  background: var(--panel-solid);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  animation: rise 0.35s ease;
+}
+
+.welcome-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 22px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.welcome-head h2 {
+  flex: 1;
+  margin: 0;
+  outline: none;
+  font: 700 28px/1.1 var(--display);
+}
+
+.welcome-close {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--panel-solid);
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
+.welcome-close:hover {
+  background: rgba(31, 35, 40, 0.06);
+}
+
+.welcome-body {
+  overflow-y: auto;
+  padding: 4px 22px 8px;
+}
+
+.welcome-intro {
+  margin: 12px 0 4px;
+  font-size: 17px;
+  color: var(--ink-soft);
+}
+
+.welcome-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 32px;
+}
+
+@media (max-width: 860px) {
+  .welcome-cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+.welcome h3 {
+  margin: 16px 0 6px;
+  outline: none;
+  font: 700 18px/1.2 var(--display);
+}
+
+.welcome h3:focus-visible {
+  outline: 3px solid #0969da;
+  outline-offset: 2px;
+}
+
+.welcome p {
+  margin: 0 0 8px;
+}
+
+.welcome-list {
+  margin: 0 0 8px;
+  padding-left: 18px;
+}
+
+.welcome-list li {
+  margin-bottom: 4px;
+}
+
+.welcome p.welcome-where {
+  margin: 10px 0 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.welcome-keys {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.welcome-keys th {
+  width: 46%;
+  padding: 3px 8px 3px 0;
+  text-align: left;
+  font-weight: 400;
+}
+
+.welcome-keys td {
+  padding: 3px 0;
+  color: var(--ink-soft);
+}
+
+.welcome kbd {
+  display: inline-block;
+  min-width: 24px;
+  margin: 1px 4px 1px 0;
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: var(--panel-solid);
+  font: 600 13px/1.5 var(--ui);
+  text-align: center;
+}
+
+.welcome-prov {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 12px;
+  align-items: baseline;
+  margin: 0 0 10px;
+}
+
+.welcome-prov dd {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.welcome .prov {
+  cursor: default;
+  white-space: nowrap;
+}
+
+.welcome-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 12px 22px 16px;
+  border-top: 1px solid var(--line);
+}
+
+.welcome-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.welcome-check input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--ink);
+}
+
+.welcome-start {
+  padding: 9px 26px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--panel-solid);
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.welcome-start:hover {
+  background: var(--ink-soft);
 }

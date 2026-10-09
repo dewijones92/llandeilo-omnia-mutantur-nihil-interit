@@ -15,3 +15,10 @@ export type Provenance =
   | { readonly kind: 'documented'; readonly sources: NonEmptyArray<SourceId>; readonly note?: Bilingual }
   | { readonly kind: 'reconstructed'; readonly basis: Bilingual; readonly sources: readonly SourceId[] }
   | { readonly kind: 'imagined'; readonly groundedIn: Bilingual; readonly sources: readonly SourceId[] };
+
+/** The three tiers in the order they are explained: most certain first. */
+export const PROVENANCE_KINDS = [
+  'documented',
+  'reconstructed',
+  'imagined',
+] as const satisfies readonly Provenance['kind'][];

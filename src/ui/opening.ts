@@ -1,4 +1,4 @@
-import { h } from './dom.ts';
+import { h, setInert } from './dom.ts';
 import { langToggle } from './lang-toggle.ts';
 import type { LangStore } from './store.ts';
 
@@ -81,10 +81,7 @@ export class OpeningCard {
   }
 
   private setBehindInert(inert: boolean): void {
-    for (const el of this.behind) el.inert = inert;
-    console.info(
-      `dewidebug opening behind inert=${String(inert)} (${this.behind.map((e) => e.id).join(', ')})`,
-    );
+    setInert(this.behind, inert, 'opening');
   }
 
   private dismiss(): void {

@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 import { EVENTS } from '../src/content/events.ts';
 import { TIMELINE } from '../src/content/timeline.ts';
 import { toWorld } from '../src/domain/geo.ts';
@@ -302,6 +302,10 @@ const cameraState = (page: Page): Promise<CameraState> =>
 const moved = (a: CameraState, b: CameraState): number => Math.hypot(b.x - a.x, b.z - a.z);
 
 /** The point of the terrain (not a tree or a building) under a screen point. */
+// A screenshot of a panel that is still rising shows it half transparent.
+const settled = (panel: Locator): Promise<unknown> =>
+  panel.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+
 const terrainAt = (page: Page, x: number, y: number): Promise<{ x: number; z: number }> =>
   page.evaluate(
     ([px, py]) => {
@@ -319,15 +323,19 @@ const terrainAt = (page: Page, x: number, y: number): Promise<{ x: number; z: nu
     [x, y],
   );
 
-test('a left-drag slides the land under the cursor without turning, and the hint goes for good', async ({
+test('a click outside the welcome closes it without moving the land, then a left-drag slides the land', async ({
   page,
 }) => {
-  await page.goto('./?debug&year=1282');
+  await page.goto('./?debug&year=1282&welcome=1');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  const hint = page.locator('.camera-hint');
-  // Read now and checked after the drag, so the drag's own assertions are the first that can fail.
-  const hintBefore = (await hint.isVisible()) ? await hint.textContent() : null;
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  await expect(welcome).toBeVisible();
+  await expect(welcome).toContainText('Drag to slide the land, as on a map.');
   const before = await cameraState(page);
+  // The wash around the panel takes the click, so the click that closes it never reaches the 3D view.
+  await page.mouse.click(60, 600);
+  await expect(welcome).toBeHidden();
+  expect(moved(before, await cameraState(page))).toBe(0);
   const [ax, ay, bx, by] = [900, 520, 620, 380];
   const grabbed = await terrainAt(page, ax, ay);
   await page.mouse.move(ax, ay);
@@ -341,11 +349,6 @@ test('a left-drag slides the land under the cursor without turning, and the hint
   expect(moved(before, after)).toBeGreaterThan(50);
   expect(after.alpha).toBeCloseTo(before.alpha, 5);
   expect(after.beta).toBeCloseTo(before.beta, 5);
-  expect(hintBefore).toBe('Drag to move, right-drag to turn, scroll to zoom');
-  await expect(hint).toBeHidden();
-  await page.reload();
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  await expect(page.locator('.camera-hint')).toBeHidden();
 });
 
 test('a right-drag turns the view about the same spot', async ({ page }) => {
@@ -698,7 +701,7 @@ test('place labels never sit under the panels, the compass or the timeline', asy
     page.evaluate(() => {
       const panels = [
         ...document.querySelectorAll<HTMLElement>(
-          '.brand, .timeline, .compass, .moment, .shortcuts, .info, .convo, .follow-chip, .debug',
+          '.brand, .timeline, .compass, .help-button, .moment, .welcome, .info, .convo, .follow-chip, .debug',
         ),
       ]
         .filter((el) => !el.hidden)
@@ -716,18 +719,21 @@ test('place labels never sit under the panels, the compass or the timeline', asy
     });
   expect(await covered()).toEqual([]);
   await page.locator('body').press('?');
-  await expect(page.getByRole('dialog', { name: 'Keys and controls' })).toBeVisible();
+  await expect(page.getByRole('dialog', { name: 'How to explore' })).toBeVisible();
   await expect.poll(covered).toEqual([]);
 });
 
-test('the keys panel opens with ? or its button, and closes with Escape, in both languages', async ({
+test('? or the Keys button open the welcome at its controls, and Escape or ✕ closes it, in both languages', async ({
   page,
 }) => {
   await page.goto('./');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  const dialog = page.getByRole('dialog', { name: 'Keys and controls' });
+  const dialog = page.getByRole('dialog', { name: 'How to explore' });
+  // Automated browsers are not shown it at start (?welcome=1 asks for it).
+  await expect(dialog).toBeHidden();
   await page.locator('body').press('?');
   await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('heading', { name: 'Moving around the valley' })).toBeFocused();
   await expect(dialog).toContainText('PageUp');
   await expect(dialog).toContainText('Slide across the land');
   await expect(dialog).toContainText('Right-drag (or Ctrl+drag) to turn and tilt.');
@@ -735,16 +741,94 @@ test('the keys panel opens with ? or its button, and closes with Escape, in both
   await expect(dialog).toBeHidden();
   await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
   await page.getByRole('button', { name: 'Bysellau', exact: true }).click();
-  await expect(page.getByRole('dialog', { name: 'Bysellau a rheolyddion' })).toBeVisible();
-  await expect(page.getByRole('dialog', { name: 'Bysellau a rheolyddion' })).toContainText(
-    'Llithro ar draws y tir',
-  );
-  await page.getByRole('button', { name: 'Bysellau', exact: true }).click();
-  await expect(page.getByRole('dialog', { name: 'Bysellau a rheolyddion' })).toBeHidden();
+  const cy = page.getByRole('dialog', { name: 'Sut i grwydro' });
+  await expect(cy).toBeVisible();
+  await expect(cy.getByRole('heading', { name: 'Symud o gwmpas y dyffryn' })).toBeFocused();
+  await expect(cy).toContainText('Llithro ar draws y tir');
+  await cy.getByRole('button', { name: 'Cau' }).click();
+  await expect(cy).toBeHidden();
   await expect(page.getByRole('button', { name: 'Bysellau', exact: true })).toBeFocused();
   const before = await page.locator('.tl-counter').textContent();
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('.tl-counter')).not.toHaveText(before ?? '');
+});
+
+test('the welcome opens after Begin, reopens from its icon, explains the labels, and can be turned off', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?begin=1&welcome=1');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const card = page.getByRole('dialog', { name: 'Llandeilo' });
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  await expect(card).toBeVisible();
+  await expect(welcome).toBeHidden();
+  await card.getByRole('button', { name: 'Begin' }).click();
+  await expect(welcome).toBeVisible();
+  await expect(welcome.getByRole('heading', { name: 'How to explore' })).toBeFocused();
+  for (const text of [
+    'Drag to slide the land, as on a map.',
+    'Previous and Next',
+    'key dates',
+    'ⓘ',
+    'When are we?',
+    'Graphics',
+    'Sound',
+    'Cymraeg',
+  ])
+    await expect(welcome).toContainText(text);
+  for (const kind of ['documented', 'reconstructed', 'imagined'])
+    await expect(welcome.locator(`.prov-${kind}`)).toBeVisible();
+  // Like the Begin card, it keeps focus and clicks off the app behind it while it is open.
+  const appInert = (): Promise<boolean> =>
+    page.evaluate(() => document.getElementById('app')?.inert === true);
+  expect(await appInert()).toBe(true);
+  await expect(card).toBeHidden();
+  await settled(welcome);
+  await page.screenshot({ path: 'test-results/welcome-en.png' });
+  await welcome.getByRole('button', { name: 'Close' }).click();
+  await expect(welcome).toBeHidden();
+  expect(await appInert()).toBe(false);
+
+  const icon = page.getByRole('button', { name: 'How to explore' });
+  await expect(icon).toHaveAttribute('title', 'How to explore: the controls, and what the labels mean');
+  await icon.click();
+  await expect(welcome).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(welcome).toBeHidden();
+  await expect(icon).toBeFocused();
+
+  await icon.click();
+  await welcome.getByRole('button', { name: 'Cymraeg' }).click();
+  const cy = page.getByRole('dialog', { name: 'Sut i grwydro' });
+  await expect(cy).toContainText('Llusgwch i symud y tir, fel ar fap.');
+  await expect(cy.locator('.prov-imagined')).toContainText('Dychmygol');
+  await expect(cy.getByRole('checkbox', { name: 'Dangos hwn wrth ddechrau' })).toBeChecked();
+  await expect(page.getByRole('button', { name: 'Sut i grwydro' })).toHaveAttribute(
+    'title',
+    'Sut i grwydro: y rheolyddion, a beth mae’r labeli’n ei olygu',
+  );
+  await settled(cy);
+  await page.screenshot({ path: 'test-results/welcome-cy.png' });
+  await cy.getByRole('button', { name: 'English' }).click();
+
+  await welcome.getByRole('button', { name: 'About this project' }).click();
+  await expect(welcome).toBeHidden();
+  await expect(page.locator('.info')).toContainText('Credits and licences');
+
+  await icon.click();
+  const atStart = welcome.getByRole('checkbox', { name: 'Show this at start' });
+  await expect(atStart).toBeChecked();
+  await atStart.uncheck();
+  await page.reload();
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await card.getByRole('button', { name: 'Begin' }).click();
+  await expect(card).toBeHidden();
+  await expect(welcome).toBeHidden();
+  await page.getByRole('button', { name: 'How to explore' }).click();
+  await expect(welcome.getByRole('checkbox', { name: 'Show this at start' })).not.toBeChecked();
+  expect(errors).toEqual([]);
 });
 
 test('place labels never overlap one another on the overview', async ({ page }) => {
@@ -921,7 +1005,7 @@ test('the Begin card shows the motto in both languages, and Begin opens the vall
 }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('./?begin=1');
+  await page.goto('./?begin=1&welcome=1');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   const card = page.getByRole('dialog', { name: 'Llandeilo' });
   await expect(card).toBeVisible();
@@ -956,13 +1040,16 @@ test('the Begin card shows the motto in both languages, and Begin opens the vall
   await expect(card.getByRole('button', { name: 'Dechrau' })).toBeVisible();
   await card.getByRole('button', { name: 'English' }).click();
   await page.screenshot({ path: 'test-results/begin-card.png' });
-  await expect(page.locator('.camera-hint')).toBeHidden();
+  // The ? pressed while the card waited did not open the welcome under it.
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  await expect(welcome).toBeHidden();
   await card.getByRole('button', { name: 'Begin' }).click();
   await expect(card).toBeHidden();
-  await expect(page.locator('.camera-hint')).toHaveText('Drag to move, right-drag to turn, scroll to zoom');
+  await expect(welcome).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(welcome).toBeHidden();
   await expect(page.getByRole('button', { name: 'Sound on' })).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.tl-counter')).toHaveText(counter ?? '');
-  await expect(page.getByRole('dialog', { name: 'Keys and controls' })).toBeHidden();
   expect(errors).toEqual([]);
 });
 
