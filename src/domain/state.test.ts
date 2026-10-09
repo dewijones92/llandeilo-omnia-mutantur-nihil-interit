@@ -50,6 +50,24 @@ describe('presenceAt', () => {
   });
 });
 
+describe('presenceAt with a latest date', () => {
+  const when = range(ad(1200), ad(1500));
+  const late = (t: number) => presenceAt(tl, { when, notAfter: ad(1510) }, t);
+
+  it('fades a "c." end out before the latest date its sources allow, never after it', () => {
+    expect(late(0.5)).toBe(1);
+    expect(late(0.505)).toBeCloseTo(0.5, 5);
+    expect(late(0.5101)).toBe(0);
+    expect(presenceAt(tl, { when, notAfter: ad(1700) }, 0.505)).toBe(presenceAt(tl, { when }, 0.505));
+  });
+
+  it('switches a "c." end off after its last year when the latest date is the same', () => {
+    const same = (t: number) => presenceAt(tl, { when, notAfter: ad(1500) }, t);
+    expect(same(0.5)).toBe(1);
+    expect(same(0.5001)).toBe(0);
+  });
+});
+
 describe('latestStarting', () => {
   const eras = [
     { id: 'a', when: range(ad(1000), ad(1099)) },

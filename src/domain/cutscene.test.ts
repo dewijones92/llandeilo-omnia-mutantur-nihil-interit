@@ -188,7 +188,7 @@ describe('sound cues', () => {
 describe('the world during a scene', () => {
   const feature = (id: string, from: number, to: number): Feature => ({
     id: mint<FeatureId>(id),
-    kind: { type: 'roman-fort', width: 100, length: 100, angle: 0 },
+    kind: { type: 'roads' },
     at: { e: 0, n: 0 },
     when: range(ad(from), ad(to)),
     provenance: imagined,

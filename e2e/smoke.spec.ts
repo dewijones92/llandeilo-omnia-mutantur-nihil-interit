@@ -1234,3 +1234,168 @@ test('the credits on the About tab list every photograph with its credit and cat
   await expect(item.locator('a')).toHaveAttribute('href', first.catalogueUrl);
   await expect(page.locator('.info-credits').first()).toContainText('Photographs by D C Harries');
 });
+
+const presenceOf = async (page: Page, id: string): Promise<number | undefined> => {
+  const text = (await page.locator('.debug').textContent()) ?? '';
+  const m = new RegExp(`${id}@(\\d\\.\\d\\d)\\[`).exec(text);
+  return m?.[1] ? Number(m[1]) : undefined;
+};
+
+const drawnPlans = async (page: Page): Promise<{ near: number; far: number }> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const meshes: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'meshes') : undefined;
+    const enabled = (m: unknown): boolean => {
+      if (!m || typeof m !== 'object') return false;
+      const isEnabled: unknown = Reflect.get(m, 'isEnabled');
+      if (typeof isEnabled !== 'function') return false;
+      const on: unknown = isEnabled.call(m);
+      return on === true;
+    };
+    const on = (level: string): number =>
+      Array.isArray(meshes)
+        ? meshes.filter(
+            (m: unknown) =>
+              m !== null &&
+              typeof m === 'object' &&
+              Reflect.get(m, 'name') === `plan-standing-${level}` &&
+              enabled(m),
+          ).length
+        : 0;
+    return { near: on('near'), far: on('far') };
+  });
+
+test('flying to the Roman forts at AD 80 shows Fort 1 going and nothing of Fort 2, and at AD 84 Fort 2 whole over Fort 1’s backfilled ditches, with the settlement, read through ?debug', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?debug&place=roman-forts&year=80&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const debug = page.locator('.debug');
+  await expect(debug).toContainText('year AD 80');
+  await expect.poll(() => presenceOf(page, 'roman-fort-a')).toBeGreaterThan(0.3);
+  expect(await presenceOf(page, 'roman-fort-a')).toBeLessThan(0.9);
+  for (const id of ['roman-fort-b', 'roman-fort-a-levelled', 'roman-vicus'])
+    expect(await presenceOf(page, id), id).toBeUndefined();
+  await expect(debug).toContainText('roman-fort-a@');
+  await expect(debug).toContainText('[documented]');
+  await expect(debug).toContainText(
+    /plan roman-fort-a: \d+ parts \(\d+ documented, \d+ reconstructed, \d+ imagined\), \d+ detail only/,
+  );
+  await expect(debug).not.toContainText('plan roman-fort-b');
+  await expect(debug).toContainText('detail roman-fort-a=near');
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 1, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-80.png' });
+  await page.goto('./?debug&place=roman-forts&year=84&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(debug).toContainText('year AD 84');
+  await expect.poll(() => presenceOf(page, 'roman-fort-b')).toBe(1);
+  expect(await presenceOf(page, 'roman-fort-a')).toBeUndefined();
+  expect(await presenceOf(page, 'roman-fort-a-levelled')).toBe(1);
+  expect(await presenceOf(page, 'roman-vicus')).toBe(1);
+  await expect(debug).toContainText('roman-vicus@1.00[reconstructed]');
+  await expect(debug).toContainText(/plan roman-fort-b: \d+ parts/);
+  await expect(debug).toContainText('detail roman-fort-a=near roman-fort-b=near roman-vicus=near');
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-84.png' });
+  expect(errors).toEqual([]);
+});
+
+test('at AD 110 Fort 2 stands over Fort 1’s backfilled ditches beside the settlement, and from afar only their defences are drawn', async ({
+  page,
+}) => {
+  await page.goto('./?debug&place=roman-forts&year=110&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect.poll(() => presenceOf(page, 'roman-fort-b')).toBe(1);
+  expect(await presenceOf(page, 'roman-fort-a')).toBeUndefined();
+  expect(await presenceOf(page, 'roman-fort-a-levelled')).toBe(1);
+  expect(await presenceOf(page, 'roman-vicus')).toBe(1);
+  await expect(page.locator('.debug')).toContainText(
+    'detail roman-fort-a=near roman-fort-b=near roman-vicus=near',
+  );
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-110-near.png' });
+  await page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const camera: unknown =
+      scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+    if (camera && typeof camera === 'object') Reflect.set(camera, 'radius', 420);
+  });
+  await expect(page.locator('.debug')).toContainText(
+    'detail roman-fort-a=far roman-fort-b=far roman-vicus=far',
+    {
+      timeout: 60_000,
+    },
+  );
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 1, far: 2 });
+  await page.screenshot({ path: 'test-results/roman-forts-110-far.png' });
+});
+
+test('the Roman forts are there from AD 74 and gone by AD 140, and nothing of them stands in between the years the sources rule out', async ({
+  page,
+}) => {
+  await page.goto('./?debug&place=roman-forts&year=74&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect.poll(() => presenceOf(page, 'roman-fort-a')).toBe(1);
+  expect(await presenceOf(page, 'roman-fort-b')).toBeUndefined();
+  await page.screenshot({ path: 'test-results/roman-forts-74.png' });
+  await page.goto('./?debug&place=roman-forts&year=140&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.debug')).toContainText('year AD 140');
+  await expect(page.locator('.debug')).not.toContainText(/features \d+:[^\n]*roman-(fort-|vicus)/);
+  expect(await drawnPlans(page)).toEqual({ near: 0, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-140.png' });
+});
+
+test('the first Roman key date lists what is drawn, part by part, and each part says how it is known, in both languages, with the credit', async ({
+  page,
+}) => {
+  await page.goto('./?year=74&place=roman-forts&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  const parts = page.locator('.moment-parts');
+  await expect(parts.locator('summary')).toHaveText('What is drawn here, part by part');
+  await parts.locator('summary').click();
+  await expect(parts.locator('h3').first()).toHaveText('The larger Roman fort (Fort 1)');
+  await expect(parts.locator('h4.tier-documented').first()).toContainText('Documented');
+  await expect(parts.locator('h4.tier-reconstructed').first()).toContainText('Reconstructed');
+  await expect(parts.locator('h4.tier-imagined').first()).toContainText('Imagined');
+  const gate = parts.locator('details[data-part="fort1/gate-sw/tower-right"]');
+  await gate.locator('summary').click();
+  await expect(gate).toContainText('six-post gate tower');
+  await expect(gate).toContainText('Hughes');
+  await page.screenshot({ path: 'test-results/roman-forts-parts.png' });
+  await page.locator('.moment > .prov-wrap .prov').click();
+  await expect(page.locator('.moment > .prov-wrap .prov-pop')).toContainText('Neil Ludlow');
+  await page.keyboard.press('Escape');
+  await page.mouse.move(900, 200);
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await expect(page.locator('.moment-parts summary')).toHaveText(
+    'Beth sy’n cael ei dynnu yma, rhan wrth ran',
+  );
+  await page.locator('.moment-parts summary').click();
+  await expect(page.locator('.moment-parts h3').first()).toHaveText('Y gaer Rufeinig fwyaf (Caer 1)');
+});
+
+test('at AD 110 the card lists what is drawn then, Fort 2 with its rear gate shown as unproven and not Fort 1, which has gone', async ({
+  page,
+}) => {
+  await page.goto('./?year=110&place=roman-forts&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  const parts = page.locator('.moment-parts');
+  await parts.locator('summary').click();
+  await expect(parts.locator('h3')).toHaveText([
+    'The smaller Roman fort (Fort 2)',
+    'Fort 1’s ditches, backfilled',
+    'The civilian settlement (vicus)',
+  ]);
+  await expect(parts.locator('details[data-part^="fort1/"]')).toHaveCount(0);
+  const rear = parts.locator('details[data-part="fort2/gate-sw/passage"]');
+  await rear.locator('summary').click();
+  await expect(rear).toContainText('not demonstrated');
+  await page.screenshot({ path: 'test-results/roman-forts-parts-110.png' });
+});

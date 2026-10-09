@@ -117,7 +117,13 @@ async function start(): Promise<void> {
   let smokeSources = features.smokeSources([]);
 
   const debug = params.has('debug')
-    ? new DebugOverlay(engine, backend, world.camera, () => world.graphics())
+    ? new DebugOverlay(
+        engine,
+        backend,
+        world.camera,
+        () => world.graphics(),
+        () => features.levels(),
+      )
     : undefined;
   let pending = true;
   let t = Number(params.get('t') ?? Number.NaN);
@@ -611,7 +617,7 @@ async function start(): Promise<void> {
     const near = snap.nearestEvent;
     const shown =
       near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined;
-    moment.show(shown);
+    moment.show(shown, snap.features);
     labels.setFocus(shown?.place);
     syncPins();
     debug?.update(snap);
@@ -649,6 +655,7 @@ async function start(): Promise<void> {
     }
     world.tick(dt);
     features.tick(dt);
+    if (features.setViewer(world.camera.globalPosition)) world.refreshShadows();
     flight.tick(dt);
     compass.update(world.camera.alpha);
     const now = performance.now();

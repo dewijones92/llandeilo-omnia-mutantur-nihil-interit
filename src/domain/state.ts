@@ -16,6 +16,7 @@ import {
   type Person,
   type Photograph,
   type Place,
+  type PlaceId,
   type Soundscape,
 } from './model.ts';
 import { pinnedPhotos, type PlacedPhoto } from './photos.ts';
@@ -70,6 +71,22 @@ export interface Sound {
 export interface FeaturePresence {
   readonly feature: Feature;
   readonly presence: number;
+}
+
+/** What is drawn at a place now whose plan's parts each carry their own tier: the features a key date's card lists part by part. */
+export function listedAt(
+  present: readonly FeaturePresence[],
+  place: PlaceId | undefined,
+  least = 0.01,
+): Feature[] {
+  return present.flatMap(({ feature, presence }) =>
+    presence > least &&
+    feature.place === place &&
+    feature.kind.type === 'building' &&
+    feature.kind.plan.parts.some((p) => p.provenance)
+      ? [feature]
+      : [],
+  );
 }
 
 export interface Snapshot {
@@ -175,11 +192,17 @@ export function latestStarting<T extends { readonly when: TimeRange }>(
  * How present a dated thing is at t, 0..1. One whose dates a source gives exactly (`datesExact`) is
  * never present outside them: on at `from`, gone after `to` (ADR 0034). One whose dates are "c."
  * fades in over the stretch before `from` and out over the stretch after `to`, but never starts to
- * fade in before a documented earliest date (`notBefore`, ADR 0037).
+ * fade in before a documented earliest date (`notBefore`, ADR 0037), nor out after a documented latest
+ * one (`notAfter`, ADR 0045).
  */
 export function presenceAt(
   timeline: Timeline,
-  item: { readonly when: TimeRange; readonly datesExact?: true; readonly notBefore?: Year },
+  item: {
+    readonly when: TimeRange;
+    readonly datesExact?: true;
+    readonly notBefore?: Year;
+    readonly notAfter?: Year;
+  },
   t: number,
 ): number {
   const from = tAt(timeline, item.when.from);
@@ -188,7 +211,8 @@ export function presenceAt(
   const start =
     item.notBefore === undefined ? from - FADE_T : Math.max(from - FADE_T, tAt(timeline, item.notBefore));
   const fadeIn = start < from ? smoothstep(start, from, t) : t >= from ? 1 : 0;
-  const fadeOut = 1 - smoothstep(to, to + FADE_T, t);
+  const end = item.notAfter === undefined ? to + FADE_T : Math.min(to + FADE_T, tAt(timeline, item.notAfter));
+  const fadeOut = end > to ? 1 - smoothstep(to, end, t) : t <= to ? 1 : 0;
   return Math.min(fadeIn, fadeOut);
 }
 

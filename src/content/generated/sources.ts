@@ -4495,6 +4495,150 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/roman-arrival.md"
   },
   {
+    "id": "fort:S1",
+    "title": "Gwilym Hughes, *The Llandeilo Roman Forts: Archaeological Investigations 2003-2007* (Cambria Archaeology report 2006/38, December 2007), PDF on Heneb.",
+    "url": "https://heneb.org.uk/wp-content/uploads/2025/09/llandeiloromanforts2003-2007.pdf",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S2",
+    "title": "Coflein (RCAHMW), \"Roman Fort Complex, Dynevor Park, Llandeilo\", NPRN 402271.",
+    "url": "https://coflein.gov.uk/en/site/402271/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S3",
+    "title": "Heneb, \"Llandeilo Roman Forts\" project page.",
+    "url": "https://heneb.org.uk/project/llandeilo-roman-forts/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S4",
+    "title": "Heneb (Dyfed Archaeological Trust), \"Tywi Time Line\" (eight A3 pages, PDF created April 2011), the file the issue commenter linked.",
+    "url": "https://heneb.org.uk/archive/dyfed/tywi/tywitimeline.pdf",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S5",
+    "title": "Coflein (RCAHMW), archive record 6170068, \"CM367 - Cadw Scheduling Records\".",
+    "url": "https://coflein.gov.uk/en/archive/6170068",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S6",
+    "title": "Wikipedia, \"List of Roman-to-modern scheduled monuments in Carmarthenshire\".",
+    "url": "https://en.wikipedia.org/wiki/List_of_Roman-to-modern_scheduled_monuments_in_Carmarthenshire",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S7",
+    "title": "Coflein (RCAHMW), \"Roman Coins, Findspot, Dynevor Park\", NPRN 419158.",
+    "url": "https://coflein.gov.uk/en/site/419158/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S9",
+    "title": "Coflein (RCAHMW), \"North Heronry Dam, Dinefwr Park, Possible Roman Villa\", NPRN 422436.",
+    "url": "https://coflein.gov.uk/en/site/422436/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S10",
+    "title": "Coflein (RCAHMW), \"Caersws Roman Fort\", NPRN 92468.",
+    "url": "https://coflein.gov.uk/en/site/92468/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S11",
+    "title": "Coflein (RCAHMW), \"Castell Collen Roman Fort\", NPRN 95708.",
+    "url": "https://coflein.gov.uk/en/site/95708/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S12",
+    "title": "Coflein (RCAHMW), \"Caerau Roman Military Settlement; Caerau Roman Fort\", NPRN 92153.",
+    "url": "https://coflein.gov.uk/en/site/92153/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S13",
+    "title": "Coflein (RCAHMW), \"Carmarthen Roman Military Settlement\", NPRN 92890.",
+    "url": "https://coflein.gov.uk/en/site/92890/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S14",
+    "title": "Gwynedd Archaeological Trust for Cambria Archaeology, *Roman Fort Environs: Geophysical Survey at Trawscoed and Llanio Roman Forts* (report 623, G1827).",
+    "url": "https://heneb.org.uk/wp-content/uploads/2025/09/llaniotrawscoedgeophys.pdf",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S15",
+    "title": "Wikipedia, \"Trawscoed fort\".",
+    "url": "https://en.wikipedia.org/wiki/Trawscoed_fort",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S16",
+    "title": "Herefordshire Through Time, \"Jay Lane Fort\" (HER 578).",
+    "url": "https://htt.herefordshire.gov.uk/herefordshires-past/the-romano-british-period/herefordshires-roman-sites/major-roman-sites/jay-lane-fort",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S18",
+    "title": "Wikipedia, \"Roman fort\" (now redirects to \"Castra\"; its barrack sizes are for legionary fortresses, checked 2026-10-09).",
+    "url": "https://en.wikipedia.org/wiki/Roman_fort",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S19",
+    "title": "Wikipedia, \"Auxilia\".",
+    "url": "https://en.wikipedia.org/wiki/Auxilia",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S19a",
+    "title": "Wikipedia, \"Dinefwr Park National Nature Reserve\".",
+    "url": "https://en.wikipedia.org/wiki/Dinefwr_Park_National_Nature_Reserve",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S20",
+    "title": "Coflein (RCAHMW), \"Newton House; Dynevor Castle; Plas Dinefwr, Llandeilo\", NPRN 17603.",
+    "url": "https://coflein.gov.uk/en/site/17603/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S21",
+    "title": "People's Collection Wales, \"Dinefwr Park Roman Forts, Llandeilo\" (RCAHMW aerial photograph AP_2005_1285, Toby Driver, 11 July 2005).",
+    "url": "https://www.peoplescollection.wales/items/405712",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S22",
+    "title": "Barry C. Burnham and Jeffrey L. Davies, \"Forts, Vici and Related Extramural Activity in Wales and the Marches: Recent Discoveries at the Roman Fort of Pen y Gaer (Powys) and their Wider Implications\", *Britannia* 52 (…",
+    "url": "https://www.cambridge.org/core/journals/britannia/article/abs/forts-vici-and-related-extramural-activity-in-wales-and-the-marches-recent-discoveries-at-the-roman-fort-of-pen-y-gaer-powys-and-their-wider-implications/17A306685384F5A6FCEA33238DD6ECAD",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S23",
+    "title": "Heneb, Historic Environment Record (Archwilio), records PRN 47636 (Fort 1, SN 6218 2245), 47637 (Fort 2, SN 6217 2253), 47638 (the north-east road, SN 6225 2260), 47646-47650 (finds, including 47648, the 2000 denarii)…",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT47637&dbname=dat&tbname=core",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S24",
+    "title": "llandeilo.org, \"Llandeilo's Roman Fort\".",
+    "url": "https://llandeilo.org/roman_settlement.html",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S25",
+    "title": "Dyfed Archaeological Trust, \"Llandeilo Fort Dig Diary\" (2005), Wayback copy of 2 February 2021.",
+    "url": "http://web.archive.org/web/20210202144706/http://www.dyfedarchaeology.org.uk/digllandeilofort.htm",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
     "id": "sound:S1",
     "title": "Rhion Pritchard, \"The prehistoric and historic bird fauna of Wales: evidence from archaeology, literature and place names\", *Birds in Wales* 17:1 (2020), pp. 15 to 25",
     "url": "https://birdsin.wales/wp-content/uploads/2022/05/pg-15-25-The-prehistoric-and-historic-bird-fauna.pdf",

@@ -52,7 +52,7 @@ below links the issue.
 |---|---|---|---|---|
 | [#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1) | 2026-10-09T22:41:53Z | Gather a local studio photographer's photos of Llandeilo's streets and station from about 1900, and place each on the map | ✅ agreed 2026-10-09 | The glass negatives are at the National Library of Wales, copies on People's Collection Wales; the photographer died in 1940, so UK copyright has probably expired, to be checked per image. Shown in the app with its credit, pinned with credit and an ⓘ; otherwise a modelling reference only |
 | [#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2) | 2026-10-09T17:16:08Z | Detailed real-scale terrain for the town and the Roman fort area from LiDAR, tiled with levels of detail, the base ground kept apart from changes by period | ✅ agreed 2026-10-09 | The agreed close-up LiDAR terrain (CLAUDE.md, Terrain) was never built; Welsh Government 1m LiDAR covers the area, licence to confirm per file |
-| [#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3) | 2026-10-09T17:16:09Z | A modular, editable reconstruction of the Roman fort and its civilian settlement on that terrain, ready for animation later | ✅ agreed 2026-10-09 | Research first: published plans and surveys, documented kept apart from reconstruction; a linked reconstruction drawing states no licence; it is used with a credit to its maker (Dewi, 2026-10-09: credit, no licence check), and the second fort's date and the settlement survey still need their sources. Built detailed in the app (Dewi, 2026-10-09) |
+| [#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3) | 2026-10-09T17:16:09Z | A modular, editable reconstruction of the Roman fort and its civilian settlement on that terrain, ready for animation later | ✅ agreed 2026-10-09 | Research first: published plans and surveys, documented kept apart from reconstruction; a linked reconstruction drawing states no licence; it is used with a credit to its maker (Dewi, 2026-10-09: credit, no licence check), and the second fort's date and the settlement survey still need their sources. Built detailed in the app (Dewi, 2026-10-09). Researched 2026-10-09 ([note](../research/roman-forts-and-vicus.md)): the survey is Stratascan's magnetometry in the Hughes report, not in the linked PDF; "AD 90-100" has no source |
 
 ## Done: the vertical slice (2026-09-26)
 
@@ -238,7 +238,19 @@ The three issues come first (Dewi: "If possible please prioritise them"), and th
 rather than licence-checked (Dewi: "ignore licensing problems, just credit the person").
 
 - [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded
-- [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort
+- [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort.
+      2026-10-09: researched and independently checked (`research/roman-forts-and-vicus.md`, draft; check
+      [2026-10-09](../research/reviews/roman-forts-and-vicus-check-2026-10-09.md), corrections applied; Claude under
+      the proactive mandate, [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)).
+      2026-10-09: **built** ([ADRs 0045, 0046 and 0047](../adr/README.md)): Fort 1, Fort 2, Fort 1's backfilled
+      ditches and the vicus as plans of 66, 83, 15 and 18 parts, each part with its own tier, at true size and
+      height, with a far and a near mesh, shown on the first Roman key date's card part by part; the placeholder
+      boxes (wrong place, angle and roofs) are gone. Seen: screenshots at AD 74, 80, 110 and 140, near and far;
+      unit, content and e2e tests. 2026-10-09 (review of the build, ADR 0045 and 0046 amended): Fort 2 starts at 83 so
+      the forts never overlap, the settlement is an estimate, ditch profiles are by side, the annex is said, the
+      arrival cutscene ends at Fort 1's south-east gate, and the card lists what the slider's year draws. Still to do
+      before it is ticked: registering the forts on the LiDAR terrain when issue 2 lands. Not built (the issue's own later phases): a
+      Blender project, animation, walkable interiors, characters
 - [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09), then a photo layer pinned to where each was taken, with credit and ⓘ.
       **Agreed ✓. Researched ✓ 2026-10-09** ([`research/dc-harries-photographs.md`](../research/dc-harries-photographs.md)):
       31 photographs found and downloaded (`public/photos/harries/`, data and credits in

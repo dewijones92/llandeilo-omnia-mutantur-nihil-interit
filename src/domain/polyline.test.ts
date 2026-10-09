@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { bearing, cumulativeLengths, legs, pointAlong, polylineLength, segmentAt } from './polyline.ts';
+import {
+  bearing,
+  cumulativeLengths,
+  densify,
+  legs,
+  pointAlong,
+  polylineLength,
+  segmentAt,
+} from './polyline.ts';
 
 // Due north for 1000m, then due east for 1000m.
 const line = [
@@ -43,5 +51,39 @@ describe('a polyline', () => {
   it('gives compass bearings clockwise from north', () => {
     expect(bearing({ e: 0, n: 0 }, { e: 0, n: -1 })).toBeCloseTo(180);
     expect(bearing({ e: 0, n: 0 }, { e: -1, n: 0 })).toBeCloseTo(270);
+  });
+});
+
+describe('densifying a polyline', () => {
+  it('keeps every original point and splits each leg into equal pieces no longer than the step', () => {
+    const out = densify(line, 400);
+    expect(out).toHaveLength(7);
+    expect(out[0]).toEqual({ e: 0, n: 0 });
+    expect(out[3]).toEqual({ e: 0, n: 1000 });
+    expect(out[6]).toEqual({ e: 1000, n: 1000 });
+    expect(out[1]).toEqual({ e: 0, n: 1000 / 3 });
+    for (let i = 1; i < out.length; i++) {
+      const a = out[i - 1];
+      const b = out[i];
+      expect(Math.hypot((b?.e ?? 0) - (a?.e ?? 0), (b?.n ?? 0) - (a?.n ?? 0))).toBeLessThanOrEqual(400);
+    }
+  });
+
+  it('leaves a leg shorter than the step whole, repeats nothing for a zero-length leg and returns one point as it is', () => {
+    expect(densify(line, 5000)).toEqual([...line]);
+    expect(
+      densify(
+        [
+          { e: 1, n: 1 },
+          { e: 1, n: 1 },
+        ],
+        10,
+      ),
+    ).toEqual([
+      { e: 1, n: 1 },
+      { e: 1, n: 1 },
+    ]);
+    expect(densify([{ e: 3, n: 4 }], 10)).toEqual([{ e: 3, n: 4 }]);
+    expect(densify([], 10)).toEqual([]);
   });
 });

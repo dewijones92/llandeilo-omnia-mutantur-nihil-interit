@@ -38,6 +38,19 @@ export function polylineLength(points: readonly GridRef[]): number {
   return legs(points).reduce((sum, l) => sum + l.length, 0);
 }
 
+/** The line with extra points added so that no leg is longer than `step`; every original point is kept. */
+export function densify(points: readonly GridRef[], step: number): GridRef[] {
+  const out: GridRef[] = [];
+  for (const { a, b, length } of legs(points)) {
+    const pieces = Math.max(1, Math.ceil(length / step));
+    for (let k = 0; k < pieces; k++)
+      out.push({ e: lerp(a.e, b.e, k / pieces), n: lerp(a.n, b.n, k / pieces) });
+  }
+  const last = points[points.length - 1];
+  if (last) out.push(last);
+  return out;
+}
+
 /** Compass bearing from a to b, degrees clockwise from north. */
 export function bearing(a: GridRef, b: GridRef): number {
   return ((((Math.atan2(b.e - a.e, b.n - a.n) * 180) / Math.PI) % 360) + 360) % 360;

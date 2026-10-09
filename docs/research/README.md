@@ -30,6 +30,7 @@ the research drove.
 | [anglo-norman-and-middle-english](anglo-norman-and-middle-english.md) | Anglo-Norman French and Middle English for 1282 and 1185 | draft | [2026-10-02](reviews/anglo-norman-and-middle-english-check-2026-10-02.md), applied | [brief](briefs/anglo-norman-and-middle-english.md) |
 | [building-models](building-models.md) | Measured, phased models of the important buildings | draft | [2026-10-02](reviews/building-models-check-2026-10-02.md); corrections used in the app and the todo file, not yet marked in the note | [brief](briefs/building-models.md) |
 | [roman-arrival](roman-arrival.md) | The Roman army arrives in the Tywi valley, c. AD 74 | draft | [2026-10-02](reviews/roman-arrival-check-2026-10-02.md), applied | [brief](briefs/roman-arrival.md) |
+| [roman-forts-and-vicus](roman-forts-and-vicus.md) | The two Dinefwr Roman forts and their vicus for a detailed reconstruction: plans, defences, gates, the Stratascan survey, comparanda, placement, provenance per element; reference images in [`refs/roman-forts/`](refs/roman-forts/) | draft | [2026-10-09](reviews/roman-forts-and-vicus-check-2026-10-09.md), applied | [brief](briefs/roman-forts-and-vicus.md) |
 | [ripples-from-afar](ripples-from-afar.md) | Distant shocks (eruptions, pandemics, famines, wars) and their evidence in the valley | draft | [2026-10-02](reviews/ripples-from-afar-check-2026-10-02.md), applied | [brief](briefs/ripples-from-afar.md) |
 | [invasions-and-raids](invasions-and-raids.md) | Invasions, raids and conquests that reached the Tywi valley | draft | [2026-10-02](reviews/invasions-and-raids-check-2026-10-02.md), applied | [brief](briefs/invasions-and-raids.md) |
 | [music-through-time](music-through-time.md) | Music in and around Llandeilo, by era, class and setting | draft | [2026-10-09](reviews/music-through-time-check-2026-10-09.md), applied (two US-licence flags recorded; no music asset ships yet) | [brief](briefs/music-through-time.md) |
@@ -42,7 +43,7 @@ The first six were produced in one pass on 2026-09-26, with WebSearch quota exha
 through (see [`process.md`](process.md)); `conversations-by-class` was added on 2026-09-28 and the rest
 on 2026-10-02.
 
-**Independent checks.** `conversations-by-class` had a verification pass on 2026-09-28 (recorded in
+**Independent checks.** `roman-forts-and-vicus` was checked on 2026-10-09 (98 claims; corrections applied and marked in the note). `conversations-by-class` had a verification pass on 2026-09-28 (recorded in
 the note). On 2026-10-02 fourteen notes were checked independently against their sources, each
 check kept in [`reviews/`](reviews/); the corrections are applied in the notes (each marked
 *Corrected 2026-10-02 (independent check)*), except where the table says otherwise. *Corrected

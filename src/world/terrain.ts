@@ -7,7 +7,7 @@ import { sampleHeight, type Heightfield } from '../domain/heightfield.ts';
 import type { GridRef } from '../domain/model.ts';
 import { seasonKey, snowCover, type SeasonLook } from '../domain/daylight.ts';
 import { fbm, hash2, rng } from '../domain/noise.ts';
-import { legs } from '../domain/polyline.ts';
+import { densify } from '../domain/polyline.ts';
 import type { Environment } from '../domain/state.ts';
 import type { RiverLine } from '../platform/assets.ts';
 
@@ -352,17 +352,6 @@ function buildRiverPaths(hf: Heightfield, lines: readonly RiverLine[]): RiverPat
     });
     out.push({ name: line.name, width, points: pts, levels });
   }
-  return out;
-}
-
-function densify(points: readonly GridRef[], step: number): GridRef[] {
-  const out: GridRef[] = [];
-  for (const { a, b, length } of legs(points)) {
-    const n = Math.max(1, Math.ceil(length / step));
-    for (let k = 0; k < n; k++) out.push({ e: a.e + ((b.e - a.e) * k) / n, n: a.n + ((b.n - a.n) * k) / n });
-  }
-  const last = points[points.length - 1];
-  if (last) out.push(last);
   return out;
 }
 
