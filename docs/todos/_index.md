@@ -69,7 +69,7 @@ below links the issue.
 ## Next: verify on real hardware
 
 - [ ] Check WebGPU on a real desktop GPU (everything automated uses WebGL2 via SwiftShader)
-      *2026-10-09: automated by the GPU kit (`npm run e2e:gpu`, ADR 0044): WebGPU on the NVIDIA GPU in
+      *2026-10-09: automated by the GPU kit (`npm run e2e:gpu`, ADR 0045): WebGPU on the NVIDIA GPU in
       Windows Chrome, no WebGPU errors, every e2e spec green at High. Awaiting review, so not ticked*
 - [ ] Open it in desktop Firefox and Safari: every automated check runs in Chromium, and WebGPU support differs
 - [ ] Record performance numbers in CLAUDE.md: first load, scrub frame rate, terrain recolour time
@@ -243,7 +243,26 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
 
 - [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded
 - [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort
-- [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09); a photo layer pinned to where each was taken, with credit and ⓘ, with its credit
+- [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09), then a photo layer pinned to where each was taken, with credit and ⓘ.
+      **Agreed ✓. Researched ✓ 2026-10-09** ([`research/dc-harries-photographs.md`](../research/dc-harries-photographs.md)):
+      31 photographs found and downloaded (`public/photos/harries/`, data and credits in
+      `src/content/photographs.ts`), all on People's Collection Wales from the Llandeilo Fawr Town Council
+      collection; 28 placed on the OS grid (15 documented, 13 reconstructed), 3 not.
+      **Research checked ✓ 2026-10-09** ([independent check](../research/reviews/dc-harries-photographs-check-2026-10-09.md)),
+      every correction applied the same day, marked "Corrected 2026-10-09 (independent check)": five dates
+      the pictures contradict, the Post Office's point, six wrong descriptions, the 1905 map, the NLW's second
+      fonds. **Built ✓ 2026-10-09** ([ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md)):
+      the Photos toggle, camera pins, the photo panel with credit and ⓘ, the About credits, in both languages;
+      unit, content and e2e tests (red runs in the [build log](../process/build-log.md)). **Looked at ✓**
+      (`docs/images/photo-layer/`). **Still to do: the second-Opus review** before it ships in a release.
+      Owner's decisions: the credit wording, whether the layer should be on by default, whether to keep the c. 1900 captions of 2282261 and 2282336 (their ranges
+      start at 1920 and 1922 for now, because a motorcycle, a knee-length dress, cloche hats and electric lamps are 1920s), and whether to gather
+      other photographers' c. 1900 station and street views. Not built: a "Then and now" flight (no record
+      of a camera direction), a way in for the three unplaced photographs, Welsh for the catalogue's words
+- [ ] **Photo layer follow-ups** (Claude, proactive, ADR 0027; not started): a count of the photographs
+      available at the year on the Photos button so the layer is found; a camera-direction field and "Then and
+      now" flight once any record gives one; the other-photographers' views listed in the research note
+      (needs an owner decision); the three unplaced photographs in a list
 - [ ] Conversations by class in the three slice eras; in-world music and the hunter-gatherer scenes (after their research checks); a GPU terrain shader for smooth scrubbing; the later trains and the Dinefwr, Carreg Cennen and bridge models (Dewi picked all four on 2026-10-09)
 
 ## Agreed for the weekend run (Dewi, 2026-10-02)

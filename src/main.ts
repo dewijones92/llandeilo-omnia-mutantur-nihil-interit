@@ -34,6 +34,9 @@ import { FollowChip } from './ui/follow-chip.ts';
 import { desktopBanner } from './ui/desktop-banner.ts';
 import { ConversationPanel } from './ui/conversation.ts';
 import { InfoPanel, type InfoTab } from './ui/info.ts';
+import { PhotoPanel } from './ui/photo-panel.ts';
+import { PhotoPins } from './ui/photo-pins.ts';
+import { initialPhotos, rememberPhotos, storedPhotos } from './ui/photos-pref.ts';
 import { GuessGame } from './ui/guess.ts';
 import { langToggle } from './ui/lang-toggle.ts';
 import { OpeningCard } from './ui/opening.ts';
@@ -234,9 +237,19 @@ async function start(): Promise<void> {
     sources: content.sources.length,
     events: content.events.length,
     features: content.features.length,
+    photographs: content.photographs,
   });
+  const photoPanel = new PhotoPanel(store, sourceMap);
+  const pins = new PhotoPins(world.scene, content.photographs, features.ground, store, (photo) => {
+    panel.close();
+    info.close();
+    photoPanel.show(photo);
+  });
+  let photosOn = initialPhotos(params.get('photos'), storedPhotos());
+  console.info(`dewidebug photos start on=${String(photosOn)}`);
   const openConversation = (c: (typeof content.conversations)[number]): void => {
     info.close();
+    photoPanel.close();
     panel.show(c);
     const g = people.groups.get(c.id);
     if (g) flight.flyTo(g.anchor.clone(), 30, 1.12);
@@ -284,6 +297,7 @@ async function start(): Promise<void> {
     const b = h('button', { class: 'tool reveals-when', type: 'button' }, store.t(tab));
     b.addEventListener('click', () => {
       panel.close();
+      photoPanel.close();
       info.open(tab);
     });
     store.onChange(() => {
@@ -337,12 +351,34 @@ async function start(): Promise<void> {
     },
     closePanels() {
       panel.close();
+      photoPanel.close();
       info.close();
     },
   });
   onSeason = () => {
     guess.seasonChanged();
   };
+  const photosButton = h(
+    'button',
+    { class: 'tool', type: 'button', 'aria-pressed': photosOn, title: store.t('photosHelp') },
+    store.t('photos'),
+  );
+  const syncPins = (): void => {
+    pins.setShown(photosOn ? snap.photographs : []);
+    const open = photoPanel.open;
+    if (open && !pins.has(open.id)) photoPanel.close();
+  };
+  photosButton.addEventListener('click', () => {
+    photosOn = !photosOn;
+    rememberPhotos(photosOn);
+    photosButton.setAttribute('aria-pressed', String(photosOn));
+    console.info(`dewidebug photos toggled on=${String(photosOn)} pinned=${String(snap.photographs.length)}`);
+    syncPins();
+  });
+  store.onChange(() => {
+    photosButton.textContent = store.t('photos');
+    photosButton.title = store.t('photosHelp');
+  });
   const eventsById = new Map(content.events.map((e) => [e.id, e]));
   const keyDateOf = (scene: Cutscene): KeyEvent => {
     const ev = eventsById.get(scene.event);
@@ -363,6 +399,7 @@ async function start(): Promise<void> {
       const ev = keyDateOf(scene);
       behindScene(true);
       panel.close();
+      photoPanel.close();
       info.close();
       if (shortcuts.isOpen) shortcuts.close();
       flight.stopFollowing('cutscene');
@@ -399,6 +436,7 @@ async function start(): Promise<void> {
     tabButton('almanac'),
     tabButton('language'),
     tabButton('about'),
+    photosButton,
     sound,
     keysButton,
     guess.button,
@@ -409,27 +447,41 @@ async function start(): Promise<void> {
   brand.append(row2, skyControls.el, quality.el);
   brand.querySelector('.brand-row')?.append(home);
   // Everything that would give the year away during a "When are we?" round (see styles.css).
-  for (const el of [labels.el, bubbles.el, moment.el, panel.el, info.el, followChip.el, debug?.el]) {
+  for (const el of [
+    labels.el,
+    bubbles.el,
+    pins.el,
+    moment.el,
+    panel.el,
+    photoPanel.el,
+    info.el,
+    followChip.el,
+    debug?.el,
+  ]) {
     el?.classList.add('reveals-when');
   }
   app.append(
     labels.el,
     bubbles.el,
+    pins.el,
     brand,
     moment.el,
     timeline.el,
     panel.el,
+    photoPanel.el,
     info.el,
     shortcuts.el,
     guess.el,
     player.el,
   );
   const compact = (): void => {
-    moment.el.classList.toggle('compact', panel.open !== undefined || info.isOpen);
+    const sideOpen = panel.open !== undefined || photoPanel.open !== undefined || info.isOpen;
+    moment.el.classList.toggle('compact', sideOpen);
     // The game panel shares the right-hand slot with these, so it steps aside while one is open.
-    document.documentElement.classList.toggle('side-panel-open', panel.open !== undefined || info.isOpen);
+    document.documentElement.classList.toggle('side-panel-open', sideOpen);
   };
   panel.onVisibility = compact;
+  photoPanel.onVisibility = compact;
   info.onVisibility = compact;
   document.addEventListener('keydown', (e) => {
     if (opening.isWaiting) {
@@ -471,6 +523,7 @@ async function start(): Promise<void> {
       return;
     if (shortcuts.isOpen) shortcuts.close();
     else if (panel.open) panel.close();
+    else if (photoPanel.open) photoPanel.close();
     else if (info.isOpen) info.close();
   });
   const startPlace = content.places.find((p) => p.id === params.get('place'));
@@ -493,6 +546,7 @@ async function start(): Promise<void> {
     compass.el,
     followChip.el,
     panel.el,
+    photoPanel.el,
     info.el,
     shortcuts.el,
     guess.el,
@@ -558,6 +612,7 @@ async function start(): Promise<void> {
       near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined;
     moment.show(shown);
     labels.setFocus(shown?.place);
+    syncPins();
     debug?.update(snap);
     info.update(snap);
     ambience?.set(snap.sound.levels);
@@ -608,7 +663,8 @@ async function start(): Promise<void> {
     ambience?.near('railcar', trainNear);
     world.scene.render();
     bubbles.update(active, now);
-    labels.update([...bubbles.visible, ...onScreen(chrome)]);
+    pins.update(onScreen(chrome));
+    labels.update([...bubbles.visible, ...pins.visible, ...onScreen(chrome)]);
   });
   window.addEventListener('resize', () => {
     engine.resize();

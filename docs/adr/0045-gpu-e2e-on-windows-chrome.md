@@ -1,11 +1,11 @@
 ---
-title: "ADR 0044: The GPU tests run on Windows Chrome, against a preview served from WSL"
+title: "ADR 0045: The GPU tests run on Windows Chrome, against a preview served from WSL"
 kind: adr
 status: accepted
 updated: 2026-10-09
 ---
 
-# ADR 0044: The GPU tests run on Windows Chrome, against a preview served from WSL
+# ADR 0045: The GPU tests run on Windows Chrome, against a preview served from WSL
 
 - **Status:** Accepted. The idea and the self-hosted CI runner are Dewi's (2026-10-09); the design
   details are Claude's, under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md))

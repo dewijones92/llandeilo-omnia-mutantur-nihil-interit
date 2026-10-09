@@ -268,15 +268,16 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
 ## Build & test
 
 ```bash
-npm run dev                          # the always-on dev server on :5051 (?debug for the overlay, ?year=1282, ?place=garn-goch, ?quality=low, ?begin=1)
+npm run dev                          # the always-on dev server on :5051 (?debug for the overlay, ?year=1282, ?place=garn-goch, ?quality=low, ?begin=1, ?photos=1)
 npm run check                        # format, types, lint, unit tests, knip (the pre-push hook runs the same)
 npx vite build && npx playwright test   # production build and e2e (needs PAGES_BASE to match CI)
 node tools/research/extract-sources.mjs # after any change to docs/research/*.md
 node tools/voices/build-voices.ts    # after any change to conversation text (needs edge-tts)
 tools/terrain/build-terrain.sh && python3 tools/geo/build-osdata.py   # rebuild map data (see docs/data)
 node tools/shot.mjs '<url>' out.png  # screenshot, using the Chromium that works on this WSL box
+node tools/photo-shots.mjs <base url/> <out dir>  # the photo layer: pins at 1900 and an open photograph, English and Welsh
 node tools/frames.mjs '<url>' <dir> [--perf] [--uncapped]  # shots at several years (YEARS, HOUR, SEASON, PLACES) and GPU frame timings
-npm run e2e:gpu                      # tools/gpu/run.sh [--gpu-only] [--uncapped] [--skip-build]: WebGPU, frame timings and every e2e spec on Windows Chrome's GPU (ADR 0044)
+npm run e2e:gpu                      # tools/gpu/run.sh [--gpu-only] [--uncapped] [--skip-build]: WebGPU, frame timings and every e2e spec on Windows Chrome's GPU (ADR 0045)
 ```
 
 **Local GPU:** WSL can render WebGL on the laptop's NVIDIA GPU: launch Chromium with the env
@@ -300,10 +301,10 @@ check them with the particle probe in `?debug` (`window.llandeiloDebug.scene`) r
 **Performance numbers, WebGPU** (2026-10-09, `npm run e2e:gpu`: Windows Chrome 155 headless on the
 NVIDIA RTX 2000 Ada laptop GPU, WebGPU, High, 1920×1080, the 1903 winter overview at 23:00): ready in
 about 8s; vsync on (headless paints at about 57fps here) idle 57fps (p90 18ms), orbiting 57fps (p90
-18ms), scrubbing 27-28fps (median 17ms, p90 83-105ms, worst 418ms); vsync off (`--uncapped`) idle
+18ms), scrubbing 23-28fps (median 17-18ms, p90 83-123ms, worst 418ms); vsync off (`--uncapped`) idle
 213-217fps (median 4.4ms), orbiting 125-127fps (p90 13-14ms), scrubbing 99-101fps (p90 7-9ms). The
-whole kit, build to summary, took 5m15s: 7 GPU tests and 37 e2e specs passed (1 skipped, the stored-
-quality test), against CI's six CPU shards. Why the vsync-on scrub has long frames that the uncapped one
+whole kit, build to summary, took 5m15s with 7 GPU tests and 37 e2e specs passing (1 skipped, the stored-
+quality test), and 5m51s with 43 once the photo layer merged, against CI's six CPU shards. Why the vsync-on scrub has long frames that the uncapped one
 does not is not known yet.
 
 **Performance numbers, WebGL** (2026-10-02, WebGL on an NVIDIA RTX 2000 Ada laptop GPU through WSL's D3D12

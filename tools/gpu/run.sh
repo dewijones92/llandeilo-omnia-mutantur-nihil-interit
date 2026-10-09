@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The GPU e2e kit (ADR 0044): builds the site in WSL, serves it from a vite preview in WSL, and runs
+# The GPU e2e kit (ADR 0045): builds the site in WSL, serves it from a vite preview in WSL, and runs
 # Playwright ON WINDOWS against Windows Chrome on the laptop's own GPU (WebGPU, High graphics).
 # WSL cannot reach a Windows browser's debugging port, but Windows can load a server in WSL through
 # localhost, so the browser and Playwright live on Windows and the server stays here.
