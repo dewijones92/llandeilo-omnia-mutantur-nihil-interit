@@ -1,11 +1,11 @@
 ---
-title: "ADR 0041: Photographs are dated, placed content, shown as pins"
+title: "ADR 0044: Photographs are dated, placed content, shown as pins"
 kind: adr
 status: accepted
 updated: 2026-10-09
 ---
 
-# ADR 0041: Photographs are dated, placed content, shown as pins
+# ADR 0044: Photographs are dated, placed content, shown as pins
 
 - **Status:** Accepted
 - **Date:** 2026-10-09
@@ -14,8 +14,8 @@ updated: 2026-10-09
   2026-10-09; [ADR 0026](0026-open-licences-including-nc.md), amended). The choices below are Claude's,
   under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
   so Dewi can overrule them.
-- **Number:** 0041 was the next free number on main on 2026-10-09; renumber at the merge if another
-  branch has taken it.
+- **Number:** written as 0041 and renumbered 0044 at the second merge of main on 2026-10-09, since
+  the cutscene branch had taken 0041 to 0043.
 
 ## Context
 

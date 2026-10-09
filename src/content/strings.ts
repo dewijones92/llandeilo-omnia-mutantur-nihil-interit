@@ -210,6 +210,18 @@ export const STRINGS = {
   guessBest: { en: 'Best in this browser', cy: 'Gorau yn y porwr hwn' },
   guessNewBest: { en: 'Your best yet!', cy: 'Eich sgôr gorau hyd yn hyn!' },
   guessAgain: { en: 'Play again', cy: 'Chwarae eto' },
+  watch: { en: 'Watch', cy: 'Gwylio' },
+  watchHint: { en: 'A short scene, with narration', cy: 'Golygfa fer, gyda naratif' },
+  skip: { en: 'Skip', cy: 'Hepgor' },
+  cutscene: { en: 'Scene', cy: 'Golygfa' },
+  cutscenePaused: {
+    en: 'Paused while the ⓘ is open.',
+    cy: 'Saib tra bo’r ⓘ ar agor.',
+  },
+  cutsceneCompressed: {
+    en: 'A reconstruction: time is compressed, and what is invented is marked.',
+    cy: 'Ail-greu: mae amser wedi’i gywasgu, ac mae’r hyn sydd wedi’i ddyfeisio wedi’i nodi.',
+  },
   photos: { en: 'Photos', cy: 'Lluniau' },
   photosHelp: {
     en: 'Show old photographs, pinned where each was taken',
@@ -229,8 +241,6 @@ export const STRINGS = {
     cy: 'Mae geiriau’r catalog a’n nodiadau ar y ffotograffau yn Saesneg yn unig.',
   },
   photoCredits: { en: 'Photographs', cy: 'Ffotograffau' },
-  photoOnSlider: { en: 'On the slider from', cy: 'Ar y llithrydd o' },
-  photoTo: { en: 'to', cy: 'hyd' },
 } as const satisfies Record<string, Bilingual>;
 
 export type StringKey = keyof typeof STRINGS;

@@ -1,4 +1,5 @@
 import { STEAM, type Feature, type GridRef, type RollingStock } from './model.ts';
+import { legs, polylineLength } from './polyline.ts';
 import type { FeaturePresence } from './state.ts';
 
 /** A box of grid space; a bound left out is open. */
@@ -110,28 +111,17 @@ export function sectionSpan(
   sections: readonly RailSection[],
 ): readonly [number, number] | undefined {
   if (sections.length === 0) return undefined;
-  const lengths = [0];
-  for (let i = 1; i < points.length; i++) {
-    const a = points[i - 1];
-    const b = points[i];
-    lengths.push((lengths[i - 1] ?? 0) + (a && b ? Math.hypot(b.e - a.e, b.n - a.n) : 0));
-  }
-  const total = lengths[lengths.length - 1] ?? 0;
+  const all = legs(points);
+  const total = polylineLength(points);
   if (total <= 0) return undefined;
   let from = Infinity;
   let to = -Infinity;
-  for (let i = 1; i < points.length; i++) {
-    const a = points[i - 1];
-    const b = points[i];
-    if (!a || !b) continue;
-    const at = lengths[i - 1] ?? 0;
-    const len = (lengths[i] ?? 0) - at;
+  for (const { a, b, start, length } of all)
     for (const s of sections)
       for (const [t0, t1] of inside(a, b, s)) {
-        from = Math.min(from, at + len * t0);
-        to = Math.max(to, at + len * t1);
+        from = Math.min(from, start + length * t0);
+        to = Math.max(to, start + length * t1);
       }
-  }
   return from <= to ? [from / total, to / total] : undefined;
 }
 
@@ -139,12 +129,7 @@ export function longestLine<L extends Line>(lines: readonly L[]): L | undefined 
   let best: L | undefined;
   let bestLen = 0;
   for (const l of lines) {
-    let len = 0;
-    for (let i = 1; i < l.points.length; i++) {
-      const a = l.points[i - 1];
-      const b = l.points[i];
-      if (a && b) len += Math.hypot(b.e - a.e, b.n - a.n);
-    }
+    const len = polylineLength(l.points);
     if (len > bestLen) {
       bestLen = len;
       best = l;

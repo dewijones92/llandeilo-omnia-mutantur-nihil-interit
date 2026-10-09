@@ -72,7 +72,10 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0038](0038-recorded-burnings-are-dated-features.md) | A recorded burning is a dated feature, and which features smoke is one domain rule | Accepted; amended 2026-10-03 (the 1213 arrival by day) | 2026-10-03 |
 | [0039](0039-timeline-markers-fan-into-lanes.md) | Timeline markers keep their dates and fan into lanes when they crowd | Accepted | 2026-10-03 |
 | [0040](0040-a-dark-night-and-halos-that-keep-a-few-pixels.md) | A dark night, and halos that face the camera and keep a few pixels | Accepted | 2026-10-03 |
-| [0041](0041-photographs-are-dated-placed-content-with-pins.md) | Photographs are dated, placed content, shown as pins | Accepted | 2026-10-09 |
+| [0041](0041-cutscenes-as-data-on-one-clock.md) | Cutscenes are data on one pure clock, drawn by one crowd system | Accepted (Claude, under the proactive mandate); amended by 0042 | 2026-10-03 |
+| [0042](0042-a-scene-draws-its-own-year.md) | A scene draws the world at its own year, an open ⓘ pauses it, and the interface behind it is inert | Accepted (Claude, under the proactive mandate), amends 0041 | 2026-10-03 |
+| [0043](0043-one-polyline-helper.md) | One helper measures lines of grid points and walks along them | Accepted (Claude, under the proactive mandate) | 2026-10-03 |
+| [0044](0044-photographs-are-dated-placed-content-with-pins.md) | Photographs are dated, placed content, shown as pins | Accepted | 2026-10-09 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

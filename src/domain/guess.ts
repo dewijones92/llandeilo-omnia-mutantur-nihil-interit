@@ -216,7 +216,7 @@ type Compare = (a: Snapshot, b: Snapshot, trainLine: readonly GridRef[] | undefi
 
 // Every Snapshot field is either compared or said not to be seen, so a new drawn field is a compile
 // error here until it is compared. Hidden during a round: the year, the era, the almanac, the
-// language panel, the photograph pins and the nearest event (ADR 0029, 0041); sound is heard, not seen.
+// language panel, the photograph pins and the nearest event (ADR 0029, 0044); sound is heard, not seen.
 const SCENE: Readonly<Record<keyof Snapshot, Compare | 'not seen'>> = {
   t: 'not seen',
   year: 'not seen',

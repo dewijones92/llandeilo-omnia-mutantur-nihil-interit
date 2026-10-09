@@ -1,4 +1,5 @@
-import type { KeyEvent, Place } from '../domain/model.ts';
+import type { Cutscene } from '../domain/cutscene.ts';
+import type { EventId, KeyEvent, Place } from '../domain/model.ts';
 import { namedLater } from '../domain/places.ts';
 import type { Source } from '../domain/provenance.ts';
 import { formatYear } from '../domain/time.ts';
@@ -14,6 +15,8 @@ export class MomentCard {
     private readonly store: LangStore,
     private readonly sources: ReadonlyMap<string, Source>,
     private readonly places: ReadonlyMap<string, Place>,
+    private readonly scenes: ReadonlyMap<EventId, Cutscene>,
+    private readonly onWatch: (scene: Cutscene) => void,
   ) {
     store.onChange(() => {
       const ev = this.current;
@@ -50,6 +53,19 @@ export class MomentCard {
       h('p', {}, ev.summary[lang]),
       provenanceBadge(ev.provenance, this.store, this.sources),
     );
+    const scene = this.scenes.get(ev.id);
+    if (scene) {
+      const watch = h(
+        'button',
+        { class: 'tool moment-watch', type: 'button', title: this.store.t('watchHint') },
+        `▶ ${this.store.t('watch')}`,
+      );
+      watch.addEventListener('click', () => {
+        console.info(`dewidebug moment watch event=${ev.id} scene=${scene.id}`);
+        this.onWatch(scene);
+      });
+      this.el.append(watch);
+    }
     this.el.hidden = false;
     console.info(`dewidebug moment shown event=${ev.id}`);
   }

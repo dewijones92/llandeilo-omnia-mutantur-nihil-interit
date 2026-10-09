@@ -85,7 +85,7 @@ export interface Snapshot {
   readonly conversations: readonly Conversation[];
   readonly almanac: readonly AlmanacEntry[];
   readonly language: LanguageSnapshot | undefined;
-  /** The photographs that have a pin at this year (ADR 0041). */
+  /** The photographs that have a pin at this year (ADR 0044). */
   readonly photographs: readonly PlacedPhoto[];
   readonly nearestEvent: KeyEvent | undefined;
 }
