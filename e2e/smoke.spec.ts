@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { EVENTS } from '../src/content/events.ts';
+import { HARRIES_PHOTOGRAPHS } from '../src/content/photographs.ts';
 import { TIMELINE } from '../src/content/timeline.ts';
 import { toWorld } from '../src/domain/geo.ts';
 import { keySteps, stepFrom } from '../src/domain/steps.ts';
@@ -727,6 +728,8 @@ test('When are we? hides the year, takes a guess on the timeline, then reveals i
     '.moment',
     '.labels',
     '.bubbles',
+    '.pins',
+    '.photo',
     '.info',
     '.debug',
   ]) {
@@ -955,4 +958,160 @@ test('every timeline marker can be clicked at its own centre, however close its 
   await page.setViewportSize({ width: 1280, height: 720 });
   await expect.poll(covered).toEqual([]);
   await page.screenshot({ path: 'test-results/marker-lanes-1280.png' });
+});
+
+const AT_1900 = './?year=1900&place=llandeilo&radius=140';
+
+const photoFor = (id: string | null): (typeof HARRIES_PHOTOGRAPHS)[number] => {
+  const found = HARRIES_PHOTOGRAPHS.find((p) => p.id === id);
+  if (!found) throw new Error(`No photograph ${String(id)}`);
+  return found;
+};
+
+test('the Photos toggle pins photographs in Llandeilo in 1900, none in 1850, and the choice is remembered', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto(AT_1900);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const toggle = page.getByRole('button', { name: 'Photos', exact: true });
+  const pins = page.locator('.pin').filter({ visible: true });
+  await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  await expect(pins).toHaveCount(0);
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(() => pins.count()).toBeGreaterThanOrEqual(3);
+  for (const pin of await pins.all()) {
+    const p = photoFor(await pin.getAttribute('data-photo'));
+    await expect(pin).toHaveAccessibleName(`Photograph: ${p.where}`);
+    expect(p.placement.kind).toBe('placed');
+  }
+  await page.screenshot({ path: 'test-results/photo-pins-1900.png' });
+  await page.reload();
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
+  await page.goto('./?year=1850&place=llandeilo&radius=140');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await page.waitForTimeout(1500);
+  await expect(page.locator('.pin').filter({ visible: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Photos', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'false',
+  );
+  expect(errors).toEqual([]);
+});
+
+test('a pin opens its photograph with the credit and an ⓘ for the date and the placement, and Escape closes it', async ({
+  page,
+}) => {
+  await page.goto(`${AT_1900}&photos=1`);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const pin = page.locator('.pin').filter({ visible: true }).first();
+  await expect(pin).toBeVisible();
+  const p = photoFor(await pin.getAttribute('data-photo'));
+  await pin.click();
+  const panel = page.locator('.photo');
+  await expect(panel).toBeVisible();
+  await expect(panel.locator('h2')).toHaveText(p.title);
+  const image = panel.locator('img');
+  await expect(image).toHaveAttribute('src', new RegExp(`${p.file.replaceAll('.', '\\.')}$`));
+  await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(500);
+  await expect(panel.locator('figcaption')).toContainText('D C Harries');
+  await expect(panel.locator('figcaption')).toContainText('People’s Collection Wales');
+  await expect(panel.locator('figcaption a')).toHaveAttribute('href', p.catalogueUrl);
+  await expect(panel).toContainText(p.dated);
+  const [box, compass] = [await panel.boundingBox(), await page.locator('.compass').boundingBox()];
+  expect(box && compass && box.y < compass.y + compass.height && box.x + box.width > compass.x).toBe(false);
+  await panel.locator('.prov').click();
+  const pop = panel.locator('.prov-pop');
+  await expect(pop).toBeVisible();
+  await expect(pop).toContainText('Date:');
+  await expect(pop).toContainText(p.dateNote.slice(0, 40));
+  await expect(pop).toContainText('Placement:');
+  if (p.placement.kind === 'placed') await expect(pop).toContainText(`${String(p.placement.accuracyM)} m`);
+  await expect(pop.locator('a').first()).toHaveAttribute('href', /^https?:\/\//);
+  await page.screenshot({ path: 'test-results/photo-open-1900.png' });
+  await page.keyboard.press('Escape');
+  await page.mouse.move(5, 5);
+  await expect(pop).toBeHidden();
+  await expect(panel).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(panel).toBeHidden();
+});
+
+test('a photograph closes when the slider leaves its years or Photos is switched off', async ({ page }) => {
+  await page.goto(`${AT_1900}&photos=1`);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.locator('.pin').filter({ visible: true }).first().click();
+  await expect(page.locator('.photo')).toBeVisible();
+  await page.getByRole('button', { name: 'Photos', exact: true }).click();
+  await expect(page.locator('.photo')).toBeHidden();
+  await page.getByRole('button', { name: 'Photos', exact: true }).click();
+  await page.locator('.pin').filter({ visible: true }).first().click();
+  await expect(page.locator('.photo')).toBeVisible();
+  const slider = page.getByRole('slider', { name: /Timeline|Llinell amser/ });
+  await slider.focus();
+  await page.keyboard.press('Home');
+  await expect(page.locator('.photo')).toBeHidden();
+});
+
+test('the photo layer reads in Welsh: the toggle, the pin names, the panel’s labels and the ⓘ', async ({
+  page,
+}) => {
+  await page.goto(`${AT_1900}&photos=1&lang=cy`);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.getByRole('button', { name: 'Lluniau', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  const pin = page.locator('.pin').filter({ visible: true }).first();
+  await expect(pin).toBeVisible();
+  const p = photoFor(await pin.getAttribute('data-photo'));
+  await expect(pin).toHaveAccessibleName(`Ffotograff: ${p.where}`);
+  await pin.click();
+  const panel = page.locator('.photo');
+  await expect(panel).toBeVisible();
+  await expect(panel.getByRole('button', { name: 'Cau' })).toBeVisible();
+  await expect(panel).toContainText('Cydnabyddiaeth:');
+  await expect(panel).toContainText('Dyddiad');
+  await expect(panel).toContainText('Yr hyn a welir');
+  await expect(panel).toContainText('Pa mor sicr ydym ni?');
+  await expect(panel.locator('figcaption a')).toHaveText('Gweld yng Nghasgliad y Werin Cymru');
+  await panel.locator('.prov').click();
+  const pop = panel.locator('.prov-pop');
+  await expect(pop).toContainText('Dyddiad:');
+  await expect(pop).toContainText('Lleoliad:');
+  await expect(pop).toContainText('Wedi’i leoli o fewn tua');
+  await expect(pop).toContainText('yn Saesneg yn unig');
+  await expect(panel.locator('h2')).toHaveAttribute('lang', 'en');
+  await page.screenshot({ path: 'test-results/photo-open-1900-cy.png' });
+  await page.getByRole('button', { name: 'English' }).click();
+  await expect(panel.getByRole('button', { name: 'Close' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Photos', exact: true })).toBeVisible();
+});
+
+test('the credits on the About tab list every photograph with its credit and catalogue link', async ({
+  page,
+}) => {
+  await page.goto('./?year=1900');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.getByRole('button', { name: 'About' }).click();
+  const credits = page.locator('.photo-credits li');
+  await expect(credits).toHaveCount(HARRIES_PHOTOGRAPHS.length);
+  const first = HARRIES_PHOTOGRAPHS[0];
+  if (!first) throw new Error('no photographs');
+  const item = page.locator(`[data-photo-credit="${first.id}"]`);
+  await expect(item).toContainText('D C Harries');
+  await expect(item.locator('a')).toHaveAttribute('href', first.catalogueUrl);
+  await expect(page.locator('.info-credits').first()).toContainText('Photographs by D C Harries');
 });

@@ -588,3 +588,32 @@ Milestones and what each one taught us. Newest last.
    one rule decides both smoke and halos, and two lightings in the fading-day band are pinned from main
    (red when `selfLit` loses its night weighting). Lesson: a test that reads flags back from the
    renderer proves the code ran, not that anything reached the screen; count the pixels.
+
+## 2026-10-09 (the Harries photographs: check, then the photo layer)
+
+1. **The independent check's corrections applied first** (commits 0cf7411 and 392ccaa). Five captions
+   were contradicted by the pictures themselves (a *Shoulder Arms* poster, Tariff Reform posters, an
+   R.O.P. petrol sign, and two doubtful 1920s dresses), the Post Office was on the wrong side of the
+   street, six descriptions of what a photograph shows were wrong, and "the 1890s map" was the 1905
+   revision. Lesson: the first research pass wrote "looked at" for each image and still read none of the
+   lettering; the check read every poster and sign. Each change is marked "Corrected 2026-10-09
+   (independent check)". Four prints that still showed the mount were re-cropped from the PCW originals by
+   finding the contiguous low-saturation block (the cream mount is the only strongly orange region).
+2. **The photo layer** ([ADR 0041](../adr/0041-photographs-are-dated-placed-content-with-pins.md)): `Photograph`
+   moved into the domain model beside the places (a `TimeRange`, a placement, a provenance), `snapshotAt`
+   lists the pinned ones, `src/domain/photos.ts` holds the window and the fan-out of shared points, and the
+   UI is a pin layer, a panel and a remembered toggle. `provenanceBadge` was split so the photo's ⓘ reuses
+   the same badge (`infoBadge`) instead of a second popover.
+3. **Red runs, each at the assertion it names.** Unit: a stub of `src/domain/photos.ts` returning
+   nothing failed the window, the unplaced-never-pinned and the pin-position tests. E2E: with the pins
+   and the photo panel taken out of `reveals-when`, the guess game's giveaway list failed at `.pins`
+   ("Expected: hidden, Received: visible"); with the toggle ignored and the panel left out of the Escape
+   chain, the toggle test failed at 0 pins expected and 6 received, and the Escape and slider tests failed
+   at the panel still visible. The Welsh, About-credits and click-through e2e and the Welsh date label
+   were written after the code and were not run red.
+4. **A test trap, not a bug:** the ⓘ popover stays open while the mouse hovers its badge, so "Escape
+   closed it" needs the mouse moved away first, as the existing provenance test does.
+5. **Looked at:** pins in Llandeilo at 1900 and an open photograph with its ⓘ, in English and Welsh,
+   on the NVIDIA GPU (`docs/images/photo-layer/`, made by `tools/photo-shots.mjs`). The first look found
+   the credit below the fold and the ⓘ clipped by the panel's bottom edge; the credit moved under the
+   picture and the popover opens upwards.

@@ -2,7 +2,7 @@
 title: Decision log
 kind: log
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Decision log
@@ -149,3 +149,8 @@ with the full context and consequences.
 | For the issues' material (the Harries photographs, the fort's reconstruction drawings and surveys), licences are not checked; the maker is credited in the asset manifest and the ⓘ | Dewi, 2026-10-09: "Regarding the GitHub issues, ignore licensing problems, just credit the person please" |
 | The three issues are done first, before the rest of the weekend's work | Dewi, 2026-10-09: "If possible please prioritise them" |
 | Anything Claude posts on Dewi's behalf (issue comments, release notes) ends with "Sent by Claude"; the three replies of 2026-10-09 were edited to add it | Dewi, 2026-10-09: "can you say that you know sent by Claude at the end please?" |
+| The photo layer is a Photos toggle (off by default, remembered, `?photos=1` for a link) over camera pins, each opening the photograph in a side panel with credit, catalogue link and an ⓘ ([ADR 0041](../adr/0041-photographs-are-dated-placed-content-with-pins.md)) | Dewi agreed pinning each photograph where it was taken with a credit and an ⓘ. Off by default so no existing view changes; Dewi may want it on. Decided by Claude under the proactive mandate (ADR 0027) |
+| A pin shows from its photograph's date range until 25 years after it ends, never before | A photograph cannot show a street before its date, and a street changed slowly. The 25 years are Claude's convention, one constant. Decided by Claude under the proactive mandate (ADR 0027) |
+| 2282261 and 2282336 keep their c. 1900 caption but their range is widened to 1895 to 1930, because the dress in them looks 1920s (the independent check's open question) | The check called them doubtful, not contradicted, so no date was invented; the ⓘ says the range is widened and why. Decided by Claude under the proactive mandate (ADR 0027), for Dewi to settle |
+| The catalogue's words and our notes on the photographs are shown in English only, labelled as such, in the Welsh interface | A human Welsh check is already parked, and a machine translation of research notes would put unreviewed Welsh in front of visitors. Decided by Claude under the proactive mandate (ADR 0027) |
+| No "Then and now" flight | The brief allowed it only if the record gives the camera's direction; none of the 31 does. Decided by Claude under the proactive mandate (ADR 0027) |

@@ -137,6 +137,7 @@ const world = (
   conversations: more.conversations ?? [],
   almanac: [],
   language: [],
+  photographs: [],
   sources: [],
 });
 

@@ -10,7 +10,7 @@ updated: 2026-10-09
 Research and gathering for [GitHub issue #1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)
 (agreed by Dewi, 2026-10-09; Claude's own choices here are under the proactive mandate,
 [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)). This is the
-research stage only: the in-app photo layer is built later. Dewi's instruction for this item
+research note; the in-app photo layer built from it is [ADR 0041](../adr/0041-photographs-are-dated-placed-content-with-pins.md). Dewi's instruction for this item
 (2026-10-09): "ignore licensing problems, just credit the person", so every photo carries a credit and a
 catalogue id and URL, and no licence check blocks it (the asset manifest's licence field reads "Not checked: used with credit at
 Dewi's request (2026-10-09)"; PCW's own item pages state its Creative Archive Licence, non-commercial downloads) ([ADR 0026](../adr/0026-open-licences-including-nc.md)).

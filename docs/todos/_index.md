@@ -239,15 +239,26 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
 
 - [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded
 - [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort
-- [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09); a photo layer pinned to where each was taken, with credit and ⓘ, with its credit
-      **Researched 2026-10-09, not yet checked** ([`research/dc-harries-photographs.md`](../research/dc-harries-photographs.md)):
+- [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09), then a photo layer pinned to where each was taken, with credit and ⓘ.
+      **Agreed ✓. Researched ✓ 2026-10-09** ([`research/dc-harries-photographs.md`](../research/dc-harries-photographs.md)):
       31 photographs found and downloaded (`public/photos/harries/`, data and credits in
       `src/content/photographs.ts`), all on People's Collection Wales from the Llandeilo Fawr Town Council
-      collection, none an NLW catalogue item; 28 placed on the OS grid (14 documented, 14 reconstructed),
-      3 not; two of the station (c. 1910 and c. 1918, not c. 1900); one captioned as the station is a colliery
-      (marked miscaptioned). Still to do: the independent check, then the photo layer and its tests.
-      Owner's decisions in the note: the credit wording, and whether to gather other photographers' c. 1900
-      station and street views
+      collection; 28 placed on the OS grid (15 documented, 13 reconstructed), 3 not.
+      **Research checked ✓ 2026-10-09** ([independent check](../research/reviews/dc-harries-photographs-check-2026-10-09.md)),
+      every correction applied the same day, marked "Corrected 2026-10-09 (independent check)": five dates
+      the pictures contradict, the Post Office's point, six wrong descriptions, the 1905 map, the NLW's second
+      fonds. **Built ✓ 2026-10-09** ([ADR 0041](../adr/0041-photographs-are-dated-placed-content-with-pins.md)):
+      the Photos toggle, camera pins, the photo panel with credit and ⓘ, the About credits, in both languages;
+      unit, content and e2e tests (red runs in the [build log](../process/build-log.md)). **Looked at ✓**
+      (`docs/images/photo-layer/`). **Still to do: the second-Opus review** before it ships in a release.
+      Owner's decisions: the credit wording, whether the layer should be on by default, whether to widen or
+      keep the c. 1900 captions of 2282261 and 2282336 (widened to 1895-1930 for now), and whether to gather
+      other photographers' c. 1900 station and street views. Not built: a "Then and now" flight (no record
+      of a camera direction), a way in for the three unplaced photographs, Welsh for the catalogue's words
+- [ ] **Photo layer follow-ups** (Claude, proactive, ADR 0027; not started): a count of the photographs
+      available at the year on the Photos button so the layer is found; a camera-direction field and "Then and
+      now" flight once any record gives one; the other-photographers' views listed in the research note
+      (needs an owner decision); the three unplaced photographs in a list
 - [ ] Conversations by class in the three slice eras; in-world music and the hunter-gatherer scenes (after their research checks); a GPU terrain shader for smooth scrubbing; the later trains and the Dinefwr, Carreg Cennen and bridge models (Dewi picked all four on 2026-10-09)
 
 ## Agreed for the weekend run (Dewi, 2026-10-02)

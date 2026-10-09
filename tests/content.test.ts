@@ -21,7 +21,7 @@ import { DEFAULT_CLOCK, sunElevation } from '../src/domain/daylight.ts';
 import type { Bilingual } from '../src/domain/i18n.ts';
 import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
 import type { Provenance } from '../src/domain/provenance.ts';
-import { latestStarting, soundAt } from '../src/domain/state.ts';
+import { latestStarting, snapshotAt, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
 import { sectionLines, type GridBox } from '../src/domain/rail.ts';
@@ -375,7 +375,7 @@ describe('the Harries photographs', () => {
         `https://www.peoplescollection.wales/items/${p.catalogueId.replace('PCW ', '')}`,
       );
       expect(p.id, p.id).toBe(`harries-${p.catalogueId.replace('PCW ', '')}`);
-      expect(p.from, p.id).toBeLessThanOrEqual(p.to);
+      expect(p.when.from, p.id).toBeLessThanOrEqual(p.when.to);
     }
   });
 
@@ -390,6 +390,53 @@ describe('the Harries photographs', () => {
         expect(accuracyM, p.id).toBeGreaterThan(0);
       }
     }
+  });
+
+  it('gives every photograph a credit, a date and how sure it is of the date, and every placed one a basis, an accuracy and a note', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      expect(p.credit.length, p.id).toBeGreaterThan(20);
+      expect(p.dated, p.id).toMatch(/\d{4}/);
+      expect(p.dateNote.length, p.id).toBeGreaterThan(20);
+      expect(p.title.length, p.id).toBeGreaterThan(5);
+      expect(p.shows.length, p.id).toBeGreaterThan(20);
+      expect(p.when.from, p.id).toBeGreaterThan(1850);
+      expect(p.when.to, p.id).toBeLessThan(1960);
+      if (p.placement.kind === 'placed') {
+        expect(['documented', 'reconstructed'], p.id).toContain(p.placement.basis);
+        expect(p.placement.note.length, p.id).toBeGreaterThan(20);
+      } else {
+        expect(p.placement.reason.length, p.id).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('keeps the 2026-10-09 independent check’s corrections: dates the pictures contradict, and the Post Office', () => {
+    const by = (n: string): (typeof HARRIES_PHOTOGRAPHS)[number] => {
+      const found = HARRIES_PHOTOGRAPHS.find((p) => p.catalogueId === `PCW ${n}`);
+      if (!found) throw new Error(`No photograph ${n}`);
+      return found;
+    };
+    expect(by('2281901').when.from).toBeGreaterThanOrEqual(1918);
+    expect(by('2281916').when.from).toBeGreaterThanOrEqual(1903);
+    expect(by('2281931').when.from).toBeGreaterThanOrEqual(1924);
+    expect(by('2282411').when.from).toBeGreaterThanOrEqual(1897);
+    expect(by('2282111').when.to).toBeLessThanOrEqual(1918);
+    expect(by('2282111').when.from).toBeGreaterThanOrEqual(1914);
+    for (const n of ['2282261', '2282336']) expect(by(n).when.to, n).toBeGreaterThanOrEqual(1925);
+    for (const n of ['2281901', '2281916', '2281931', '2282111', '2282411', '2282261', '2282336'])
+      expect(by(n).dateNote, n).toContain('Corrected 2026-10-09 (independent check)');
+    const post = by('2282186').placement;
+    expect(post.kind).toBe('placed');
+    if (post.kind === 'placed') {
+      expect(post.at).toEqual({ e: 262968, n: 222446 });
+      expect(post.basis).toBe('documented');
+    }
+  });
+
+  it('is part of the world, so the snapshot pins photographs at 1900 and none before any was taken', () => {
+    expect(W.photographs).toBe(HARRIES_PHOTOGRAPHS);
+    expect(snapshotAt(W, tAt(W.timeline, ad(1900))).photographs.length).toBeGreaterThan(5);
+    expect(snapshotAt(W, tAt(W.timeline, ad(1850))).photographs).toEqual([]);
   });
 
   it('cites sources that exist', () => {

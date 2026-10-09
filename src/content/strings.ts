@@ -210,6 +210,27 @@ export const STRINGS = {
   guessBest: { en: 'Best in this browser', cy: 'Gorau yn y porwr hwn' },
   guessNewBest: { en: 'Your best yet!', cy: 'Eich sgôr gorau hyd yn hyn!' },
   guessAgain: { en: 'Play again', cy: 'Chwarae eto' },
+  photos: { en: 'Photos', cy: 'Lluniau' },
+  photosHelp: {
+    en: 'Show old photographs, pinned where each was taken',
+    cy: 'Dangos hen ffotograffau, wedi’u pinio lle tynnwyd pob un',
+  },
+  photo: { en: 'Photograph', cy: 'Ffotograff' },
+  photoDate: { en: 'Date', cy: 'Dyddiad' },
+  photoShows: { en: 'What it shows', cy: 'Yr hyn a welir' },
+  photoWhere: { en: 'Where', cy: 'Lle' },
+  photoCredit: { en: 'Credit', cy: 'Cydnabyddiaeth' },
+  photoView: { en: 'View it on People’s Collection Wales', cy: 'Gweld yng Nghasgliad y Werin Cymru' },
+  photoSure: { en: 'How sure are we?', cy: 'Pa mor sicr ydym ni?' },
+  photoPlacement: { en: 'Placement', cy: 'Lleoliad' },
+  photoWithin: { en: 'Placed to within about', cy: 'Wedi’i leoli o fewn tua' },
+  photoEnglishOnly: {
+    en: 'The catalogue’s words and our notes on the photographs are in English only.',
+    cy: 'Mae geiriau’r catalog a’n nodiadau ar y ffotograffau yn Saesneg yn unig.',
+  },
+  photoCredits: { en: 'Photographs', cy: 'Ffotograffau' },
+  photoOnSlider: { en: 'On the slider from', cy: 'Ar y llithrydd o' },
+  photoTo: { en: 'to', cy: 'hyd' },
 } as const satisfies Record<string, Bilingual>;
 
 export type StringKey = keyof typeof STRINGS;
