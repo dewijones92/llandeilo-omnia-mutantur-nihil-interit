@@ -2,7 +2,7 @@
 title: "ADR 0042: A scene draws the world at its own year, an open ⓘ pauses it, and the interface behind it is inert"
 kind: adr
 status: accepted
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # ADR 0042: A scene draws the world at its own year, an open ⓘ pauses it, and the interface behind it is inert
@@ -35,6 +35,10 @@ top of the rest of the app:
   presence; every other feature is drawn only if its dates contain the scene's year (`contains`, so
   a phase ending at that year still counts). The slider's soft fade, right for scrubbing, does not
   leak into a scene. `main.ts` sets the year when the scene starts, so no frame draws the old picture.
+  It filters the presence once per apply and gives the result to everything the scene draws: the
+  features, their smoke and hearth glow, and the forest clearings (review of 2026-10-09: the smoke and
+  clearings first read the raw slider presence, which was harmless at AD 74 but would have shown smoke
+  from a feature the scene hides).
 - **A combined-answer test** (`tests/content.test.ts`, "a cutscene on screen") samples every scene four
   times a second through `snapshotAt`, `frameAt` and `sceneFeatures`: nothing is drawn whose dates do
   not contain the scene's year unless the scene builds it, and nothing stands at a building site

@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Build log
@@ -627,3 +627,15 @@ Milestones and what each one taught us. Newest last.
    smoke layer, so `dust` became a fourth `SmokeStyle` in the dark night's look table, with a `lift`
    field for where a plume starts. Main had also taken ADRs 0037 to 0040, so the cutscene ADRs became
    0041 to 0043; a branch's ADR numbers are only provisional until it merges.
+25. **The second cutscene review: claims in the docs that the code did not keep.** Five findings, none
+   of them a visible fault. (1) The narrator comment and decision log said no Roman-era character uses the
+   narrator's voice; Nia, the Welsh narrator, also reads the woman at the fort (Welsh has two voices), so
+   the claim was corrected and the overlap recorded in `docs/content/voices.md`. (2) The timeline lock's
+   "a press ends the scene" path was dead, since the timeline is inert behind the scene; `lock` is now a
+   plain guard and the design note says Skip and Escape end a scene. (3) Smoke, hearth glow and forest
+   clearings read the slider's presence rather than the scene's; they now share the one filtered list
+   (no behaviour change at AD 74, so no test could fail first; the e2e covers the wiring). (4) The train
+   still had its own walk along a line, though ADR 0043 said every copy was gone; `segmentAt` is now
+   shared (a unit test failed first on the missing function, then on the edge cases). (5) The bundle is
+   490,121 bytes gzipped, recorded in CLAUDE.md. Lesson: **an ADR that says "every copy now uses it" is a
+   claim to grep for, not to write from memory.**

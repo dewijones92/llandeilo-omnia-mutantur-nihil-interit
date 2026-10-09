@@ -2,7 +2,7 @@
 title: "ADR 0041: Cutscenes are data on one pure clock, drawn by one crowd system"
 kind: adr
 status: accepted
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # ADR 0041: Cutscenes are data on one pure clock, drawn by one crowd system
@@ -59,7 +59,8 @@ for one engine, not code per scene.
   than its narration takes in either language, so the captions are timed to the voice, not guessed.
 - **The player** (`src/ui/cutscene.ts`) runs the clock, shows the letterbox, captions with their ⓘ,
   the scene's ⓘ and Skip, and reads each caption when sound is on. While it plays the rest of the
-  interface fades out, the timeline is hidden and locked (`TimelineBar.lock`), keys other than Escape do
+  interface fades out, the timeline is hidden, inert and locked (`TimelineBar.lock(true)`, a guard for the step buttons and
+  presses; it ends nothing), keys other than Escape do
   nothing and canvas taps are ignored. (Amended by [ADR 0042](0042-a-scene-draws-its-own-year.md): the
   world is drawn at the scene's year, an open ⓘ pauses the scene and Escape closes it first, and the
   interface behind is inert.) Skip, Escape or the end land on the key date and fly to the

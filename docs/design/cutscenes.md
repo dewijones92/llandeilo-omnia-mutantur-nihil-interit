@@ -2,7 +2,7 @@
 title: Cutscenes
 kind: design
 status: agreed
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Cutscenes at key dates
@@ -68,7 +68,8 @@ type Track =
 ## Controls
 
 **Watch** on the moment card when the date has a scene; **Skip** and Escape end it; the slider and
-keys are locked while it plays, and any click on the timeline ends it. Sound follows the Sound toggle.
+keys are locked while it plays; the timeline is hidden and inert, so only Skip and Escape end a scene
+(the first sketch had a click on the timeline end it; the build dropped that, [ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)). Sound follows the Sound toggle.
 It plays on the 2.6×-scaled diorama, so close-ups of figures are framed to read at that scale.
 
 ## Tests

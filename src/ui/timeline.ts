@@ -41,7 +41,7 @@ export class TimelineBar {
   private readonly ghost: HTMLElement;
   private ghostT: number | undefined;
   private onGuess: ((t: number) => void) | undefined;
-  private onLockedTouch: (() => void) | undefined;
+  private locked = false;
 
   constructor(
     private readonly timeline: Timeline,
@@ -160,16 +160,16 @@ export class TimelineBar {
     console.info(`dewidebug timeline guess capture=${String(onGuess !== undefined)}`);
   }
 
-  // While a cutscene plays the slider and the step buttons do nothing, and any press on the bar
-  // calls `onTouch` instead (which ends the scene).
-  lock(onTouch: (() => void) | undefined): void {
-    this.onLockedTouch = onTouch;
-    this.el.classList.toggle('locked', onTouch !== undefined);
-    if (onTouch) {
+  // While a cutscene plays the bar is hidden and inert; this also stops presses and the step
+  // buttons if they ever get through. Skip and Escape end the scene, not the bar.
+  lock(locked: boolean): void {
+    this.locked = locked;
+    this.el.classList.toggle('locked', locked);
+    if (locked) {
       this.dragging = false;
       this.el.classList.remove('dragging');
     }
-    console.info(`dewidebug timeline locked=${String(onTouch !== undefined)}`);
+    console.info(`dewidebug timeline locked=${String(locked)}`);
   }
 
   jump(t: number): void {
@@ -190,7 +190,7 @@ export class TimelineBar {
   }
 
   step(direction: 1 | -1): void {
-    if (this.onLockedTouch) {
+    if (this.locked) {
       console.info('dewidebug timeline step ignored: a cutscene is playing');
       return;
     }
@@ -358,16 +358,14 @@ export class TimelineBar {
   }
 
   private bind(): void {
-    const locked = (e: Event): void => {
-      const touch = this.onLockedTouch;
-      if (!touch || (e instanceof KeyboardEvent && e.key === 'Escape')) return;
+    const swallow = (e: Event): void => {
+      if (!this.locked || (e instanceof KeyboardEvent && e.key === 'Escape')) return;
       e.preventDefault();
       e.stopPropagation();
-      if (e.type === 'pointerdown') touch();
     };
-    this.el.addEventListener('pointerdown', locked, true);
-    this.el.addEventListener('click', locked, true);
-    this.el.addEventListener('keydown', locked, true);
+    this.el.addEventListener('pointerdown', swallow, true);
+    this.el.addEventListener('click', swallow, true);
+    this.el.addEventListener('keydown', swallow, true);
     this.track.addEventListener('pointerdown', (e) => {
       if (this.onGuess) {
         this.dragging = true;

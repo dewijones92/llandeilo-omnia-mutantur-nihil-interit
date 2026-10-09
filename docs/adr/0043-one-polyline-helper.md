@@ -2,7 +2,7 @@
 title: "ADR 0043: One helper measures lines of grid points and walks along them"
 kind: adr
 status: accepted
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # ADR 0043: One helper measures lines of grid points and walks along them
@@ -22,9 +22,13 @@ it under the DRY law.
 ## Decision
 
 `src/domain/polyline.ts` is the one place: `legs` (each leg with its start and length),
-`cumulativeLengths`, `polylineLength`, `bearing` and `pointAlong` (a point and its leg's bearing,
-clamped to the ends). Every copy above now uses it. The train's path is in world units, which are grid
-metres divided by `WORLD.metresPerUnit`, so its running lengths are the grid ones scaled.
+`cumulativeLengths`, `polylineLength`, `bearing`, `segmentAt` (the leg a distance falls on and how far
+along it, from the running lengths) and `pointAlong` (a point and its leg's bearing, clamped to the
+ends, built on `segmentAt`). Every copy above now uses it. The train's path is in world units, which are grid
+metres divided by `WORLD.metresPerUnit`, so its running lengths are the grid ones scaled; `Train.step`
+finds its leg with `segmentAt` on those lengths and interpolates the height itself, which the grid
+helper has no place for. (The first version of this ADR said every copy used it while the train's
+walk along the line was still its own loop; the review of 2026-10-09 caught that.)
 
 ## Consequences
 

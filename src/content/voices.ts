@@ -29,7 +29,8 @@ export function voiceLines(conversations: readonly Conversation[], people: reado
   );
 }
 
-// The narrator reads each caption in the interface language, in a voice no Roman-era character uses.
+// The narrator reads each caption in the interface language. Welsh has only two voices, so Nia
+// also reads the woman at the fort (at-the-fort-1, -3), a known overlap (docs/content/voices.md).
 const NARRATOR: Readonly<Record<Lang, string>> = {
   en: LANGUAGES.english.voices.female,
   cy: LANGUAGES.welsh.voices.female,

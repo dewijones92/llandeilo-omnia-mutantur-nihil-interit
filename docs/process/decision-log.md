@@ -2,7 +2,7 @@
 title: Decision log
 kind: log
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Decision log
@@ -152,7 +152,7 @@ can overrule it; the narrator in the UI language and captions always on are Dewi
 | Watching farmers on the hillside, imagined | What the Demetae did is not recorded; the caption says so and the figures carry an imagined ⓘ |
 | Dust under the column; the viewer's own sky | Weather and time of day are not recorded; the first caption says the hour is not recorded and the scene's ⓘ lists the dust and weather as imagined |
 | The fort rises in seconds as the column arrives, with a caption saying how long it took is not recorded, and the header saying time is compressed | A minute cannot show a day's march and weeks of building; saying so beats hiding it |
-| The narrator is Sonia (English) and Nia (Welsh), voices no Roman-era character uses | Distinct from the soldiers' and farmers' voices |
+| The narrator is Sonia (English) and Nia (Welsh) | Sonia is no Roman-era line's voice; Welsh has only two voices, so Nia also reads the woman at the fort (AD 76-125, not during the scene). The first wording here said no Roman-era character used either; corrected 2026-10-09 |
 | The scene runs 79 seconds, longer than the 20 to 60 the design suggested | Each caption must stay up while it is read in both languages; the Welsh clips run up to 9.8 seconds |
 | The timeline is hidden as well as locked while a scene plays, so Skip and Escape end it rather than a click on the timeline | The letterbox and captions need the space ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)) |
 | **Review fixes, 2026-10-03** (second-Opus review of the branch): while a scene plays, the world is drawn at the scene's year, so the later fort no longer stands on the ridge before the army arrives | The review found fort B (from AD 83) faded in to 0.93 at AD 74 and drawn for the whole scene, on top of fort A once it rose; Coflein puts it later and over part of the first ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)) |
@@ -160,6 +160,9 @@ can overrule it; the narrator in the UI language and captions always on are Dewi
 | The interface behind a scene is inert, so Tab and Enter cannot reach it | It was invisible but still worked underneath; the Begin card already holds focus the same way |
 | The garrison caption and the Roman forts' summary now say the fort was big enough for perhaps a thousand men or more, an estimate | Coflein says it "would have housed" more than a thousand; Hughes (roman:S1) says at the very least an *ala quingenaria* or a *cohors milliaria*, a lower minimum. The old wording ("held more than a thousand") stated an estimate as a count |
 | The fade of the later fort at the AD 74 key date outside a scene is left as it is, for Dewi | It is the "c." date fade of [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md), on main before this branch; changing how "c." dates fade is his call (todo file) |
+| **Second review fixes, 2026-10-09** (Claude, under the proactive mandate, [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)): a click on the timeline does not end a scene; only Skip and Escape do | The timeline is hidden and inert while a scene plays, so the "press ends it" path could never run; the design note now says what the build does ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)) |
+| A scene's smoke, hearth glow and forest clearings are drawn from the same scene-filtered presence as its features | One rule for everything the scene draws ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)); no visible change at AD 74 |
+| The train walks its path with the shared `segmentAt` helper | The review found a sixth copy of the walk along a line ([ADR 0043](../adr/0043-one-polyline-helper.md)) |
 
 ## 2026-10-09
 

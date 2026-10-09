@@ -369,9 +369,7 @@ async function start(): Promise<void> {
       flight.stopFollowing('cutscene');
       sceneWorld = { year: ev.when.from, built: new Map() };
       timeline.jump(tAt(content.timeline, ev.when.from));
-      timeline.lock(() => {
-        player.skip('timeline');
-      });
+      timeline.lock(true);
       stage.begin();
       ambience?.duck(true);
     },
@@ -383,7 +381,7 @@ async function start(): Promise<void> {
       stage.end();
       dust = [];
       sceneWorld = undefined;
-      timeline.lock(undefined);
+      timeline.lock(false);
       timeline.jump(tAt(content.timeline, ev.when.from));
       world.refreshShadows();
       console.info(`dewidebug cutscene landed event=${ev.id} skipped=${String(skipped)}`);
@@ -507,6 +505,7 @@ async function start(): Promise<void> {
 
   let active = new Set<(typeof content.conversations)[number]['id']>();
   let snap: Snapshot = snapshotAt(content, t);
+  let drawn: readonly FeaturePresence[] = [];
   const applyLight = (): void => {
     if (!lightPending) return;
     lightPending = false;
@@ -531,11 +530,7 @@ async function start(): Promise<void> {
     if (!heavyDue || now - heavyAt < HEAVY_INTERVAL_MS) return;
     heavyDue = false;
     heavyAt = now;
-    world.applyEnvironment(
-      snap.environment,
-      seasonLook(clock.season, snap.chill),
-      features.clearings(snap.features),
-    );
+    world.applyEnvironment(snap.environment, seasonLook(clock.season, snap.chill), features.clearings(drawn));
     world.refreshShadows();
     applyCost.add(0, 0, performance.now() - now);
   };
@@ -551,9 +546,10 @@ async function start(): Promise<void> {
     const t0 = performance.now();
     snap = snapshotAt(content, t);
     const t1 = performance.now();
-    features.apply(withScene(snap.features));
+    drawn = withScene(snap.features);
+    features.apply(drawn);
     applyCost.add(t1 - t0, performance.now() - t1, 0);
-    smokeSources = features.smokeSources(snap.features);
+    smokeSources = features.smokeSources(drawn);
     active = new Set(snap.conversations.map((c) => c.id));
     const open = panel.open;
     if (open && !active.has(open.id)) panel.close();
@@ -585,7 +581,9 @@ async function start(): Promise<void> {
         );
         if (changed) {
           scene.built = frame.features;
-          features.apply(withScene(snap.features));
+          drawn = withScene(snap.features);
+          features.apply(drawn);
+          smokeSources = features.smokeSources(drawn);
           const now = performance.now();
           if (now - shadowsAt > 250) {
             shadowsAt = now;
