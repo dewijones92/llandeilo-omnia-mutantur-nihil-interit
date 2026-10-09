@@ -612,15 +612,24 @@ Milestones and what each one taught us. Newest last.
    3D view; it now checks the element under the start point first, so that failure names itself. The
    Welsh for "Hold to slide faster" had read as "keep on sliding faster" ("dal i" + verb-noun means
    "continue to"); it is now "Daliwch hi i lawr i lithro'n gyflymach", pending the parked human check.
-25. **One welcome panel** (Claude, under the proactive mandate; [ADR 0042](../adr/0042-one-welcome-panel.md)).
+25. **One welcome panel** (Dewi's request; details by Claude under the proactive mandate; [ADR 0042](../adr/0042-one-welcome-panel.md)).
    Dewi asked for the controls and other info at start, closeable, with an obvious icon to reopen it.
    The Keys panel and the one-time camera hint became one "How to explore" panel; the Begin card and
-   the welcome share one `setInert`. The panel was built before this pass, so the tests were seen red by mutation: the unit tests for
-   `welcomeAtStart` with the
-   viewer's stored choice removed (two failed at their own assertions), and the e2e with the remembered
-   choice never written (failed at "hidden after reload", line 828). Two things a screenshot found that
+   the welcome share one `setInert`. The panel was built before this pass, so the tests were seen red by
+   mutation: the unit tests for `welcomeAtStart` with the viewer's stored choice removed (two failed at
+   their own assertions), and the e2e with the remembered choice never written (failed at its "hidden
+   after reload" assertion). Two things a screenshot found that
    green tests did not: the first panel had no height limit inside the wash (a grid area does not
    resolve `max-height: 100%`), so its footer, with the checkbox and About, was off screen and the click
    on About timed out as "outside of the viewport"; and a screenshot taken as the panel rose showed it
    half transparent, so the test now waits for its animation. Lesson: a button that exists in the DOM
    may be off the screen; click it, and look.
+26. **The ? icon over the panels** (review of the welcome work). At 1440x860 the icon's caption wraps to two
+   lines, so the button reaches 105px down while the right-hand panels started at 92px: the caption sat on
+   the About panel's top edge. Nothing tested panels against the icon, only labels against both. The new
+   e2e test first failed at the About-side assertion (`.convo` overlapping the icon, icon bottom 105,
+   panel top 92); `--below-compass` is now 112px and the test passes for `.convo`, `.info` and `.guess` in
+   English and Welsh. The same pass made the welcome test assert what the tests map claimed (a solid
+   background, and the language sentence rather than the toggle button's label), deleted the unused
+   `WelcomePanel.toggle()`, and made `PROVENANCE_KINDS` fail to compile if a fourth tier is added without
+   being listed.

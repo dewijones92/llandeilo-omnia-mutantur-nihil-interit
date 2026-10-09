@@ -15,8 +15,8 @@
   --era: #4f79a8;
   --guess: #b4235a;
   --radius: 14px;
-  /* Right-hand panels start below the compass (16px inset + 64px + a 12px gap). */
-  --below-compass: 92px;
+  /* Right-hand panels start below the compass and the ? icon with its two-line caption (16px inset + 90px + a 6px gap). */
+  --below-compass: 112px;
   --display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --ui: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', sans-serif;
   color-scheme: light;

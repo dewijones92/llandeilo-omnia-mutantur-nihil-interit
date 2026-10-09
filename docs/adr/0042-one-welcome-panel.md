@@ -15,8 +15,9 @@ updated: 2026-10-09
 
 ## Context
 
-Dewi: "show the controls etc and other info on app start? closeable ... but have a obvious icon to open
-app info etc again please" (as relayed in the task brief; the decision log records it). The app had two
+Dewi, 2026-10-03 06:27 UTC, typed in the session, verbatim: "show the controls etfc etc and other info on
+app start?  closeable  ... but have a obvious icon to open app info etc again please" (the decision log
+records it). The app had two
 help surfaces that nobody saw at the right moment: a one-time camera hint that faded after the first
 drag, and a Keys panel behind a small button. Neither said what the timeline, the provenance labels or
 the ⓘ mean, which is the project's central promise.
@@ -56,7 +57,10 @@ the ⓘ mean, which is the project's central promise.
   the foot with the checkbox stays in view.
 - The camera ADR's one-time hint is gone; nothing remembers a first drag any more. The remembered
   choice is now the checkbox.
-- Watch: the "?" icon and compass are both top right; the labels test treats the icon as a panel.
+- The "?" icon and compass are both top right. The icon's two-line caption reaches 105px down, so the
+  right-hand panels start at `--below-compass` (112px) to clear it; an e2e test checks that `.info`,
+  `.convo` and `.guess` never overlap the icon, in English and Welsh (found in review: at 92px the caption
+  sat over the About panel's top edge). The labels test also treats the icon as a panel.
 
 ## Alternatives considered
 

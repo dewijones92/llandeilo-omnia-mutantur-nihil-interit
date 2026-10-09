@@ -158,11 +158,6 @@ export class WelcomePanel {
     return !this.el.hidden;
   }
 
-  toggle(section: WelcomeSection, why: string): void {
-    if (this.isOpen) this.close(why);
-    else this.open(section);
-  }
-
   open(section: WelcomeSection): void {
     if (!this.isOpen) {
       this.returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;

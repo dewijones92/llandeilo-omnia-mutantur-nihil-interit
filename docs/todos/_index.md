@@ -169,13 +169,14 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] Re-check autumn trees at overview distance by screenshot (the "glitter" fix was never re-shot)
 - [ ] **Map-style camera** (Dewi, 2026-10-03: "make the camera easier to move around"; he chose
       map-style): drag slides the land, right-drag turns, the wheel zooms at the cursor, W A S D / Q E /
-      R F, double-click flies there, a one-time hint, the Keys panel in both languages
+      R F, double-click flies there, a one-time hint, the Keys panel in both languages (both since
+      replaced by the welcome panel, [ADR 0042](../adr/0042-one-welcome-panel.md))
       ([ADR 0041](../adr/0041-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
       looked at (overview, dragged, turned, zoomed, 1860). Second-Opus review 2026-10-03: the sky no
       longer throws the camera (wheel zooms at the centre, a sky drag turns, a slide waits above the
       horizon), tests for a drag ending a follow and a flight and for the hint after Begin, and the
       Welsh for Shift reworded (in the parked human Welsh check); awaiting Dewi
-- [ ] **Welcome panel** (Dewi, 2026-10-03, as quoted in the task brief: controls and info at start,
+- [ ] **Welcome panel** (Dewi, 2026-10-03: controls and info at start,
       closeable, an obvious icon to reopen): "How to explore" opens after Begin (or at once without it),
       replaces the Keys panel and the camera hint, explains the controls, timeline, provenance labels, ⓘ,
       "When are we?" and the settings, with "Show this at start" and a round "?" icon

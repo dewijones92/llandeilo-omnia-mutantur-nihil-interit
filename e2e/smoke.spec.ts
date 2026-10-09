@@ -842,6 +842,45 @@ test('place labels never sit under the panels, the compass or the timeline', asy
   await expect.poll(covered).toEqual([]);
 });
 
+test('the ? icon and its caption never sit over the right-hand panels, in either language', async ({
+  page,
+}) => {
+  const clash = async (panel: string): Promise<string> => {
+    const [icon, box] = [
+      await page.locator('.help-button').boundingBox(),
+      await page.locator(panel).boundingBox(),
+    ];
+    if (!icon || !box) return `${panel}: no box`;
+    const overlaps =
+      icon.x < box.x + box.width &&
+      icon.x + icon.width > box.x &&
+      icon.y < box.y + box.height &&
+      icon.y + icon.height > box.y;
+    console.info(
+      `dewidebug e2e help icon ${panel} icon.bottom=${String(Math.round(icon.y + icon.height))} panel.top=${String(Math.round(box.y))}`,
+    );
+    return overlaps ? `${panel} overlaps the help icon` : '';
+  };
+  await page.setViewportSize({ width: 1440, height: 860 });
+  for (const [lang, game] of [
+    ['en', 'When are we?'],
+    ['cy', 'Pryd ydyn ni?'],
+  ] as const) {
+    await page.goto(`./?year=1282&place=llandeilo&radius=200&lang=${lang}`);
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await page.locator('.bubble').filter({ visible: true }).click();
+    await expect(page.locator('.convo')).toBeVisible();
+    expect(await clash('.convo'), lang).toBe('');
+    await page.getByRole('button', { name: 'Almanac' }).click();
+    await expect(page.locator('.info')).toBeVisible();
+    expect(await clash('.info'), lang).toBe('');
+    await page.screenshot({ path: `test-results/help-icon-about-${lang}.png` });
+    await page.getByRole('button', { name: game }).click();
+    await expect(page.locator('.guess')).toBeVisible();
+    expect(await clash('.guess'), lang).toBe('');
+  }
+});
+
 test('? or the Keys button open the welcome at its controls, and Escape or ✕ closes it, in both languages', async ({
   page,
 }) => {
@@ -894,9 +933,10 @@ test('the welcome opens after Begin, reopens from its icon, explains the labels,
     'When are we?',
     'Graphics',
     'Sound',
-    'Cymraeg',
   ])
     await expect(welcome).toContainText(text);
+  await expect(welcome).toContainText('English and Cymraeg switch the whole app.');
+  expect(await welcome.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(255, 255, 255)');
   for (const kind of ['documented', 'reconstructed', 'imagined'])
     await expect(welcome.locator(`.prov-${kind}`)).toBeVisible();
   // Like the Begin card, it keeps focus and clicks off the app behind it while it is open.
