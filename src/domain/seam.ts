@@ -5,11 +5,23 @@ export interface RimBox {
   readonly zMax: number;
 }
 
-export interface SeamReport {
+export interface GapReport {
   readonly baseVertices: number;
   readonly detailVertices: number;
   readonly maxGap: number;
   readonly unmatched: number;
+}
+
+export interface RimTopology {
+  /** Drawn coarse-terrain corners strictly inside the box: nonzero means a triangle crosses the rim. */
+  readonly inside: number;
+  /** Drawn coarse-terrain triangle edges lying along the rim, each counted once. */
+  readonly rimEdges: number;
+}
+
+export interface SeamReport extends GapReport {
+  readonly baseInside: number;
+  readonly rimEdges: number;
 }
 
 export const RIM_TOLERANCE = 1e-3;
@@ -40,6 +52,42 @@ function sidesOf(box: RimBox, x: number, z: number, tolerance: number): { side: 
   return out;
 }
 
+function strictlyInside(box: RimBox, x: number, z: number, tolerance: number): boolean {
+  return (
+    x > box.xMin + tolerance &&
+    x < box.xMax - tolerance &&
+    z > box.zMin + tolerance &&
+    z < box.zMax - tolerance
+  );
+}
+
+// What the coarse terrain's drawn triangles do at the box: how many of their corners lie strictly inside
+// it (none, if the box is cut out cleanly), and how many of their edges run along its rim. `corners` are
+// x, y, z triples, three to a triangle.
+export function rimTopology(box: RimBox, corners: ArrayLike<number>, tolerance = RIM_TOLERANCE): RimTopology {
+  let inside = 0;
+  const edges = new Set<string>();
+  const key = (x: number, z: number): string =>
+    `${String(Math.round(x / tolerance))},${String(Math.round(z / tolerance))}`;
+  for (let t = 0; t + 8 < corners.length; t += 9) {
+    for (let c = 0; c < 3; c++) {
+      const ax = corners[t + c * 3] ?? 0;
+      const az = corners[t + c * 3 + 2] ?? 0;
+      if (strictlyInside(box, ax, az, tolerance)) inside++;
+      const next = (c + 1) % 3;
+      const bx = corners[t + next * 3] ?? 0;
+      const bz = corners[t + next * 3 + 2] ?? 0;
+      const shared = sidesOf(box, ax, az, tolerance).some(({ side: a }) =>
+        sidesOf(box, bx, bz, tolerance).some(({ side: b }) => a === b),
+      );
+      if (!shared) continue;
+      const [first, second] = [key(ax, az), key(bx, bz)].sort();
+      edges.add(`${first ?? ''}|${second ?? ''}`);
+    }
+  }
+  return { inside, rimEdges: edges.size };
+}
+
 // Compares the drawn rim of the detail meshes with the coarse terrain's, from their vertex positions
 // (x, y, z triples; z is northing). Along each side the coarse terrain's rim is the straight lines
 // between its vertices on it; every detail vertex on the rim should lie on those lines. The report
@@ -49,7 +97,7 @@ export function rimGap(
   base: ArrayLike<number>,
   detail: ArrayLike<number>,
   tolerance = RIM_TOLERANCE,
-): SeamReport {
+): GapReport {
   const lines: Record<Side, Line> = {
     south: { along: [], height: new Map() },
     north: { along: [], height: new Map() },

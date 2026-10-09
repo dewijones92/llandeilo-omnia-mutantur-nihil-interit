@@ -2,7 +2,7 @@
 title: Close-up terrain from Welsh Government LiDAR
 kind: guide
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Close-up terrain from Welsh Government LiDAR
@@ -63,10 +63,16 @@ Open Government Licence v3.0.* The catalogue's own silence is noted beside it in
    committed; `*.tif` is in `.gitignore` as a second guard). `build-lidar.py` records the name, size and
    SHA-256 of each in `public/data/lidar/lidar.json`, so a rebuild can be checked against these.
 
-The catalogue's `date` column and the date in the file name disagree for five tiles (SN6422, SN6022,
-SN6122, SN6222, SN6322); the manifest keeps both (`surveyDate`, `fileDate`). The file names date the tiles
-December 2021 to February 2022; the catalogue's dates run from 2 December 2021 to 13 January 2022. Which
-is the flight date is not known, so the credit says "dated ... in their file names".
+The catalogue's `date` column and the date in the file name disagree for 16 of the 25 tiles (checked
+2026-10-10 from `surveyDate` and `fileDate` in the manifest, which keeps both). Ten differ by one day, the
+file name a day before the catalogue (SN6023, SN6024, SN6123, SN6124, SN6223, SN6224, SN6323, SN6324,
+SN6423, SN6424: file 1 December 2021, catalogue 2 December), which fits flights just after midnight, not
+checked against the catalogue's start times. SN6421 differs by one day the other way (catalogue 12 January
+2022, file 13 January). Five differ by weeks: SN6022, SN6122, SN6222 and SN6322 (catalogue 13 January 2022,
+file 22 February) and SN6422 (catalogue 2 December 2021, file 12 January). (An earlier version of this
+note said five.) The file names date the tiles December 2021 to February 2022; the catalogue's dates run
+from 2 December 2021 to 13 January 2022. Which is the flight date is not known, so the credit says
+"dated ... in their file names".
 
 ## The tiles
 

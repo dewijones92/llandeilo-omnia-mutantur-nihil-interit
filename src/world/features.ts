@@ -107,10 +107,12 @@ export class FeatureLayer {
     for (const m of this.buildings.meshes) world.addCaster(m);
     world.addLamp(this.buildings.windowMaterial);
     world.addLamp(this.buildings.halos.material);
+    const onGround = (lines: readonly MapLine[]): MapLine[] =>
+      lines.map((l) => ({ ...l, points: world.terrain.lineOnGround(l.points) }));
     this.roads = lineRibbons(
       scene,
       'roads',
-      roads,
+      onGround(roads),
       this.ground,
       (k) => (k === 'A' ? 1.6 : k === 'B' ? 1.1 : 0.8),
       '#b9b6ae',
@@ -122,7 +124,8 @@ export class FeatureLayer {
     world.addLamp(this.streetLamps.halos.material);
     const main = longestLine(railways);
     this.trainLine = main;
-    this.train = main ? new Train(scene, main, this.ground, trainModels) : undefined;
+    const [mainOnGround] = main ? onGround([main]) : [];
+    this.train = mainOnGround ? new Train(scene, mainOnGround, this.ground, trainModels) : undefined;
     const started = performance.now();
     const covered = coveredFootprints(features, footprints);
     const visible = (order: Int32Array): Int32Array => order.filter((i) => !covered.has(i));
@@ -131,7 +134,15 @@ export class FeatureLayer {
       const { x, z } = toWorld(f.at);
       if (f.kind.type === 'railway') {
         const lines = sectionLines(railways, f.kind.section);
-        const mesh = lineRibbons(scene, `rail-${f.id}`, lines, this.ground, () => 1.1, '#6d655c', 0.35);
+        const mesh = lineRibbons(
+          scene,
+          `rail-${f.id}`,
+          onGround(lines),
+          this.ground,
+          () => 1.1,
+          '#6d655c',
+          0.35,
+        );
         mesh.isVisible = false;
         this.rails.set(f.id, mesh);
         console.info(

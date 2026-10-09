@@ -1,6 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
 import { PLACES } from '../src/content/places.ts';
-import { toWorld } from '../src/domain/geo.ts';
+import { toWorld, WORLD } from '../src/domain/geo.ts';
+import { RIM_SPACING } from '../src/domain/lidar.ts';
+import lidar from '../public/data/lidar/lidar.json' with { type: 'json' };
 
 interface DetailStats {
   readonly tiles: number;
@@ -19,6 +21,8 @@ interface Seam {
   readonly detailVertices: number;
   readonly maxGap: number;
   readonly unmatched: number;
+  readonly baseInside: number;
+  readonly rimEdges: number;
 }
 
 function isRecord(v: unknown): v is Record<string, unknown> {
@@ -71,6 +75,8 @@ async function seam(page: Page): Promise<Seam> {
     detailVertices: num(s, 'detailVertices'),
     maxGap: num(s, 'maxGap'),
     unmatched: num(s, 'unmatched'),
+    baseInside: num(s, 'baseInside'),
+    rimEdges: num(s, 'rimEdges'),
   };
 }
 
@@ -154,6 +160,9 @@ test('the detail meets the coarse terrain along the rim without a gap', async ({
   expect(s.detailVertices).toBeGreaterThan(1000);
   expect(s.unmatched).toBe(0);
   expect(s.maxGap).toBeLessThan(0.001);
+  const { eMin, eMax, nMin, nMax } = lidar.region;
+  expect(s.baseInside).toBe(0);
+  expect(s.rimEdges).toBe((2 * (eMax - eMin + (nMax - nMin))) / RIM_SPACING);
 });
 
 test('a period change to the ground rebuilds only the tiles under it and leaves the base alone', async ({
@@ -215,7 +224,24 @@ test('a period change to the ground rebuilds only the tiles under it and leaves 
       Reflect.apply(set, terrain, [withRidge ? [edit] : []]);
     }, on);
 
+  const asked = (): Promise<number> =>
+    page.evaluate(
+      ([e, n]) => {
+        const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+        const terrain: unknown =
+          typeof debug === 'object' && debug ? Reflect.get(debug, 'terrain') : undefined;
+        const metres: unknown =
+          typeof terrain === 'object' && terrain ? Reflect.get(terrain, 'heightMetres') : undefined;
+        if (typeof metres !== 'function') throw new Error('no heightMetres');
+        const answer: unknown = Reflect.apply(metres, terrain, [{ e, n }]);
+        if (typeof answer !== 'number') throw new Error('heightMetres did not answer a number');
+        return answer;
+      },
+      [ridge.e, ridge.n] as const,
+    );
+
   const before = await surface();
+  const askedBefore = await asked();
   expect(before).toBeGreaterThan(0);
   expect(Number.isFinite(before)).toBe(true);
   const builds = (await detail(page)).builds;
@@ -224,10 +250,94 @@ test('a period change to the ground rebuilds only the tiles under it and leaves 
   const raised = await surface();
   expect(raised - before).toBeGreaterThan(0.7);
   expect(raised - before).toBeLessThan(0.74);
+  // What everything that stands on the ground asks (`heightMetres`) rises by the edit's 3m too. Objects
+  // already placed at start, such as the roads and trees, do not move with it yet (ADR 0048, decision 8).
+  expect((await asked()) - askedBefore).toBeCloseTo(3, 1);
   const rebuilt = (await detail(page)).builds - builds;
   expect(rebuilt).toBeGreaterThanOrEqual(1);
   expect(rebuilt).toBeLessThan(8);
   await setEdits(false);
   await expect.poll(async () => (await detail(page)).stale, { timeout: 60_000 }).toBe(0);
   expect(Math.abs((await surface()) - before)).toBeLessThan(0.001);
+  expect(Math.abs((await asked()) - askedBefore)).toBeLessThan(0.001);
+});
+
+test('a road laid through the 2m ground follows it between its vertices', async ({ page }) => {
+  await ready(page, './?debug&year=2020&hour=12&season=summer&place=llandeilo&radius=60');
+  const { eMin, eMax, nMin, nMax } = lidar.region;
+  const margin = 300;
+  const legs = await page.evaluate(
+    ([e0, e1, n0, n1, cE, cN, mpu]) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const scene: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'scene') : undefined;
+      const terrain: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'terrain') : undefined;
+      if (typeof scene !== 'object' || !scene || typeof terrain !== 'object' || !terrain)
+        throw new Error('no scene or terrain');
+      const getMesh: unknown = Reflect.get(scene, 'getMeshByName');
+      const surfaceAt: unknown = Reflect.get(terrain, 'surfaceAt');
+      if (typeof getMesh !== 'function' || typeof surfaceAt !== 'function') throw new Error('no hooks');
+      const mesh: unknown = Reflect.apply(getMesh, scene, ['roads']);
+      if (typeof mesh !== 'object' || !mesh) throw new Error('no roads mesh');
+      const getData: unknown = Reflect.get(mesh, 'getVerticesData');
+      const getIndices: unknown = Reflect.get(mesh, 'getIndices');
+      if (typeof getData !== 'function' || typeof getIndices !== 'function') throw new Error('no mesh hooks');
+      const positions: unknown = Reflect.apply(getData, mesh, ['position']);
+      const indices: unknown = Reflect.apply(getIndices, mesh, []);
+      const numbers = (v: unknown): ArrayLike<number> | undefined => {
+        if (v instanceof Float32Array || v instanceof Uint32Array || v instanceof Uint16Array) return v;
+        if (v instanceof Int32Array) return v;
+        return Array.isArray(v) ? v.filter((x): x is number => typeof x === 'number') : undefined;
+      };
+      const pos = numbers(positions);
+      const idx = numbers(indices);
+      if (!pos || !idx) throw new Error('no road geometry');
+      const at = (i: number): [number, number, number] => [
+        pos[i * 3] ?? 0,
+        pos[i * 3 + 1] ?? 0,
+        pos[i * 3 + 2] ?? 0,
+      ];
+      const inner = (x: number, z: number): boolean => {
+        const e = cE + x * mpu;
+        const n = cN + z * mpu;
+        return e > e0 && e < e1 && n > n0 && n < n1;
+      };
+      let count = 0;
+      let longest = 0;
+      let lowest = Number.POSITIVE_INFINITY;
+      for (let k = 0; k + 5 < idx.length; k += 6) {
+        const a = at(idx[k] ?? 0);
+        const b = at(idx[k + 1] ?? 0);
+        const c = at(idx[k + 2] ?? 0);
+        const d = at(idx[k + 4] ?? 0);
+        const from = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2] as const;
+        const to = [(c[0] + d[0]) / 2, (c[1] + d[1]) / 2, (c[2] + d[2]) / 2] as const;
+        if (!inner(from[0], from[2]) || !inner(to[0], to[2])) continue;
+        count++;
+        longest = Math.max(longest, Math.hypot(to[0] - from[0], to[2] - from[2]) * mpu);
+        for (let q = 1; q < 8; q++) {
+          const f = q / 8;
+          const x = from[0] + (to[0] - from[0]) * f;
+          const z = from[2] + (to[2] - from[2]) * f;
+          const ribbon = from[1] + (to[1] - from[1]) * f;
+          const ground: unknown = Reflect.apply(surfaceAt, terrain, [x, z]);
+          if (typeof ground === 'number') lowest = Math.min(lowest, ribbon - ground);
+        }
+      }
+      return { count, longest, lowest };
+    },
+    [
+      eMin + margin,
+      eMax - margin,
+      nMin + margin,
+      nMax - margin,
+      WORLD.centre.e,
+      WORLD.centre.n,
+      WORLD.metresPerUnit,
+    ] as const,
+  );
+  // The ribbon is laid 0.3 units above the ground at its vertices; between them it may dip a little
+  // but never into the ground. Before the legs were split, one 551m leg lay 3.7m under it.
+  expect(legs.lowest).toBeGreaterThan(0.1);
+  expect(legs.longest).toBeLessThan(5);
+  expect(legs.count).toBeGreaterThan(1500);
 });

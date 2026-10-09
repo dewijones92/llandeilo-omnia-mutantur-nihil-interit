@@ -6,6 +6,7 @@ import { heightToWorld, toGrid, WORLD } from '../domain/geo.ts';
 import { sampleHeight, type Heightfield } from '../domain/heightfield.ts';
 import {
   insideBounds,
+  LOD_STEPS,
   RIM_SPACING,
   RimProfile,
   rimDistance,
@@ -13,12 +14,11 @@ import {
   type Eye,
 } from '../domain/lidar.ts';
 import type { GridRef } from '../domain/model.ts';
-import { seasonKey, snowCover, type SeasonLook } from '../domain/daylight.ts';
-import { fbm, hash2, rng } from '../domain/noise.ts';
-import { densify } from '../domain/polyline.ts';
+import { hash2, rng } from '../domain/noise.ts';
+import { densify, densifyWhere } from '../domain/polyline.ts';
 import { carveChannel, RiverIndex } from '../domain/rivers.ts';
 import { applyEdits, checkEdit, editsKey, type GroundEdit } from '../domain/groundedit.ts';
-import { onRim, rimGap, type RimBox, type SeamReport } from '../domain/seam.ts';
+import { onRim, rimGap, rimTopology, type RimBox, type SeamReport } from '../domain/seam.ts';
 import type { Environment } from '../domain/state.ts';
 import { Surface } from '../domain/surface.ts';
 import { DetailTerrain, type DetailStats } from './detail-terrain.ts';
@@ -196,6 +196,13 @@ export class Terrain {
     return this.cover[tri] ?? 0;
   }
 
+  // The line with a point every mesh step inside the LiDAR region, so a ribbon laid along it follows the
+  // ground between its vertices rather than cutting a straight chord through the bumps.
+  lineOnGround(points: readonly GridRef[]): GridRef[] {
+    const region = this.ground.manifest.region;
+    return densifyWhere(points, LOD_STEPS[0] ?? 4, (g) => insideBounds(region, g));
+  }
+
   inDetail(x: number, z: number): boolean {
     return insideBounds(this.ground.manifest.region, toGrid({ x, z }));
   }
@@ -213,16 +220,24 @@ export class Terrain {
     const positions = this.mesh.getVerticesData(VertexBuffer.PositionKind);
     const indices = this.mesh.getIndices();
     const base: number[] = [];
+    const corners: number[] = [];
     if (positions && indices) {
       for (const v of indices) {
         const x = positions[v * 3] ?? 0;
+        const y = positions[v * 3 + 1] ?? 0;
         const z = positions[v * 3 + 2] ?? 0;
-        if (onRim(box, x, z)) base.push(x, positions[v * 3 + 1] ?? 0, z);
+        corners.push(x, y, z);
+        if (onRim(box, x, z)) base.push(x, y, z);
       }
     }
-    const report = rimGap(box, base, this.detail.rimVertices(box));
+    const topology = rimTopology(box, corners);
+    const report: SeamReport = {
+      ...rimGap(box, base, this.detail.rimVertices(box)),
+      baseInside: topology.inside,
+      rimEdges: topology.rimEdges,
+    };
     console.info(
-      `dewidebug terrain seam base=${String(report.baseVertices)} detail=${String(report.detailVertices)} maxGap=${report.maxGap.toFixed(4)} unmatched=${String(report.unmatched)}`,
+      `dewidebug terrain seam base=${String(report.baseVertices)} detail=${String(report.detailVertices)} maxGap=${report.maxGap.toFixed(4)} unmatched=${String(report.unmatched)} baseInside=${String(report.baseInside)} rimEdges=${String(report.rimEdges)}`,
     );
     return report;
   }

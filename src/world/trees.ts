@@ -10,8 +10,8 @@ import {
   type Scene,
 } from './babylon.ts';
 import { snowCover, type SeasonLook } from '../domain/daylight.ts';
-import { hash2 } from '../domain/noise.ts';
 import { MAX_TREE_DENSITY } from '../domain/quality.ts';
+import { leafRolls, treeSeed, treeTraits } from '../domain/tree.ts';
 import { COVER_CODE } from './landcover.ts';
 import type { Terrain } from './terrain.ts';
 
@@ -19,6 +19,7 @@ type Rgb3 = readonly [number, number, number];
 
 interface Candidate {
   readonly tri: number;
+  readonly seed: number;
   readonly x: number;
   readonly z: number;
   // Uniform in [0, 1): the tree is drawn when this is below the quality's tree density.
@@ -64,11 +65,11 @@ function treeColour(c: Candidate, look: SeasonLook): Rgb3 {
   if (c.conifer) {
     base = CONIFER;
   } else {
-    const r = hash2(c.tri, 71, 3);
+    const roll = leafRolls(c.seed);
     const leaf = look.season === 'spring' ? LEAF.spring : LEAF.summer;
-    if (r < look.bare) base = BARE;
-    else if (r < look.bare + look.turned * (1 - look.bare)) base = pick(AUTUMN, hash2(c.tri, 72, 5), leaf);
-    else if (hash2(c.tri, 73, 7) < look.blossom) base = pick(BLOSSOM, hash2(c.tri, 74, 2), leaf);
+    if (roll.season < look.bare) base = BARE;
+    else if (roll.season < look.bare + look.turned * (1 - look.bare)) base = pick(AUTUMN, roll.autumn, leaf);
+    else if (roll.blossom < look.blossom) base = pick(BLOSSOM, roll.blossomPick, leaf);
     else base = leaf;
   }
   const shaded: Rgb3 = [base[0] * c.shade, base[1] * c.shade, base[2] * c.shade];
@@ -94,32 +95,30 @@ export class Forest {
     const list: Candidate[] = [];
     const t = terrain.tris;
     for (let i = 0; i < t.count; i++) {
-      const r = hash2(i, 91, 5);
-      if (r >= MAX_TREE_DENSITY) continue;
-      const scale = 1.5 + hash2(i, 17, 2) * 0.9;
-      const rot = Quaternion.RotationAxis(Vector3.Up(), hash2(i, 3, 9) * Math.PI * 2);
-      const jx = (hash2(i, 5, 1) - 0.5) * 3;
-      const jz = (hash2(i, 6, 1) - 0.5) * 3;
-      const x = (t.cx[i] ?? 0) + jx;
-      const z = (t.cz[i] ?? 0) + jz;
+      const seed = treeSeed(t.cx[i] ?? 0, t.cz[i] ?? 0);
+      const traits = treeTraits(seed);
+      if (traits.rank >= MAX_TREE_DENSITY) continue;
+      const rot = Quaternion.RotationAxis(Vector3.Up(), traits.spin);
+      const x = (t.cx[i] ?? 0) + traits.jitterX;
+      const z = (t.cz[i] ?? 0) + traits.jitterZ;
       const y = terrain.inDetail(x, z) ? terrain.surfaceAt(x, z) : (t.cy[i] ?? 0);
       const m = Matrix.Compose(
-        new Vector3(scale, scale * (0.9 + hash2(i, 8, 3) * 0.35), scale),
+        new Vector3(traits.scale, traits.scale * traits.tallness, traits.scale),
         rot,
         new Vector3(x, y - 0.3, z),
       );
-      const shade = 0.75 + hash2(i, 12, 4) * 0.35;
       const heightM = t.heightM[i] ?? 0;
-      const conifer = heightM > 330 || hash2(i, 44, 8) > 0.9;
+      const conifer = heightM > 330 || traits.coniferRoll > 0.9;
       const arr = new Float32Array(16);
       m.copyToArray(arr);
       list.push({
         tri: i,
+        seed,
         x,
         z,
-        rank: r,
+        rank: traits.rank,
         matrix: arr,
-        shade,
+        shade: traits.shade,
         conifer,
         heightM,
         north: t.north[i] ?? 0,

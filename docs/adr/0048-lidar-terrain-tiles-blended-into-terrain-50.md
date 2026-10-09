@@ -2,13 +2,14 @@
 title: "ADR 0048: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart"
 kind: adr
 status: accepted
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # ADR 0048: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart
 
 - **Status:** Accepted, extends [ADR 0009](0009-terrain-os-terrain50-low-poly.md)
-- **Date:** 2026-10-09
+- **Date:** 2026-10-09; amended 2026-10-10 (the review's findings, and the merge with main, which took ADRs
+  0041 to 0047: this was 0041 on its branch and became 0048)
 - **Decided by:** Claude, under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
   so Dewi can overrule it. Dewi agreed the work itself (GitHub issue 2, 2026-10-09) and said to credit
   the source and not chase licence problems; every design choice below is Claude's.
@@ -48,6 +49,16 @@ eased in from the rim over 300m (`DetailGround.metresAt`, `rimWeight`), with riv
 (`carveChannel`) and the period's ground edits laid over (below). Buildings, trees, features, labels,
 roads, people and rivers all ask it (`heightAt`, `surfaceAt`, `inDetail`); the trees that stood on
 triangle centroids use it inside the region. No place or era has its own path.
+
+A ribbon laid along a line (a road, a railway section, the train's path, a fort's ditch or road) takes the
+ground's height only at its vertices and runs straight between them, so over OS road legs hundreds of
+metres long it cut through the 2m ground (found by the review: 10 of 162 road legs in the region had
+ground above them, the worst by 3.7m over a 551m leg). `Terrain.lineOnGround` therefore adds a point
+every 4m, the finest mesh step, to any line inside the region (`densifyWhere`, in the one polyline
+helper of [ADR 0043](0043-one-polyline-helper.md)), and the fort ribbons use the same step. Outside the
+region lines are as before. Street lamps are points, each standing on the ground at its own place, so
+they need nothing. Between the 4m points the ribbon can still differ from the drawn mesh, which is
+triangulated its own way, by the 0.3m or so the check below allows for.
 
 **3. A hole that is watertight.** The coarse mesh gets points every 40m along the rim of the region and
 drops its own points within 22m of it (the Gabriel condition), so every rim segment is an edge of the
@@ -99,8 +110,21 @@ checks each edit lies inside the region and 300m clear of its rim (`checkEdit`),
 for everything that asks the height, and marks only the tiles under the edits' areas stale, which rebuild
 under the same budget. Taking the edits off restores the base exactly (tested, e2e). **Nothing feeds it
 yet:** wiring the edits to the timeline (`snapshotAt` filtering them by year, and the guess game's
-same-scene rule treating a changed ground as a change of scene) belongs with the Roman fort work (issue
-3), which is their first user.
+same-scene rule treating a changed ground as a change of scene) is still to do. The Roman forts of issue 3
+landed on main ([ADR 0046](0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md))
+without using it: their ditches and banks are drawn as ribbons and parts laid on the base ground, so on
+the LiDAR they follow the real ridge but do not reshape it.
+
+**What an edit does and does not move.** `Terrain.setGroundEdits` changes the answer to `heightAt`,
+`heightMetres`, `surfaceAt` and the drawn detail meshes, and nothing else. Everything placed once at start
+keeps the height it was given: building meshes, road and rail ribbons, tree matrices (and the cover filter
+that decides which trees show, which runs only when the environment changes), people, labels, feature
+models and river levels. A 3m rampart edit under a road leaves the road buried, and a `level` platform
+leaves the buildings on it floating. The review found this and the first wording ("laid over the base for
+everything that asks the height") read as if it were finished. Making it so needs `Terrain` to publish a
+change, and the features layer, `Forest` and the water to subscribe and re-place what lies inside the
+edited areas; that is the first piece of work when an edit is first used. The e2e test checks the
+detail mesh and the `heightMetres` answer move by exactly the edit's height, not a placed object.
 
 **9. Rivers.** The water ribbons' levels are the lowest LiDAR ground near the line; the detail mesh is
 cut to those levels across the channel and eased back up over a 20m bank (`RiverIndex.channelAt`,
@@ -109,19 +133,35 @@ at the rim.
 
 ## Consequences
 
-- The town and forts have real ground: roads follow it, buildings sit on it, the Tywi has banks. At
+- The town and forts have real ground: roads follow it (vertex by vertex at the 4m step, checked between
+  vertices by the e2e road test), buildings sit on it, the Tywi has banks. At
   the overview the region is indistinguishable from before (no seam, measured above). Outside it the
   ground and its land cover are the same except that the coarse mesh gained 450 rim points and lost the
   points within 22m of the rim, so its triangle count went from 153,944 to 154,694 and the percentile
   ranks that decide cover in eras without the woodland map shifted by up to 0.14%: a few hundred of
   the triangles far from the region may change cover (about 0.2%, scattered; found by the review).
+  The first version also moved **every tree on the map**, which the review measured (0 of 44,901 trees
+  more than 500m outside the region kept their position): a tree's size, spin, offset, shade, conifer flag
+  and autumn colours came from `hash2` of its triangle's index, and adding and dropping points renumbers
+  the Delaunay triangles. A tree's identity now comes from where its triangle is (`treeSeed` in
+  `src/domain/tree.ts`, from the rounded centroid), so an unchanged triangle keeps its tree whatever the
+  triangulation does elsewhere, and a later widening of the region will not reshuffle the forest again.
+  The trees on triangles that really did change (those within about 70m of the rim) differ from before.
 - Cost, measured on the RTX 2000 Ada laptop GPU through WSL, 1920x1080, uncapped, in `?debug`: `node tools/frames.mjs <url> <dir> --perf --uncapped`, the town at 400m from the camera in 2020: idle 110 to 124fps against 139 to 175 before, orbiting 66 to 69 against 68 to 81, the slider scrub 41 to 47 against 58 to 77, with about 290,000 more triangles drawn (13 tiles at 10m, 4 at 4m, 63 at 20m). At the 1903 overview idle was 92 to 129 against 164 to 171. The laptop was shared with other agents' test runs (load average 15 to 18), so a figure moves by a third between runs: read it as about a quarter less when idle and about the same orbiting. With vsync on both hold 60.
   Start-up fetches two more files (the 2.95MB data file and the manifest) and builds and paints 80 meshes: from the page loading to ready took 12.9 to 13.1s against 11.5 to 14.7s before, within the noise of that load; settling all 80 tiles at start was 1.7 to 2.3s of it.
 - The detail mesh is flat at 4m: the fort's banks (a metre or so high and a few metres wide) show as
   slight ridges, not as crisp earthworks. A 2m mesh, or a terrain shader, is the way to more.
+- The height asked of the ground (`heightAt`, from the 2m data) is not the height of the mesh drawn, which
+  is triangulated at 4, 10 or 20m. The review compared them over all 21 tiles at 2m: at a 20m step the
+  mean gap is 0.18m, the 99th percentile 1.5m and the worst 7.5m; at 10m the 99th percentile is 0.8m and
+  the worst 6.7m; at 4m the 99th percentile is 0.29m. In real metres; drawn heights are 2.4 times larger.
+  So buildings and trees placed once on the 2m heights can float or sink a little where the tile is drawn
+  coarse, which is at overview distance, where it does not show. The coarse tiles are the ones seen from
+  far away, so this is accepted; snapping placement to the coarsest step a tile can be drawn at would be
+  the fix if it ever shows.
 - The DTM keeps some tree clumps and walls. They are what the LiDAR measured; none is removed.
 - The vertical datum and accuracy are not stated by the publisher; Terrain 50 is the only check.
-- Ground edits are built and tested but empty; the data to feed them comes with issue 3.
+- Ground edits are built and tested but empty, and consumers placed at start do not follow them (decision 8).
 - Block colours are 10m squares: where two covers meet the edge is a stair step at 4m facets. Smaller
   blocks or per-triangle scoring would smooth it, at four times the repaint.
 

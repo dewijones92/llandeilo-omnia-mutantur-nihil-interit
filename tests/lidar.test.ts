@@ -12,6 +12,8 @@ import {
   tileData,
   tileKey,
 } from '../src/domain/lidar.ts';
+import { LIDAR_CREDIT } from '../src/content/generated/lidar-credit.ts';
+import lidarJson from '../public/data/lidar/lidar.json';
 
 const dir = join(import.meta.dirname, '..', 'public', 'data');
 const manifest = parseManifest(JSON.parse(readFileSync(join(dir, 'lidar', 'lidar.json'), 'utf8')));
@@ -23,6 +25,11 @@ const ground = new DetailGround(manifest, data);
 const name = (t: { e: number; n: number }): string => tileKey(t.e, t.n);
 
 describe('the LiDAR tiles on disk', () => {
+  it('carry the credit the app shows, which build-lidar.py writes to one generated file', () => {
+    expect(lidarJson.source.credit).toBe(LIDAR_CREDIT);
+    expect(LIDAR_CREDIT).toContain('Open Government Licence');
+  });
+
   it('fill the data file exactly, one after another, each the size its step says', () => {
     let next = 0;
     for (const t of manifest.tiles) {

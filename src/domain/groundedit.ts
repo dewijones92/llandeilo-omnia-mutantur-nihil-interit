@@ -2,6 +2,7 @@ import { smoothstep } from './assert.ts';
 import type { Brand } from './brand.ts';
 import { insideBounds, rimDistance, type Bounds } from './lidar.ts';
 import type { GridRef } from './model.ts';
+import { distanceToSegment } from './polyline.ts';
 import type { Provenance } from './provenance.ts';
 import { contains, type TimeRange, type Year } from './time.ts';
 
@@ -51,11 +52,7 @@ function distanceToLine(line: readonly GridRef[], g: GridRef): number {
     const a = line[i];
     const b = line[i + 1] ?? a;
     if (!a || !b) continue;
-    const sx = b.e - a.e;
-    const sn = b.n - a.n;
-    const length2 = sx * sx + sn * sn;
-    const t = length2 === 0 ? 0 : Math.min(1, Math.max(0, ((g.e - a.e) * sx + (g.n - a.n) * sn) / length2));
-    best = Math.min(best, Math.hypot(g.e - (a.e + sx * t), g.n - (a.n + sn * t)));
+    best = Math.min(best, distanceToSegment(a, b, g));
   }
   return best;
 }

@@ -1,5 +1,6 @@
 import { lerp, smoothstep } from './assert.ts';
 import type { GridRef } from './model.ts';
+import { nearestOnSegment } from './polyline.ts';
 
 const CELL_M = 200;
 export const BANK_M = 20;
@@ -95,12 +96,7 @@ export class RiverIndex {
     for (let dx = -1; dx <= 1; dx++) {
       for (let dz = -1; dz <= 1; dz++) {
         for (const s of this.segments.get(cellKey(ce + dx, cn + dz)) ?? []) {
-          const sx = s.b.e - s.a.e;
-          const sn = s.b.n - s.a.n;
-          const length2 = sx * sx + sn * sn;
-          const t =
-            length2 === 0 ? 0 : Math.min(1, Math.max(0, ((e - s.a.e) * sx + (n - s.a.n) * sn) / length2));
-          const distance = Math.hypot(e - (s.a.e + sx * t), n - (s.a.n + sn * t));
+          const { t, distance } = nearestOnSegment(s.a, s.b, { e, n });
           const edge = distance - s.half;
           if (edge < bestEdge) {
             bestEdge = edge;
