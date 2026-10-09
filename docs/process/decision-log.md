@@ -132,3 +132,13 @@ with the full context and consequences.
 | The Victorian cholera almanac line is three entries: no case found before 1849 (a gap), the 1849 cases (documented, one report), no case found after 1849 (a gap, with Ystalyfera 1866 in the ⓘ) | One entry for the whole era showed 1849 in 1840 and labelled an unsearched absence “documented”. Decided by Claude under the proactive mandate (ADR 0027) for the review's finding |
 | Llandeilo's 1213 burning is drawn as a dark plume over the church, only at that step | The Brut records the burning, not where in the town or how it looked; the ⓘ says so ([ADR 0038](../adr/0038-recorded-burnings-are-dated-features.md)). Decided by Claude under the proactive mandate (ADR 0027) |
 | 1918 shows its recorded season (autumn) and no other scene change; the Armistice is not mentioned | Nothing in the existing model draws shut schools or empty chapels, and the ripples note's line on the Armistice cites no source. Decided by Claude under the proactive mandate (ADR 0027) |
+
+## 2026-10-09
+
+| Decision | Why |
+|---|---|
+| Issues #1 (Harries photographs), #2 (LiDAR terrain) and #3 (Roman fort and settlement) are triaged, answered on GitHub with the enhancement label, and all three agreed as work | Dewi, 2026-10-09: "Yes, post all three", and chose all three issues as work for the weekend |
+| The Roman fort is built detailed in the app, even where it stands out from the low-poly valley | Dewi, 2026-10-09, choosing "Detailed in the app" over a Blender source with a low-poly export and over the app look only |
+| Harries photographs are shown in the app where the licence allows, pinned to where each was taken with credit and an ⓘ; a photo with an unclear licence is a modelling reference only | Dewi, 2026-10-09: "Show in the app" |
+| When an issue's work ships in a release, Claude comments on the issue with the release link and leaves it open | Dewi, 2026-10-09: "Yes, comment with the link" |
+| Also queued for the weekend: conversations by class, in-world music and the hunter-gatherer scenes, a GPU terrain shader, the later trains and the landmark models | Dewi, 2026-10-09, picking all four from a list |
