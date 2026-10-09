@@ -623,3 +623,7 @@ Milestones and what each one taught us. Newest last.
    it as the page never becoming ready, which looks exactly like the known GPU load hang. Three runs
    went to it before the console showed the 404s. (3) Under SwiftShader a scene opened part-way with
    `?cutsceneAt=` runs on to its end while the page loads, so a screenshot of a moment needs the GPU.
+   (4) Merging main (the dark night, the battles) meant one real conflict: both sides had rewritten the
+   smoke layer, so `dust` became a fourth `SmokeStyle` in the dark night's look table, with a `lift`
+   field for where a plume starts. Main had also taken ADRs 0037 to 0040, so the cutscene ADRs became
+   0041 to 0043; a branch's ADR numbers are only provisional until it merges.
