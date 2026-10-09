@@ -19,6 +19,7 @@ export interface Photograph {
   readonly dated: string;
   readonly from: number;
   readonly to: number;
+  readonly dateNote: string;
   readonly creator: string;
   readonly credit: string;
   readonly catalogueId: string;
@@ -39,16 +40,18 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     id: 'harries-2281901',
     file: 'photos/harries/2281901.jpg',
     title: 'A photograph of St Teilo Church in the snow, Llandeilo, c. 1910',
-    dated: 'c. 1910',
-    from: 1905,
-    to: 1915,
+    dated: 'after 1918 (caption c. 1910)',
+    from: 1918,
+    to: 1930,
+    dateNote:
+      'Corrected 2026-10-09 (independent check): the caption says c. 1910, but a cinema poster in the picture reads “Charles Chaplin in Shoulder Arms”, a film released on 20 October 1918, so the photograph is no earlier than late 1918. The women’s cloche hats point to the 1920s; the upper limit of 1930 is a judgement from the hats, not a source.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2281901',
     catalogueId: 'PCW 2281901',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2281901',
     shows:
-      'A snow-covered road beside the churchyard wall, two men in long dark coats and caps (uniforms) standing in front of a large tree, the church tower behind, three people at the gate.',
+      'A snow-covered road beside the churchyard wall, two men in long dark coats and caps (uniforms) standing in front of a large tree, the church tower behind, three people at the gate. A cinema poster on the right reads “Charles Chaplin in Shoulder Arms” (a film of October 1918); the women wear cloche hats. (Corrected 2026-10-09 (independent check): the poster and hats were not read before.)',
     where: "Beside St Teilo's church, Llandeilo",
     status: 'ok',
     placement: {
@@ -64,16 +67,18 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     file: 'photos/harries/2281916.jpg',
     title:
       'A photograph taken on Rhosmaen Street looking towards Bridge Street, Llandeilo, by D C Harries, c. 1900',
-    dated: 'c. 1900',
-    from: 1895,
-    to: 1905,
+    dated: 'c. 1903-10 (caption c. 1900)',
+    from: 1903,
+    to: 1910,
+    dateNote:
+      'Corrected 2026-10-09 (independent check): the caption says c. 1900, but posters in the picture advertise Tariff Reform meetings with Henry Longstaff. The Tariff Reform League was formed in 1903, and Longstaff is reported as secretary of the South Wales Tariff Reform Federation in 1908 to 1910, so the picture is from 1903 to about 1910. The horse chestnut is in flower, so it was taken in May.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2281916',
     catalogueId: 'PCW 2281916',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2281916',
     shows:
-      'A narrow street opening out beside a large spreading tree, shops on the left (a "hairdressing saloon" board), boys standing in the road.',
+      'A narrow street opening out beside a large spreading tree, shops on the left (a "hairdressing saloon" board), boys standing in the road. Posters by the shop advertise Tariff Reform meetings with Henry Longstaff, a parish-church organ recital and Taliaris grazing to let; the horse chestnut is in flower. (Corrected 2026-10-09 (independent check): the posters were not read before.)',
     where: 'Rhosmaen Street, looking south towards Bridge Street',
     status: 'ok',
     placement: {
@@ -89,16 +94,18 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     file: 'photos/harries/2281931.jpg',
     title:
       'A photograph taken on Rhosmaen Street, Llandeilo, showing the crossing from New Road to Crescent Road, by D C Harries, c. 1920',
-    dated: 'c. 1920',
-    from: 1915,
-    to: 1925,
+    dated: 'after 1924 (caption c. 1920)',
+    from: 1924,
+    to: 1935,
+    dateNote:
+      'Corrected 2026-10-09 (independent check): the caption says c. 1920, but a petrol sign reads “R.O.P. Motor Spirit”, and Russian Oil Products was set up in 1924 (Grace’s Guide gives 1925), so the picture is no earlier than 1924. The upper limit of 1935 is a judgement from the cars and pumps, not a source.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2281931',
     catalogueId: 'PCW 2281931',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2281931',
     shows:
-      'A wide, empty road with a white centre line, a house with a bay window and ivy on the left, a garage with petrol pumps and a CENTRAL sign on the right.',
+      'A wide, empty road with a white centre line, a house with a bay window and ivy on the left, a garage with petrol pumps and a CENTRAL sign on the right. A COUNTY GARAGE sign and an R.O.P. Motor Spirit sign (Russian Oil Products, from 1924). (Corrected 2026-10-09 (independent check): the signs were not read before.)',
     where: 'Rhosmaen Street at the crossing from New Road to Crescent Road',
     status: 'ok',
     placement: {
@@ -106,7 +113,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       at: { e: 263042, n: 222555 },
       accuracyM: 30,
       basis: 'documented',
-      note: 'The caption names the crossing; placed at the OSM junction of Rhosmaen Street, New Road and Crescent Road (263042,222555), which the 1890s 25-inch map shows as the same junction.',
+      note: 'The caption names the crossing; placed at the OSM junction of Rhosmaen Street, New Road and Crescent Road (263042,222555), which the 1905-revised 25-inch map shows as the same junction.',
     },
   },
   {
@@ -117,6 +124,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1910',
     from: 1905,
     to: 1915,
+    dateNote:
+      'The date is the uploader’s caption (c. 1910), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries (item text: "possibly")',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2281961',
@@ -141,6 +150,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1910',
     from: 1905,
     to: 1915,
+    dateNote:
+      'The date is the uploader’s caption (c. 1910), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282051',
@@ -161,12 +172,15 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1910',
     from: 1905,
     to: 1915,
+    dateNote:
+      'The date is the uploader’s caption (c. 1910), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282066',
     catalogueId: 'PCW 2282066',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282066',
-    shows: 'The church and its tower under snow, with a lychgate and graveyard wall in the foreground.',
+    shows:
+      'The church and its tower under snow, with the churchyard gates, a lamp over them, and the graveyard wall in the foreground. (Corrected 2026-10-09 (independent check): it said “lychgate”, but the gates are iron between capped piers and nothing is roofed.)',
     where: "St Teilo's church, Llandeilo",
     status: 'ok',
     placement: {
@@ -184,13 +198,15 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1910',
     from: 1905,
     to: 1915,
+    dateNote:
+      'The date is the uploader’s caption (c. 1910), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282081',
     catalogueId: 'PCW 2282081',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282081',
     shows:
-      'A very large group of men in dark suits and hats (some in straw boaters) seated and standing on the steps in front of a stone chapel with Gothic windows and a pointed porch.',
+      'A very large group of men in dark suits and hats (some in straw boaters) seated and standing on the steps in front of a stone chapel with round-arched windows and a gabled porch inscribed “Welsh Calvinistic Methodist 1874”. (Corrected 2026-10-09 (independent check): it said Gothic windows and a pointed porch.)',
     where: 'Salem Methodist (Calvinistic Methodist) Chapel, New Road',
     status: 'ok',
     placement: {
@@ -208,6 +224,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'caption c. 1910',
     from: 1905,
     to: 1915,
+    dateNote:
+      'The date is the uploader’s caption (caption c. 1910), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282096',
@@ -227,16 +245,18 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     id: 'harries-2282111',
     file: 'photos/harries/2282111.jpg',
     title: 'A photograph of Llandilo Railway Station during the First World War, by D C Harries, c. 1918',
-    dated: 'c. 1918',
-    from: 1916,
-    to: 1920,
+    dated: '1914-1918',
+    from: 1914,
+    to: 1918,
+    dateNote:
+      'Corrected 2026-10-09 (independent check): the National Library of Wales holds the same photograph (People’s Collection Wales item 408896) dated 1914-1918, with the creator given as “Unknown”; the print’s own note reads “(World War One)”. People’s Collection Wales credits Harries for its copy and the NLW does not, so the attribution rests on that one record.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282111',
     catalogueId: 'PCW 2282111',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282111',
     shows:
-      'A dense crowd of men, women and children on a platform beside a train; a coach board reads LLANDILO; a handwritten note at the foot of the print is only partly legible.',
+      'A dense crowd of men, women and children on a platform beside a train; the station nameboard reads LLANDILO; a later note on the print reads “(World War One)”. The NLW holds the same photograph, creator unknown, as civilians waiting for a troop train. (Corrected 2026-10-09 (independent check): it said “coach board”.)',
     where: 'Llandeilo railway station, platform',
     status: 'ok',
     placement: {
@@ -254,6 +274,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1910',
     from: 1905,
     to: 1915,
+    dateNote:
+      'The date is the uploader’s caption (c. 1910), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282126',
@@ -268,7 +290,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       at: { e: 263340, n: 222580 },
       accuracyM: 60,
       basis: 'documented',
-      note: "The caption names the station; placed at Coflein's grid reference (263340,222580). The 1890s 25-inch map marks the station on the same spot.",
+      note: "The caption names the station; placed at Coflein's grid reference (263340,222580). The 1905-revised 25-inch map marks the station on the same spot.",
     },
   },
   {
@@ -278,14 +300,16 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1928',
     from: 1926,
     to: 1930,
+    dateNote:
+      'The date is the uploader’s caption (c. 1928), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282141',
     catalogueId: 'PCW 2282141',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282141',
     shows:
-      'A single-decker bus has gone through the parapet of a stone bridge and hangs over the edge; two men stand below beside the tall masonry, a corrugated shed to the right.',
-    where: 'Llandeilo Bridge (the Tywi bridge), north side',
+      'A single-decker bus has gone through the parapet of a stone bridge and hangs over the edge; two men stand below beside the tall masonry, a corrugated shed to the right. The bus is lettered AMMANFORD, which ties it to the Llandeilo to Ammanford bus accident the NLW describes. (Corrected 2026-10-09 (independent check): the lettering was not read before.)',
+    where: 'Llandeilo Bridge (the Tywi bridge)',
     status: 'ok',
     placement: {
       kind: 'placed',
@@ -302,13 +326,15 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1928',
     from: 1926,
     to: 1930,
+    dateNote:
+      'The date is the uploader’s caption (c. 1928), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282156',
     catalogueId: 'PCW 2282156',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282156',
     shows:
-      'The same accident from further back: the bus sits on the parapet above the arch, a crowd of onlookers along the top of the wall, a hillside seen through the arch.',
+      'The same accident from further back: the bus sits on the parapet above the arch, a crowd of onlookers along the top of the wall, a hillside seen through the arch. The bus is lettered AMMANFORD.',
     where: 'Llandeilo Bridge',
     status: 'ok',
     placement: {
@@ -326,6 +352,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1928',
     from: 1926,
     to: 1930,
+    dateNote:
+      'The date is the uploader’s caption (c. 1928), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282171',
@@ -350,21 +378,23 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1910',
     from: 1905,
     to: 1915,
+    dateNote:
+      'The date is the uploader’s caption (c. 1910), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282186',
     catalogueId: 'PCW 2282186',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282186',
     shows:
-      'A three-storey corner building in banded brick with fretted gables, with a family standing at the door. The same building is on a postcard dated by its inscription "1897" and lettered "Llandilo Post Office".',
+      'A three-storey corner building in banded brick with chequered-brick gables, inscribed LLANDILO POST OFFICE and 1897, with a family standing at the door. (Corrected 2026-10-09 (independent check): it said “fretted gables”.) The same building is on a postcard dated by its inscription "1897" and lettered "Llandilo Post Office".',
     where: 'The Post Office, Rhosmaen Street',
     status: 'ok',
     placement: {
       kind: 'placed',
-      at: { e: 263010, n: 222470 },
-      accuracyM: 60,
-      basis: 'reconstructed',
-      note: "Placed at today's OSM / OS Open Map Local post office (263006,222471 / 263013,222467). The 1890s map has the old P.O. about 40m further west (about 262965,222450), and nothing read confirms that the 1897 building is today's.",
+      at: { e: 262968, n: 222446 },
+      accuracyM: 25,
+      basis: 'documented',
+      note: "Corrected 2026-10-09 (independent check): it was placed at today's post office (263006,222471), on the other side of the street. The 1905-revised 25-inch map labels “P.O.” at the south-west corner of Rhosmaen Street and a lane, at about 262968,222446. The building is inscribed 1897 and is a corner building, and photo 2282411 shows it across the street from Harries's sign.",
     },
   },
   {
@@ -375,6 +405,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1920',
     from: 1915,
     to: 1925,
+    dateNote:
+      'The date is the uploader’s caption (c. 1920), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282201',
@@ -399,6 +431,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1920',
     from: 1915,
     to: 1925,
+    dateNote:
+      'The date is the uploader’s caption (c. 1920), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282216',
@@ -423,6 +457,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1920',
     from: 1915,
     to: 1925,
+    dateNote:
+      'The date is the uploader’s caption (c. 1920), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282231',
@@ -448,13 +484,15 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1910-20',
     from: 1910,
     to: 1920,
+    dateNote:
+      'The date is the uploader’s caption (c. 1910-20), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282246',
     catalogueId: 'PCW 2282246',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282246',
     shows:
-      'A road with a stone chapel gable and a larger chapel behind it, a line of mounted men and horses along the left-hand kerb.',
+      'Mounted soldiers in uniform drawn up along the kerb, an officer facing them, in front of a rendered hall with an inscribed pediment (the Drill Hall on the 1905-revised map, today’s Civic Hall), with Capel Newydd’s Gothic front behind. (Corrected 2026-10-09 (independent check): it said a chapel gable and mounted men.)',
     where: 'Crescent Road, between the Civic Hall and Capel Newydd',
     status: 'ok',
     placement: {
@@ -462,16 +500,18 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       at: { e: 263145, n: 222440 },
       accuracyM: 30,
       basis: 'documented',
-      note: 'The caption names both buildings; placed between OSM Capel Newydd (263146,222424) and the Victoria Jubilee Civic Hall (263143,222454).',
+      note: 'The caption names both buildings (the hall is the Drill Hall on the 1905-revised map); placed between OSM Capel Newydd (263146,222424) and the Victoria Jubilee Civic Hall (263143,222454).',
     },
   },
   {
     id: 'harries-2282261',
     file: 'photos/harries/2282261.jpg',
     title: 'A photograph of the White Hart Inn on Carmarthen Road in Llandeilo, by D C Harries, c. 1900',
-    dated: 'c. 1900',
+    dated: 'c. 1900 (clothes look 1920s)',
     from: 1895,
-    to: 1905,
+    to: 1930,
+    dateNote:
+      'Corrected 2026-10-09 (independent check): the caption says c. 1900, but a woman’s knee-length drop-waist dress and bobbed hair, and a man’s wide trousers, look like the mid to late 1920s. The range is widened to run from the caption’s date to 1930; which is right is not settled. Claude under the proactive mandate (ADR 0027).',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282261',
@@ -486,7 +526,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       at: { e: 262351, n: 223015 },
       accuracyM: 30,
       basis: 'documented',
-      note: 'The caption names the inn; the OSM pub is at 262351,223015 and the 1890s 25-inch map marks "White Hart (P.H.)" at about 262353,223003.',
+      note: 'The caption names the inn; the OSM pub is at 262351,223015 and the 1905-revised 25-inch map marks "White Hart (P.H.)" at about 262353,223003.',
     },
   },
   {
@@ -497,6 +537,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1900',
     from: 1895,
     to: 1905,
+    dateNote:
+      'The date is the uploader’s caption (c. 1900), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282276',
@@ -521,13 +563,15 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1900',
     from: 1895,
     to: 1905,
+    dateNote:
+      'The date is the uploader’s caption (c. 1900), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282291',
     catalogueId: 'PCW 2282291',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282291',
     shows:
-      'A three-storey rendered building with pedimented windows, a round-arched doorway and a child at the door.',
+      'A two-storey rendered building with attic dormers, pedimented windows, a round-arched doorway and two children at the door. (Corrected 2026-10-09 (independent check): it said three storeys and one child.)',
     where: 'Abbeyfield (Abbeyfield House, no. 1 George Street, formerly the George Hotel)',
     status: 'ok',
     placement: {
@@ -545,6 +589,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1900',
     from: 1895,
     to: 1905,
+    dateNote:
+      'The date is the uploader’s caption (c. 1900), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282306',
@@ -559,7 +605,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       at: { e: 262690, n: 222475 },
       accuracyM: 60,
       basis: 'reconstructed',
-      note: 'The caption names the hotel. OSM has no building of that name, but a substation named for it at 262681,222484 and the pub "Yr Hen Vic" at 262708,222475; the 1890s map has "Victoria Inn" at about 262646,222457. Placed between them.',
+      note: 'The caption names the hotel. OSM has no building of that name, but a substation named for it at 262681,222484 and the pub "Yr Hen Vic" at 262708,222475; the 1905-revised map has "Victoria Inn" at about 262646,222457. Placed between them.',
     },
   },
   {
@@ -570,6 +616,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1910-20',
     from: 1910,
     to: 1920,
+    dateNote:
+      'The date is the uploader’s caption (c. 1910-20), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282321',
@@ -584,16 +632,18 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       at: { e: 262800, n: 221550 },
       accuracyM: 500,
       basis: 'reconstructed',
-      note: "The caption says only Ffairfach. Placed at Ffairfach beside Llandilo Bridge station on the 1890s map; the factory's site was not found.",
+      note: "The caption says only Ffairfach. Placed at Ffairfach beside Llandilo Bridge station on the 1905-revised map; the factory's site was not found. A lead the first pass missed: Coflein NPRN 300568, the CWS creamery on Heol Cennen, Ffairfach (SN 62877 21121), about 430 m south, but nothing read shows it is this building.",
     },
   },
   {
     id: 'harries-2282336',
     file: 'photos/harries/2282336.jpg',
     title: 'A photograph inside the Market Hall in Llandeilo, Carmarthen Street, by D C Harries, c. 1900',
-    dated: 'c. 1900',
+    dated: 'c. 1900 (clothes look 1920s)',
     from: 1895,
-    to: 1905,
+    to: 1930,
+    dateNote:
+      'Corrected 2026-10-09 (independent check): the caption says c. 1900, but many women in the crowd wear cloche hats, which were popular from about 1922 to 1933. The range is widened to run from the caption’s date to 1930; which is right is not settled. Claude under the proactive mandate (ADR 0027).',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282336',
@@ -608,7 +658,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       at: { e: 262760, n: 222450 },
       accuracyM: 60,
       basis: 'documented',
-      note: 'The caption names the market hall; Coflein\'s reference for the Provisions Market is SN 62760 22450. Coflein says the market was moved from King Street to this site on a date it does not give, and the 1890s map labels a "Market" about 70m to the west-north-west, so which site stood in c. 1900 is not settled.',
+      note: 'The caption names the market hall; Coflein\'s reference for the Provisions Market is SN 62760 22450. Coflein says the market was moved from King Street to this site on a date it does not give, and the 1905-revised map labels a "Market" about 70m to the west-north-west, so which site stood in c. 1900 is not settled.',
     },
   },
   {
@@ -619,6 +669,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1900',
     from: 1895,
     to: 1905,
+    dateNote:
+      'The date is the uploader’s caption (c. 1900), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282351',
@@ -633,7 +685,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       at: { e: 263160, n: 222850 },
       accuracyM: 120,
       basis: 'reconstructed',
-      note: 'On the 1890s 25-inch map "Station Road" is the road north from Railway Terrace (today\'s Rhosmaen Street north of the town). Placed on it; the building\'s plot is not found.',
+      note: 'On the 1905-revised 25-inch map "Station Road" is the road north from Railway Terrace (today\'s Rhosmaen Street north of the town). Placed on it; the building\'s plot is not found.',
     },
   },
   {
@@ -643,6 +695,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1900',
     from: 1895,
     to: 1905,
+    dateNote:
+      'The date is the uploader’s caption (c. 1900), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282366',
@@ -667,6 +721,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1910',
     from: 1905,
     to: 1915,
+    dateNote:
+      'The date is the uploader’s caption (c. 1910), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282381',
@@ -686,6 +742,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1900',
     from: 1895,
     to: 1905,
+    dateNote:
+      'The date is the uploader’s caption (c. 1900), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282396',
@@ -707,16 +765,18 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     id: 'harries-2282411',
     file: 'photos/harries/2282411.jpg',
     title: "A photograph of Rhosmaen Street, Llandeilo, showing D C Harries' Studio, c. 1900",
-    dated: 'c. 1900',
-    from: 1895,
+    dated: 'c. 1900 (not before 1897)',
+    from: 1897,
     to: 1905,
+    dateNote:
+      'Corrected 2026-10-09 (independent check): the caption says c. 1900, but the Post Office inscribed 1897 stands on the right of the picture, so it is no earlier than 1897.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282411',
     catalogueId: 'PCW 2282411',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282411',
     shows:
-      'A street receding, a hanging sign reading D. C. HARRIES on the building at the left, a man and a dog in the road, shops and a rendered terrace beyond.',
+      'A street receding, a hanging sign reading D. C. HARRIES on the building at the left, a man and a dog in the road, shops and a rendered terrace beyond; the banded-brick Post Office of 1897 stands across the street on the right. (Corrected 2026-10-09 (independent check): the Post Office was not noticed before.)',
     where: "Rhosmaen Street, at D C Harries' studio",
     status: 'ok',
     placement: {
@@ -724,7 +784,7 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
       at: { e: 262960, n: 222400 },
       accuracyM: 100,
       basis: 'reconstructed',
-      note: 'The caption and the sign in the photograph show the studio is on Rhosmaen Street (the NLW also gives his address as Rhosmaen Street). The plot is not found; placed in the old town stretch.',
+      note: 'The caption and the sign in the photograph show the studio is on Rhosmaen Street (the NLW also gives his address as Rhosmaen Street). Corrected 2026-10-09 (independent check): the photograph shows the studio across the street from the 1897 Post Office, so it stood on the east side of Rhosmaen Street, opposite the Post Office (about 262968,222446); the exact plot is still not found, so the point and the ±100 m stay.',
     },
   },
   {
@@ -734,13 +794,15 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1900',
     from: 1895,
     to: 1905,
+    dateNote:
+      'The date is the uploader’s caption (c. 1900), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282426',
     catalogueId: 'PCW 2282426',
     catalogueUrl: 'https://www.peoplescollection.wales/items/2282426',
     shows:
-      'A street decorated with leafy arches, the nearest carrying a painted band quoting Two Gentlemen of Verona ("She is my own, and I as rich in having such a jewel as twenty seas, if their sands were pearl, the waters nectar, and the rocks pure gold") and two shields lettered A and R; a second arch further down.',
+      'A street decorated with leafy arches, the nearest carrying a painted band quoting Two Gentlemen of Verona ("She is my own, and I as rich in having such a jewel as twenty seas, if their sand were pearl, the waters nectar, and the rocks pure gold") and two shields lettered A and R (the left is a monogram that may not be a plain A); a second arch further down. (Corrected 2026-10-09 (independent check): the quotation said “sands”; the arch reads “sand”.)',
     where: 'A street leading up towards Rhosmaen Street',
     status: 'ok',
     placement: {
@@ -758,6 +820,8 @@ export const HARRIES_PHOTOGRAPHS: readonly Photograph[] = [
     dated: 'c. 1900',
     from: 1895,
     to: 1905,
+    dateNote:
+      'The date is the uploader’s caption (c. 1900), not Harries’s own; no detail in the picture dates it more closely.',
     creator: 'D C Harries',
     credit:
       'D C Harries. Llandeilo Fawr Town Council collection (Hengwrt), via People’s Collection Wales, item 2282441',

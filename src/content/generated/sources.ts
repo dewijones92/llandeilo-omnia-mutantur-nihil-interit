@@ -727,6 +727,36 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/dc-harries-photographs.md"
   },
   {
+    "id": "harries:S19",
+    "title": "National Library of Wales Archives and Manuscripts, \"D C Harries : Vintage Prints\", GB 0210 DCHARRIESPRINTS",
+    "url": "https://archives.library.wales/index.php/d-c-harries-vintage-prints",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S20",
+    "title": "Coflein (RCAHMW), \"Salem Welsh Calvinistic Methodist Chapel, New Road, Llandeilo\", NPRN 6334",
+    "url": "https://coflein.gov.uk/en/site/6334/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S21",
+    "title": "Coflein (RCAHMW), \"Capel Newydd Welsh Independent Chapel, Crescent Road\", NPRN 6328",
+    "url": "https://coflein.gov.uk/en/site/6328/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S22",
+    "title": "National Library of Scotland, OS 25 inch England and Wales county list, Carmarthenshire",
+    "url": "https://maps.nls.uk/os/25inch-england-and-wales/county/carmarthenshire",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S23",
+    "title": "Dating evidence for the photographs: *Shoulder Arms* (Wikipedia, released 20 October 1918); Tariff Reform League (Wikipedia, formed 1903); *Weekly Mail* 21 May 1910 p. 4 and *Carmarthen Journal* 15 May 1908 p. 7 (Wels…",
+    "url": "https://newspapers.library.wales/view/3763549/3763556/57/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
     "id": "deeptime:S1",
     "title": "\"Geology of Brecon Beacons National Park,\" Wikipedia,",
     "url": "https://en.wikipedia.org/wiki/Geology_of_Brecon_Beacons_National_Park",
