@@ -104,6 +104,7 @@ async function start(): Promise<void> {
   const smoke = new Smoke(world.scene);
   const firelight = new Firelight(world.scene, features.ground);
   world.addLamp(firelight.material);
+  world.addLamp(firelight.halos.material);
   let smokeSources = features.smokeSources([]);
 
   const debug = params.has('debug')

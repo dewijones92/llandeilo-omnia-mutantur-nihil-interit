@@ -84,3 +84,28 @@ the western lines with a guessed date (inventing a date).
   with the old course, and the colliery track beyond it, undated, is in no section and is not drawn, so
   "every line east of E258000 drawn once" excepts that track.
 
+## Amended 2026-10-03 (Dewi's decision)
+
+Dewi decided on 2026-10-03 to draw the undated lines as labelled estimates ("put draw and give
+estimgate for dates but please label them as educated gueessess with sources?"), so "undated lines are
+left undrawn rather than given a guessed date" no longer holds.
+
+How that is carried out was chosen by Claude, not Dewi, and he can overrule any of it. Each line
+becomes one more section, as above foresaw, dated "c.", without `datesExact`, with an ⓘ that says it
+is an educated guess, why that date and on which sources, and with the earliest date its sources allow
+(`notBefore`, [ADR 0037](0037-estimates-carry-an-earliest-date.md)), before which it is never drawn:
+
+- `railway-gwendraeth-valley`: the Burry Port and Gwendraeth Valley line below the Hirwaun Isaf
+  incline's foot and above its head, from c. 1870, never before 23 June 1869; `reconstructed`.
+- `railway-gwendraeth-hirwaun-isaf`: the stretch beside the incline, across June 1886; `reconstructed`,
+  since no source maps the incline's foot.
+- `railway-gwaun-cae-gurwen-colliery`: the track past the 1907 join, from 6 May 1841, the earliest the
+  sources allow; `reconstructed`.
+- `railway-cross-hands-narrow-gauge`: the 35m of narrow-gauge track near Cross Hands
+  (`CROSS_HANDS_NARROW_GAUGE`), which no source names, from c. 1950, never before 1948; `imagined`.
+
+The content test now holds every stretch of today's track to exactly one section, with no exception.
+(*Corrected 2026-10-03, review of the estimates*: this amendment first presented the dates and the
+Cross Hands stub's exclusion as part of Dewi's decision; they were Claude's choices, and the stub,
+undated but placed, is now drawn as Dewi asked. The Gwendraeth line was one section from c. 1870 and
+the colliery line faded in from about 1822; both are corrected above.)

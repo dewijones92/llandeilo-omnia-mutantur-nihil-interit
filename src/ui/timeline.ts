@@ -1,5 +1,6 @@
 import { clamp } from '../domain/assert.ts';
 import type { Era, KeyEvent } from '../domain/model.ts';
+import { markerLanes } from '../domain/marker-lanes.ts';
 import { latestStarting } from '../domain/state.ts';
 import { formatSliderYear, formatYear } from '../domain/time.ts';
 import { stepAt, stepFrom, type Step } from '../domain/steps.ts';
@@ -8,6 +9,9 @@ import { h } from './dom.ts';
 import type { LangStore } from './store.ts';
 
 const GHOST_START = 0.5;
+// Vertical distance between marker lanes, and the least gap kept around each marker's centre (px).
+const LANE_STEP = 12;
+const LANE_MARGIN = 2;
 
 export interface TimelineCallbacks {
   onScrub(t: number): void;
@@ -23,6 +27,9 @@ export class TimelineBar {
   private readonly eraEl: HTMLElement;
   private readonly bands: HTMLElement;
   private readonly markers: HTMLElement;
+  private readonly rail: HTMLElement;
+  private placed: { readonly el: HTMLElement; readonly event: KeyEvent; readonly t: number }[] = [];
+  private lanesKey = '';
   private readonly ticks: HTMLElement;
   private t = 0;
   private dragging = false;
@@ -83,6 +90,7 @@ export class TimelineBar {
       this.ghost,
     );
     const hint = h('span', { id: 'tl-hint', class: 'sr-only' }, store.t('sliderHint'));
+    this.rail = h('div', { class: 'tl-rail' }, this.track, this.markers);
     this.ticks = h('div', { class: 'tl-ticks', 'aria-hidden': 'true' });
     this.el = h(
       'section',
@@ -94,12 +102,18 @@ export class TimelineBar {
         this.eraEl,
         h('span', { class: 'tl-nav reveals-when' }, this.prev, this.counter, this.next),
       ),
-      h('div', { class: 'tl-rail' }, this.track, this.markers),
+      this.rail,
       this.ticks,
       hint,
     );
     this.render();
     this.bind();
+    // Lanes depend on the track's width in px, and the markers measure 0 while hidden for a guess.
+    const resized = new ResizeObserver(() => {
+      this.layoutLanes();
+    });
+    resized.observe(this.track);
+    resized.observe(this.markers);
     store.onChange(() => {
       this.el.setAttribute('aria-label', store.t('timeline'));
       this.track.setAttribute('aria-label', store.t('timeline'));
@@ -237,41 +251,87 @@ export class TimelineBar {
         return band;
       }),
     );
-    this.markers.replaceChildren(
-      ...this.events.map((ev) => {
-        const t = tAt(this.timeline, ev.when.from);
-        const m = h(
-          'button',
-          {
-            class: `tl-marker${ev.magnetic ? ' magnetic' : ''}`,
-            type: 'button',
-            tabindex: -1,
-            'aria-label': `${formatYear(ev.when.from, lang, ev.approximate)}: ${ev.title[lang]}`,
-          },
-          h(
-            'span',
-            { class: 'tl-marker-tip' },
-            h('b', {}, formatYear(ev.when.from, lang, ev.approximate)),
-            ` ${ev.title[lang]}`,
-          ),
-        );
-        m.style.left = `${t * 100}%`;
-        m.addEventListener('click', (e) => {
-          e.stopPropagation();
-          this.visit(ev);
-        });
-        m.addEventListener('pointerdown', (e) => {
-          e.stopPropagation();
-        });
-        return m;
-      }),
-    );
+    this.placed = this.events.map((ev) => {
+      const t = tAt(this.timeline, ev.when.from);
+      const m = h(
+        'button',
+        {
+          class: `tl-marker${ev.magnetic ? ' magnetic' : ''}`,
+          type: 'button',
+          tabindex: -1,
+          'aria-label': `${formatYear(ev.when.from, lang, ev.approximate)}: ${ev.title[lang]}`,
+        },
+        h(
+          'span',
+          { class: 'tl-marker-tip' },
+          h('b', {}, formatYear(ev.when.from, lang, ev.approximate)),
+          ` ${ev.title[lang]}`,
+        ),
+      );
+      m.style.left = `${t * 100}%`;
+      m.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.visit(ev);
+      });
+      m.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+      });
+      return { el: m, event: ev, t };
+    });
+    this.markers.replaceChildren(...this.placed.map((p) => p.el));
+    this.lanesKey = '';
+    this.layoutLanes();
     this.ticks.replaceChildren(
       ...this.timeline.anchors.map((a) => {
         const label = h('span', { class: 'tl-tick' }, formatYear(a.year, lang));
         label.style.left = `${a.t * 100}%`;
         return label;
       }),
+    );
+  }
+
+  // Fans markers whose dates fall a few pixels apart into lanes above and below the line, so each
+  // can be reached by the mouse; the rail grows only as much as the outer lanes need (ADR 0039).
+  private layoutLanes(): void {
+    const width = this.track.getBoundingClientRect().width;
+    const halfOf = (key: boolean): number =>
+      (this.placed.find((p) => p.event.magnetic === key)?.el.getBoundingClientRect().width ?? 0) / 2;
+    const reach = { dot: halfOf(false), diamond: halfOf(true) };
+    if (width === 0 || (reach.dot === 0 && reach.diamond === 0)) {
+      console.info(
+        `dewidebug timeline lanes skipped: width=${width.toFixed(0)} reach=${reach.dot}/${reach.diamond} (not laid out or hidden)`,
+      );
+      return;
+    }
+    const lanes = markerLanes(
+      this.placed.map((p) => ({
+        x: p.t * width,
+        shape: p.event.magnetic ? 'diamond' : 'dot',
+        key: p.event.magnetic,
+      })),
+      reach,
+      LANE_STEP,
+      LANE_MARGIN,
+    );
+    let outer = 0;
+    this.placed.forEach((p, i) => {
+      const lane = lanes[i]?.lane ?? 0;
+      p.el.style.top = lane === 0 ? '' : `calc(50% + ${lane * LANE_STEP}px)`;
+      outer = Math.max(outer, Math.abs(lane) * LANE_STEP + (p.event.magnetic ? reach.diamond : reach.dot));
+    });
+    const room = Math.max(0, Math.ceil(outer - this.track.getBoundingClientRect().height / 2));
+    this.rail.style.paddingBlock = room === 0 ? '' : `${room}px`;
+    const fanned = this.placed.flatMap((p, i) => (lanes[i]?.lane ? [`${p.event.id}:${lanes[i].lane}`] : []));
+    const crowded = this.placed.flatMap((p, i) =>
+      (lanes[i]?.clearance ?? Infinity) < LANE_MARGIN
+        ? [`${p.event.id}:${(lanes[i]?.clearance ?? 0).toFixed(1)}`]
+        : [],
+    );
+    const key = `${width.toFixed(0)} ${fanned.join(',')} ${crowded.join(',')} ${room}`;
+    if (key === this.lanesKey) return;
+    this.lanesKey = key;
+    console.info(
+      `dewidebug timeline lanes width=${width.toFixed(0)} reach=${reach.dot}/${reach.diamond.toFixed(1)} room=${room} fanned=[${fanned.join(' ')}] crowded=[${crowded.join(' ')}]`,
     );
   }
 

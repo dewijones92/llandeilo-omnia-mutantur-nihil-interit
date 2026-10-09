@@ -9,12 +9,14 @@ import {
   type Scene,
 } from './babylon.ts';
 import { hex } from '../domain/colour.ts';
+import { HALOS } from '../domain/halo.ts';
 import type { LampState } from '../domain/lamplight.ts';
 import { WORLD } from '../domain/geo.ts';
 import type { GridRef, RollingStock } from '../domain/model.ts';
 import { hash2 } from '../domain/noise.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import { box, gable, merge, place, solidMaterial } from './meshkit.ts';
+import { Halos, type HaloPoint } from './halos.ts';
 import type { LoadedModel } from './models.ts';
 import type { Ground } from './structures.ts';
 
@@ -36,6 +38,8 @@ export class Buildings {
   private readonly windows: Mesh;
   readonly windowMaterial: StandardMaterial;
   private readonly glow: Float32Array;
+  private readonly haloAt: Float32Array;
+  readonly halos: Halos;
   private lamps: LampState | undefined;
   private share = 0;
   private litCount = 0;
@@ -63,6 +67,8 @@ export class Buildings {
     this.windows.material = this.windowMaterial;
     const n = footprints.count;
     this.glow = new Float32Array(n * 4);
+    this.haloAt = new Float32Array(n * 3);
+    this.halos = new Halos(scene, 'window', HALOS.window);
     this.matrices = new Float32Array(n * 16);
     this.roofMatrices = new Float32Array(n * 16);
     this.colours = new Float32Array(n * 4);
@@ -89,6 +95,7 @@ export class Buildings {
       if (c) this.colours.set([c.r, c.g, c.b, 1], i * 4);
       const v = 0.72 + hash2(i, 33, 5) * 0.28;
       this.glow.set([v, v, v, 1], i * 4);
+      this.haloAt.set([x, y + h * 0.55, z], i * 3);
     }
     this.walls.isVisible = false;
     this.roofs.isVisible = false;
@@ -173,6 +180,7 @@ export class Buildings {
     this.windows.thinInstanceSetBuffer('color', wc, 4, false);
     this.windows.thinInstanceCount = lit.length;
     this.litCount = lit.length;
+    this.halos.setPoints(lit.map((id): HaloPoint => this.haloPoint(id)));
     if (this.lamps) this.setLamps(this.lamps);
   }
 
@@ -185,6 +193,17 @@ export class Buildings {
     const w = state.windows;
     this.windows.isVisible = w > 0.02 && this.litCount > 0;
     this.windowMaterial.emissiveColor.set(state.colour.r * w, state.colour.g * w, state.colour.b * w);
+    this.halos.setLight(state.colour, w);
+  }
+
+  private haloPoint(id: number): HaloPoint {
+    const a = this.haloAt;
+    return {
+      x: a[id * 3] ?? 0,
+      y: a[id * 3 + 1] ?? 0,
+      z: a[id * 3 + 2] ?? 0,
+      weight: this.glow[id * 4] ?? 1,
+    };
   }
 }
 

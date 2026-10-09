@@ -7,6 +7,7 @@ import type {
   EnvironmentKey,
   EventId,
   Feature,
+  FeatureBase,
   FeatureId,
   KeyEvent,
   PlaceId,
@@ -48,7 +49,7 @@ const COLD: Provenance = {
 };
 const MILD: Provenance = { kind: 'reconstructed', basis: { en: 'no shift', cy: 'dim newid' }, sources: [] };
 
-const feature = (id: string, from: number, to: number, provenance: Provenance): Feature => ({
+const feature = (id: string, from: number, to: number, provenance: Provenance): FeatureBase => ({
   id: mint<FeatureId>(id),
   kind: { type: 'railway', section: { within: [{ maxN: 0 }] } },
   at: { e: 0, n: 0 },

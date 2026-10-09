@@ -6,23 +6,26 @@ import { ASSETS } from '../src/content/assets.ts';
 import { STRINGS } from '../src/content/strings.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
 import {
+  CROSS_HANDS_NARROW_GAUGE,
   DUFFRYN_STATION,
   END_OF_STEAM,
   GARNANT_STATION,
   GWAUN_CAE_GURWEN_JOIN,
   LLANDEILO_STATION,
-  LLANELLY_LINES_E,
 } from '../src/content/features.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { hasStreetLamps, insideArea, streetWarmth } from '../src/domain/lamplight.ts';
+import { DEFAULT_CLOCK, sunElevation } from '../src/domain/daylight.ts';
+import type { Bilingual } from '../src/domain/i18n.ts';
 import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
+import type { Provenance } from '../src/domain/provenance.ts';
 import { latestStarting, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
-import { sectionLines } from '../src/domain/rail.ts';
+import { sectionLines, type GridBox } from '../src/domain/rail.ts';
 import { parseLines } from '../src/platform/assets.ts';
-import { ad, bc, contains, year } from '../src/domain/time.ts';
+import { ad, bc, contains, onDay, year } from '../src/domain/time.ts';
 import { tAt, yearAt } from '../src/domain/timeline.ts';
 
 const root = join(import.meta.dirname, '..');
@@ -150,6 +153,26 @@ describe('content integrity', () => {
     }
   });
 
+  it('says, in both languages, that farms’ lit windows are a guess in every key that lights a drawn farm', () => {
+    const farms = W.features.filter((f) => f.kind.type === 'countryside');
+    expect(farms.length).toBeGreaterThan(0);
+    const said = (p: Provenance): Bilingual | undefined =>
+      p.kind === 'documented' ? p.note : p.kind === 'reconstructed' ? p.basis : p.groundedIn;
+    const unlabelled = W.lamplight.filter((k, i) => {
+      const until = W.lamplight[i + 1]?.year ?? Number.POSITIVE_INFINITY;
+      const lightsFarms = k.windows > 0 && farms.some((f) => f.when.from < until && f.when.to > k.year);
+      const text = said(k.provenance);
+      const labelled =
+        text !== undefined &&
+        /farms/i.test(text.en) &&
+        /guess/i.test(text.en) &&
+        /ffermydd/i.test(text.cy) &&
+        /dyfal/i.test(text.cy);
+      return lightsFarms && !labelled;
+    });
+    expect(unlabelled.map((k) => k.year)).toEqual([]);
+  });
+
   it('words every night-light key with the certainty of its date', () => {
     const lead = { by: ['By ', 'Erbyn '], on: ['From ', 'O '], in: ['In ', 'Yn '] } as const;
     expect(
@@ -235,6 +258,20 @@ describe('ambient sound beds', () => {
     const first = heard.find((x) => x.bed === 'bells');
     expect(first?.p.year).toBe(ad(1857));
     expect(first?.p.provenance.sources).toContain('effects:S7');
+  });
+
+  it('holds the market from the fair granted on 20 May 1290, through the market recorded in 1326 (sound:S20)', () => {
+    const first = heard.find((x) => x.bed === 'market');
+    expect(first?.p.year).toBe(onDay(1290, 5, 20));
+    expect(first?.p.provenance.sources).toContain('sound:S20');
+    expect(soundAt(W.soundscape, year(onDay(1290, 5, 20) - 0.01)).levels.market).toBe(0);
+    const unheard: string[] = [];
+    for (let y = 1290.5; y < 1950; y += 0.5)
+      if (soundAt(W.soundscape, year(y)).levels.market <= 0) unheard.push(String(y));
+    expect(unheard).toEqual([]);
+    const in1330 = soundAt(W.soundscape, ad(1330)).beds.find((b) => b.bed === 'market');
+    expect(in1330?.since.kind).toBe('documented');
+    expect(in1330?.since.sources).toContain('sound:S20');
   });
 
   it('plays steam only until steam passenger trains ended on 13 June 1964, and is never silent while a train runs', () => {
@@ -323,22 +360,21 @@ describe('the railway', () => {
   const railways = 'public/data/railways.json';
   const rails = parseLines(JSON.parse(readFileSync(join(root, railways), 'utf8')), railways);
   const sections = W.features.flatMap((f) =>
-    f.kind.type === 'railway' ? [{ feature: f, lines: sectionLines(rails, f.kind.section) }] : [],
+    f.kind.type === 'railway'
+      ? [{ feature: f, boxes: f.kind.section.within, lines: sectionLines(rails, f.kind.section) }]
+      : [],
   );
   const gap = (a: GridRef, b: GridRef) => Math.hypot(a.e - b.e, a.n - b.n);
   const length = (ls: readonly { points: readonly GridRef[] }[]) =>
     ls.reduce((sum, l) => sum + l.points.slice(1).reduce((s, p, i) => s + gap(p, l.points[i] ?? p), 0), 0);
-  // Where today's track runs on past the edge of the drawn data (towards Pontarddulais, and towards
-  // Llandovery).
+  // Where today's track runs on past the edge of the drawn data (towards Pontarddulais, towards
+  // Llandovery, and down the Gwendraeth valley towards Pontyberem).
   const MAP_EDGE: readonly GridRef[] = [
     { e: 260395, n: 206650 },
     { e: 273922, n: 232559 },
+    { e: 251225, n: 211493 },
   ];
   const leavesMap = (p: GridRef) => MAP_EDGE.some((e) => gap(p, e) < 50);
-  // Past the 1907 line's join with the old course, today's track runs on to collieries, undated.
-  const collieryTrack = sectionLines(rails, {
-    within: [{ minE: GWAUN_CAE_GURWEN_JOIN.e, maxN: LLANDEILO_STATION.n }],
-  });
   // Coflein's grid reference for Pantyffynnon station (victorian:S72), where a short spur ends.
   const PANTYFFYNNON_STATION = { e: 262290, n: 210780 };
 
@@ -378,13 +414,63 @@ describe('the railway', () => {
     expect(wrong).toEqual([]);
   });
 
-  it('draws every line east of Cross Hands (E258000) exactly once, leaving out only the undated colliery track past the 1907 join', () => {
+  // Every stretch of today's track belongs to exactly one dated section, so nothing is left undrawn
+  // (Dewi, 2026-10-03: undated lines are drawn with estimated dates, labelled as educated guesses).
+  it("draws every stretch of today's track in exactly one section", () => {
+    const inBox = (p: GridRef, b: GridBox) =>
+      p.e >= (b.minE ?? -Infinity) &&
+      p.e <= (b.maxE ?? Infinity) &&
+      p.n >= (b.minN ?? -Infinity) &&
+      p.n <= (b.maxN ?? Infinity);
+    const wrong: string[] = [];
+    for (const l of rails)
+      for (let i = 1; i < l.points.length; i++) {
+        const a = l.points[i - 1];
+        const b = l.points[i];
+        if (!a || !b) continue;
+        const mid = { e: (a.e + b.e) / 2, n: (a.n + b.n) / 2 };
+        const owners = sections.filter((s) => s.boxes.some((x) => inBox(mid, x)));
+        if (owners.length !== 1)
+          wrong.push(
+            `E${Math.round(mid.e)} N${Math.round(mid.n)}: ${owners.map((o) => o.feature.id).join(', ') || 'undrawn'}`,
+          );
+      }
+    expect(wrong).toEqual([]);
     const drawn = sections.reduce((sum, s) => sum + length(s.lines), 0);
-    const east = rails.filter((l) => l.points.every((p) => p.e > LLANELLY_LINES_E));
-    const west = rails.filter((l) => l.points.every((p) => p.e < LLANELLY_LINES_E));
-    expect(east.length + west.length).toBe(rails.length);
-    expect(length(collieryTrack)).toBeGreaterThan(1000);
-    expect(drawn + length(collieryTrack)).toBeCloseTo(length(east), 0);
+    expect(drawn).toBeCloseTo(length(rails), 0);
+  });
+
+  // An estimate is reconstructed when a source places the line, imagined when none does; either way
+  // its ⓘ says it is a guess and rests on sources, and an earliest date never comes after its "c." one.
+  it('labels every railway section without exact dates as an educated guess, in both languages, with sources', () => {
+    const estimated = sections.filter((s) => !s.feature.datesExact);
+    const wrong = estimated
+      .filter(({ feature: { provenance: p, notBefore, when } }) => {
+        if (notBefore === undefined || notBefore > when.from) return true;
+        const text = p.kind === 'reconstructed' ? p.basis : p.kind === 'imagined' ? p.groundedIn : undefined;
+        return (
+          !text ||
+          !/educated guess/i.test(text.en) ||
+          !/dyfaliad gwybodus/i.test(text.cy) ||
+          p.sources.length < 2
+        );
+      })
+      .map((s) => s.feature.id);
+    expect(estimated.length).toBeGreaterThan(0);
+    expect(wrong).toEqual([]);
+  });
+
+  it('never gives a feature an earliest date after its "c." start (ADR 0037)', () => {
+    const late = W.features.filter((f) => f.notBefore !== undefined && f.notBefore > f.when.from);
+    expect(late.map((f) => f.id)).toEqual([]);
+  });
+
+  it('draws the narrow-gauge stub near Cross Hands as imagined, since no source names it', () => {
+    const stub = sections.find((s) => s.boxes === CROSS_HANDS_NARROW_GAUGE.within);
+    expect(stub?.feature.provenance.kind).toBe('imagined');
+    const len = length(stub?.lines ?? []);
+    expect(len).toBeGreaterThan(30);
+    expect(len).toBeLessThan(60);
   });
 
   it('draws the 1907 line east of Garnant for the 1 mile 22 chains its source gives it', () => {
@@ -600,6 +686,126 @@ describe('building plans', () => {
     ];
     const wrong = W.features.filter((f) => guessed.includes(f.id) && f.provenance.kind !== 'reconstructed');
     expect(wrong.map((f) => f.id)).toEqual([]);
+  });
+});
+
+describe('battles and black swans: 1213, 1257, 1849 and 1918', () => {
+  const ev = (id: string) => W.events.find((e) => e.id === id);
+  const sourcesOf = (id: string): readonly string[] => ev(id)?.provenance.sources ?? [];
+  const noteOf = (id: string) => {
+    const p = ev(id)?.provenance;
+    return p?.kind === 'documented' ? p.note : undefined;
+  };
+  const text = (id: string): string => {
+    const e = ev(id);
+    return e ? `${e.summary.en} ${noteOf(id)?.en ?? ''}` : '';
+  };
+
+  it('dates each one to its year, documented, from the checked notes, in both languages', () => {
+    const want = {
+      'llandeilo-burned-1213': 1213,
+      'cymerau-1257': 1257,
+      'cholera-1849': 1849,
+      'influenza-1918': 1918,
+    };
+    for (const [id, y] of Object.entries(want)) {
+      const e = ev(id);
+      expect(e?.when, id).toEqual({ from: ad(y), to: ad(y) });
+      expect(e?.provenance.kind).toBe('documented');
+      expect(e?.title.cy).not.toBe(e?.title.en);
+      expect(e?.summary.cy).not.toBe(e?.summary.en);
+    }
+  });
+
+  it('1213: led by young Rhys, Llandeilo burned by Rhys Gryg, Dinefwr held to terms, in winter', () => {
+    const said = text('llandeilo-burned-1213');
+    expect(said).toMatch(/young Rhys/);
+    expect(said).toMatch(/Rhys Gryg burned Llandeilo/);
+    expect(said).toMatch(/unless help came by the next evening/);
+    expect(sourcesOf('llandeilo-burned-1213')).toEqual(
+      expect.arrayContaining(['invasions:S1', 'invasions:S5']),
+    );
+    expect(ev('llandeilo-burned-1213')?.recordedSky?.season).toBe('winter');
+  });
+
+  it('1257: Bauzan killed, the camp at Llandeilo in one chronicle only, the sites contested and the dead not “English”', () => {
+    const said = text('cymerau-1257');
+    expect(said).toMatch(/Bauzan was killed/);
+    expect(said).toMatch(/one chronicle/);
+    expect(said).toMatch(/mostly Welsh foot soldiers/);
+    expect(said).not.toMatch(/English (dead|killed)|3,000 English/);
+    expect(said).toMatch(/“Saxons”/);
+    expect(said).toMatch(/none is marked/);
+    expect(sourcesOf('cymerau-1257')).toEqual(
+      expect.arrayContaining(['invasions:S3', 'invasions:S5', 'invasions:S7', 'invasions:S17']),
+    );
+    expect(ev('cymerau-1257')?.recordedSky).toMatchObject({
+      season: 'summer',
+      hour: { kind: 'recorded', value: 12 },
+    });
+  });
+
+  it('1849: a card, not a step or a scene, because one partly illegible report is all there is', () => {
+    expect(ev('cholera-1849')?.magnetic).toBe(false);
+    expect(sourcesOf('cholera-1849')).toContain('ripples:S24');
+    expect(noteOf('cholera-1849')?.en).toMatch(/one newspaper report/i);
+    expect(ev('cholera-1849')?.recordedSky).toBeUndefined();
+  });
+
+  it('1918: cross-checked across the local papers, with its season and its soldier from France', () => {
+    expect(text('influenza-1918')).toMatch(/France/);
+    expect(sourcesOf('influenza-1918')).toEqual(
+      expect.arrayContaining(['ripples:S36', 'ripples:S37', 'ripples:S38', 'ripples:S39']),
+    );
+    expect(ev('influenza-1918')?.recordedSky?.season).toBe('autumn');
+  });
+
+  it('no longer says no cholera case was found in Llandeilo, now that an 1849 report is read', () => {
+    const at1849 = W.almanac.filter((a) => a.topic === 'health' && contains(a.when, ad(1849)));
+    expect(at1849.filter((a) => a.text.en.includes('no case in Llandeilo')).map((a) => a.id)).toEqual([]);
+    expect(at1849.some((a) => a.provenance.sources.some((s) => String(s) === 'ripples:S25'))).toBe(true);
+  });
+
+  it('arrives at a recorded burning by day, so its smoke can be seen, with the hour said to be chosen', () => {
+    const burnings = W.features.filter((f) => f.kind.type === 'burning');
+    const arrivals = W.events.filter(
+      (e) => e.magnetic && burnings.some((f) => contains(f.when, e.when.from)),
+    );
+    expect(arrivals.map((e) => e.id)).toEqual(['llandeilo-burned-1213']);
+    for (const e of arrivals) {
+      const sky = e.recordedSky;
+      expect(sky?.hour?.kind).toBe('chosen');
+      expect(
+        sunElevation({ season: sky?.season ?? 'summer', hour: sky?.hour?.value ?? DEFAULT_CLOCK.hour }),
+      ).toBeGreaterThan(5);
+    }
+  });
+
+  it('1257: keeps both readings of the wood’s name visible, Coed Llathen and Llanarthne', () => {
+    for (const lang of ['en', 'cy'] as const) expect(noteOf('cymerau-1257')?.[lang]).toMatch(/Ll?anarthne/);
+  });
+
+  it('dates the 1849 cases from 1849 and keeps the later absence a reconstructed gap, with no hindsight before', () => {
+    const health = W.almanac.filter((a) => a.topic === 'health');
+    const at1840 = health.filter((a) => contains(a.when, ad(1840)));
+    expect(at1840.filter((a) => /1849|1854|1866/.test(a.text.en)).map((a) => a.id)).toEqual([]);
+    const the1849 = health.filter((a) => a.provenance.sources.some((s) => String(s) === 'ripples:S24'));
+    expect(the1849.length).toBeGreaterThan(0);
+    for (const a of the1849) {
+      expect(a.provenance.kind).toBe('documented');
+      expect(a.when.from).toBeGreaterThanOrEqual(ad(1849));
+    }
+    const absences = health.filter((a) => /no case|none has been found/.test(a.text.en));
+    expect(absences.filter((a) => a.provenance.kind !== 'reconstructed').map((a) => a.id)).toEqual([]);
+  });
+
+  it('draws a burning only where a documented source records one, and only for its exact dates', () => {
+    const burnings = W.features.filter((f) => f.kind.type === 'burning');
+    expect(burnings.map((f) => f.id)).toEqual(['llandeilo-burning-1213']);
+    for (const f of burnings) {
+      expect(f.provenance.kind).toBe('documented');
+      expect(f.datesExact).toBe(true);
+    }
   });
 });
 
