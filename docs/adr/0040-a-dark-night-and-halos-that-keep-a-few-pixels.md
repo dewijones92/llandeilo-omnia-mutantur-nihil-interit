@@ -11,8 +11,8 @@ updated: 2026-10-03
 - **Date:** 2026-10-03
 - **Decided by:** Claude, under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
   so Dewi can overrule it.
-- **Number:** written as 0037 and renumbered 0040 at merge, since other branches in flight had taken 0037 to 0039, so expect a renumber at
-  merge.
+- **Number:** written as 0037 and renumbered 0040 at the merge into main on 2026-10-09, since other
+  branches had taken 0037 to 0039.
 
 ## Context
 

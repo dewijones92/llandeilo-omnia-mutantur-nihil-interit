@@ -57,7 +57,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0023](0023-e2e-own-port-never-reused.md) | Each checkout runs e2e on its own port, and never reuses a server | Accepted | 2026-10-02 |
 | [0024](0024-place-names-carry-a-required-date.md) | Every place name carries a required date | Accepted | 2026-10-02 |
 | [0025](0025-releases-at-visible-milestones.md) | Releases at visible milestones, with notes kept in the repo | Accepted | 2026-10-02 |
-| [0026](0026-open-licences-including-nc.md) | Any open licence, the non-commercial ones included | Accepted | 2026-10-02 |
+| [0026](0026-open-licences-including-nc.md) | Any open licence, the non-commercial ones included | Accepted; amended 2026-10-09 (the issues' material is credited, not licence-checked) | 2026-10-02 |
 | [0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md) | Claude proposes and builds its own ideas, under a proactive mandate | Accepted, amends 0022 | 2026-10-02 |
 | [0028](0028-ambient-beds-carry-provenance.md) | Every ambient sound bed carries a provenance, on its own dated track | Accepted, amends 0011 | 2026-10-03 |
 | [0029](0029-guess-game-hides-giveaways-by-one-root-class.md) | The guess-the-year game hides giveaways with one root class, and draws its clues from provenance | Accepted; what `datesExact` means amended by 0035 | 2026-10-03 |

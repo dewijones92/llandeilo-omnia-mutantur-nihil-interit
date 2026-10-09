@@ -232,7 +232,9 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
 - **Material from the GitHub issues is credited, not licence-checked** (Dewi, 2026-10-09: "Regarding
   the GitHub issues, ignore licensing problems, just credit the person please"): the D. C. Harries
   photographs (#1) and the reconstruction drawings and surveys behind the Roman fort (#3) are used with
-  a credit to their maker in the asset manifest and the ⓘ, without waiting on a licence check.
+  a credit to their maker in the asset manifest and the ⓘ, without waiting on a licence check. It is
+  an exception to the "all rights reserved" line above, for these issues only; the manifest's `licence`
+  field reads "Not checked: used with credit at Dewi's request (2026-10-09)" ([ADR 0026](docs/adr/0026-open-licences-including-nc.md), amended).
 - **Every asset records its source, author and licence** in one place (the asset manifest, per the
   DRY law). An in-app credits page is generated from that manifest. An asset with no licence
   record fails the build.

@@ -10,7 +10,7 @@ updated: 2026-10-03
 - **Status:** Accepted (decided by Claude under the proactive mandate, [ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md), so Dewi can overrule it)
 - **Date:** 2026-10-03
 
-*Numbering: other branches were writing ADRs at the same time, so this number may change at merge.*
+*Numbering: written as 0037/0038 and renumbered at the merge into main on 2026-10-09, since other branches had taken those numbers.*
 
 ## Context
 
