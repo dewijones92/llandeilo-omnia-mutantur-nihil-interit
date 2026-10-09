@@ -704,3 +704,12 @@ Milestones and what each one taught us. Newest last.
    settled" test helper that compares two reads one interval apart passed while a landing flight was
    still under way, because one slow frame left both reads the same; it now wants three still reads in a
    row. Bundle: the main chunk is 496,323 bytes gzipped after the merge.
+
+Review fixes on that merge: with `?begin=1&cutscene=<id>` the scene starts under the Begin card, and
+pressing Begin cleared the interface's inert marks (the card clears its own), leaving the 3D view
+reachable by Tab and keys for the whole scene. Seen red first (`#scene` not inert after Begin); the card's
+open callback now re-marks the interface when a scene is playing. A second test pins the order in
+`onStart` (close the welcome, then mark inert): with the two lines swapped `#scene` stays reachable, seen
+red. One guard stays untested on purpose: `openWelcome`'s "a scene is playing" check cannot be reached
+from `?` (the scene's own key handler takes it first) or from the Keys button (inert during a scene), so
+it is defensive only.

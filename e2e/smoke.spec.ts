@@ -1514,6 +1514,7 @@ test('the welcome waits for a scene to end, says how to watch one, and the ? ico
   await expect(welcome).toBeHidden();
   await expect(icon).toHaveCSS('opacity', '0');
   expect(await icon.evaluate((el) => el.closest('[inert]') !== null)).toBe(true);
+  expect(await page.evaluate(() => document.getElementById('scene')?.inert)).toBe(true);
   const clear = await page.evaluate(() => {
     const r = document.querySelector('.help-button')?.getBoundingClientRect();
     const hit = r ? document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2) : null;
@@ -1532,4 +1533,19 @@ test('the welcome waits for a scene to end, says how to watch one, and the ? ico
   await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
   await icon.click();
   await expect(page.getByRole('dialog', { name: 'Sut i grwydro' })).toContainText('pwyswch Gwylio');
+});
+
+test('a welcome due at start waits behind the Begin card and the scene it starts, and opens after Skip', async ({
+  page,
+}) => {
+  await page.goto('./?begin=1&welcome=1&cutscene=roman-arrival');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  await page.getByRole('dialog', { name: 'Llandeilo' }).getByRole('button', { name: 'Begin' }).click();
+  await expect(page.locator('.cutscene')).toBeVisible();
+  await expect(welcome).toBeHidden();
+  expect(await page.evaluate(() => document.getElementById('scene')?.inert)).toBe(true);
+  await page.getByRole('button', { name: /Skip/ }).click();
+  await expect(page.locator('.cutscene')).toBeHidden();
+  await expect(welcome).toBeVisible();
 });

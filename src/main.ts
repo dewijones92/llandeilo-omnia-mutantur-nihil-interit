@@ -669,6 +669,7 @@ async function start(): Promise<void> {
       setSound(true);
     },
     () => {
+      if (player.playing) behindScene(true);
       const atStart = welcomeAtStart(params, navigator.webdriver, storedWelcome());
       console.info(`dewidebug welcome at start show=${String(atStart.show)} why=${atStart.why}`);
       if (!atStart.show) return;

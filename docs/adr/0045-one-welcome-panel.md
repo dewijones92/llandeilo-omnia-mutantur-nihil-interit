@@ -12,9 +12,12 @@ updated: 2026-10-09
 - **Number:** written as 0042 on its branch, renumbered to 0045 when `main` (which had taken 0041 to
   0043 for the cutscenes) was merged in.
 - **Amended 2026-10-09, merging the cutscenes ([ADR 0041](0041-cutscenes-as-data-on-one-clock.md)):**
-  the welcome never opens over a playing scene. One due at start (a `?cutscene=` link) waits and opens
-  when the scene ends; a scene that starts while it is open closes it first (before the scene marks the
-  interface inert, since closing clears the welcome's own inert marks) and brings it back at the end.
+  the welcome never opens over a playing scene. A `?cutscene=` link skips the Begin card, so the welcome
+  opens at once and the scene closes it (before the scene marks the interface inert, since closing
+  clears the welcome's own inert marks) and brings it back at the end. With `?begin=1&cutscene=` the
+  welcome is due when Begin is pressed, finds the scene already playing, and waits for it to end. Pressing
+  Begin also re-marks the interface inert if a scene is playing, because the card clears its own marks
+  when it goes.
   `?` and the Keys button do nothing during a scene, and the "?" icon fades with the rest of the
   interface (it sits in the top-right corner, clear of the captions in the lower bar). Escape ends the
   scene first, then closes the welcome, then a popover, then a panel. The panel now says that some key
