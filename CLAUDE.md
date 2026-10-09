@@ -297,7 +297,7 @@ the heavy pass was throttled, about 15fps after (median frame 16.8ms, p90 52ms);
 same GPU, High, 1903 overview at 23:00 with 5,374 halos, vsync off via `node tools/frames.mjs <url> <dir>
 --perf --uncapped`): idle 150-159fps before and 162-165 after, orbiting 72-105 before and 92-109
 after, the scrub's apply cost 59ms (features) and 250ms (environment) before, 45 and 246 after: no
-cost measurable through the noise of a shared GPU. With vsync on both hold 60fps idle. Local runs can use the GPU: see the WSL recipe in Build & test. Bundle: the main chunk is
+cost measurable through the noise of a shared GPU. With vsync on both hold 60fps idle. LiDAR terrain (2026-10-09, [ADR 0041](docs/adr/0041-lidar-terrain-tiles-blended-into-terrain-50.md), same GPU, 1920x1080, `--perf --uncapped`, town at 400m radius in 2020, machine shared with other agents at load average 15 to 18): idle 110 to 124fps against 139 to 175 before, orbit 66 to 69 against 68 to 81, scrub 41 to 47 against 58 to 77, about 290,000 more triangles; start-up within the noise. Local runs can use the GPU: see the WSL recipe in Build & test. Bundle: the main chunk is
 390KB gzipped (399,487 bytes, 2026-09-28 after merging the atmosphere work; 387KB on 2026-09-26), plus
 chunks fetched only when needed (about 980KB gzipped across all JS). There is **no size limit**
 (Dewi, 2026-09-28; the 450KB CI budget was mine, never his, and is removed, [ADR 0016](docs/adr/0016-no-bundle-size-limit.md)).

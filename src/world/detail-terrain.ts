@@ -80,7 +80,6 @@ export interface DetailStats {
 interface Blocks {
   readonly tris: TerrainTriangles;
   readonly colours: Float32Array;
-  readonly cover: Uint8Array;
   paintKey: string;
 }
 
@@ -95,6 +94,8 @@ interface Resident {
   paintKey: string;
   stale: boolean;
 }
+
+const SCRATCH: MutableRgb = { r: 0, g: 0, b: 0 };
 
 export class DetailTerrain {
   private readonly resident = new Map<string, Resident>();
@@ -118,11 +119,10 @@ export class DetailTerrain {
     const info = this.infos.get(tileKey(Math.floor(e / size) * size, Math.floor(n / size) * size));
     if (!ctx || !info) return undefined;
     const blocks = this.blocksFor(info);
-    if (blocks.paintKey !== ctx.key) this.paintBlocks(blocks, ctx);
     const perSide = size / BLOCK_M;
     const col = Math.min(perSide - 1, Math.floor((e - info.e) / BLOCK_M));
     const row = Math.min(perSide - 1, Math.floor((info.n + size - n) / BLOCK_M));
-    return blocks.cover[row * perSide + col];
+    return COVER_CODE[paint(blocks.tris, row * perSide + col, ctx, SCRATCH)];
   }
 
   get built(): number {
@@ -461,7 +461,6 @@ export class DetailTerrain {
     const made: Blocks = {
       tris,
       colours: new Float32Array(perSide * perSide * 3),
-      cover: new Uint8Array(perSide * perSide),
       paintKey: '',
     };
     this.blocks.set(key, made);
@@ -471,7 +470,7 @@ export class DetailTerrain {
   private paintBlocks(blocks: Blocks, ctx: PaintContext): void {
     const out: MutableRgb = { r: 0, g: 0, b: 0 };
     for (let i = 0; i < blocks.tris.count; i++) {
-      blocks.cover[i] = COVER_CODE[paint(blocks.tris, i, ctx, out)];
+      paint(blocks.tris, i, ctx, out);
       blocks.colours[i * 3] = out.r;
       blocks.colours[i * 3 + 1] = out.g;
       blocks.colours[i * 3 + 2] = out.b;

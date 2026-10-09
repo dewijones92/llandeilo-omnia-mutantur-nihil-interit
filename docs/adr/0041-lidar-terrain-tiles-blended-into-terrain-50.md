@@ -35,8 +35,8 @@ Facts that shaped it (data note: [`docs/data/lidar.md`](../data/lidar.md)):
 ## Decision
 
 **1. Tiles.** `tools/terrain/fetch-lidar.sh` and `build-lidar.py` turn the 1m tiles into 500m tiles of
-vertex heights (`uint16` centimetres, edge vertices shared with the neighbour) in `public/data/lidar/`,
-with a manifest (`lidar.json`) that names the region, the areas, every tile and every source file's
+vertex heights (`uint16` centimetres, edge vertices shared with the neighbour), all in one file,
+`public/data/lidar/lidar.bin`, with a manifest (`lidar.json`) that names the region, the areas, every tile and every source file's
 hash. Tiles that touch the two priority areas (`tools/terrain/lidar-areas.json`: Llandeilo 1.5km, the
 Roman forts 1km, centred on those places' references) keep every 2m; the rest of a 5km by 4km region
 keeps every 10m. Raw downloads stay outside git; 3.0MB of processed tiles are committed. A new area is a
@@ -55,8 +55,9 @@ Delaunay triangulation; triangles whose centroid lies inside are left out of the
 `tris`, so land cover and trees still see them. The detail meshes' edge vertices take the straight-line
 profile of those same rim points (`RimProfile`), so the two surfaces meet along the same lines. The
 shipped check is `Terrain.seam()` (`llandeiloDebug.seam()`): it reads the real vertex buffers and compares
-every detail vertex on the rim with the coarse mesh's rim line. It reads 2,696 detail vertices and 450
-base vertices with a largest gap of 0.0000038 world units and none unmatched.
+every detail vertex on the rim with the coarse mesh's rim line. At the overview, on the first build, it read 2,696
+detail vertices and 450 base vertices with a largest gap of 0.0000038 world units and none unmatched;
+the e2e test asks for more than 1,000 detail vertices, none unmatched and a gap under 0.001.
 
 **4. Levels of detail by tile.** A tile is the unit of loading and of detail. Its mesh step is chosen by
 the distance from the eye to the nearest point of the tile (`stepForDistance`: 4m under 320m, 10m under
@@ -76,10 +77,12 @@ and its colours come from the same functions as the coarse triangles' (`landcove
 `terrain.ts`): the same classifier, the same palette, the same season and snow. The inputs are scored per
 10m block, not per triangle, so a tile's colours do not change when its step does; the blocks' ranks are
 looked up in the coarse triangles' sorted scores, so the proportions match; the slope that scores them is
-taken over 35m each way, or the covers dither at the edges; the random part of the score is shared across
-40m. Repainting is sliced by the same budget, nearest tile first.
+taken over 40m each way, or the covers dither at the edges; the random part of the score is shared across
+40m. Repainting is sliced by the same budget, nearest tile first. Trees inside the region stand on the
+block under them (`Terrain.coverAt`), not on the hidden coarse triangle, so a tree and the ground it stands on
+agree.
 
-**7. Data up front, meshes on demand.** The 3MB of tiles is fetched at start, with the other map data.
+**7. Data up front, meshes on demand.** The 3MB data file is fetched at start, with the other map data (as one file: 80 separate tile requests failed twice under load in the e2e run).
 This is forced, not chosen: features, buildings and trees are placed once at start, and anything in the
 region needs the ground to be placed. What streams is the geometry: a tile's mesh is built when the
 camera nears it and swapped as it moves (`pending`, `builds`, `tileSteps` in `llandeiloDebug.detail()`).
@@ -112,8 +115,8 @@ at the rim.
   points within 22m of the rim, so its triangle count went from 153,944 to 154,694 and the percentile
   ranks that decide cover in eras without the woodland map shifted by up to 0.14%: a few hundred of
   the triangles far from the region may change cover (about 0.2%, scattered; found by the review).
-- Cost, measured on the RTX 2000 Ada laptop GPU through WSL, 1920x1080, uncapped, in `?debug`: PERF_NUMBERS.
-  Start-up fetches 81 more small files (80 tiles and the manifest) and builds and paints 80 meshes: STARTUP.
+- Cost, measured on the RTX 2000 Ada laptop GPU through WSL, 1920x1080, uncapped, in `?debug`: `node tools/frames.mjs <url> <dir> --perf --uncapped`, the town at 400m from the camera in 2020: idle 110 to 124fps against 139 to 175 before, orbiting 66 to 69 against 68 to 81, the slider scrub 41 to 47 against 58 to 77, with about 290,000 more triangles drawn (13 tiles at 10m, 4 at 4m, 63 at 20m). At the 1903 overview idle was 92 to 129 against 164 to 171. The laptop was shared with other agents' test runs (load average 15 to 18), so a figure moves by a third between runs: read it as about a quarter less when idle and about the same orbiting. With vsync on both hold 60.
+  Start-up fetches two more files (the 2.95MB data file and the manifest) and builds and paints 80 meshes: from the page loading to ready took 12.9 to 13.1s against 11.5 to 14.7s before, within the noise of that load; settling all 80 tiles at start was 1.7 to 2.3s of it.
 - The detail mesh is flat at 4m: the fort's banks (a metre or so high and a few metres wide) show as
   slight ridges, not as crisp earthworks. A 2m mesh, or a terrain shader, is the way to more.
 - The DTM keeps some tree clumps and walls. They are what the LiDAR measured; none is removed.

@@ -24,17 +24,17 @@ interface Segment {
   readonly half: number;
 }
 
-const cellKey = (ce: number, cn: number): string => `${String(ce)},${String(cn)}`;
+const cellKey = (ce: number, cn: number): number => ce * 2097152 + cn;
 
 // Where the rivers are, for asking "is a river near here, how far, and how low does its water lie".
 export class RiverIndex {
-  private readonly all = new Set<string>();
-  private readonly sampled = new Map<string, { e: number; n: number; half: number }[]>();
-  private readonly segments = new Map<string, Segment[]>();
+  private readonly all = new Set<number>();
+  private readonly sampled = new Map<number, { e: number; n: number; half: number }[]>();
+  private readonly segments = new Map<number, Segment[]>();
 
   constructor(rivers: readonly RiverLike[]) {
     const cell = (v: number): number => Math.floor(v / CELL_M);
-    const push = <T>(map: Map<string, T[]>, key: string, value: T): void => {
+    const push = <T>(map: Map<number, T[]>, key: number, value: T): void => {
       const list = map.get(key);
       if (list) list.push(value);
       else map.set(key, [value]);

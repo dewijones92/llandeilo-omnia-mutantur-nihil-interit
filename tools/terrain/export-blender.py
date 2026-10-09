@@ -60,7 +60,12 @@ total_vertices = 0
 total_faces = 0
 for t in sorted(tiles, key=lambda t: (t['n'], t['e'])):
     stored = size // t['step'] + 1
-    grid = np.fromfile(DATA / t['file'], dtype='<u2').reshape(stored, stored).astype(np.float64) * scale
+    grid = (
+        np.fromfile(DATA / manifest['data'], dtype='<u2', count=stored * stored, offset=t['offset'])
+        .reshape(stored, stored)
+        .astype(np.float64)
+        * scale
+    )
     stride = step // t['step']
     grid = grid[::stride, ::stride]
     side = grid.shape[0]

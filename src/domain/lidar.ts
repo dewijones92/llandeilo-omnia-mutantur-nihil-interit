@@ -19,13 +19,15 @@ export interface LidarTileInfo {
   readonly e: number;
   readonly n: number;
   readonly step: number;
-  readonly file: string;
+  readonly offset: number;
+  readonly bytes: number;
   readonly minHeight: number;
   readonly maxHeight: number;
   readonly areas: readonly string[];
 }
 
 export interface LidarManifest {
+  readonly data: string;
   readonly tileSize: number;
   readonly heightScale: number;
   readonly blendMetres: number;
@@ -47,6 +49,7 @@ export const RIM_SPACING = 40;
 const BAND_EDGES: readonly number[] = [320, 850];
 const HYSTERESIS = 0.15;
 const RIM_EPSILON = 1e-6;
+const CELL_STRIDE = 1 << 21;
 
 export function tileKey(e: number, n: number): string {
   return `${String(e)}_${String(n)}`;
@@ -176,6 +179,7 @@ export class RimProfile {
 // The ground where LiDAR tiles exist: the LiDAR heights, eased into the coarser surface at the rim.
 export class DetailGround {
   private readonly fields = new Map<string, Heightfield>();
+  private readonly byCell = new Map<number, Heightfield>();
 
   constructor(
     readonly manifest: LidarManifest,
@@ -187,20 +191,19 @@ export class DetailGround {
       const samples = data.get(key);
       if (!samples) throw new Error(`no data for tile ${key}`);
       const side = size / t.step + 1;
-      this.fields.set(
-        key,
-        createHeightfield(
-          {
-            originEasting: t.e - t.step / 2,
-            originNorthing: t.n + size + t.step / 2,
-            cellSize: t.step,
-            width: side,
-            height: side,
-            heightScale: manifest.heightScale,
-          },
-          samples,
-        ),
+      const field = createHeightfield(
+        {
+          originEasting: t.e - t.step / 2,
+          originNorthing: t.n + size + t.step / 2,
+          cellSize: t.step,
+          width: side,
+          height: side,
+          heightScale: manifest.heightScale,
+        },
+        samples,
       );
+      this.fields.set(key, field);
+      this.byCell.set((t.e / size) * CELL_STRIDE + t.n / size, field);
     }
   }
 
@@ -217,9 +220,7 @@ export class DetailGround {
     const { tileSize, region } = this.manifest;
     const e = g.e === region.eMax ? g.e - tileSize : g.e;
     const n = g.n === region.nMax ? g.n - tileSize : g.n;
-    const field = this.fields.get(
-      tileKey(Math.floor(e / tileSize) * tileSize, Math.floor(n / tileSize) * tileSize),
-    );
+    const field = this.byCell.get(Math.floor(e / tileSize) * CELL_STRIDE + Math.floor(n / tileSize));
     return field ? sampleHeight(field, g) : undefined;
   }
 
@@ -352,11 +353,21 @@ export function parseManifest(raw: unknown): LidarManifest {
       throw new Error(`lidar.json: tile ${key} step ${String(step)} does not divide ${String(tileSize)}`);
     if (seen.has(key)) throw new Error(`lidar.json: tile ${key} is listed twice`);
     seen.add(key);
+    const offset = finite(r['offset'], 'tile offset');
+    const bytes = finite(r['bytes'], 'tile bytes');
+    const side = tileSize / step + 1;
+    if (bytes !== side * side * 2)
+      throw new Error(
+        `lidar.json: tile ${key} has ${String(bytes)} bytes, expected ${String(side * side * 2)}`,
+      );
+    if (offset < 0 || offset % 2 !== 0)
+      throw new Error(`lidar.json: tile ${key} offset ${String(offset)} is not even`);
     return {
       e,
       n,
       step,
-      file: text(r['file'], 'tile file'),
+      offset,
+      bytes,
       minHeight: finite(r['minHeight'], 'tile minHeight'),
       maxHeight: finite(r['maxHeight'], 'tile maxHeight'),
       areas: list(r['areas'], 'tile areas').map((a) => text(a, 'tile area')),
@@ -366,6 +377,7 @@ export function parseManifest(raw: unknown): LidarManifest {
   if (tiles.length !== expected)
     throw new Error(`lidar.json: ${String(tiles.length)} tiles, but the region covers ${String(expected)}`);
   return {
+    data: text(raw['data'], 'data'),
     tileSize,
     heightScale: positive(raw['heightScale'], 'heightScale'),
     blendMetres: positive(raw['blendMetres'], 'blendMetres'),
@@ -374,4 +386,16 @@ export function parseManifest(raw: unknown): LidarManifest {
     tiles,
     credit: text(record(raw['source'], 'source')['credit'], 'source.credit'),
   };
+}
+
+// Slices the data file, every tile's samples one after another, into a tile's samples by key.
+export function tileData(manifest: LidarManifest, buffer: ArrayBuffer): Map<string, Uint16Array> {
+  const expected = manifest.tiles.reduce((sum, t) => sum + t.bytes, 0);
+  if (buffer.byteLength !== expected)
+    throw new Error(
+      `${manifest.data} is ${String(buffer.byteLength)} bytes, expected ${String(expected)} bytes`,
+    );
+  return new Map(
+    manifest.tiles.map((t) => [tileKey(t.e, t.n), new Uint16Array(buffer, t.offset, t.bytes / 2)]),
+  );
 }

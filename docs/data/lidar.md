@@ -118,15 +118,17 @@ not inside its area, or an area comes within the 300m blend margin of the region
 
 1. `gdalbuildvrt` joins the 25 files; `gdalwarp -r average` makes one 2m raster of the region with each
    output pixel centred on a vertex (a 2m cell is the mean of four 1m cells).
-2. For each 500m tile it writes `public/data/lidar/<easting>_<northing>.bin`: a square of **vertex**
-   heights, (500/step + 1) per side, `uint16` little-endian **centimetres**, row by row from the
-   north-west corner, so neighbouring tiles share their edge vertices exactly. 2m tiles are 251 x 251
-   (126KB, about 84KB gzipped); 10m tiles are 51 x 51 (5KB). The 10m values are samples of the same 2m
-   raster, so where the two resolutions meet they agree.
-3. `public/data/lidar/lidar.json` lists the region, areas, every tile (position, step, file, lowest and
-   highest height) and every source raster, with the credit. With the 80 tiles it is 81 files.
+2. For each 500m tile it writes a square of **vertex** heights, (500/step + 1) per side, `uint16`
+   little-endian **centimetres**, row by row from the north-west corner, so neighbouring tiles share
+   their edge vertices exactly. 2m tiles are 251 x 251 (126KB); 10m tiles are 51 x 51 (5KB). The 10m
+   values are samples of the same 2m raster, so where the two resolutions meet they agree. All 80 tiles
+   go one after another into one file, `public/data/lidar/lidar.bin` (2.95MB), because a page load of
+   81 separate requests failed twice under load in the end-to-end tests ("Failed to fetch"); each tile's
+   byte offset is in the manifest, so a later version can fetch one tile with an HTTP range request.
+3. `public/data/lidar/lidar.json` lists the region, areas, every tile (position, step, offset, byte
+   count, lowest and highest height) and every source raster, with the credit.
 
-All 80 files together are 3.0MB. They are committed; the downloads are not.
+The two files are 3.0MB together. They are committed; the downloads are not.
 
 Same frame as the existing terrain: the world is OS grid metres, with the centre at E 262900 N 222500
 and 10m to a world unit (`src/domain/geo.ts`). OS Terrain 50 is read as cell-centred samples (`sampleHeight`'s half-cell offset);
@@ -134,6 +136,26 @@ the LiDAR tiles are vertex samples, which the same function reads once a tile's 
 step. No data is shifted. `tests/lidar.test.ts` compares every tile with Terrain 50 and fails if a tile is
 transposed or shifted (seen red with one tile transposed), except one whose ground is nearly symmetric:
 transposing is detectable in 60 of the 80 tiles.
+
+## What it looks like
+
+Before (Terrain 50 alone) and after (the LiDAR tiles), on the GPU through WSL, 1920x1080, High, summer noon.
+They are in `docs/images/lidar/`.
+
+| | Before | After |
+|---|---|---|
+| Llandeilo, 2020, 600m from the camera | ![](../images/lidar/before-llandeilo-2020.jpg) | ![](../images/lidar/after-llandeilo-2020.jpg) |
+| The Roman forts' field, 2020, 300m | ![](../images/lidar/before-forts-2020.jpg) | ![](../images/lidar/after-forts-2020.jpg) |
+| Llandeilo, 1282 (woodland from the era's environment) | ![](../images/lidar/before-llandeilo-1282.jpg) | ![](../images/lidar/after-llandeilo-1282.jpg) |
+| The overview: no seam at the edge of the region | ![](../images/lidar/before-overview-2020.jpg) | ![](../images/lidar/after-overview-2020.jpg) |
+
+The forts' field is flat pasture in 2020: the forts are not visible in the ground, and at a 4m mesh the
+faint banks of Dinefwr Park do not show either. A hillshade of the 1m data over the park (below, 600m
+square, E 261900 N 222250 at the south-west corner, made with `gdaldem hillshade -z 3` for this note) shows what
+the LiDAR holds there: field boundaries, tracks, ridge and furrow, ponds, and tree clumps that the
+"bare earth" model still carries.
+
+![A hillshade of the 1m LiDAR over part of Dinefwr Park](../images/lidar/dinefwr-park-hillshade.jpg)
 
 ## Rebuilding and expanding
 

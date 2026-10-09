@@ -1,6 +1,6 @@
 import type { GridRef } from '../domain/model.ts';
 import { createHeightfield, type Heightfield, type HeightfieldMeta } from '../domain/heightfield.ts';
-import { DetailGround, parseManifest, tileKey } from '../domain/lidar.ts';
+import { DetailGround, parseManifest, tileData } from '../domain/lidar.ts';
 
 export interface RiverLine {
   readonly name: string | null;
@@ -47,18 +47,13 @@ export async function loadLidar(): Promise<DetailGround> {
   const res = await fetch(asset('data/lidar/lidar.json'));
   if (!res.ok) throw new Error(`lidar.json fetch failed: ${res.status}`);
   const manifest = parseManifest(await res.json());
-  const tiles = await Promise.all(
-    manifest.tiles.map(async (t): Promise<[string, Uint16Array]> => {
-      const tile = await fetch(asset(`data/lidar/${t.file}`));
-      if (!tile.ok) throw new Error(`lidar tile ${t.file} fetch failed: ${tile.status}`);
-      return [tileKey(t.e, t.n), new Uint16Array(await tile.arrayBuffer())];
-    }),
-  );
-  const bytes = tiles.reduce((sum, [, data]) => sum + data.byteLength, 0);
+  const bin = await fetch(asset(`data/lidar/${manifest.data}`));
+  if (!bin.ok) throw new Error(`${manifest.data} fetch failed: ${bin.status}`);
+  const buffer = await bin.arrayBuffer();
   console.info(
-    `dewidebug lidar loaded ${tiles.length} tiles (${manifest.tiles.filter((t) => t.areas.length > 0).length} in priority areas) bytes=${bytes}`,
+    `dewidebug lidar loaded ${manifest.tiles.length} tiles (${manifest.tiles.filter((t) => t.areas.length > 0).length} in priority areas) bytes=${buffer.byteLength}`,
   );
-  return new DetailGround(manifest, new Map(tiles));
+  return new DetailGround(manifest, tileData(manifest, buffer));
 }
 
 function points(v: unknown): GridRef[] {

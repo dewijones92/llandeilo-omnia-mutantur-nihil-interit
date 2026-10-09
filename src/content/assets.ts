@@ -35,7 +35,7 @@ export const ASSETS: readonly AssetRecord[] = [
     url: 'https://www.ordnancesurvey.co.uk/products/os-terrain-50',
   },
   {
-    files: /^data\/lidar\/.+\.(bin|json)$/,
+    files: /^data\/lidar\/lidar\.(bin|json)$/,
     what: { en: 'Close-up terrain heights', cy: 'Uchderau’r tir manwl' },
     source: `${lidar.source.credit} Resampled to 2m and 10m by tools/terrain/build-lidar.py.`,
     licence: `${OGL}, as stated on the DataMapWales LiDAR download page (the tile catalogue's own entry states none)`,

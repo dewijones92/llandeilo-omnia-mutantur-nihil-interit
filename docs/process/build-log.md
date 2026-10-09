@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Build log
@@ -588,3 +588,26 @@ Milestones and what each one taught us. Newest last.
    one rule decides both smoke and halos, and two lightings in the fading-day band are pinned from main
    (red when `selfLit` loses its night weighting). Lesson: a test that reads flags back from the
    renderer proves the code ran, not that anything reached the screen; count the pixels.
+
+23. **Real ground for the town and the Roman forts** (Claude, under the proactive mandate, GitHub issue 2;
+   [ADR 0041](../adr/0041-lidar-terrain-tiles-blended-into-terrain-50.md), [`data/lidar.md`](../data/lidar.md);
+   numbered 23 on its branch, to be renumbered at the merge if others have taken it). The long-agreed
+   close-up LiDAR was built: 25 one-kilometre Welsh Government 1m tiles became 80 tiles of 500m in one 3MB
+   file (2m for the town and forts, 10m round them), drawn as flat-shaded meshes at 4, 10 or 20m by distance,
+   in a hole in the Terrain 50 mesh whose rim is watertight by construction (read back from the real vertex
+   buffers: largest gap 0.0000038 world units). One `Terrain` answers the height for everything, so the town
+   sits on its ground; a period's changes are ground edits laid over the base, never written into it.
+   The things that cost time: a winding I had backwards (the new ground was invisible and the plinth showed
+   through the hole, until a unit test pinned Babylon's rule: a face seen from above has its cross product
+   pointing down); a 2m mesh, 127,000 triangles a tile, took 0.4 to 2.5s to upload on this laptop and
+   hitched the camera, so the mesh stops at 4m and the 2m data sets the heights; classifying the ground per
+   triangle at 4m dithered farm and grass into confetti, so covers are scored per 10m block on the lie of
+   the land over 40m each way; 81 separate tile requests failed twice ("Failed to fetch") in the full e2e
+   run under load, so the tiles are one file; and a first draft let trees stand on the coarse triangles'
+   cover while the ground drawn under them used another, which the review caught. The review also showed
+   that adding the rim points shifts the coarse mesh's percentile ranks, so about 0.2% of far-away
+   triangles can change cover; the ADR says so. Seen red first: the LOD, blend, rim, tile-geometry, seam,
+   river and ground-edit unit tests (stubs returning wrong values), the data tests (six tiles, then one,
+   transposed), and all five e2e tests (with the detail switched off). Frame cost, measured on the shared
+   laptop: about a quarter less idle, the same orbiting. Lesson: put the proof of "no seam" in the shipped
+   code (`llandeiloDebug.seam()`), and read it from the buffers, not from the arithmetic that made them.

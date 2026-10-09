@@ -1,36 +1,44 @@
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { createHeightfield, sampleHeight } from '../src/domain/heightfield.ts';
-import { DetailGround, insideBounds, parseManifest, RIM_SPACING, tileKey } from '../src/domain/lidar.ts';
+import {
+  DetailGround,
+  insideBounds,
+  parseManifest,
+  RIM_SPACING,
+  tileData,
+  tileKey,
+} from '../src/domain/lidar.ts';
 
 const dir = join(import.meta.dirname, '..', 'public', 'data');
 const manifest = parseManifest(JSON.parse(readFileSync(join(dir, 'lidar', 'lidar.json'), 'utf8')));
 const size = manifest.tileSize;
 
-function samples(file: string): Uint16Array {
-  const raw = readFileSync(join(dir, 'lidar', file));
-  return new Uint16Array(raw.buffer, raw.byteOffset, raw.byteLength / 2);
-}
-
-const data = new Map(manifest.tiles.map((t) => [tileKey(t.e, t.n), samples(t.file)]));
+const blob = readFileSync(join(dir, 'lidar', manifest.data));
+const data = tileData(manifest, blob.buffer.slice(blob.byteOffset, blob.byteOffset + blob.byteLength));
 const ground = new DetailGround(manifest, data);
+const name = (t: { e: number; n: number }): string => tileKey(t.e, t.n);
 
 describe('the LiDAR tiles on disk', () => {
-  it('are the size the manifest says, one file per tile', () => {
+  it('fill the data file exactly, one after another, each the size its step says', () => {
+    let next = 0;
     for (const t of manifest.tiles) {
       const side = size / t.step + 1;
-      expect(statSync(join(dir, 'lidar', t.file)).size, t.file).toBe(side * side * 2);
+      expect(t.offset, name(t)).toBe(next);
+      expect(t.bytes, name(t)).toBe(side * side * 2);
+      next += t.bytes;
     }
+    expect(blob.byteLength).toBe(next);
   });
 
   it('keep each tile within the heights the manifest records', () => {
     for (const t of manifest.tiles) {
       const values = data.get(tileKey(t.e, t.n)) ?? new Uint16Array();
-      expect(Math.min(...values) * manifest.heightScale, t.file).toBeCloseTo(t.minHeight, 6);
-      expect(Math.max(...values) * manifest.heightScale, t.file).toBeCloseTo(t.maxHeight, 6);
+      expect(Math.min(...values) * manifest.heightScale, name(t)).toBeCloseTo(t.minHeight, 6);
+      expect(Math.max(...values) * manifest.heightScale, name(t)).toBeCloseTo(t.maxHeight, 6);
     }
   });
 
@@ -44,7 +52,7 @@ describe('the LiDAR tiles on disk', () => {
         const mine = data.get(tileKey(t.e, t.n)) ?? new Uint16Array();
         const side = size / t.step + 1;
         const row = (t.n + size - n) / t.step;
-        expect(mine[row * side + side - 1], `${t.file} east edge at n=${String(n)}`).toBe(
+        expect(mine[row * side + side - 1], `${name(t)} east edge at n=${String(n)}`).toBe(
           Math.round(at(t.e + size, n) / manifest.heightScale),
         );
       }
@@ -59,8 +67,8 @@ describe('the LiDAR tiles on disk', () => {
       );
       expect(touching.length, a.id).toBeGreaterThan(0);
       for (const t of touching) {
-        expect(t.step, `${a.id} ${t.file}`).toBe(finest);
-        expect(t.areas, `${a.id} ${t.file}`).toContain(a.id);
+        expect(t.step, `${a.id} ${name(t)}`).toBe(finest);
+        expect(t.areas, `${a.id} ${name(t)}`).toContain(a.id);
       }
     }
     for (const t of manifest.tiles.filter((x) => x.areas.length === 0))
@@ -149,7 +157,7 @@ describe('the LiDAR against OS Terrain 50', () => {
           count++;
         }
       }
-      expect(total / count, t.file).toBeLessThan(2);
+      expect(total / count, name(t)).toBeLessThan(2);
     }
   });
 

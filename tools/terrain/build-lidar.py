@@ -22,6 +22,7 @@ WORK = DATA / 'lidar' / 'work'
 RAW = DATA / 'lidar' / 'raw'
 CATALOGUE = DATA / 'lidar' / 'catalogue.json'
 HEIGHT_SCALE = 0.01
+DATA_FILE = 'lidar.bin'
 
 def credit(flown):
     return (
@@ -94,7 +95,7 @@ def main():
     print(f'dewidebug lidar detail raster {width}x{height} at {fine}m, heights {grid.min():.2f}-{grid.max():.2f} m')
 
     tiles = []
-    total = 0
+    blob = bytearray()
     for tn in tile_range(r['nMin'], r['nMax'], size):
         for te in tile_range(r['eMin'], r['eMax'], size):
             priority = [a['id'] for a in areas if intersects(a, te, tn, size)]
@@ -108,24 +109,23 @@ def main():
             if cm.min() < 0 or cm.max() > 65535:
                 sys.exit(f'tile {te},{tn} has heights outside the uint16 centimetre range')
             data = cm.astype('<u2')
-            name = f'{te}_{tn}.bin'
-            (OUT / name).write_bytes(data.tobytes())
-            total += data.nbytes
+            offset = len(blob)
+            blob += data.tobytes()
             tiles.append(
                 {
                     'e': te,
                     'n': tn,
                     'step': step,
-                    'file': name,
+                    'offset': offset,
                     'bytes': data.nbytes,
                     'minHeight': float(data.min()) * HEIGHT_SCALE,
                     'maxHeight': float(data.max()) * HEIGHT_SCALE,
                     'areas': priority,
                 }
             )
-    keep = {t['file'] for t in tiles}
+    (OUT / DATA_FILE).write_bytes(bytes(blob))
     for stale in OUT.glob('*.bin'):
-        if stale.name not in keep:
+        if stale.name != DATA_FILE:
             stale.unlink()
 
     catalogue = {
@@ -151,12 +151,13 @@ def main():
 
     manifest = {
         'crs': cfg['crs'],
+        'data': DATA_FILE,
         'tileSize': size,
         'heightScale': HEIGHT_SCALE,
         'blendMetres': cfg['blendMetres'],
         'region': r,
         'areas': areas,
-        'encoding': 'uint16 little-endian, centimetres, row-major from the north-west corner; (tileSize/step + 1) vertices per side, edge vertices shared with the neighbouring tile',
+        'encoding': 'one file of every tile one after another (each tile at its offset, in bytes): uint16 little-endian, centimetres, row-major from the north-west corner; (tileSize/step + 1) vertices per side, edge vertices shared with the neighbouring tile',
         'tiles': tiles,
         'source': {
             'product': 'Welsh Government LiDAR tile catalogue 2020-2023, 1m DTM (bare earth)',
@@ -168,8 +169,8 @@ def main():
     (OUT / 'lidar.json').write_text(json.dumps(manifest, indent=1) + '\n')
     fine_tiles = sum(1 for t in tiles if t['step'] == fine)
     print(
-        f'dewidebug lidar wrote {len(tiles)} tiles ({fine_tiles} at {fine}m, {len(tiles) - fine_tiles} at {coarse}m), '
-        f'{total} bytes of heights, {len(sources)} source rasters'
+        f'dewidebug lidar wrote {len(tiles)} tiles ({fine_tiles} at {fine}m, {len(tiles) - fine_tiles} at {coarse}m) '
+        f'into {DATA_FILE}, {len(blob)} bytes of heights, {len(sources)} source rasters'
     )
 
 

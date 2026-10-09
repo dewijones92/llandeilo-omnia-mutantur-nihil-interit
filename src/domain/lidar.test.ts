@@ -10,6 +10,7 @@ import {
   rimWeight,
   stepForDistance,
   tileDistance,
+  tileData,
   tileKey,
   type LidarTileInfo,
 } from './lidar.ts';
@@ -21,7 +22,7 @@ function rawTile(e: number, over: Record<string, unknown> = {}): Record<string, 
     e,
     n: 0,
     step: 50,
-    file: `${String(e)}_0.bin`,
+    offset: Math.abs(e / 100) * 18,
     bytes: 18,
     minHeight: 1,
     maxHeight: 9,
@@ -33,6 +34,7 @@ function rawTile(e: number, over: Record<string, unknown> = {}): Record<string, 
 function rawManifest(): Record<string, unknown> {
   return {
     crs: 'EPSG:27700',
+    data: 'lidar.bin',
     tileSize: 100,
     heightScale: 0.1,
     blendMetres: 20,
@@ -93,7 +95,8 @@ describe('level of detail', () => {
       e,
       n: 0,
       step,
-      file: `${String(e)}.bin`,
+      offset: 0,
+      bytes: 0,
       minHeight: 0,
       maxHeight: 10,
       areas: [],
@@ -238,6 +241,21 @@ describe('the manifest', () => {
     expect(() => parseManifest({ ...raw, tiles: [first, rawTile(100, { step: 30 })] })).toThrow(/step/);
   });
 
+  it('refuses a tile whose byte count does not fit its step, or whose offset is odd', () => {
+    const raw = rawManifest();
+    expect(() => parseManifest({ ...raw, tiles: [rawTile(0), rawTile(100, { bytes: 20 })] })).toThrow(
+      /bytes/,
+    );
+    expect(() => parseManifest({ ...raw, tiles: [rawTile(0), rawTile(100, { offset: 19 })] })).toThrow(
+      /offset/,
+    );
+  });
+
+  it('names the data file', () => {
+    expect(parseManifest(rawManifest()).data).toBe('lidar.bin');
+    expect(() => parseManifest({ ...rawManifest(), data: 3 })).toThrow(/data/);
+  });
+
   it('refuses a region that is not a whole number of tiles', () => {
     expect(() => parseManifest({ ...rawManifest(), region: { ...REGION, eMax: 250 } })).toThrow(/region/);
   });
@@ -326,5 +344,25 @@ describe('a tile of vertex heights', () => {
     if (!tile) throw new Error('fixture');
     expect(() => g.tileHeights(tile, 20, base, rim())).toThrow(/step/);
     expect(() => g.tileHeights(tile, 25, base, rim())).toThrow(/step/);
+  });
+});
+
+describe('slicing the data file into tiles', () => {
+  it('gives each tile its own samples, by offset', () => {
+    const manifest = parseManifest(rawManifest());
+    const all = Uint16Array.from([
+      ...Array.from({ length: 9 }, (_, i) => i),
+      ...Array.from({ length: 9 }, (_, i) => 100 + i),
+    ]);
+    const data = tileData(manifest, all.buffer);
+    expect(Array.from(data.get(tileKey(0, 0)) ?? [])).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(Array.from(data.get(tileKey(100, 0)) ?? [])).toEqual([
+      100, 101, 102, 103, 104, 105, 106, 107, 108,
+    ]);
+  });
+
+  it('refuses a file of the wrong length', () => {
+    const manifest = parseManifest(rawManifest());
+    expect(() => tileData(manifest, new ArrayBuffer(30))).toThrow(/36 bytes/);
   });
 });
