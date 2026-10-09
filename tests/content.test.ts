@@ -16,6 +16,7 @@ import {
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { hasStreetLamps, insideArea, streetWarmth } from '../src/domain/lamplight.ts';
+import { DEFAULT_CLOCK, sunElevation } from '../src/domain/daylight.ts';
 import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
 import { latestStarting, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
@@ -663,6 +664,126 @@ describe('building plans', () => {
     ];
     const wrong = W.features.filter((f) => guessed.includes(f.id) && f.provenance.kind !== 'reconstructed');
     expect(wrong.map((f) => f.id)).toEqual([]);
+  });
+});
+
+describe('battles and black swans: 1213, 1257, 1849 and 1918', () => {
+  const ev = (id: string) => W.events.find((e) => e.id === id);
+  const sourcesOf = (id: string): readonly string[] => ev(id)?.provenance.sources ?? [];
+  const noteOf = (id: string) => {
+    const p = ev(id)?.provenance;
+    return p?.kind === 'documented' ? p.note : undefined;
+  };
+  const text = (id: string): string => {
+    const e = ev(id);
+    return e ? `${e.summary.en} ${noteOf(id)?.en ?? ''}` : '';
+  };
+
+  it('dates each one to its year, documented, from the checked notes, in both languages', () => {
+    const want = {
+      'llandeilo-burned-1213': 1213,
+      'cymerau-1257': 1257,
+      'cholera-1849': 1849,
+      'influenza-1918': 1918,
+    };
+    for (const [id, y] of Object.entries(want)) {
+      const e = ev(id);
+      expect(e?.when, id).toEqual({ from: ad(y), to: ad(y) });
+      expect(e?.provenance.kind).toBe('documented');
+      expect(e?.title.cy).not.toBe(e?.title.en);
+      expect(e?.summary.cy).not.toBe(e?.summary.en);
+    }
+  });
+
+  it('1213: led by young Rhys, Llandeilo burned by Rhys Gryg, Dinefwr held to terms, in winter', () => {
+    const said = text('llandeilo-burned-1213');
+    expect(said).toMatch(/young Rhys/);
+    expect(said).toMatch(/Rhys Gryg burned Llandeilo/);
+    expect(said).toMatch(/unless help came by the next evening/);
+    expect(sourcesOf('llandeilo-burned-1213')).toEqual(
+      expect.arrayContaining(['invasions:S1', 'invasions:S5']),
+    );
+    expect(ev('llandeilo-burned-1213')?.recordedSky?.season).toBe('winter');
+  });
+
+  it('1257: Bauzan killed, the camp at Llandeilo in one chronicle only, the sites contested and the dead not “English”', () => {
+    const said = text('cymerau-1257');
+    expect(said).toMatch(/Bauzan was killed/);
+    expect(said).toMatch(/one chronicle/);
+    expect(said).toMatch(/mostly Welsh foot soldiers/);
+    expect(said).not.toMatch(/English (dead|killed)|3,000 English/);
+    expect(said).toMatch(/“Saxons”/);
+    expect(said).toMatch(/none is marked/);
+    expect(sourcesOf('cymerau-1257')).toEqual(
+      expect.arrayContaining(['invasions:S3', 'invasions:S5', 'invasions:S7', 'invasions:S17']),
+    );
+    expect(ev('cymerau-1257')?.recordedSky).toMatchObject({
+      season: 'summer',
+      hour: { kind: 'recorded', value: 12 },
+    });
+  });
+
+  it('1849: a card, not a step or a scene, because one partly illegible report is all there is', () => {
+    expect(ev('cholera-1849')?.magnetic).toBe(false);
+    expect(sourcesOf('cholera-1849')).toContain('ripples:S24');
+    expect(noteOf('cholera-1849')?.en).toMatch(/one newspaper report/i);
+    expect(ev('cholera-1849')?.recordedSky).toBeUndefined();
+  });
+
+  it('1918: cross-checked across the local papers, with its season and its soldier from France', () => {
+    expect(text('influenza-1918')).toMatch(/France/);
+    expect(sourcesOf('influenza-1918')).toEqual(
+      expect.arrayContaining(['ripples:S36', 'ripples:S37', 'ripples:S38', 'ripples:S39']),
+    );
+    expect(ev('influenza-1918')?.recordedSky?.season).toBe('autumn');
+  });
+
+  it('no longer says no cholera case was found in Llandeilo, now that an 1849 report is read', () => {
+    const at1849 = W.almanac.filter((a) => a.topic === 'health' && contains(a.when, ad(1849)));
+    expect(at1849.filter((a) => a.text.en.includes('no case in Llandeilo')).map((a) => a.id)).toEqual([]);
+    expect(at1849.some((a) => a.provenance.sources.some((s) => String(s) === 'ripples:S25'))).toBe(true);
+  });
+
+  it('arrives at a recorded burning by day, so its smoke can be seen, with the hour said to be chosen', () => {
+    const burnings = W.features.filter((f) => f.kind.type === 'burning');
+    const arrivals = W.events.filter(
+      (e) => e.magnetic && burnings.some((f) => contains(f.when, e.when.from)),
+    );
+    expect(arrivals.map((e) => e.id)).toEqual(['llandeilo-burned-1213']);
+    for (const e of arrivals) {
+      const sky = e.recordedSky;
+      expect(sky?.hour?.kind).toBe('chosen');
+      expect(
+        sunElevation({ season: sky?.season ?? 'summer', hour: sky?.hour?.value ?? DEFAULT_CLOCK.hour }),
+      ).toBeGreaterThan(5);
+    }
+  });
+
+  it('1257: keeps both readings of the wood’s name visible, Coed Llathen and Llanarthne', () => {
+    for (const lang of ['en', 'cy'] as const) expect(noteOf('cymerau-1257')?.[lang]).toMatch(/Ll?anarthne/);
+  });
+
+  it('dates the 1849 cases from 1849 and keeps the later absence a reconstructed gap, with no hindsight before', () => {
+    const health = W.almanac.filter((a) => a.topic === 'health');
+    const at1840 = health.filter((a) => contains(a.when, ad(1840)));
+    expect(at1840.filter((a) => /1849|1854|1866/.test(a.text.en)).map((a) => a.id)).toEqual([]);
+    const the1849 = health.filter((a) => a.provenance.sources.some((s) => String(s) === 'ripples:S24'));
+    expect(the1849.length).toBeGreaterThan(0);
+    for (const a of the1849) {
+      expect(a.provenance.kind).toBe('documented');
+      expect(a.when.from).toBeGreaterThanOrEqual(ad(1849));
+    }
+    const absences = health.filter((a) => /no case|none has been found/.test(a.text.en));
+    expect(absences.filter((a) => a.provenance.kind !== 'reconstructed').map((a) => a.id)).toEqual([]);
+  });
+
+  it('draws a burning only where a documented source records one, and only for its exact dates', () => {
+    const burnings = W.features.filter((f) => f.kind.type === 'burning');
+    expect(burnings.map((f) => f.id)).toEqual(['llandeilo-burning-1213']);
+    for (const f of burnings) {
+      expect(f.provenance.kind).toBe('documented');
+      expect(f.datesExact).toBe(true);
+    }
   });
 });
 

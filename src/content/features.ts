@@ -606,6 +606,21 @@ export const FEATURES: readonly Feature[] = [
     }),
   ),
   feature({
+    id: 'llandeilo-burning-1213',
+    kind: { type: 'burning', spread: 12, density: 3 },
+    at: LLANDEILO_CHURCH,
+    from: ad(1213),
+    to: ad(1213),
+    datesExact: true,
+    label: { en: 'Llandeilo burning', cy: 'Llandeilo ar dân' },
+    provenance: documented(
+      ['invasions:S1'],
+      'The Brut says Rhys Gryg burned Llandeilo as he withdrew, in late January 1213. Where in the town the fire was, and how the smoke looked, are not recorded, so the smoke is drawn over the church, the heart of the town.',
+      'Mae’r Brut yn dweud i Rys Gryg losgi Llandeilo wrth gilio, ddiwedd Ionawr 1213. Ni chofnodwyd ble yn y dref roedd y tân, na sut olwg oedd ar y mwg, felly dangosir y mwg dros yr eglwys, calon y dref.',
+    ),
+    place: 'llandeilo',
+  }),
+  feature({
     id: 'newton-house',
     kind: { type: 'building', plan: NEWTON_HOUSE_1660, condition: 'standing' },
     at: NEWTON_HOUSE,

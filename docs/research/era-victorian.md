@@ -822,6 +822,14 @@ above.)
 
 ## Health
 
+*Corrected 2026-10-03*: this section's finding is out of date. A later pass ([ripples-from-afar](ripples-from-afar.md),
+ripples:S24, independently checked 2026-10-02) read *The Welshman* of 21 December 1849, which reports a
+subscription at Llandeilo to fit up a house for destitute cholera patients and "few cases" in the town
+and neighbourhood (partly illegible), and a Pensarn inquest near Carmarthen on a suspected cholera death
+in July 1849 (ripples:S25). So a local response and a few local cases in 1849 are documented, by one
+report. The same check put Ystalyfera at about 12 miles (19 km), not "roughly 20". The rest of this
+section is left as written, so the earlier gap stays visible; the app's almanac follows the correction.
+
 **No confirmed local (Llandeilo or Carmarthenshire) cholera case, death, or public-health response
 was located for any of the national cholera years (1832, 1849, 1854, 1866) in this research pass**,
 despite two dedicated, independent searches. The nearest documented outbreak found is the 1866
@@ -986,7 +994,8 @@ Short, provenance-tagged items for the in-app almanac panel:
   time it reached them via the district's tangled turnpike trusts — a direct, quantified grievance
   behind the Rebecca Riots. [documented, S7]
 - **Health:** no confirmed local cholera case in this period — genuine gap, not a documented
-  "clean bill of health." [gap]
+  "clean bill of health." [gap] *Corrected 2026-10-03*: a few cases in 1849 are now documented by one
+  report (ripples:S24); see Health above.
 - **Travel:** before 1857, Llandeilo was reached by road/coach only, through at least three
   separate turnpike trusts; from January 1857, by rail directly to Llanelli, and from April 1858,
   onward to Llandovery too. [documented, S28][S29][S31]

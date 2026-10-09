@@ -1,6 +1,6 @@
 import type { AlmanacEntry, AlmanacTopic } from '../domain/model.ts';
 import type { Provenance } from '../domain/provenance.ts';
-import { ad, bc, range, type Year } from '../domain/time.ts';
+import { ad, bc, onDay, range, type Year } from '../domain/time.ts';
 import { src, type SourceKey } from './ids.ts';
 
 const doc = (...k: [SourceKey, ...SourceKey[]]): Provenance => ({
@@ -286,11 +286,51 @@ export const ALMANAC: readonly AlmanacEntry[] = [
   ),
   entry(
     'victorian-health',
-    ...VICTORIAN,
+    ad(1837),
+    // Ends the day before 1849 begins, so this line never shows beside the 1849 cases.
+    onDay(1848, 12, 31),
     'health',
     'Cholera is in the newspapers, but no case in Llandeilo itself has been found.',
     "Mae colera yn y papurau newydd, ond does dim achos yn Llandeilo ei hun wedi'i ganfod.",
     rec('A gap, not a clean bill of health.', 'Bwlch, nid prawf o iechyd da.', 'victorian:S54'),
+  ),
+  entry(
+    'cholera-llandeilo-1849',
+    ad(1849),
+    onDay(1850, 1, 1),
+    'health',
+    'Cholera reaches Llandeilo: a few cases in the town and its neighbourhood, and money raised to fit up a house for destitute patients.',
+    'Colera yn cyrraedd Llandeilo: ychydig o achosion yn y dref a’r cyffiniau, ac arian wedi’i gasglu i baratoi tŷ ar gyfer cleifion anghenus.',
+    {
+      kind: 'documented',
+      sources: [src('ripples:S24')],
+      note: {
+        en: 'One newspaper report, The Welshman of 21 December 1849, partly illegible; no second report has been found.',
+        cy: 'Un adroddiad papur newydd, The Welshman 21 Rhagfyr 1849, yn rhannol annarllenadwy; ni chafwyd hyd i ail adroddiad.',
+      },
+    },
+  ),
+  entry(
+    'victorian-health-after-1849',
+    onDay(1850, 1, 1),
+    ad(1901),
+    'health',
+    'Cholera is still in the newspapers, but no case in Llandeilo after 1849 has been found.',
+    'Mae colera yn y papurau newydd o hyd, ond does dim achos yn Llandeilo ar ôl 1849 wedi’i ganfod.',
+    rec(
+      'A gap in what was searched, not a clean bill of health: the nearest later outbreak found is at Ystalyfera in 1866, just outside the area.',
+      'Bwlch yn yr hyn a chwiliwyd, nid prawf o iechyd da: yr achos agosaf diweddarach a gafwyd yw Ystalyfera yn 1866, ychydig y tu allan i’r ardal.',
+      'victorian:S54',
+    ),
+  ),
+  entry(
+    'cholera-inquest-1849',
+    ad(1849),
+    onDay(1850, 1, 1),
+    'health',
+    'At Pensarn, near Carmarthen, an inquest hears a doctor agree that a woman died of “Asiatic Cholera”; the jury finds “cramp, cholic, and diarrhoea” instead.',
+    'Ym Mhensarn, ger Caerfyrddin, mae cwest yn clywed meddyg yn cytuno i fenyw farw o “Asiatic Cholera”; mae’r rheithgor yn dyfarnu “cramp, cholic, and diarrhoea” yn lle hynny.',
+    doc('ripples:S25'),
   ),
   entry(
     'victorian-population',
@@ -300,6 +340,15 @@ export const ALMANAC: readonly AlmanacEntry[] = [
     'The town has about 1,533 people in 1887.',
     'Mae tua 1,533 o bobl yn y dref yn 1887.',
     doc('victorian:S39'),
+  ),
+  entry(
+    'influenza-1918-ammanford',
+    ad(1918),
+    onDay(1919, 1, 1),
+    'health',
+    'The 1918 influenza closes every school around Ammanford too, with a very large number of children ill. At Cwmdu a death in December follows “influenza followed by pneumonia”.',
+    'Mae ffliw 1918 yn cau pob ysgol o gwmpas Rhydaman hefyd, gyda nifer fawr iawn o blant yn sâl. Yng Nghwmdu mae marwolaeth ym mis Rhagfyr yn dilyn “influenza followed by pneumonia”.',
+    doc('ripples:S43'),
   ),
   entry(
     'red-kite',

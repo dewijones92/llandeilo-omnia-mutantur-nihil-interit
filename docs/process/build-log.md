@@ -522,3 +522,34 @@ Milestones and what each one taught us. Newest last.
    first: the two `presenceAt` earliest-date tests, the snapshot test (the colliery line fully present
    just before 6 May 1841), the every-stretch test (the stub undrawn), the label test (no earliest
    dates) and the stub test.
+
+19. **Battles and black swans** (branch `feat/battles-and-black-swans`): four key dates from the
+   checked invasions and ripples notes. **1213**, Llandeilo burned by Rhys Gryg and Dinefwr besieged,
+   with winter from the record and a dark plume over the town drawn only at that step; **1257**, Coed
+   Llathen and Cymerau, at the recorded midday of 2 June in summer, with the camp at Llandeilo said to
+   be in one chronicle, Bauzan's death, mostly Welsh foot soldiers and no site marked; **1849**, cholera
+   in Llandeilo, a card and an almanac note but no scene, since one partly illegible report is all there
+   is; **1918**, influenza, cross-checked in four papers, in autumn. The almanac's "no case in Llandeilo
+   itself has been found" for the whole Victorian era was stale since the ripples note read the 1849
+   report; it is corrected, with a content test that went red on it. Three lessons. The
+   world is 10m to a unit, so the first "spread 60" was 1.2km of emitter and invisible; and Babylon's
+   size gradient overrides a particle system's min and max size, so every hearth puff has always been
+   0.6 to 2.4 units whatever those said. Which features smoke is now one domain rule, tested through
+   `snapshotAt` ([ADR 0038](../adr/0038-recorded-burnings-are-dated-features.md)). And the
+   first long 1257 and 1918 cards ran up over the sky panel's record caption at 1600×900, found only by
+   looking; both cards were cut to about 60 words, with the detail moved into the ⓘ.
+
+20. **The battles branch's first review: markers you could not click, and smoke you could not see.**
+   The 1849 cholera dot sat under nothing but on top of the 1848 church dot, 0.9px away, and the e2e
+   test clicked it with `dispatchEvent`, which skips hit-testing. A test that asks `elementFromPoint`
+   for each marker's own centre found nine covered at 1440×860, seven of them older than the branch
+   (Carreg Cennen's 1287 grant sat exactly on the siege). Markers now keep their x and fan into lanes
+   ([ADR 0039](../adr/0039-timeline-markers-fan-into-lanes.md)); the cholera test clicks with a real
+   mouse. The 1213 plume was drawn but invisible: the step set winter and kept the default 17:30, which
+   in January is night, and only a hand-set midday screenshot had shown it. It now sets a chosen 13:00
+   ([ADR 0038](../adr/0038-recorded-burnings-are-dated-features.md), amended); the lesson is to look at
+   the screen a viewer actually lands on, not one set up by hand. Also: the 1257 ⓘ names the Llanarthne
+   reading, and the Victorian cholera almanac line is split so it neither shows 1849 in 1840 nor calls
+   an unsearched absence documented. Seen red first: four marker-lane unit tests, three content tests
+   (1213 by day, Llanarthne, the split), and three e2e assertions (13:00 at 1213, the real click, every
+   marker's centre).

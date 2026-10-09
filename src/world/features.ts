@@ -5,6 +5,7 @@ import type { LampState } from '../domain/lamplight.ts';
 import type { FeaturePresence } from '../domain/state.ts';
 import { hash2 } from '../domain/noise.ts';
 import { hidesFootprint, rotate } from '../domain/plan.ts';
+import { smokingFeatures } from '../domain/smoke.ts';
 import { drawnRailway, longestLine, sectionLines } from '../domain/rail.ts';
 import { Surface } from '../domain/surface.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
@@ -40,6 +41,7 @@ const CLEARING: Readonly<Record<Exclude<Feature['kind']['type'], 'building'>, nu
   railway: 0,
   train: 0,
   roads: 0,
+  burning: 0,
 };
 
 function clearingOf(kind: Feature['kind']): number {
@@ -169,52 +171,18 @@ export class FeatureLayer {
   }
 
   smokeSources(present: readonly FeaturePresence[]): SmokeSource[] {
-    const out: SmokeSource[] = [];
-    for (const p of present) {
-      if (p.presence < 0.6) continue;
-      const k = p.feature.kind;
-      const { x, z } = toWorld(p.feature.at);
-      const y = this.ground(x, z) + 2;
-      if (k.type === 'roundhouses' || k.type === 'hall-houses') {
-        out.push({
-          key: p.feature.id,
-          x,
-          y,
-          z,
-          spread: (k.spread / 10) * 0.5 + 1,
-          density: Math.min(1.5, k.count / 4),
-          style: 'hearth',
-          fire: true,
-        });
-      } else if (k.type === 'town' && k.style !== 'modern') {
-        out.push({
-          key: p.feature.id,
-          x,
-          y: y + 1,
-          z,
-          spread: 18,
-          density: 1.8,
-          style: 'hearth',
-          fire: false,
-        });
-      } else if (k.type === 'building' && k.condition === 'standing' && k.plan.hearth) {
+    return smokingFeatures(present).map(({ feature: f, plume }) => {
+      const { x, z } = toWorld(f.at);
+      const k = f.kind;
+      if (k.type === 'building' && k.plan.hearth) {
         const across = planWorldScale(k.plan).across;
         const [hx, hz] = rotate(k.plan.hearth, k.plan.angle ?? 0);
         const sx = x + hx * across;
         const sz = z + hz * across;
-        out.push({
-          key: p.feature.id,
-          x: sx,
-          y: this.surface(sx, sz) + 3,
-          z: sz,
-          spread: 1.5,
-          density: 0.5,
-          style: 'hearth',
-          fire: true,
-        });
+        return { key: f.id, x: sx, y: this.surface(sx, sz) + 3, z: sz, ...plume };
       }
-    }
-    return out;
+      return { key: f.id, x, y: this.ground(x, z) + (k.type === 'town' ? 3 : 2), z, ...plume };
+    });
   }
 
   apply(present: readonly FeaturePresence[]): void {

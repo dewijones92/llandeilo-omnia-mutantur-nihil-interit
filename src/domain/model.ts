@@ -187,7 +187,9 @@ export type FeatureKind =
   | { readonly type: 'building'; readonly plan: Plan; readonly condition: Condition }
   | { readonly type: 'railway'; readonly section: RailSection }
   | { readonly type: 'train'; readonly stock: RollingStock }
-  | { readonly type: 'roads' };
+  | { readonly type: 'roads' }
+  // A fire a source records, drawn as smoke (and its glow at night) for exactly its dates (ADR 0038).
+  | { readonly type: 'burning'; readonly spread: number; readonly density: number };
 
 export interface FeatureBase {
   readonly id: FeatureId;

@@ -79,6 +79,7 @@ export function buildFeature(
     case 'railway':
     case 'train':
     case 'roads':
+    case 'burning':
       return undefined;
     default:
       return assertNever(kind, 'feature kind');

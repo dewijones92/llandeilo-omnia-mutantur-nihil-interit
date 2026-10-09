@@ -63,6 +63,17 @@ because of it. The detail and sources are in each note; this is the summary a ne
   trilobite was a find probably made near Dinefwr, in a letter of **1698** (corrected 2026-10-02 from
   1688). **1166 is the last written mention of a wolf in Wales**, not the date wolves died out, which
   was probably the 13th or 14th century (corrected 2026-10-02). ([deep time](deep-time-and-natural-history.md))
+- **Besides the wars already on the timeline (1282, 1287, 1403), two invasions are recorded inside the
+  ten miles**: 1213, when Rhys Gryg burned Llandeilo and
+  Dinefwr was besieged, and 1257, when Bauzan's army camped at Llandeilo (one chronicle) and was
+  destroyed at Cymerau, its site contested. No Viking raid, no Norman castle of 1093–1116 and no Civil
+  War fighting is recorded inside the area. Both are key dates since 2026-10-03.
+  ([invasions](invasions-and-raids.md))
+- **Distant shocks recorded here are the 1849 cholera** (one partly illegible report) **and the 1918
+  influenza** (four papers); the others (the Black Death, 1816, potato blight and more) are recorded only for the county or the
+  region, or not in Wales at all. Both are in the app since 2026-10-03, the 1849 one as a card only. The Victorian note had said
+  no local cholera case was found; that, and the almanac line built on it, are corrected.
+  ([ripples](ripples-from-afar.md))
 
 ## Conversations by class (2026-09-28)
 

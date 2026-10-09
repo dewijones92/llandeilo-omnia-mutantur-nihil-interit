@@ -17,7 +17,7 @@ Add freely; nothing here is a commitment.
 |---|---|---|
 | Previous / Next buttons through key dates | ✅ built 2026-09-28 | See [`timeline-experience.md`](timeline-experience.md); PageUp/PageDown already do it by keyboard |
 | Camera moves to the action at each key date | ✅ built 2026-09-28 | Per-date "shot" |
-| Sound and visual effects per event (train sound, train smoke…) | 🟡 train done; more to come | Must be labelled reconstructed |
+| Sound and visual effects per event (train sound, train smoke…) | 🟡 train done; a recorded fire's smoke done 2026-10-03 (1213, [ADR 0038](../adr/0038-recorded-burnings-are-dated-features.md)); more to come | Must be labelled reconstructed, unless the effect itself is recorded (the 1213 burning is in the Brut; its look is reconstructed) |
 | Typical conversations per class at every key date, in the right language | ✅ agreed, research under way | See [`conversations-by-class.md`](conversations-by-class.md) |
 | Immersive sound and other assets, generated or found online | 🗣️ discussing | See [`sound-and-assets.md`](sound-and-assets.md) |
 | In-app feedback and corrections, into GitHub issues | 🟡 plain GitHub issues, triaged into the todo file ([ADR 0019](../adr/0019-suggestions-arrive-as-github-issues.md), forms removed by [ADR 0020](../adr/0020-plain-github-issues.md)); the in-app button still 🗣️ discussing | See [`feedback.md`](feedback.md); recommend a pre-filled issue link first |
