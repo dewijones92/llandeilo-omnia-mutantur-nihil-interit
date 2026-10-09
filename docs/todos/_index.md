@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Backlog
@@ -50,7 +50,7 @@ below links the issue.
 
 | Issue | Seen | Idea (our summary) | Status | Notes |
 |---|---|---|---|---|
-| [#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1) | 2026-10-09T17:16:07Z | Gather a local studio photographer's photos of Llandeilo's streets and station from about 1900, and place each on the map | ✅ agreed 2026-10-09 | The glass negatives are at the National Library of Wales, copies on People's Collection Wales; the photographer died in 1940, so UK copyright has probably expired, to be checked per image. Shown in the app with its credit, pinned with credit and an ⓘ; otherwise a modelling reference only |
+| [#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1) | 2026-10-09T22:41:53Z | Gather a local studio photographer's photos of Llandeilo's streets and station from about 1900, and place each on the map | ✅ agreed 2026-10-09 | The glass negatives are at the National Library of Wales, copies on People's Collection Wales; the photographer died in 1940, so UK copyright has probably expired, to be checked per image. Shown in the app with its credit, pinned with credit and an ⓘ; otherwise a modelling reference only |
 | [#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2) | 2026-10-09T17:16:08Z | Detailed real-scale terrain for the town and the Roman fort area from LiDAR, tiled with levels of detail, the base ground kept apart from changes by period | ✅ agreed 2026-10-09 | The agreed close-up LiDAR terrain (CLAUDE.md, Terrain) was never built; Welsh Government 1m LiDAR covers the area, licence to confirm per file |
 | [#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3) | 2026-10-09T17:16:09Z | A modular, editable reconstruction of the Roman fort and its civilian settlement on that terrain, ready for animation later | ✅ agreed 2026-10-09 | Research first: published plans and surveys, documented kept apart from reconstruction; a linked reconstruction drawing states no licence; it is used with a credit to its maker (Dewi, 2026-10-09: credit, no licence check), and the second fort's date and the settlement survey still need their sources. Built detailed in the app (Dewi, 2026-10-09) |
 
@@ -170,8 +170,8 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] **Map-style camera** (Dewi, 2026-10-03: "make the camera easier to move around"; he chose
       map-style): drag slides the land, right-drag turns, the wheel zooms at the cursor, W A S D / Q E /
       R F, double-click flies there, a one-time hint, the Keys panel in both languages (both since
-      replaced by the welcome panel, [ADR 0045](../adr/0045-one-welcome-panel.md))
-      ([ADR 0044](../adr/0044-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
+      replaced by the welcome panel, [ADR 0046](../adr/0046-one-welcome-panel.md))
+      ([ADR 0045](../adr/0045-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
       looked at (overview, dragged, turned, zoomed, 1860). Second-Opus review 2026-10-03: the sky no
       longer throws the camera (wheel zooms at the centre, a sky drag turns, a slide waits above the
       horizon), tests for a drag ending a follow and a flight and for the hint after Begin, and the
@@ -180,14 +180,20 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       closeable, an obvious icon to reopen): "How to explore" opens after Begin (or at once without it),
       replaces the Keys panel and the camera hint, explains the controls, timeline, provenance labels, ⓘ,
       "When are we?" and the settings, with "Show this at start" and a round "?" icon
-      ([ADR 0045](../adr/0045-one-welcome-panel.md)). Built 2026-10-09 with tests seen red by mutation
+      ([ADR 0046](../adr/0046-one-welcome-panel.md)). Built 2026-10-09 with tests seen red by mutation
       and looked at in English and Welsh; awaiting Dewi. The Welsh text is in the parked human check
 - [ ] **Camera and welcome merged with the cutscenes** (Claude, under the proactive mandate, 2026-10-09):
       the map-style controls are off while a scene plays and back after Skip, Escape or its end; the
       welcome waits for a scene, says how to Watch one, and the "?" icon fades with the interface
-      ([ADR 0044](../adr/0044-map-style-camera-controls.md), [ADR 0045](../adr/0045-one-welcome-panel.md)).
+      ([ADR 0045](../adr/0045-map-style-camera-controls.md), [ADR 0046](../adr/0046-one-welcome-panel.md)).
       Built with e2e seen red against the plain merge; awaiting the second-Opus review and Dewi. The new
       Welsh sentence is in the parked human check
+- [ ] **Camera and welcome merged with the photo layer** (Claude, under the proactive mandate, 2026-10-10):
+      a press on a pin, a place label or a bubble that moves slides the land and opens nothing, the wheel
+      over them zooms, a click still opens them; the welcome describes Photos; the photo panel is in the
+      Escape order ([ADR 0045](../adr/0045-map-style-camera-controls.md),
+      [ADR 0046](../adr/0046-one-welcome-panel.md)). Built with e2e seen red three ways; awaiting the
+      second-Opus review and Dewi. The new Welsh sentence is in the parked human check
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (today `town.style` only decides which towns get chimney smoke)
@@ -261,7 +267,26 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
 
 - [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded
 - [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort
-- [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09); a photo layer pinned to where each was taken, with credit and ⓘ, with its credit
+- [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09), then a photo layer pinned to where each was taken, with credit and ⓘ.
+      **Agreed ✓. Researched ✓ 2026-10-09** ([`research/dc-harries-photographs.md`](../research/dc-harries-photographs.md)):
+      31 photographs found and downloaded (`public/photos/harries/`, data and credits in
+      `src/content/photographs.ts`), all on People's Collection Wales from the Llandeilo Fawr Town Council
+      collection; 28 placed on the OS grid (15 documented, 13 reconstructed), 3 not.
+      **Research checked ✓ 2026-10-09** ([independent check](../research/reviews/dc-harries-photographs-check-2026-10-09.md)),
+      every correction applied the same day, marked "Corrected 2026-10-09 (independent check)": five dates
+      the pictures contradict, the Post Office's point, six wrong descriptions, the 1905 map, the NLW's second
+      fonds. **Built ✓ 2026-10-09** ([ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md)):
+      the Photos toggle, camera pins, the photo panel with credit and ⓘ, the About credits, in both languages;
+      unit, content and e2e tests (red runs in the [build log](../process/build-log.md)). **Looked at ✓**
+      (`docs/images/photo-layer/`). **Still to do: the second-Opus review** before it ships in a release.
+      Owner's decisions: the credit wording, whether the layer should be on by default, whether to keep the c. 1900 captions of 2282261 and 2282336 (their ranges
+      start at 1920 and 1922 for now, because a motorcycle, a knee-length dress, cloche hats and electric lamps are 1920s), and whether to gather
+      other photographers' c. 1900 station and street views. Not built: a "Then and now" flight (no record
+      of a camera direction), a way in for the three unplaced photographs, Welsh for the catalogue's words
+- [ ] **Photo layer follow-ups** (Claude, proactive, ADR 0027; not started): a count of the photographs
+      available at the year on the Photos button so the layer is found; a camera-direction field and "Then and
+      now" flight once any record gives one; the other-photographers' views listed in the research note
+      (needs an owner decision); the three unplaced photographs in a list
 - [ ] Conversations by class in the three slice eras; in-world music and the hunter-gatherer scenes (after their research checks); a GPU terrain shader for smooth scrubbing; the later trains and the Dinefwr, Carreg Cennen and bridge models (Dewi picked all four on 2026-10-09)
 
 ## Agreed for the weekend run (Dewi, 2026-10-02)
@@ -310,7 +335,9 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       singing, eisteddfodau, brass bands), heard in the scene and explained in the almanac, from
       sources and licensed recordings or performed from period notation (Dewi: "music through time and
       places"). The app stays inside the agreed ten miles or so around Llandeilo. Dewi chose
-      in-world music where the research puts it, plus a light labelled score that can be turned off
+      in-world music where the research puts it, plus a light labelled score that can be turned off.
+      Research checked 2026-10-09 and the corrections applied ([review](../research/reviews/music-through-time-check-2026-10-09.md));
+      two recordings are US-licence flagged and no music asset ships yet
 - [x] **A Begin screen**: a title card with the Ovid motto; its click turns the sound on (browsers
       need one) and can start the opening flight (Dewi chose this, 2026-10-02). Done 2026-10-03: the
       loading card becomes the Begin card once the valley is ready, veiled over the scene, with the
@@ -379,7 +406,10 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
 - [ ] **Early people hunting and gathering** (Dewi: "early people hunting stuff"): Late Upper
       Palaeolithic and Mesolithic hunter-gatherers in the valley, what they hunted, fished and gathered
       in each environment, with the animals of "animals through time", as scenes and cutscenes at the
-      level the finds support (here, nearby, or Wales-wide analogy)
+      level the finds support (here, nearby, or Wales-wide analogy). Research checked 2026-10-09 and the
+      corrections applied ([review](../research/reviews/hunter-gatherers-check-2026-10-09.md)); the
+      Waun Fignen Felen key date and almanac entry moved. Still to do: the scenes themselves, and a
+      decision on Heneb's HER terms ([open questions](../research/open-questions.md))
 
 ## Claude's own ideas, building first (proactive mandate, 2026-10-02)
 

@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Build log
@@ -640,7 +640,7 @@ Milestones and what each one taught us. Newest last.
    shared (a unit test failed first on the missing function, then on the edge cases). (5) The bundle is
    490,121 bytes gzipped, recorded in CLAUDE.md. Lesson: **an ADR that says "every copy now uses it" is a
    claim to grep for, not to write from memory.**
-26. **Map-style camera** ([ADR 0044](../adr/0044-map-style-camera-controls.md)). Dewi found himself
+26. **Map-style camera** ([ADR 0045](../adr/0045-map-style-camera-controls.md)). Dewi found himself
    "just orbiting around a certain point": Babylon's stock inputs turned the view on a left-drag and
    panned in the screen plane on the right button, and nothing said so. The stock inputs are now
    detached and `MapControls` slides the land under the cursor, turns on a right-drag, zooms at the
@@ -664,7 +664,7 @@ Milestones and what each one taught us. Newest last.
    3D view; it now checks the element under the start point first, so that failure names itself. The
    Welsh for "Hold to slide faster" had read as "keep on sliding faster" ("dal i" + verb-noun means
    "continue to"); it is now "Daliwch hi i lawr i lithro'n gyflymach", pending the parked human check.
-28. **One welcome panel** (Dewi's request; details by Claude under the proactive mandate; [ADR 0045](../adr/0045-one-welcome-panel.md)).
+28. **One welcome panel** (Dewi's request; details by Claude under the proactive mandate; [ADR 0046](../adr/0046-one-welcome-panel.md)).
    Dewi asked for the controls and other info at start, closeable, with an obvious icon to reopen it.
    The Keys panel and the one-time camera hint became one "How to explore" panel; the Begin card and
    the welcome share one `setInert`. The panel was built before this pass, so the tests were seen red by
@@ -713,3 +713,119 @@ open callback now re-marks the interface when a scene is playing. A second test 
 red. One guard stays untested on purpose: `openWelcome`'s "a scene is playing" check cannot be reached
 from `?` (the scene's own key handler takes it first) or from the Keys button (inert during a scene), so
 it is defensive only.
+
+## 2026-10-09
+
+1. **The music and hunter-gatherer checks applied** (Claude under the proactive mandate, ADR 0027). Two
+   independent checks (91 and 70 claims) found 10 contradicted or unsupported claims and 35 partly
+   supported ones; every correction is in the notes marked "Corrected 2026-10-09 (independent check)", and
+   the two checks sit in `docs/research/reviews/`. App changes: the Waun Fignen Felen burning moved from 6000
+   BC to about 7000 BC ("about 9,000 years ago", EN and CY) with the pollen study and Coflein cited and an ⓘ
+   that says the date is our calibration of a BP figure whose scale is assumed; the almanac fire now runs
+   about 7000 to 4500 BC; the lamplight 1200 entry's basis now says S3 dates its manuscript to about 1300.
+   A content test failed first on the year and the sources. The key date is not magnetic, so the
+   magnetic-spacing test and the key-date e2e flows were unaffected. Lessons: (1) **a correction can be
+   wrong itself**: the 2026-10-03 light check said no source dated the Deheubarth law-book's manuscripts,
+   and S3's own preface does; "no source read" is a claim about the reader, so grep the preface before
+   writing it. (2) **a check that recomputes a figure is worth more than one that re-reads the prose**: the
+   IntCal20 calibrations all held, and the open question was the scale, not the arithmetic.
+
+2. **The review of those corrections, applied** (Claude under the proactive mandate, ADR 0027). A review of
+   the two applied checks found that corrections had reached the body of a note but not its source entries
+   (S26 still said "first excursion trains", S29 still said *Moliant Seion*, S35 still carried the general
+   fishing-area reading), that the burning event cited the same Coflein record under two keys
+   (`deeptime:S12` and `hunters:S17`; the event now keeps `hunters:S19` and `hunters:S17`, and a content test
+   asserts the duplicate is gone, seen red first), that two sibling notes still gave the old 8000-year date
+   or the open BP question (`soundscapes.md`, `deep-time-and-natural-history.md`), and that the check's own
+   US term for the 1944 recording was wrong (100 years to 2044 under the Music Modernization Act, not 95
+   years to 2039; secondary sources). The Rachie composer claim got a source (S41, added at the end).
+   Lessons: (1) **a correction has to be carried to every place the claim lives, source entries included**:
+   grep the claim's key phrase across the whole of `docs/research/` after applying it. (2) **a check can
+   mis-state a statute**, so a licence flag is a lead until the statute is read.
+
+3. **CI timed out again, on one shard.** The push of the cutscene merge (run 37974359599) failed one
+   e2e shard: the whole-valley night halo test took 7.0 minutes on CI's CPU renderer and ran past its
+   7-minute limit while taking a screenshot. It had passed on the two runs before; the new cutscene test
+   had shifted the split so both heavy night tests landed in one shard. The night tests are now marked
+   `test.slow` in CI and the e2e job runs six shards ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md),
+   amended). Lesson: a per-test limit is a budget too, and the heaviest test sets it.
+
+4. **CI tests at Low graphics** (Dewi's call). The six-shard run still lost one shard, this time the
+   cutscene test, at 7 minutes on the CPU renderer at High (run 37977166640). CI now stores Low in every
+   test's browser (`E2E_QUALITY=low`); the graphics-menu test starts from the default High, and a new
+   test checks the stored level reaches the renderer, seen red without the config line.
+
+
+5. **The Harries photographs: the independent check's corrections applied first** (commits 0cf7411 and 392ccaa). Five captions
+   were contradicted by the pictures themselves (a *Shoulder Arms* poster, Tariff Reform posters, an
+   R.O.P. petrol sign, and two doubtful 1920s dresses), the Post Office was on the wrong side of the
+   street, six descriptions of what a photograph shows were wrong, and "the 1890s map" was the 1905
+   revision. Lesson: the first research pass wrote "looked at" for each image and still read none of the
+   lettering; the check read every poster and sign. Each change is marked "Corrected 2026-10-09
+   (independent check)". Four prints that still showed the mount were re-cropped from the PCW originals by
+   finding the contiguous low-saturation block (the cream mount is the only strongly orange region).
+6. **The photo layer** ([ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md)): `Photograph`
+   moved into the domain model beside the places (a `TimeRange`, a placement, a provenance), `snapshotAt`
+   lists the pinned ones, `src/domain/photos.ts` holds the window and the fan-out of shared points, and the
+   UI is a pin layer, a panel and a remembered toggle. `provenanceBadge` was split so the photo's ⓘ reuses
+   the same badge (`infoBadge`) instead of a second popover.
+7. **Red runs, each at the assertion it names.** Unit: a stub of `src/domain/photos.ts` returning
+   nothing failed the window, the unplaced-never-pinned and the pin-position tests. E2E: with the pins
+   and the photo panel taken out of `reveals-when`, the guess game's giveaway list failed at `.pins`
+   ("Expected: hidden, Received: visible"); with the toggle ignored and the panel left out of the Escape
+   chain, the toggle test failed at 0 pins expected and 6 received, and the Escape and slider tests failed
+   at the panel still visible. The Welsh, About-credits and click-through e2e and the Welsh date label
+   were written after the code and were not run red.
+8. **A test trap, not a bug:** the ⓘ popover stays open while the mouse hovers its badge, so "Escape
+   closed it" needs the mouse moved away first, as the existing provenance test does.
+9. **Looked at:** pins in Llandeilo at 1900 and an open photograph with its ⓘ, in English and Welsh,
+   on the NVIDIA GPU (`docs/images/photo-layer/`, made by `tools/photo-shots.mjs`). The first look found
+   the credit below the fold and the ⓘ clipped by the panel's bottom edge; the credit moved under the
+   picture and the popover opens upwards.
+10. **The photo layer's review (ten findings, all fixed or answered).** (1) Two photographs captioned c. 1900
+   showed a motorcycle at the door, a knee-length dress, cloche hats and electric lamps, yet their pin began in
+   1895, so a 1920s scene appeared in the 1890s; the check had called them "doubtful" without reading the
+   motorcycle. Their ranges now start at 1920 and 1922. (2) Six "Corrected" markers had landed one entry too
+   early when the inline notes became comments, so the entries really corrected carried none and the log
+   overclaimed; a content test now pins each marker to its entry, and failed first with one marker moved back.
+   (3) A doubt about the photographer ("possibly", the NLW's "Unknown") sat only inside the ⓘ; it is in the
+   credit now, with a test. (4) The market hall's crowd was said to be seated; it stands. (5) "c. 1928" had
+   1926 to 1930 against the note's plus or minus five years; a test now holds every plain "c." date to it.
+   (6) The licence line put "at Dewi's request" on the public About tab. (7) The projection and the overlap test
+   were a third copy; `src/ui/screen-space.ts` is now the one. (8) The pin's collision box stopped 8 px short of
+   its stem; the pin and the box now read the same two constants. (9) The ⓘ's tier ignored a disputed date; it
+   is now `photoTier`. (10) The ADR said the panel closes when the slider leaves the photo's years; it closes
+   when the slider leaves the pin window. Tests were red first: the unit tier tests (missing function), the
+   range, caveat, licence, disputed-date and shows tests at their assertions, and the marker test at the
+   count. The e2e for the 1920s photograph failed first at "Expected: hidden, Received: visible" with its range put back to 1895. Looked at: the pins at 1925 (their stems now inside the collision boxes) and the White Hart panel reading Reconstructed (`docs/images/photo-layer/disputed-1925-en.jpg`). Lesson: **a research check that says "doubtful" is a lead, so look at the picture before leaving a
+   range that contradicts it.**
+
+11. **The always-on dev server was watching the agents' worktrees.** Every build in `.claude/worktrees/`
+   reloaded the :5051 tab (the log showed a reload per worktree build) and left Vite's dependency cache
+   stale, so the page stopped loading with "504 Outdated Optimize Dep". `vite.config.ts` now ignores
+   `.claude/`, `dist/` and test output, and scans only `index.html` for dependencies.
+
+## 2026-10-10
+
+1. **The photo layer merged into the map-style camera and welcome** (branch `feat/map-style-camera`,
+   Claude under the proactive mandate). Conflicts in the ADR index, the decision, build and test logs
+   (both sides kept), `provenance.ts` (`main`'s `infoBadge` drawn with this branch's shared `chip`),
+   `main.ts` (the photo pins and panel appended without the Keys panel this branch removed, and the photo
+   panel in the Escape order after the conversation panel) and the e2e file (both blocks of tests kept;
+   git had interleaved the camera tests with the photo tests). The camera and welcome ADRs became
+   [0045](../adr/0045-map-style-camera-controls.md) and [0046](../adr/0046-one-welcome-panel.md), since
+   `main` had taken 0044 for the photo layer. Integration: (1) a press on a pin never reached the map
+   controls, which listen on the canvas, so a drag that began on a pin did nothing and the wheel over one
+   did not zoom; `MapControls.passThrough` hands a layer's presses to the same drag code, the button
+   keeping the pointer so a plain click still lands on it, and drops the click after a drag. The place
+   labels and the speech bubbles had the same gap and use it too. Seen red three ways, each at its own
+   assertion: with no pass-through the land did not move, without the dropped click the photograph opened
+   after a drag, without the wheel the radius stayed at 140. (2) The welcome says what Photos does, in
+   English and Welsh (red before the line). (3) Escape closing the welcome before the photograph under it,
+   and the "?" icon clear of the photo panel and the Photos toggle, were checked and already held (no
+   change needed). Lesson: **an overlay button over a canvas swallows more than its click.** Every press,
+   drag and wheel on it stops there, so a layer added over the 3D view needs the controls handed its input,
+   not only a pointer-events rule. The first pin-drag test was flaky because a drag let go of at speed
+   glides on and the followed pin can end up hidden behind a neighbour; pausing before letting go (the
+   fling window is 80 ms) made each drag move the land by exactly the cursor's travel. Bundle: the main
+   chunk is 508,785 bytes gzipped after the merge.

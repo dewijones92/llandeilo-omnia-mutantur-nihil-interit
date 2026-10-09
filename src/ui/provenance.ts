@@ -57,34 +57,53 @@ export function provenanceBadge(
   sources: ReadonlyMap<string, Source>,
 ): HTMLElement {
   const lang = store.lang;
-  const label = store.t(p.kind);
-  const help = store.t(`${p.kind}Help`);
   const basis =
     p.kind === 'documented'
       ? (p.note?.[lang] ?? null)
       : p.kind === 'reconstructed'
         ? p.basis[lang]
         : p.groundedIn[lang];
+  return infoBadge(p.kind, store, [
+    basis ? h('span', { class: 'prov-basis' }, h('b', {}, `${store.t('basedOn')}: `), basis) : null,
+    sourceList(p, store, sources),
+  ]);
+}
+
+export function sourceList(
+  p: Provenance,
+  store: LangStore,
+  sources: ReadonlyMap<string, Source>,
+): HTMLElement | null {
   const list = p.sources
     .map((id) => sources.get(id))
     .filter((s): s is Source => s !== undefined)
     .map((s) =>
       h('li', {}, s.url ? h('a', { href: s.url, target: '_blank', rel: 'noopener' }, s.title) : s.title),
     );
+  return list.length
+    ? h('span', { class: 'prov-sources' }, h('b', {}, store.t('sources')), h('ul', {}, ...list))
+    : null;
+}
+
+/** A tier badge whose popover opens with the tier's own name and meaning, then `parts`. */
+export function infoBadge(
+  kind: Provenance['kind'],
+  store: LangStore,
+  parts: readonly (Node | null)[],
+): HTMLElement {
+  const label = store.t(kind);
+  const help = store.t(`${kind}Help`);
   const pop = h(
     'span',
     { class: 'prov-pop', role: 'tooltip' },
     h('strong', {}, label),
     h('span', { class: 'prov-help' }, help),
-    basis ? h('span', { class: 'prov-basis' }, h('b', {}, `${store.t('basedOn')}: `), basis) : null,
-    list.length
-      ? h('span', { class: 'prov-sources' }, h('b', {}, store.t('sources')), h('ul', {}, ...list))
-      : null,
+    ...parts,
   );
   const badge = h(
     'button',
-    { class: `prov prov-${p.kind}`, type: 'button', 'aria-label': `${label}. ${help}` },
-    ...chip(p.kind, label),
+    { class: `prov prov-${kind}`, type: 'button', 'aria-label': `${label}. ${help}` },
+    ...chip(kind, label),
   );
   const wrap = h('span', { class: 'prov-wrap' }, badge, pop);
   badge.addEventListener('click', (e) => {

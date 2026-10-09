@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSETS } from '../src/content/assets.ts';
+import { HARRIES_PHOTOGRAPHS, PHOTOGRAPH_PROVENANCE } from '../src/content/photographs.ts';
 import { STRINGS } from '../src/content/strings.ts';
 import { CUTSCENES } from '../src/content/cutscenes.ts';
 import { NARRATION_SECONDS } from '../src/content/generated/narration.ts';
@@ -480,6 +481,178 @@ describe('assets', () => {
   });
 });
 
+describe('the Harries photographs', () => {
+  const centre = { e: 262900, n: 222500 };
+  const tenMiles = 16093;
+
+  it('has unique ids and one file on disk per photograph, and no stray files', () => {
+    expect(unique(HARRIES_PHOTOGRAPHS.map((p) => p.id))).toEqual([]);
+    const onDisk = readdirSync(join(root, 'public/photos/harries')).map((f) => `photos/harries/${f}`);
+    expect(onDisk.sort()).toEqual(HARRIES_PHOTOGRAPHS.map((p) => p.file).sort());
+  });
+
+  it('credits every photograph to Harries with a catalogue id and a URL ending in that id', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      expect(p.creator, p.id).toContain('D C Harries');
+      expect(p.credit, p.id).toContain('D C Harries');
+      expect(p.catalogueUrl, p.id).toBe(
+        `https://www.peoplescollection.wales/items/${p.catalogueId.replace('PCW ', '')}`,
+      );
+      expect(p.id, p.id).toBe(`harries-${p.catalogueId.replace('PCW ', '')}`);
+      expect(p.when.from, p.id).toBeLessThanOrEqual(p.when.to);
+    }
+  });
+
+  it('places every usable photograph inside the ten miles, and never places a miscaptioned one', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      if (p.status === 'miscaptioned') {
+        expect(p.placement.kind, p.id).toBe('unplaced');
+      }
+      if (p.placement.kind === 'placed') {
+        const { at, accuracyM } = p.placement;
+        expect(Math.hypot(at.e - centre.e, at.n - centre.n), p.id).toBeLessThan(tenMiles);
+        expect(accuracyM, p.id).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('gives every photograph a credit, a date and how sure it is of the date, and every placed one a basis, an accuracy and a note', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      expect(p.credit.length, p.id).toBeGreaterThan(20);
+      expect(p.dated, p.id).toMatch(/\d{4}/);
+      expect(p.dateNote.length, p.id).toBeGreaterThan(20);
+      expect(p.title.length, p.id).toBeGreaterThan(5);
+      expect(p.shows.length, p.id).toBeGreaterThan(20);
+      expect(p.when.from, p.id).toBeGreaterThan(1850);
+      expect(p.when.to, p.id).toBeLessThan(1960);
+      if (p.placement.kind === 'placed') {
+        expect(['documented', 'reconstructed'], p.id).toContain(p.placement.basis);
+        expect(p.placement.note.length, p.id).toBeGreaterThan(20);
+      } else {
+        expect(p.placement.reason.length, p.id).toBeGreaterThan(10);
+      }
+    }
+  });
+
+  it('keeps the 2026-10-09 independent check’s corrections: dates the pictures contradict, and the Post Office', () => {
+    const by = (n: string): (typeof HARRIES_PHOTOGRAPHS)[number] => {
+      const found = HARRIES_PHOTOGRAPHS.find((p) => p.catalogueId === `PCW ${n}`);
+      if (!found) throw new Error(`No photograph ${n}`);
+      return found;
+    };
+    expect(by('2281901').when.from).toBeGreaterThanOrEqual(1918);
+    expect(by('2281916').when.from).toBeGreaterThanOrEqual(1903);
+    expect(by('2281931').when.from).toBeGreaterThanOrEqual(1924);
+    expect(by('2282411').when.from).toBeGreaterThanOrEqual(1897);
+    expect(by('2282111').when.to).toBeLessThanOrEqual(1918);
+    expect(by('2282111').when.from).toBeGreaterThanOrEqual(1914);
+    for (const n of ['2282261', '2282336']) expect(by(n).when.to, n).toBeGreaterThanOrEqual(1925);
+    expect(by('2282261').when.from).toBeGreaterThanOrEqual(1920);
+    expect(by('2282336').when.from).toBeGreaterThanOrEqual(1922);
+    for (const n of ['2281901', '2281916', '2281931', '2282111', '2282411', '2282261', '2282336'])
+      expect(by(n).dateNote, n).toContain('Corrected 2026-10-09 (independent check)');
+    const post = by('2282186').placement;
+    expect(post.kind).toBe('placed');
+    if (post.kind === 'placed') {
+      expect(post.at).toEqual({ e: 262968, n: 222446 });
+      expect(post.basis).toBe('documented');
+    }
+  });
+
+  it('says what the 1920s pictures really show: the motorcycle and the dress, and a standing crowd, not a seated one', () => {
+    const by = (n: string): (typeof HARRIES_PHOTOGRAPHS)[number] => {
+      const found = HARRIES_PHOTOGRAPHS.find((p) => p.catalogueId === `PCW ${n}`);
+      if (!found) throw new Error(`No photograph ${n}`);
+      return found;
+    };
+    const inn = by('2282261');
+    expect(inn.shows).toContain('motorcycle');
+    expect(inn.shows).toContain('woman');
+    expect(inn.dateNote).toContain('motorcycle');
+    expect(inn.dateNote).toContain('knee-length');
+    const hall = by('2282336');
+    expect(hall.shows).not.toContain('seated');
+    expect(hall.shows).toContain('standing');
+    expect(hall.dateNote).toContain('pendant');
+  });
+
+  it('puts each independent-check correction marker on the entry whose text it corrected', () => {
+    const source = readFileSync(join(root, 'src/content/photographs.ts'), 'utf8');
+    const entries = source.split("id: photoId('harries-").slice(1);
+    const marker = /^\s*\/\/ Corrected 2026-10-09 \(independent check\): (.*)$/gm;
+    const found = entries.flatMap((entry) => {
+      const id = /^(\d+)/.exec(entry)?.[1] ?? '?';
+      return [...entry.matchAll(marker)].map((m) => `${id} ${m[1] ?? ''}`);
+    });
+    const expected: readonly (readonly [string, string])[] = [
+      ['2281901', 'poster'],
+      ['2281916', 'posters'],
+      ['2281931', 'signs'],
+      ['2282066', 'lychgate'],
+      ['2282081', 'Gothic'],
+      ['2282111', 'coach board'],
+      ['2282141', 'lettering'],
+      ['2282186', 'fretted'],
+      ['2282246', 'chapel gable'],
+      ['2282261', 'motorcycle'],
+      ['2282291', 'three storeys'],
+      ['2282336', 'seated'],
+      ['2282411', 'Post Office'],
+      ['2282426', 'sands'],
+    ];
+    expect(found.length).toBe(expected.length);
+    for (const [id, word] of expected) {
+      expect(
+        found.some((f) => f.startsWith(`${id} `) && f.includes(word)),
+        `${id} should carry the ${word} marker; found ${JSON.stringify(found)}`,
+      ).toBe(true);
+    }
+  });
+
+  it('shows a doubt about who took a photograph in the credit visitors read, not only in the ⓘ', () => {
+    const doubtful = HARRIES_PHOTOGRAPHS.filter((p) =>
+      /possibly|unknown/i.test(`${p.creator} ${p.dateNote}`),
+    );
+    expect(doubtful.map((p) => p.catalogueId).sort()).toEqual(['PCW 2281961', 'PCW 2282111']);
+    for (const p of doubtful) expect(p.credit, p.id).toMatch(/possibly|unknown/i);
+  });
+
+  it('gives a plain “c.” date the project’s plus-or-minus five years, so a picture is not missed', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      const plain = /^c\. (\d{4})$/.exec(p.dated)?.[1];
+      if (!plain) continue;
+      expect(p.when.from, p.id).toBeLessThanOrEqual(Number(plain) - 5);
+      expect(p.when.to, p.id).toBeGreaterThanOrEqual(Number(plain) + 5);
+    }
+  });
+
+  it('marks a date as disputed exactly where the note says which date is right is not settled', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      expect(p.dateDisputed === true, p.id).toBe(p.dateNote.includes('not settled'));
+    }
+    expect(HARRIES_PHOTOGRAPHS.filter((p) => p.dateDisputed).length).toBeGreaterThan(0);
+  });
+
+  it('records the photographs’ licence as read, not as a private instruction', () => {
+    const asset = ASSETS.find((a) => a.files.test('photos/harries/2281901.jpg'));
+    expect(asset?.licence).toContain('Creative Archive Licence');
+    expect(asset?.licence).not.toMatch(/Dewi|request/);
+  });
+
+  it('is part of the world, so the snapshot pins photographs at 1900 and none before any was taken', () => {
+    expect(W.photographs).toBe(HARRIES_PHOTOGRAPHS);
+    expect(snapshotAt(W, tAt(W.timeline, ad(1900))).photographs.length).toBeGreaterThan(5);
+    expect(snapshotAt(W, tAt(W.timeline, ad(1850))).photographs).toEqual([]);
+  });
+
+  it('cites sources that exist', () => {
+    const cited = PHOTOGRAPH_PROVENANCE.sources;
+    expect(cited.length).toBeGreaterThan(0);
+    const known = new Set(W.sources.map((s) => s.id));
+    for (const s of cited) expect(known.has(s), s).toBe(true);
+  });
+});
+
 describe('the railway', () => {
   const railways = 'public/data/railways.json';
   const rails = parseLines(JSON.parse(readFileSync(join(root, railways), 'utf8')), railways);
@@ -939,5 +1112,35 @@ describe('the About panel', () => {
       expect(text).toContain(` ${String(WORLD.verticalExaggeration)} `);
       expect(text).toContain(` ${String(WORLD.landmarkScale)} `);
     }
+  });
+});
+
+describe('hunters burning the high heath at Waun Fignen Felen', () => {
+  const burning = W.events.find((e) => e.id === 'mesolithic-burning');
+  const fire = W.almanac.find((a) => a.id === 'mesolithic-fire');
+
+  it('sits at about 7000 BC, the calibration of ca. 8000 BP, and says "about 9,000 years ago" in both languages', () => {
+    expect(burning?.when.from).toBe(bc(7000));
+    expect(burning?.when.to).toBe(bc(7000));
+    expect(burning?.summary.en).toContain('about 9,000 years ago');
+    expect(burning?.summary.cy).toContain('tua 9,000 o flynyddoedd yn ôl');
+    expect(burning?.summary.en).not.toContain('8,000');
+    expect(burning?.summary.cy).not.toContain('8,000');
+  });
+
+  it('cites the pollen study and Coflein, and says in both languages that the date is our calibration', () => {
+    const why = burning?.provenance;
+    if (why?.kind !== 'documented') throw new Error('mesolithic-burning must be documented');
+    expect(why.sources).toEqual(expect.arrayContaining(['hunters:S19', 'hunters:S17']));
+    expect(why.sources).not.toContain('deeptime:S12');
+    expect(why.sources).toHaveLength(2);
+    expect(why.note?.en).toContain('IntCal20');
+    expect(why.note?.cy).toContain('IntCal20');
+  });
+
+  it('runs the almanac fire from about 7000 to 4500 BC, citing the same pollen study', () => {
+    expect(fire?.when.from).toBe(bc(7000));
+    expect(fire?.when.to).toBe(bc(4500));
+    expect(fire?.provenance.sources).toContain('hunters:S19');
   });
 });

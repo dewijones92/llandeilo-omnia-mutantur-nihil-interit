@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Open questions
@@ -30,11 +30,32 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
 | When Llandeilo's gas works were built | c. 1860 (Wikipedia, "Ffairfach", single-source) vs being built in 1864 (two 1864 newspapers); the app uses the newspapers (added 2026-10-03; the c. 1860 copies in era-victorian.md and soundscapes.md now carry the correction) | [light](light-after-dark.md), [victorian](era-victorian.md), [soundscapes](soundscapes.md) |
 | The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
+| Where Llandeilo station stood, for the model | `LLANDEILO_STATION` (263266, 222361) is on the track, about 240m south-west of Coflein's station reference (263340, 222580) and OS Open Map Local's station symbol (263357, 222603); the 1905-revised map has the station buildings at the Coflein position (found 2026-10-09; not changed) | [dc-harries-photographs](dc-harries-photographs.md) |
+| The D. C. Harries collection's size and his start year | 2,500 negatives printed, 800 or 930+ negatives (NLW, Wikipedia); business from about 1888 vs "the early twentieth century" (NLW's two pages); and the studio's birth year, 1865 (NLW) or 1866 (Wikidata, unsourced) (added 2026-10-09; Corrected 2026-10-09 (independent check)) | [dc-harries-photographs](dc-harries-photographs.md) |
 | Where the 1257 battles were fought | Coed Llathen near Broad Oak (first OS map, 1888 or 1891; field names not attested before it) vs the wood of Llanarthne (Gough-Cooper's reading of the manuscript); Cymerau at the Tywi–Cothi confluence (Lloyd) vs near Talley (Phillimore). All inside the area, none proven; the app marks none, and whether to mark them is Dewi's choice (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 | Rhys Fychan in 1257, and the dead | He slipped away to Dinefwr (Annales Cambriae B) vs Dinefwr's garrison seized him (the Brut); "more than three thousand" (AC B) vs "upwards of two thousand" (the Brut), a modern estimate 1,000–3,000; the camp at Llandeilo is in AC B alone. The app gives both readings (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 | The date of the 1213 camp | 24 January (the Brut's reckoning) vs 25 January (Lloyd's *History of Carmarthenshire*); the app says late January and gives both (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 
 ## Gaps worth a dedicated pass
+
+- **Heneb HER terms of use** (found by the hunter-gatherers check, 2026-10-09; for Dewi). Every Heneb HER
+  (Archwilio) page says: "All output resulting from the use of the data must acknowledge the source as
+  follows: Derived from information held by the Heneb HER Charitable Trust copyright", and "If you wish to
+  use information derived from material held by the Heneb HER Charitable Trust for publication in printed or
+  multimedia form ... prior permission must be obtained in writing." The app is a public multimedia site and
+  cites HER records (`hunters:S1`, `S2`, `S5` and others, and `archwilio.org.uk` elsewhere); no recorded
+  permission or acknowledgement line was found in `src/`, `docs/adr/` or `docs/process/`. ADR 0026 covers
+  asset licences, not data terms. Coflein's footer says "Non-commercial Government Licence". **Dewi's
+  2026-10-09 rule is to credit the material in the issues rather than licence-check it**; that rule is about
+  issue content, and has not been extended to HER data. Decide before more HER-derived content goes in:
+  ask Heneb for written permission, or add the fixed acknowledgement line to the credits page and treat the
+  existing citations as facts only (not decided).
+- **Waun Fignen Felen's BP scale** (2026-10-09): the app now dates the burning at about 7000 BC on the
+  inference that "ca. 8000 years BP" is radiocarbon. The lab dates in Smith and Cloutman (1988, full text
+  not obtained: the Royal Society page returns 403) or in Barton and others (1995) would settle it.
+- **Recordings public domain outside the US only** (music check, 2026-10-09): Handel, Scherchen 1953
+  (US term to 2063 on secondary sources) and Thomas L. Thomas 1944 (to the end of 2044: 100 years from publication under the Music Modernization Act; secondary sources; corrected 2026-10-09 from "2039"). Neither ships; prefer our own
+  rendering or a pre-1923 recording ([music note](music-through-time.md), L1 and L2).
 
 - **The 1849 cholera at Llandeilo** rests on one partly illegible report (*The Welshman*, 21 December
   1849): how many fell ill, where the house for patients was, and a second witness (the *Carmarthen

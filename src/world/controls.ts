@@ -17,7 +17,7 @@ import {
 import { WORLD } from '../domain/geo.ts';
 import type { Flight } from './flight.ts';
 
-// Map-style controls (ADR 0044): left-drag slides the land, right-drag (or Ctrl+drag) turns and tilts,
+// Map-style controls (ADR 0045): left-drag slides the land, right-drag (or Ctrl+drag) turns and tilts,
 // the wheel zooms at the cursor, double-click flies there, and keys slide, turn and tilt.
 
 const MAP_RADIUS = WORLD.radiusMetres / WORLD.metresPerUnit;
@@ -47,6 +47,8 @@ export interface ControlHooks {
 interface Drag {
   readonly kind: 'pan' | 'turn';
   readonly id: number;
+  /** What holds the pointer: the canvas, or the button over it that the press began on. */
+  readonly holder: Element;
   readonly startX: number;
   readonly startY: number;
   readonly grab: Vec3;
@@ -92,7 +94,7 @@ export class MapControls {
     private readonly hooks: ControlHooks,
   ) {
     canvas.addEventListener('pointerdown', (e) => {
-      this.down(e);
+      this.down(e, canvas);
     });
     canvas.addEventListener('pointermove', (e) => {
       this.move(e);
@@ -136,7 +138,7 @@ export class MapControls {
     const d = this.drag;
     if (!on) {
       this.drag = undefined;
-      if (d && this.canvas.hasPointerCapture(d.id)) this.canvas.releasePointerCapture(d.id);
+      if (d?.holder.hasPointerCapture(d.id)) d.holder.releasePointerCapture(d.id);
       this.velocity = { x: 0, z: 0 };
       this.zoomLog = 0;
       this.zoomAt = undefined;
@@ -150,6 +152,54 @@ export class MapControls {
     }
     console.info(
       `dewidebug camera controls enabled=${String(on)} why=${why} droppedDrag=${String(!on && d !== undefined)}`,
+    );
+  }
+
+  /**
+   * A layer of buttons over the 3D view (photo pins, place labels, speech bubbles) passes its presses
+   * here. One that moves past the drag threshold slides or turns the land and its click is dropped;
+   * one that does not stays the button's own click. The wheel over them zooms as it does over the land.
+   */
+  passThrough(layer: HTMLElement, name: string): void {
+    let dragged = false;
+    layer.addEventListener('pointerdown', (e) => {
+      const button = e.target instanceof Element ? e.target.closest('button') : null;
+      if (button) this.down(e, button);
+    });
+    layer.addEventListener('pointermove', (e) => {
+      this.move(e);
+    });
+    const end = (e: PointerEvent): void => {
+      if (!this.up(e)) return;
+      dragged = true;
+      // The click, if any, follows this pointerup before any timer runs.
+      setTimeout(() => {
+        dragged = false;
+      }, 0);
+    };
+    layer.addEventListener('pointerup', end);
+    layer.addEventListener('pointercancel', end);
+    layer.addEventListener(
+      'click',
+      (e) => {
+        if (!dragged) return;
+        dragged = false;
+        e.stopPropagation();
+        e.preventDefault();
+        console.info(`dewidebug camera drag began on the ${name}; its click is dropped`);
+      },
+      true,
+    );
+    layer.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
+    layer.addEventListener(
+      'wheel',
+      (e) => {
+        e.preventDefault();
+        this.wheel(e);
+      },
+      { passive: false },
     );
   }
 
@@ -185,7 +235,7 @@ export class MapControls {
     this.camera.target.copyFromFloats(p.x, y, p.z);
   }
 
-  private down(e: PointerEvent): void {
+  private down(e: PointerEvent, holder: Element): void {
     if (!this.enabled || this.drag) return;
     const turnButton = e.button === 2 || e.button === 1 || (e.button === 0 && e.ctrlKey);
     if (e.button !== 0 && !turnButton) return;
@@ -197,6 +247,7 @@ export class MapControls {
     this.drag = {
       kind: turn ? 'turn' : 'pan',
       id: e.pointerId,
+      holder,
       startX: x,
       startY: y,
       grab: under?.point ?? this.camera.target.clone(),
@@ -207,7 +258,7 @@ export class MapControls {
       lastAt: e.timeStamp,
       moving: false,
     };
-    this.canvas.setPointerCapture(e.pointerId);
+    holder.setPointerCapture(e.pointerId);
   }
 
   private move(e: PointerEvent): void {
@@ -257,17 +308,19 @@ export class MapControls {
     d.lastAt = e.timeStamp;
   }
 
-  private up(e: PointerEvent): void {
+  /** Whether the press that ended was a drag. */
+  private up(e: PointerEvent): boolean {
     const d = this.drag;
-    if (d?.id !== e.pointerId) return;
+    if (d?.id !== e.pointerId) return false;
     this.drag = undefined;
-    if (this.canvas.hasPointerCapture(e.pointerId)) this.canvas.releasePointerCapture(e.pointerId);
-    if (!d.moving) return;
+    if (d.holder.hasPointerCapture(e.pointerId)) d.holder.releasePointerCapture(e.pointerId);
+    if (!d.moving) return false;
     const still = e.timeStamp - d.lastAt;
     if (d.kind !== 'pan' || still > FLING_WINDOW_MS) this.velocity = { x: 0, z: 0 };
     console.info(
-      `dewidebug camera drag end kind=${d.kind} target=${this.camera.target.x.toFixed(0)},${this.camera.target.z.toFixed(0)} stillFor=${still.toFixed(0)}ms glide=${Math.hypot(this.velocity.x, this.velocity.z).toFixed(3)}`,
+      `dewidebug camera drag end kind=${d.kind} on=${d.holder === this.canvas ? 'canvas' : d.holder.className} target=${this.camera.target.x.toFixed(0)},${this.camera.target.z.toFixed(0)} stillFor=${still.toFixed(0)}ms glide=${Math.hypot(this.velocity.x, this.velocity.z).toFixed(3)}`,
     );
+    return true;
   }
 
   private wheel(e: WheelEvent): void {

@@ -2,7 +2,7 @@
 title: Architecture decision records
 kind: index
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Architecture decision records
@@ -67,7 +67,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0033](0033-railway-drawn-in-dated-sections.md) | The railway is drawn in dated sections of today's track | Accepted; the northing cut and "shown by its presence" superseded by 0034 | 2026-10-03 |
 | [0034](0034-exact-dates-draw-nothing-outside-them.md) | Exact dates draw nothing outside them, and the railway's drawn rule is in the domain | Accepted, amends 0033; amended by 0035; amended 2026-10-03 (undated lines drawn as estimates, Dewi's decision) | 2026-10-03 |
 | [0035](0035-exact-dates-are-about-dates-not-clues.md) | Exact dates are about the dates, not about how firm a clue is | Accepted, amends 0029 and 0034; amended 2026-10-03 (contested dates may be exact when the ⓘ names both; no exact date for undated track; undated track drawn as labelled estimates, Dewi's decision); amended by 0037 | 2026-10-03 |
-| [0036](0036-ci-e2e-in-parallel-shards.md) | CI runs the end-to-end tests in four parallel shards | Accepted | 2026-10-03 |
+| [0036](0036-ci-e2e-in-parallel-shards.md) | CI runs the end-to-end tests in four parallel shards | Accepted; amended 2026-10-09 (six shards; the night tests marked slow; CI tests at Low graphics) | 2026-10-03 |
 | [0037](0037-estimates-carry-an-earliest-date.md) | An estimated date can carry the earliest date its sources allow | Accepted, amends 0035 | 2026-10-03 |
 | [0038](0038-recorded-burnings-are-dated-features.md) | A recorded burning is a dated feature, and which features smoke is one domain rule | Accepted; amended 2026-10-03 (the 1213 arrival by day) | 2026-10-03 |
 | [0039](0039-timeline-markers-fan-into-lanes.md) | Timeline markers keep their dates and fan into lanes when they crowd | Accepted | 2026-10-03 |
@@ -75,8 +75,9 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0041](0041-cutscenes-as-data-on-one-clock.md) | Cutscenes are data on one pure clock, drawn by one crowd system | Accepted (Claude, under the proactive mandate); amended by 0042 | 2026-10-03 |
 | [0042](0042-a-scene-draws-its-own-year.md) | A scene draws the world at its own year, an open ⓘ pauses it, and the interface behind it is inert | Accepted (Claude, under the proactive mandate), amends 0041 | 2026-10-03 |
 | [0043](0043-one-polyline-helper.md) | One helper measures lines of grid points and walks along them | Accepted (Claude, under the proactive mandate) | 2026-10-03 |
-| [0044](0044-map-style-camera-controls.md) | Map-style camera controls: drag slides the land, right-drag turns, the wheel zooms at the cursor | Accepted | 2026-10-03 |
-| [0045](0045-one-welcome-panel.md) | One welcome panel, with an icon that always reopens it | Accepted, amends 0044 | 2026-10-09 |
+| [0044](0044-photographs-are-dated-placed-content-with-pins.md) | Photographs are dated, placed content, shown as pins | Accepted | 2026-10-09 |
+| [0045](0045-map-style-camera-controls.md) | Map-style camera controls: drag slides the land, right-drag turns, the wheel zooms at the cursor | Accepted; amended by 0046 | 2026-10-03 |
+| [0046](0046-one-welcome-panel.md) | One welcome panel, with an icon that always reopens it | Accepted, amends 0045 | 2026-10-09 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

@@ -1,18 +1,19 @@
 ---
-title: "ADR 0044: Map-style camera controls"
+title: "ADR 0045: Map-style camera controls"
 kind: adr
 status: accepted
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
-# ADR 0044: Map-style camera controls
+# ADR 0045: Map-style camera controls
 
 - **Status:** Accepted
 - **Date:** 2026-10-03
 - **Number:** written as 0037 on its branch, renumbered to 0041 when `main` (which had taken 0037 to
   0040) was merged in, then to 0044 when `main` (which had taken 0041 to 0043 for the cutscenes) was
-  merged in again on 2026-10-09.
-- **Amended 2026-10-09 by [0045](0045-one-welcome-panel.md):** the one-time hint and the Keys panel
+  merged in again on 2026-10-09, then to 0045 when `main` (which had taken 0044 for the photo layer)
+  was merged in a third time the same day.
+- **Amended 2026-10-09 by [0046](0046-one-welcome-panel.md):** the one-time hint and the Keys panel
   described below are replaced by the welcome panel, which lists the same controls.
 - **Amended 2026-10-09, merging the cutscenes ([ADR 0041](0041-cutscenes-as-data-on-one-clock.md)):**
   while a scene plays, `MapControls` is switched off (`setEnabled(false)`), which drops a drag under way,
@@ -22,6 +23,15 @@ updated: 2026-10-09
   attaching would have handed Babylon's stock inputs back, so after a scene a left-drag would both
   slide the land and turn the view (seen in e2e: the view turned 1.1 rad on one left-drag). Decided by
   Claude under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)).
+- **Amended 2026-10-10, merging the photo layer ([ADR 0044](0044-photographs-are-dated-placed-content-with-pins.md)):**
+  the camera pins are buttons over the canvas, so a press on one never reached the controls: a drag that
+  began on a pin left the land where it was, and the wheel over a pin did nothing. `MapControls.passThrough`
+  now takes a layer of such buttons and handles their presses as it handles the canvas's: the button holds
+  the pointer (so its own click still lands on it), a press that moves past Babylon's drag threshold slides
+  or turns the land and its click is dropped, one that does not stays the button's click, and the wheel
+  over it zooms. The place labels and the speech bubbles had the same gap, so all three layers use it; a
+  drag that starts on the land is unaffected (the canvas already holds the pointer). Double-click is not
+  passed through: two clicks on a pin open its photograph. Decided by Claude under the proactive mandate.
 
 ## Context
 

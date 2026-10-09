@@ -40,8 +40,8 @@ so the next reader knows the map was unreliable there.
 | Rendering ✅ | **Babylon.js**: WebGPU engine where supported, WebGL2 fallback | Dewi's pick over three.js: a fuller engine with more built in (inspector, scene tooling, audio), and WebGPU without writing our own engine |
 | Look ✅ | **Clean low-poly** 3D diorama of the real valley that you can orbit around | Charming, fast, and quick to fill every era; fidelity can be raised per era later |
 | Exploring ✅ | Both: the whole 10-mile circle as one diorama, **and** a camera flight into individual places (Dinefwr, Carreg Cennen, Talley, Dryslwyn…) | Overview plus depth |
-| Camera ✅ | **Map-style**: left-drag slides the land under the cursor, right-drag (or Ctrl+drag) turns and tilts, the wheel zooms at the cursor, W A S D / arrows slide, Q E turn, R F tilt, double-click flies there; switched off while a cutscene holds the camera ([ADR 0044](docs/adr/0044-map-style-camera-controls.md)) | Dewi, 2026-10-03: he kept "just orbiting around a certain point" and picked map-style controls |
-| Welcome ✅ | One **"How to explore"** panel, closeable, with an always-visible round **?** icon to reopen it ([ADR 0045](docs/adr/0045-one-welcome-panel.md)). ⚠️ The details are Claude's, under the proactive mandate ([ADR 0027](docs/adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), until Dewi has seen the release: it opens after Begin, has a "Show this at start" box, replaces the Keys panel and the camera hint, is skipped in automated browsers unless `?welcome=1`, and never opens over a playing cutscene | Dewi, 2026-10-03: controls and info at start, closeable, "an obvious icon to open app info etc again" |
+| Camera ✅ | **Map-style**: left-drag slides the land under the cursor, right-drag (or Ctrl+drag) turns and tilts, the wheel zooms at the cursor, W A S D / arrows slide, Q E turn, R F tilt, double-click flies there; switched off while a cutscene holds the camera ([ADR 0045](docs/adr/0045-map-style-camera-controls.md)) | Dewi, 2026-10-03: he kept "just orbiting around a certain point" and picked map-style controls |
+| Welcome ✅ | One **"How to explore"** panel, closeable, with an always-visible round **?** icon to reopen it ([ADR 0046](docs/adr/0046-one-welcome-panel.md)). ⚠️ The details are Claude's, under the proactive mandate ([ADR 0027](docs/adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), until Dewi has seen the release: it opens after Begin, has a "Show this at start" box, replaces the Keys panel and the camera hint, is skipped in automated browsers unless `?welcome=1`, and never opens over a playing cutscene | Dewi, 2026-10-03: controls and info at start, closeable, "an obvious icon to open app info etc again" |
 | Slider ✅ | Both: smooth morphing while dragging, **and** magnetic key dates that snap with a short "moment" | Continuous feel without losing the landmarks |
 | Conversations ✅ | Both: short snippets appear automatically while scrubbing, **and** you can click a person for the full conversation with voice | The world feels alive, with depth on demand |
 | Voices ✅ | `edge-tts` neural voices (Welsh, English, Italian, French); **no robotic TTS** | Natural sound. **Latin = `it-IT-DiegoNeural` reading plain Latin** (Church Latin pronunciation), chosen by ear 2026-09-26 over a classical respelling. Fits medieval clergy; Roman-era lines carry an ⓘ saying Romans pronounced it differently |
@@ -270,13 +270,14 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
 ## Build & test
 
 ```bash
-npm run dev                          # the always-on dev server on :5051 (?debug for the overlay, ?year=1282, ?place=garn-goch, ?quality=low, ?begin=1)
+npm run dev                          # the always-on dev server on :5051 (?debug for the overlay, ?year=1282, ?place=garn-goch, ?quality=low, ?begin=1, ?photos=1)
 npm run check                        # format, types, lint, unit tests, knip (the pre-push hook runs the same)
 npx vite build && npx playwright test   # production build and e2e (needs PAGES_BASE to match CI)
 node tools/research/extract-sources.mjs # after any change to docs/research/*.md
 node tools/voices/build-voices.ts    # after any change to conversation text (needs edge-tts)
 tools/terrain/build-terrain.sh && python3 tools/geo/build-osdata.py   # rebuild map data (see docs/data)
 node tools/shot.mjs '<url>' out.png  # screenshot, using the Chromium that works on this WSL box
+node tools/photo-shots.mjs <base url/> <out dir>  # the photo layer: pins at 1900 and an open photograph, English and Welsh
 node tools/frames.mjs '<url>' <dir> [--perf] [--uncapped]  # shots at several years (YEARS, HOUR, SEASON, PLACES) and GPU frame timings
 ```
 
@@ -300,7 +301,7 @@ same GPU, High, 1903 overview at 23:00 with 5,374 halos, vsync off via `node too
 --perf --uncapped`): idle 150-159fps before and 162-165 after, orbiting 72-105 before and 92-109
 after, the scrub's apply cost 59ms (features) and 250ms (environment) before, 45 and 246 after: no
 cost measurable through the noise of a shared GPU. With vsync on both hold 60fps idle. Local runs can use the GPU: see the WSL recipe in Build & test. Bundle: the main chunk is
-496KB gzipped (496,323 bytes, 2026-10-09 with the map-style camera and welcome merged over the cutscenes; 490,121 bytes on the cutscene branch merged with main; 399,487 bytes on 2026-09-28; 387KB on 2026-09-26), plus
+509KB gzipped (508,785 bytes, 2026-10-10 with the photo layer merged into the map-style camera and welcome; 496,323 bytes on 2026-10-09 with the camera and welcome merged over the cutscenes; 490,121 bytes on the cutscene branch merged with main; 399,487 bytes on 2026-09-28; 387KB on 2026-09-26), plus
 chunks fetched only when needed (about 980KB gzipped across all JS). There is **no size limit**
 (Dewi, 2026-09-28; the 450KB CI budget was mine, never his, and is removed, [ADR 0016](docs/adr/0016-no-bundle-size-limit.md)).
 CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*.js | wc -c`.

@@ -1,16 +1,17 @@
 ---
-title: "ADR 0045: One welcome panel, with an icon that always reopens it"
+title: "ADR 0046: One welcome panel, with an icon that always reopens it"
 kind: adr
 status: accepted
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
-# ADR 0045: One welcome panel, with an icon that always reopens it
+# ADR 0046: One welcome panel, with an icon that always reopens it
 
-- **Status:** Accepted, amends [0044](0044-map-style-camera-controls.md) (its hint and Keys panel)
+- **Status:** Accepted, amends [0045](0045-map-style-camera-controls.md) (its hint and Keys panel)
 - **Date:** 2026-10-09
 - **Number:** written as 0042 on its branch, renumbered to 0045 when `main` (which had taken 0041 to
-  0043 for the cutscenes) was merged in.
+  0043 for the cutscenes) was merged in, then to 0046 when `main` (which had taken 0044 for the photo
+  layer) was merged in again.
 - **Amended 2026-10-09, merging the cutscenes ([ADR 0041](0041-cutscenes-as-data-on-one-clock.md)):**
   the welcome never opens over a playing scene. A `?cutscene=` link skips the Begin card, so the welcome
   opens at once and the scene closes it (before the scene marks the interface inert, since closing
@@ -23,6 +24,12 @@ updated: 2026-10-09
   scene first, then closes the welcome, then a popover, then a panel. The panel now says that some key
   dates have a scene, played with Watch on the date's card and ended with Skip or Esc. Chosen by Claude
   under the proactive mandate.
+- **Amended 2026-10-10, merging the photo layer ([ADR 0044](0044-photographs-are-dated-placed-content-with-pins.md)):**
+  the panel says what the Photos toggle does (pins old photographs where each was taken, at its date and
+  for some years after, each opening with its credit and an ⓘ), in English and Welsh. The photo panel joins
+  the panels in the Escape order (scene, welcome, popover, then whichever right-hand panel is open: they
+  share one slot), and the "?" icon is checked clear of the photo panel and the Photos toggle as it is of
+  the other panels. Chosen by Claude under the proactive mandate.
 - **Decided by:** Dewi asked for the panel and the icon (2026-10-03, see the decision log). The details
   below (when it opens, what it holds, how it closes) were chosen by Claude under the proactive mandate
   ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), so Dewi can overrule them.

@@ -76,6 +76,7 @@ const TIME: readonly StringKey[] = [
   'welcomeScenes',
   'welcomeSteps',
   'welcomePanels',
+  'welcomePhotos',
 ];
 const SETTINGS: readonly StringKey[] = ['welcomeLanguage', 'welcomeGraphics', 'welcomeSound'];
 

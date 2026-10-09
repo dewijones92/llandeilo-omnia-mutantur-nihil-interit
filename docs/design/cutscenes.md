@@ -71,7 +71,7 @@ type Track =
 keys are locked while it plays; the timeline is hidden and inert, so only Skip and Escape end a scene
 (the first sketch had a click on the timeline end it; the build dropped that, [ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)). Sound follows the Sound toggle.
 The map-style camera controls are off while a scene plays and come back after it, and the welcome
-panel waits for a scene to end ([ADR 0044](../adr/0044-map-style-camera-controls.md), [ADR 0045](../adr/0045-one-welcome-panel.md)).
+panel waits for a scene to end ([ADR 0045](../adr/0045-map-style-camera-controls.md), [ADR 0046](../adr/0046-one-welcome-panel.md)).
 It plays on the 2.6×-scaled diorama, so close-ups of figures are framed to read at that scale.
 
 ## Tests
