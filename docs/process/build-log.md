@@ -604,3 +604,45 @@ Milestones and what each one taught us. Newest last.
    a grid reference; llandeilo.org's caption explains "AD 90-100"). Lesson: when a page 404s, try the sibling
    address and the Wayback copy before listing it as a gap, and re-measure a derived number against a second
    anchor before reporting a conflict with a documented one.
+
+2. **The Roman forts and their vicus, built detailed** (issue 3; Claude under the proactive mandate, ADRs
+   [0041](../adr/0041-estimated-ends-carry-a-latest-date.md),
+   [0042](../adr/0042-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md),
+   [0043](../adr/0043-detailed-monuments-have-a-far-and-a-near-mesh.md)). From the checked note: Fort 1, Fort 2,
+   Fort 1's backfilled ditches and the settlement are four `building` features with plans of 66, 83, 15 and 18
+   parts, each with its own id, name, provenance and level of detail; the `roman-fort` feature kind and its own
+   renderer are gone. **The placeholders were wrong and are corrected**: `roman-fort-a` sat on Fort 2's
+   centre (Coflein's point), `roman-fort-b` 28m east and 29m south of it, both at 0.12 radians (7 degrees),
+   with tiled roofs and a limewashed headquarters, at 2.6 times life size; Fort 1 is now centred about E 262206
+   N 222470 and Fort 2 about E 262190 N 222538, long axes at bearings 48 and 53, in true size and height.
+   Built in this order, red first where a bug could show: the latest-date rule (ADR 0041) and the fort-ring
+   geometry in unit tests; the plan model's new parts; a screenshot of the first build; then the content
+   tests. What the pictures taught, each cheaper to find by looking than by test:
+   - **The content tests passed while the feature was wrong.** `notAfter` was in the type and the unit
+     test and not in the content builder `feature()`, which copied only `notBefore`, so Fort 1 showed at
+     1.00 in AD 80 instead of 0.65. The new content test (`tests/forts.test.ts`, read through `snapshotAt`)
+     was red at the named dates (Fort 1 at AD 80 was 0.996, Fort 2 at AD 132 was 0.81) until the builder
+     passed it on. Lesson: test what the snapshot says, not what the data says.
+   - **Vertical exaggeration made a fort a farm.** On the `map` setting a 3m barrack drew 7m tall and the
+     headquarters read as a barn. A new `true` setting (across 1, up 1) fixed it; the screenshot with
+     `up: 1` against `up: 2.4` is the evidence for ADR 0042.
+   - **Depth of field blurred the whole screen at a close radius.** Its focus was clamped to 40 units while
+     the camera's lower limit was 25, so a fort at radius 14 was soft everywhere; both limits now follow the
+     detail (10 units).
+   - **The vicus parallel check was wrong, not the vicus.** A test that no two houses share an angle failed
+     on four pairs of a random scatter, which is what random angles do; the real property is the spread of
+     angles and of nearest-neighbour distances, which is what the test now holds.
+   - **Latent trap found, not hit.** A `map` plan hides the OS building footprints under its parts for
+     every year, so a Roman barrack over a modern farm would have removed the farm for ever. No footprint
+     lies within 250m of either fort (checked from `buildings.bin`), and `true` plans hide none; a test
+     reads the data and fails if one ever does.
+   Not drawn, each "perhaps" or contested in the note: the annex, the practice camps, the possible
+   bathhouse, Fort 1's kiln and its third possible ditch, the vicus's funnel ditches and enclosure, the
+   cremations in Fort 2's interior, the Llandyfeisant building. Fort 1's north-east and north-west gates were
+   not found and are not drawn. The About text no longer says the forts are drawn larger than life
+   (a content test holds it). Registration on the LiDAR terrain waits for issue 2 (not in this branch).
+   Looked at (GPU, `tools/shot.mjs`, `docs/images/roman-forts/`): AD 74, 80, 110 and 140 at radius 45 (near)
+   and 160 (the key-date framing), and the card's part list. A card line "Ditch 1 of 2, south-west" appeared
+   twice on the first look at the list, one per piece of a side cut by a gate; a content test now holds every
+   part's name to be its own, in both languages.
+

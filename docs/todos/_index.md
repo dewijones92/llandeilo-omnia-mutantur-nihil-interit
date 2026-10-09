@@ -241,11 +241,14 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
 - [ ] **The Roman forts and their civilian settlement, detailed in the app** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research first; modular parts, gates that can open, levels of detail; Dewi chose "Detailed in the app" over the low-poly look for the fort.
       2026-10-09: researched and independently checked (`research/roman-forts-and-vicus.md`, draft; check
       [2026-10-09](../research/reviews/roman-forts-and-vicus-check-2026-10-09.md), corrections applied; Claude under
-      the proactive mandate, [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)): both
-      forts, three of Fort 2's four gates evidenced, no stone, the vicus irregular and thinly known, the second
-      fort's "AD 90-100" unsupported (probably the caption date of the Ludlow scene), the HER giving each fort a
-      grid reference (Fort 1 SN 6218 2245, Fort 2 SN 6217 2253) and Fig 1 agreeing with Coflein. Still to do:
-      registering the forts on the LiDAR, deciding true scale (the app draws forts at 2.6 times life size), then the build
+      the proactive mandate, [ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)).
+      2026-10-09: **built** ([ADRs 0041, 0042 and 0043](../adr/README.md)): Fort 1, Fort 2, Fort 1's backfilled
+      ditches and the vicus as plans of 66, 83, 15 and 18 parts, each part with its own tier, at true size and
+      height, with a far and a near mesh, shown on the first Roman key date's card part by part; the placeholder
+      boxes (wrong place, angle and roofs) are gone. Seen: screenshots at AD 74, 80, 110 and 140, near and far;
+      unit, content and e2e tests. Still to do before it is ticked: the second-Opus review of the diff, and
+      registering the forts on the LiDAR terrain when issue 2 lands. Not built (the issue's own later phases): a
+      Blender project, animation, walkable interiors, characters
 - [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09); a photo layer pinned to where each was taken, with credit and ⓘ, with its credit
 - [ ] Conversations by class in the three slice eras; in-world music and the hunter-gatherer scenes (after their research checks); a GPU terrain shader for smooth scrubbing; the later trains and the Dinefwr, Carreg Cennen and bridge models (Dewi picked all four on 2026-10-09)
 

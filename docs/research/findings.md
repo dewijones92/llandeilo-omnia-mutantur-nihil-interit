@@ -48,6 +48,14 @@ because of it. The detail and sources are in each note; this is the summary a ne
   Coflein agree (the first pass's "about 50m east" was a measurement error), the "AD 90-100" is probably the
   caption date of the Ludlow painting on llandeilo.org, and Roman tile was found in the fort and vicus.
   ([roman forts](roman-forts-and-vicus.md))
+- **Built 2026-10-09 ([ADR 0042](../adr/0042-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)),
+  and the placeholders corrected:** the app's two forts had been boxes at the wrong place and angle (the larger
+  fort on the smaller's centre, the smaller 28m east and 29m south of it, both at about 7 degrees against the
+  figures' 48 to 53, with tiled roofs and a limewashed headquarters, at 2.6 times life size). They are now
+  Fort 1 about E 262206 N 222470 and Fort 2 about E 262190 N 222538 (within 40m and 30m of the HER's points, Fort 2
+  within 5m of Coflein's), drawn in true size, timber and earth only, each part marked documented,
+  reconstructed or imagined. Fort 1 is shown from AD 74 and gone by 83, Fort 2 from about 82 (the HER's
+  unproven reading) to 125 and gone by 140. Registration on the LiDAR is still open.
 - **The Llandeilo Gospels' "Surexit" note** is called "the earliest surviving document in the Welsh
   language", recorded at Llandeilo; the Cadfan Stone at Tywyn may be older as a text, and the note's
   exact date is debated. ([language](language-by-class.md))
