@@ -834,3 +834,27 @@ Milestones and what each one taught us. Newest last.
      was red at the named assertion.
    - Also: ADR 0047 (not 0043) for detail parts in the authoring guide; `geo.ts` no longer says the forts are
      drawn larger than life.
+
+15. **The GPU e2e kit: WebGPU tested for the first time** (Dewi's idea, "Chrome exe in windows has beefy
+   GPU, maybe run any graphics stuff on there?", and his choice of a self-hosted runner; the design Claude
+   under the proactive mandate, ADR 0027; [ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md)).
+   `npm run e2e:gpu` builds and serves the site in WSL and runs Playwright on Windows against Windows
+   Chrome on the NVIDIA GPU. First full run: WebGPU on `nvidia lovelace` with no WebGPU errors, the night
+   halos' WGSL running at last, 7 GPU tests and 37 e2e specs green at High in 5m15s (numbers in
+   CLAUDE.md). Lessons: (1) **WSL cannot reach a Windows browser, but a Windows browser can reach WSL**, so
+   the browser and Playwright go to Windows and only the server stays; a probe showed headless Chrome gets
+   the same NVIDIA adapter as a visible window, so nothing opens on the desktop. (2) **Windows' npm is
+   6.14 through Volta**, older than the lockfile format, so the Windows side installs only Playwright, at
+   the lockfile's version. (3) **A whole-run `--uncapped` stalled once; the cause is not known.** The
+   frame test ran, then each page load slowed until one sat on "Raising the Tywi valley…" for 150s, the
+   next navigation aborted, and output from Windows stopped reaching WSL while the run hung past its
+   limit. WSL's swap was 15.4 of 16 GB full at the time, so memory pressure is as likely as the flags.
+   `--uncapped` now launches a browser for the frame test alone and the rerun was clean (one rerun, so
+   not proof). The run has a 30-minute Playwright limit per pass and `windows.ps1` kills a pass's process
+   tree on a timeout. (4) the summary's
+   duration printed 59.6s as `0m60s` until its unit test caught it. (5) **The first review found the
+   kit's own guards weak**, and each was fixed and checked: the "no WebGPU errors" check could not see
+   Babylon's warnings (so "no WebGPU errors" above was true but unproven; a rerun with the fixed guard
+   is clean, and a self-test now proves the guard fires); `npm ci` ran on a file-time comparison and would
+   have deleted the dev server's `node_modules`; `timeout` left Windows `node.exe` and Chrome running;
+   and a `kill -9` left an orphan preview holding the lock.

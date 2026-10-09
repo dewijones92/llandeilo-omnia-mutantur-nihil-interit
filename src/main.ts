@@ -81,8 +81,8 @@ async function start(): Promise<void> {
   const opening = new OpeningCard(store, showsBegin(params, navigator.webdriver), [app, canvas]);
   document.body.append(opening.el);
 
-  const [{ engine, backend }, heightfield, rivers, woodland, footprints, railways, roads] = await Promise.all(
-    [
+  const [{ engine, backend, gpu }, heightfield, rivers, woodland, footprints, railways, roads] =
+    await Promise.all([
       createEngine(canvas, params.has('webgl')),
       loadHeightfield(),
       loadRivers(),
@@ -90,8 +90,7 @@ async function start(): Promise<void> {
       loadBuildings(),
       loadRailways(),
       loadRoads(),
-    ],
-  );
+    ]);
   const chosen = chooseQuality({
     param: params.get('quality'),
     fx: params.get('fx'),
@@ -119,7 +118,7 @@ async function start(): Promise<void> {
   const debug = params.has('debug')
     ? new DebugOverlay(
         engine,
-        backend,
+        `${backend} (${gpu})`,
         world.camera,
         () => world.graphics(),
         () => features.levels(),
@@ -681,7 +680,7 @@ async function start(): Promise<void> {
   opening.ready(() => {
     setSound(true);
   });
-  if (debug) Object.assign(window, { llandeiloDebug: { scene: world.scene } });
+  if (debug) Object.assign(window, { llandeiloDebug: { scene: world.scene, backend, gpu } });
   // ?cutscene=<id>&cutsceneAt=<seconds> starts a scene part-way through, for screenshots.
   const sceneParam = CUTSCENES.find((c) => c.id === params.get('cutscene'));
   if (sceneParam) {

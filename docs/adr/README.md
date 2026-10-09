@@ -2,7 +2,7 @@
 title: Architecture decision records
 kind: index
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Architecture decision records
@@ -79,6 +79,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0045](0045-estimated-ends-carry-a-latest-date.md) | An estimated end can carry the latest date its sources allow | Accepted, amends 0035 | 2026-10-09 |
 | [0046](0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md) | The Roman forts are drawn true size from typed plans whose parts carry their own tier | Accepted | 2026-10-09 |
 | [0047](0047-detailed-monuments-have-a-far-and-a-near-mesh.md) | A detailed monument has a far and a near mesh, chosen by the camera's distance | Accepted | 2026-10-09 |
+| [0048](0048-gpu-e2e-on-windows-chrome.md) | The GPU tests run on Windows Chrome, against a preview served from WSL | Accepted (Dewi's idea and runner; design Claude, under the proactive mandate) | 2026-10-09 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.
