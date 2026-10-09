@@ -941,3 +941,31 @@ describe('the About panel', () => {
     }
   });
 });
+
+describe('hunters burning the high heath at Waun Fignen Felen', () => {
+  const burning = W.events.find((e) => e.id === 'mesolithic-burning');
+  const fire = W.almanac.find((a) => a.id === 'mesolithic-fire');
+
+  it('sits at about 7000 BC, the calibration of ca. 8000 BP, and says "about 9,000 years ago" in both languages', () => {
+    expect(burning?.when.from).toBe(bc(7000));
+    expect(burning?.when.to).toBe(bc(7000));
+    expect(burning?.summary.en).toContain('about 9,000 years ago');
+    expect(burning?.summary.cy).toContain('tua 9,000 o flynyddoedd yn ôl');
+    expect(burning?.summary.en).not.toContain('8,000');
+    expect(burning?.summary.cy).not.toContain('8,000');
+  });
+
+  it('cites the pollen study and Coflein, and says in both languages that the date is our calibration', () => {
+    const why = burning?.provenance;
+    if (why?.kind !== 'documented') throw new Error('mesolithic-burning must be documented');
+    expect(why.sources).toEqual(expect.arrayContaining(['hunters:S19', 'hunters:S17']));
+    expect(why.note?.en).toContain('IntCal20');
+    expect(why.note?.cy).toContain('IntCal20');
+  });
+
+  it('runs the almanac fire from about 7000 to 4500 BC, citing the same pollen study', () => {
+    expect(fire?.when.from).toBe(bc(7000));
+    expect(fire?.when.to).toBe(bc(4500));
+    expect(fire?.provenance.sources).toContain('hunters:S19');
+  });
+});

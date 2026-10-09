@@ -640,3 +640,19 @@ Milestones and what each one taught us. Newest last.
    shared (a unit test failed first on the missing function, then on the edge cases). (5) The bundle is
    490,121 bytes gzipped, recorded in CLAUDE.md. Lesson: **an ADR that says "every copy now uses it" is a
    claim to grep for, not to write from memory.**
+
+## 2026-10-09
+
+1. **The music and hunter-gatherer checks applied** (Claude under the proactive mandate, ADR 0027). Two
+   independent checks (91 and 70 claims) found 10 contradicted or unsupported claims and 35 partly
+   supported ones; every correction is in the notes marked "Corrected 2026-10-09 (independent check)", and
+   the two checks sit in `docs/research/reviews/`. App changes: the Waun Fignen Felen burning moved from 6000
+   BC to about 7000 BC ("about 9,000 years ago", EN and CY) with the pollen study and Coflein cited and an ⓘ
+   that says the date is our calibration of a BP figure whose scale is assumed; the almanac fire now runs
+   about 7000 to 4500 BC; the lamplight 1200 entry's basis now says S3 dates its manuscript to about 1300.
+   A content test failed first on the year and the sources. The key date is not magnetic, so the
+   magnetic-spacing test and the key-date e2e flows were unaffected. Lessons: (1) **a correction can be
+   wrong itself**: the 2026-10-03 light check said no source dated the Deheubarth law-book's manuscripts,
+   and S3's own preface does; "no source read" is a claim about the reader, so grep the preface before
+   writing it. (2) **a check that recomputes a figure is worth more than one that re-reads the prose**: the
+   IntCal20 calibrations all held, and the open question was the scale, not the arithmetic.

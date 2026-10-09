@@ -2,7 +2,7 @@
 title: Research index
 kind: index
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Research
@@ -32,9 +32,9 @@ the research drove.
 | [roman-arrival](roman-arrival.md) | The Roman army arrives in the Tywi valley, c. AD 74 | draft | [2026-10-02](reviews/roman-arrival-check-2026-10-02.md), applied | [brief](briefs/roman-arrival.md) |
 | [ripples-from-afar](ripples-from-afar.md) | Distant shocks (eruptions, pandemics, famines, wars) and their evidence in the valley | draft | [2026-10-02](reviews/ripples-from-afar-check-2026-10-02.md), applied | [brief](briefs/ripples-from-afar.md) |
 | [invasions-and-raids](invasions-and-raids.md) | Invasions, raids and conquests that reached the Tywi valley | draft | [2026-10-02](reviews/invasions-and-raids-check-2026-10-02.md), applied | [brief](briefs/invasions-and-raids.md) |
-| [music-through-time](music-through-time.md) | Music in and around Llandeilo, by era, class and setting | draft | not yet checked | [brief](briefs/music-through-time.md) |
+| [music-through-time](music-through-time.md) | Music in and around Llandeilo, by era, class and setting | draft | [2026-10-09](reviews/music-through-time-check-2026-10-09.md), applied (two US-licence flags recorded; no music asset ships yet) | [brief](briefs/music-through-time.md) |
 | [soundscapes](soundscapes.md) | What the valley sounded like, era by era, and where to get the sounds | draft | [2026-10-03](reviews/soundscapes-check-2026-10-03.md), applied (the market bed's start is left for Dewi) | [brief](briefs/soundscapes.md) |
-| [hunter-gatherers](hunter-gatherers.md) | Hunter-gatherers from the ice to the first farmers (c. 13,000 to 4000 BC) | draft | not yet checked | [brief](briefs/hunter-gatherers.md) |
+| [hunter-gatherers](hunter-gatherers.md) | Hunter-gatherers from the ice to the first farmers (c. 13,000 to 4000 BC) | draft | [2026-10-09](reviews/hunter-gatherers-check-2026-10-09.md), applied (the Waun Fignen Felen key date and almanac entry moved; the BP scale is still an inference) | [brief](briefs/hunter-gatherers.md) |
 | [light-after-dark](light-after-dark.md) | How homes and streets were lit after dark: hearth, rushlight, oil, gas (1864, streets by 1876), electric (1902), the blackout | draft | [2026-10-03](reviews/light-after-dark-check-2026-10-03.md), applied | none (written inline, 2026-10-03) |
 
 The first six were produced in one pass on 2026-09-26, with WebSearch quota exhausted part way

@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Open questions
@@ -35,6 +35,25 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | The date of the 1213 camp | 24 January (the Brut's reckoning) vs 25 January (Lloyd's *History of Carmarthenshire*); the app says late January and gives both (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 
 ## Gaps worth a dedicated pass
+
+- **Heneb HER terms of use** (found by the hunter-gatherers check, 2026-10-09; for Dewi). Every Heneb HER
+  (Archwilio) page says: "All output resulting from the use of the data must acknowledge the source as
+  follows: Derived from information held by the Heneb HER Charitable Trust copyright", and "If you wish to
+  use information derived from material held by the Heneb HER Charitable Trust for publication in printed or
+  multimedia form ... prior permission must be obtained in writing." The app is a public multimedia site and
+  cites HER records (`hunters:S1`, `S2`, `S5` and others, and `archwilio.org.uk` elsewhere); no recorded
+  permission or acknowledgement line was found in `src/`, `docs/adr/` or `docs/process/`. ADR 0026 covers
+  asset licences, not data terms. Coflein's footer says "Non-commercial Government Licence". **Dewi's
+  2026-10-09 rule is to credit the material in the issues rather than licence-check it**; that rule is about
+  issue content, and has not been extended to HER data. Decide before more HER-derived content goes in:
+  ask Heneb for written permission, or add the fixed acknowledgement line to the credits page and treat the
+  existing citations as facts only (not decided).
+- **Waun Fignen Felen's BP scale** (2026-10-09): the app now dates the burning at about 7000 BC on the
+  inference that "ca. 8000 years BP" is radiocarbon. The lab dates in Smith and Cloutman (1988, full text
+  not obtained: the Royal Society page returns 403) or in Barton and others (1995) would settle it.
+- **Recordings public domain outside the US only** (music check, 2026-10-09): Handel, Scherchen 1953
+  (US term to 2063 on secondary sources) and Thomas L. Thomas 1944 (to 2039). Neither ships; prefer our own
+  rendering or a pre-1923 recording ([music note](music-through-time.md), L1 and L2).
 
 - **The 1849 cholera at Llandeilo** rests on one partly illegible report (*The Welshman*, 21 December
   1849): how many fell ill, where the house for patients was, and a second witness (the *Carmarthen
