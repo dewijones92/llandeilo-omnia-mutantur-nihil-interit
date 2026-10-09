@@ -57,7 +57,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0023](0023-e2e-own-port-never-reused.md) | Each checkout runs e2e on its own port, and never reuses a server | Accepted | 2026-10-02 |
 | [0024](0024-place-names-carry-a-required-date.md) | Every place name carries a required date | Accepted | 2026-10-02 |
 | [0025](0025-releases-at-visible-milestones.md) | Releases at visible milestones, with notes kept in the repo | Accepted | 2026-10-02 |
-| [0026](0026-open-licences-including-nc.md) | Any open licence, the non-commercial ones included | Accepted | 2026-10-02 |
+| [0026](0026-open-licences-including-nc.md) | Any open licence, the non-commercial ones included | Accepted; amended 2026-10-09 (the issues' material is credited, not licence-checked) | 2026-10-02 |
 | [0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md) | Claude proposes and builds its own ideas, under a proactive mandate | Accepted, amends 0022 | 2026-10-02 |
 | [0028](0028-ambient-beds-carry-provenance.md) | Every ambient sound bed carries a provenance, on its own dated track | Accepted, amends 0011 | 2026-10-03 |
 | [0029](0029-guess-game-hides-giveaways-by-one-root-class.md) | The guess-the-year game hides giveaways with one root class, and draws its clues from provenance | Accepted; what `datesExact` means amended by 0035 | 2026-10-03 |
@@ -65,9 +65,13 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0031](0031-one-graphics-quality-setting.md) | One graphics quality setting, High by default | Accepted | 2026-10-03 |
 | [0032](0032-night-light-before-the-first-key-and-period-dates.md) | No night light before the first key, and keys that only mark a period | Accepted, amends 0030 | 2026-10-03 |
 | [0033](0033-railway-drawn-in-dated-sections.md) | The railway is drawn in dated sections of today's track | Accepted; the northing cut and "shown by its presence" superseded by 0034 | 2026-10-03 |
-| [0034](0034-exact-dates-draw-nothing-outside-them.md) | Exact dates draw nothing outside them, and the railway's drawn rule is in the domain | Accepted, amends 0033; amended by 0035 | 2026-10-03 |
-| [0035](0035-exact-dates-are-about-dates-not-clues.md) | Exact dates are about the dates, not about how firm a clue is | Accepted, amends 0029 and 0034; amended 2026-10-03 (contested dates may be exact when the ⓘ names both; no exact date for undated track) | 2026-10-03 |
+| [0034](0034-exact-dates-draw-nothing-outside-them.md) | Exact dates draw nothing outside them, and the railway's drawn rule is in the domain | Accepted, amends 0033; amended by 0035; amended 2026-10-03 (undated lines drawn as estimates, Dewi's decision) | 2026-10-03 |
+| [0035](0035-exact-dates-are-about-dates-not-clues.md) | Exact dates are about the dates, not about how firm a clue is | Accepted, amends 0029 and 0034; amended 2026-10-03 (contested dates may be exact when the ⓘ names both; no exact date for undated track; undated track drawn as labelled estimates, Dewi's decision); amended by 0037 | 2026-10-03 |
 | [0036](0036-ci-e2e-in-parallel-shards.md) | CI runs the end-to-end tests in four parallel shards | Accepted | 2026-10-03 |
+| [0037](0037-estimates-carry-an-earliest-date.md) | An estimated date can carry the earliest date its sources allow | Accepted, amends 0035 | 2026-10-03 |
+| [0038](0038-recorded-burnings-are-dated-features.md) | A recorded burning is a dated feature, and which features smoke is one domain rule | Accepted; amended 2026-10-03 (the 1213 arrival by day) | 2026-10-03 |
+| [0039](0039-timeline-markers-fan-into-lanes.md) | Timeline markers keep their dates and fan into lanes when they crowd | Accepted | 2026-10-03 |
+| [0040](0040-a-dark-night-and-halos-that-keep-a-few-pixels.md) | A dark night, and halos that face the camera and keep a few pixels | Accepted | 2026-10-03 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

@@ -222,7 +222,7 @@ contested [medieval:S57].
 | Beavers gone from Britain (16th century) | River | Documented (Britain) | [deeptime:S34] |
 | Cranes bred in medieval Britain; an Act of 1533 protected their eggs. Not dated here (*Corrected 2026-10-03 (independent check)*: was "gone as British breeders by the mid 16th century", which S19 does not say) | Wetland | Unknown here: a lead only | [S19] |
 | Church bells | Church | Unknown (first ringing recorded is 1857) | [effects:S7] |
-| Fairs, markets, farms as before | Town, farm | Reconstructed | |
+| Fairs, markets, farms as before; Llandeilo a "Market town c. 1600" (the gazetteer, citing Everitt) (*Added 2026-10-03*) | Town, farm | Documented (market town); reconstructed (sound) | [S20] |
 
 ## Georgian (1714 to 1836)
 
@@ -472,7 +472,11 @@ Beds play everywhere and follow the era, season, clock and height; point sources
 - **St Teilo's Fair**: partly answered (*Corrected 2026-10-03 (independent check)*): a fair around St Barnabas was granted in 1290 and
   1291, and a Saturday market is recorded by 1326 [S20]. What remains: when and why the Barnabas fair
   became St Teilo's Fair, whether it was ever held in the churchyard, and what was sold or heard.
-  Dinefwr had its own market and fair from 1280 [S20].
+  Dinefwr had its own market and fair from 1280 [S20]. (*2026-10-03*: Dewi decided the app's market
+  sound starts in the Middle Ages, so it now starts with the fair granted on 20 May 1290, reconstructed,
+  documented from the record of 1326, and kept quiet for a borough of fourteen burgesses; the start of
+  1600, which no reason given for it supported, is gone, and the 1600 point now rests on the
+  gazetteer's "Market town c. 1600".)
 - **Cranes in the Tywi valley**: are there *garan* place-names near Llandeilo, and do they mean crane
   or heron [S1]? The Melville Richards place-name archive would answer it.
 - **Corncrake in Carmarthenshire**: the only county history read is Pembrokeshire's [S10].

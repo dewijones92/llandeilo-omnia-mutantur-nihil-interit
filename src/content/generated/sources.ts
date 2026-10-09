@@ -2119,6 +2119,102 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/era-victorian.md"
   },
   {
+    "id": "victorian:S77",
+    "title": "Wikipedia, \"Burry Port and Gwendraeth Valley Railway\"",
+    "url": "https://en.wikipedia.org/wiki/Burry_Port_and_Gwendraeth_Valley_Railway",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S78",
+    "title": "Coflein (RCAHMW), \"Burry Port and Gwendraeth Valley Railway,\" NPRN 34695",
+    "url": "https://coflein.gov.uk/en/site/34695",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S79",
+    "title": "Coflein (RCAHMW), \"Hirwaunissa Inclined Plane,\" NPRN 309237",
+    "url": "https://coflein.gov.uk/en/site/309237",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S80",
+    "title": "Wikipedia, \"Cwmmawr railway station\"",
+    "url": "https://en.wikipedia.org/wiki/Cwmmawr_railway_station",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S81",
+    "title": "Ordnance Survey, 25-inch map, Carmarthenshire Sheet XLVII.7, surveyed 1878 to 1879, published 1880, National Library of Scotland",
+    "url": "https://maps.nls.uk/view/135193777",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S82",
+    "title": "Ordnance Survey, six-inch map, Carmarthenshire Sheet XLVII.NE, revised 1905, published 1907, National Library of Scotland",
+    "url": "https://maps.nls.uk/view/102179750",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S83",
+    "title": "Ordnance Survey, six-inch map, Glamorgan Sheet II, surveyed 1877, published 1883, National Library of Scotland",
+    "url": "https://maps.nls.uk/view/102342400",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S84",
+    "title": "Ordnance Survey, six-inch map, Glamorgan Sheet II.NE, revised 1896, published 1900, National Library of Scotland",
+    "url": "https://maps.nls.uk/view/102350031",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S85",
+    "title": "Northern Mine Research Society, \"Gwaun-cae-Gurwen East Pit\" and \"Gwaun-cae-Gurwen Maerdy Pit\"",
+    "url": "https://nmrs.org.uk/mines-map/coal-mining-in-the-british-isles/swales/pontardawe/gwaun-cae-gurwen-east-pit/",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S86",
+    "title": "Welsh Coal Mines, \"Gwaun Cae Gurwen Colliery\"",
+    "url": "https://www.welshcoalmines.co.uk/GlamWest/Gwaun%20Cae%20Gurwen.htm",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S87",
+    "title": "A. P. Barnett and D. Willson-Lloyd (eds), *The South Wales Coalfield* (Cardiff, 1921), extracts on the Gwaun-cae-Gurwen Colliery Co., as transcribed on People's Collection Wales",
+    "url": "https://www.peoplescollection.wales/story/886956",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S88",
+    "title": "Colonel Stephens Society, \"Burry Port & Gwendraeth Valley Light Railway\"",
+    "url": "http://colonelstephenssociety.co.uk/the%20colonels%20railways/burry%20port%20%26%20gwendraeth%20valley%20light%20railway/index.html",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S89",
+    "title": "Ordnance Survey, OS OpenMap Local, tile SN, `RailwayTrack` layer (Open Government Licence; the local copy behind `public/data/railways.json`, layer last updated 2 April 2026)",
+    "url": "https://api.os.uk/downloads/v1/products/OpenMapLocal/downloads?area=SN&format=ESRI%C2%AE+Shapefile&redirect",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S90",
+    "title": "Wikipedia, \"Kidwelly and Llanelly Canal\"",
+    "url": "https://en.wikipedia.org/wiki/Kidwelly_and_Llanelly_Canal",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S91",
+    "title": "Ordnance Survey, six-inch map, Carmarthenshire Sheet XLVIII.SW, revised 1905, published 1907, National Library of Scotland",
+    "url": "https://maps.nls.uk/view/102179798",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
+    "id": "victorian:S92",
+    "title": "Ordnance Survey, six-inch map, Carmarthenshire Sheet XLVIII.SW, provisional edition, \"Revision of 1913 with additions in 1948\", published 1953, National Library of Scotland",
+    "url": "https://maps.nls.uk/view/102179792",
+    "doc": "docs/research/era-victorian.md"
+  },
+  {
     "id": "effects:S1",
     "title": "Thomas Jenkins of Llandeilo, diary 1840-1845, as transcribed on llandeilo.org (Terry Norman and Andy Mabbutt), \"Caves, Castles, Rebecca Riots, Leeches and Scarlet Fever\", from *The Diary of Thomas Jenkins of Llandeilo…",
     "url": "https://llandeilo.org/tj_caves.html",

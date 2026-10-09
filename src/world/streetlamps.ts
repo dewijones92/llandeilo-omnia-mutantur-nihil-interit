@@ -1,8 +1,10 @@
 import { Color3, Matrix, MeshBuilder, StandardMaterial, type Mesh, type Scene } from './babylon.ts';
 import { WORLD } from '../domain/geo.ts';
+import { HALOS } from '../domain/halo.ts';
 import { streetLampPoints, type LampSpacing, type StreetGlow } from '../domain/lamplight.ts';
 import type { GridRef } from '../domain/model.ts';
 import type { MapLine } from '../platform/assets.ts';
+import { Halos, type HaloPoint } from './halos.ts';
 import type { Ground } from './structures.ts';
 
 // Where the lamps stood is not recorded (light-after-dark research), so they follow today's roads
@@ -13,10 +15,12 @@ const HEAD_LIFT = 0.55;
 interface LampSet {
   readonly matrices: Float32Array;
   readonly count: number;
+  readonly heads: readonly HaloPoint[];
 }
 
 export class StreetLamps {
   readonly material: StandardMaterial;
+  readonly halos: Halos;
   private readonly mesh: Mesh;
   private readonly towns = new Map<string, (p: GridRef) => boolean>();
   private readonly placed = new Map<string, LampSet>();
@@ -42,6 +46,7 @@ export class StreetLamps {
     this.mesh.isPickable = false;
     this.mesh.isVisible = false;
     this.mesh.thinInstanceCount = 0;
+    this.halos = new Halos(scene, 'street', HALOS.street);
   }
 
   addTown(id: string, builtUp: (p: GridRef) => boolean): void {
@@ -74,6 +79,7 @@ export class StreetLamps {
     const colour = this.street?.colour;
     this.mesh.isVisible = level > 0.02 && this.count > 0;
     if (colour) this.material.emissiveColor.set(colour.r * level, colour.g * level, colour.b * level);
+    this.halos.setLight(colour ?? { r: 0, g: 0, b: 0 }, colour ? level : 0);
   }
 
   private place(street: StreetGlow | undefined): void {
@@ -82,10 +88,13 @@ export class StreetLamps {
     if (key === this.key) return;
     this.key = key;
     const set =
-      builtUp && street ? this.lampsFor(key, builtUp, street) : { matrices: new Float32Array(16), count: 0 };
+      builtUp && street
+        ? this.lampsFor(key, builtUp, street)
+        : { matrices: new Float32Array(16), count: 0, heads: [] };
     this.mesh.thinInstanceSetBuffer('matrix', set.matrices, 16, false);
     this.mesh.thinInstanceCount = set.count;
     this.count = set.count;
+    this.halos.setPoints(set.heads);
     console.info(`dewidebug street lamps showing ${key} lamps=${set.count}`);
   }
 
@@ -94,12 +103,14 @@ export class StreetLamps {
     if (cached) return cached;
     const points = streetLampPoints(this.roads, SPACING, builtUp, street.area);
     const matrices = new Float32Array(Math.max(1, points.length) * 16);
-    points.forEach((p, i) => {
+    const heads = points.map((p, i): HaloPoint => {
       const x = (p.e - WORLD.centre.e) / WORLD.metresPerUnit;
       const z = (p.n - WORLD.centre.n) / WORLD.metresPerUnit;
-      Matrix.Translation(x, this.ground(x, z) + HEAD_LIFT, z).copyToArray(matrices, i * 16);
+      const y = this.ground(x, z) + HEAD_LIFT;
+      Matrix.Translation(x, y, z).copyToArray(matrices, i * 16);
+      return { x, y, z, weight: 1 };
     });
-    const set = { matrices, count: points.length };
+    const set = { matrices, count: points.length, heads };
     this.placed.set(key, set);
     console.info(`dewidebug street lamps placed ${key} lamps=${points.length}`);
     return set;

@@ -32,9 +32,16 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
 | Where Llandeilo station stood, for the model | `LLANDEILO_STATION` (263266, 222361) is on the track, about 240m south-west of Coflein's station reference (263340, 222580) and OS Open Map Local's station symbol (263357, 222603); the 1890s map has the station buildings at the Coflein position (found 2026-10-09; not changed) | [dc-harries-photographs](dc-harries-photographs.md) |
 | The D. C. Harries collection's size and his start year | 2,500 negatives printed, 800 or 930+ negatives (NLW, Wikipedia); business from about 1888 vs "the early twentieth century" (NLW's two pages) (added 2026-10-09) | [dc-harries-photographs](dc-harries-photographs.md) |
+| Where the 1257 battles were fought | Coed Llathen near Broad Oak (first OS map, 1888 or 1891; field names not attested before it) vs the wood of Llanarthne (Gough-Cooper's reading of the manuscript); Cymerau at the Tywi–Cothi confluence (Lloyd) vs near Talley (Phillimore). All inside the area, none proven; the app marks none, and whether to mark them is Dewi's choice (added 2026-10-03) | [invasions](invasions-and-raids.md) |
+| Rhys Fychan in 1257, and the dead | He slipped away to Dinefwr (Annales Cambriae B) vs Dinefwr's garrison seized him (the Brut); "more than three thousand" (AC B) vs "upwards of two thousand" (the Brut), a modern estimate 1,000–3,000; the camp at Llandeilo is in AC B alone. The app gives both readings (added 2026-10-03) | [invasions](invasions-and-raids.md) |
+| The date of the 1213 camp | 24 January (the Brut's reckoning) vs 25 January (Lloyd's *History of Carmarthenshire*); the app says late January and gives both (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 
 ## Gaps worth a dedicated pass
 
+- **The 1849 cholera at Llandeilo** rests on one partly illegible report (*The Welshman*, 21 December
+  1849): how many fell ill, where the house for patients was, and a second witness (the *Carmarthen
+  Journal*, the Llandilo Fawr Union records) are not found, so the app shows a card and no scene
+  (added 2026-10-03; [ripples](ripples-from-afar.md)).
 - **Earliest people in the radius**: no dated Palaeolithic or Mesolithic site; the Garn Goch long
   cairn is Neolithic by shape only, and Cadw's schedule says "probably ... Bronze Age" instead. The Waun Fignen Felen evidence lies about 4km outside the disc.
   The museum source for "people back by 14,500 years ago" (timeline S1) does not say whether its
@@ -76,12 +83,14 @@ for the next pass. Each note's own "Open questions" section has the full list an
   - **St Teilo's bells**: how many, when cast, and whether the 1857 peal (effects:S7, which does not
     say whose bells) was St Teilo's. Dove's Guide could not be read ([soundscapes](soundscapes.md)).
   - **Motor traffic**: when cars and lorries reached Llandeilo; the traffic bed starts at 1950.
-  - **When the market bed should start: a decision for Dewi** (2026-10-03, from the soundscapes
-    check). A fair at Llandeilo was granted by Edward I in 1290 and 1291 and a Saturday market is
-    recorded by 1326, and Dinefwr had its own market and fair from 1280 (sound:S20, a scholarly
-    gazetteer). The market bed still starts at 1600; starting it in the Middle Ages is a content
-    choice, not a correction, so it is left for Dewi. When the Barnabas fair became St Teilo's Fair,
-    and whether it was held in the churchyard, is still open.
+  - **When the market bed should start** (*answered 2026-10-03: Dewi decided "yes ok" to starting it
+    in the Middle Ages*). It now starts with the fair Edward I granted on 20 May 1290 (and again on 20
+    September 1291), reconstructed, since a grant does not show the fair was held; from 1326, when the
+    gazetteer records a Saturday market and the bishop holding the fair (sound:S20), it is
+    documented, its sound reconstructed; and it carries on through Llandeilo as "Market town c. 1600"
+    (the same gazetteer, citing Everitt) to the Shire Hall market. Still open: when the Barnabas fair
+    became St Teilo's Fair, whether it was held in the churchyard, and Dinefwr's own market and fair
+    from 1280 (sound:S20), which has no bed.
   - **ironage:S49 has no URL** and is the only source for the `FARMSTEAD` and `FARM_SMITH` beds (the
     Iron Age note calls it a worldhistoryedu.com summary used for sound ideas only). Find the page or
     replace it with a citable source on Iron Age farmsteads (soundscapes check, 2026-10-03).
@@ -105,7 +114,24 @@ for the next pass. Each note's own "Open questions" section has the full list an
   each branch closed or was lifted (Amman valley passenger trains ended 18 August 1958
   (railwaylater:S1, S11)); and what the short lines near the western edge are (near Pontyberem, E
   251000 to 253000 N 211500 to 212500, and near Cross Hands, E 255500 N 210500). They are not dated
-  in the notes, so they are not drawn at all. Leads to check, each against a second source: the
+  in the notes, so they are not drawn at all. (*Answered in part 2026-10-03, by Dewi's decision to draw
+  undated lines as labelled estimates*: the Pontyberem line is the Burry Port and Gwendraeth Valley
+  Railway to Cwmmawr (victorian:S77, S78, S82). Its sources disagree: Pontyberem 1869 and the foot of
+  the Hirwaun Isaf incline 1870 (Miller, via S77), Cwmmawr 1869 (Bourne, Morgan, Cobb, via S77), or
+  Cwmmawr June 1886 (Miller and Barrie via S77; Morris and Jones via S90; Coflein, S78). Above the
+  incline a tramroad was on the towpath by 1865 (S77), and the 25-inch map of 1878–79 (S81) draws the
+  railway from about the incline's head; it does not cover the stretch below. So 1886 is read as the
+  line past the incline, and the app draws three stretches: below the foot from c. 1870 (never before 23
+  June 1869), above the head from the same guess, and beside the incline across June 1886. Still open:
+  where the incline's foot was (placed about 265m below the head from its 85ft rise at 1 in 10¼,
+  against about 740m from "a mile short of Cwm Mawr"), whether the 1878–79 track above the head was the
+  railway or the 1865 tramroad, and whether today's track by the incline is the 1886 course or the
+  1911–13 regrading. The Cross Hands stub is about 35m of track Ordnance Survey classes as narrow gauge
+  (S89), in farmland at Upper Tumble (Pen-y-graig on the old maps); it is not the standard-gauge
+  Mountain branch or the Llanelly and Mynydd Mawr line, OpenStreetMap maps no railway within 1.5km of
+  it, and no source read names it. The six-inch maps of 1905 (S91) and of 1913 with additions in 1948
+  (S92) show old coal workings and no track there, so it is drawn `imagined` from c. 1950: what it is,
+  and when it was laid, are open.) Leads to check, each against a second source: the
   Llanelly Railway's (Great) Mountain branch to Cross Hands, opened for goods and minerals on 6 May
   1841, Cross Hands goods closed 1 November 1950 and the whole branch 6 March 1963 (victorian:S29);
   and, from memory only (not in any note), the Llanelly and Mynydd Mawr Railway and the Burry Port and
@@ -122,7 +148,17 @@ for the next pass. Each note's own "Open questions" section has the full list an
   1907 line joined the old course, which the app places from S74's length alone (Coflein's
   "Gwaun-Cae Gurwen Viaducts", victorian:S76, stand on today's track about 65m east of that point but
   are dated just before the First World War); and when the colliery track beyond the join was laid,
-  which is not drawn (*corrected 2026-10-03 (fourth review)*: it had been drawn from 1907). Sources
+  which is not drawn (*corrected 2026-10-03 (fourth review)*: it had been drawn from 1907). (*Answered
+  in part 2026-10-03, by Dewi's decision to draw it as a labelled estimate*: it is drawn from 6 May
+  1841, the earliest the sources allow, as an educated guess. The 1907 line joined the old line's
+  course there (S74), the six-inch map surveyed in 1877 draws a Great Western branch along it to
+  Gwaun-cae-Gurwen Pit (S83), the 1896 map runs it on to the Old Pit (S84), and the Old Pit was sunk
+  about 1837 (S85, S86, S87). Still open: whether the 1841 line itself ran this way to the pit, or the
+  line was extended later, before 1877. *Corrected 2026-10-03 (review of the estimates)*: this entry
+  said both estimates faded in from about 1832 and 1862 and left the fix for Dewi; they in fact
+  started to fade in about 1822 and 1857. The fix, a documented earliest date before which an estimate
+  is never drawn, is built (ADR 0037), so the colliery line now starts on 6 May 1841 and the
+  Gwendraeth line not before 23 June 1869.) Sources
   disagree, unresolved (victorian:S74 against S29): whether the old line was cut back to the Cawdor
   branch in 1907 or 1933; whether the railmotor service ended in June 1926 or on 1 or 4 May; and
   whether it had two halts and a terminus, two halts, or four halts.
