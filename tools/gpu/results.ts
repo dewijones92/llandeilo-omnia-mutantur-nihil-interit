@@ -6,6 +6,28 @@ export const FRAMES_FILE = 'frames.json';
 export const PASSES = ['gpu', 'e2e'] as const;
 export type Pass = (typeof PASSES)[number];
 export const reportFile = (pass: Pass): string => `report-${pass}.json`;
+export const RUN_FILE = 'run.json';
+
+// Babylon reports WebGPU uncaptured errors and a lost device through Logger.Warn (console.warn), and
+// its other WebGPU failures through Logger.Error with a "BJS -" prefix that never says "webgpu", so the
+// guard has to read warnings as well as errors.
+const GPU_FAILURE_TEXT =
+  /webgpu|wgsl|GPUValidationError|context lost|device (was )?lost|uncaptured|pipeline|shader/i;
+export function isGpuError(type: string, text: string): boolean {
+  if (text.includes('webgpu init failed') || text.includes('app failed')) return true;
+  if (type !== 'error' && type !== 'warning') return false;
+  return text.startsWith('BJS -') || GPU_FAILURE_TEXT.test(text);
+}
+
+export const isSoftwareAdapter = (gpu: string): boolean =>
+  /swiftshader|basic render|warp|llvmpipe|softpipe|software/i.test(gpu);
+
+export interface RunInfo {
+  readonly commit: string;
+  // Files changed in the working tree when the run started (the kit packs the tree, not HEAD).
+  readonly dirty: number;
+  readonly skipBuild: boolean;
+}
 
 export interface WebGpuResult {
   readonly backend: string;
@@ -38,6 +60,7 @@ export interface RunSummary {
   readonly passes: Readonly<Partial<Record<Pass, PassStats>>>;
   readonly seconds: number;
   readonly exitCode: number;
+  readonly run?: RunInfo | undefined;
 }
 
 const field = (o: unknown, key: string): unknown =>
@@ -70,6 +93,14 @@ function frameStatsOf(o: unknown): FrameStats | undefined {
   )
     return undefined;
   return { frames, fps, medianMs, p90Ms, p99Ms, worstMs };
+}
+
+export function parseRunInfo(json: unknown): RunInfo | undefined {
+  const commit = str(json, 'commit');
+  const dirty = num(json, 'dirty');
+  const skipBuild = field(json, 'skipBuild');
+  if (!commit || dirty === undefined || typeof skipBuild !== 'boolean') return undefined;
+  return { commit, dirty, skipBuild };
 }
 
 export function parseWebGpu(json: unknown): WebGpuResult | undefined {
@@ -128,12 +159,15 @@ function passLine(pass: Pass, s: PassStats | undefined): string {
 
 export function summaryLine(r: RunSummary): string {
   const engine = r.webgpu
-    ? `WebGPU ${r.webgpu.backend === 'webgpu' && r.webgpu.errors.length === 0 ? 'yes' : 'NO'} (backend ${r.webgpu.backend}, ${r.webgpu.gpu}${r.webgpu.errors.length ? `, ${String(r.webgpu.errors.length)} errors` : ''})`
+    ? `WebGPU ${r.webgpu.backend === 'webgpu' && r.webgpu.errors.length === 0 && !isSoftwareAdapter(r.webgpu.gpu) ? 'yes' : 'NO'} (backend ${r.webgpu.backend}, ${r.webgpu.gpu}${r.webgpu.errors.length ? `, ${String(r.webgpu.errors.length)} errors` : ''})`
     : 'WebGPU unknown (no result)';
   const quality = r.frames ? /^quality (\S+)/.exec(r.frames.graphics)?.[1] : undefined;
   const frames = r.frames
     ? `${quality ?? '?'} at ${r.frames.viewport}${r.frames.uncapped ? ' uncapped' : ''}: idle ${fps(r.frames.idle)}, orbit ${fps(r.frames.orbit)}, scrub ${fps(r.frames.scrub)}`
     : 'frames not measured';
   const passes = PASSES.map((p) => passLine(p, r.passes[p])).join(', ');
-  return `GPU e2e: ${engine} | ${frames} | ${passes} | ${duration(r.seconds)} | exit ${String(r.exitCode)}`;
+  const build = r.run
+    ? ` [${r.run.commit.slice(0, 7)}${r.run.dirty ? `+dirty ${String(r.run.dirty)}` : ''}${r.run.skipBuild ? ', dist not rebuilt' : ''}]`
+    : '';
+  return `GPU e2e${build}: ${engine} | ${frames} | ${passes} | ${duration(r.seconds)} | exit ${String(r.exitCode)}`;
 }

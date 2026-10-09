@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { formatFrameStats, frameStats } from '../tools/frame-timing.ts';
+import { lockDrift } from '../tools/gpu/lockdrift.ts';
 import {
+  isGpuError,
+  isSoftwareAdapter,
   parseFrames,
+  parseRunInfo,
   parseReportStats,
   parseWebGpu,
   summaryLine,
@@ -106,5 +110,74 @@ describe('the GPU run results', () => {
     expect(nothing).toBe(
       'GPU e2e: WebGPU unknown (no result) | frames not measured | gpu not run, e2e not run | 1m00s | exit 12',
     );
+  });
+});
+
+describe('the WebGPU error guard', () => {
+  it('reads the warnings and BJS errors Babylon uses, not only console.error that says webgpu', () => {
+    expect(
+      isGpuError('warning', '[Frame 12] WebGPU uncaptured error (1): [object GPUValidationError] - bad'),
+    ).toBe(true);
+    expect(isGpuError('warning', 'WebGPU context lost. [object GPUDeviceLostInfo]')).toBe(true);
+    expect(isGpuError('error', "BJS - [12:00:00]: Can't find buffer for the draw context")).toBe(true);
+    expect(isGpuError('error', 'Failed to create the render pipeline')).toBe(true);
+    expect(isGpuError('log', 'dewidebug app failed to start')).toBe(true);
+    expect(isGpuError('warning', 'dewidebug engine webgpu init failed, falling back to webgl2')).toBe(true);
+  });
+
+  it('ignores ordinary logging and unrelated warnings', () => {
+    expect(isGpuError('info', 'BJS - [12:00:00]: Babylon.js v9 - WebGPU engine')).toBe(false);
+    expect(isGpuError('log', 'a pipeline of tracks')).toBe(false);
+    expect(isGpuError('warning', 'The AudioContext was not allowed to start')).toBe(false);
+  });
+
+  it('calls software adapters software and a real GPU hardware', () => {
+    for (const gpu of ['google swiftshader', 'microsoft basic render driver', 'mesa llvmpipe'])
+      expect(isSoftwareAdapter(gpu)).toBe(true);
+    expect(isSoftwareAdapter('nvidia lovelace')).toBe(false);
+  });
+});
+
+describe('the lockfile drift check', () => {
+  const lock = (packages: Record<string, object>) => ({
+    packages: { '': { version: '1.0.0' }, ...packages },
+  });
+  const pkg = (version: string, extra: object = {}) => ({ version, ...extra });
+
+  it('ignores the root version, so a release bump is not drift', () => {
+    const installed = lock({ 'node_modules/a': pkg('1.0.0') });
+    const wanted = { packages: { '': { version: '2.0.0' }, 'node_modules/a': pkg('1.0.0') } };
+    expect(lockDrift(wanted, installed)).toEqual([]);
+  });
+
+  it('reports a changed, a missing and a removed-from-lock package', () => {
+    const installed = lock({ 'node_modules/a': pkg('1.0.0') });
+    expect(lockDrift(lock({ 'node_modules/a': pkg('1.1.0') }), installed)).toEqual([
+      'node_modules/a "1.0.0" -> "1.1.0"',
+    ]);
+    expect(lockDrift(lock({ 'node_modules/b': pkg('2.0.0') }), installed)).toEqual([
+      'node_modules/b missing',
+    ]);
+  });
+
+  it('does not require optional or platform-specific packages that npm skipped', () => {
+    const installed = lock({});
+    expect(lockDrift(lock({ 'node_modules/x': pkg('1.0.0', { optional: true }) }), installed)).toEqual([]);
+    expect(lockDrift(lock({ 'node_modules/y': pkg('1.0.0', { os: ['darwin'] }) }), installed)).toEqual([]);
+  });
+
+  it('treats a missing or unreadable lockfile as drift', () => {
+    expect(lockDrift(lock({ 'node_modules/a': pkg('1.0.0') }), undefined)).toEqual(['no installed lockfile']);
+  });
+});
+
+describe('the run record', () => {
+  it('reads run.json and puts the commit, a dirty tree and a skipped build in the summary line', () => {
+    expect(parseRunInfo({ commit: 'abcdef1234', dirty: 2, skipBuild: true })).toEqual({
+      commit: 'abcdef1234',
+      dirty: 2,
+      skipBuild: true,
+    });
+    expect(parseRunInfo({ commit: 'abc' })).toBeUndefined();
   });
 });

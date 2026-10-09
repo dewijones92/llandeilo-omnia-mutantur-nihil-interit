@@ -2,7 +2,7 @@
 title: "ADR 0045: The GPU tests run on Windows Chrome, against a preview served from WSL"
 kind: adr
 status: accepted
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # ADR 0045: The GPU tests run on Windows Chrome, against a preview served from WSL
@@ -57,8 +57,28 @@ The engine readout this needed is in the app: `createEngine` names the adapter i
 `window.llandeiloDebug` carries `backend` and `gpu` beside `scene`.
 
 The CI job (a self-hosted runner in WSL on this laptop) only calls `tools/gpu/run.sh` and uploads
-`test-results-gpu/`; the script does its own `npm ci` when `node_modules` is missing or older than the
-lockfile, and a lock file stops two runs sharing the one Windows working copy.
+`test-results-gpu/`. The script runs `npm ci` only when `node_modules` is missing: `npm ci` deletes
+`node_modules`, which the dev server on 5051 serves from, so a `node_modules` whose package versions differ
+from the lockfile (`tools/gpu/lockdrift.ts`, compared by content, so a release's version-only bump is not
+drift) stops the run with a message unless `GPU_NPM_CI=1`. A lock file stops two runs sharing the one
+Windows working copy; the preview and the Windows side are started without the lock's file descriptor, so
+a `kill -9` of the script cannot leave an orphan holding it.
+
+Three guards were added after the first review:
+
+- **The WebGPU error guard reads warnings.** Babylon reports uncaptured WebGPU errors and a lost device
+  through `console.warn`, and its other WebGPU failures through `console.error` with a `BJS -` prefix
+  that never says "webgpu". `isGpuError` (`tools/gpu/results.ts`) therefore reads both types, and a GPU
+  test causes a real validation error (a zero-size texture) and checks the guard sees it. That test was
+  seen to fail against the old error-only guard.
+- **The time limit belongs to `windows.ps1`.** `timeout` from WSL kills the Windows `powershell.exe` but
+  not its children, so each pass runs under `Start-Process`, with a limit (`GPU_PASS_TIMEOUT`, default
+  2100s) after which `taskkill /T /F` kills the pass's whole tree, Chrome included, and the results are
+  still copied back. The run's own `timeout` (4800s) is only a backstop; if it fires, a cleanup pass
+  kills any leftover run under `C:\llandeilo-gpu`. Every run starts with the same cleanup.
+- **A run says what it tested.** `run.json` records the commit, how many files were dirty and whether
+  the build was skipped, the summary line shows them, and a software adapter (SwiftShader, WARP, Basic
+  Render) reads as WebGPU NO.
 
 ## Alternatives considered
 

@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Build log
@@ -742,10 +742,16 @@ Milestones and what each one taught us. Newest last.
    the browser and Playwright go to Windows and only the server stays; a probe showed headless Chrome gets
    the same NVIDIA adapter as a visible window, so nothing opens on the desktop. (2) **Windows' npm is
    6.14 through Volta**, older than the lockfile format, so the Windows side installs only Playwright, at
-   the lockfile's version. (3) **vsync and the frame-rate limit off for a whole run stalled it**: the
+   the lockfile's version. (3) **A whole-run `--uncapped` stalled once; the cause is not known.** The
    frame test ran, then each page load slowed until one sat on "Raising the Tywi valley…" for 150s, the
    next navigation aborted, and output from Windows stopped reaching WSL while the run hung past its
-   limit (WSL's swap was 15.4 of 16 GB full at the time; the cause is not established). `--uncapped` now
-   launches a browser for the frame test alone, the run has a 30-minute Playwright limit and a `timeout`
-   backstop around the Windows side, and the rerun's screenshots took 8s each again. (4) the summary's
-   duration printed 59.6s as `0m60s` until its unit test caught it.
+   limit. WSL's swap was 15.4 of 16 GB full at the time, so memory pressure is as likely as the flags.
+   `--uncapped` now launches a browser for the frame test alone and the rerun was clean (one rerun, so
+   not proof). The run has a 30-minute Playwright limit per pass and `windows.ps1` kills a pass's process
+   tree on a timeout. (4) the summary's
+   duration printed 59.6s as `0m60s` until its unit test caught it. (5) **The first review found the
+   kit's own guards weak**, and each was fixed and checked: the "no WebGPU errors" check could not see
+   Babylon's warnings (so "no WebGPU errors" above was true but unproven; a rerun with the fixed guard
+   is clean, and a self-test now proves the guard fires); `npm ci` ran on a file-time comparison and would
+   have deleted the dev server's `node_modules`; `timeout` left Windows `node.exe` and Chrome running;
+   and a `kill -9` left an orphan preview holding the lock.

@@ -291,6 +291,8 @@ WSL→Windows TCP) but Windows reaches WSL's `localhost`. Results come back to `
 (`webgpu.json`, `frames.json`, screenshots, `summary.txt`); the exit code is Playwright's. Windows
 keeps `C:\llandeilo-gpu\` (Playwright at the lockfile's version, cached; a fresh copy of the test code
 each run). A self-hosted CI runner job only calls `tools/gpu/run.sh` and uploads `test-results-gpu/`.
+`npm ci` runs only when `node_modules` is missing (`GPU_NPM_CI=1` allows it on a drifted one), each pass has
+a time limit that kills its Windows process tree (`GPU_PASS_TIMEOUT`), and `run.json` names the commit.
 
 Run `git config core.hooksPath .githooks` once per clone. Local Playwright uses Chromium 136 because
 newer Chromium cannot navigate on this WSL machine; CI uses the bundled browser. Every
