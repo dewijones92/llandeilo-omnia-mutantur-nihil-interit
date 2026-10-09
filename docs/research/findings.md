@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Research findings and decisions
@@ -39,6 +39,11 @@ because of it. The detail and sources are in each note; this is the summary a ne
   2005. The primary report gives the first as 3.84–3.85ha, probably soon after AD 74, and the second
   as 1.54ha; the site was abandoned by about AD 140 (2026-10-02; the old size and date dispute is
   closed). ([iron age](era-iron-age.md))
+- **Detailed pass on the Dinefwr forts and their vicus (2026-10-09):** three of Fort 2's four gates are
+  evidenced (the rear one is not), both forts were timber and earth with no stone, the survey was
+  Stratascan's magnetometry (not ground radar), the second fort's "around AD 90-100" has no source, the
+  vicus plot is irregular and thinly known, and the survey's "bathhouse" is probably post-medieval brick.
+  The forts' absolute position needs registering on the LiDAR. ([roman forts](roman-forts-and-vicus.md))
 - **The Llandeilo Gospels' "Surexit" note** is called "the earliest surviving document in the Welsh
   language", recorded at Llandeilo; the Cadfan Stone at Tywyn may be older as a text, and the note's
   exact date is debated. ([language](language-by-class.md))

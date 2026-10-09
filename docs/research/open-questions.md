@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Open questions
@@ -19,6 +19,9 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | Garn Goch's length | 720m by up to 230m (Coflein) vs 680m by 130–190m (Cadw) (2026-10-02; the area question is closed: Coflein says 16.6ha is fort plus annexe, 11ha the fort) | [iron age](era-iron-age.md) |
 | Whether Glyndŵr took Carreg Cennen in 1403 | Coflein "taken" vs Wikipedia "failed to take" | [timeline](timeline-and-earliest-occupation.md) |
 | When the larger Dinefwr Roman fort was given up | Coflein suggests AD 78–83; the park's Wikipedia page "both ... early in the 2nd Century" (size and founding date closed 2026-10-02 by the primary report) | [iron age](era-iron-age.md) |
+| The second Dinefwr Roman fort's date | "Around AD 90-100" (an issue comment, no source) vs no direct date: Coflein "garrison phase later in the Flavian period", the report "reduction in activity in the later Trajanic period", abandoned "by AD 140". Nothing read supports AD 90-100 (added 2026-10-09) | [roman forts](roman-forts-and-vicus.md) |
+| Whether the survey's "bathhouse" is Roman | A 30m by 18m building with an apse, north-west of the forts (the survey) vs post-medieval brick, probably a kiln (Trench 6); one possible box tile elsewhere keeps a bathhouse "in the vicinity" open (added 2026-10-09) | [roman forts](roman-forts-and-vicus.md) |
+| Whether the Dinefwr forts lie where Coflein's point puts them | Coflein SN 62187 22534 vs the report's Fig 1, which put the centres about 50m east (a rough georeference, plus or minus 60m); register on the LiDAR before building (added 2026-10-09) | [roman forts](roman-forts-and-vicus.md) |
 | Llandeilo's bridge in 1750 | Gwilym Teilo (1858) "four narrow stone arches" vs seven arches in Cadw and the 1790s drawings | [victorian](era-victorian.md) |
 | Victoria's weight (the 1841 engine) | 18 tons (Board of Trade, 1858) vs 14 tons working weight (1985 history) | [railway](railway-locomotives.md) |
 | The red kite's 1930s low point | fewer than ten pairs (BTO) vs a single known nest (Aberystwyth University) | [deep time](deep-time-and-natural-history.md) |
@@ -36,6 +39,11 @@ for the next pass. Each note's own "Open questions" section has the full list an
 
 ## Gaps worth a dedicated pass
 
+- **The Dinefwr Roman forts, for a detailed model** (added 2026-10-09; [roman forts](roman-forts-and-vicus.md)):
+  the Stratascan interpretation plots (2003, Heard 2005), Hughes in *Carmarthenshire Antiquary* 39 and 41,
+  the Cadw scheduling record (CM367) and its boundary, Archwilio's records and the *Britannia* entry
+  were not reachable; no local evidence for roofs, fittings or any barrack plan; the vicus was sampled
+  by two small trenches.
 - **The 1849 cholera at Llandeilo** rests on one partly illegible report (*The Welshman*, 21 December
   1849): how many fell ill, where the house for patients was, and a second witness (the *Carmarthen
   Journal*, the Llandilo Fawr Union records) are not found, so the app shows a card and no scene

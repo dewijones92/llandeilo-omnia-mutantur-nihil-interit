@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Build log
@@ -588,3 +588,13 @@ Milestones and what each one taught us. Newest last.
    one rule decides both smoke and halos, and two lightings in the fading-day band are pinned from main
    (red when `selfLit` loses its night weighting). Lesson: a test that reads flags back from the
    renderer proves the code ran, not that anything reached the screen; count the pixels.
+
+## 2026-10-09
+
+1. **Research stage for the Roman forts and vicus** (issue 3; Claude under the proactive mandate, ADR 0027):
+   `research/roman-forts-and-vicus.md`, reference images in `research/refs/roman-forts/`. The commenter's
+   Heneb "Tywi Time Line" PDF held no survey and no "AD 90-100"; the survey is Stratascan's magnetometry in
+   the primary report's Fig 2. The only grid reference is Coflein's single point, so the forts were
+   georeferenced from the report's Fig 1 and came out about 50m east of it. Lesson: a source a commenter
+   cites may not contain the claim; read the whole file (every page image, not just the text) before
+   deciding the claim is unsupported.

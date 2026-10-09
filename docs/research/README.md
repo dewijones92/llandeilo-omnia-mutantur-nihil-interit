@@ -2,7 +2,7 @@
 title: Research index
 kind: index
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Research
@@ -30,6 +30,7 @@ the research drove.
 | [anglo-norman-and-middle-english](anglo-norman-and-middle-english.md) | Anglo-Norman French and Middle English for 1282 and 1185 | draft | [2026-10-02](reviews/anglo-norman-and-middle-english-check-2026-10-02.md), applied | [brief](briefs/anglo-norman-and-middle-english.md) |
 | [building-models](building-models.md) | Measured, phased models of the important buildings | draft | [2026-10-02](reviews/building-models-check-2026-10-02.md); corrections used in the app and the todo file, not yet marked in the note | [brief](briefs/building-models.md) |
 | [roman-arrival](roman-arrival.md) | The Roman army arrives in the Tywi valley, c. AD 74 | draft | [2026-10-02](reviews/roman-arrival-check-2026-10-02.md), applied | [brief](briefs/roman-arrival.md) |
+| [roman-forts-and-vicus](roman-forts-and-vicus.md) | The two Dinefwr Roman forts and their vicus for a detailed reconstruction: plans, defences, gates, the Stratascan survey, comparanda, placement, provenance per element; reference images in [`refs/roman-forts/`](refs/roman-forts/) | draft | not yet checked | [brief](briefs/roman-forts-and-vicus.md) |
 | [ripples-from-afar](ripples-from-afar.md) | Distant shocks (eruptions, pandemics, famines, wars) and their evidence in the valley | draft | [2026-10-02](reviews/ripples-from-afar-check-2026-10-02.md), applied | [brief](briefs/ripples-from-afar.md) |
 | [invasions-and-raids](invasions-and-raids.md) | Invasions, raids and conquests that reached the Tywi valley | draft | [2026-10-02](reviews/invasions-and-raids-check-2026-10-02.md), applied | [brief](briefs/invasions-and-raids.md) |
 | [music-through-time](music-through-time.md) | Music in and around Llandeilo, by era, class and setting | draft | not yet checked | [brief](briefs/music-through-time.md) |

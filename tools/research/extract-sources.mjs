@@ -24,6 +24,7 @@ const PREFIX = {
   'invasions-and-raids': 'invasions',
   'hunter-gatherers': 'hunters',
   'light-after-dark': 'light',
+  'roman-forts-and-vicus': 'fort',
 };
 
 const entries = [];
