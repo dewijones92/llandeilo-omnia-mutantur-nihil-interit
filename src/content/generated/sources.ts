@@ -3301,6 +3301,18 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/music-through-time.md"
   },
   {
+    "id": "music:S40",
+    "title": "Wikipedia, \"Llyn Cerrig Bach\"",
+    "url": "https://en.wikipedia.org/wiki/Llyn_Cerrig_Bach",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
+    "id": "music:S41",
+    "title": "Wikipedia, \"Rachie\"",
+    "url": "https://en.wikipedia.org/wiki/Rachie",
+    "doc": "docs/research/music-through-time.md"
+  },
+  {
     "id": "railwaylater:S1",
     "title": "Rob Gittins and Dorian Spencer Davies, *Heart of Wales Railway Line: A Brief History* (Gomer Press, 1985), pp. 2–14, as transcribed on Terry Norman's Ammanford site (updated 26 Nov 2010)",
     "url": "http://www.users.ic24.net/~terrynorm/heart%20of%20wales%20history.htm",

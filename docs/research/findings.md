@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Research findings and decisions
@@ -150,6 +150,28 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   New finds: from October 1902 the town lamps were lit from half an hour after sunset till 11 o'clock
   all year, 16 new lamp posts were ordered in April 1902, and one corner (Trallwm to Station Road) was
   unlit in December 1902 ([light-after-dark](light-after-dark.md)).
+- **The music and hunter-gatherer independent checks (2026-10-09)** ([music](reviews/music-through-time-check-2026-10-09.md),
+  [hunters](reviews/hunter-gatherers-check-2026-10-09.md)). Music, 91 claims: 69 confirmed, 15 partly, 3 not
+  supported, 4 contradicted. The household bard, not the chief of song, sings to the queen (Dimetian Code);
+  ballad singers at fairs are 18th-century, not Tudor; Llandilo's choral society (1856), brass band (1865)
+  and volunteer band (1881) are far earlier than the "1890s to 1910s" the first search listed; Carmarthen's
+  National Eisteddfod was 1911, not 1914; the Talley Marian anthem, the "blind harper at an inn" and
+  Lewys Glyn Cothi "at Pumsaint" had no source behind them. S3's preface does date the Dimetian Code's base
+  manuscript (to the close of the 13th or early 14th century), which corrects the lamplight basis and
+  the 2026-10-03 light check's own correction. Two recordings (Handel 1953, Thomas L. Thomas 1944) are public
+  domain only outside the US; no music ships yet. Hunter-gatherers, 70 claims: 47 confirmed, 20 partly, 2 not
+  supported, 1 contradicted, and every IntCal20 calibration reproduced. Ogof Garreg Hir is on the
+  Castlemartin Cliffs, not Caldey, and its bones are undated; the Poulton elk's "17 lesions" and "late
+  winter" are the superseded reading (the 2013 reanalysis: hunted unsuccessfully, many lesions excavation
+  damage); the Younger Dryas shows "no dated people", not "no people"; the Carreg Cennen cave's bones and tooth
+  are queried in the HER ("Inhumation?", "Ornament?"). The app's Waun Fignen Felen burning moves from 6000 BC
+  to about 7000 BC ("about 9,000 years ago"), with an ⓘ saying the date is our IntCal20 calibration of "ca.
+  8000 years BP", which we assume (no source says) is in radiocarbon years; the almanac fire runs about 7000
+  to 4500 BC. Both notes stay drafts.
+  *Review of those corrections, 2026-10-09*: the US term for a 1944 recording is 100 years, to the end of
+  2044 (Music Modernization Act; secondary sources), not 95 years to 2039; the burning event cites one
+  Coflein key, not two; and the sibling notes `soundscapes.md` and `deep-time-and-natural-history.md` now
+  carry the c. 7000 BC date and point at the hunters note.
 - **How Llandeilo's homes were lit in 1902 is not recorded**, but by October 1902 "so many of the
   tradespeople of the town are having the light installed" (Carmarthen Journal, 10 October 1902,
   light:S31, re-read 2026-10-03), and the council sold electricity by the meter. The app draws homes

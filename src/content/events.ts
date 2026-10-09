@@ -52,16 +52,21 @@ export const EVENTS: readonly KeyEvent[] = [
   },
   {
     id: eventId('mesolithic-burning'),
-    when: range(bc(6000), bc(6000)),
+    when: range(bc(7000), bc(7000)),
     approximate: true,
     title: { en: 'Hunters burn the high heath', cy: 'Helwyr yn llosgi’r rhos uchel' },
     summary: {
-      en: 'At Waun Fignen Felen on the Black Mountain, just beyond the eastern edge of this map, dated environmental evidence shows Mesolithic people deliberately burning heath and open birch woodland to encourage large game, from about 8,000 years ago.',
-      cy: 'Yn Waun Fignen Felen ar y Mynydd Du, ychydig y tu hwnt i ymyl ddwyreiniol y map hwn, mae tystiolaeth amgylcheddol wedi’i dyddio yn dangos pobl Oes Ganol y Cerrig yn llosgi rhos a choetir bedw agored yn fwriadol i ddenu helfilod mawr, o tua 8,000 o flynyddoedd yn ôl.',
+      en: 'At Waun Fignen Felen on the Black Mountain, just beyond the eastern edge of this map, dated environmental evidence shows Mesolithic people deliberately burning heath and open birch woodland to encourage large game, from about 9,000 years ago.',
+      cy: 'Yn Waun Fignen Felen ar y Mynydd Du, ychydig y tu hwnt i ymyl ddwyreiniol y map hwn, mae tystiolaeth amgylcheddol wedi’i dyddio yn dangos pobl Oes Ganol y Cerrig yn llosgi rhos a choetir bedw agored yn fwriadol i ddenu helfilod mawr, o tua 9,000 o flynyddoedd yn ôl.',
     },
     magnetic: false,
     shot: { framing: 'valley' },
-    provenance: documented('deeptime:S12'),
+    provenance: documentedNoting(
+      'The date is our own calibration. The published figure is “ca. 8000 years BP” (Smith and Cloutman, 1988), which we assume is in radiocarbon years, as the source does not say; the IntCal20 curve turns it into about 7200 to 6600 BC, with an error of ±100 years that we assumed. Coflein’s own wording is “the eighth millennium BP”.',
+      'Ein graddnodiad ni yw’r dyddiad. Y ffigur a gyhoeddwyd yw “ca. 8000 years BP” (Smith a Cloutman, 1988), a thybiwn ei fod mewn blynyddoedd radiocarbon, gan nad yw’r ffynhonnell yn dweud; mae cromlin IntCal20 yn ei droi’n tua 7200 i 6600 CC, gyda gwall o ±100 mlynedd a dybiwyd gennym. Geiriad Coflein ei hun yw “wythfed mileniwm BP”.',
+      'hunters:S19',
+      'hunters:S17',
+    ),
   },
   {
     id: eventId('garn-goch-cairn'),

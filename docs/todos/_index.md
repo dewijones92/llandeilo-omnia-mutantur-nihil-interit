@@ -288,7 +288,9 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       singing, eisteddfodau, brass bands), heard in the scene and explained in the almanac, from
       sources and licensed recordings or performed from period notation (Dewi: "music through time and
       places"). The app stays inside the agreed ten miles or so around Llandeilo. Dewi chose
-      in-world music where the research puts it, plus a light labelled score that can be turned off
+      in-world music where the research puts it, plus a light labelled score that can be turned off.
+      Research checked 2026-10-09 and the corrections applied ([review](../research/reviews/music-through-time-check-2026-10-09.md));
+      two recordings are US-licence flagged and no music asset ships yet
 - [x] **A Begin screen**: a title card with the Ovid motto; its click turns the sound on (browsers
       need one) and can start the opening flight (Dewi chose this, 2026-10-02). Done 2026-10-03: the
       loading card becomes the Begin card once the valley is ready, veiled over the scene, with the
@@ -357,7 +359,10 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
 - [ ] **Early people hunting and gathering** (Dewi: "early people hunting stuff"): Late Upper
       Palaeolithic and Mesolithic hunter-gatherers in the valley, what they hunted, fished and gathered
       in each environment, with the animals of "animals through time", as scenes and cutscenes at the
-      level the finds support (here, nearby, or Wales-wide analogy)
+      level the finds support (here, nearby, or Wales-wide analogy). Research checked 2026-10-09 and the
+      corrections applied ([review](../research/reviews/hunter-gatherers-check-2026-10-09.md)); the
+      Waun Fignen Felen key date and almanac entry moved. Still to do: the scenes themselves, and a
+      decision on Heneb's HER terms ([open questions](../research/open-questions.md))
 
 ## Claude's own ideas, building first (proactive mandate, 2026-10-02)
 

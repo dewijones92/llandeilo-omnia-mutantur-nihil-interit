@@ -641,10 +641,38 @@ Milestones and what each one taught us. Newest last.
    490,121 bytes gzipped, recorded in CLAUDE.md. Lesson: **an ADR that says "every copy now uses it" is a
    claim to grep for, not to write from memory.**
 
-26. **CI timed out again, on one shard.** The push of the cutscene merge (run 37974359599) failed one
+## 2026-10-09
+
+1. **The music and hunter-gatherer checks applied** (Claude under the proactive mandate, ADR 0027). Two
+   independent checks (91 and 70 claims) found 10 contradicted or unsupported claims and 35 partly
+   supported ones; every correction is in the notes marked "Corrected 2026-10-09 (independent check)", and
+   the two checks sit in `docs/research/reviews/`. App changes: the Waun Fignen Felen burning moved from 6000
+   BC to about 7000 BC ("about 9,000 years ago", EN and CY) with the pollen study and Coflein cited and an ⓘ
+   that says the date is our calibration of a BP figure whose scale is assumed; the almanac fire now runs
+   about 7000 to 4500 BC; the lamplight 1200 entry's basis now says S3 dates its manuscript to about 1300.
+   A content test failed first on the year and the sources. The key date is not magnetic, so the
+   magnetic-spacing test and the key-date e2e flows were unaffected. Lessons: (1) **a correction can be
+   wrong itself**: the 2026-10-03 light check said no source dated the Deheubarth law-book's manuscripts,
+   and S3's own preface does; "no source read" is a claim about the reader, so grep the preface before
+   writing it. (2) **a check that recomputes a figure is worth more than one that re-reads the prose**: the
+   IntCal20 calibrations all held, and the open question was the scale, not the arithmetic.
+
+2. **The review of those corrections, applied** (Claude under the proactive mandate, ADR 0027). A review of
+   the two applied checks found that corrections had reached the body of a note but not its source entries
+   (S26 still said "first excursion trains", S29 still said *Moliant Seion*, S35 still carried the general
+   fishing-area reading), that the burning event cited the same Coflein record under two keys
+   (`deeptime:S12` and `hunters:S17`; the event now keeps `hunters:S19` and `hunters:S17`, and a content test
+   asserts the duplicate is gone, seen red first), that two sibling notes still gave the old 8000-year date
+   or the open BP question (`soundscapes.md`, `deep-time-and-natural-history.md`), and that the check's own
+   US term for the 1944 recording was wrong (100 years to 2044 under the Music Modernization Act, not 95
+   years to 2039; secondary sources). The Rachie composer claim got a source (S41, added at the end).
+   Lessons: (1) **a correction has to be carried to every place the claim lives, source entries included**:
+   grep the claim's key phrase across the whole of `docs/research/` after applying it. (2) **a check can
+   mis-state a statute**, so a licence flag is a lead until the statute is read.
+
+3. **CI timed out again, on one shard.** The push of the cutscene merge (run 37974359599) failed one
    e2e shard: the whole-valley night halo test took 7.0 minutes on CI's CPU renderer and ran past its
    7-minute limit while taking a screenshot. It had passed on the two runs before; the new cutscene test
    had shifted the split so both heavy night tests landed in one shard. The night tests are now marked
    `test.slow` in CI and the e2e job runs six shards ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md),
    amended). Lesson: a per-test limit is a budget too, and the heaviest test sets it.
-
