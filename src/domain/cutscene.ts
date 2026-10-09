@@ -1,9 +1,12 @@
 import { clamp, lerp, smoothstep, type NonEmptyArray } from './assert.ts';
 import { mint, mintNumber, type Brand } from './brand.ts';
 import type { Bilingual } from './i18n.ts';
-import type { EventId, FeatureId, GridRef } from './model.ts';
+import type { EventId, Feature, FeatureId, GridRef } from './model.ts';
 import { hash2 } from './noise.ts';
+import { bearing, pointAlong, polylineLength } from './polyline.ts';
 import type { Provenance } from './provenance.ts';
+import type { FeaturePresence } from './state.ts';
+import { contains, type Year } from './time.ts';
 
 export type CutsceneId = Brand<string, 'CutsceneId'>;
 export type Seconds = Brand<number, 'Seconds'>;
@@ -163,38 +166,6 @@ export function cameraAt(keys: NonEmptyArray<CameraKey>, s: number): CameraPose 
   };
 }
 
-export function routeLength(route: Route): number {
-  let total = 0;
-  for (let i = 1; i < route.points.length; i++) {
-    const a = route.points[i - 1];
-    const b = route.points[i];
-    if (a && b) total += Math.hypot(b.e - a.e, b.n - a.n);
-  }
-  return total;
-}
-
-function bearing(a: GridRef, b: GridRef): number {
-  return ((((Math.atan2(b.e - a.e, b.n - a.n) * 180) / Math.PI) % 360) + 360) % 360;
-}
-
-/** The point `d` metres along the route, and the bearing of the leg it is on. */
-export function pointAlong(route: Route, d: number): { readonly at: GridRef; readonly heading: number } {
-  const pts = route.points;
-  let left = Math.max(0, d);
-  for (let i = 1; i < pts.length; i++) {
-    const a = pts[i - 1];
-    const b = pts[i];
-    if (!a || !b) continue;
-    const len = Math.hypot(b.e - a.e, b.n - a.n);
-    if (left <= len || i === pts.length - 1) {
-      const f = len > 0 ? clamp(left / len, 0, 1) : 0;
-      return { at: { e: lerp(a.e, b.e, f), n: lerp(a.n, b.n, f) }, heading: bearing(a, b) };
-    }
-    left -= len;
-  }
-  return { at: pts[0], heading: 0 };
-}
-
 function inWindow(track: { readonly from: Seconds; readonly to: Seconds }, s: number): boolean {
   return s >= track.from && s <= track.to;
 }
@@ -207,7 +178,7 @@ export function placements(track: ActorsTrack, s: number): Placement[] {
   const f = span > 0 ? (s - track.from) / span : 1;
   const head = lerp(track.head.from, track.head.to, f);
   const walking = track.head.from !== track.head.to;
-  const length = routeLength(track.route);
+  const length = polylineLength(track.route.points);
   const out: Placement[] = [];
   for (let i = 0; i < track.count; i++) {
     const rank = Math.floor(i / track.abreast);
@@ -215,7 +186,7 @@ export function placements(track: ActorsTrack, s: number): Placement[] {
     const jitterAlong = (hash2(i, 1, track.count) - 0.5) * 0.3 * track.spacing.rank;
     const along = head - rank * track.spacing.rank + jitterAlong;
     if (along < 0 || along > length) continue;
-    const p = pointAlong(track.route, along);
+    const p = pointAlong(track.route.points, along);
     const side = (file - (track.abreast - 1) / 2) * track.spacing.file;
     const jitterSide = (hash2(i, 2, track.count) - 0.5) * 0.25 * track.spacing.file;
     const rad = (p.heading * Math.PI) / 180;
@@ -255,6 +226,30 @@ export function frameAt(scene: Cutscene, s: number): Frame {
     }
   });
   return { s: at, camera: cameraAt(scene.camera, at), caption, actors, features };
+}
+
+/**
+ * What the world draws while a scene plays (ADR 0042). A scene is set at its key date's year, not at
+ * a blur of the slider, so a feature it does not build is drawn only if its dates contain that year:
+ * nothing fades in early or lingers. Each feature the scene builds takes the scene's presence.
+ */
+export function sceneFeatures(
+  present: readonly FeaturePresence[],
+  built: ReadonlyMap<FeatureId, number>,
+  year: Year,
+  lookup: (id: FeatureId) => Feature | undefined,
+): FeaturePresence[] {
+  const out: FeaturePresence[] = [];
+  for (const p of present) {
+    const over = built.get(p.feature.id);
+    if (over !== undefined) out.push({ feature: p.feature, presence: over });
+    else if (contains(p.feature.when, year)) out.push(p);
+  }
+  for (const [id, presence] of built) {
+    const feature = lookup(id);
+    if (feature && !present.some((p) => p.feature.id === id)) out.push({ feature, presence });
+  }
+  return out;
 }
 
 /** Sound cues that start after `a` and at or before `b`, so each fires once as the clock passes it. */

@@ -1664,8 +1664,15 @@ button {
   color: var(--ink);
 }
 
+/* The badge holder does not wrap, so the popover must wrap again; it opens leftwards from the badge. */
 .cs-bottom .prov-pop {
+  left: auto;
+  right: 0;
   color: var(--ink);
+}
+
+.cutscene .prov-pop {
+  white-space: normal;
 }
 
 .tool.cs-skip {

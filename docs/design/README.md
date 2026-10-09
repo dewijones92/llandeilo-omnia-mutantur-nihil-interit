@@ -19,6 +19,6 @@ Decisions table once agreed, and work items to [`../todos/_index.md`](../todos/_
 | [`sound-and-assets.md`](sound-and-assets.md) | Immersive sound and other assets: generate, use a generative service, or find openly licensed ones |
 | [`feedback.md`](feedback.md) | Visitor feedback and corrections, ideally as GitHub issues: options and a recommendation |
 | [`analytics.md`](analytics.md) | Privacy-friendly analytics and error reporting: options and a recommendation |
-| [`cutscenes.md`](cutscenes.md) | **Agreed; the engine and the Roman arrival built** (2026-10-03, [ADR 0037](../adr/0037-cutscenes-as-data-on-one-clock.md)). Short cinematic scenes at key dates from one data-driven model |
+| [`cutscenes.md`](cutscenes.md) | **Agreed; the engine and the Roman arrival built** (2026-10-03, [ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)). Short cinematic scenes at key dates from one data-driven model |
 | [`atmosphere.md`](atmosphere.md) | **Built.** Time of day, seasons, climate by period, and the engine effects |
 | [`ideas.md`](ideas.md) | A running ideas board: raised, discussed, parked or agreed |

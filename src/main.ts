@@ -10,10 +10,10 @@ import { lightingAt, parseClock, seasonLook } from './domain/daylight.ts';
 import { lampsAt } from './domain/lamplight.ts';
 import { snapshotAt, type FeaturePresence, type Snapshot } from './domain/state.ts';
 import { keySteps, nearestStep, shotFor } from './domain/steps.ts';
-import type { Cutscene } from './domain/cutscene.ts';
+import { sceneFeatures, type Cutscene } from './domain/cutscene.ts';
 import type { FeatureId, Framing, KeyEvent, RollingStock } from './domain/model.ts';
 import { tAt } from './domain/timeline.ts';
-import { ad, calendarYear, year } from './domain/time.ts';
+import { ad, calendarYear, year, type Year } from './domain/time.ts';
 import {
   loadBuildings,
   loadHeightfield,
@@ -186,24 +186,21 @@ async function start(): Promise<void> {
   const flight = new Flight(world.camera);
   const stage = new Stage(world.camera, flight, new Crowd(world.scene, features.ground), features.ground);
   let dust: SmokeSource[] = [];
-  // Presence of the features a playing cutscene builds; it overrides the timeline's own.
-  let sceneFeatures: ReadonlyMap<FeatureId, number> | undefined;
+  // While a cutscene plays: its year, and the presence of the features it builds (ADR 0042).
+  let sceneWorld: { readonly year: Year; built: ReadonlyMap<FeatureId, number> } | undefined;
   let shadowsAt = 0;
+  let sceneSaid = '';
   const withScene = (present: readonly FeaturePresence[]): readonly FeaturePresence[] => {
-    const over = sceneFeatures;
-    if (!over) return present;
-    const out = present
-      .filter((p) => !over.has(p.feature.id))
-      .concat(
-        present
-          .filter((p) => over.has(p.feature.id))
-          .map((p) => ({ ...p, presence: over.get(p.feature.id) ?? 0 })),
-      );
-    for (const [id, presence] of over) {
-      const feature = featureMap.get(id);
-      if (feature && !present.some((p) => p.feature.id === id)) out.push({ feature, presence });
+    if (!sceneWorld) return present;
+    const drawn = sceneFeatures(present, sceneWorld.built, sceneWorld.year, (id) => featureMap.get(id));
+    const kept = new Set(drawn.map((p) => p.feature.id));
+    const hidden = present.filter((p) => !kept.has(p.feature.id)).map((p) => p.feature.id);
+    const said = `year=${String(sceneWorld.year)} hidden=${hidden.join(',') || 'none'}`;
+    if (said !== sceneSaid) {
+      sceneSaid = said;
+      console.info(`dewidebug scene world ${said} (dates do not contain the scene's year)`);
     }
-    return out;
+    return drawn;
   };
   const home = h('button', { class: 'tool home', type: 'button', hidden: true }, store.t('overview'));
   home.addEventListener('click', () => {
@@ -352,13 +349,24 @@ async function start(): Promise<void> {
     if (!ev) throw new Error(`Cutscene ${scene.id} names no event ${scene.event}`);
     return ev;
   };
+  // The faded interface behind a playing scene, and the canvas, are inert, so Tab and Enter cannot
+  // reach them; the stage holds the camera meanwhile.
+  const behindScene = (inert: boolean): void => {
+    const els = [canvas, ...app.children].filter(
+      (el): el is HTMLElement => el instanceof HTMLElement && el !== player.el,
+    );
+    for (const el of els) el.inert = inert;
+    console.info(`dewidebug cutscene interface behind inert=${String(inert)} elements=${String(els.length)}`);
+  };
   const player = new CutscenePlayer(store, sourceMap, {
     onStart(scene) {
       const ev = keyDateOf(scene);
+      behindScene(true);
       panel.close();
       info.close();
       if (shortcuts.isOpen) shortcuts.close();
       flight.stopFollowing('cutscene');
+      sceneWorld = { year: ev.when.from, built: new Map() };
       timeline.jump(tAt(content.timeline, ev.when.from));
       timeline.lock(() => {
         player.skip('timeline');
@@ -368,11 +376,12 @@ async function start(): Promise<void> {
     },
     onEnd(scene, skipped) {
       const ev = keyDateOf(scene);
+      behindScene(false);
       ambience?.stopCues();
       ambience?.duck(false);
       stage.end();
       dust = [];
-      sceneFeatures = undefined;
+      sceneWorld = undefined;
       timeline.lock(undefined);
       timeline.jump(tAt(content.timeline, ev.when.from));
       world.refreshShadows();
@@ -430,7 +439,9 @@ async function start(): Promise<void> {
       return;
     }
     if (player.playing) {
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape' && e.defaultPrevented) {
+        console.info('dewidebug Escape closed an ⓘ; the cutscene plays on');
+      } else if (e.key === 'Escape') {
         e.preventDefault();
         player.skip('escape');
       } else if (e.key.startsWith('Arrow') || e.key === '?' || e.key.startsWith('Page')) {
@@ -454,7 +465,12 @@ async function start(): Promise<void> {
       return;
     }
     if (e.key !== 'Escape') return;
-    if (document.querySelector('.prov-wrap.open') || document.activeElement?.closest('.prov-wrap')) return;
+    if (
+      e.defaultPrevented ||
+      document.querySelector('.prov-wrap.open') ||
+      document.activeElement?.closest('.prov-wrap')
+    )
+      return;
     if (shortcuts.isOpen) shortcuts.close();
     else if (panel.open) panel.close();
     else if (info.isOpen) info.close();
@@ -561,12 +577,13 @@ async function start(): Promise<void> {
     const frame = player.tick(dt);
     if (frame) {
       dust = stage.show(frame, performance.now());
-      if (frame.features.size) {
-        const changed =
-          !sceneFeatures ||
-          [...frame.features].some(([id, p]) => Math.abs((sceneFeatures?.get(id) ?? -1) - p) > 0.004);
+      const scene = sceneWorld;
+      if (scene && frame.features.size) {
+        const changed = [...frame.features].some(
+          ([id, p]) => Math.abs((scene.built.get(id) ?? -1) - p) > 0.004,
+        );
         if (changed) {
-          sceneFeatures = frame.features;
+          scene.built = frame.features;
           features.apply(withScene(snap.features));
           const now = performance.now();
           if (now - shadowsAt > 250) {

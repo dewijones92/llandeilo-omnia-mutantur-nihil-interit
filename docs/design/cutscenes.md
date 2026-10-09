@@ -10,7 +10,7 @@ updated: 2026-10-03
 Agreed by Dewi, 2026-10-02 ("romans marching in to llandeilo -- with a cutscene ... i am a massive
 fan of cutscenes"). **Agreed. The engine and the first scene (the Roman arrival) are built** on branch
 `feat/cutscene-roman-arrival`, 2026-10-03; how the build differs from this sketch is in
-[ADR 0037](../adr/0037-cutscenes-as-data-on-one-clock.md): the camera is a field of the scene rather
+[ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md): the camera is a field of the scene rather
 than a track, there is no music track yet (the army marched without noise), captions carry their own
 ⓘ, and the timeline is hidden as well as locked, so Skip and Escape end a scene. Its decisions are in
 the [decision log](../process/decision-log.md).

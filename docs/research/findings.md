@@ -199,6 +199,13 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   perishes") is the project's own rendering, and the Welsh ("Mae popeth yn newid, does dim byd yn
   darfod", and "Ofydd" for Ovid) is Claude's, awaiting the parked human Welsh check.
 
+- **The Roman fort's garrison is an estimate, not a count** (corrected 2026-10-03, second-Opus review
+  of the cutscene branch). The Roman forts' summary and the first cutscene said the fort "held more
+  than a thousand" men. Coflein (roman:S2) says it "would have housed a garrison of more than a
+  thousand, drawn from several different units"; the excavator (roman:S1) says its size suggests "at
+  the very least an *ala quingenaria* ... or a *cohors milliaria*", a lower minimum. Both now say it was
+  big enough for perhaps a thousand men or more, with both sources in the ⓘ.
+
 ## Decisions the research drove
 
 | Decision | Based on |

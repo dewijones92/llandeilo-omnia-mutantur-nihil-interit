@@ -7,7 +7,8 @@ import { STRINGS } from '../src/content/strings.ts';
 import { CUTSCENES } from '../src/content/cutscenes.ts';
 import { NARRATION_SECONDS } from '../src/content/generated/narration.ts';
 import { narrationKey, narrationLines, voiceLines, voiceSignature } from '../src/content/voices.ts';
-import { routeLength, type CaptionTrack } from '../src/domain/cutscene.ts';
+import { frameAt, sceneFeatures, type CaptionTrack } from '../src/domain/cutscene.ts';
+import { polylineLength } from '../src/domain/polyline.ts';
 import { LANGS } from '../src/domain/i18n.ts';
 import {
   DUFFRYN_STATION,
@@ -21,7 +22,7 @@ import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { hasStreetLamps, insideArea, streetWarmth } from '../src/domain/lamplight.ts';
 import { AMBIENT_BEDS, type GridRef } from '../src/domain/model.ts';
-import { latestStarting, soundAt } from '../src/domain/state.ts';
+import { latestStarting, snapshotAt, soundAt } from '../src/domain/state.ts';
 import { shotFor } from '../src/domain/steps.ts';
 import { rotate } from '../src/domain/plan.ts';
 import { sectionLines } from '../src/domain/rail.ts';
@@ -362,7 +363,7 @@ describe('cutscenes', () => {
           (p) => Math.hypot(p.e - WORLD.centre.e, p.n - WORLD.centre.n) > WORLD.radiusMetres,
         );
         expect(outside).toEqual([]);
-        expect(Math.max(t.head.from, t.head.to)).toBeLessThanOrEqual(routeLength(t.route) + 500);
+        expect(Math.max(t.head.from, t.head.to)).toBeLessThanOrEqual(polylineLength(t.route.points) + 500);
         expect(t.count).toBeGreaterThan(0);
         expect(t.abreast).toBeGreaterThan(0);
       }
@@ -389,6 +390,50 @@ describe('cutscenes', () => {
       }
     }
   });
+});
+
+describe('a cutscene on screen: what the world draws in every frame', () => {
+  const events = new Map(W.events.map((e) => [e.id, e]));
+  const features = new Map(W.features.map((f) => [f.id, f]));
+  for (const c of CUTSCENES) {
+    const ev = events.get(c.event);
+    if (!ev) throw new Error(`Cutscene ${c.id} names no event`);
+    const when = ev.when.from;
+    const snap = snapshotAt(W, tAt(W.timeline, when));
+    const builds = c.tracks.flatMap((t) => (t.kind === 'feature' ? [t] : []));
+    const named = new Set(builds.map((t) => t.feature));
+    const frames = Array.from({ length: Math.ceil(c.duration * 4) + 1 }, (_, i) => frameAt(c, i / 4));
+    const drawn = (s: number) => {
+      const frame = frameAt(c, s);
+      return sceneFeatures(snap.features, frame.features, when, (id) => features.get(id)).filter(
+        (p) => p.presence > 0,
+      );
+    };
+
+    it(`${c.id}: draws nothing whose dates do not contain the scene’s year, unless the scene builds it`, () => {
+      const wrong = frames.flatMap((f) =>
+        drawn(f.s)
+          .filter((p) => !named.has(p.feature.id) && !contains(p.feature.when, when))
+          .map((p) => `${p.feature.id}@${String(f.s)}s=${p.presence.toFixed(2)}`),
+      );
+      expect(wrong.slice(0, 5)).toEqual([]);
+    });
+
+    it(`${c.id}: stands nothing at a building site before its build starts`, () => {
+      for (const t of builds) {
+        const place = features.get(t.feature)?.place;
+        expect(place, t.feature).toBeDefined();
+        const early = frames
+          .filter((f) => f.s < t.from)
+          .flatMap((f) =>
+            drawn(f.s)
+              .filter((p) => p.feature.place === place)
+              .map((p) => `${p.feature.id}@${String(f.s)}s`),
+          );
+        expect(early.slice(0, 5)).toEqual([]);
+      }
+    });
+  }
 });
 
 describe('assets', () => {

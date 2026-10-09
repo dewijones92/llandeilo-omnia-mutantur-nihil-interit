@@ -39,6 +39,8 @@ export class CutscenePlayer {
   private clock: Clock = START;
   private shown: CaptionTrack | undefined;
   private voice: HTMLAudioElement | undefined;
+  private paused = false;
+  private voiceHeld = false;
 
   constructor(
     private readonly store: LangStore,
@@ -81,6 +83,9 @@ export class CutscenePlayer {
     this.scene = scene;
     this.clock = START;
     this.shown = undefined;
+    this.paused = false;
+    this.voiceHeld = false;
+    this.el.classList.remove('paused');
     this.label(scene);
     this.caption.textContent = '';
     this.captionBadge.replaceChildren();
@@ -102,6 +107,11 @@ export class CutscenePlayer {
   tick(dtMs: number): Frame | undefined {
     const scene = this.scene;
     if (!scene) return undefined;
+    // An ⓘ showing in the letterbox holds the clock and the narration, so its sources can be read.
+    const reading =
+      this.el.querySelector('.prov-wrap.open, .prov-wrap:focus-within, .prov-wrap:hover') !== null;
+    if (reading !== this.paused) this.pause(reading);
+    if (reading) return frameAt(scene, this.clock.s);
     const before = this.clock.s;
     this.clock = advance(this.clock, dtMs / 1000, scene.duration);
     for (const c of cuesBetween(scene, before, this.clock.s)) this.hooks.cue(c.sound, c.to - c.from);
@@ -113,10 +123,30 @@ export class CutscenePlayer {
     return undefined;
   }
 
+  private pause(paused: boolean): void {
+    this.paused = paused;
+    this.el.classList.toggle('paused', paused);
+    this.note.textContent = this.store.t(paused ? 'cutscenePaused' : 'cutsceneCompressed');
+    const voice = this.voice;
+    // Only a clip that was still being read resumes; play() on a finished clip would read it again.
+    if (paused) {
+      this.voiceHeld = voice !== undefined && !voice.paused && !voice.ended;
+      voice?.pause();
+    } else if (this.voiceHeld) {
+      this.voiceHeld = false;
+      voice?.play().catch((err: unknown) => {
+        console.warn('dewidebug narration resume failed', err);
+      });
+    }
+    console.info(
+      `dewidebug cutscene paused=${String(paused)} at=${this.clock.s.toFixed(1)}s reason=${paused ? 'an ⓘ is showing' : 'no ⓘ showing'} voiceHeld=${String(this.voiceHeld)}`,
+    );
+  }
+
   private label(scene: Cutscene): void {
     const lang = this.store.lang;
     this.title.textContent = `${this.store.t('cutscene')}: ${scene.title[lang]}`;
-    this.note.textContent = this.store.t('cutsceneCompressed');
+    this.note.textContent = this.store.t(this.paused ? 'cutscenePaused' : 'cutsceneCompressed');
     this.about.replaceChildren(provenanceBadge(scene.provenance, this.store, this.sources));
     this.skipButton.textContent = `${this.store.t('skip')} (Esc)`;
     this.skipButton.setAttribute('aria-keyshortcuts', 'Escape');
@@ -162,6 +192,9 @@ export class CutscenePlayer {
     if (!scene) return;
     this.scene = undefined;
     this.stopVoice();
+    this.paused = false;
+    this.voiceHeld = false;
+    this.el.classList.remove('paused');
     this.shown = undefined;
     this.el.hidden = true;
     document.documentElement.classList.remove('cutscene-playing');

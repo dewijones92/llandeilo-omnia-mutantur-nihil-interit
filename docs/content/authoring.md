@@ -103,7 +103,7 @@ names come first. A human check of the Welsh is still pending.
 ## Cutscenes
 
 A cutscene (`src/content/cutscenes.ts`, the model in `src/domain/cutscene.ts`,
-[ADR 0037](../adr/0037-cutscenes-as-data-on-one-clock.md)) belongs to one magnetic key date and lands
+[ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)) belongs to one magnetic key date and lands
 on it. Write it as data:
 
 - **Routes** are grid references from the research (Coflein records, a dated road line), each with its

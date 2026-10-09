@@ -6,8 +6,7 @@ import {
   cutsceneId,
   frameAt,
   placements,
-  pointAlong,
-  routeLength,
+  sceneFeatures,
   sec,
   START,
   type ActorsTrack,
@@ -16,7 +15,8 @@ import {
   type Route,
 } from './cutscene.ts';
 import { mint } from './brand.ts';
-import type { EventId, FeatureId } from './model.ts';
+import type { EventId, Feature, FeatureId } from './model.ts';
+import { ad, range } from './time.ts';
 
 const imagined = { kind: 'imagined', groundedIn: { en: 'test', cy: 'prawf' }, sources: [] } as const;
 
@@ -118,17 +118,6 @@ describe('camera keys', () => {
   });
 });
 
-describe('routes', () => {
-  it('measure their length and find a point and its bearing along them', () => {
-    expect(routeLength(route)).toBe(2000);
-    expect(pointAlong(route, 500)).toEqual({ at: { e: 0, n: 500 }, heading: 0 });
-    const turned = pointAlong(route, 1500);
-    expect(turned.at).toEqual({ e: 500, n: 1000 });
-    expect(turned.heading).toBeCloseTo(90);
-    expect(pointAlong(route, 5000).at).toEqual({ e: 1000, n: 1000 });
-  });
-});
-
 describe('a column of actors', () => {
   it('is drawn only while its track runs', () => {
     expect(placements(column(), 9.9)).toEqual([]);
@@ -193,5 +182,42 @@ describe('sound cues', () => {
     expect(cuesBetween(scene, 0, 4.9)).toEqual([]);
     expect(cuesBetween(scene, 4.9, 5).map((c) => c.sound)).toEqual(['cornu']);
     expect(cuesBetween(scene, 5, 6)).toEqual([]);
+  });
+});
+
+describe('the world during a scene', () => {
+  const feature = (id: string, from: number, to: number): Feature => ({
+    id: mint<FeatureId>(id),
+    kind: { type: 'roman-fort', width: 100, length: 100, angle: 0 },
+    at: { e: 0, n: 0 },
+    when: range(ad(from), ad(to)),
+    provenance: imagined,
+    label: { en: id, cy: id },
+  });
+  const early = feature('early', 74, 83);
+  const later = feature('later', 83, 125);
+  const gone = feature('gone', -500, 60);
+  const built = feature('built', 74, 83);
+  const lookup = (id: FeatureId): Feature | undefined => [early, later, gone, built].find((f) => f.id === id);
+
+  it('draws only features whose dates contain the scene’s year, however the slider fades them', () => {
+    const present = [
+      { feature: early, presence: 1 },
+      { feature: later, presence: 0.93 },
+      { feature: gone, presence: 0.2 },
+    ];
+    expect(sceneFeatures(present, new Map(), ad(74), lookup).map((p) => p.feature.id)).toEqual(['early']);
+  });
+
+  it('gives a feature the scene builds the scene’s presence, even one the timeline has not drawn', () => {
+    const present = [{ feature: early, presence: 1 }];
+    const over = new Map([
+      [early.id, 0.25],
+      [built.id, 0.5],
+    ]);
+    expect(sceneFeatures(present, over, ad(74), lookup)).toEqual([
+      { feature: early, presence: 0.25 },
+      { feature: built, presence: 0.5 },
+    ]);
   });
 });

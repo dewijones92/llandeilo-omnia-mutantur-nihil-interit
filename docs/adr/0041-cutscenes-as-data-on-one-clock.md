@@ -1,13 +1,13 @@
 ---
-title: "ADR 0037: Cutscenes are data on one pure clock, drawn by one crowd system"
+title: "ADR 0041: Cutscenes are data on one pure clock, drawn by one crowd system"
 kind: adr
 status: accepted
 updated: 2026-10-03
 ---
 
-# ADR 0037: Cutscenes are data on one pure clock, drawn by one crowd system
+# ADR 0041: Cutscenes are data on one pure clock, drawn by one crowd system
 
-- **Status:** Accepted (decided by Claude under the proactive mandate, [ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md), so Dewi can overrule it)
+- **Status:** Accepted (decided by Claude under the proactive mandate, [ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md), so Dewi can overrule it); amended by [0042](0042-a-scene-draws-its-own-year.md)
 - **Date:** 2026-10-03
 
 ## Context
@@ -46,9 +46,13 @@ for one engine, not code per scene.
   it if a shot would put it inside a hill, relaxes the camera's limits for close, low shots, and turns
   walking groups into dust plumes for the existing smoke layer (a `dust` style beside `hearth` and
   `steam`).
-- **Sound goes through the one mixer**: `Ambience.cue` plays procedural cues on a cue bus (a cornu's
-  rough call, the tramp of feet, hooves, mules, axes), `duck` lowers the ambient beds, and `stopCues`
-  swaps the bus so a skipped scene falls silent at once.
+- **Procedural sound goes through the one mixer**: `Ambience.cue` plays procedural cues on a cue bus
+  (a cornu's rough call, the tramp of feet, hooves, mules, axes), `duck` lowers the ambient beds, and
+  `stopCues` swaps the bus so a skipped scene falls silent at once. The narration does not: it plays
+  as an HTML audio element, as conversation voices do, so the mixer's master gain, duck and
+  `stopCues` do not touch it; the player stops it itself, and checks the sound switch when each caption
+  starts. *(Corrected 2026-10-03: this line first said all sound went through the one mixer; the
+  second-Opus review found the narration does not.)*
 - **Narration is pre-generated with edge-tts** by the existing `tools/voices/build-voices.ts`, one clip
   per caption per language (Sonia for English, Nia for Welsh), and the tool writes each clip's length
   to `src/content/generated/narration.ts`. A content test fails if any caption is shown for less time
@@ -56,7 +60,9 @@ for one engine, not code per scene.
 - **The player** (`src/ui/cutscene.ts`) runs the clock, shows the letterbox, captions with their ⓘ,
   the scene's ⓘ and Skip, and reads each caption when sound is on. While it plays the rest of the
   interface fades out, the timeline is hidden and locked (`TimelineBar.lock`), keys other than Escape do
-  nothing and canvas taps are ignored. Skip, Escape or the end land on the key date and fly to the
+  nothing and canvas taps are ignored. (Amended by [ADR 0042](0042-a-scene-draws-its-own-year.md): the
+  world is drawn at the scene's year, an open ⓘ pauses the scene and Escape closes it first, and the
+  interface behind is inert.) Skip, Escape or the end land on the key date and fly to the
   event's usual shot. `?cutscene=<id>&cutsceneAt=<s>` opens a scene part-way through, for screenshots.
 
 ## Consequences

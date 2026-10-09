@@ -775,6 +775,38 @@ test('a cutscene plays from the moment card, moves its captions on, and Skip lan
   await expect(page.locator('.cs-caption')).toHaveText(captions[0] ?? '');
   // The scene clock runs on rendered frames (about one a second in CI), so give the next caption time.
   await expect(page.locator('.cs-caption')).toHaveText(captions[1] ?? '', { timeout: 90_000 });
+  // The faded interface behind the scene cannot take focus: Tab stays in the letterbox.
+  for (let i = 0; i < 16; i++) {
+    await page.keyboard.press('Tab');
+    const where = await page.evaluate(() => {
+      const f = document.activeElement;
+      if (!f || f === document.body || f.closest('.cutscene')) return 'ok';
+      return `${f.tagName}.${f.className}`;
+    });
+    expect(where, `Tab ${String(i + 1)} reached the interface behind the scene`).toBe('ok');
+  }
+  // Reading a caption's sources pauses the scene, and Escape closes the ⓘ without skipping the scene.
+  await page.locator('.cs-caption-prov .prov').click();
+  await expect(page.locator('.cs-caption-prov .prov-pop')).toBeVisible();
+  // Text wraps inside the popover, and the popover stays on screen.
+  const fit = await page.locator('.cs-caption-prov .prov-pop').evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    const spill = [...el.querySelectorAll('*')].some((c) => c.getBoundingClientRect().right > r.right + 1);
+    return { spill, onScreen: r.left >= 0 && r.right <= window.innerWidth };
+  });
+  expect(fit).toEqual({ spill: false, onScreen: true });
+  await expect(overlay).toHaveClass(/paused/);
+  const progress = page.locator('.cs-progress-bar');
+  const held = await progress.getAttribute('style');
+  await page.waitForTimeout(3000);
+  await expect(progress).toHaveAttribute('style', held ?? '');
+  await expect(page.locator('.cs-caption')).toHaveText(captions[1] ?? '');
+  await page.keyboard.press('Escape');
+  await page.mouse.move(5, 5);
+  await expect(page.locator('.cs-caption-prov .prov-pop')).toBeHidden();
+  await expect(overlay).toBeVisible();
+  await expect(overlay).not.toHaveClass(/paused/);
+  await expect.poll(() => progress.getAttribute('style'), { timeout: 60_000 }).not.toBe(held);
   await expect(page.locator('.timeline')).toHaveClass(/locked/);
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('.tl-year')).toHaveText(ad74);

@@ -13,6 +13,7 @@ import type { LampState } from '../domain/lamplight.ts';
 import { WORLD } from '../domain/geo.ts';
 import type { GridRef, RollingStock } from '../domain/model.ts';
 import { hash2 } from '../domain/noise.ts';
+import { cumulativeLengths } from '../domain/polyline.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import { box, gable, merge, place, solidMaterial } from './meshkit.ts';
 import type { LoadedModel } from './models.ts';
@@ -273,12 +274,8 @@ export class Train {
       const z = (p.n - WORLD.centre.n) / WORLD.metresPerUnit;
       return { x, y: ground(x, z), z };
     });
-    this.lengths = [0];
-    for (let i = 1; i < this.path.length; i++) {
-      const a = this.path[i - 1];
-      const b = this.path[i];
-      this.lengths.push((this.lengths[i - 1] ?? 0) + (a && b ? Math.hypot(b.x - a.x, b.z - a.z) : 0));
-    }
+    // World units are grid metres scaled down, so lengths along the path scale the same way.
+    this.lengths = cumulativeLengths(line.points).map((l) => l / WORLD.metresPerUnit);
     this.total = this.lengths[this.lengths.length - 1] ?? 0;
     for (const [stock, model] of models) {
       const chimney = model.anchors.get('chimney');

@@ -214,6 +214,10 @@ export const STRINGS = {
   watchHint: { en: 'A short scene, with narration', cy: 'Golygfa fer, gyda naratif' },
   skip: { en: 'Skip', cy: 'Hepgor' },
   cutscene: { en: 'Scene', cy: 'Golygfa' },
+  cutscenePaused: {
+    en: 'Paused while the ⓘ is open.',
+    cy: 'Saib tra bo’r ⓘ ar agor.',
+  },
   cutsceneCompressed: {
     en: 'A reconstruction: time is compressed, and what is invented is marked.',
     cy: 'Ail-greu: mae amser wedi’i gywasgu, ac mae’r hyn sydd wedi’i ddyfeisio wedi’i nodi.',

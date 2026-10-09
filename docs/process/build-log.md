@@ -485,7 +485,7 @@ Milestones and what each one taught us. Newest last.
    ([ADR 0036](../adr/0036-ci-e2e-in-parallel-shards.md)). Lesson: the job time is a budget that every
    merged feature spends, so watch the trend, not just the colour.
 17. **The first cutscene: the Roman army arrives** (branch `feat/cutscene-roman-arrival`). One data model
-   and one pure clock ([ADR 0037](../adr/0037-cutscenes-as-data-on-one-clock.md)): six shots over 79
+   and one pure clock ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)): six shots over 79
    seconds, about 650 thin-instanced figures in nine draw calls, dust from the smoke layer, procedural
    cornu calls, tramping feet, hooves, mules and axes through the one mixer, and narration in both
    languages from edge-tts, with a content test that every caption is up for as long as its narration
@@ -500,3 +500,22 @@ Milestones and what each one taught us. Newest last.
    the column, not the watchers in front, because focus follows the camera's distance with a floor of
    400m; it reads as intended, but a scene cannot yet choose its focus. Bundle: the main chunk is 477,928
    bytes gzipped after this branch.
+18. **The cutscene review: the later fort stood on the ridge all along.** The second-Opus review found
+   that a scene overrode only the features it builds, so the smaller fort, whose "c. AD 83" fade starts
+   well before AD 74 on the slider, stood finished on the Dinefwr ridge while the column marched up to
+   it, and the two forts were drawn one over the other once fort A rose. Every unit test passed because
+   none looked at what a scene frame draws. Now `sceneFeatures` draws the world at the scene's year, and
+   a content test samples every frame of every scene through the same functions the renderer uses
+   ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)); it failed first with `roman-fort-b@0s=0.93`,
+   the number the reviewer measured. The same pass: an open ⓘ pauses the scene and Escape closes it
+   without skipping; the interface behind is inert; one polyline helper replaces six copies
+   ([ADR 0043](../adr/0043-one-polyline-helper.md)); the garrison caption is hedged. Looking at the
+   paused popover found one more fault the review had not: the letterbox's caption badge holder had
+   `white-space: nowrap`, which the popover inherited, so its text ran off the box and off the screen at
+   1440px; an e2e check now fails if any of its text spills. Lessons: (1) **a scene shows a moment, the
+   slider shows a blur**: anything that sits on top of the timeline at one year must not inherit the
+   slider's fades. (2) **`vite build` and `vite preview` both need `PAGES_BASE`** in every shell: a build
+   made without it serves its assets at `/assets/`, which 404 under the test base, and the e2e reports
+   it as the page never becoming ready, which looks exactly like the known GPU load hang. Three runs
+   went to it before the console showed the 404s. (3) Under SwiftShader a scene opened part-way with
+   `?cutsceneAt=` runs on to its end while the page loads, so a screenshot of a moment needs the GPU.
