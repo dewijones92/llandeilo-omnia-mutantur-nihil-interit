@@ -35,3 +35,8 @@ __pycache__/
 *.pyc
 .claude/worktrees/
 
+
+# raw LiDAR downloads (kept outside the repo in ~/code/data; never commit)
+*.tif
+*.tiff
+lidar-raw/

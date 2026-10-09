@@ -1,6 +1,7 @@
 import { Vector3, type Mesh, type Scene } from './babylon.ts';
 import { hex, mix, type Rgb } from '../domain/colour.ts';
 import { WORLD } from '../domain/geo.ts';
+import { LOD_STEPS } from '../domain/lidar.ts';
 import type { Level } from '../domain/lod.ts';
 import { rng } from '../domain/noise.ts';
 import { densify } from '../domain/polyline.ts';
@@ -54,7 +55,7 @@ const OPENING = hex('#3a3631');
 const DITCH = hex('#4b4d39');
 const DITCH_SIDE = mix(DITCH, hex('#8a8c6a'), 0.55);
 const FLAT_LIFT = 0.05;
-const GROUND_STEP = 6;
+const GROUND_STEP = LOD_STEPS[0] ?? 4;
 const FOUNDATION = 0.5;
 const MERLON_SPACING = 2.4;
 const PARAPET_INSET = 0.8;

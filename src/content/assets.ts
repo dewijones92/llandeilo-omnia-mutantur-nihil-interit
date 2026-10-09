@@ -1,4 +1,5 @@
 import type { Bilingual } from '../domain/i18n.ts';
+import { LIDAR_CREDIT } from './generated/lidar-credit.ts';
 
 export interface AssetRecord {
   readonly files: RegExp;
@@ -32,6 +33,13 @@ export const ASSETS: readonly AssetRecord[] = [
     source: `${OS} (OS Terrain 50)`,
     licence: OGL,
     url: 'https://www.ordnancesurvey.co.uk/products/os-terrain-50',
+  },
+  {
+    files: /^data\/lidar\/lidar\.(bin|json)$/,
+    what: { en: 'Close-up terrain heights', cy: 'Uchderau’r tir manwl' },
+    source: `${LIDAR_CREDIT} Resampled to 2m and 10m by tools/terrain/build-lidar.py.`,
+    licence: `${OGL}, as stated on the DataMapWales LiDAR download page (the tile catalogue's own entry states none)`,
+    url: 'https://datamap.gov.wales/maps/lidar-data-download/',
   },
   {
     files: /^data\/rivers\.json$/,
