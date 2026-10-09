@@ -459,6 +459,10 @@ const COUNTRYSIDE = { x: 420, y: 20, width: 660, height: 300 };
 test('the night is dark and lit by the light of its time: gas lamps glow in 1880, the 1942 blackout is black', async ({
   page,
 }) => {
+  test.slow(
+    Boolean(process.env['CI']),
+    'two night scenes with thousands of halos, rendered on the CPU in CI',
+  );
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   const debug = page.locator('.debug');
@@ -509,6 +513,11 @@ const OVERVIEW_LAND = { x: 330, y: 230, width: 760, height: 420 };
 test('the night light reads from the overview: the halos put the lit town and farms on screen', async ({
   page,
 }) => {
+  // About 5,400 halos over the whole valley; on CI's CPU renderer this ran 7 minutes on 2026-10-09.
+  test.slow(
+    Boolean(process.env['CI']),
+    'the whole valley at night with every halo, rendered on the CPU in CI',
+  );
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./?year=1880&hour=23&season=winter&debug');
