@@ -1,18 +1,27 @@
 ---
-title: "ADR 0041: Map-style camera controls"
+title: "ADR 0044: Map-style camera controls"
 kind: adr
 status: accepted
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
-# ADR 0041: Map-style camera controls
+# ADR 0044: Map-style camera controls
 
 - **Status:** Accepted
 - **Date:** 2026-10-03
 - **Number:** written as 0037 on its branch, renumbered to 0041 when `main` (which had taken 0037 to
-  0040) was merged in.
-- **Amended 2026-10-09 by [0042](0042-one-welcome-panel.md):** the one-time hint and the Keys panel
+  0040) was merged in, then to 0044 when `main` (which had taken 0041 to 0043 for the cutscenes) was
+  merged in again on 2026-10-09.
+- **Amended 2026-10-09 by [0045](0045-one-welcome-panel.md):** the one-time hint and the Keys panel
   described below are replaced by the welcome panel, which lists the same controls.
+- **Amended 2026-10-09, merging the cutscenes ([ADR 0041](0041-cutscenes-as-data-on-one-clock.md)):**
+  while a scene plays, `MapControls` is switched off (`setEnabled(false)`), which drops a drag under way,
+  any glide or zoom still running, held keys and Babylon's turning inertia, and ignores every input until
+  the scene ends (Skip, Escape or its last frame). The scene's `Stage` does this through a small
+  `CameraInputs` interface, in place of the `detachControl()` / `attachControl()` it used on `main`:
+  attaching would have handed Babylon's stock inputs back, so after a scene a left-drag would both
+  slide the land and turn the view (seen in e2e: the view turned 1.1 rad on one left-drag). Decided by
+  Claude under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)).
 
 ## Context
 

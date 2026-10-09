@@ -523,8 +523,9 @@ Milestones and what each one taught us. Newest last.
    just before 6 May 1841), the every-stretch test (the stub undrawn), the label test (no earliest
    dates) and the stub test.
 
-19. **Battles and black swans** (branch `feat/battles-and-black-swans`): four key dates from the
-   checked invasions and ripples notes. **1213**, Llandeilo burned by Rhys Gryg and Dinefwr besieged,
+19. **Battles and black swans** (branch `feat/battles-and-black-swans`): three key dates and a
+   minor marker (1849) from the checked invasions and ripples notes (*corrected 2026-10-09*: this
+   entry said four key dates; 1849 is a marker, not a key step). **1213**, Llandeilo burned by Rhys Gryg and Dinefwr besieged,
    with winter from the record and a dark plume over the town drawn only at that step; **1257**, Coed
    Llathen and Cymerau, at the recorded midday of 2 June in summer, with the camp at Llandeilo said to
    be in one chronicle, Bauzan's death, mostly Welsh foot soldiers and no site marked; **1849**, cholera
@@ -588,7 +589,58 @@ Milestones and what each one taught us. Newest last.
    one rule decides both smoke and halos, and two lightings in the fading-day band are pinned from main
    (red when `selfLit` loses its night weighting). Lesson: a test that reads flags back from the
    renderer proves the code ran, not that anything reached the screen; count the pixels.
-23. **Map-style camera** ([ADR 0041](../adr/0041-map-style-camera-controls.md)). Dewi found himself
+23. **The first cutscene: the Roman army arrives** (branch `feat/cutscene-roman-arrival`). One data model
+   and one pure clock ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)): six shots over 79
+   seconds, about 650 thin-instanced figures in nine draw calls, dust from the smoke layer, procedural
+   cornu calls, tramping feet, hooves, mules and axes through the one mixer, and narration in both
+   languages from edge-tts, with a content test that every caption is up for as long as its narration
+   runs. **Watch** on the AD 74 moment card plays it; Skip or Escape lands on the key date. Lessons:
+   (1) **never run `vite` (dev) in a worktree whose `node_modules` is a symlink to the main clone**: its
+   dependency optimiser rewrote the main clone's `node_modules/.vite/deps` ("Re-optimizing dependencies
+   because vite config has changed"), under the always-on dev server on :5051. The main server still
+   served its modules afterwards, but a reload there may re-optimise once. Worktrees should look at
+   their work with `vite build` and `vite preview`, which leave that cache alone. (2) **The letterbox
+   hides part of the frame**: the first watchers' shot put them below the bottom bar, so camera keys are
+   checked by screenshot, not by geometry alone. (3) The over-the-shoulder shot's depth of field falls on
+   the column, not the watchers in front, because focus follows the camera's distance with a floor of
+   400m; it reads as intended, but a scene cannot yet choose its focus. Bundle: the main chunk is 477,928
+   bytes gzipped after this branch.
+24. **The cutscene review: the later fort stood on the ridge all along.** The second-Opus review found
+   that a scene overrode only the features it builds, so the smaller fort, whose "c. AD 83" fade starts
+   well before AD 74 on the slider, stood finished on the Dinefwr ridge while the column marched up to
+   it, and the two forts were drawn one over the other once fort A rose. Every unit test passed because
+   none looked at what a scene frame draws. Now `sceneFeatures` draws the world at the scene's year, and
+   a content test samples every frame of every scene through the same functions the renderer uses
+   ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)); it failed first with `roman-fort-b@0s=0.93`,
+   the number the reviewer measured. The same pass: an open ⓘ pauses the scene and Escape closes it
+   without skipping; the interface behind is inert; one polyline helper replaces six copies
+   ([ADR 0043](../adr/0043-one-polyline-helper.md)); the garrison caption is hedged. Looking at the
+   paused popover found one more fault the review had not: the letterbox's caption badge holder had
+   `white-space: nowrap`, which the popover inherited, so its text ran off the box and off the screen at
+   1440px; an e2e check now fails if any of its text spills. Lessons: (1) **a scene shows a moment, the
+   slider shows a blur**: anything that sits on top of the timeline at one year must not inherit the
+   slider's fades. (2) **`vite build` and `vite preview` both need `PAGES_BASE`** in every shell: a build
+   made without it serves its assets at `/assets/`, which 404 under the test base, and the e2e reports
+   it as the page never becoming ready, which looks exactly like the known GPU load hang. Three runs
+   went to it before the console showed the 404s. (3) Under SwiftShader a scene opened part-way with
+   `?cutsceneAt=` runs on to its end while the page loads, so a screenshot of a moment needs the GPU.
+   (4) Merging main (the dark night, the battles) meant one real conflict: both sides had rewritten the
+   smoke layer, so `dust` became a fourth `SmokeStyle` in the dark night's look table, with a `lift`
+   field for where a plume starts. Main had also taken ADRs 0037 to 0040, so the cutscene ADRs became
+   0041 to 0043; a branch's ADR numbers are only provisional until it merges.
+25. **The second cutscene review: claims in the docs that the code did not keep.** Five findings, none
+   of them a visible fault. (1) The narrator comment and decision log said no Roman-era character uses the
+   narrator's voice; Nia, the Welsh narrator, also reads the woman at the fort (Welsh has two voices), so
+   the claim was corrected and the overlap recorded in `docs/content/voices.md`. (2) The timeline lock's
+   "a press ends the scene" path was dead, since the timeline is inert behind the scene; `lock` is now a
+   plain guard and the design note says Skip and Escape end a scene. (3) Smoke, hearth glow and forest
+   clearings read the slider's presence rather than the scene's; they now share the one filtered list
+   (no behaviour change at AD 74, so no test could fail first; the e2e covers the wiring). (4) The train
+   still had its own walk along a line, though ADR 0043 said every copy was gone; `segmentAt` is now
+   shared (a unit test failed first on the missing function, then on the edge cases). (5) The bundle is
+   490,121 bytes gzipped, recorded in CLAUDE.md. Lesson: **an ADR that says "every copy now uses it" is a
+   claim to grep for, not to write from memory.**
+26. **Map-style camera** ([ADR 0044](../adr/0044-map-style-camera-controls.md)). Dewi found himself
    "just orbiting around a certain point": Babylon's stock inputs turned the view on a left-drag and
    panned in the screen plane on the right button, and nothing said so. The stock inputs are now
    detached and `MapControls` slides the land under the cursor, turns on a right-drag, zooms at the
@@ -601,7 +653,7 @@ Milestones and what each one taught us. Newest last.
    asserted a bearing over 10°, and the opening view already faces about 20°, so it passed even when the
    drag (now a right-drag) did not turn the view at all (seen: 0° turned on the old build). It now asserts
    the change. Lesson: assert the change an action makes, not a value the start state may already have.
-24. **The camera and the sky** (second-Opus review of the map-style camera). At the steepest tilt the top
+27. **The camera and the sky** (second-Opus review of the map-style camera). At the steepest tilt the top
    of the view is sky, and a cursor ray that missed the ground fell back to a point 9,000 units along
    it, high in the air: one wheel notch moved the target about 1,500 units (seen red in e2e: 1,499.99,
    exactly as the reviewer measured on the GPU), and a drag on the sky threw the camera across the map.
@@ -612,7 +664,7 @@ Milestones and what each one taught us. Newest last.
    3D view; it now checks the element under the start point first, so that failure names itself. The
    Welsh for "Hold to slide faster" had read as "keep on sliding faster" ("dal i" + verb-noun means
    "continue to"); it is now "Daliwch hi i lawr i lithro'n gyflymach", pending the parked human check.
-25. **One welcome panel** (Dewi's request; details by Claude under the proactive mandate; [ADR 0042](../adr/0042-one-welcome-panel.md)).
+28. **One welcome panel** (Dewi's request; details by Claude under the proactive mandate; [ADR 0045](../adr/0045-one-welcome-panel.md)).
    Dewi asked for the controls and other info at start, closeable, with an obvious icon to reopen it.
    The Keys panel and the one-time camera hint became one "How to explore" panel; the Begin card and
    the welcome share one `setInert`. The panel was built before this pass, so the tests were seen red by
@@ -624,7 +676,7 @@ Milestones and what each one taught us. Newest last.
    on About timed out as "outside of the viewport"; and a screenshot taken as the panel rose showed it
    half transparent, so the test now waits for its animation. Lesson: a button that exists in the DOM
    may be off the screen; click it, and look.
-26. **The ? icon over the panels** (review of the welcome work). At 1440x860 the icon's caption wraps to two
+29. **The ? icon over the panels** (review of the welcome work). At 1440x860 the icon's caption wraps to two
    lines, so the button reaches 105px down while the right-hand panels started at 92px: the caption sat on
    the About panel's top edge. Nothing tested panels against the icon, only labels against both. The new
    e2e test first failed at the About-side assertion (`.convo` overlapping the icon, icon bottom 105,
@@ -633,3 +685,22 @@ Milestones and what each one taught us. Newest last.
    background, and the language sentence rather than the toggle button's label), deleted the unused
    `WelcomePanel.toggle()`, and made `PROVENANCE_KINDS` fail to compile if a fourth tier is added without
    being listed.
+30. **Merging the cutscenes into the map-style camera** (Claude, under the proactive mandate). `main` had
+   the cutscene engine; this branch had the map-style camera and the welcome. Six files conflicted, all
+   resolved keeping both sides; the camera and welcome ADRs became 0044 and 0045, since `main` had taken
+   0041 to 0043. The merge that compiled was not the merge that worked: the scene's `Stage` handed the
+   camera back with Babylon's `attachControl()`, which on this branch re-attaches the stock inputs the
+   map-style camera had replaced, so after any scene a left-drag slid the land and turned the view at
+   once. Now `MapControls.setEnabled(false)` while a scene plays (dropping a drag, glide, zoom and held
+   keys) and `true` after, through a `CameraInputs` interface on `Stage`. Seen red first in e2e against
+   the plain merge: keys and the wheel sent to the 3D view during a paused scene moved the camera (drift
+   7.3, turn 0.047 rad, zoom 9.4), and with the stock inputs put back, one left-drag after Skip turned the
+   view by 1.1 rad. The welcome now waits for a scene (a `?cutscene=` link with the welcome due opened it
+   and the scene then closed it for good; red at "visible after the scene"), says how to watch one, and the
+   "?" icon fades with the rest of the interface. Lessons: (1) **two branches can each be right about who
+   owns an object and still be wrong together**: `main` assumed Babylon's inputs were the camera's
+   controls, this branch had replaced them, and no conflict marker pointed at `stage.ts`; search the other
+   side for every call that touches what your branch took over (`attachControl` here). (2) A "camera has
+   settled" test helper that compares two reads one interval apart passed while a landing flight was
+   still under way, because one slow frame left both reads the same; it now wants three still reads in a
+   row. Bundle: the main chunk is 496,323 bytes gzipped after the merge.

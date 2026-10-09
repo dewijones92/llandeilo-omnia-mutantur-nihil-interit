@@ -2,13 +2,18 @@
 title: Cutscenes
 kind: design
 status: agreed
-updated: 2026-10-02
+updated: 2026-10-09
 ---
 
 # Cutscenes at key dates
 
 Agreed by Dewi, 2026-10-02 ("romans marching in to llandeilo -- with a cutscene ... i am a massive
-fan of cutscenes"). **Agreed; research under way, not built.**
+fan of cutscenes"). **Agreed. The engine and the first scene (the Roman arrival) are built** on branch
+`feat/cutscene-roman-arrival`, 2026-10-03; how the build differs from this sketch is in
+[ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md): the camera is a field of the scene rather
+than a track, there is no music track yet (the army marched without noise), captions carry their own
+ⓘ, and the timeline is hidden as well as locked, so Skip and Escape end a scene. Its decisions are in
+the [decision log](../process/decision-log.md).
 
 ## The idea
 
@@ -63,7 +68,10 @@ type Track =
 ## Controls
 
 **Watch** on the moment card when the date has a scene; **Skip** and Escape end it; the slider and
-keys are locked while it plays, and any click on the timeline ends it. Sound follows the Sound toggle.
+keys are locked while it plays; the timeline is hidden and inert, so only Skip and Escape end a scene
+(the first sketch had a click on the timeline end it; the build dropped that, [ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)). Sound follows the Sound toggle.
+The map-style camera controls are off while a scene plays and come back after it, and the welcome
+panel waits for a scene to end ([ADR 0044](../adr/0044-map-style-camera-controls.md), [ADR 0045](../adr/0045-one-welcome-panel.md)).
 It plays on the 2.6×-scaled diorama, so close-ups of figures are framed to read at that scale.
 
 ## Tests

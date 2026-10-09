@@ -170,8 +170,8 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [ ] **Map-style camera** (Dewi, 2026-10-03: "make the camera easier to move around"; he chose
       map-style): drag slides the land, right-drag turns, the wheel zooms at the cursor, W A S D / Q E /
       R F, double-click flies there, a one-time hint, the Keys panel in both languages (both since
-      replaced by the welcome panel, [ADR 0042](../adr/0042-one-welcome-panel.md))
-      ([ADR 0041](../adr/0041-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
+      replaced by the welcome panel, [ADR 0045](../adr/0045-one-welcome-panel.md))
+      ([ADR 0044](../adr/0044-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
       looked at (overview, dragged, turned, zoomed, 1860). Second-Opus review 2026-10-03: the sky no
       longer throws the camera (wheel zooms at the centre, a sky drag turns, a slide waits above the
       horizon), tests for a drag ending a follow and a flight and for the hint after Begin, and the
@@ -180,8 +180,14 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       closeable, an obvious icon to reopen): "How to explore" opens after Begin (or at once without it),
       replaces the Keys panel and the camera hint, explains the controls, timeline, provenance labels, ⓘ,
       "When are we?" and the settings, with "Show this at start" and a round "?" icon
-      ([ADR 0042](../adr/0042-one-welcome-panel.md)). Built 2026-10-09 with tests seen red by mutation
+      ([ADR 0045](../adr/0045-one-welcome-panel.md)). Built 2026-10-09 with tests seen red by mutation
       and looked at in English and Welsh; awaiting Dewi. The Welsh text is in the parked human check
+- [ ] **Camera and welcome merged with the cutscenes** (Claude, under the proactive mandate, 2026-10-09):
+      the map-style controls are off while a scene plays and back after Skip, Escape or its end; the
+      welcome waits for a scene, says how to Watch one, and the "?" icon fades with the interface
+      ([ADR 0044](../adr/0044-map-style-camera-controls.md), [ADR 0045](../adr/0045-one-welcome-panel.md)).
+      Built with e2e seen red against the plain merge; awaiting the second-Opus review and Dewi. The new
+      Welsh sentence is in the parked human check
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (today `town.style` only decides which towns get chimney smoke)
@@ -341,7 +347,22 @@ Moved here from "Proposed" when Dewi agreed them. Each goes through the full pat
       not code per era, every element labelled by provenance, with a narrator in the UI language
       (Dewi's choice) and captions always on. First: the Roman army arriving at
       Dinefwr, c. AD 74. Builds on the agreed "people arriving from afar" journeys, the guided tour and
-      the opening cinematic flight
+      the opening cinematic flight. **2026-10-03: the engine and the Roman arrival are built** on branch
+      `feat/cutscene-roman-arrival` ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)): researched
+      and checked (roman-arrival and its 2026-10-02 check), built with unit tests and an e2e flow seen red
+      first, screenshots looked at across the scene in English and Welsh. Second-Opus review 2026-10-03
+      done; its CRITICAL (the later fort standing on the ridge through the scene) and IMPORTANT (Escape on
+      an ⓘ skipped the scene) findings fixed with tests seen red first, and its suggestions applied
+      ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md), [ADR 0043](../adr/0043-one-polyline-helper.md)).
+      **Not ticked**: the fixes have not had their own second-Opus pass, and the other scenes (Dryslwyn
+      1287, the Walk Gate 1843, the first train 1857, the 1848 flood) are not started
+- [ ] **For Dewi: the later Roman fort shows at the AD 74 key date.** `roman-fort-b` (c. AD 83) fades
+      in over the slider before its date, so at the AD 74 key date it is drawn at 0.93 beside fort A,
+      though Coflein puts it later and over part of the first. On main since before the cutscene; inside
+      a scene it is now hidden ([ADR 0042](../adr/0042-a-scene-draws-its-own-year.md)). Whether "c."
+      dates should fade in before their year at a key date, or stop at the nearest key date, changes
+      [ADR 0034](../adr/0034-exact-dates-draw-nothing-outside-them.md) and is his call. Found by the
+      second-Opus review, 2026-10-03
 - [ ] **Invasions and raids that reached the valley** (Dewi: "norman, viking etc etc etc invasions"):
       Irish settlement in Dyfed, Viking raids, the Normans after 1093, the English conquest of 1277-83,
       Glyndŵr in 1403, the Civil War, each as key dates (and cutscenes where the research supports one),

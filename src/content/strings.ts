@@ -114,6 +114,10 @@ export const STRINGS = {
     en: 'Previous and Next, or the ← and → keys, step from one key date to the next.',
     cy: 'Mae Blaenorol a Nesaf, neu’r bysellau ← a →, yn camu o un dyddiad allweddol i’r nesaf.',
   },
+  welcomeScenes: {
+    en: 'Some key dates have a short scene with narration: press Watch on its card to play it. While it plays the camera and the timeline are the scene’s; Skip or Esc ends it and hands them back.',
+    cy: 'Mae golygfa fer gyda naratif gan rai dyddiadau allweddol: pwyswch Gwylio ar ei gerdyn i’w chwarae. Tra bo’r olygfa’n chwarae, hi sy’n rheoli’r camera a’r llinell amser; mae Hepgor neu Esc yn ei gorffen ac yn eu rhoi’n ôl i chi.',
+  },
   welcomePanels: {
     en: 'Almanac and Language describe daily life, and who spoke what, at the date shown.',
     cy: 'Mae Almanac ac Iaith yn disgrifio bywyd bob dydd, a phwy oedd yn siarad beth, ar y dyddiad a ddangosir.',
@@ -160,7 +164,10 @@ export const STRINGS = {
   keyNudge: { en: 'Move a little through time', cy: 'Symud ychydig drwy amser' },
   keyNudgeMore: { en: 'Move further through time', cy: 'Symud ymhellach drwy amser' },
   keyEnds: { en: 'The earliest date or today', cy: 'Y dyddiad cynharaf neu heddiw' },
-  keyEscape: { en: 'Close a panel or a popup', cy: 'Cau panel neu naidlen' },
+  keyEscape: {
+    en: 'End a scene, or close a panel or a popup',
+    cy: 'Gorffen golygfa, neu gau panel neu naidlen',
+  },
   keyHelp: { en: 'Show or hide this help', cy: 'Dangos neu guddio’r cymorth hwn' },
   clickCompass: { en: 'Click the compass to face north.', cy: 'Cliciwch y cwmpawd i wynebu’r gogledd.' },
   clickTrain: {
@@ -286,6 +293,18 @@ export const STRINGS = {
   guessBest: { en: 'Best in this browser', cy: 'Gorau yn y porwr hwn' },
   guessNewBest: { en: 'Your best yet!', cy: 'Eich sgôr gorau hyd yn hyn!' },
   guessAgain: { en: 'Play again', cy: 'Chwarae eto' },
+  watch: { en: 'Watch', cy: 'Gwylio' },
+  watchHint: { en: 'A short scene, with narration', cy: 'Golygfa fer, gyda naratif' },
+  skip: { en: 'Skip', cy: 'Hepgor' },
+  cutscene: { en: 'Scene', cy: 'Golygfa' },
+  cutscenePaused: {
+    en: 'Paused while the ⓘ is open.',
+    cy: 'Saib tra bo’r ⓘ ar agor.',
+  },
+  cutsceneCompressed: {
+    en: 'A reconstruction: time is compressed, and what is invented is marked.',
+    cy: 'Ail-greu: mae amser wedi’i gywasgu, ac mae’r hyn sydd wedi’i ddyfeisio wedi’i nodi.',
+  },
 } as const satisfies Record<string, Bilingual>;
 
 export type StringKey = keyof typeof STRINGS;

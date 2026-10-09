@@ -84,6 +84,23 @@ export class Flight {
     console.info(`dewidebug camera turn from alpha=${this.from.alpha.toFixed(2)} to=${alpha.toFixed(2)}`);
   }
 
+  /** Ends any flight or follow and puts the camera exactly here, for a cutscene to drive it. */
+  hold(target: Vector3, radius: number, alpha: number, beta: number): void {
+    this.stopFollowing('held');
+    this.from = undefined;
+    this.to = undefined;
+    const c = this.camera;
+    c.inertialAlphaOffset = 0;
+    c.inertialBetaOffset = 0;
+    c.inertialRadiusOffset = 0;
+    c.inertialPanningX = 0;
+    c.inertialPanningY = 0;
+    c.target = target;
+    c.radius = radius;
+    c.alpha = alpha;
+    c.beta = beta;
+  }
+
   get flying(): boolean {
     return this.to !== undefined;
   }

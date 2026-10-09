@@ -17,7 +17,7 @@ import {
 import { WORLD } from '../domain/geo.ts';
 import type { Flight } from './flight.ts';
 
-// Map-style controls (ADR 0041): left-drag slides the land, right-drag (or Ctrl+drag) turns and tilts,
+// Map-style controls (ADR 0044): left-drag slides the land, right-drag (or Ctrl+drag) turns and tilts,
 // the wheel zooms at the cursor, double-click flies there, and keys slide, turn and tilt.
 
 const MAP_RADIUS = WORLD.radiusMetres / WORLD.metresPerUnit;
@@ -73,6 +73,7 @@ const KEYS = {
 const CAMERA_KEYS = new Set<string>(Object.values(KEYS).flat());
 
 export class MapControls {
+  private enabled = true;
   private drag: Drag | undefined;
   private velocity = { x: 0, z: 0 };
   private zoomLog = 0;
@@ -128,7 +129,32 @@ export class MapControls {
     });
   }
 
+  /** A cutscene holds the camera: while off, nothing the viewer does moves it, and anything under way stops. */
+  setEnabled(on: boolean, why: string): void {
+    if (on === this.enabled) return;
+    this.enabled = on;
+    const d = this.drag;
+    if (!on) {
+      this.drag = undefined;
+      if (d && this.canvas.hasPointerCapture(d.id)) this.canvas.releasePointerCapture(d.id);
+      this.velocity = { x: 0, z: 0 };
+      this.zoomLog = 0;
+      this.zoomAt = undefined;
+      this.settling = false;
+      this.held.clear();
+      this.releasing.clear();
+      const c = this.camera;
+      c.inertialAlphaOffset = 0;
+      c.inertialBetaOffset = 0;
+      c.inertialRadiusOffset = 0;
+    }
+    console.info(
+      `dewidebug camera controls enabled=${String(on)} why=${why} droppedDrag=${String(!on && d !== undefined)}`,
+    );
+  }
+
   tick(dtMs: number): void {
+    if (!this.enabled) return;
     this.keys(Math.min(dtMs, MAX_KEY_DT_MS));
     if (this.flight.flying) {
       this.velocity = { x: 0, z: 0 };
@@ -160,7 +186,7 @@ export class MapControls {
   }
 
   private down(e: PointerEvent): void {
-    if (this.drag) return;
+    if (!this.enabled || this.drag) return;
     const turnButton = e.button === 2 || e.button === 1 || (e.button === 0 && e.ctrlKey);
     if (e.button !== 0 && !turnButton) return;
     const { x, y } = this.at(e);
@@ -245,6 +271,7 @@ export class MapControls {
   }
 
   private wheel(e: WheelEvent): void {
+    if (!this.enabled) return;
     const log = wheelLog(e.deltaY, e.deltaMode);
     if (log === 0) return;
     const { x, y } = this.at(e);
@@ -261,7 +288,7 @@ export class MapControls {
   }
 
   private doubleClick(e: MouseEvent): void {
-    if (e.button !== 0) return;
+    if (!this.enabled || e.button !== 0) return;
     const { x, y } = this.at(e);
     const hit = rayGround(this.ray(x, y), this.ground, REACH, MARCH_STEP);
     if (!hit) {
@@ -275,6 +302,10 @@ export class MapControls {
   private key(e: KeyboardEvent, down: boolean): void {
     this.fast = e.shiftKey;
     if (!CAMERA_KEYS.has(e.code)) return;
+    if (!this.enabled) {
+      if (down) console.info(`dewidebug camera key ${e.code} ignored: controls off`);
+      return;
+    }
     if (down) {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       e.preventDefault();

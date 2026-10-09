@@ -1,14 +1,25 @@
 ---
-title: "ADR 0042: One welcome panel, with an icon that always reopens it"
+title: "ADR 0045: One welcome panel, with an icon that always reopens it"
 kind: adr
 status: accepted
 updated: 2026-10-09
 ---
 
-# ADR 0042: One welcome panel, with an icon that always reopens it
+# ADR 0045: One welcome panel, with an icon that always reopens it
 
-- **Status:** Accepted, amends [0041](0041-map-style-camera-controls.md) (its hint and Keys panel)
+- **Status:** Accepted, amends [0044](0044-map-style-camera-controls.md) (its hint and Keys panel)
 - **Date:** 2026-10-09
+- **Number:** written as 0042 on its branch, renumbered to 0045 when `main` (which had taken 0041 to
+  0043 for the cutscenes) was merged in.
+- **Amended 2026-10-09, merging the cutscenes ([ADR 0041](0041-cutscenes-as-data-on-one-clock.md)):**
+  the welcome never opens over a playing scene. One due at start (a `?cutscene=` link) waits and opens
+  when the scene ends; a scene that starts while it is open closes it first (before the scene marks the
+  interface inert, since closing clears the welcome's own inert marks) and brings it back at the end.
+  `?` and the Keys button do nothing during a scene, and the "?" icon fades with the rest of the
+  interface (it sits in the top-right corner, clear of the captions in the lower bar). Escape ends the
+  scene first, then closes the welcome, then a popover, then a panel. The panel now says that some key
+  dates have a scene, played with Watch on the date's card and ended with Skip or Esc. Chosen by Claude
+  under the proactive mandate.
 - **Decided by:** Dewi asked for the panel and the icon (2026-10-03, see the decision log). The details
   below (when it opens, what it holds, how it closes) were chosen by Claude under the proactive mandate
   ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), so Dewi can overrule them.

@@ -3,8 +3,8 @@ export interface Params {
   get(name: string): string | null;
 }
 
-// Links into a time or place, and the debug view, open straight onto the valley.
-const DEEP_LINKS = ['year', 't', 'place', 'debug'] as const;
+// Links into a time, a place or a cutscene, and the debug view, open straight onto the valley.
+const DEEP_LINKS = ['year', 't', 'place', 'debug', 'cutscene'] as const;
 
 // The Begin card waits for a click, which browsers need before they play sound. Automated browsers
 // (e2e, screenshots) skip it unless ?begin=1 asks for it.

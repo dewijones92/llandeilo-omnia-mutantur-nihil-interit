@@ -1,9 +1,11 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
+import { CUTSCENES } from '../src/content/cutscenes.ts';
 import { EVENTS } from '../src/content/events.ts';
 import { TIMELINE } from '../src/content/timeline.ts';
 import { toWorld } from '../src/domain/geo.ts';
 import { keySteps, stepFrom } from '../src/domain/steps.ts';
 import { tAt } from '../src/domain/timeline.ts';
+import { formatSliderYear, year } from '../src/domain/time.ts';
 
 test('the valley loads and the slider moves through time', async ({ page }) => {
   const errors: string[] = [];
@@ -1247,6 +1249,76 @@ test('choosing Low graphics turns the effects off in the renderer, and the choic
   await expect.poll(live).toMatch(/^quality low .* bloom off {2}dof off /);
 });
 
+test('a cutscene plays from the moment card, moves its captions on, and Skip lands on its key date', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  const landed: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug cutscene landed')) landed.push(m.text());
+  });
+  const scene = CUTSCENES.find((c) => c.id === 'roman-arrival');
+  const captions = scene?.tracks.flatMap((t) => (t.kind === 'caption' ? [t.text.en] : [])) ?? [];
+  expect(captions.length).toBeGreaterThan(1);
+  const ad74 = formatSliderYear(year(74), 'en');
+  await page.goto('./?year=74');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  await page.getByRole('button', { name: /Watch/ }).click();
+  const overlay = page.locator('.cutscene');
+  await expect(overlay).toBeVisible();
+  await expect(page.locator('html')).toHaveClass(/cutscene-playing/);
+  await expect(page.locator('.cs-caption')).toHaveText(captions[0] ?? '');
+  // The scene clock runs on rendered frames (about one a second in CI), so give the next caption time.
+  await expect(page.locator('.cs-caption')).toHaveText(captions[1] ?? '', { timeout: 90_000 });
+  // The faded interface behind the scene cannot take focus: Tab stays in the letterbox.
+  for (let i = 0; i < 16; i++) {
+    await page.keyboard.press('Tab');
+    const where = await page.evaluate(() => {
+      const f = document.activeElement;
+      if (!f || f === document.body || f.closest('.cutscene')) return 'ok';
+      return `${f.tagName}.${f.className}`;
+    });
+    expect(where, `Tab ${String(i + 1)} reached the interface behind the scene`).toBe('ok');
+  }
+  // Reading a caption's sources pauses the scene, and Escape closes the ⓘ without skipping the scene.
+  await page.locator('.cs-caption-prov .prov').click();
+  await expect(page.locator('.cs-caption-prov .prov-pop')).toBeVisible();
+  // Text wraps inside the popover, and the popover stays on screen.
+  const fit = await page.locator('.cs-caption-prov .prov-pop').evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    const spill = [...el.querySelectorAll('*')].some((c) => c.getBoundingClientRect().right > r.right + 1);
+    return { spill, onScreen: r.left >= 0 && r.right <= window.innerWidth };
+  });
+  expect(fit).toEqual({ spill: false, onScreen: true });
+  await expect(overlay).toHaveClass(/paused/);
+  const progress = page.locator('.cs-progress-bar');
+  const held = await progress.getAttribute('style');
+  await page.waitForTimeout(3000);
+  await expect(progress).toHaveAttribute('style', held ?? '');
+  await expect(page.locator('.cs-caption')).toHaveText(captions[1] ?? '');
+  await page.keyboard.press('Escape');
+  await page.mouse.move(5, 5);
+  await expect(page.locator('.cs-caption-prov .prov-pop')).toBeHidden();
+  await expect(overlay).toBeVisible();
+  await expect(overlay).not.toHaveClass(/paused/);
+  await expect.poll(() => progress.getAttribute('style'), { timeout: 60_000 }).not.toBe(held);
+  await expect(page.locator('.timeline')).toHaveClass(/locked/);
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('.tl-year')).toHaveText(ad74);
+  await page.screenshot({ path: 'test-results/cutscene-roman-arrival.png' });
+  await page.getByRole('button', { name: /Skip/ }).click();
+  await expect(overlay).toBeHidden();
+  await expect(page.locator('html')).not.toHaveClass(/cutscene-playing/);
+  await expect(page.locator('.timeline')).not.toHaveClass(/locked/);
+  await expect(page.locator('.tl-year')).toHaveText(ad74);
+  await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
+  await expect(page.getByRole('button', { name: /Watch/ })).toBeVisible();
+  expect(landed.some((l) => l.includes('event=roman-forts skipped=true'))).toBe(true);
+  expect(errors).toEqual([]);
+});
+
 const particleSystems = async (page: Page): Promise<string[]> =>
   page.evaluate(() => {
     const debug: unknown = Reflect.get(window, 'llandeiloDebug');
@@ -1329,4 +1401,135 @@ test('every timeline marker can be clicked at its own centre, however close its 
   await page.setViewportSize({ width: 1280, height: 720 });
   await expect.poll(covered).toEqual([]);
   await page.screenshot({ path: 'test-results/marker-lanes-1280.png' });
+});
+
+// The scene's camera pose and the controls' last change both land before the next render, so a
+// value read between frames shows whichever moved the camera last.
+const sampleCamera = async (page: Page, ms: number): Promise<CameraState[]> => {
+  const samples: CameraState[] = [];
+  const until = Date.now() + ms;
+  while (Date.now() < until) {
+    samples.push(await cameraState(page));
+    await page.waitForTimeout(100);
+  }
+  return samples;
+};
+
+// Waits until the camera has not moved (a landing flight, a glide) for three reads in a row: one slow
+// frame can leave two reads the same while a flight is still under way.
+const cameraSettled = async (page: Page): Promise<CameraState> => {
+  let last = await cameraState(page);
+  let stillFor = 0;
+  for (let i = 0; i < 120; i++) {
+    await page.waitForTimeout(750);
+    const now = await cameraState(page);
+    const still =
+      moved(last, now) < 0.01 &&
+      Math.abs(now.alpha - last.alpha) < 1e-4 &&
+      Math.abs(now.radius - last.radius) < 0.01;
+    last = now;
+    stillFor = still ? stillFor + 1 : 0;
+    if (stillFor >= 3) return now;
+  }
+  throw new Error('the camera never settled');
+};
+
+test('the map controls stand aside while a scene plays, and come back as they were after Skip', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?debug&year=74');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.getByRole('button', { name: /Watch/ }).click();
+  await expect(page.locator('.cutscene')).toBeVisible();
+  // An open ⓘ holds the scene, so its camera stays on one pose and any other move shows.
+  await page.locator('.cs-caption-prov .prov').click();
+  await expect(page.locator('.cutscene')).toHaveClass(/paused/);
+  const held = await cameraSettled(page);
+  // Keys and the wheel sent straight to the 3D view (as one held from before the scene would be).
+  await page.evaluate(() => {
+    const canvas = document.getElementById('scene');
+    canvas?.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyW', key: 'w', bubbles: true }));
+    canvas?.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyQ', key: 'q', bubbles: true }));
+    canvas?.dispatchEvent(new WheelEvent('wheel', { deltaY: -400, bubbles: true, cancelable: true }));
+  });
+  const during = await sampleCamera(page, 3000);
+  const drift = Math.max(...during.map((s) => moved(held, s)));
+  const turn = Math.max(...during.map((s) => Math.abs(s.alpha - held.alpha)));
+  const zoom = Math.max(...during.map((s) => Math.abs(s.radius - held.radius)));
+  expect({ drift, turn, zoom }).toEqual({ drift: 0, turn: 0, zoom: 0 });
+  // The letterbox, not the 3D view, takes a left-drag across the middle of the screen.
+  expect(await page.evaluate(() => document.elementFromPoint(720, 430)?.closest('.cutscene') !== null)).toBe(
+    true,
+  );
+  await page.keyboard.press('Escape');
+  await page.mouse.move(5, 5);
+  await page.getByRole('button', { name: /Skip/ }).click();
+  await expect(page.locator('.cutscene')).toBeHidden();
+  await page.evaluate(() => {
+    const canvas = document.getElementById('scene');
+    canvas?.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyW', key: 'w', bubbles: true }));
+    canvas?.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyQ', key: 'q', bubbles: true }));
+  });
+  // After the landing flight, a left-drag slides the land under the cursor and turns nothing.
+  const before = await cameraSettled(page);
+  const [ax, ay, bx, by] = [900, 520, 620, 420];
+  const grabbed = await terrainAt(page, ax, ay);
+  await page.mouse.move(ax, ay);
+  await page.mouse.down();
+  await page.mouse.move(bx, by, { steps: 8 });
+  // Babylon's own inputs, if they were handed back, would turn the view on this left-drag as well.
+  const dragging = await cameraState(page);
+  expect({ alpha: dragging.alpha, beta: dragging.beta }).toEqual({ alpha: before.alpha, beta: before.beta });
+  const under = await terrainAt(page, bx, by);
+  expect(Math.hypot(under.x - grabbed.x, under.z - grabbed.z)).toBeLessThan(6);
+  await page.mouse.up();
+  const after = await cameraState(page);
+  expect(moved(before, after)).toBeGreaterThan(50);
+  expect(after.alpha).toBeCloseTo(before.alpha, 5);
+  expect(after.beta).toBeCloseTo(before.beta, 5);
+  // The arrow keys slide the view, as before the scene, and do not also turn it.
+  await page.locator('#scene').focus();
+  const keyed = await cameraState(page);
+  await page.keyboard.down('ArrowUp');
+  await page.waitForTimeout(1500);
+  await page.keyboard.up('ArrowUp');
+  const slid = await cameraState(page);
+  expect(moved(keyed, slid)).toBeGreaterThan(5);
+  expect(slid.alpha).toBeCloseTo(keyed.alpha, 5);
+  expect(errors).toEqual([]);
+});
+
+test('the welcome waits for a scene to end, says how to watch one, and the ? icon steps back meanwhile', async ({
+  page,
+}) => {
+  await page.goto('./?cutscene=roman-arrival&welcome=1');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  const icon = page.locator('.help-button');
+  await expect(page.locator('.cutscene')).toBeVisible();
+  await expect(welcome).toBeHidden();
+  await page.keyboard.press('?');
+  await expect(welcome).toBeHidden();
+  await expect(icon).toHaveCSS('opacity', '0');
+  expect(await icon.evaluate((el) => el.closest('[inert]') !== null)).toBe(true);
+  const clear = await page.evaluate(() => {
+    const r = document.querySelector('.help-button')?.getBoundingClientRect();
+    const hit = r ? document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2) : null;
+    return hit?.closest('.help-button') === null;
+  });
+  expect(clear).toBe(true);
+  await page.screenshot({ path: 'test-results/cutscene-with-welcome-due.png' });
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.cutscene')).toBeHidden();
+  await expect(welcome).toBeVisible();
+  await expect(welcome).toContainText('press Watch on its card');
+  await expect(welcome).toContainText('End a scene, or close a panel or a popup');
+  await expect(icon).toHaveCSS('opacity', '1');
+  await page.keyboard.press('Escape');
+  await expect(welcome).toBeHidden();
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await icon.click();
+  await expect(page.getByRole('dialog', { name: 'Sut i grwydro' })).toContainText('pwyswch Gwylio');
 });

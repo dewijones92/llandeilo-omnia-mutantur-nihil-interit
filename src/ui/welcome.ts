@@ -70,7 +70,13 @@ const MOUSE: readonly StringKey[] = [
   'clickTrain',
 ];
 
-const TIME: readonly StringKey[] = ['welcomeSlider', 'welcomeKeyDates', 'welcomeSteps', 'welcomePanels'];
+const TIME: readonly StringKey[] = [
+  'welcomeSlider',
+  'welcomeKeyDates',
+  'welcomeScenes',
+  'welcomeSteps',
+  'welcomePanels',
+];
 const SETTINGS: readonly StringKey[] = ['welcomeLanguage', 'welcomeGraphics', 'welcomeSound'];
 
 export type WelcomeSection = 'top' | 'controls';
