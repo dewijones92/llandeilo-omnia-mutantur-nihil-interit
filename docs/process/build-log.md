@@ -726,3 +726,9 @@ Milestones and what each one taught us. Newest last.
    range, caveat, licence, disputed-date and shows tests at their assertions, and the marker test at the
    count. The e2e for the 1920s photograph failed first at "Expected: hidden, Received: visible" with its range put back to 1895. Looked at: the pins at 1925 (their stems now inside the collision boxes) and the White Hart panel reading Reconstructed (`docs/images/photo-layer/disputed-1925-en.jpg`). Lesson: **a research check that says "doubtful" is a lead, so look at the picture before leaving a
    range that contradicts it.**
+
+11. **The always-on dev server was watching the agents' worktrees.** Every build in `.claude/worktrees/`
+   reloaded the :5051 tab (the log showed a reload per worktree build) and left Vite's dependency cache
+   stale, so the page stopped loading with "504 Outdated Optimize Dep". `vite.config.ts` now ignores
+   `.claude/`, `dist/` and test output, and scans only `index.html` for dependencies.
+
