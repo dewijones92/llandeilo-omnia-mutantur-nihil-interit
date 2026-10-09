@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-03
+updated: 2026-10-09
 ---
 
 # Open questions
@@ -30,6 +30,8 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
 | When Llandeilo's gas works were built | c. 1860 (Wikipedia, "Ffairfach", single-source) vs being built in 1864 (two 1864 newspapers); the app uses the newspapers (added 2026-10-03; the c. 1860 copies in era-victorian.md and soundscapes.md now carry the correction) | [light](light-after-dark.md), [victorian](era-victorian.md), [soundscapes](soundscapes.md) |
 | The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
+| Where Llandeilo station stood, for the model | `LLANDEILO_STATION` (263266, 222361) is on the track, about 240m south-west of Coflein's station reference (263340, 222580) and OS Open Map Local's station symbol (263357, 222603); the 1890s map has the station buildings at the Coflein position (found 2026-10-09; not changed) | [dc-harries-photographs](dc-harries-photographs.md) |
+| The D. C. Harries collection's size and his start year | 2,500 negatives printed, 800 or 930+ negatives (NLW, Wikipedia); business from about 1888 vs "the early twentieth century" (NLW's two pages) (added 2026-10-09) | [dc-harries-photographs](dc-harries-photographs.md) |
 
 ## Gaps worth a dedicated pass
 

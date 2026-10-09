@@ -619,6 +619,114 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/conversations-by-class.md"
   },
   {
+    "id": "harries:S1",
+    "title": "National Library of Wales, \"The D C Harries Collection\"",
+    "url": "https://www.library.wales/catalogues-searching/about-our-collections/photographs/the-d-c-harries-collection",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S2",
+    "title": "Wikipedia, \"D. C. Harries\"",
+    "url": "https://en.wikipedia.org/wiki/D._C._Harries",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S3",
+    "title": "National Library of Wales Archives and Manuscripts, \"D C Harries Collection: Military Portraits\"",
+    "url": "https://archives.library.wales/index.php/d-c-harries-collection-military-portraits",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S4",
+    "title": "People's Collection Wales, \"Llandeilo Fawr Town Council Collection\" (collection 2287136)",
+    "url": "https://www.peoplescollection.wales/collections/2287136",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S5",
+    "title": "People's Collection Wales, tag \"d c harries\" (251856) and tag \"carmarthenshire\" (8118)",
+    "url": "https://www.peoplescollection.wales/discover/tags/251856",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S6",
+    "title": "National Library of Wales, \"D C Harries' First World War military portraits\"",
+    "url": "https://www.library.wales/discover-learn/digital-exhibitions/photographs/d-c-harries-first-world-war-military-portraits",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S7",
+    "title": "Coflein (RCAHMW), \"Llandeilo Bridge (New Bridge)\", NPRN 43102",
+    "url": "https://coflein.gov.uk/en/site/43102/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S8",
+    "title": "Coflein (RCAHMW), \"Provisions Market, Llandeilo\", NPRN 411976",
+    "url": "https://coflein.gov.uk/en/site/411976/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S9",
+    "title": "Coflein (RCAHMW), \"Llandeilo Railway Station, Central Wales Line\", NPRN 80442",
+    "url": "https://coflein.gov.uk/en/site/80442/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S10",
+    "title": "British Listed Buildings (Cadw listing 11080), \"The Cawdor Arms Hotel, Llandeilo\"",
+    "url": "https://britishlistedbuildings.co.uk/300011080-the-cawdor-arms-hotel-llandeilo",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S11",
+    "title": "British Listed Buildings (Cadw listing), \"No. 1 George Street, Llandeilo\" (Abbeyfield House)",
+    "url": "https://britishlistedbuildings.co.uk/300011062-no1-george-street-dyfed-llandeilo",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S12",
+    "title": "Ordnance Survey, OS Open Map Local, tile SN (Shapefile, April 2026)",
+    "url": "https://www.ordnancesurvey.co.uk/products/os-open-map-local",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S13",
+    "title": "OpenStreetMap contributors, via the Overpass API",
+    "url": "https://overpass-api.de/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S14",
+    "title": "National Library of Scotland, Ordnance Survey 25 inch England and Wales, 1892 to 1914 (georeferenced tiles)",
+    "url": "https://maps.nls.uk/os/25inch-england-and-wales/",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S15",
+    "title": "People's Collection Wales, \"Postcard image of the Post Office, Llandilo / Llandeilo, c. 1908\" (item 2084276)",
+    "url": "https://www.peoplescollection.wales/items/2084276",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S16",
+    "title": "People's Collection Wales, postcards of Llandeilo station c. 1900 by A. W. Williams (items 2084711, 2084726)",
+    "url": "https://www.peoplescollection.wales/items/2084711",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S17",
+    "title": "People's Collection Wales, NLW-owned photographs \"Civilians waiting for a Troop Train to Arrive at Llandeilo Railway Station 1914-1918\" (item 408896) and \"Soldiers and Civilians on Llandeilo Railway Station 1914-1918\"…",
+    "url": "https://www.peoplescollection.wales/items/408896",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
+    "id": "harries:S18",
+    "title": "Coflein (RCAHMW), \"TL9_047 - Thomas Lloyd Collection\", archive 6194830",
+    "url": "https://coflein.gov.uk/en/archive/6194830",
+    "doc": "docs/research/dc-harries-photographs.md"
+  },
+  {
     "id": "deeptime:S1",
     "title": "\"Geology of Brecon Beacons National Park,\" Wikipedia,",
     "url": "https://en.wikipedia.org/wiki/Geology_of_Brecon_Beacons_National_Park",

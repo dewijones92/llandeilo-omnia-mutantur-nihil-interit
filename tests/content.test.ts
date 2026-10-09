@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSETS } from '../src/content/assets.ts';
+import { HARRIES_PHOTOGRAPHS, PHOTOGRAPH_PROVENANCE } from '../src/content/photographs.ts';
 import { STRINGS } from '../src/content/strings.ts';
 import { voiceLines, voiceSignature } from '../src/content/voices.ts';
 import {
@@ -316,6 +317,49 @@ describe('assets', () => {
   it('records the source and licence of every shipped file', () => {
     const shipped = files(join(root, 'public')).map((f) => relative(join(root, 'public'), f));
     expect(shipped.filter((f) => !ASSETS.some((a) => a.files.test(f)))).toEqual([]);
+  });
+});
+
+describe('the Harries photographs', () => {
+  const centre = { e: 262900, n: 222500 };
+  const tenMiles = 16093;
+
+  it('has unique ids and one file on disk per photograph, and no stray files', () => {
+    expect(unique(HARRIES_PHOTOGRAPHS.map((p) => p.id))).toEqual([]);
+    const onDisk = readdirSync(join(root, 'public/photos/harries')).map((f) => `photos/harries/${f}`);
+    expect(onDisk.sort()).toEqual(HARRIES_PHOTOGRAPHS.map((p) => p.file).sort());
+  });
+
+  it('credits every photograph to Harries with a catalogue id and a URL ending in that id', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      expect(p.creator, p.id).toContain('D C Harries');
+      expect(p.credit, p.id).toContain('D C Harries');
+      expect(p.catalogueUrl, p.id).toBe(
+        `https://www.peoplescollection.wales/items/${p.catalogueId.replace('PCW ', '')}`,
+      );
+      expect(p.id, p.id).toBe(`harries-${p.catalogueId.replace('PCW ', '')}`);
+      expect(p.from, p.id).toBeLessThanOrEqual(p.to);
+    }
+  });
+
+  it('places every usable photograph inside the ten miles, and never places a miscaptioned one', () => {
+    for (const p of HARRIES_PHOTOGRAPHS) {
+      if (p.status === 'miscaptioned') {
+        expect(p.placement.kind, p.id).toBe('unplaced');
+      }
+      if (p.placement.kind === 'placed') {
+        const { at, accuracyM } = p.placement;
+        expect(Math.hypot(at.e - centre.e, at.n - centre.n), p.id).toBeLessThan(tenMiles);
+        expect(accuracyM, p.id).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('cites sources that exist', () => {
+    const cited = PHOTOGRAPH_PROVENANCE.sources;
+    expect(cited.length).toBeGreaterThan(0);
+    const known = new Set(W.sources.map((s) => s.id));
+    for (const s of cited) expect(known.has(s), s).toBe(true);
   });
 });
 
