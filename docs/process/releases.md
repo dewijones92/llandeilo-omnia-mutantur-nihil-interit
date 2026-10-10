@@ -11,6 +11,46 @@ What changed in the app, for family and visitors, newest first. Each section is 
 GitHub release, tagged with the version in `package.json` ([ADR 0025](../adr/0025-releases-at-visible-milestones.md)).
 Corrections to history are called out: when we get something wrong, we say so.
 
+## v0.8.0 (2026-10-10): real ground under the town and the forts, and an easier camera
+
+**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
+
+**The real shape of the ground around Llandeilo and the Roman forts** (from a suggestion on GitHub).
+Until now the whole valley was drawn from a 50-metre height map, which smoothed the town's hill and the
+low ridge the forts stand on into soft, featureless ground. Llandeilo and the forts in Dinefwr Park now sit on the
+Welsh Government's 1-metre LiDAR survey, blended into the rest of the valley with no seam. The slopes now follow the real ground (with hills
+stretched 2.4 times, as everywhere on the map). Up close it is drawn every 4 metres (coarser further away), so small features
+such as the park's faint field banks do not show, and the Roman forts themselves cannot be seen in the
+survey: their ditches are drawn from the excavations. Roads, the railway and the train follow the new
+ground.
+
+![Llandeilo in 1900 on the LiDAR ground](../images/releases/v0.8.0/town-1900-lidar.jpg)
+
+![The second Roman fort in AD 110, on its real ridge](../images/releases/v0.8.0/fort2-ad110-lidar.jpg)
+
+**A camera that moves like a map.** You can now move freely without circling one point:
+
+- **Drag** slides the land under the pointer, as on a map.
+- **Right-drag** (or Ctrl and drag) turns and tilts.
+- **Scroll** zooms in or out towards the point under the pointer.
+- **Double-click** flies to the spot you clicked.
+- With the 3D view clicked first, **W A S D** or the arrow keys slide, **Q E** turn, and **R F** tilt.
+
+**A "How to explore" panel.** It opens when you start, with the controls, how the timeline and its key
+dates work, and what the Documented, Reconstructed and Imagined labels mean. Close it and the **?** icon
+at the top right (or the ? key) brings it back. Untick "Show this at start" if you don't want it each
+time (this browser remembers). It replaces the old Keys panel: the Keys button now opens it at the
+controls.
+
+![The How to explore panel](../images/releases/v0.8.0/welcome.jpg)
+
+**Corrections to history:** none in this release.
+
+The ground data contains Welsh Government data (LiDAR, from DataMapWales); the download page gives its
+licence as the Open Government Licence v3.0. The About tab now says so too.
+
+Sent by Claude
+
 ## v0.7.0 (2026-10-10): the Roman forts at Dinefwr, rebuilt from the excavations
 
 **Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
