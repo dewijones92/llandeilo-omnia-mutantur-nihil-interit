@@ -1211,3 +1211,43 @@ passed, 1 skipped (the stored-quality test), 14.3 minutes, no hang and no "never
 stopped. Looked at on the GPU (`tools/shot.mjs`, WebGL, High) at AD 80, 84 and 110, radius 60, and a close-up at AD 84:
 Fort 1's turf bank, breastwork and thatched halls at 80; Fort 2 with shingled towers and the settlement at 84 and 110.
 
+
+### The Blender models, phase 2: textures and clicking a part (2026-10-10)
+
+Built for the Roman forts ([ADR 0055](../adr/0055-textured-landmark-models-and-clicking-their-parts.md)), carrying out
+Dewi's "Get proper textures" and "Yes, click parts in 3D"; the design is Claude's, under the proactive mandate. The
+research came first ([`research/fort-surfaces.md`](../research/fort-surfaces.md)): six surfaces, each with its tier,
+and one CC0 Poly Haven photograph each, tinted to the palette, at 1024 for High and 512 for Medium. Hovering a part of
+a model veils and names it; a click opens its ⓘ, the same body as the key date's parts list.
+
+What went wrong on the way, each found by looking or by a test:
+
+1. **UVs from Blender tripled the files.** Writing texture coordinates in the glb split every vertex per face: Fort
+   1's near model went from 1.2MB to 4.2MB against a 1.5MB budget. The script now writes each face's grain into its
+   colour's alpha and the app works out coordinates in metres; with byte colours (the finisher converts Blender's
+   16-bit ones) Fort 1 is 1.30MB.
+2. **Everything textured came out half as bright.** Babylon clamps a material's diffuse colour to 1 before it meets
+   the texture, so a diffuse of 2 to lift a mid-grey detail map did nothing, and a second bug read the map as sRGB.
+   Found by switching the maps off in a debug session (the vertex colours alone were right); the lift is now in the
+   vertex colour and the map is read as linear data. Lesson: **when a texture darkens a scene, take the texture away
+   first and see which half is wrong**.
+3. **The lengthwise grain seamed every quad.** Both triangles of a quad share the diagonal but walk it opposite ways,
+   so their v axes pointed opposite ways; the unit test caught it (6.33 against -6.33) before any screenshot.
+4. **Grassed turf steps shimmered.** With the turf kit's courses corrected from 0.3m to Vegetius's 0.15m, alternating
+   green treads and brown risers aliased into a fence-like pattern at the 100m the camera allows. The research said
+   turves were often laid grass side down, so the faces and steps are now soil (the ditches' cut-earth colour) and only
+   the walk on top is grassed.
+5. **The new surfaces list broke an old e2e selector** (`.moment-kits h5` matched two headings); it has its own class.
+
+Seen red: the quad-seam test; the model surface and grain tests against main's glbs; the texture-files test with one
+map removed; the click e2e with picking switched off ("hover expected the tower, got none"). Not seen red: the drag
+check, because Babylon already refuses a tap once a press has passed the drag threshold, so a guard written for it in
+the controls was never needed and was taken out. Checks: `npm run check` green; a second `npm run models -- --force`
+and `npm run textures -- --force` gave byte-identical files. Full e2e (`E2E_WORKERS=1`, 78 tests): the first run 76
+passed, 1 skipped, 1 failed on the selector above; after the fix 77 passed and 1 skipped (12.9 minutes). The GPU kit
+(`npm run e2e:gpu`, Windows Chrome, WebGPU, High) passed 8 GPU tests and 77 e2e, the click test among them, in 5m38s
+(overview idle 60fps vsync on, scrub 49fps). Frame cost on WebGL (CLAUDE.md's performance line): nothing measurable
+through the noise against main's untextured models. Bundle 552,593 bytes against main's 544,900 (+7.7KB). Looked at on
+the GPU (WebGL, High) at AD 80, 84 and 110 from 450m and close to a gate, at Medium, and at night: the forts keep the
+valley's colours, the roofs show their courses and grain, the rampart reads as cut earth with a grassed walk
+([`docs/images/blender/textures/`](../images/blender/textures/)).

@@ -84,7 +84,8 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0050](0050-map-style-camera-controls.md) | Map-style camera controls: drag slides the land, right-drag turns, the wheel zooms at the cursor | Accepted; amended by 0051 | 2026-10-03 |
 | [0051](0051-one-welcome-panel.md) | One welcome panel, with an icon that always reopens it | Accepted, amends 0050 | 2026-10-09 |
 | [0052](0052-landmarks-are-scripted-blender-models-built-from-their-plans.md) | Landmarks are scripted Blender models, built from their sourced plans | Accepted (Dewi's decision and scope; the boundary and rules Claude's, under the proactive mandate), supersedes part of 0017 | 2026-10-10 |
-| [0053](0053-the-blender-pipeline-sheet-script-fitted-gltf.md) | The Blender pipeline: a build sheet from the plan, a headless script, glTF fitted to the drawn ground | Accepted (carries out Dewi's 0052; the design Claude's, under the proactive mandate), amends 0047 | 2026-10-10 |
+| [0053](0053-the-blender-pipeline-sheet-script-fitted-gltf.md) | The Blender pipeline: a build sheet from the plan, a headless script, glTF fitted to the drawn ground | Accepted (carries out Dewi's 0052; the design Claude's, under the proactive mandate), amends 0047; amended by 0055 | 2026-10-10 |
+| [0055](0055-textured-landmark-models-and-clicking-their-parts.md) | Textured landmark models: sourced surfaces, shared photographs, and clicking a part in 3D | Accepted (carries out Dewi's "Get proper textures" and "Yes, click parts in 3D"; the design Claude's, under the proactive mandate), amends 0053; numbered 0055 as another branch wants 0054 | 2026-10-10 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.
