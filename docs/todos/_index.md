@@ -207,7 +207,7 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       landmark models built phase by phase from the research, 2026-09-28 ([`design/models.md`](../design/models.md))
 - [ ] Close the modelling research gaps listed in [`design/models.md`](../design/models.md) (Coflein plans, Cadw guidebooks)
 - [x] Decide option B or C for the landmark models (realistic textures), or keep option A: **option B**, proper textures on the Blender models (Dewi, 2026-10-10)
-- [x] The photo layer on by default (Dewi, 2026-10-10), with the e2e checks that pins never cover labels, panels or the timeline (2026-10-10, [ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md) amended)
+- [x] The photo layer on by default (Dewi, 2026-10-10), with the e2e checks that pins never cover labels, panels or the timeline (2026-10-10, [ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md) amended). The new Welsh welcome sentence (on to begin with, press Lluniau to switch it off) is in the parked human Welsh check
 - [ ] Landmarks as scripted Blender models ([ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md), Dewi 2026-10-10): the pipeline ADR, then the Roman forts first, then Dinefwr Castle (Dewi's pick, 2026-10-10), then the other castles, churches and Talley Abbey, the town's buildings, the bridge and the trains
 - [ ] Roman forts and Garn Goch as plans too (they still use the older builders)
 - [x] The About panel says hills are exaggerated 2.4×, which models are drawn 2.6× larger and which

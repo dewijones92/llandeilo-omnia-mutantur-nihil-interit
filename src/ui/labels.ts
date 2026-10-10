@@ -17,6 +17,7 @@ interface Label {
 
 export class PlaceLabels {
   readonly el = h('div', { class: 'labels' });
+  readonly visible: Box[] = [];
   private readonly labels: Label[] = [];
   private lastYear = Number.NaN;
   private focus: PlaceId | undefined;
@@ -90,7 +91,8 @@ export class PlaceLabels {
     const project = projector(this.scene);
     if (!project) return;
     // Labels are placed in priority order; one that would overlap an earlier label waits its turn.
-    const placed: Box[] = [];
+    const placed = this.visible;
+    placed.length = 0;
     for (const l of this.order) {
       const { x: sx, y: sy, inView: visible } = project(l.world);
       if (!l.size && l.el.style.display === '' && l.el.offsetWidth > 0) {

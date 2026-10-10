@@ -102,6 +102,9 @@ decisions above (the toggle bullet's "Off by default, so no existing view change
 The rest stands: Photos is still a toggle, remembered in `localStorage`, and `?photos=1` or `?photos=0`
 still sets the first state of a link over what the browser remembers. `initialPhotos` in
 `src/ui/photos-pref.ts` now returns `stored ?? true`, so a first visit shows the pins and a visitor who
-switched Photos off stays off. The welcome panel says so, in English and Welsh. The overlap checks
-(labels, panels, the timeline, the "?" icon) now run with the pins showing; see the
-[build log](../process/build-log.md), 2026-10-10.
+switched Photos off stays off. The welcome panel says so, in English and Welsh. A new e2e test checks
+that pins never sit under the panels, the timeline, the compass or a label at 1900, 1925 and 1950; the older
+label tests run at years with no pins, so they do not cover pins. Because a place label is how a visitor flies to
+a place, **labels win a clash with a pin**: the labels are placed first and the pins avoid them (Claude, under the
+proactive mandate, so Dewi can overrule). Pins also avoid conversation bubbles, though none of the pinned years
+has one, so that is not tested. See the [build log](../process/build-log.md), 2026-10-10.

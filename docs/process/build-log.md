@@ -1109,3 +1109,20 @@ Full e2e (E2E_WORKERS=1, 71 tests): 68 passed, 1 skipped (the stored-quality tes
 "page never becomes ready" flake (a right-drag test and the AD 110 Fort 2 test); both passed re-run alone.
 Lesson: **a default flip moves the baseline of every test that never named the setting**; the overlap tests were
 green only because the years they use have no pins, so check what a green test actually exercised.
+
+Review follow-up (same day): the Llandeilo label vanished in the photo years (the overview at 1900, and the town
+at 1925 and 1950) because `main.ts` placed the pins first, avoiding only the chrome, and the labels then avoided
+the pins. Labels now go first (`PlaceLabels.visible` exposes their boxes) and the pins avoid the labels, the
+bubbles and the chrome. Seen red first: the new "Llandeilo label still shows" e2e failed at the label count
+(expected 1, received 0) at `./?year=1900`. "Never under a bubble" in the earlier pin test tested nothing, as no
+pinned year (about 1890 to 1975) has a conversation, so it is dropped from the test, the map and the docs; the code
+still passes the bubbles to the pins. The GPU kit's frame-timing scene (1903 winter night) now carries `&photos=0`
+so its numbers stay comparable with 2026-10-09's. Consequence: in the whole-valley overview at 1900 the one pin that used to fit sat exactly under Llandeilo's
+label, so the overview now shows no pin until the camera comes in; the town views still show several, and
+`a photograph whose caption its picture contradicts` now expects two or more at 1900 (it was three) for the same
+reason. Full e2e on a fresh build (`E2E_WORKERS=1`, 72 tests): 67 passed, 5 failed: two were the known "never ready"
+flake, two were my overview tests assuming a visible pin there, one was the pin-count threshold above; the five
+passed re-run alone after the test edits (the app code did not change after that build).
+Lesson: **a test that names something no view contains
+asserts nothing**; find the scene that has it or do not claim it.
+

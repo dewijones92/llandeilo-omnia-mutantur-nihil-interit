@@ -856,7 +856,7 @@ test('place labels never sit under the panels, the compass or the timeline', asy
   await expect.poll(covered).toEqual([]);
 });
 
-test('photo pins, on by default, never sit under the panels, the timeline, the compass, a bubble or a label', async ({
+test('photo pins, on by default, never sit under the panels, the timeline, the compass or a label', async ({
   page,
 }) => {
   const covered = async (): Promise<string[]> =>
@@ -864,7 +864,7 @@ test('photo pins, on by default, never sit under the panels, the timeline, the c
       const box = (el: Element): DOMRect => el.getBoundingClientRect();
       const others = [
         ...document.querySelectorAll<HTMLElement>(
-          '.brand, .timeline, .compass, .help-button, .moment, .welcome, .info, .convo, .follow-chip, .photo, .guess, .bubble, .label',
+          '.brand, .timeline, .compass, .help-button, .moment, .welcome, .info, .convo, .follow-chip, .photo, .guess, .label',
         ),
       ].filter((el) => !el.hidden && el.style.display !== 'none' && box(el).width > 0);
       const pins = [...document.querySelectorAll<HTMLElement>('.pin')].filter(
@@ -889,7 +889,9 @@ test('photo pins, on by default, never sit under the panels, the timeline, the c
   ]) {
     await page.goto(url);
     await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-    await expect(page.locator('.pin').filter({ visible: true }).first()).toBeVisible();
+    // In the overview the one pin that fits sits under Llandeilo's label, which wins, so none need show.
+    if (url.includes('place='))
+      await expect(page.locator('.pin').filter({ visible: true }).first()).toBeVisible();
     await page.waitForTimeout(1000);
     expect(await covered(), url).toEqual([]);
     await page.locator('body').press('?');
@@ -902,6 +904,28 @@ test('photo pins, on by default, never sit under the panels, the timeline, the c
     await settled(page.locator('.info'));
     await page.waitForTimeout(500);
     expect(await covered(), `${url} with the almanac open`).toEqual([]);
+  }
+});
+
+test('with the pins on by default the Llandeilo label still shows, in the overview and in the town', async ({
+  page,
+}) => {
+  for (const url of [
+    './?year=1900',
+    './?year=1925&place=llandeilo&radius=400',
+    './?year=1950&place=llandeilo&radius=140',
+  ]) {
+    await page.goto(url);
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    if (url.includes('place='))
+      await expect(page.locator('.pin').filter({ visible: true }).first(), url).toBeVisible();
+    await expect(
+      page
+        .locator('.label')
+        .filter({ hasText: /^Llandeilo/ })
+        .filter({ visible: true }),
+      url,
+    ).toHaveCount(1);
   }
 });
 
@@ -1859,7 +1883,8 @@ test('a photograph whose caption its picture contradicts is not pinned in 1900, 
   const inn = photoFor('harries-2282261');
   await page.goto('./?year=1900&photos=1&place=llandeilo&radius=400');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
+  // Two or more: a pin under a place label waits for the label, which wins.
+  await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(2);
   await expect(page.locator(`.pin[data-photo="${inn.id}"]`)).toBeHidden();
   await page.goto('./?year=1925&photos=1&place=llandeilo&radius=400');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
