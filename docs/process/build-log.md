@@ -1147,8 +1147,9 @@ instrumented instead.
    `ready`), every start-up fetch (start, status and time, failure), unhandled errors and rejections with the
    stage, WebGL context loss and creation errors, and a STILL WAITING line at 15, 60 and 120 seconds. The
    last stage is `body[data-startup]`, the fetches awaiting their response headers `body[data-startup-pending]`. Once per load.
-2. **A shared wait.** `e2e/ready.ts` (`ready(page)`, and the `test` every spec imports) replaced all 77 bare
-   `data-ready` waits (75 in `smoke.spec.ts`, 1 in `terrain.spec.ts`, 1 in `gpu.spec.ts`; none left). A
+2. **A shared wait.** `e2e/ready.ts` (`ready(page)`, and the `test` every spec imports) replaced every bare
+   `data-ready` wait (75 in `smoke.spec.ts`, 1 in `terrain.spec.ts`, 1 in `gpu.spec.ts` at first, 81 in
+   `smoke.spec.ts` after merging `main`; none left). A
    timeout now throws the page state, the requests started but never finished, failed and HTTP-error
    requests, page errors, the app's start-up lines and the last 30 console lines. The timeout is unchanged.
 3. **Reproduced.** `E2E_WORKERS=3` against a production build, on a laptop at load average 7 to 8: run 1

@@ -115,10 +115,17 @@ test('a script lost after the app is ready is logged, and the page stays where i
     script.src = new URL('assets/late-element.js', document.baseURI).href;
     document.head.append(script);
     void import(new URL('assets/late-import.js', document.baseURI).href);
+    window.dispatchEvent(
+      Object.assign(new Event('vite:preloadError'), { payload: new Error('late preload failed') }),
+    );
+    void Promise.reject(new TypeError('Importing a module script failed.'));
   });
   await expect
     .poll(() => lines.filter((l) => l.includes('chunk lost after ready')).length, { timeout: 15_000 })
-    .toBeGreaterThanOrEqual(2);
+    .toBeGreaterThanOrEqual(4);
+  const text = lines.join('\n');
+  expect(text).toContain('chunk lost after ready preload failed: late preload failed');
+  expect(text).toContain('chunk lost after ready Importing a module script failed.');
   expect(
     await page.evaluate(() => String(Reflect.get(window, 'visitorsPlace'))),
     'the page did not navigate',
@@ -129,4 +136,65 @@ test('a script lost after the app is ready is logged, and the page stays where i
   ).toHaveLength(1);
   expect(lines.join('\n')).not.toContain('reloading');
   expect(await page.evaluate(() => sessionStorage.getItem('llandeilo.recovered'))).toBeNull();
+});
+
+test('a reload that holds its body back while ready() waits does not fail the wait', async ({ page }) => {
+  let documents = 0;
+  await page.route(
+    (url) => url.pathname.endsWith('/'),
+    async (route) => {
+      documents += 1;
+      if (documents < 2) return route.continue();
+      const response = await route.fetch();
+      const html = (await response.text()).replace(
+        '<head>',
+        '<head><script src="assets/hold-body.js"></script>',
+      );
+      return route.fulfill({
+        response,
+        body: html,
+        headers: { ...response.headers(), 'content-length': String(Buffer.byteLength(html)) },
+      });
+    },
+  );
+  await page.route('**/assets/hold-body.js', async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    return route.fulfill({ contentType: 'text/javascript', body: '' });
+  });
+  await page.goto('./');
+  await page.evaluate(() => {
+    setTimeout(() => {
+      location.reload();
+    }, 300);
+  });
+  await ready(page, 60_000);
+  expect(documents, 'the page was reloaded once while ready() waited').toBe(2);
+});
+
+test('with no way to remember a reload, a lost script does not reload the page', async ({ page }) => {
+  await page.addInitScript(() => {
+    Storage.prototype.setItem = () => {
+      throw new Error('storage is full');
+    };
+  });
+  const lines: string[] = [];
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug startup')) lines.push(m.text());
+  });
+  let dropped = false;
+  await page.route('**/assets/*.js', (route) => {
+    if (dropped) return route.continue();
+    dropped = true;
+    return route.abort('connectionreset');
+  });
+  await page.goto('./');
+  await expect
+    .poll(() => lines.filter((l) => l.includes('not reloading again')).length, { timeout: 15_000 })
+    .toBeGreaterThanOrEqual(1);
+  await page.waitForTimeout(3000);
+  expect(
+    lines.filter((l) => l.includes('html head parsed')),
+    'the page loaded once',
+  ).toHaveLength(1);
+  expect(lines.join('\n')).not.toContain('reloading (attempt');
 });

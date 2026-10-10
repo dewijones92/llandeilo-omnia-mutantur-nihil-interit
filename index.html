@@ -30,6 +30,7 @@
             tries = Number(sessionStorage.getItem(KEY) || 0);
             if (tries < 3) sessionStorage.setItem(KEY, String(tries + 1));
           } catch (e) {
+            tries = 3;
             console.error('dewidebug startup reload guard unavailable', e);
           }
           var reload = tries < 3;

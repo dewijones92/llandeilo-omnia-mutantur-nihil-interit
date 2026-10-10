@@ -72,11 +72,11 @@ export { expect };
 
 async function pageState(page: Page): Promise<string> {
   const answer = page.evaluate(() => {
-    const body = document.body;
+    const body = document.querySelector('body');
     return [
-      `ready=${String(body.dataset['ready'])}`,
-      `body data-startup=${String(body.dataset['startup'])}`,
-      `body data-startup-pending=[${body.dataset['startupPending'] ?? ''}]`,
+      `ready=${String(body?.dataset['ready'])}`,
+      `body data-startup=${String(body?.dataset['startup'])}`,
+      `body data-startup-pending=[${body?.dataset['startupPending'] ?? ''}]`,
       `html data-startup=${String(document.documentElement.dataset['startup'])}`,
       `document.readyState=${document.readyState}`,
       `performance.now=${String(Math.round(performance.now()))}ms`,
@@ -124,7 +124,7 @@ export async function ready(page: Page, timeout = READY_TIMEOUT_MS): Promise<voi
   try {
     const handle = await page.waitForFunction(
       () => {
-        const value = document.body.dataset['ready'];
+        const value = document.querySelector('body')?.dataset['ready'];
         return value === 'true' || value === 'error' ? value : false;
       },
       null,
