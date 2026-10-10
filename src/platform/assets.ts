@@ -1,6 +1,7 @@
 import type { GridRef } from '../domain/model.ts';
 import { createHeightfield, type Heightfield, type HeightfieldMeta } from '../domain/heightfield.ts';
 import { DetailGround, parseManifest, tileData } from '../domain/lidar.ts';
+import { tracedFetch } from './startup.ts';
 
 export interface RiverLine {
   readonly name: string | null;
@@ -22,8 +23,8 @@ function num(v: unknown, field: string): number {
 
 export async function loadHeightfield(): Promise<Heightfield> {
   const [metaRes, binRes] = await Promise.all([
-    fetch(asset('data/terrain.json')),
-    fetch(asset('data/terrain.bin')),
+    tracedFetch(asset('data/terrain.json')),
+    tracedFetch(asset('data/terrain.bin')),
   ]);
   if (!metaRes.ok || !binRes.ok) throw new Error(`terrain fetch failed: ${metaRes.status} ${binRes.status}`);
   const raw: unknown = await metaRes.json();
@@ -44,10 +45,10 @@ export async function loadHeightfield(): Promise<Heightfield> {
 }
 
 export async function loadLidar(): Promise<DetailGround> {
-  const res = await fetch(asset('data/lidar/lidar.json'));
+  const res = await tracedFetch(asset('data/lidar/lidar.json'));
   if (!res.ok) throw new Error(`lidar.json fetch failed: ${res.status}`);
   const manifest = parseManifest(await res.json());
-  const bin = await fetch(asset(`data/lidar/${manifest.data}`));
+  const bin = await tracedFetch(asset(`data/lidar/${manifest.data}`));
   if (!bin.ok) throw new Error(`${manifest.data} fetch failed: ${bin.status}`);
   const buffer = await bin.arrayBuffer();
   console.info(
@@ -66,7 +67,7 @@ function points(v: unknown): GridRef[] {
 }
 
 export async function loadRivers(): Promise<readonly RiverLine[]> {
-  const res = await fetch(asset('data/rivers.json'));
+  const res = await tracedFetch(asset('data/rivers.json'));
   if (!res.ok) throw new Error(`rivers fetch failed: ${res.status}`);
   const raw: unknown = await res.json();
   if (!isRecord(raw) || !Array.isArray(raw['features'])) throw new Error('rivers.json has no features');
@@ -90,7 +91,7 @@ export interface BuildingFootprints {
 }
 
 export async function loadBuildings(): Promise<BuildingFootprints> {
-  const res = await fetch(asset('data/buildings.bin'));
+  const res = await tracedFetch(asset('data/buildings.bin'));
   if (!res.ok) throw new Error(`buildings fetch failed: ${res.status}`);
   const data = new Float32Array(await res.arrayBuffer());
   if (data.length % 5 !== 0) throw new Error(`buildings.bin has ${data.length} floats, not a multiple of 5`);
@@ -104,7 +105,7 @@ export interface MapLine {
 }
 
 async function loadLines(path: string): Promise<readonly MapLine[]> {
-  const res = await fetch(asset(path));
+  const res = await tracedFetch(asset(path));
   if (!res.ok) throw new Error(`${path} fetch failed: ${res.status}`);
   return parseLines(await res.json(), path);
 }
@@ -122,7 +123,7 @@ export const loadRailways = (): Promise<readonly MapLine[]> => loadLines('data/r
 export const loadRoads = (): Promise<readonly MapLine[]> => loadLines('data/roads.json');
 
 export async function loadWoodland(): Promise<Uint8Array> {
-  const res = await fetch(asset('data/woodland.bin'));
+  const res = await tracedFetch(asset('data/woodland.bin'));
   if (!res.ok) throw new Error(`woodland fetch failed: ${res.status}`);
   return new Uint8Array(await res.arrayBuffer());
 }
