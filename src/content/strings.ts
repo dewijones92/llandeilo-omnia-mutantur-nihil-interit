@@ -127,8 +127,8 @@ export const STRINGS = {
     cy: 'Mae Almanac ac Iaith yn disgrifio bywyd bob dydd, a phwy oedd yn siarad beth, ar y dyddiad a ddangosir.',
   },
   welcomePhotos: {
-    en: 'Photos pins old photographs where each was taken, when the timeline is at its date or in the years after it. Click a camera pin to open one, with its credit and an ⓘ for how sure we are of its date and place.',
-    cy: 'Mae Lluniau yn pinio hen ffotograffau lle tynnwyd pob un, pan fo’r llinell amser ar ei ddyddiad neu yn y blynyddoedd wedyn. Cliciwch bin camera i agor un, gyda’i gydnabyddiaeth ac ⓘ am ba mor sicr ydym ni o’i ddyddiad a’i le.',
+    en: 'Photos pins old photographs where each was taken, when the timeline is at its date or in the years after it. Click a camera pin to open one, with its credit and an ⓘ for how sure we are of its date and place. It is on to begin with: press Photos to switch it off, and your choice is remembered.',
+    cy: 'Mae Lluniau yn pinio hen ffotograffau lle tynnwyd pob un, pan fo’r llinell amser ar ei ddyddiad neu yn y blynyddoedd wedyn. Cliciwch bin camera i agor un, gyda’i gydnabyddiaeth ac ⓘ am ba mor sicr ydym ni o’i ddyddiad a’i le. Mae ymlaen i ddechrau: pwyswch Lluniau i’w ddiffodd, a chofir eich dewis.',
   },
   welcomeTruth: {
     en: 'What is true, and what is invented',

@@ -856,6 +856,55 @@ test('place labels never sit under the panels, the compass or the timeline', asy
   await expect.poll(covered).toEqual([]);
 });
 
+test('photo pins, on by default, never sit under the panels, the timeline, the compass, a bubble or a label', async ({
+  page,
+}) => {
+  const covered = async (): Promise<string[]> =>
+    page.evaluate(() => {
+      const box = (el: Element): DOMRect => el.getBoundingClientRect();
+      const others = [
+        ...document.querySelectorAll<HTMLElement>(
+          '.brand, .timeline, .compass, .help-button, .moment, .welcome, .info, .convo, .follow-chip, .photo, .guess, .bubble, .label',
+        ),
+      ].filter((el) => !el.hidden && el.style.display !== 'none' && box(el).width > 0);
+      const pins = [...document.querySelectorAll<HTMLElement>('.pin')].filter(
+        (el) => el.style.display !== 'none',
+      );
+      const out: string[] = [];
+      for (const pin of pins) {
+        const a = box(pin);
+        for (const o of others) {
+          const b = box(o);
+          if (a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top)
+            out.push(`${pin.dataset['photo'] ?? '?'} under ${o.className} ${o.textContent.slice(0, 20)}`);
+        }
+      }
+      return out;
+    });
+  for (const url of [
+    './?year=1900',
+    './?year=1900&place=llandeilo&radius=140',
+    './?year=1925&place=llandeilo&radius=400',
+    './?year=1950&place=llandeilo&radius=140',
+  ]) {
+    await page.goto(url);
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await expect(page.locator('.pin').filter({ visible: true }).first()).toBeVisible();
+    await page.waitForTimeout(1000);
+    expect(await covered(), url).toEqual([]);
+    await page.locator('body').press('?');
+    await expect(page.getByRole('dialog', { name: 'How to explore' })).toBeVisible();
+    await page.waitForTimeout(500);
+    expect(await covered(), `${url} with the welcome open`).toEqual([]);
+    await page.keyboard.press('Escape');
+    await page.getByRole('button', { name: 'Almanac' }).click();
+    await expect(page.locator('.info')).toBeVisible();
+    await settled(page.locator('.info'));
+    await page.waitForTimeout(500);
+    expect(await covered(), `${url} with the almanac open`).toEqual([]);
+  }
+});
+
 test('the ? icon and its caption never sit over the right-hand panels, in either language', async ({
   page,
 }) => {
@@ -958,6 +1007,7 @@ test('the welcome opens after Begin, reopens from its icon, explains the labels,
     await expect(welcome).toContainText(text);
   await expect(welcome).toContainText('English and Cymraeg switch the whole app.');
   await expect(welcome).toContainText('Photos pins old photographs where each was taken');
+  await expect(welcome).toContainText('It is on to begin with: press Photos to switch it off');
   expect(await welcome.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(255, 255, 255)');
   for (const kind of ['documented', 'reconstructed', 'imagined'])
     await expect(welcome.locator(`.prov-${kind}`)).toBeVisible();
@@ -985,6 +1035,7 @@ test('the welcome opens after Begin, reopens from its icon, explains the labels,
   const cy = page.getByRole('dialog', { name: 'Sut i grwydro' });
   await expect(cy).toContainText('Llusgwch i symud y tir, fel ar fap.');
   await expect(cy).toContainText('Mae Lluniau yn pinio hen ffotograffau lle tynnwyd pob un');
+  await expect(cy).toContainText('Mae ymlaen i ddechrau: pwyswch Lluniau i’w ddiffodd');
   await expect(cy.locator('.prov-imagined')).toContainText('Dychmygol');
   await expect(cy.getByRole('checkbox', { name: 'Dangos hwn wrth ddechrau' })).toBeChecked();
   await expect(page.getByRole('button', { name: 'Sut i grwydro' })).toHaveAttribute(
@@ -1597,18 +1648,16 @@ const photoFor = (id: string | null): (typeof HARRIES_PHOTOGRAPHS)[number] => {
   return found;
 };
 
-test('the Photos toggle pins photographs in Llandeilo in 1900, none in 1850, and the choice is remembered', async ({
+test('a first visit shows the pins in Llandeilo in 1900 and none in 1850, and switching Photos off is remembered across a reload', async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(AT_1900);
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  expect(await page.evaluate(() => localStorage.getItem('llandeilo.photos'))).toBeNull();
   const toggle = page.getByRole('button', { name: 'Photos', exact: true });
   const pins = page.locator('.pin').filter({ visible: true });
-  await expect(toggle).toHaveAttribute('aria-pressed', 'false');
-  await expect(pins).toHaveCount(0);
-  await toggle.click();
   await expect(toggle).toHaveAttribute('aria-pressed', 'true');
   await expect.poll(() => pins.count()).toBeGreaterThanOrEqual(3);
   for (const pin of await pins.all()) {
@@ -1626,17 +1675,28 @@ test('the Photos toggle pins photographs in Llandeilo in 1900, none in 1850, and
   await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
   await page.goto('./?year=1850&place=llandeilo&radius=140');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  );
   await page.waitForTimeout(1500);
   await expect(page.locator('.pin').filter({ visible: true })).toHaveCount(0);
+  await page.goto(AT_1900);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
   await page.getByRole('button', { name: 'Photos', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
     'aria-pressed',
     'false',
   );
+  await expect(page.locator('.pin').filter({ visible: true })).toHaveCount(0);
+  await page.reload();
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'false',
+  );
+  await page.waitForTimeout(1500);
+  await expect(page.locator('.pin').filter({ visible: true })).toHaveCount(0);
+  await page.goto(`${AT_1900}&photos=1`);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
   expect(errors).toEqual([]);
 });
 

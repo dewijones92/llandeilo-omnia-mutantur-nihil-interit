@@ -2,12 +2,12 @@
 title: "ADR 0044: Photographs are dated, placed content, shown as pins"
 kind: adr
 status: accepted
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # ADR 0044: Photographs are dated, placed content, shown as pins
 
-- **Status:** Accepted
+- **Status:** Accepted; default amended 2026-10-10 by Dewi (on by default, see the amendment at the end)
 - **Date:** 2026-10-09
 - **Decided by:** Dewi agreed issue #1 and that the photographs are shown in the app pinned where each
   was taken, with a credit and an ⓘ, and that their licences are not checked (decision log,
@@ -94,3 +94,14 @@ kind of thing without a recorded reason.
 - The pin's collision rule means the overview shows few pins and a close view shows all; the camera, not a
   count badge, reveals the rest.
 - The 25-year linger is a convention in one constant with a test; changing it is one line.
+
+## Amended 2026-10-10: the photo layer is on by default
+
+Dewi, 2026-10-10, chose "On by default" when asked. This reverses the "off by default" choice in the
+decisions above (the toggle bullet's "Off by default, so no existing view changes until a visitor asks").
+The rest stands: Photos is still a toggle, remembered in `localStorage`, and `?photos=1` or `?photos=0`
+still sets the first state of a link over what the browser remembers. `initialPhotos` in
+`src/ui/photos-pref.ts` now returns `stored ?? true`, so a first visit shows the pins and a visitor who
+switched Photos off stays off. The welcome panel says so, in English and Welsh. The overlap checks
+(labels, panels, the timeline, the "?" icon) now run with the pins showing; see the
+[build log](../process/build-log.md), 2026-10-10.

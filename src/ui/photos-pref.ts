@@ -18,9 +18,9 @@ export function rememberPhotos(on: boolean): void {
   }
 }
 
-// `?photos=1` or `?photos=0` sets the first state for a link, over what the browser remembers.
+// On by default (Dewi, 2026-10-10). `?photos=1` or `?photos=0` sets the first state for a link, over what the browser remembers.
 export function initialPhotos(param: string | null, stored: boolean | null): boolean {
   if (param === '1') return true;
   if (param === '0') return false;
-  return stored ?? false;
+  return stored ?? true;
 }

@@ -1070,3 +1070,24 @@ it is defensive only.
    under 900,520"); it now accepts the `detail-` tiles too. Lesson: **a number is renumbered
    every time `main` moves, so check the highest ADR at the push, not at the merge** (it moved four times
    in two days). Bundle: the main chunk is 534,258 bytes gzipped after the merge.
+
+### The photo layer on by default (2026-10-10)
+
+Dewi chose "On by default", reversing ADR 0044's off-by-default ([ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md), amended).
+`initialPhotos` now ends `stored ?? true`; `?photos=1` and `?photos=0` and the remembered toggle are unchanged,
+so a visitor who switched it off stays off. Seen red first: `tests/photos-pref.test.ts` failed at "is on for a
+first visit" and "ignores any other parameter value" against the old `?? false`. What assumed "off": the toggle
+e2e (it began by asserting `aria-pressed` false; it now starts from empty storage, expects the pins, switches off
+and checks the choice survives a reload), the welcome's Photos line (now says it is on to begin with, English and
+Welsh, asserted in the welcome e2e), CLAUDE.md's `?photos=1`, and the docs. The existing overlap tests (labels
+under panels, labels against each other, the "?" icon) mostly never ran in the pin years: the "?" icon one
+already passed `photos=1`, while the label tests sit at 1880, AD 74 and 1172, where no photograph is pinned, so
+they pass but do not exercise pins. A new e2e covers it: pins at 1900, 1925 and 1950 (overview, town at 140 m
+and 400 m radius), plain, with the welcome open, with the Almanac open, never under the chrome, a bubble, a label
+or the photo panel. Seen red by making `pins.update` ignore the chrome: it failed at "harries-2282276 under welcome".
+No layout change was needed: pins already avoid the chrome and each other, and labels already avoid pins.
+Full e2e (E2E_WORKERS=1, 71 tests): 68 passed, 1 skipped (the stored-quality test), 2 failed with the known
+"page never becomes ready" flake (a right-drag test and the AD 110 Fort 2 test); both passed re-run alone.
+Lesson: **a default flip moves the baseline of every test that never named the setting**; the overlap tests were
+green only because the years they use have no pins, so check what a green test actually exercised.
+
