@@ -71,6 +71,11 @@ export function chooseStep(distance: number, tileStep: number, current?: number)
   return Math.max(step, tileStep);
 }
 
+// Every step a tile can be drawn at: each step the distance bands give, held to the tile's own data step.
+export function drawnSteps(tileStep: number): number[] {
+  return [...new Set(LOD_STEPS.map((s) => Math.max(s, tileStep)))];
+}
+
 export function tileDistance(tile: Bounds & { readonly maxHeight: number }, eye: Eye): number {
   const dx = Math.max(tile.eMin - eye.e, 0, eye.e - tile.eMax);
   const dn = Math.max(tile.nMin - eye.n, 0, eye.n - tile.nMax);
@@ -112,6 +117,14 @@ export function rimDistance(region: Bounds, g: GridRef): number {
   const dn = Math.max(region.nMin - g.n, 0, g.n - region.nMax);
   if (dx > 0 || dn > 0) return Math.hypot(dx, dn);
   return Math.min(g.e - region.eMin, region.eMax - g.e, g.n - region.nMin, region.nMax - g.n);
+}
+
+// Base points this close to the rim are dropped, so that every rim edge is an edge of the triangulation:
+// the circle on a rim segment as its diameter then holds no other point.
+export const RIM_CLEARANCE_M = RIM_SPACING * 0.55;
+
+export function nearRim(region: Bounds, g: GridRef): boolean {
+  return rimDistance(region, g) < RIM_CLEARANCE_M;
 }
 
 type Edge = 'south' | 'east' | 'north' | 'west';

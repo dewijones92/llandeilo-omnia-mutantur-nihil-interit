@@ -908,9 +908,32 @@ Milestones and what each one taught us. Newest last.
    whole manifest was bundled for one sentence; the credit is generated into one small file. (9)
    `build-lidar.py --verify`, and the file list from `links.txt`. (10) The coarse-terrain triangle count
    in CLAUDE.md. Not done: pinning outside-region land cover (a test of it would pin a value that moves
-   whenever the point set does; the trees, which the review said had no test either, now have one). The
+   whenever the point set does; the trees, which the review said had no test either, got only a test of the
+   seed hash, which does not fail if the seed goes back to the triangle's index: see the second review
+   below). The
    merge with main took ADR 0041 to 0047 and then, a quarter of an hour later, 0048 for the GPU kit: the
    LiDAR ADR is 0049, after two renumberings, so check the highest number *at the push*, not at the merge.
    Final run on the merged tree (2026-10-10): `npm run check` green (487 unit tests), `vite build` green, the
    full e2e with `E2E_WORKERS=1` 54 passed and 1 skipped (the one that needs `E2E_QUALITY`) in 8.5 minutes;
    one page-load hang appeared earlier in a two-test run and did not recur on rerun.
+
+   **The second review of the LiDAR build, fixed 2026-10-10** (second Opus; each finding verified first).
+   (1) **Roads and the railway were buried by the coarse mesh.** `surfaceAt` inside the region is the smooth
+   2m ground, but the mesh drawn is cut at 4, 10 or 20m by camera distance, and the road test compared
+   ribbons with `surfaceAt`, so it could not see it. Built `drawnAt` (the resident tile at its step) and
+   `drawnAtStep`, from one `tileSurfaceAt` that shares the cell cut with `tileGeometry` (unit test seen red
+   with the cut flipped), and rewrote the road test to compare every road and rail leg with the mesh drawn.
+   Red on the old build at the assertion "samples under the mesh": 709 at the overview, 276 in the town view.
+   My first fix, lifting each vertex to the highest mesh any step could draw, made the e2e green and was
+   wrong: the same measure showed the road hovering up to 5m above the 4m mesh in 714 samples, because a
+   coarse mesh bridges a cutting. Reading the "floating" number, not only the "under" one, is what
+   caught it. Chosen instead: ribbons lie on the mesh drawn and are laid again when their tile is redrawn
+   (`Terrain.onDrawnChange`, `Ribbon.relay`, `Train.relay`): none under, at most 0.59 units above, at the
+   overview, in the town and back. That seam also carries ground edits, which the review's earlier
+   finding had said needed building: with a 3m ridge laid, 341 samples were under before and none after.
+   The train's re-laying is not covered by a test. (2) **The tree-identity fix had no test that fails if
+   undone.** The earlier "test" only checked the seed hash. Pulled candidate generation into a pure
+   `treeSites`, moved the rim clearance into `nearRim`, and `tests/tree-identity.test.ts` triangulates a
+   point set with and without the rim and asserts the same tree for every triangle more than 500m outside
+   the region; with the seed taken from the triangle's index it fails with 14,584 trees changed. The 148,111
+   figure above stays a one-off measurement against main's build; this is the standing check.

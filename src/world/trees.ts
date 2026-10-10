@@ -10,8 +10,7 @@ import {
   type Scene,
 } from './babylon.ts';
 import { snowCover, type SeasonLook } from '../domain/daylight.ts';
-import { MAX_TREE_DENSITY } from '../domain/quality.ts';
-import { leafRolls, treeSeed, treeTraits } from '../domain/tree.ts';
+import { leafRolls, treeSites } from '../domain/tree.ts';
 import { COVER_CODE } from './landcover.ts';
 import type { Terrain } from './terrain.ts';
 
@@ -94,35 +93,29 @@ export class Forest {
     this.conifer = makeConifer(scene, mat);
     const list: Candidate[] = [];
     const t = terrain.tris;
-    for (let i = 0; i < t.count; i++) {
-      const seed = treeSeed(t.cx[i] ?? 0, t.cz[i] ?? 0);
-      const traits = treeTraits(seed);
-      if (traits.rank >= MAX_TREE_DENSITY) continue;
+    for (const site of treeSites(t)) {
+      const { traits } = site;
       const rot = Quaternion.RotationAxis(Vector3.Up(), traits.spin);
-      const x = (t.cx[i] ?? 0) + traits.jitterX;
-      const z = (t.cz[i] ?? 0) + traits.jitterZ;
-      const y = terrain.inDetail(x, z) ? terrain.surfaceAt(x, z) : (t.cy[i] ?? 0);
+      const y = terrain.inDetail(site.x, site.z) ? terrain.surfaceAt(site.x, site.z) : (t.cy[site.tri] ?? 0);
       const m = Matrix.Compose(
         new Vector3(traits.scale, traits.scale * traits.tallness, traits.scale),
         rot,
-        new Vector3(x, y - 0.3, z),
+        new Vector3(site.x, y - 0.3, site.z),
       );
-      const heightM = t.heightM[i] ?? 0;
-      const conifer = heightM > 330 || traits.coniferRoll > 0.9;
       const arr = new Float32Array(16);
       m.copyToArray(arr);
       list.push({
-        tri: i,
-        seed,
-        x,
-        z,
+        tri: site.tri,
+        seed: site.seed,
+        x: site.x,
+        z: site.z,
         rank: traits.rank,
         matrix: arr,
         shade: traits.shade,
-        conifer,
-        heightM,
-        north: t.north[i] ?? 0,
-        jitter: t.mix[i] ?? 0.5,
+        conifer: site.conifer,
+        heightM: site.heightM,
+        north: t.north[site.tri] ?? 0,
+        jitter: t.mix[site.tri] ?? 0.5,
       });
     }
     this.candidates = list;

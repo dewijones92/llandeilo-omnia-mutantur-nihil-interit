@@ -6,12 +6,13 @@ import {
   StandardMaterial,
   Vector3,
   VertexData,
+  VertexBuffer,
   type Scene,
 } from './babylon.ts';
 import { hex } from '../domain/colour.ts';
 import { HALOS } from '../domain/halo.ts';
 import type { LampState } from '../domain/lamplight.ts';
-import { WORLD } from '../domain/geo.ts';
+import { inWorldBox, WORLD, type WorldBox } from '../domain/geo.ts';
 import type { GridRef, RollingStock } from '../domain/model.ts';
 import { hash2 } from '../domain/noise.ts';
 import { cumulativeLengths, segmentAt } from '../domain/polyline.ts';
@@ -218,6 +219,14 @@ function windowPanes(scene: Scene): Mesh[] {
   return panes;
 }
 
+export interface Ribbon {
+  readonly mesh: Mesh;
+  // Lays the ribbon again on its ground wherever it passes through one of `areas`.
+  relay(areas: readonly WorldBox[]): void;
+}
+
+// A ribbon along each line, `lift` above `ground` at its vertices. Vertices where `follows` holds are
+// laid again by `relay` when the ground under them is redrawn.
 export function lineRibbons(
   scene: Scene,
   name: string,
@@ -226,9 +235,11 @@ export function lineRibbons(
   widthFor: (kind: string) => number,
   colour: string,
   lift: number,
-): Mesh {
+  follows: (x: number, z: number) => boolean,
+): Ribbon {
   const positions: number[] = [];
   const indices: number[] = [];
+  const followed: { pair: number; x: number; z: number }[] = [];
   let v = 0;
   for (const line of lines) {
     const w = widthFor(line.kind);
@@ -247,6 +258,7 @@ export function lineRibbons(
       const nz = ((b.x - a.x) / len) * (w / 2);
       const y = ground(p.x, p.z) + lift;
       positions.push(p.x + nx, y, p.z + nz, p.x - nx, y, p.z - nz);
+      if (follows(p.x, p.z)) followed.push({ pair: v / 2, x: p.x, z: p.z });
       if (i > 0) indices.push(v - 2, v - 1, v, v - 1, v + 1, v);
       v += 2;
     }
@@ -258,7 +270,7 @@ export function lineRibbons(
   const normals: number[] = [];
   VertexData.ComputeNormals(positions, indices, normals);
   data.normals = normals;
-  data.applyToMesh(mesh);
+  data.applyToMesh(mesh, followed.length > 0);
   const mat = new StandardMaterial(`${name}-mat`, scene);
   mat.diffuseColor = Color3.FromHexString(colour);
   mat.specularColor = Color3.Black();
@@ -267,7 +279,26 @@ export function lineRibbons(
   mesh.material = mat;
   mesh.receiveShadows = true;
   mesh.isPickable = false;
-  return mesh;
+  const relay = (areas: readonly WorldBox[]): void => {
+    let moved = 0;
+    for (const f of followed) {
+      if (!areas.some((box) => inWorldBox(box, f.x, f.z))) continue;
+      const y = ground(f.x, f.z) + lift;
+      const at = f.pair * 6 + 1;
+      if (Math.abs((positions[at] ?? y) - y) < 1e-6) continue;
+      positions[at] = y;
+      positions[at + 3] = y;
+      moved++;
+    }
+    if (moved === 0) return;
+    VertexData.ComputeNormals(positions, indices, normals);
+    mesh.updateVerticesData(VertexBuffer.PositionKind, positions, true);
+    mesh.updateVerticesData(VertexBuffer.NormalKind, normals);
+    console.info(
+      `dewidebug ribbon ${name} laid again on ${String(moved)} of ${String(followed.length)} vertices`,
+    );
+  };
+  return { mesh, relay };
 }
 
 interface Stock {
@@ -287,7 +318,12 @@ export class Train {
   /** The part of the path in use, as fractions of its length; undefined when no track is drawn. */
   private span: readonly [number, number] | undefined = [0, 1];
 
-  constructor(scene: Scene, line: MapLine, ground: Ground, models: ReadonlyMap<RollingStock, LoadedModel>) {
+  constructor(
+    scene: Scene,
+    line: MapLine,
+    private readonly ground: Ground,
+    models: ReadonlyMap<RollingStock, LoadedModel>,
+  ) {
     this.path = line.points.map((p) => {
       const x = (p.e - WORLD.centre.e) / WORLD.metresPerUnit;
       const z = (p.n - WORLD.centre.n) / WORLD.metresPerUnit;
@@ -316,6 +352,12 @@ export class Train {
 
   get chimney(): Vector3 | undefined {
     return this.current?.chimney;
+  }
+
+  // Lays the path again on its ground wherever it passes through one of `areas`.
+  relay(areas: readonly WorldBox[]): void {
+    for (const p of this.path)
+      if (areas.some((box) => inWorldBox(box, p.x, p.z))) p.y = this.ground(p.x, p.z);
   }
 
   setSpan(span: readonly [number, number] | undefined): void {

@@ -1,4 +1,5 @@
 import { hash2 } from './noise.ts';
+import { MAX_TREE_DENSITY } from './quality.ts';
 
 const GRID_PER_UNIT = 64;
 
@@ -56,4 +57,43 @@ export function leafRolls(seed: number): LeafRolls {
     blossom: hash2(seed, 73, 7),
     blossomPick: hash2(seed, 74, 2),
   };
+}
+
+export interface TreeCentres {
+  readonly count: number;
+  readonly cx: ArrayLike<number>;
+  readonly cz: ArrayLike<number>;
+  readonly heightM: ArrayLike<number>;
+}
+
+export interface TreeSite {
+  readonly tri: number;
+  readonly seed: number;
+  readonly traits: TreeTraits;
+  readonly x: number;
+  readonly z: number;
+  readonly heightM: number;
+  readonly conifer: boolean;
+}
+
+export function treeSites(centres: TreeCentres): TreeSite[] {
+  const sites: TreeSite[] = [];
+  for (let i = 0; i < centres.count; i++) {
+    const cx = centres.cx[i] ?? 0;
+    const cz = centres.cz[i] ?? 0;
+    const seed = treeSeed(cx, cz);
+    const traits = treeTraits(seed);
+    if (traits.rank >= MAX_TREE_DENSITY) continue;
+    const heightM = centres.heightM[i] ?? 0;
+    sites.push({
+      tri: i,
+      seed,
+      traits,
+      x: cx + traits.jitterX,
+      z: cz + traits.jitterZ,
+      heightM,
+      conifer: heightM > 330 || traits.coniferRoll > 0.9,
+    });
+  }
+  return sites;
 }

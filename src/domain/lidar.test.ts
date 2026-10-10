@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   chooseStep,
   DetailGround,
+  drawnSteps,
   insideBounds,
   parseManifest,
   planSteps,
@@ -73,6 +74,16 @@ describe('level of detail', () => {
     expect(chooseStep(50, 10)).toBe(10);
     expect(chooseStep(300, 10)).toBe(10);
     expect(chooseStep(5000, 10)).toBe(20);
+  });
+
+  it('lists every step a tile can be drawn at, and chooseStep only ever picks from them', () => {
+    expect(drawnSteps(2)).toEqual([4, 10, 20]);
+    expect(drawnSteps(10)).toEqual([10, 20]);
+    expect(drawnSteps(25)).toEqual([25]);
+    for (const tileStep of [2, 10, 25])
+      for (let d = 0; d < 3000; d += 7)
+        for (const current of [undefined, 4, 10, 20, 25])
+          expect(drawnSteps(tileStep)).toContain(chooseStep(d, tileStep, current));
   });
 
   it('keeps the current step through a small wobble around a band edge', () => {

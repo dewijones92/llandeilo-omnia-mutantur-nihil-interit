@@ -2,14 +2,14 @@ import { Color3, Mesh, StandardMaterial, VertexBuffer, VertexData, type Scene } 
 import Delaunator from 'delaunator';
 import { hex, type Rgb } from '../domain/colour.ts';
 import type { SeasonLook } from '../domain/daylight.ts';
-import { heightToWorld, toGrid, WORLD } from '../domain/geo.ts';
+import { heightToWorld, toGrid, toWorld, WORLD, type WorldBox } from '../domain/geo.ts';
 import { sampleHeight, type Heightfield } from '../domain/heightfield.ts';
 import {
   insideBounds,
   LOD_STEPS,
   RIM_SPACING,
+  nearRim,
   RimProfile,
-  rimDistance,
   type DetailGround,
   type Eye,
 } from '../domain/lidar.ts';
@@ -41,9 +41,6 @@ import type { RiverLine } from '../platform/assets.ts';
 
 const SPACING_M = 105;
 const PLINTH_BOTTOM = -70;
-// Base points this close to the rim of the detail region are dropped, so that every rim edge is an
-// edge of the triangulation: the circle on a rim segment as its diameter then holds no other point.
-const RIM_CLEARANCE_M = RIM_SPACING * 0.55;
 
 export const MAIN_RIVERS: Readonly<Record<string, number>> = {
   'Afon Tywi': 42,
@@ -78,6 +75,7 @@ export class Terrain {
   private readonly surface: Surface;
   private readonly land: LandSurface;
   private lastKey = '';
+  private readonly drawnListeners: ((areas: readonly WorldBox[]) => void)[] = [];
   private edits: readonly GroundEdit[] = [];
 
   constructor(
@@ -178,11 +176,35 @@ export class Terrain {
     return this.metresAt(g);
   }
 
-  // The height of the drawn surface at world (x, z): the base mesh's own triangles outside the
-  // LiDAR region, the LiDAR ground inside it.
+  // Where things are placed: the base mesh's own triangles outside the LiDAR region, and inside it the
+  // smooth ground from the 2m and 10m samples, which is not the mesh drawn there (that is cut at 4, 10 or
+  // 20m by camera distance; see `drawnAt`).
   surfaceAt(x: number, z: number): number {
     if (this.inDetail(x, z)) return this.heightAt(toGrid({ x, z }));
     return this.surface.heightAt(x, z) ?? this.heightAt(toGrid({ x, z }));
+  }
+
+  // The height of the mesh drawn at world (x, z) at this moment: the resident LiDAR tile at the step it is
+  // at inside the region, the base mesh outside it. Undefined inside the region before its tile is built.
+  drawnAt(x: number, z: number): number | undefined {
+    return this.inDetail(x, z) ? this.detail.drawnAt(x, z) : this.surfaceAt(x, z);
+  }
+
+  // The height the LiDAR tile under (x, z) would be drawn with at `step` metres.
+  drawnAtStep(x: number, z: number, step: number): number | undefined {
+    return this.detail.drawnAtStep(x, z, step);
+  }
+
+  // Where a road or rail ribbon is laid: on the mesh drawn inside the LiDAR region, which a ribbon follows
+  // as its tile changes step (`onDrawnChange`), and on the ground outside it.
+  ribbonGroundAt(x: number, z: number): number {
+    const ground = this.heightAt(toGrid({ x, z }));
+    return this.inDetail(x, z) ? (this.detail.drawnAt(x, z) ?? ground) : ground;
+  }
+
+  // Calls `listener` with the areas of the LiDAR tiles just redrawn, at a new step or after a ground edit.
+  onDrawnChange(listener: (areas: readonly WorldBox[]) => void): void {
+    this.drawnListeners.push(listener);
   }
 
   // The land cover code under a tree at world (x, z) that stands on base triangle `tri`: the detail
@@ -243,7 +265,15 @@ export class Terrain {
   }
 
   updateDetail(eye: Eye, budgetMs: number): void {
-    this.detail.update(eye, budgetMs);
+    const built = this.detail.update(eye, budgetMs);
+    if (built.length === 0) return;
+    const size = this.ground.manifest.tileSize;
+    const areas = built.map((t): WorldBox => {
+      const nw = toWorld({ e: t.e, n: t.n + size });
+      const se = toWorld({ e: t.e + size, n: t.n });
+      return { xMin: nw.x, xMax: se.x, zMin: se.z, zMax: nw.z };
+    });
+    for (const listener of this.drawnListeners) listener(areas);
   }
 
   get detailBuilds(): number {
@@ -339,7 +369,6 @@ function triangulate(
   const pts: Pt[] = [];
   const random = rng(1282);
   const cell = SPACING_M;
-  const nearRim = (e: number, n: number): boolean => rimDistance(region, { e, n }) < RIM_CLEARANCE_M;
 
   for (const river of rivers) {
     for (let i = 0; i < river.points.length; i += 1) {
@@ -358,7 +387,7 @@ function triangulate(
         for (const side of [-1, 1]) {
           const e = p.e + nx * half * side;
           const n = p.n + nn * half * side;
-          if (nearRim(e, n)) continue;
+          if (nearRim(region, { e, n })) continue;
           pts.push({ x: e, z: n, hM: level + 0.4, river: true });
         }
       }
@@ -373,7 +402,7 @@ function triangulate(
       const e = WORLD.centre.e + x;
       const n = WORLD.centre.n + z;
       if (land.rivers.near(e, n) && land.rivers.distance(e, n, 200) < cell * 0.55) continue;
-      if (nearRim(e, n)) continue;
+      if (nearRim(region, { e, n })) continue;
       pts.push({ x: e, z: n, hM: sampleHeight(hf, { e, n }), river: false });
     }
   }

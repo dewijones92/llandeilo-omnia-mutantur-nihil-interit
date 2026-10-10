@@ -5,6 +5,18 @@ export interface TileGeometry {
   readonly groundTriangles: number;
 }
 
+function checkHeights(heights: Float32Array, cells: number): void {
+  if (heights.length !== (cells + 1) ** 2)
+    throw new Error(
+      `a tile of ${String(cells)} cells has ${String(heights.length)} heights, expected ${String((cells + 1) ** 2)}`,
+    );
+}
+
+// Which way a cell is cut into two triangles: along nw-se when that diagonal is the flatter one.
+function cutsNorthWestToSouthEast(nw: number, ne: number, sw: number, se: number): boolean {
+  return Math.abs(nw - se) <= Math.abs(ne - sw);
+}
+
 export function groundTriangleCount(cells: number): number {
   return cells * cells * 2;
 }
@@ -30,10 +42,7 @@ export function tileGeometry(
   skirt: number,
 ): TileGeometry {
   const side = cells + 1;
-  if (heights.length !== side * side)
-    throw new Error(
-      `a tile of ${String(cells)} cells has ${String(heights.length)} heights, expected ${String(side * side)}`,
-    );
+  checkHeights(heights, cells);
   const triangles = tileTriangleCount(cells);
   const positions = new Float32Array(triangles * 9);
   const normals = new Float32Array(triangles * 9);
@@ -88,7 +97,7 @@ export function tileGeometry(
       const ne = heights[i * side + j + 1] ?? 0;
       const sw = heights[(i + 1) * side + j] ?? 0;
       const se = heights[(i + 1) * side + j + 1] ?? 0;
-      if (Math.abs(nw - se) <= Math.abs(ne - sw)) {
+      if (cutsNorthWestToSouthEast(nw, ne, sw, se)) {
         emit(x0, nw, z0, x1, ne, z0, x1, se, z1, 0, 0);
         emit(x0, nw, z0, x1, se, z1, x0, sw, z1, 0, 0);
       } else {
@@ -125,4 +134,33 @@ export function tileGeometry(
     hang(farX, heights[k * side + cells] ?? 0, z0, farX, heights[(k + 1) * side + cells] ?? 0, z1, 1, 0);
   }
   return { positions, normals, triangles, groundTriangles: groundTriangleCount(cells) };
+}
+
+// The height of the surface `tileGeometry` draws at (x, z), from the same (cells + 1) squared `heights` and
+// the same cut of each cell into triangles; undefined outside the tile.
+export function tileSurfaceAt(
+  heights: Float32Array,
+  cells: number,
+  spacing: number,
+  originX: number,
+  originZ: number,
+  x: number,
+  z: number,
+): number | undefined {
+  checkHeights(heights, cells);
+  const side = cells + 1;
+  const east = (x - originX) / spacing;
+  const south = (originZ - z) / spacing;
+  if (east < 0 || south < 0 || east > cells || south > cells) return undefined;
+  const j = Math.min(cells - 1, Math.floor(east));
+  const i = Math.min(cells - 1, Math.floor(south));
+  const u = east - j;
+  const v = south - i;
+  const nw = heights[i * side + j] ?? 0;
+  const ne = heights[i * side + j + 1] ?? 0;
+  const sw = heights[(i + 1) * side + j] ?? 0;
+  const se = heights[(i + 1) * side + j + 1] ?? 0;
+  if (cutsNorthWestToSouthEast(nw, ne, sw, se))
+    return u >= v ? nw + u * (ne - nw) + v * (se - ne) : nw + u * (se - sw) + v * (sw - nw);
+  return u + v <= 1 ? nw + u * (ne - nw) + v * (sw - nw) : se + (1 - u) * (sw - se) + (1 - v) * (ne - se);
 }

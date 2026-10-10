@@ -9,7 +9,8 @@ updated: 2026-10-10
 
 - **Status:** Accepted, extends [ADR 0009](0009-terrain-os-terrain50-low-poly.md)
 - **Date:** 2026-10-09; amended 2026-10-10 (the review's findings, and the merge with main, which took ADRs
-  0041 to 0048: this was 0041 on its branch, became 0048 at the first merge, and 0049 when the GPU kit took 0048)
+  0041 to 0048: this was 0041 on its branch, became 0048 at the first merge, and 0049 when the GPU kit took 0048;
+  and the second review's two findings, ribbons buried by the coarse mesh and the tree identity untested)
 - **Decided by:** Claude, under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
   so Dewi can overrule it. Dewi agreed the work itself (GitHub issue 2, 2026-10-09) and said to credit
   the source and not chase licence problems; every design choice below is Claude's.
@@ -57,8 +58,32 @@ ground above them, the worst by 3.7m over a 551m leg). `Terrain.lineOnGround` th
 every 4m, the finest mesh step, to any line inside the region (`densifyWhere`, in the one polyline
 helper of [ADR 0043](0043-one-polyline-helper.md)), and the fort ribbons use the same step. Outside the
 region lines are as before. Street lamps are points, each standing on the ground at its own place, so
-they need nothing. Between the 4m points the ribbon can still differ from the drawn mesh, which is
-triangulated its own way, by the 0.3m or so the check below allows for.
+they need nothing.
+
+**Ribbons follow the mesh that is drawn, not the 2m ground** (second review, 2026-10-10). Inside the region
+`surfaceAt` is the smooth ground from the 2m and 10m samples. The mesh drawn there is cut at 4, 10 or 20m
+by camera distance, so it differs from that ground (the gaps are in the consequences below), and a ribbon laid on the ground is buried wherever the mesh is higher. The first road test compared
+ribbons with `surfaceAt`, so it could not see that. `Terrain.drawnAt` now reads the resident tile at its
+step with the same cut of each cell as `tileGeometry` (`tileSurfaceAt`, one `cutsNorthWestToSouthEast`
+for both), and `Terrain.drawnAtStep` reads any step a tile can be drawn at (`drawnSteps`: 4, 10 and 20,
+held to the tile's own data step). Measured by the e2e test on the 6,216 road and rail legs in the region,
+nine samples each, against the old build: 709 samples under the mesh at the overview, 276 in the town view
+(where far tiles are coarse) and 89 even at 10m. Two fixes were tried against that measure:
+- *Lift each ribbon vertex to the highest mesh any step can draw there.* Never under, but a coarse mesh
+  bridges every cutting, so the road then hovers over the 4m mesh in the town close-up: up to 1.22 world
+  units (5m) above it, with 714 samples more than 0.6 units (2.5m) above. Rejected.
+- *Lay the ribbon on the mesh drawn, and again when its tile is redrawn.* Chosen. `Terrain.ribbonGroundAt`
+  is `drawnAt` inside the region (the 2m ground until a tile is built, outside it as before),
+  `Terrain.onDrawnChange` publishes the areas of the tiles just built (at a new step, or after a ground
+  edit), and `Features` calls `Ribbon.relay` on every road and rail ribbon and `Train.relay` on its path,
+  which re-lay only the vertices inside those areas and upload only if one moved. Result, by the same
+  test at the overview, in the town at radius 60 and back at the overview: none under the mesh, and at
+  most 0.59 units (2.4m) above it, which is the 0.35 lift plus the chord between vertices. Looked at on
+  the GPU at the 2020 overview and in the town at radius 60: the roads and the railway are whole and lie
+  on the ground (`docs/images/lidar/ribbons-overview-2020.jpg`, `ribbons-town-r60.jpg`).
+The cost is one loop over the about 5,100 road vertices in the region per batch of tile builds, with a
+box test per vertex and a height read only for those inside a redrawn tile. This is the seam decision 8
+said was missing, built for ribbons only.
 
 **3. A hole that is watertight.** The coarse mesh gets points every 40m along the rim of the region and
 drops its own points within 22m of it (the Gabriel condition), so every rim segment is an edge of the
@@ -116,14 +141,15 @@ without using it: their ditches and banks are drawn as ribbons and parts laid on
 the LiDAR they follow the real ridge but do not reshape it.
 
 **What an edit does and does not move.** `Terrain.setGroundEdits` changes the answer to `heightAt`,
-`heightMetres`, `surfaceAt` and the drawn detail meshes, and nothing else. Everything placed once at start
-keeps the height it was given: building meshes, road and rail ribbons, tree matrices (and the cover filter
-that decides which trees show, which runs only when the environment changes), people, labels, feature
-models and river levels. A 3m rampart edit under a road leaves the road buried, and a `level` platform
-leaves the buildings on it floating. The review found this and the first wording ("laid over the base for
-everything that asks the height") read as if it were finished. Making it so needs `Terrain` to publish a
-change, and the features layer, `Forest` and the water to subscribe and re-place what lies inside the
-edited areas; that is the first piece of work when an edit is first used. The e2e test checks the
+`heightMetres`, `surfaceAt` and the drawn detail meshes, and the road and rail ribbons and the train's
+path, which are laid again on any redrawn tile (decision 2; the e2e edit test lays a 3m ridge across the
+town and checks no ribbon sample is under the mesh, seen red with the re-laying off: 341 samples under).
+Everything else placed once at start keeps the height it was given: building meshes, tree matrices (and the
+cover filter that decides which trees show, which runs only when the environment changes), people,
+labels, feature models and river levels. A `level` platform leaves the buildings on it floating. The review found this and the first wording ("laid over the base for
+everything that asks the height") read as if it were finished. Making it so for the rest needs `Forest`, the
+buildings, the people and the water to subscribe to `Terrain.onDrawnChange` as the ribbons do and re-place
+what lies inside the edited areas; that is the first piece of work when an edit is first used. The e2e test checks the
 detail mesh and the `heightMetres` answer move by exactly the edit's height, not a placed object.
 
 **9. Rivers.** The water ribbons' levels are the lowest LiDAR ground near the line; the detail mesh is
@@ -133,8 +159,8 @@ at the rim.
 
 ## Consequences
 
-- The town and forts have real ground: roads follow it (vertex by vertex at the 4m step, checked between
-  vertices by the e2e road test), buildings sit on it, the Tywi has banks. At
+- The town and forts have real ground: roads and rails follow the mesh drawn (vertex by vertex at the 4m
+  step, checked by the e2e ribbon tests between vertices and as tiles change step), buildings sit on it, the Tywi has banks. At
   the overview the region is indistinguishable from before (no seam, measured above). Outside it the
   ground and its land cover are the same except that the coarse mesh gained 450 rim points and lost the
   points within 22m of the rim, so its triangle count went from 153,944 to 154,694 and the percentile
@@ -151,7 +177,12 @@ at the rim.
   keeps its tree; the 277 triangles outside it that changed all lie within 103m of the region. The
   switch itself re-rolls every tree on the map once, because the traits now come from a different hash
   of a different key, so no tree stands where it did on main; the forest looks the same in kind and
-  nothing refers to a single tree.
+  nothing refers to a single tree. `tests/tree-identity.test.ts` holds this: it triangulates a jittered
+  point set with and without the rim (through `nearRim` and `RimProfile`, the code the terrain uses), and
+  asserts the same tree, seed, position and traits for every triangle more than 500m outside the
+  region, after checking that most of those triangles were renumbered. With the seed taken from the
+  triangle's index it fails, with 14,584 trees changed. It tests the identity of a tree, not
+  `triangulate` itself, which needs the heightfield and Babylon.
 - Cost, measured on the RTX 2000 Ada laptop GPU through WSL, 1920x1080, uncapped, in `?debug`: `node tools/frames.mjs <url> <dir> --perf --uncapped`, the town at 400m from the camera in 2020: idle 110 to 124fps against 139 to 175 before, orbiting 66 to 69 against 68 to 81, the slider scrub 41 to 47 against 58 to 77, with about 290,000 more triangles drawn (13 tiles at 10m, 4 at 4m, 63 at 20m). At the 1903 overview idle was 92 to 129 against 164 to 171. The laptop was shared with other agents' test runs (load average 15 to 18), so a figure moves by a third between runs: read it as about a quarter less when idle and about the same orbiting. With vsync on both hold 60.
   Start-up fetches two more files (the 2.95MB data file and the manifest) and builds and paints 80 meshes: from the page loading to ready took 12.9 to 13.1s against 11.5 to 14.7s before, within the noise of that load; settling all 80 tiles at start was 1.7 to 2.3s of it.
 - The detail mesh is flat at 4m: the fort's banks (a metre or so high and a few metres wide) show as
@@ -162,7 +193,8 @@ at the rim.
   the worst 6.7m; at 4m the 99th percentile is 0.29m. In real metres; drawn heights are 2.4 times larger.
   So buildings and trees placed once on the 2m heights can float or sink a little where the tile is drawn
   coarse, which is at overview distance, where it does not show. The coarse tiles are the ones seen from
-  far away, so this is accepted; snapping placement to the coarsest step a tile can be drawn at would be
+  far away, so this is accepted for buildings and trees (road and rail ribbons are the exception: they
+  follow the mesh, decision 2); snapping placement to the coarsest step a tile can be drawn at would be
   the fix if it ever shows.
 - The DTM keeps some tree clumps and walls. They are what the LiDAR measured; none is removed.
 - The vertical datum and accuracy are not stated by the publisher; Terrain 50 is the only check.

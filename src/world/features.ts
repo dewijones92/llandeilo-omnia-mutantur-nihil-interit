@@ -9,7 +9,7 @@ import { smokingFeatures } from '../domain/smoke.ts';
 import { drawnRailway, longestLine, sectionLines } from '../domain/rail.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
-import { Buildings, lineRibbons, Train } from './settlement.ts';
+import { Buildings, lineRibbons, Train, type Ribbon } from './settlement.ts';
 import { planClearing, planWorldScale } from './buildings.ts';
 import { buildFeature, type Ground, type WorldPoint } from './structures.ts';
 import type { SmokeSource } from './smoke.ts';
@@ -87,6 +87,7 @@ export class FeatureLayer {
   private trainFeature: Feature | undefined;
   readonly ground: Ground;
   private readonly surface: Ground;
+  private readonly ribbons: Ribbon[] = [];
 
   constructor(
     world: World,
@@ -99,6 +100,7 @@ export class FeatureLayer {
     const scene = world.scene;
     this.ground = (x, z) => world.terrain.heightAt(toGrid({ x, z }));
     const onSurface: Ground = (x, z) => world.terrain.surfaceAt(x, z);
+    const onRibbon: Ground = (x, z) => world.terrain.ribbonGroundAt(x, z);
     this.surface = onSurface;
     console.info(
       `dewidebug surface vs grid at centre: surface=${onSurface(0, 0).toFixed(2)} grid=${this.ground(0, 0).toFixed(2)}`,
@@ -109,23 +111,28 @@ export class FeatureLayer {
     world.addLamp(this.buildings.halos.material);
     const onGround = (lines: readonly MapLine[]): MapLine[] =>
       lines.map((l) => ({ ...l, points: world.terrain.lineOnGround(l.points) }));
-    this.roads = lineRibbons(
-      scene,
-      'roads',
-      onGround(roads),
-      this.ground,
-      (k) => (k === 'A' ? 1.6 : k === 'B' ? 1.1 : 0.8),
-      '#b9b6ae',
-      0.3,
-    );
-    this.roads.isVisible = false;
+    const ribbon = (
+      name: string,
+      lines: readonly MapLine[],
+      widthFor: (kind: string) => number,
+      colour: string,
+      lift: number,
+    ): Mesh => {
+      const made = lineRibbons(scene, name, onGround(lines), onRibbon, widthFor, colour, lift, (x, z) =>
+        world.terrain.inDetail(x, z),
+      );
+      this.ribbons.push(made);
+      made.mesh.isVisible = false;
+      return made.mesh;
+    };
+    this.roads = ribbon('roads', roads, (k) => (k === 'A' ? 1.6 : k === 'B' ? 1.1 : 0.8), '#b9b6ae', 0.3);
     this.streetLamps = new StreetLamps(scene, roads, this.ground);
     world.addLamp(this.streetLamps.material);
     world.addLamp(this.streetLamps.halos.material);
     const main = longestLine(railways);
     this.trainLine = main;
     const [mainOnGround] = main ? onGround([main]) : [];
-    this.train = mainOnGround ? new Train(scene, mainOnGround, this.ground, trainModels) : undefined;
+    this.train = mainOnGround ? new Train(scene, mainOnGround, onRibbon, trainModels) : undefined;
     const started = performance.now();
     const covered = coveredFootprints(features, footprints);
     const visible = (order: Int32Array): Int32Array => order.filter((i) => !covered.has(i));
@@ -134,17 +141,10 @@ export class FeatureLayer {
       const { x, z } = toWorld(f.at);
       if (f.kind.type === 'railway') {
         const lines = sectionLines(railways, f.kind.section);
-        const mesh = lineRibbons(
-          scene,
-          `rail-${f.id}`,
-          onGround(lines),
-          this.ground,
-          () => 1.1,
-          '#6d655c',
-          0.35,
+        this.rails.set(
+          f.id,
+          ribbon(`rail-${f.id}`, lines, () => 1.1, '#6d655c', 0.35),
         );
-        mesh.isVisible = false;
-        this.rails.set(f.id, mesh);
         console.info(
           `dewidebug rail ${f.id} within ${JSON.stringify(f.kind.section.within)}: ${String(lines.length)} lines`,
         );
@@ -179,6 +179,10 @@ export class FeatureLayer {
         visible: false,
       });
     }
+    world.terrain.onDrawnChange((areas) => {
+      for (const r of this.ribbons) r.relay(areas);
+      this.train?.relay(areas);
+    });
     console.info(
       `dewidebug features built monuments=${this.monuments.size} towns=${this.towns.size} in ${Math.round(performance.now() - started)}ms`,
     );

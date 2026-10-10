@@ -85,6 +85,26 @@ async function ready(page: Page, url: string): Promise<void> {
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
 }
 
+async function moveCamera(page: Page, x: number, z: number, radius: number): Promise<void> {
+  await page.evaluate(
+    ([cx, cz, r]) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const scene: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'scene') : undefined;
+      const camera: unknown =
+        typeof scene === 'object' && scene ? Reflect.get(scene, 'activeCamera') : undefined;
+      if (typeof camera !== 'object' || !camera) throw new Error('no camera');
+      const target: unknown = Reflect.get(camera, 'target');
+      if (typeof target !== 'object' || !target) throw new Error('no target');
+      Reflect.set(target, 'x', cx);
+      Reflect.set(target, 'z', cz);
+      Reflect.set(camera, 'target', target);
+      Reflect.set(camera, 'beta', 0.98);
+      Reflect.set(camera, 'radius', r);
+    },
+    [x, z, radius] as const,
+  );
+}
+
 function finest(d: DetailStats): number {
   return Math.min(...Object.keys(d.byStep).map(Number));
 }
@@ -113,33 +133,14 @@ test('flying into Llandeilo swaps its tiles to a fine step, and flying out takes
   await ready(page, './?debug&year=2020&hour=12&season=summer');
   expect(finest(await detail(page))).toBe(20);
   const town = toWorld(place('llandeilo').at);
-  const moveCamera = async (x: number, z: number, radius: number): Promise<void> => {
-    await page.evaluate(
-      ([cx, cz, r]) => {
-        const debug: unknown = Reflect.get(window, 'llandeiloDebug');
-        const scene: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'scene') : undefined;
-        const camera: unknown =
-          typeof scene === 'object' && scene ? Reflect.get(scene, 'activeCamera') : undefined;
-        if (typeof camera !== 'object' || !camera) throw new Error('no camera');
-        const target: unknown = Reflect.get(camera, 'target');
-        if (typeof target !== 'object' || !target) throw new Error('no target');
-        Reflect.set(target, 'x', cx);
-        Reflect.set(target, 'z', cz);
-        Reflect.set(camera, 'target', target);
-        Reflect.set(camera, 'beta', 0.98);
-        Reflect.set(camera, 'radius', r);
-      },
-      [x, z, radius] as const,
-    );
-  };
-  await moveCamera(town.x, town.z, 40);
+  await moveCamera(page, town.x, town.z, 40);
   await expect.poll(async () => finest(await detail(page)), { timeout: 60_000 }).toBe(4);
   await expect.poll(async () => (await detail(page)).pending, { timeout: 60_000 }).toBe(0);
   const near = await detail(page);
   expect(near.tileSteps['262500_222000']).toBe(4);
   expect(near.byStep['4']).toBeGreaterThanOrEqual(2);
   expect(near.triangles).toBeLessThan(600_000);
-  await moveCamera(town.x, town.z, 3500);
+  await moveCamera(page, town.x, town.z, 3500);
   await expect.poll(async () => finest(await detail(page)), { timeout: 60_000 }).toBe(20);
   await expect.poll(async () => (await detail(page)).pending, { timeout: 60_000 }).toBe(0);
 });
@@ -250,9 +251,10 @@ test('a period change to the ground rebuilds only the tiles under it and leaves 
   const raised = await surface();
   expect(raised - before).toBeGreaterThan(0.7);
   expect(raised - before).toBeLessThan(0.74);
-  // What everything that stands on the ground asks (`heightMetres`) rises by the edit's 3m too. Objects
-  // already placed at start, such as the roads and trees, do not move with it yet (ADR 0049, decision 8).
+  // What everything that stands on the ground asks (`heightMetres`) rises by the edit's 3m too. Roads and
+  // rails are laid again on the redrawn mesh; trees and the rest placed at start do not move (ADR 0049, decision 8).
   expect((await asked()) - askedBefore).toBeCloseTo(3, 1);
+  expectRibbonsOnTheMesh('with the ridge laid', await ribbonsAgainstDrawn(page));
   const rebuilt = (await detail(page)).builds - builds;
   expect(rebuilt).toBeGreaterThanOrEqual(1);
   expect(rebuilt).toBeLessThan(8);
@@ -262,82 +264,111 @@ test('a period change to the ground rebuilds only the tiles under it and leaves 
   expect(Math.abs((await asked()) - askedBefore)).toBeLessThan(0.001);
 });
 
-test('a road laid through the 2m ground follows it between its vertices', async ({ page }) => {
-  await ready(page, './?debug&year=2020&hour=12&season=summer&place=llandeilo&radius=60');
+interface RibbonReport {
+  readonly legs: number;
+  readonly longest: number;
+  readonly lowest: number;
+  readonly highest: number;
+  readonly under: number;
+}
+
+// Every road and rail ribbon leg inside the LiDAR region, sampled along its length, against the mesh
+// drawn there now.
+async function ribbonsAgainstDrawn(page: Page): Promise<RibbonReport> {
   const { eMin, eMax, nMin, nMax } = lidar.region;
-  const margin = 300;
-  const legs = await page.evaluate(
+  return page.evaluate(
     ([e0, e1, n0, n1, cE, cN, mpu]) => {
       const debug: unknown = Reflect.get(window, 'llandeiloDebug');
       const scene: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'scene') : undefined;
       const terrain: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'terrain') : undefined;
       if (typeof scene !== 'object' || !scene || typeof terrain !== 'object' || !terrain)
         throw new Error('no scene or terrain');
-      const getMesh: unknown = Reflect.get(scene, 'getMeshByName');
-      const surfaceAt: unknown = Reflect.get(terrain, 'surfaceAt');
-      if (typeof getMesh !== 'function' || typeof surfaceAt !== 'function') throw new Error('no hooks');
-      const mesh: unknown = Reflect.apply(getMesh, scene, ['roads']);
-      if (typeof mesh !== 'object' || !mesh) throw new Error('no roads mesh');
-      const getData: unknown = Reflect.get(mesh, 'getVerticesData');
-      const getIndices: unknown = Reflect.get(mesh, 'getIndices');
-      if (typeof getData !== 'function' || typeof getIndices !== 'function') throw new Error('no mesh hooks');
-      const positions: unknown = Reflect.apply(getData, mesh, ['position']);
-      const indices: unknown = Reflect.apply(getIndices, mesh, []);
+      const meshes: unknown = Reflect.get(scene, 'meshes');
+      const drawnAt: unknown = Reflect.get(terrain, 'drawnAt');
+      if (!Array.isArray(meshes) || typeof drawnAt !== 'function') throw new Error('no hooks');
       const numbers = (v: unknown): ArrayLike<number> | undefined => {
         if (v instanceof Float32Array || v instanceof Uint32Array || v instanceof Uint16Array) return v;
         if (v instanceof Int32Array) return v;
         return Array.isArray(v) ? v.filter((x): x is number => typeof x === 'number') : undefined;
       };
-      const pos = numbers(positions);
-      const idx = numbers(indices);
-      if (!pos || !idx) throw new Error('no road geometry');
-      const at = (i: number): [number, number, number] => [
-        pos[i * 3] ?? 0,
-        pos[i * 3 + 1] ?? 0,
-        pos[i * 3 + 2] ?? 0,
-      ];
       const inner = (x: number, z: number): boolean => {
         const e = cE + x * mpu;
         const n = cN + z * mpu;
         return e > e0 && e < e1 && n > n0 && n < n1;
       };
-      let count = 0;
+      let legs = 0;
       let longest = 0;
       let lowest = Number.POSITIVE_INFINITY;
-      for (let k = 0; k + 5 < idx.length; k += 6) {
-        const a = at(idx[k] ?? 0);
-        const b = at(idx[k + 1] ?? 0);
-        const c = at(idx[k + 2] ?? 0);
-        const d = at(idx[k + 4] ?? 0);
-        const from = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2] as const;
-        const to = [(c[0] + d[0]) / 2, (c[1] + d[1]) / 2, (c[2] + d[2]) / 2] as const;
-        if (!inner(from[0], from[2]) || !inner(to[0], to[2])) continue;
-        count++;
-        longest = Math.max(longest, Math.hypot(to[0] - from[0], to[2] - from[2]) * mpu);
-        for (let q = 1; q < 8; q++) {
-          const f = q / 8;
-          const x = from[0] + (to[0] - from[0]) * f;
-          const z = from[2] + (to[2] - from[2]) * f;
-          const ribbon = from[1] + (to[1] - from[1]) * f;
-          const ground: unknown = Reflect.apply(surfaceAt, terrain, [x, z]);
-          if (typeof ground === 'number') lowest = Math.min(lowest, ribbon - ground);
+      let highest = Number.NEGATIVE_INFINITY;
+      let under = 0;
+      for (const mesh of meshes) {
+        const name = typeof mesh === 'object' && mesh ? String(Reflect.get(mesh, 'name')) : '';
+        if (name !== 'roads' && !name.startsWith('rail-')) continue;
+        const getData: unknown = Reflect.get(mesh, 'getVerticesData');
+        const getIndices: unknown = Reflect.get(mesh, 'getIndices');
+        if (typeof getData !== 'function' || typeof getIndices !== 'function')
+          throw new Error('no mesh hooks');
+        const pos = numbers(Reflect.apply(getData, mesh, ['position']));
+        const idx = numbers(Reflect.apply(getIndices, mesh, []));
+        if (!pos || !idx) throw new Error(`no geometry for ${name}`);
+        const at = (i: number): [number, number, number] => [
+          pos[i * 3] ?? 0,
+          pos[i * 3 + 1] ?? 0,
+          pos[i * 3 + 2] ?? 0,
+        ];
+        for (let k = 0; k + 5 < idx.length; k += 6) {
+          const a = at(idx[k] ?? 0);
+          const b = at(idx[k + 1] ?? 0);
+          const c = at(idx[k + 2] ?? 0);
+          const d = at(idx[k + 4] ?? 0);
+          const from = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2] as const;
+          const to = [(c[0] + d[0]) / 2, (c[1] + d[1]) / 2, (c[2] + d[2]) / 2] as const;
+          if (!inner(from[0], from[2]) || !inner(to[0], to[2])) continue;
+          legs++;
+          longest = Math.max(longest, Math.hypot(to[0] - from[0], to[2] - from[2]) * mpu);
+          for (let q = 0; q <= 8; q++) {
+            const f = q / 8;
+            const x = from[0] + (to[0] - from[0]) * f;
+            const z = from[2] + (to[2] - from[2]) * f;
+            const ribbon = from[1] + (to[1] - from[1]) * f;
+            const drawn: unknown = Reflect.apply(drawnAt, terrain, [x, z]);
+            if (typeof drawn !== 'number') continue;
+            lowest = Math.min(lowest, ribbon - drawn);
+            highest = Math.max(highest, ribbon - drawn);
+            if (ribbon < drawn) under++;
+          }
         }
       }
-      return { count, longest, lowest };
+      return { legs, longest, lowest, highest, under };
     },
-    [
-      eMin + margin,
-      eMax - margin,
-      nMin + margin,
-      nMax - margin,
-      WORLD.centre.e,
-      WORLD.centre.n,
-      WORLD.metresPerUnit,
-    ] as const,
+    [eMin, eMax, nMin, nMax, WORLD.centre.e, WORLD.centre.n, WORLD.metresPerUnit] as const,
   );
-  // The ribbon is laid 0.3 units above the ground at its vertices; between them it may dip a little
-  // but never into the ground. Before the legs were split, one 551m leg lay 3.7m under it.
-  expect(legs.lowest).toBeGreaterThan(0.1);
-  expect(legs.longest).toBeLessThan(5);
-  expect(legs.count).toBeGreaterThan(1500);
+}
+
+function expectRibbonsOnTheMesh(label: string, r: RibbonReport): void {
+  console.info(`dewidebug ribbons ${label}: ${JSON.stringify(r)}`);
+  expect(r.legs, label).toBeGreaterThan(1500);
+  expect(r.longest, label).toBeLessThan(5);
+  expect(r.under, `${label}: samples under the mesh drawn`).toBe(0);
+  expect(r.lowest, label).toBeGreaterThan(0);
+  expect(r.highest, `${label}: the most a ribbon floats above the mesh drawn`).toBeLessThan(0.8);
+}
+
+test('roads and rails follow the LiDAR mesh drawn, as its tiles change step', async ({ page }) => {
+  await ready(page, './?debug&year=2020&hour=12&season=summer');
+  const town = toWorld(place('llandeilo').at);
+  const settle = async (): Promise<void> => {
+    await expect.poll(async () => (await detail(page)).pending, { timeout: 60_000 }).toBe(0);
+  };
+  await settle();
+  expect(finest(await detail(page))).toBe(20);
+  expectRibbonsOnTheMesh('overview, 20m', await ribbonsAgainstDrawn(page));
+  await moveCamera(page, town.x, town.z, 60);
+  await expect.poll(async () => finest(await detail(page)), { timeout: 60_000 }).toBe(4);
+  await settle();
+  expectRibbonsOnTheMesh('town, 4m near and 10m, 20m beyond', await ribbonsAgainstDrawn(page));
+  await moveCamera(page, town.x, town.z, 3500);
+  await expect.poll(async () => finest(await detail(page)), { timeout: 60_000 }).toBe(20);
+  await settle();
+  expectRibbonsOnTheMesh('overview again, 20m', await ribbonsAgainstDrawn(page));
 });

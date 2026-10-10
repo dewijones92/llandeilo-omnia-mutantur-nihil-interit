@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { groundTriangleCount, tileGeometry, tileTriangleCount, type TileGeometry } from './tilemesh.ts';
+import {
+  groundTriangleCount,
+  tileGeometry,
+  tileSurfaceAt,
+  tileTriangleCount,
+  type TileGeometry,
+} from './tilemesh.ts';
+import { rng } from './noise.ts';
 
 type V3 = readonly [number, number, number];
 
@@ -117,5 +124,64 @@ describe('a tile of triangles', () => {
 
   it('refuses heights that do not fit the cells', () => {
     expect(() => tileGeometry(new Float32Array(5), 2, 1, 0, 0, 1)).toThrow(/expected 9/);
+  });
+});
+
+describe('the height of the surface a tile draws', () => {
+  function drawnBy(g: TileGeometry, x: number, z: number): number | undefined {
+    for (let t = 0; t < g.groundTriangles; t++) {
+      const [a, b, c] = corners(g, t);
+      const det = (b[2] - c[2]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[2] - c[2]);
+      const wa = ((b[2] - c[2]) * (x - c[0]) + (c[0] - b[0]) * (z - c[2])) / det;
+      const wb = ((c[2] - a[2]) * (x - c[0]) + (a[0] - c[0]) * (z - c[2])) / det;
+      const wc = 1 - wa - wb;
+      if (wa >= -1e-9 && wb >= -1e-9 && wc >= -1e-9) return wa * a[1] + wb * b[1] + wc * c[1];
+    }
+    return undefined;
+  }
+
+  it('is the height of the triangle drawn there, whichever way the cell is cut', () => {
+    const random = rng(7);
+    const cells = 6;
+    const spacing = 10;
+    const heights = new Float32Array((cells + 1) ** 2).map(() => random() * 20);
+    const g = tileGeometry(heights, cells, spacing, 100, 300, 2);
+    let checked = 0;
+    for (let k = 0; k < 400; k++) {
+      const x = 100 + random() * cells * spacing;
+      const z = 300 - random() * cells * spacing;
+      const drawn = drawnBy(g, x, z);
+      expect(drawn).toBeDefined();
+      expect(tileSurfaceAt(heights, cells, spacing, 100, 300, x, z)).toBeCloseTo(drawn ?? Number.NaN, 4);
+      checked++;
+    }
+    expect(checked).toBe(400);
+  });
+
+  it('cuts across a ridge and across a valley differently, as the mesh does', () => {
+    const ridge = new Float32Array([0, 9, 0, 9, 0, 0, 0, 0, 0]);
+    const valley = new Float32Array([9, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const at = (h: Float32Array): number | undefined => tileSurfaceAt(h, 2, 10, 0, 0, 7, -2);
+    const mesh = (h: Float32Array): number | undefined => drawnBy(tileGeometry(h, 2, 10, 0, 0, 1), 7, -2);
+    expect(at(ridge)).toBeCloseTo(4.5, 5);
+    expect(at(valley)).toBeCloseTo(0.9, 5);
+    expect(mesh(ridge)).toBeCloseTo(4.5, 4);
+    expect(mesh(valley)).toBeCloseTo(0.9, 4);
+  });
+
+  it('is exact at the vertices and on the far edges, and absent outside the tile', () => {
+    const h = new Float32Array([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(tileSurfaceAt(h, 2, 10, 0, 0, 0, 0)).toBeCloseTo(1);
+    expect(tileSurfaceAt(h, 2, 10, 0, 0, 20, 0)).toBeCloseTo(3);
+    expect(tileSurfaceAt(h, 2, 10, 0, 0, 20, -20)).toBeCloseTo(9);
+    expect(tileSurfaceAt(h, 2, 10, 0, 0, 0, -20)).toBeCloseTo(7);
+    expect(tileSurfaceAt(h, 2, 10, 0, 0, -0.1, -5)).toBeUndefined();
+    expect(tileSurfaceAt(h, 2, 10, 0, 0, 5, 0.1)).toBeUndefined();
+    expect(tileSurfaceAt(h, 2, 10, 0, 0, 20.1, -5)).toBeUndefined();
+    expect(tileSurfaceAt(h, 2, 10, 0, 0, 5, -20.1)).toBeUndefined();
+  });
+
+  it('refuses heights that do not fit the cells', () => {
+    expect(() => tileSurfaceAt(new Float32Array(5), 2, 1, 0, 0, 0, 0)).toThrow(/expected 9/);
   });
 });

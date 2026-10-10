@@ -1,6 +1,7 @@
 import { Mesh, VertexBuffer, VertexData, type Scene, type StandardMaterial } from './babylon.ts';
-import { heightToWorld, WORLD } from '../domain/geo.ts';
+import { heightToWorld, toGrid, WORLD } from '../domain/geo.ts';
 import {
+  drawnSteps,
   planSteps,
   tileDistance,
   tileKey,
@@ -13,7 +14,7 @@ import {
 import type { GridRef } from '../domain/model.ts';
 import { hash2 } from '../domain/noise.ts';
 import { onRim, type RimBox } from '../domain/seam.ts';
-import { tileGeometry } from '../domain/tilemesh.ts';
+import { tileGeometry, tileSurfaceAt } from '../domain/tilemesh.ts';
 import {
   COVER_CODE,
   newScores,
@@ -87,6 +88,7 @@ interface Resident {
   readonly info: LidarTileInfo;
   readonly step: number;
   readonly mesh: Mesh;
+  readonly heights: Float32Array;
   readonly triangles: number;
   readonly groundTriangles: number;
   readonly jitter: Float32Array;
@@ -95,11 +97,15 @@ interface Resident {
   stale: boolean;
 }
 
+const heightsKey = (info: LidarTileInfo, step: number): string =>
+  `${tileKey(info.e, info.n)}@${String(step)}`;
+
 const SCRATCH: MutableRgb = { r: 0, g: 0, b: 0 };
 
 export class DetailTerrain {
   private readonly resident = new Map<string, Resident>();
   private readonly blocks = new Map<string, Blocks>();
+  private readonly heightsAt = new Map<string, Float32Array>();
   private paintContext: PaintContext | undefined;
   private builds = 0;
   private pending = 0;
@@ -125,6 +131,21 @@ export class DetailTerrain {
     return COVER_CODE[paint(blocks.tris, row * perSide + col, ctx, SCRATCH)];
   }
 
+  // The height of the mesh now drawn at world (x, z): the resident tile at the step it is at.
+  drawnAt(x: number, z: number): number | undefined {
+    const info = this.tileAt(x, z);
+    const r = info && this.resident.get(tileKey(info.e, info.n));
+    return info && r ? this.surfaceIn(info, r.step, r.heights, x, z) : undefined;
+  }
+
+  // The height the tile under (x, z) would be drawn with at `step`, whether or not it is drawn so now.
+  drawnAtStep(x: number, z: number, step: number): number | undefined {
+    const info = this.tileAt(x, z);
+    return info && step >= info.step
+      ? this.surfaceIn(info, step, this.tileHeights(info, step), x, z)
+      : undefined;
+  }
+
   get built(): number {
     return this.builds;
   }
@@ -135,14 +156,15 @@ export class DetailTerrain {
   }
 
   // Builds the tile meshes the eye now wants and repaints stale ones, nearest first, until the time
-  // budget is spent (always doing at least one job). An infinite budget finishes everything.
-  update(eye: Eye, budgetMs: number): void {
+  // budget is spent (always doing at least one job). An infinite budget finishes everything. Answers the
+  // tiles it built.
+  update(eye: Eye, budgetMs: number): readonly LidarTileInfo[] {
     const settled = this.settledAt;
     if (
       settled &&
       Math.hypot(eye.e - settled.e, eye.n - settled.n, eye.height - settled.height) < SETTLED_MOVE_M
     )
-      return;
+      return [];
     const started = performance.now();
     const { manifest } = this.deps.ground;
     const current = new Map([...this.resident].map(([k, r]) => [k, r.step]));
@@ -157,11 +179,13 @@ export class DetailTerrain {
     }
     todo.sort((a, b) => a.distance - b.distance);
     this.pending = todo.length;
+    const drawn: LidarTileInfo[] = [];
     let built = 0;
     for (const job of todo) {
       if (built > 0 && performance.now() - started > budgetMs) break;
       this.build(job.info, job.want);
       built++;
+      drawn.push(job.info);
       this.pending--;
     }
     const repainted = this.repaint(eye, started, budgetMs, built === 0);
@@ -169,11 +193,12 @@ export class DetailTerrain {
     const finished =
       this.pending === 0 && !!ctx && [...this.resident.values()].every((r) => r.paintKey === ctx.key);
     this.settledAt = finished ? eye : undefined;
-    if (built === 0 && repainted === 0) return;
+    if (built === 0 && repainted === 0) return drawn;
     const stats = this.stats();
     console.info(
       `dewidebug detail update built=${String(built)} repainted=${String(repainted)} pending=${String(stats.pending)} unpainted=${String(stats.unpainted)} resident=${String(stats.resident)} steps=${JSON.stringify(stats.byStep)} tris=${String(stats.triangles)} eye=${Math.round(eye.e)},${Math.round(eye.n)} h=${Math.round(eye.height)}m in ${Math.round(performance.now() - started)}ms`,
     );
+    return drawn;
   }
 
   // The corners (x, y, z triples) of the ground triangles, skirts left out, that lie on the box, for
@@ -204,6 +229,7 @@ export class DetailTerrain {
       if (!hit) continue;
       this.settledAt = undefined;
       this.blocks.delete(tileKey(info.e, info.n));
+      for (const step of drawnSteps(info.step)) this.heightsAt.delete(heightsKey(info, step));
       const r = this.resident.get(tileKey(info.e, info.n));
       if (r) {
         r.stale = true;
@@ -246,6 +272,43 @@ export class DetailTerrain {
     this.resident.clear();
   }
 
+  private tileAt(x: number, z: number): LidarTileInfo | undefined {
+    const g = toGrid({ x, z });
+    const size = this.deps.ground.manifest.tileSize;
+    return this.infos.get(tileKey(Math.floor(g.e / size) * size, Math.floor(g.n / size) * size));
+  }
+
+  private surfaceIn(
+    info: LidarTileInfo,
+    step: number,
+    heights: Float32Array,
+    x: number,
+    z: number,
+  ): number | undefined {
+    const size = this.deps.ground.manifest.tileSize;
+    return tileSurfaceAt(
+      heights,
+      size / step,
+      step / WORLD.metresPerUnit,
+      (info.e - WORLD.centre.e) / WORLD.metresPerUnit,
+      (info.n + size - WORLD.centre.n) / WORLD.metresPerUnit,
+      x,
+      z,
+    );
+  }
+
+  private tileHeights(info: LidarTileInfo, step: number): Float32Array {
+    const key = heightsKey(info, step);
+    const cached = this.heightsAt.get(key);
+    if (cached) return cached;
+    const { ground, baseMetres, rim, shape } = this.deps;
+    const metres = ground.tileHeights(info, step, baseMetres, rim, shape);
+    const heights = new Float32Array(metres.length);
+    for (let i = 0; i < heights.length; i++) heights[i] = heightToWorld(metres[i] ?? 0);
+    this.heightsAt.set(key, heights);
+    return heights;
+  }
+
   private distanceTo(info: LidarTileInfo, eye: Eye): number {
     const size = this.deps.ground.manifest.tileSize;
     return tileDistance(
@@ -275,9 +338,7 @@ export class DetailTerrain {
     const { ground, scene } = this.deps;
     const size = ground.manifest.tileSize;
     const cells = size / step;
-    const metres = ground.tileHeights(info, step, this.deps.baseMetres, this.deps.rim, this.deps.shape);
-    const heights = new Float32Array(metres.length);
-    for (let i = 0; i < heights.length; i++) heights[i] = heightToWorld(metres[i] ?? 0);
+    const heights = this.tileHeights(info, step);
     const geometry = tileGeometry(
       heights,
       cells,
@@ -316,6 +377,7 @@ export class DetailTerrain {
       info,
       step,
       mesh,
+      heights,
       triangles: geometry.triangles,
       groundTriangles: geometry.groundTriangles,
       jitter,
