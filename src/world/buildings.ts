@@ -1,6 +1,6 @@
 import { Vector3, type Mesh, type Scene } from './babylon.ts';
 import { hex, mix, type Rgb } from '../domain/colour.ts';
-import { MATERIAL_COLOUR, SETTING_SCALE } from '../domain/materials.ts';
+import { CUT_EARTH, MATERIAL_COLOUR, SETTING_SCALE } from '../domain/materials.ts';
 import { DEFAULT_ROOF, HALL_ROOF, hallRoofRise, RAISED_DROP, TOWER_ROOF } from '../domain/proportions.ts';
 import { WORLD } from '../domain/geo.ts';
 import { LOD_STEPS } from '../domain/lidar.ts';
@@ -34,8 +34,8 @@ const MATERIAL = MATERIAL_COLOUR;
 
 const WEATHER = hex('#8a9a6c');
 const OPENING = hex('#3a3631');
-const DITCH = hex('#4b4d39');
-const DITCH_SIDE = mix(DITCH, hex('#8a8c6a'), 0.55);
+const DITCH = CUT_EARTH.floor;
+const DITCH_SIDE = CUT_EARTH.side;
 const FLAT_LIFT = 0.05;
 const GROUND_STEP = LOD_STEPS[0] ?? 4;
 const FOUNDATION = 0.5;

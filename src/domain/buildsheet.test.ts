@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildSheet, FOOT, liesOnGround, modelFile, PROBE, SEATED, type SheetInput } from './buildsheet.ts';
 import { toHex } from './colour.ts';
-import { MATERIAL_COLOUR } from './materials.ts';
+import { CUT_EARTH, MATERIAL_COLOUR } from './materials.ts';
 import { RAISED_DROP } from './proportions.ts';
 import type { Part, PartMeta, PartShape, Plan } from './plan.ts';
 import type { Provenance, SourceId } from './provenance.ts';
@@ -259,7 +259,9 @@ describe('the build sheet a Blender model is made from', () => {
   it('carries the one palette, the setting’s scale and the probe, so the script holds no copy of any', () => {
     const sheet = buildSheet(input({ setting: 'landscape', parts: [part(tower, 't')] }));
     expect(sheet.palette['turf']).toBe(toHex(MATERIAL_COLOUR.turf));
-    expect(Object.keys(sheet.palette).sort()).toEqual(Object.keys(MATERIAL_COLOUR).sort());
+    expect(Object.keys(sheet.palette).sort()).toEqual([...Object.keys(MATERIAL_COLOUR), 'turf-face'].sort());
+    // A turf bank's faces are the same cut earth as the ditches beside them.
+    expect(sheet.palette['turf-face']).toBe(toHex(CUT_EARTH.side));
     expect(sheet.scale).toEqual({ across: 2.6, up: 2.6 });
     expect(sheet.probe).toEqual(PROBE);
   });

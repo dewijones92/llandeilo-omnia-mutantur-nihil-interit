@@ -2143,6 +2143,102 @@ test('at AD 84 at High, Fort 2 and the settlement are drawn from their Blender m
   expect(errors).toEqual([]);
 });
 
+// Debug hooks for clicking a part of a Blender model in 3D (ADR 0055): bring the part to the middle of the view, then
+// find a screen point over it where a pick finds it.
+async function partPoint(page: Page, feature: string, part: string): Promise<{ x: number; y: number }> {
+  await page.evaluate(
+    ([f, p]) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const fn: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'partCentre') : undefined;
+      const centre: unknown = typeof fn === 'function' ? fn.call(debug, f, p) : undefined;
+      const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+      const camera: unknown =
+        scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+      if (!centre || typeof centre !== 'object' || !camera || typeof camera !== 'object') return;
+      const target: unknown = Reflect.get(camera, 'target');
+      const set: unknown = target && typeof target === 'object' ? Reflect.get(target, 'set') : undefined;
+      if (typeof set === 'function')
+        set.call(target, Reflect.get(centre, 'x'), Reflect.get(centre, 'y'), Reflect.get(centre, 'z'));
+      Reflect.set(camera, 'radius', 10);
+      Reflect.set(camera, 'beta', 1.1);
+    },
+    [feature, part],
+  );
+  await page.waitForTimeout(400);
+  const at = await page.evaluate(
+    ([f, p]) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const fn: unknown =
+        debug && typeof debug === 'object' ? Reflect.get(debug, 'partScreenPoint') : undefined;
+      const got: unknown = typeof fn === 'function' ? fn.call(debug, f, p) : undefined;
+      return got && typeof got === 'object'
+        ? { x: Number(Reflect.get(got, 'x')), y: Number(Reflect.get(got, 'y')) }
+        : undefined;
+    },
+    [feature, part],
+  );
+  if (!at) throw new Error(`no screen point over ${part}`);
+  return at;
+}
+
+const hoveredPart = async (page: Page): Promise<string> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const fn: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'hoveredPart') : undefined;
+    const got: unknown = typeof fn === 'function' ? fn.call(debug) : '';
+    return typeof got === 'string' ? got : '';
+  });
+
+test('at AD 84 at High, hovering a gate tower of Fort 2’s model veils and names it, a click opens its ⓘ with its tier in both languages, and a drag across it opens nothing', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.debug')).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
+  await expect(page.locator('.debug')).toContainText('textures=1024');
+  const tower = 'fort2/gate-ne/tower-left';
+  const at = await partPoint(page, 'roman-fort-b', tower);
+  const canvasAt = await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.id ?? '', at);
+  expect(canvasAt).toBe('scene');
+  await page.mouse.move(at.x - 30, at.y - 30);
+  await page.mouse.move(at.x, at.y, { steps: 3 });
+  await expect.poll(() => hoveredPart(page)).toBe(`roman-fort-b|${tower}`);
+  const tip = page.locator('.part-tip');
+  await expect(tip).toBeVisible();
+  await expect(tip).toContainText('north-east');
+  await expect(tip).toContainText('Fort 2');
+  await page.screenshot({ path: 'test-results/roman-forts-84-part-hover.png' });
+  await page.mouse.click(at.x, at.y);
+  const info = page.locator('.part-info');
+  await expect(info).toBeVisible();
+  await expect(info).toHaveAttribute('data-part', tower);
+  await expect(info.locator('.part-info-tier')).toContainText('Reconstructed');
+  await expect(info.locator('[data-kit="post-tower-six"]')).toContainText('Six-post timber tower');
+  await expect(info.locator('[data-surface="timber"]')).toContainText('Rough Wood');
+  await expect(info.locator('[data-surface="shingle"]')).toContainText('Imagined');
+  await expect(tip).toBeHidden();
+  await page.screenshot({ path: 'test-results/roman-forts-84-part-info.png' });
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await expect(info.locator('.part-info-tier')).toContainText('Wedi’i ail-greu');
+  await expect(info.locator('[data-kit="post-tower-six"]')).toContainText('Tŵr pren chwe phostyn');
+  await page.keyboard.press('Escape');
+  await expect(info).toBeHidden();
+  // A drag that starts and ends on the tower slides the land (ADR 0050) and opens nothing.
+  await page.getByRole('button', { name: 'English', exact: true }).click();
+  const again = await partPoint(page, 'roman-fort-b', tower);
+  await page.mouse.move(again.x - 50, again.y);
+  await page.mouse.down();
+  // Quick, and back to where it began: a press that passed the drag threshold on the way is not a click.
+  await page.mouse.move(again.x + 50, again.y, { steps: 2 });
+  await page.mouse.move(again.x - 50, again.y, { steps: 2 });
+  await page.mouse.up();
+  await page.waitForTimeout(500);
+  await expect(info).toBeHidden();
+  expect(errors).toEqual([]);
+});
+
 // The card must not list detail that is not drawn: with the plans on screen it says so instead.
 async function expectNoKitsOnCard(page: Page): Promise<void> {
   const card = page.locator('.moment-parts');

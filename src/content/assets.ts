@@ -1,5 +1,7 @@
 import type { Bilingual } from '../domain/i18n.ts';
+import { TEXTURED } from '../domain/surfaces.ts';
 import { LIDAR_CREDIT } from './generated/lidar-credit.ts';
+import { SURFACE_LICENCE, SURFACES } from './surfaces.ts';
 
 export interface AssetRecord {
   readonly files: RegExp;
@@ -74,6 +76,17 @@ export const ASSETS: readonly AssetRecord[] = [
     licence: 'Original work of this project',
     url: 'https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/tree/main/tools/models',
   },
+  // One row per photograph a model's surfaces are textured with (ADR 0055); what each surface claims is in its ⓘ.
+  ...TEXTURED.map((id): AssetRecord => ({
+    files: new RegExp(`^textures/landmarks/${id}-(color|normal)-(1024|512)\\.webp$`),
+    what: {
+      en: `Texture for the models: ${SURFACES[id].name.en}`,
+      cy: `Gwead ar gyfer y modelau: ${SURFACES[id].name.cy}`,
+    },
+    source: `“${SURFACES[id].photo.title}” by ${SURFACES[id].photo.author}, Poly Haven; resized and tinted to the app’s colour for the material by tools/textures/build.ts`,
+    licence: SURFACE_LICENCE,
+    url: SURFACES[id].photo.page,
+  })),
   {
     files: /^photos\/harries\/\d+\.jpg$/,
     what: { en: 'Photographs by D C Harries', cy: 'Ffotograffau gan D C Harries' },
