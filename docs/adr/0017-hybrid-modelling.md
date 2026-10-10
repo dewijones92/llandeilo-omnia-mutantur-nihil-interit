@@ -2,12 +2,12 @@
 title: "ADR 0017: Procedural architecture, scripted Blender for props"
 kind: adr
 status: accepted
-updated: 2026-09-28
+updated: 2026-10-10
 ---
 
 # ADR 0017: Procedural architecture, scripted Blender for props
 
-- **Status:** Accepted
+- **Status:** Accepted; "architecture stays procedural" superseded by [ADR 0052](0052-landmarks-are-scripted-blender-models-built-from-their-plans.md) (2026-10-10)
 - **Date:** 2026-09-28
 
 ## Context

@@ -2,7 +2,7 @@
 title: Decision log
 kind: log
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Decision log
@@ -194,3 +194,11 @@ can overrule it; the narrator in the UI language and captions always on are Dewi
 | The catalogue's words and our notes on the photographs are shown in English only, labelled as such, in the Welsh interface | A human Welsh check is already parked, and a machine translation of research notes would put unreviewed Welsh in front of visitors. Decided by Claude under the proactive mandate (ADR 0027) |
 | No "Then and now" flight | The brief allowed it only if the record gives the camera's direction; none of the 31 does. Decided by Claude under the proactive mandate (ADR 0027) |
 | A self-hosted GitHub Actions runner on the laptop runs a GPU job (Windows Chrome, High, WebGPU) on every push to main, never blocking the deploy; outside contributors' workflow runs need approval | Dewi, 2026-10-09: "Chrome exe in windows has beefy GPU, maybe run any graphics stuff on there? If that's a good idea then set it up so ci uses it? Be clever?", then chose "Self-hosted runner too" over a local-only check ([ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md)) |
+
+## 2026-10-10
+
+| Decision | Why |
+|---|---|
+| The important things are scripted Blender models: castles, the Roman forts, churches and the abbey, the town, the bridge, the trains, "and anything along these lines". A script builds each one from its sourced plan, exports glTF with each part's ⓘ, can be rebuilt from the repo and can be edited by hand in Blender. The plan stays the one source of facts. This replaces ADR 0017's "architecture stays procedural" ([ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md)) | Dewi, 2026-10-10: "Sorry, was blender skipped or?", then "Make all important as stuff in blender maybe? Or?". He chose "Scripted Blender models" over the other roles offered, and the things in this row as its scope |
+| A named landmark gets its own model; generic repeated buildings are a kit of Blender-built types placed by the existing code; people, trees, smoke and the ground stay procedural | Claude, under the proactive mandate (ADR 0027), to cover "the town" without modelling every house; Dewi can overrule it |
+| It is a general rule for the repo, recorded as an ADR and in CLAUDE.md's Decisions table | Dewi, 2026-10-10: "make it a general ADR for this repo?" |
