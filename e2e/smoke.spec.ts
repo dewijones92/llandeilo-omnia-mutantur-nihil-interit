@@ -909,27 +909,71 @@ test('photo pins, on by default, never sit under the panels, the timeline, the c
 test('every fifth year the photographs are pinned (1895 to 1955) shows a pin at some standard view, and 1960 shows none', async ({
   page,
 }) => {
-  test.slow(
-    Boolean(process.env['CI']),
-    'thirteen years at up to three views each: 6.8 minutes on CI, against its 7-minute limit',
-  );
   const views = ['&place=llandeilo&radius=140', '&place=llandeilo&radius=400', ''];
-  const shown = async (y: number): Promise<number> => {
-    for (const view of views) {
-      await page.goto(`./?year=${String(y)}${view}`);
-      await ready(page);
-      await page.waitForTimeout(800);
-      const n = await page.locator('.pin').filter({ visible: true }).count();
-      if (n > 0) return n;
+  const years = [1895, 1900, 1905, 1910, 1915, 1920, 1925, 1930, 1935, 1940, 1945, 1950, 1955, 1960];
+  const pins = page.locator('.pin').filter({ visible: true });
+  // One page load per view: the year is dragged along the timeline inside the page, which is how a
+  // visitor moves it, with the mouse held down so that letting go never snaps to a key date.
+  const shownAt = new Map<number, number>();
+  for (const view of views) {
+    const todo = years.filter((y) => !shownAt.has(y) || y === 1960);
+    const first = todo[0];
+    if (first === undefined) break;
+    await page.goto(`./?year=${String(first)}${view}`);
+    await ready(page);
+    const box = await page.locator('.tl-track').boundingBox();
+    if (!box) throw new Error('The timeline has no box');
+    const at = (y: number): number => box.x + tAt(TIMELINE, year(y)) * box.width;
+    const mid = box.y + box.height / 2;
+    // Start the drag on a bit of track no key-date marker covers: a marker takes the press for itself.
+    const bare = await page.evaluate(
+      (from) => {
+        for (let dx = 0; dx < 200; dx += 3)
+          for (const x of [from.x + dx, from.x - dx]) {
+            const el = document.elementFromPoint(x, from.y);
+            if (el?.closest('.tl-track') && !el.closest('.tl-marker')) return x;
+          }
+        return undefined;
+      },
+      { x: at(first), y: mid },
+    );
+    if (bare === undefined) throw new Error('No bare track to start the drag on');
+    await page.mouse.move(bare, mid);
+    await page.mouse.down();
+    for (const y of todo) {
+      // A real mouse reports x as a 32-bit float, which lands a year short of a whole year about half the
+      // time, and a photograph's window ends on a whole year; so the held drag is carried by a pointermove
+      // at the exact x of the year, and the next rendered frame is waited for in the same breath.
+      await page.evaluate((x) => {
+        const track = document.querySelector('.tl-track');
+        if (!track) throw new Error('no timeline');
+        track.dispatchEvent(new PointerEvent('pointermove', { clientX: x, bubbles: true }));
+      }, at(y));
+      await expect(page.locator('.tl-year'), `${String(y)}${view}`).toHaveText(String(y));
+      // The scene applies the new year and lays the pins out in one rendered frame, so a frame that
+      // starts after the move has the final answer; a second frame is margin at CI's ~1fps.
+      let n = 0;
+      for (let frame = 0; frame < 2 && n === 0; frame++) {
+        await page.evaluate(
+          () =>
+            new Promise<void>((done) => {
+              requestAnimationFrame(() => {
+                done();
+              });
+            }),
+        );
+        n = await pins.count();
+      }
+      console.info(`dewidebug e2e pins year=${String(y)} view="${view}" visible=${String(n)}`);
+      if (n > 0) shownAt.set(y, n);
     }
-    return 0;
-  };
-  const missing: number[] = [];
-  for (let y = 1895; y <= 1955; y += 5) if ((await shown(y)) === 0) missing.push(y);
+    await page.mouse.up();
+  }
+  const missing = years.filter((y) => y !== 1960 && !shownAt.has(y));
   expect(missing).toEqual([]);
   // Known gap: 2281931 is the only photograph pinned in 1956 to 1960 and it sits under the Llandeilo label
   // at every standard view (labels win), so those years show no pin until the camera moves.
-  expect(await shown(1960)).toBe(0);
+  expect(shownAt.get(1960) ?? 0).toBe(0);
 });
 
 test('with the pins on by default the Llandeilo label still shows, in the overview and in the town', async ({

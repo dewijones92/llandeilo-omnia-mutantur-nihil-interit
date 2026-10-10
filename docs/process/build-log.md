@@ -1255,3 +1255,34 @@ instrumented instead.
 Lesson: **"re-running it passes" is not evidence of a flake, it is what any cause that depends on the
 moment looks like.** The cause was in the environment and the app's silence about it, and one run with the
 failure message written out was enough to find it.
+
+## 2026-10-10 (the fifth-year pin test)
+
+The e2e "every fifth year the photographs are pinned (1895 to 1955) shows a pin at some standard view, and
+1960 shows none" took 6.8 minutes on CI (`test.slow`) because it loaded the page once per year per view, 13
+years at up to three views each, and with the night tests beside it one CI shard ran about 14 minutes while the
+others ran 3 to 8.
+
+1. **One load per view.** It now loads each view once (`radius=140`, `radius=400`, the overview; later views
+   only for the years not yet shown, and always for 1960) and moves through the years in the page. Same
+   assertions: each year 1895 to 1955 shows at least one visible pin at some view, and 1960 shows none at any.
+   Measured locally, same build: 84 seconds before, 24 after on the laptop GPU; 50 seconds after under
+   SwiftShader at Low (CI's renderer, `CI=1 E2E_GPU=0 E2E_QUALITY=low`). I did not re-time the old test under
+   SwiftShader (its first run there hit the 180-second local timeout), so the CI before figure is the 6.8
+   minutes recorded from CI. `test.slow` is gone.
+2. **How the year moves.** A real mouse cannot land on an exact year: Chromium delivers its x as a 32-bit
+   float, which put 1900 at 1899.99 (the slider label floors, so it read "1899"), and a photograph's window
+   ends on a whole year (a photograph dated to 1935 is pinned to 1960), so 1960.0 and 1960.5 are different
+   questions. The test holds a real mouse press on a bare bit of the track, so that letting go never snaps to
+   a key date, and dispatches a `pointermove` at the exact x of each year, the slider's own drag path. It
+   checks the label reads the year it asked for.
+3. **Waiting for state, not time.** The scene applies a new year and lays the pins out in the same rendered
+   frame, so after the move the test waits for the next `requestAnimationFrame` (registered after the
+   engine's own, so it runs after it) and counts the visible pins; a zero gets one more frame before it is
+   believed. A stale frame can only show the previous year's pins, which makes a "none" fail rather than pass.
+4. **Seen red, at the named assertions.** Pins never drawn (`display` never set): `missing` listed all of
+   1895 to 1955. Pin window lingering 100 years instead of 25: `expect(shownAt.get(1960) ?? 0).toBe(0)` failed
+   with 7. Both reverted; `npm run check` and the 13 photo and pin specs pass on a fresh build with one worker.
+
+Lesson: **a test that needs thirteen scenes does not need thirteen page loads**; the slow part of an e2e is
+start-up, so move through the states in one page when the state is reachable the way a visitor reaches it.
