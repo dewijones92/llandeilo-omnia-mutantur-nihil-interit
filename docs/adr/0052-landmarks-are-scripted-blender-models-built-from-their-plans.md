@@ -12,7 +12,7 @@ updated: 2026-10-10
   [ADR 0046](0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md) (its "no `.blend`
   exists" and its rejected Blender alternative) and [ADR 0047](0047-detailed-monuments-have-a-far-and-a-near-mesh.md)
   (the far and near meshes now come from Blender). The pipeline itself (formats, loader, build step, budgets) gets its own ADR.
-- **Date:** 2026-10-10
+- **Date:** 2026-10-10; amended 2026-10-10 (the look: proper textures, Dewi's answer)
 - **Decided by:** Dewi made the decision and chose its scope, in his words quoted below. The named
   examples in point 1 (which castles, Talley Abbey, Newton House, a mill, a chapel), the boundary in point 2,
   the rules in points 3 to 7 and the order in point 8 are Claude's reading and Claude's choices, under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
@@ -74,10 +74,8 @@ churches and the abbey, the town, the bridge and the trains, "And anything along
   turned down was a *low-poly* Blender export; what Dewi chose on 2026-10-10 is a *detailed* one. Only how
   they are built changes: their meshes now come from Blender rather than from code run in the browser.
 - **The look is not decided by this ADR.** Whether models stay in the agreed clean low-poly look and flat
-  colours (option A in `docs/design/models.md`) or gain textures (options B and C) is still Dewi's open
-  question. Until he answers, models gain shape (bevels, roof timbers, hinged gates, better levels of
-  detail) in the current flat palette, and textures wait. ADR 0017's "models must still be low-poly to
-  match the agreed look" holds until then.
+  colours (option A in `docs/design/models.md`) or gain textures (options B and C) was left as Dewi's open
+  question when this ADR was written. *Answered the same day, see the amendment below.*
 - **Point 6 narrows "editable by hand".** Editing in Blender is the way to try a change, not where it
   lives: the script and the plan are the files that are edited for good, so a hand-added detail gets its
   point 5 source in the plan like any other.
@@ -92,3 +90,24 @@ churches and the abbey, the town, the bridge and the trains, "And anything along
   pipeline rather than keeping its own. Until it does it breaks point 3: its script holds its own
   measurements (`GAUGE_HALF`, `WHEEL_R`, `WHEELBASE`). Trains are not landmarks, but they are in Dewi's scope:
   a named type gets its own model, and generic rolling stock gets a kit, as in point 2.
+
+## Amendment, 2026-10-10: proper textures
+
+Asked whether the Blender models should stay in the clean low-poly flat colours or get textures (stone,
+timber, thatch), Dewi answered: "Get proper textures". That is option B in `docs/design/models.md`:
+realistic, textured models in the low-poly valley. ADR 0017's "models must still be low-poly to match the
+agreed look" no longer holds for Blender models.
+
+- **What gets textures** (Claude's reading, under the proactive mandate, so Dewi can overrule it): every
+  Blender model, which means the landmarks and the kit of repeated buildings from point 2. The ground,
+  the vegetation and the people keep their current look.
+- **A texture is a historical claim too** (point 5). A wall's stone, a roof's covering, timber and render
+  each need a source in `docs/research/`, or a label in the part's ⓘ saying they are an analogy. A material
+  that is not known (Fort 1's rampart facing, a clas church's walls) gets a texture labelled as an analogy,
+  never one presented as found. What the research rules out stays out: ADR 0046's "no stone, tile or
+  limewash" on the Roman forts means their textures are timber, turf and earth.
+- **Every texture is an asset** with a source, an author and an open licence in the asset manifest
+  ([ADR 0026](0026-open-licences-including-nc.md)), or is made by the build script, which then records how.
+- **The style clash** that option B warned of is a design risk to check by screenshot at the overview and
+  close up, at each landmark's years. Lighting and colour grading may be tuned so the textured models sit
+  in the valley, with no change to how the valley is drawn.

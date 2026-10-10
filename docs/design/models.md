@@ -7,8 +7,8 @@ updated: 2026-10-10
 
 # Realistic models for the important buildings, through time
 
-Raised by Dewi, 2026-09-28. **Option A (accurate low-poly) is built** for the phases below; option B
-or C is still open. How plans are written is in [`../content/authoring.md`](../content/authoring.md).
+Raised by Dewi, 2026-09-28. **Option A (accurate low-poly) is built** for the phases below. **Option B is chosen**
+for the Blender models (Dewi, 2026-10-10: "Get proper textures", ADR 0052). How plans are written is in [`../content/authoring.md`](../content/authoring.md).
 
 ## The idea
 
@@ -55,9 +55,9 @@ CLAUDE.md records **"Clean low-poly"** as the agreed look (Dewi chose it over "r
 
 - 💭 Option A, B or C?
 - 💭 Which place first? Dinefwr or Carreg Cennen have the richest records.
-- 💭 How far does "realistic" go: textured stone, or accurate shape in the current flat colours? Still open
-  after ADR 0052 (2026-10-10), which decided how models are built, not how they look; until Dewi answers,
-  Blender models keep the flat palette.
+- 💭 How far does "realistic" go: textured stone, or accurate shape in the current flat colours? ✅ Answered
+  2026-10-10: "Get proper textures" (option B for the Blender models, [ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md),
+  amended).
 
 ## Built (2026-09-28): what each model rests on
 

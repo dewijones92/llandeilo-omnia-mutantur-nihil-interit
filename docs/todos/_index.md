@@ -206,7 +206,7 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [x] Better castle models from their documented plans (Dinefwr's great round tower, Carreg Cennen's gatehouse):
       landmark models built phase by phase from the research, 2026-09-28 ([`design/models.md`](../design/models.md))
 - [ ] Close the modelling research gaps listed in [`design/models.md`](../design/models.md) (Coflein plans, Cadw guidebooks)
-- [ ] Decide option B or C for the landmark models (realistic textures), or keep option A (still open after ADR 0052, which is about how models are built; Blender models keep the flat palette until then)
+- [x] Decide option B or C for the landmark models (realistic textures), or keep option A: **option B**, proper textures on the Blender models (Dewi, 2026-10-10)
 - [ ] Landmarks as scripted Blender models ([ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md), Dewi 2026-10-10): the pipeline ADR, then the Roman forts first, then the castles, churches and Talley Abbey, the town's buildings, the bridge and the trains
 - [ ] Roman forts and Garn Goch as plans too (they still use the older builders)
 - [x] The About panel says hills are exaggerated 2.4×, which models are drawn 2.6× larger and which
