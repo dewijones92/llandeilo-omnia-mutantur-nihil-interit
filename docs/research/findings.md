@@ -95,6 +95,35 @@ because of it. The detail and sources are in each note; this is the summary a ne
   no local cholera case was found; that, and the almanac line built on it, are corrected.
   ([ripples](ripples-from-afar.md))
 
+## Dinefwr Castle for a Blender model (2026-10-10)
+
+From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agent the same day
+([check 1](reviews/dinefwr-castle-check-1.md)); an independent check is still owed. Written by Claude for the Blender
+model Dewi chose next (decision log, 2026-10-10).
+
+- **The Cadw plan fits the 2020-22 LiDAR to about a metre**, once its scale is taken from the ground: fitted to five
+  points it is 8.58 pixels a metre against its own bar's 8.15, so the drawing's bar is about 5% long. The keep's centre is
+  E 261168.5 N 221724.0, about 18m east of Coflein's reference, which lies inside the inner ward. ([dinefwr:S10],
+  [dinefwr:S24])
+- **The keep is about 13.6-14m across**, not Coflein's "some 12m"; medievalheritage's 13.5m is the nearest text. It stays
+  contested in the app.
+- **Today's standing heights are measured**: the keep's top storey to 113.6m OD and its wall-walk to 110.4m over a ward
+  floor of about 99.8m; the curtains 5-7m above the ward inside and up to 15m above the slope outside. No source gives
+  any medieval height.
+- **The summerhouse on the keep was roofed by 1740 at the latest** (the Bucks' engraving), and two oil paintings show it
+  with a conical roof and pennant, dated c. 1660-70 by Moore (1994) and c. 1710-30 by the National Trust. The HER's "late
+  18th to early 19th century" for its building is contradicted; the roofs burned before 1804 (Malkin). The app shows the
+  summerhouse from 1660 to today as one phase; the roofed stage ended about 1800.
+- **The "1151 first record" is a manuscript variant**: the Rolls Series Brut has the brothers repair "the castle of
+  Dinweileir", with Dinevwr only in manuscripts C and E, and it says repaired, not built. Kept contested.
+- **No Tudor works can be placed**: the listing and the HER credit Sir Rhys ap Thomas with additions, the Cadw guide
+  finds no record of work after the 14th century, and the DWB's gatehouse and windows by Sir Rhys are at Carew.
+- **No source read names the stone, mortar, render or any roof covering.** The keep is "courses of flat stones" (Ray
+  Caple, via Moore) on the Llandeilo Flags Formation (BGS); render is an analogy from Renn's Brecon keeps only.
+- **What the app's model gets wrong today** (for the build, not changed here): the outline (`DINEFWR_INNER_CORNERS`, a
+  2026-09-28 guess) against the measured one; the stone castle from 1220 against a keep of c. 1230-50; one summerhouse
+  phase to today; a 12m keep; the plan drawn at 2.6 times, which the forts gave up for true size.
+
 ## Conversations by class (2026-09-28)
 
 From [`conversations-by-class.md`](conversations-by-class.md), a draft. An independent verification

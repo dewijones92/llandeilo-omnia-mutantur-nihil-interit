@@ -1211,3 +1211,15 @@ passed, 1 skipped (the stored-quality test), 14.3 minutes, no hang and no "never
 stopped. Looked at on the GPU (`tools/shot.mjs`, WebGL, High) at AD 80, 84 and 110, radius 60, and a close-up at AD 84:
 Fort 1's turf bank, breastwork and thatched halls at 80; Fort 2 with shingled towers and the settlement at 84 and 110.
 
+
+6. **Dinefwr Castle researched for its Blender model** (Claude, for Dewi's pick of the next model;
+   [`research/dinefwr-castle.md`](../research/dinefwr-castle.md)). Docs only. Three things worth keeping:
+   (1) **a 1m LiDAR surface model (DSM) measures a ruin's standing heights and checks a published plan**: the tile's
+   DSM, which the app had not downloaded (it uses the DTM), shows the keep, the curtains and the north-west tower as
+   clean flat wall-tops in a January flight, and fitting the Cadw plan to five of its points showed the plan's scale bar
+   about 5% long; earlier measurements taken from that bar (`building-models.md`) are about 5% large. (2) **A chronicle
+   date in a secondary source may rest on a manuscript variant**: the HER's "1151 ... built" is the Brut's "repaired the
+   castle of Dinweileir", Dinevwr in two manuscripts only. (3) **One source can reach a note by three routes**: Coflein,
+   castlewales.com and medievalheritage.eu all carry the Cadw guidebook, so agreeing with each other is not
+   cross-checking; the note marks those claims. No `src` change: a draft plan module would fail `knip` and duplicate the
+   one in `buildings.ts`.

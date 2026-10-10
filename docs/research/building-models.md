@@ -2,7 +2,7 @@
 title: Measured models of the important buildings
 kind: research
 status: draft
-updated: 2026-10-02
+updated: 2026-10-10
 ---
 
 # Measured models of the important buildings, phase by phase
@@ -278,7 +278,9 @@ These are observations against `src/content/buildings.ts`, not changes made.
   (150ft in 1710)? What were the cloister ranges' widths and heights?
 - Dryslwyn: who built the middle ward, Maredudd ap Rhys or Rhys ap Maredudd? Was the borough wall
   Welsh (1280s) or English (after 1287)? Caple (2007) would settle both.
-- Dinefwr keep diameter: 12m [S21], 13.5m [S22] or about 14m over the base [S23].
+- Dinefwr keep diameter: 12m [S21], 13.5m [S22] or about 14m over the base [S23]. *Added 2026-10-10:* measured
+  again in [`dinefwr-castle.md`](dinefwr-castle.md), where S23 fitted to the LiDAR gives 13.6m over the drawn wall: S23's
+  scale bar is about 5% long against the ground, so this note's S23 measurements are about 5% large. Still contested.
 - Llandeilo old bridge: restored seven arches or a new three-arched bridge after 1798? Its arch
   spans and its exact line downstream of the present bridge.
 - Heights almost everywhere (curtains, gatehouses, ranges) are still not in any source read.
