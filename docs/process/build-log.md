@@ -1071,6 +1071,25 @@ it is defensive only.
    every time `main` moves, so check the highest ADR at the push, not at the merge** (it moved four times
    in two days). Bundle: the main chunk is 534,258 bytes gzipped after the merge.
 
+3. **The GPU job ran no e2e tests after the LiDAR merge** (CI run on afa3b5f, `gpu` failed in 2.5
+   minutes). The summary read "gpu 8 passed 0 failed, e2e 0 passed 0 failed": Playwright on Windows could
+   not load `e2e/terrain.spec.ts`, which imports `public/data/lidar/lidar.json`, because
+   `tools/gpu/run.sh` copied a hand-kept list of paths to Windows and the new import was not on it. The
+   list now comes from the specs' own `from '../…'` imports outside `src` and `tools/gpu` (the first
+   attempt also listed `tools/gpu/results.ts`, already inside `tools/gpu`, and Windows tar refused the
+   duplicate entry), and a missing import fails the run by name. Run locally after the fix: WebGPU on the
+   NVIDIA GPU, 8 GPU tests and 70 e2e passed (1 skipped) in 5m12s; idle 53fps, orbit 60, scrub 40 (p90
+   50ms). Lesson: **a copy list that mirrors code drifts the day the code grows; derive it.**
+
+4. **A test that passed with the feature removed** (CI run on f6dfc49, shard 4: "the map controls stand
+   aside while a scene plays" failed at its last step, the arrow-key slide, moved 0 after a 1.5s hold).
+   The hold was a fixed time, which at CI's ~1fps can span no frame, so the step now holds the key until
+   the camera moves (up to 20s, the time logged as `dewidebug e2e arrow slide`). Checking that fix against
+   a broken build (no key pressed) showed the step had never tested the key: the camera still glides
+   after the drag before it, so "moved more than 5" held with no key at all. The step now starts from
+   `cameraSettled`; with no key it fails at the slide's assertion, with the key it passes (267ms held).
+   Lesson: **a red check of a test fix can reveal that the test was green for the wrong reason**.
+
 ### The photo layer on by default (2026-10-10)
 
 Dewi chose "On by default", reversing ADR 0044's off-by-default ([ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md), amended).
@@ -1090,4 +1109,3 @@ Full e2e (E2E_WORKERS=1, 71 tests): 68 passed, 1 skipped (the stored-quality tes
 "page never becomes ready" flake (a right-drag test and the AD 110 Fort 2 test); both passed re-run alone.
 Lesson: **a default flip moves the baseline of every test that never named the setting**; the overlap tests were
 green only because the years they use have no pins, so check what a green test actually exercised.
-

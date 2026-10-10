@@ -1581,10 +1581,16 @@ test('the map controls stand aside while a scene plays, and come back as they we
   expect(after.beta).toBeCloseTo(before.beta, 5);
   // The arrow keys slide the view, as before the scene, and do not also turn it.
   await page.locator('#scene').focus();
-  const keyed = await cameraState(page);
+  // Settled first: the drag's glide moves the camera on its own, which once let this pass with no key.
+  const keyed = await cameraSettled(page);
+  // Held until it moves, not for a fixed time: at CI's ~1fps a fixed 1.5s hold can span no frame at all.
+  const heldFrom = Date.now();
   await page.keyboard.down('ArrowUp');
-  await page.waitForTimeout(1500);
+  await expect
+    .poll(async () => moved(keyed, await cameraState(page)), { timeout: 20_000, intervals: [250] })
+    .toBeGreaterThan(5);
   await page.keyboard.up('ArrowUp');
+  console.log(`dewidebug e2e arrow slide moved after ${String(Date.now() - heldFrom)}ms held`);
   const slid = await cameraState(page);
   expect(moved(keyed, slid)).toBeGreaterThan(5);
   expect(slid.alpha).toBeCloseTo(keyed.alpha, 5);
