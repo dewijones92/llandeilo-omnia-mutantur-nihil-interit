@@ -892,24 +892,26 @@ test('photo pins, on by default, never sit under the panels, the timeline, the c
     // In the overview the one pin that fits sits under Llandeilo's label, which wins, so none need show.
     if (url.includes('place='))
       await expect(page.locator('.pin').filter({ visible: true }).first()).toBeVisible();
-    await page.waitForTimeout(1000);
-    expect(await covered(), url).toEqual([]);
+    // Pins re-lay themselves out on a rendered frame, which at CI's ~1fps can take a second or more.
+    await expect.poll(covered, { message: url, timeout: 20_000 }).toEqual([]);
     await page.locator('body').press('?');
     await expect(page.getByRole('dialog', { name: 'How to explore' })).toBeVisible();
-    await page.waitForTimeout(500);
-    expect(await covered(), `${url} with the welcome open`).toEqual([]);
+    await expect.poll(covered, { message: `${url} with the welcome open`, timeout: 20_000 }).toEqual([]);
     await page.keyboard.press('Escape');
     await page.getByRole('button', { name: 'Almanac' }).click();
     await expect(page.locator('.info')).toBeVisible();
     await settled(page.locator('.info'));
-    await page.waitForTimeout(500);
-    expect(await covered(), `${url} with the almanac open`).toEqual([]);
+    await expect.poll(covered, { message: `${url} with the almanac open`, timeout: 20_000 }).toEqual([]);
   }
 });
 
 test('every fifth year the photographs are pinned (1895 to 1955) shows a pin at some standard view, and 1960 shows none', async ({
   page,
 }) => {
+  test.slow(
+    Boolean(process.env['CI']),
+    'thirteen years at up to three views each: 6.8 minutes on CI, against its 7-minute limit',
+  );
   const views = ['&place=llandeilo&radius=140', '&place=llandeilo&radius=400', ''];
   const shown = async (y: number): Promise<number> => {
     for (const view of views) {
