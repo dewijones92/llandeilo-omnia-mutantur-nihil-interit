@@ -2,7 +2,7 @@
 title: The Dinefwr Roman forts and their civilian settlement (vicus), for a detailed reconstruction
 kind: research
 status: draft
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # The Dinefwr Roman forts and their vicus, for a detailed reconstruction
@@ -406,6 +406,7 @@ These are for filling gaps and for labelling reconstruction, not for stating wha
 | **Carmarthen** (Moridunum), occupied from about AD 75 to at least 100 | A **second-phase fort reduced in size** from the first, as at Dinefwr and (per the earlier note) Pumsaint | S13 |
 | **Trawscoed** (Ceredigion), 165m by 125m (2.1ha; the size and the rampart come from S15 only, S14's 160m by 120m is its survey area) | Geophysics: **six blocks of barracks** in the northern quadrant, a veranda possible (a row of post-holes), "post holes of timbers supporting guard towers" beside the gate, a possible mansio near the gate. Wikipedia (a lead) adds a "clay-and-turf" rampart about 4.1m wide with a clay-and-turf revetment | S14, S15 |
 | **Jay Lane, Herefordshire** (an earth fort, pre-Flavian, not Wales), c. 2ha | Excavated **timber gate towers on two rows of five posts**, about 2.9m (9.5ft) square, **six-post corner tower** about 4.6m by 2.4m, **four-post interval towers** about 2.4 to 3m square, a **double V-shaped ditch** 2m wide and 1m deep with a 1.5m berm, the rampart "no more than 10ft (3m)" to the walk and "about 15.5ft" with breastwork (those are **estimates**, no rampart bank survives) | S16 |
+| **Jay Lane: what its page does not say** (checked 2026-10-10, second-Opus review of the Blender models) | It gives post layouts, plan sizes and "the posts were of the same scantling (cross-section)" for the interval towers, with no post size. It says **nothing about platforms, stages, boarding, roofs or an open frame**. For the gatehouses its excavator writes that "a tower 9.5ft square overall would have provided a guard-room at ground level": an assumption about the ground storey, and the opposite of an open frame below. The first Blender build credited S16 with a boarded stage and an open lower frame; both are now Claude's guess (`tower-boarding`, imagined), and the ground storey is drawn walled in to follow the one reading we have. | S16 |
 
 **General fort plan.** A typical auxiliary fort had a central headquarters (principia) facing the front
 gate, the commander's house (praetorium) beside it, granaries (horrea) and workshops (fabrica) near
@@ -527,7 +528,7 @@ minus 10m relative to one another** (same figure). *Corrected 2026-10-09 (indepe
 | Fort 1 six-post gate tower | documented (posts) / reconstructed (form) | four post-pits, 1.2m square | S1; S16 |
 | Fort 1 interval tower | documented ("probably") | four-post anomaly | S1 |
 | Fort 2 gates: three evidenced, rear not | documented / unknown | survey | S1 |
-| Gate tower height and shape | imagined/reconstructed | analogy | S16 |
+| Gate tower height and shape | imagined/reconstructed | analogy; S16 gives post layouts and sizes only, not a stage, boarding or any height (corrected 2026-10-10) | S16 |
 | Timber and daub buildings, no stone | documented | excavation; daub with wattle impressions | S1 |
 | Fort 2 principia location | reconstructed | predicted by the excavator; weak local support | S1 |
 | Barracks (number, size, layout) | reconstructed | analogy; one Fort 1 barrack-like foundation | S1, S14, S18 |

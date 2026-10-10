@@ -7,19 +7,19 @@ import type { BuildSheet } from '../../src/domain/buildsheet.ts';
 
 export const ROOT = join(import.meta.dirname, '../..');
 export const SCRIPT = join(ROOT, 'tools/models/build_landmark.py');
-// Bump when finish-gltf changes what it writes, so every model counts as stale.
-export const FINISH_VERSION = '1';
+// The finishing step: a change to either file changes what a glb carries, so every model counts as stale.
+const FINISH = ['tools/models/build.ts', 'tools/models/glb.ts'] as const;
 
 export function sheets(): BuildSheet[] {
   return modelSheets(WORLD_CONTENT.features);
 }
 
-/** What a model was built from: its sheet, the Blender script and the finishing step. A change to any makes it stale. */
+/** What a model was built from: its sheet, the Blender script and the finishing step's source. A change to any makes it stale. */
 export function inputHash(sheet: BuildSheet): string {
   return createHash('sha1')
     .update(JSON.stringify(sheet))
     .update(readFileSync(SCRIPT))
-    .update(FINISH_VERSION)
+    .update(FINISH.map((f) => readFileSync(join(ROOT, f), 'utf8')).join('\0'))
     .digest('hex')
     .slice(0, 16);
 }

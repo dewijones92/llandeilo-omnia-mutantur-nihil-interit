@@ -64,6 +64,7 @@ export interface PartMeta {
 export const KIT_IDS = [
   'post-tower-six',
   'post-tower-four',
+  'tower-boarding',
   'turf-courses',
   'post-and-board-breastwork',
   'plank-deck',
@@ -76,15 +77,16 @@ export type KitId = (typeof KIT_IDS)[number];
 
 // The measurements each kit takes, in metres; the numbers live in the kit catalogue, never in the Blender script.
 export interface KitParamNames {
-  'post-tower-six': 'post' | 'stage' | 'board';
-  'post-tower-four': 'post' | 'stage' | 'board';
+  'post-tower-six': 'post';
+  'post-tower-four': 'post';
+  'tower-boarding': 'stage' | 'board' | 'floor' | 'skin';
   'turf-courses': 'course';
-  'post-and-board-breastwork': 'post' | 'spacing' | 'board';
-  'plank-deck': 'plank' | 'beam';
-  'ledged-leaf': 'plank' | 'ledge';
+  'post-and-board-breastwork': 'post' | 'spacing' | 'board' | 'proud' | 'skin';
+  'plank-deck': 'plank' | 'beam' | 'thickness' | 'rail' | 'overhang';
+  'ledged-leaf': 'plank' | 'ledge' | 'inset' | 'clearance';
   'timber-frame': 'post' | 'spacing' | 'sill' | 'plate';
-  'shingle-roof': 'course';
-  'thatch-roof': 'thickness';
+  'shingle-roof': 'course' | 'thickness' | 'lip' | 'ridge' | 'ridgeDepth' | 'gable';
+  'thatch-roof': 'thickness' | 'eaves' | 'roll' | 'gable';
 }
 export type KitParams<K extends KitId> = Readonly<Record<KitParamNames[K], number>>;
 

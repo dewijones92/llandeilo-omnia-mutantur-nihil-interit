@@ -22,6 +22,7 @@ export class MomentCard {
     private readonly places: ReadonlyMap<string, Place>,
     private readonly scenes: ReadonlyMap<EventId, Cutscene>,
     private readonly onWatch: (scene: Cutscene) => void,
+    private readonly modelled: (feature: string) => boolean = () => false,
   ) {
     store.onChange(() => {
       const ev = this.current;
@@ -33,7 +34,7 @@ export class MomentCard {
   /** The card for a key date; `present` is what the timeline draws now, which decides the parts list. */
   show(ev: KeyEvent | undefined, present: readonly FeaturePresence[] = []): void {
     const listed = ev ? listedAt(present, ev.place) : [];
-    const key = listed.map((f) => f.id).join(',');
+    const key = listed.map((f) => `${f.id}${this.modelled(f.id) ? '+model' : ''}`).join(',');
     if (ev === this.current && key === this.listedKey) return;
     const keepOpen = ev !== undefined && ev === this.current && this.partsOpen();
     this.current = ev;
@@ -85,6 +86,11 @@ export class MomentCard {
     );
   }
 
+  /** Draws the card again if what is on screen has changed since: a model finished loading, or graphics changed. */
+  refresh(): void {
+    this.show(this.current, this.present);
+  }
+
   private partsOpen(): boolean {
     const details = this.el.querySelector('details.moment-parts');
     return details instanceof HTMLDetailsElement && details.open;
@@ -103,7 +109,7 @@ export class MomentCard {
     const fill = (): void => {
       if (details.dataset['filled']) return;
       details.dataset['filled'] = 'true';
-      body.append(...here.flatMap((f) => this.partsOf(f)));
+      body.append(...here.flatMap((f) => this.partsOf(f, this.modelled(f.id))));
       console.info(`dewidebug moment parts opened features=${here.map((f) => f.id).join(',')}`);
     };
     details.addEventListener('toggle', () => {
@@ -116,7 +122,7 @@ export class MomentCard {
     return details;
   }
 
-  private partsOf(f: Feature): HTMLElement[] {
+  private partsOf(f: Feature, modelled: boolean): HTMLElement[] {
     if (f.kind.type !== 'building') return [];
     const lang = this.store.lang;
     const by = partsByTier(f.kind.plan);
@@ -131,13 +137,13 @@ export class MomentCard {
             { class: `tier tier-${tier}` },
             `${TIER_ICON[tier]} ${this.store.t(tier)} (${String(parts.length)})`,
           ),
-          h('ul', {}, ...parts.map((p) => this.partItem(p))),
+          h('ul', {}, ...parts.map((p) => this.partItem(p, modelled))),
         ];
       }),
     ];
   }
 
-  private partItem(p: Part): HTMLElement {
+  private partItem(p: Part, modelled: boolean): HTMLElement {
     const lang = this.store.lang;
     const pr = p.provenance;
     const note = pr ? basisOf(pr, lang) : null;
@@ -151,9 +157,15 @@ export class MomentCard {
         h('summary', {}, p.name?.[lang] ?? p.id ?? ''),
         note ? h('p', {}, note) : null,
         list.length ? h('ul', { class: 'moment-sources' }, ...list) : null,
-        this.kitsOf(p),
+        modelled ? this.kitsOf(p) : this.kitsOff(p),
       ),
     );
+  }
+
+  // On screen the simplified plan, not the model: say so rather than list detail that is not drawn.
+  private kitsOff(p: Part): HTMLElement | null {
+    if (!p.kits?.length) return null;
+    return h('p', { class: 'moment-kits-off' }, this.store.t('partKitsOff'));
   }
 
   // The construction details a Blender model draws on the part, each with its own tier (ADR 0053).

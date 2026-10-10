@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Research findings and decisions
@@ -280,6 +280,17 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   thousand, drawn from several different units"; the excavator (roman:S1) says its size suggests "at
   the very least an *ala quingenaria* ... or a *cohors milliaria*", a lower minimum. Both now say it was
   big enough for perhaps a thousand men or more, with both sources in the ⓘ.
+
+- **Jay Lane (roman:S16) does not describe a boarded stage or an open frame under the towers** (corrected
+  2026-10-10, second-Opus review of the Blender models). The first Blender build's tower kits said "the
+  boarded stage and the open frame follow timber towers on posts at Jay Lane", and gave a 0.3m post size to
+  the interval towers on the same footing. The page, read again directly, gives post layouts (gate towers on
+  two rows of five, a six-post corner tower, four-post interval towers), plan sizes and "the same scantling"
+  for the interval towers' posts, and says nothing about platforms, stages, boarding or roofs; for the
+  gatehouses it says "a tower 9.5ft square overall would have provided a guard-room at ground level",
+  which points the other way. The kits now credit S16 only with the layouts and sizes; the stage, the boards
+  and a walled ground storey are a separate imagined kit (`tower-boarding`), and the interval tower's posts
+  are drawn at the same 0.4m as the gate posts, an analogy the ⓘ says so about.
 
 ## Decisions the research drove
 

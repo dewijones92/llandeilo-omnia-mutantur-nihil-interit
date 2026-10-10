@@ -12,8 +12,17 @@ export interface GlbNode {
 export interface GlbJson {
   readonly asset: { readonly version: string; generator?: string };
   readonly nodes: GlbNode[];
-  readonly meshes?: readonly { readonly primitives: readonly { readonly indices?: number }[] }[];
-  readonly accessors?: readonly { readonly count: number }[];
+  readonly meshes?: readonly {
+    readonly primitives: readonly {
+      readonly indices?: number;
+      readonly attributes?: { readonly POSITION?: number };
+    }[];
+  }[];
+  readonly accessors?: readonly {
+    readonly count: number;
+    readonly min?: readonly number[];
+    readonly max?: readonly number[];
+  }[];
   readonly scenes?: { extras?: Record<string, unknown> }[];
   readonly [key: string]: unknown;
 }
@@ -89,4 +98,25 @@ export function glbCounts(json: GlbJson): { readonly triangles: number; readonly
     }
   }
   return { triangles, drawCalls };
+}
+
+/** The box a node's mesh fills, in glTF axes (x east, y up, z south), from its position accessors; undefined for a node with no mesh. */
+export function nodeBounds(
+  json: GlbJson,
+  node: GlbNode,
+):
+  | { readonly min: readonly [number, number, number]; readonly max: readonly [number, number, number] }
+  | undefined {
+  if (node.mesh === undefined) return undefined;
+  const min: [number, number, number] = [Infinity, Infinity, Infinity];
+  const max: [number, number, number] = [-Infinity, -Infinity, -Infinity];
+  for (const p of json.meshes?.[node.mesh]?.primitives ?? []) {
+    const a = p.attributes?.POSITION === undefined ? undefined : json.accessors?.[p.attributes.POSITION];
+    if (!a?.min || !a.max) continue;
+    for (let i = 0; i < 3; i++) {
+      min[i] = Math.min(min[i] ?? Infinity, a.min[i] ?? Infinity);
+      max[i] = Math.max(max[i] ?? -Infinity, a.max[i] ?? -Infinity);
+    }
+  }
+  return Number.isFinite(min[0]) ? { min, max } : undefined;
 }

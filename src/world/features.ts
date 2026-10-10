@@ -107,6 +107,7 @@ export class FeatureLayer {
   private readonly surface: Ground;
   private readonly ribbons: Ribbon[] = [];
   private modelsOn: boolean;
+  private readonly modelListeners: (() => void)[] = [];
 
   constructor(
     private readonly world: World,
@@ -316,6 +317,7 @@ export class FeatureLayer {
       this.show(m);
     }
     this.world.refreshShadows();
+    for (const fn of this.modelListeners) fn();
   }
 
   // Fetched the first time the monument is drawn, so nothing is added to the start; it swaps in once both levels arrive.
@@ -354,6 +356,7 @@ export class FeatureLayer {
       near?.mesh?.dispose();
       slot.state = 'failed';
       this.show(m);
+      for (const fn of this.modelListeners) fn();
       return;
     }
     const groundPlan = { ...kind.plan, parts: kind.plan.parts.filter(liesOnGround) };
@@ -393,6 +396,7 @@ export class FeatureLayer {
     slot.state = 'ready';
     this.show(m);
     this.world.refreshShadows();
+    for (const fn of this.modelListeners) fn();
     console.info(
       `dewidebug landmark ${id} drawn from its model now (${m.level}, probe error near ${near.probeError.toFixed(3)}m far ${far.probeError.toFixed(3)}m)`,
     );
@@ -408,6 +412,17 @@ export class FeatureLayer {
         return [`${id}=${source}:${m.level}${state}`];
       })
       .join(' ');
+  }
+
+  /** Whether a monument is drawn from its Blender model now (loaded, and models on), so a card can say what is on screen. */
+  modelled(id: string): boolean {
+    for (const [key, m] of this.monuments) if (key === id) return this.modelsOn && m.model?.state === 'ready';
+    return false;
+  }
+
+  /** Calls `fn` whenever a monument starts or stops being drawn from its model. */
+  onModelsChanged(fn: () => void): void {
+    this.modelListeners.push(fn);
   }
 
   /** The part ids a monument's near model holds, once loaded; empty before. */

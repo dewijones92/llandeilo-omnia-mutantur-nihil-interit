@@ -4,8 +4,8 @@ Run headless: blender -b --factory-startup -P tools/models/build_landmark.py -- 
 
 TypeScript decides, Blender dresses: every measurement comes from the sheet, worked out by
 src/domain/buildsheet.ts from the typed plan and the kit catalogue (src/content/kits.ts). This script
-holds no history. What it adds on its own is finish that claims nothing: bevels and a small,
-seeded variation in colour.
+holds no history. Every measurement of a detail comes from a kit's parameters; what it adds on its own
+claims nothing: bevels, a small, seeded variation in colour, and the named joins below that sit out of sight.
 
 Blender X is east, Y is north and Z is up, in metres from the feature's grid reference, which is kept
 in the scene's custom properties, never in vertex positions.
@@ -26,6 +26,9 @@ BLENDER = (4, 0)
 STEP = 6.0
 BEVEL = 0.025
 GAP = 0.03
+# Where a gate leaf's boards and ledges sit across its thickness, as shares of it: placement, not a measurement.
+FACE_AT, FACE_SHARE, BACK_AT, BACK_SHARE = 0.15, 0.5, 0.25, 0.4
+HIDDEN_JOIN = 0.05  # where two timbers meet inside the thatch or under a board: never seen, so no kit measures it
 
 
 def fail(message):
@@ -275,15 +278,16 @@ def breastwork(m, sheet, part, path, col, half):
     fr = frames(path, s["closed"])
     seat = s["bottom"]
     for p, turn in along_path(path, k["spacing"]):
-        m.box(p[0], p[1], k["post"], k["post"], seat, s["top"] + 0.12, turn, m.jitter(shade(col, 0.9)))
+        m.box(p[0], p[1], k["post"], k["post"], seat, s["top"] + k["proud"], turn, m.jitter(shade(col, 0.9)))
     boards = max(1, round((s["top"] - seat) / k["board"]))
-    offset = side * (k["post"] / 2 + 0.04)
+    half_skin = k["skin"] / 2
+    offset = side * (k["post"] / 2 + half_skin)
     for b in range(boards):
         z0 = seat + (s["top"] - seat) * b / boards
         z1 = seat + (s["top"] - seat) * (b + 1) / boards - GAP
         rings = []
         for p, (r, _) in zip(path, fr):
-            rings.append([(p[0] + r[0] * (offset + a), p[1] + r[1] * (offset + a), z) for a, z in ((0.04, z0), (0.04, z1), (-0.04, z1), (-0.04, z0))])
+            rings.append([(p[0] + r[0] * (offset + a), p[1] + r[1] * (offset + a), z) for a, z in ((half_skin, z0), (half_skin, z1), (-half_skin, z1), (-half_skin, z0))])
         m.loft(rings, [m.jitter(col)] * 4)
 
 
@@ -302,7 +306,7 @@ def tower(m, sheet, part, near):
     if s["roof"]:
         roof_col = rgb(sheet["palette"][s["roof"]["material"]])
         shingled = near and "shingle-roof" in part["kits"]
-        pyramid(m, sheet, cx, cy, s["roof"], s["top"], s["turn"], roof_col, shingled)
+        pyramid(m, sheet, cx, cy, s, roof_col, shingled)
 
 
 def post_tower(m, sheet, part, kit, col):
@@ -316,40 +320,53 @@ def post_tower(m, sheet, part, kit, col):
         for y in (-edge, edge):
             px, py = turned(x, y, s["turn"])
             m.timber(cx + px, cy + py, k["post"], k["post"], s["bottom"], s["top"], s["turn"], m.jitter(shade(col, 0.85)))
-    floor = s["top"] - k["stage"]
-    m.box(cx, cy, size + 0.1, size + 0.1, floor - 0.15, floor, s["turn"], m.jitter(col))
-    boards = max(1, round(k["stage"] / k["board"]))
-    for b in range(boards):
-        z0 = floor + k["stage"] * b / boards
-        z1 = floor + k["stage"] * (b + 1) / boards - GAP
-        ring = rect(0, 0, size + 0.16, size + 0.16, 0)
-        inner = rect(0, 0, size + 0.04, size + 0.04, 0)
+    if "tower-boarding" not in part["kits"]:
+        return
+    b = sheet["kits"]["tower-boarding"]
+    floor = s["top"] - b["stage"]
+    slab = size + 2 * b["skin"]
+    m.box(cx, cy, slab, slab, floor - b["floor"], floor, s["turn"], m.jitter(col))
+    boarded(m, s, size, b, s["bottom"], floor - b["floor"], col)
+    boarded(m, s, size, b, floor, s["top"], col)
+
+
+def boarded(m, s, size, b, z0, z1, col):
+    """Boards stacked from z0 to z1 round a square tower, just outside its posts."""
+    cx, cy = s["at"]
+    boards = max(1, round((z1 - z0) / b["board"]))
+    ring = rect(0, 0, size + 2 * b["skin"], size + 2 * b["skin"], 0)
+    inner = rect(0, 0, size, size, 0)
+    for k in range(boards):
+        lo = z0 + (z1 - z0) * k / boards
+        hi = z0 + (z1 - z0) * (k + 1) / boards - GAP
         board_col = m.jitter(col)
         for i in range(4):
             a, c = ring[i], ring[(i + 1) % 4]
             ai, ci = inner[i], inner[(i + 1) % 4]
             quad = [turned(*p, s["turn"]) for p in (a, c, ci, ai)]
-            quad = [(cx + x, cy + y) for x, y in quad]
-            m.prism(quad, z0, z1, board_col)
+            m.prism([(cx + x, cy + y) for x, y in quad], lo, hi, board_col)
 
 
-def pyramid(m, sheet, cx, cy, roof, base, turn, col, shingled):
+def pyramid(m, sheet, cx, cy, tower_shape, col, shingled):
+    roof = tower_shape["roof"]
+    base = tower_shape["top"]
+    turn = tower_shape["turn"]
     w = roof["length"] / 2
     rise = roof["rise"]
     if roof["kind"] == "cone" or not shingled:
-        sides = 12 if roof["kind"] == "cone" else 4
-        ring = outline_of("round" if sides == 12 else "square", roof["length"], turn + (0 if sides == 12 else 0), cx, cy)
+        outline = tower_shape["outline"] if roof["kind"] == "cone" else "square"
+        ring = outline_of(outline, roof["length"], turn, cx, cy)
         verts = [(x, y, base) for x, y in ring] + [(cx, cy, base + rise)]
         n = len(ring)
         faces = [(i, (i + 1) % n, n) for i in range(n)] + [tuple(reversed(range(n)))]
         m.solid(verts, faces, [col] * (n + 1))
         return
-    course = sheet["kits"]["shingle-roof"]["course"]
+    k = sheet["kits"]["shingle-roof"]
     slope = math.hypot(w, rise)
-    n = max(2, math.ceil(slope / course))
+    n = max(2, math.ceil(slope / k["course"]))
     for i in range(n):
         t0, t1 = i / n, min(1, (i + 1) / n + 0.25 / n)
-        lip = 0.04
+        lip = k["lip"]
         lo = rect(cx, cy, 2 * (w * (1 - t0) + lip), 2 * (w * (1 - t0) + lip), turn)
         hi = rect(cx, cy, 2 * w * (1 - t1), 2 * w * (1 - t1), turn) if t1 < 1 else None
         z0, z1 = base + rise * t0 - lip, base + rise * t1
@@ -431,38 +448,43 @@ def gable(m, sheet, part, roof, cx, cy, turn, col, wall_col, kits):
         faces = [(0, 1, 5, 4), (2, 3, 4, 5), (1, 2, 5), (3, 0, 4), (3, 2, 1, 0)]
         m.solid(verts, faces, [col] * 5)
         return
+    roof_kit = sheet["kits"]["thatch-roof" if thatch else "shingle-roof"]
+    g = roof_kit["gable"]
     wall_half = s["width"] / 2
-    for x in (-s["length"] / 2 + 0.03, s["length"] / 2 - 0.03):
-        verts = [at(x - 0.05, -wall_half, top), at(x - 0.05, wall_half, top), at(x - 0.05, 0, top + rise), at(x + 0.05, -wall_half, top), at(x + 0.05, wall_half, top), at(x + 0.05, 0, top + rise)]
+    for x in (-s["length"] / 2 + g / 2, s["length"] / 2 - g / 2):
+        verts = [at(x - g / 2, -wall_half, top), at(x - g / 2, wall_half, top), at(x - g / 2, 0, top + rise), at(x + g / 2, -wall_half, top), at(x + g / 2, wall_half, top), at(x + g / 2, 0, top + rise)]
         faces = [(0, 1, 2), (5, 4, 3), (0, 3, 4, 1), (1, 4, 5, 2), (2, 5, 3, 0)]
         m.solid(verts, faces, [m.jitter(wall_col, 0.04)] * 5)
     if thatch:
-        t = sheet["kits"]["thatch-roof"]["thickness"]
+        t = roof_kit["thickness"]
+        eave = roof_kit["eaves"]
         for side in (-1, 1):
             verts = [
-                at(-L, side * W, top - 0.1), at(L, side * W, top - 0.1), at(L, 0, top + rise), at(-L, 0, top + rise),
-                at(-L, side * (W - 0.05), top - 0.1 + t), at(L, side * (W - 0.05), top - 0.1 + t), at(L, 0, top + rise + t), at(-L, 0, top + rise + t),
+                at(-L, side * W, top - eave), at(L, side * W, top - eave), at(L, 0, top + rise), at(-L, 0, top + rise),
+                at(-L, side * (W - HIDDEN_JOIN), top - eave + t), at(L, side * (W - HIDDEN_JOIN), top - eave + t), at(L, 0, top + rise + t), at(-L, 0, top + rise + t),
             ]
             faces = [(0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)]
             m.solid(verts, faces, [m.jitter(col, 0.05)] * 6)
-        ring = [(math.cos(a) * t * 0.7, math.sin(a) * t * 0.7) for a in (math.pi * i / 4 for i in range(8))]
-        rings = [[at(x, y, top + rise + t * 0.6 + z) for y, z in ring] for x in (-L - 0.05, L + 0.05)]
+        roll = roof_kit["roll"]
+        ring = [(math.cos(a) * roll, math.sin(a) * roll) for a in (math.pi * i / 4 for i in range(8))]
+        rings = [[at(x, y, top + rise + t * 0.6 + z) for y, z in ring] for x in (-L - HIDDEN_JOIN, L + HIDDEN_JOIN)]
         m.loft(rings, [shade(col, 0.92)] * 8)
         return
-    course = sheet["kits"]["shingle-roof"]["course"]
     slope = math.hypot(W, rise)
-    n = max(2, math.ceil(slope / course))
+    n = max(2, math.ceil(slope / roof_kit["course"]))
     for side in (-1, 1):
         for i in range(n):
             t0, t1 = i / n, min(1, (i + 1) / n + 0.3 / n)
             y0, y1 = side * W * (1 - t0), side * W * (1 - t1)
-            z0, z1 = top + rise * t0 - 0.03, top + rise * t1
-            th = 0.05
+            z0, z1 = top + rise * t0 - roof_kit["lip"], top + rise * t1
+            th = roof_kit["thickness"]
             c = m.jitter(col, 0.08)
             verts = [at(-L, y0, z0), at(L, y0, z0), at(L, y1, z1), at(-L, y1, z1), at(-L, y0, z0 + th), at(L, y0, z0 + th), at(L, y1, z1 + th), at(-L, y1, z1 + th)]
             faces = [(0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)]
             m.solid(verts, faces, [c] * 6)
-    m.beam(at(-L - 0.1, 0, top + rise + 0.05), at(L + 0.1, 0, top + rise + 0.05), 0.22, 0.18, shade(col, 0.8))
+    ridge = roof_kit["ridge"]
+    seat = top + rise + roof_kit["ridgeDepth"] / 2
+    m.beam(at(-L - ridge / 2, 0, seat), at(L + ridge / 2, 0, seat), ridge, roof_kit["ridgeDepth"], shade(col, 0.8))
 
 
 def deck(m, sheet, part, col):
@@ -473,15 +495,15 @@ def deck(m, sheet, part, col):
     floor = s["bottom"]
     for y in (-(s["width"] / 2 - k["beam"] / 2), s["width"] / 2 - k["beam"] / 2):
         px, py = turned(0, y, turn)
-        m.timber(cx + px, cy + py, s["length"] + 0.8, k["beam"], floor, floor + k["beam"], turn, m.jitter(shade(col, 0.85)))
+        m.timber(cx + px, cy + py, s["length"] + 2 * k["overhang"], k["beam"], floor, floor + k["beam"], turn, m.jitter(shade(col, 0.85)))
     planks = max(1, round(s["length"] / k["plank"]))
     for i in range(planks):
         x = -s["length"] / 2 + s["length"] * (i + 0.5) / planks
         px, py = turned(x, 0, turn)
-        m.box(cx + px, cy + py, s["length"] / planks - GAP, s["width"], floor + k["beam"], floor + k["beam"] + 0.08, turn, m.jitter(col))
-    for y in (-s["width"] / 2 + 0.04, s["width"] / 2 - 0.04):
+        m.box(cx + px, cy + py, s["length"] / planks - GAP, s["width"], floor + k["beam"], floor + k["beam"] + k["thickness"], turn, m.jitter(col))
+    for y in (-s["width"] / 2 + k["rail"] / 2, s["width"] / 2 - k["rail"] / 2):
         px, py = turned(0, y, turn)
-        m.box(cx + px, cy + py, s["length"], 0.08, floor + k["beam"], s["top"], turn, m.jitter(col))
+        m.box(cx + px, cy + py, s["length"], k["rail"], floor + k["beam"], s["top"], turn, m.jitter(col))
 
 
 def leaf(m, sheet, part, col):
@@ -489,20 +511,18 @@ def leaf(m, sheet, part, col):
     k = sheet["kits"]["ledged-leaf"]
     length = s["length"]
     width = s["width"]
-    z0 = 0.05
+    z0 = k["clearance"]
     planks = max(1, round(length / k["plank"]))
     for i in range(planks):
         x = length * (i + 0.5) / planks
-        m.box(x, width * 0.15, length / planks - GAP, width * 0.5, z0, s["top"], 0, m.jitter(col))
-    back = -width * 0.25
+        m.box(x, width * FACE_AT, length / planks - GAP, width * FACE_SHARE, z0, s["top"], 0, m.jitter(col))
+    back = -width * BACK_AT
     ledge_col = shade(col, 0.82)
-    heights = (z0 + 0.35, (z0 + s["top"]) / 2, s["top"] - 0.35)
+    heights = (z0 + k["inset"], (z0 + s["top"]) / 2, s["top"] - k["inset"])
     for z in heights:
-        m.timber(length / 2, back, length - 0.1, width * 0.4, z - k["ledge"] / 2, z + k["ledge"] / 2, 0, ledge_col)
-    m.beam((0.15, back, heights[0]), (length - 0.15, back, heights[1]), k["ledge"] * 0.8, width * 0.4, ledge_col)
-    m.beam((0.15, back, heights[1]), (length - 0.15, back, heights[2]), k["ledge"] * 0.8, width * 0.4, ledge_col)
-
-
+        m.timber(length / 2, back, length - k["ledge"], width * BACK_SHARE, z - k["ledge"] / 2, z + k["ledge"] / 2, 0, ledge_col)
+    for lo, hi in ((0, 1), (1, 2)):
+        m.beam((k["ledge"], back, heights[lo]), (length - k["ledge"], back, heights[hi]), k["ledge"] * 0.8, width * BACK_SHARE, ledge_col)
 # Objects, collections and export -------------------------------------------------------------------
 
 
@@ -510,6 +530,7 @@ BUILDERS = {"wall": wall, "tower": tower, "hall": hall}
 KNOWN_KITS = {
     "post-tower-six",
     "post-tower-four",
+    "tower-boarding",
     "turf-courses",
     "post-and-board-breastwork",
     "plank-deck",

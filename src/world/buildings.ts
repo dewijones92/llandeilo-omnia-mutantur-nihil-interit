@@ -1,6 +1,7 @@
 import { Vector3, type Mesh, type Scene } from './babylon.ts';
 import { hex, mix, type Rgb } from '../domain/colour.ts';
 import { MATERIAL_COLOUR, SETTING_SCALE } from '../domain/materials.ts';
+import { HALL_ROOF, hallRoofRise, RAISED_DROP, TOWER_ROOF } from '../domain/proportions.ts';
 import { WORLD } from '../domain/geo.ts';
 import { LOD_STEPS } from '../domain/lidar.ts';
 import type { Level } from '../domain/lod.ts';
@@ -386,7 +387,7 @@ function tower(f: Frame, t: Extract<Part, { type: 'tower' }>): void {
 }
 
 function raisedFloor(f: Frame, base: number | undefined, ground: number): number | undefined {
-  return base !== undefined && base > 0 ? ground - 0.4 * f.up : undefined;
+  return base !== undefined && base > 0 ? ground - RAISED_DROP * f.up : undefined;
 }
 
 function towerTop(
@@ -436,17 +437,17 @@ function towerTop(
     }
     case 'cone':
       f.sculpt.cone(
-        towerOutline(f, t, cx, cz, r * 1.08),
+        towerOutline(f, t, cx, cz, r * TOWER_ROOF.cone.overhang),
         top,
-        [cx, top + t.size * 0.95 * f.up, cz],
+        [cx, top + t.size * TOWER_ROOF.cone.rise * f.up, cz],
         MATERIAL[t.roofMaterial ?? 'slate'],
       );
       return;
     case 'pyramid':
       f.sculpt.cone(
-        rect(cx, cz, r * 2.1, r * 2.1, turnOf(f, t)),
+        rect(cx, cz, r * 2 * TOWER_ROOF.pyramid.overhang, r * 2 * TOWER_ROOF.pyramid.overhang, turnOf(f, t)),
         top,
-        [cx, top + t.size * 0.35 * f.up, cz],
+        [cx, top + t.size * TOWER_ROOF.pyramid.rise * f.up, cz],
         MATERIAL[t.roofMaterial ?? 'slate'],
       );
       return;
@@ -532,15 +533,37 @@ function hall(f: Frame, h: Extract<Part, { type: 'hall' }>): void {
   const roofColour = MATERIAL[h.roofMaterial ?? 'slate'];
   const L = h.length * f.across;
   const W = h.width * f.across;
-  const rise = W * (h.pitch ?? 0.45) * (f.up / f.across);
+  const rise = hallRoofRise(W, h.pitch) * (f.up / f.across);
   switch (h.roof) {
     case 'none':
       return;
     case 'gable':
-      gableRoof(f, cx, cz, L + 0.4 * f.across, W + 0.5 * f.across, angle, top, rise, roofColour, false);
+      gableRoof(
+        f,
+        cx,
+        cz,
+        L + HALL_ROOF.alongOver * f.across,
+        W + HALL_ROOF.acrossOver * f.across,
+        angle,
+        top,
+        rise,
+        roofColour,
+        false,
+      );
       return;
     case 'hip':
-      gableRoof(f, cx, cz, L + 0.4 * f.across, W + 0.5 * f.across, angle, top, rise, roofColour, true);
+      gableRoof(
+        f,
+        cx,
+        cz,
+        L + HALL_ROOF.alongOver * f.across,
+        W + HALL_ROOF.acrossOver * f.across,
+        angle,
+        top,
+        rise,
+        roofColour,
+        true,
+      );
       return;
     case 'parapet':
     case 'battlements': {

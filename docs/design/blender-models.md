@@ -16,12 +16,14 @@ by other work: the decision is 0052 and the pipeline 0053.
 
 ## What was built, and where it differs from this note (2026-10-10)
 
-Built: the build sheet (`src/domain/buildsheet.ts`), the kit catalogue (`src/content/kits.ts`, nine kits),
+Built: the build sheet (`src/domain/buildsheet.ts`), the kit catalogue (`src/content/kits.ts`, ten kits),
 kits and hinges on the forts' parts, `npm run models` (`tools/models/build.ts`, `build_landmark.py`,
 `glb.ts`), the loader (`src/world/landmarks.ts`) wired into `FeatureLayer`, the parts card's kit list, the
 `?debug` models line, `?models=off`, and the tests (`src/domain/buildsheet.test.ts`, `tests/models.test.ts`,
 the hinge tests in `tests/forts.test.ts`, two e2e tests). Fort 1, Fort 2 and the settlement have models;
-Fort 1's backfilled ditches lie on the ground and stay procedural, as §2 says.
+Fort 1's backfilled ditches lie on the ground and stay procedural, as §2 says. The second-Opus review of
+2026-10-10 corrected the tower kits (Jay Lane gives no stage or open frame; see ADR 0053's amendment) and
+other details recorded there. The hinged leaves are plumbing for a later scene: nothing swings them yet.
 
 Different from the note:
 
@@ -32,13 +34,14 @@ Different from the note:
   itself, and the files carry no normals (the app computes flat ones). The forts are within budget without
   compression.
 - **No textures yet**: vertex colours from the one palette in the shared building material, near and far.
-  How photographic the near level should be is still Dewi's question below.
+  Dewi has since answered (2026-10-10, "Get proper textures", option B): textures are wanted and are the next
+  step for the pipeline, not built in phase 1.
 - **No `EXT_mesh_gpu_instancing`**: parts are merged into one mesh per level in the loader, with each gate
   leaf a child mesh on its hinge.
 - **Bevels only on squared timbers** (posts, beams, ledges), by edge weight; bevelling everything tripled the
   triangles.
-- **Not built yet**: the overwrite guard and kit libraries for hand edits, the `?tiers` view, the non-blocking
-  CI rebuild job, the preview renders beyond `--preview`, ruins, prisms and bridges in the sheet, the 1857
+- **Not built yet**: textures, kit libraries of hand-modelled assets, the `?tiers` view, the non-blocking
+  CI rebuild job (the overwrite guard for hand edits is moot: Dewi chose scripts over editing the `.blend`), the preview renders beyond `--preview`, ruins, prisms and bridges in the sheet, the 1857
   train on the pipeline.
 
 ## Where this comes from
@@ -282,7 +285,7 @@ of CI's blocking path.**
   Blender is also 4.0.2) rebuilds the landmarks whose inputs changed and fails if the script errors
   or the result breaks the glb tests. Blender's output is not promised byte for byte, so it is the
   inputs that are compared, not the bytes.
-- **Editing by hand in Blender**: open `build/models/<landmark>.blend` and change anything. The next
+- **Editing by hand in Blender** (*not wanted: Dewi chose to edit through the scripts and plans, 2026-10-10, so the guard below is not built; the text stays as the design considered it*): open `build/models/<landmark>.blend` and change anything. The next
   `npm run models` will not overwrite a .blend whose content hash differs from what it wrote; it
   stops and says which objects changed. A hand edit is kept in one of two ways: a **change to a fact**
   goes back into the TypeScript plan (that is where facts live), and a **piece of hand modelling**
@@ -371,11 +374,15 @@ with before-and-after pictures.
 
 ## Questions for Dewi
 
-- 💭 **How real should the near level look?** Photographic PBR textures (stone you can see the
-  courses in), or painted, simplified textures closer to the low-poly look? This design assumes
-  photographic, tinted by the palette, at near distance only.
+*Answered by Dewi on 2026-10-10, after this note: how real the near level looks (proper textures, option B),
+editing the `.blend` by hand (no: scripts are fine), and the castle order (Dinefwr next). Still open: the
+three below that are not struck through.*
+
+- ✅ ~~**How real should the near level look?**~~ Answered: "Get proper textures" (Dewi, 2026-10-10).
+  The kind of texture (photographic PBR tinted by the palette, as this note assumes, or painted) is still
+  to be settled when textures are built.
 - 💭 **Commit the models, or build them in CI?** Proposed: commit the glbs (§4).
 - 💭 **Low graphics**: keep the procedural models there (proposed), or show the far glbs?
 - 💭 **Click a wall for its ⓘ in 3D**: wanted? The extras make it cheap, but it is a new feature.
-- 💭 **Order**: is Carreg Cennen right as the first castle, ahead of Dinefwr, whose plan is still
-  less well documented?
+- ✅ ~~**Order**: Carreg Cennen or Dinefwr first?~~ Answered: Dinefwr is next after the forts (Dewi,
+  2026-10-10). Its plan is still the less well documented, so its research gaps come first.

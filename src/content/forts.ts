@@ -141,7 +141,7 @@ function gateParts(shape: FortShape, p: string, g: GateSpec): Part[] {
       named(`${k > 0 ? 'left' : 'right'} timber tower`, `tŵr pren ${k > 0 ? 'chwith' : 'dde'}`),
       'left' in g.towers ? (k > 0 ? g.towers.left : g.towers.right) : g.towers,
       false,
-      { kits: ['post-tower-six', ...(g.evidenced ? ROOFED : [])] },
+      { kits: ['post-tower-six', 'tower-boarding', ...(g.evidenced ? ROOFED : [])] },
     ),
   );
   const deck = part(
@@ -327,7 +327,7 @@ function cornerTowers(shape: FortShape, p: string): Part[] {
         ['fort:S16'],
       ),
       true,
-      { kits: ['post-tower-six', ...ROOFED] },
+      { kits: ['post-tower-six', 'tower-boarding', ...ROOFED] },
     ),
   );
 }
@@ -526,7 +526,7 @@ function fort1Parts(): Part[] {
       'Cafwyd adeilad pedwar postyn, tŵr rhyngol yn ôl pob tebyg, ar y rhagfur mewnol gogledd-ddwyreiniol ger y gornel ddwyreiniol (arolwg). Dyfaliad ar sail cymariaethau yw ei faint 3m, ei uchder a’i do (tyrau rhyngol pedwar postyn tua 2.4 i 3m sgwâr yn Jay Lane).',
     ),
     true,
-    { kits: ['post-tower-four', ...ROOFED] },
+    { kits: ['post-tower-four', 'tower-boarding', ...ROOFED] },
   );
   const between = (a: number, b: number, n: number): number[] =>
     Array.from({ length: n }, (_, i) => a + ((b - a) * i) / (n - 1));

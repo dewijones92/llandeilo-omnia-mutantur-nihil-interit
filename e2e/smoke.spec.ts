@@ -2017,6 +2017,10 @@ test('at AD 84 at High, Fort 2 and the settlement are drawn from their Blender m
   await expect(tower.locator('[data-kit="post-tower-six"]')).toContainText('Six-post timber tower');
   await expect(tower.locator('[data-kit="post-tower-six"]')).toContainText('Reconstructed');
   await expect(tower.locator('[data-kit="shingle-roof"]')).toContainText('Imagined');
+  await expect(tower.locator('[data-kit="tower-boarding"]')).toContainText('Imagined');
+  await expect(tower.locator('[data-kit="tower-boarding"]')).toContainText('guard-room');
+  await expect(tower.locator('[data-kit="post-tower-six"]')).not.toContainText('stage');
+  await expect(tower.locator('.moment-kits-off')).toHaveCount(0);
   await expect(tower).toContainText('rendering, not evidence');
   await page.screenshot({ path: 'test-results/roman-forts-84-models-part.png' });
   await page.keyboard.press('Escape');
@@ -2029,16 +2033,30 @@ test('at AD 84 at High, Fort 2 and the settlement are drawn from their Blender m
   expect(errors).toEqual([]);
 });
 
-test('with ?models=off, and at Low, the forts are drawn from their plans as before', async ({ page }) => {
+// The card must not list detail that is not drawn: with the plans on screen it says so instead.
+async function expectNoKitsOnCard(page: Page): Promise<void> {
+  const card = page.locator('.moment-parts');
+  await card.locator('summary').first().click();
+  const tower = card.locator('details[data-part="fort2/gate-ne/tower-left"]');
+  await tower.locator('summary').click();
+  await expect(tower.locator('[data-kit]')).toHaveCount(0);
+  await expect(tower.locator('.moment-kits-off')).toContainText('simplified model is on screen');
+}
+
+test('with ?models=off, and at Low, the forts are drawn from their plans as before, and their card lists no model detail', async ({
+  page,
+}) => {
   await page.goto('./?debug&quality=high&models=off&place=roman-forts&year=84&radius=45');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   await expect(page.locator('.debug')).toContainText('roman-fort-b=procedural:near');
   await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
   expect(await modelParts(page, 'roman-fort-b')).toEqual([]);
+  await expectNoKitsOnCard(page);
   await page.goto('./?debug&quality=low&place=roman-forts&year=84&radius=45');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   await expect(page.locator('.debug')).toContainText('roman-fort-b=procedural:near');
   expect(await modelParts(page, 'roman-fort-b')).toEqual([]);
+  await expectNoKitsOnCard(page);
 });
 
 test('the Roman forts are there from AD 74 and gone by AD 140, and nothing of them stands in between the years the sources rule out', async ({

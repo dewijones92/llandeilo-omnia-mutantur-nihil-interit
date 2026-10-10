@@ -1,5 +1,6 @@
 import { toHex } from './colour.ts';
 import { MATERIAL_COLOUR, SETTING_SCALE } from './materials.ts';
+import { hallRoofSpec, RAISED_DROP, towerRoofSpec, type RoofSpec } from './proportions.ts';
 import type { GridRef } from './model.ts';
 import {
   rotate,
@@ -22,8 +23,6 @@ export const SHEET_FORMAT = 1;
 
 /** Metres a standing part's walls go below the ground it stands on, so a slope never shows a gap. */
 export const FOOT = 1.5;
-/** Metres a part raised off the ground (a walkway, a granary) reaches below its floor, as the procedural one does. */
-export const RAISED_SKIRT = 0.4;
 /** Metres a wall set on another (a breastwork on its rampart) reaches down into it. */
 export const SEATED = 0.3;
 /** Where the probe stands, metres east and north of the anchor, so orientation is checked rather than assumed. */
@@ -34,14 +33,7 @@ export type EN = readonly [number, number];
 /** How a part meets the ground: `follow` puts every vertex on the ground below it (a bank), `rigid` stands the part on the ground at one point (a tower). */
 export type Fit = { readonly kind: 'follow' } | { readonly kind: 'rigid'; readonly at: EN };
 
-export interface SheetRoof {
-  readonly kind: 'gable' | 'hip' | 'pyramid' | 'cone';
-  readonly material: Material;
-  /** The roof's footprint, metres, along and across the part. */
-  readonly length: number;
-  readonly width: number;
-  readonly rise: number;
-}
+export type SheetRoof = RoofSpec;
 
 export type SheetShape =
   | {
@@ -171,7 +163,7 @@ function sheetPart(feature: string, p: Part, en: (q: Pt) => EN, angle: number): 
     ? { hinge: { at: en(p.hinge.at), closed: p.hinge.closed + angle, drawn: p.hinge.drawn + angle } }
     : {};
   const raised = (b: number | undefined): number => b ?? 0;
-  const bottomOf = (b: number | undefined): number => (raised(b) > 0 ? raised(b) - RAISED_SKIRT : -FOOT);
+  const bottomOf = (b: number | undefined): number => (raised(b) > 0 ? raised(b) - RAISED_DROP : -FOOT);
   switch (p.type) {
     case 'wall':
       return {
@@ -206,7 +198,7 @@ function sheetPart(feature: string, p: Part, en: (q: Pt) => EN, angle: number): 
           bottom: bottomOf(p.base),
           top,
           turn: (p.angle ?? 0) + angle,
-          roof: towerRoof(p),
+          roof: towerRoofSpec(p),
         },
       };
     }
@@ -225,7 +217,7 @@ function sheetPart(feature: string, p: Part, en: (q: Pt) => EN, angle: number): 
           turn: p.angle + angle,
           bottom: bottomOf(p.base),
           top: raised(p.base) + p.height,
-          roof: hallRoof(p),
+          roof: hallRoofSpec(p),
         },
       };
     }
@@ -235,35 +227,6 @@ function sheetPart(feature: string, p: Part, en: (q: Pt) => EN, angle: number): 
     case 'road':
     case 'platform':
       throw new Error(`${id}: a ${p.type} cannot be modelled yet`);
-  }
-}
-
-// The same overhangs and rises the procedural builder draws (world/buildings.ts), so a model and its fallback agree.
-function towerRoof(t: Extract<Part, { type: 'tower' }>): SheetRoof | null {
-  const material = t.roofMaterial ?? 'slate';
-  switch (t.top) {
-    case 'pyramid':
-      return { kind: 'pyramid', material, length: t.size * 1.05, width: t.size * 1.05, rise: t.size * 0.35 };
-    case 'cone':
-      return { kind: 'cone', material, length: t.size * 1.08, width: t.size * 1.08, rise: t.size * 0.95 };
-    case 'plain':
-    case 'battlements':
-    case 'machicolated':
-      return null;
-  }
-}
-
-function hallRoof(h: Extract<Part, { type: 'hall' }>): SheetRoof | null {
-  const material = h.roofMaterial ?? 'slate';
-  const rise = h.width * (h.pitch ?? 0.45);
-  switch (h.roof) {
-    case 'gable':
-    case 'hip':
-      return { kind: h.roof, material, length: h.length + 0.4, width: h.width + 0.5, rise };
-    case 'none':
-    case 'parapet':
-    case 'battlements':
-      return null;
   }
 }
 

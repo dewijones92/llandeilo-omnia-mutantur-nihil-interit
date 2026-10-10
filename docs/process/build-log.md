@@ -1112,4 +1112,20 @@ it is defensive only.
    load time, not in the sheet**: the design note put a grid of ground heights in the sheet, but the drawn
    surface (LiDAR tiles blended into Terrain 50) exists only in `world/`; the loader instead fits each part to
    the same ground function the procedural builder uses, so models and fallbacks sit identically and a terrain
-   change needs no rebuild.
+   change needs no rebuild. **Second-Opus review, same day** (fixed in the next commits; [ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md)'s
+   amendment): (6) **a source was credited with what it does not say.** The tower kits' ⓘ said the boarded
+   stage and open frame follow Jay Lane; the page (read again directly) gives post layouts, sizes and "the same
+   scantling" only, and for the gatehouses a guard-room at ground level, the opposite of an open frame. The
+   claim had been tested for presence ("the kit has a source that exists") and never for what the source says;
+   a test now at least keeps the stage and boarding words out of the kits that cite Jay Lane for layouts.
+   (7) **The Python script held numbers the sheet did not**, though its docstring and the ADR said it held none
+   (a ridge beam, the stage slab, the thatch's ridge roll). A test now fails when the script reads a measurement
+   no kit holds. The same grep showed the script's own list of kits was a second copy of `KIT_IDS` (a new kit
+   failed the build at "unknown kit"), so a test now holds the two lists equal. (8) **Editing the finisher
+   left every model "up to date"**: the hash covered the sheet and the script but a hand-bumped version stood
+   in for the finisher's source; adding a function to `glb.ts` turned the staleness test red at once, as it
+   should, once the source was hashed. (9) **A mis-turned part passed every test**: nothing compared a mesh
+   with its sheet. Turning every hall 90 degrees in the script now fails the new bounds test at the first
+   barrack ("extent 0: expected 43.5 to be at most 41.4"); the check was cheap, and it passes on all 73 rigid
+   parts of the first build and on the rebuilt ones. (10) **A parts card described detail that was not drawn**
+   at Low and with `?models=off`; its e2e test failed with 3 kits listed when the gate was removed.

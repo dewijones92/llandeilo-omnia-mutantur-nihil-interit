@@ -8,7 +8,7 @@ import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { liesOnGround, MODEL_BUDGET, PROBE, type BuildSheet } from '../src/domain/buildsheet.ts';
 import type { Feature } from '../src/domain/model.ts';
 import { KIT_IDS, type Part } from '../src/domain/plan.ts';
-import { glbCounts, readGlb, type GlbJson } from '../tools/models/glb.ts';
+import { glbCounts, nodeBounds, readGlb, type GlbJson } from '../tools/models/glb.ts';
 import { inputHash, sheets } from '../tools/models/sheets.ts';
 
 const root = join(import.meta.dirname, '..');
@@ -104,6 +104,77 @@ describe('the Blender landmark models (ADR 0053)', () => {
       }
   });
 
+  it('puts every rigid part where its sheet says, as wide and as long as its footprint turned by its angle, so a misplaced or mis-turned part is caught', () => {
+    let checked = 0;
+    for (const m of LANDMARK_MODELS) {
+      const sheet = sheetOf(m.feature);
+      for (const level of LEVELS) {
+        const json = glb(m[level].file);
+        for (const { node, id } of partNodes(json)) {
+          const part = sheet.parts.find((p) => p.id === id);
+          const s = part?.shape;
+          if (!part || part.hinge || part.fit.kind !== 'rigid' || !s || s.type === 'wall') continue;
+          const box = nodeBounds(json, node);
+          expect(box, id).toBeDefined();
+          if (!box) continue;
+          // glTF x is east and z is minus north.
+          const centre = [(box.min[0] + box.max[0]) / 2, -(box.min[2] + box.max[2]) / 2];
+          const a = (s.turn * Math.PI) / 180;
+          const along = s.type === 'hall' ? s.length : s.size;
+          const across = s.type === 'hall' ? s.width : s.size;
+          const want = [
+            Math.abs(along * Math.cos(a)) + Math.abs(across * Math.sin(a)),
+            Math.abs(along * Math.sin(a)) + Math.abs(across * Math.cos(a)),
+          ];
+          const got = [box.max[0] - box.min[0], box.max[2] - box.min[2]];
+          expect(centre[0], `${id} east`).toBeCloseTo(s.at[0], 0);
+          expect(centre[1], `${id} north`).toBeCloseTo(s.at[1], 0);
+          // Square outlines only: a round tower's box does not turn with it.
+          if (s.type === 'hall' || s.outline === 'square')
+            for (const k of [0, 1]) {
+              expect(got[k] ?? 0, `${id} extent ${String(k)}`).toBeGreaterThanOrEqual((want[k] ?? 0) - 0.1);
+              expect(got[k] ?? 0, `${id} extent ${String(k)}`).toBeLessThanOrEqual((want[k] ?? 0) + 1.6);
+            }
+          expect(box.min[1], `${id} foot`).toBeCloseTo(s.bottom, 1);
+          if (!s.roof) expect(box.max[1], `${id} top`).toBeCloseTo(s.top, 1);
+          else expect(box.max[1], `${id} roof`).toBeGreaterThanOrEqual(s.top + s.roof.rise - 0.1);
+          checked++;
+        }
+      }
+    }
+    expect(checked).toBeGreaterThan(60);
+  });
+
+  it('uses every kit measurement in the Blender script, and the script reads no measurement a kit does not hold', () => {
+    const script = readFileSync(join(root, 'tools/models/build_landmark.py'), 'utf8');
+    const held = new Set(KIT_IDS.flatMap((id) => Object.keys(kitParams(id))));
+    const read = new Set([...script.matchAll(/\b(?:k|b|roof_kit)\["([a-zA-Z]+)"\]/g)].map((x) => x[1] ?? ''));
+    expect([...held].filter((n) => !read.has(n))).toEqual([]);
+    expect([...read].filter((n) => !held.has(n))).toEqual([]);
+  });
+
+  it('takes the roof and footing proportions the procedural builder draws from src/domain/proportions.ts, as the build sheet does', () => {
+    const source = readFileSync(join(root, 'src/world/buildings.ts'), 'utf8');
+    expect(source).toMatch(/from '..\/domain\/proportions.ts'/);
+    for (const literal of [
+      /\* 0\.35 \*/,
+      /\* 0\.95 \*/,
+      /r \* 2\.1/,
+      /r \* 1\.08/,
+      /\+ 0\.4 \* f\.across/,
+      /\?\? 0\.45/,
+      /ground - 0\.4/,
+    ])
+      expect(source).not.toMatch(literal);
+  });
+
+  it('has a Blender builder for every kit in the catalogue and no other', () => {
+    const script = readFileSync(join(root, 'tools/models/build_landmark.py'), 'utf8');
+    const block = /KNOWN_KITS = \{([^}]*)\}/.exec(script)?.[1] ?? '';
+    const known = [...block.matchAll(/"([a-z-]+)"/g)].map((x) => x[1]);
+    expect(known.toSorted()).toEqual([...KIT_IDS].toSorted());
+  });
+
   it('puts each gate leaf’s origin on its hinge post, turned as drawn, so it can swing', () => {
     let leaves = 0;
     for (const m of LANDMARK_MODELS) {
@@ -181,6 +252,23 @@ describe('the detail kits a model may draw', () => {
       expect(provenance.sources.length, id).toBeGreaterThan(0);
       for (const s of provenance.sources) expect(sources.has(String(s)), `${id} ${String(s)}`).toBe(true);
     }
+  });
+
+  it('credit Jay Lane (S16) only with what its page says: post layouts and sizes, never a stage, boarding or an open frame', () => {
+    const text = (id: (typeof KIT_IDS)[number]): string => {
+      const p = kitInfo(id).provenance;
+      return p.kind === 'reconstructed' ? p.basis.en : p.kind === 'imagined' ? p.groundedIn.en : '';
+    };
+    for (const id of ['post-tower-six', 'post-tower-four'] as const) {
+      expect(text(id), id).not.toMatch(/stage|board|open below|open frame/i);
+      expect(kitInfo(id).provenance.kind, id).toBe('reconstructed');
+    }
+    // Jay Lane's excavator read the gate towers as a guard-room at ground level, so the kit that draws a stage
+    // and walls in the ground storey is Claude's guess, said to be one.
+    const boarding = kitInfo('tower-boarding');
+    expect(boarding.provenance.kind).toBe('imagined');
+    expect(text('tower-boarding')).toMatch(/guard-room/);
+    expect(text('tower-boarding')).toMatch(/guess/);
   });
 
   it('take every measurement from the catalogue as a positive number of metres', () => {

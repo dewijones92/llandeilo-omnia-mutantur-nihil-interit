@@ -1,16 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import {
-  buildSheet,
-  FOOT,
-  liesOnGround,
-  modelFile,
-  PROBE,
-  RAISED_SKIRT,
-  SEATED,
-  type SheetInput,
-} from './buildsheet.ts';
+import { buildSheet, FOOT, liesOnGround, modelFile, PROBE, SEATED, type SheetInput } from './buildsheet.ts';
 import { toHex } from './colour.ts';
 import { MATERIAL_COLOUR } from './materials.ts';
+import { RAISED_DROP } from './proportions.ts';
 import type { Part, PartMeta, PartShape, Plan } from './plan.ts';
 import type { Provenance, SourceId } from './provenance.ts';
 import { mint } from './brand.ts';
@@ -158,7 +150,7 @@ describe('the build sheet a Blender model is made from', () => {
     const sheet = buildSheet(input(plan([part(tower, 't'), raised, part(bank, 'bank'), breast])));
     const shape = (id: string) => sheet.parts.find((p) => p.id === id)?.shape;
     expect(shape('t')).toMatchObject({ bottom: -FOOT, top: 7 });
-    expect(shape('deck')).toMatchObject({ bottom: 4.2 - RAISED_SKIRT, top: 4.2 + 3, roof: null });
+    expect(shape('deck')).toMatchObject({ bottom: 4.2 - RAISED_DROP, top: 4.2 + 3, roof: null });
     expect(shape('bank')).toMatchObject({
       bottom: -FOOT,
       top: 3,

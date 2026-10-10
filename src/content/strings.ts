@@ -57,6 +57,10 @@ export const STRINGS = {
     en: 'Detail on the model, and how it is known',
     cy: 'Manylion ar y model, a sut y’u gwyddys',
   },
+  partKitsOff: {
+    en: 'The simplified model is on screen, so the finer construction detail is not drawn.',
+    cy: 'Y model symlach sydd ar y sgrin, felly nid yw’r manylion adeiladu manylach yn cael eu tynnu.',
+  },
   modelFinish: {
     en: 'Bevelled edges and shading are rendering, not evidence.',
     cy: 'Rendro yw’r ymylon wedi’u beflo a’r cysgodi, nid tystiolaeth.',

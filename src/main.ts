@@ -203,8 +203,18 @@ async function start(): Promise<void> {
     brand.querySelector('p')?.replaceChildren(store.t('subtitle'));
   });
   const scenes = new Map(CUTSCENES.map((c) => [c.event, c]));
-  const moment = new MomentCard(store, sourceMap, places, scenes, (scene) => {
-    player.play(scene);
+  const moment = new MomentCard(
+    store,
+    sourceMap,
+    places,
+    scenes,
+    (scene) => {
+      player.play(scene);
+    },
+    (id) => features.modelled(id),
+  );
+  features.onModelsChanged(() => {
+    moment.refresh();
   });
   const flight = new Flight(world.camera);
   let dust: SmokeSource[] = [];
