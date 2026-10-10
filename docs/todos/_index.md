@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Backlog
@@ -109,7 +109,8 @@ below links the issue.
 - [x] Every English/Welsh text pair audited for dropped facts: 16 meaning gaps and 7 small ones fixed,
       all in the same direction (the Welsh had lost caveats and numbers) (2026-10-02)
 - [ ] Check every place against its Coflein grid reference (only some were verified)
-- [ ] Human check of the Welsh text (parked)
+- [ ] Human check of the Welsh text (parked); include the welcome panel's text and the camera rows, whose Shift line was
+      reworded on 2026-10-03 after a review read the first wording as "keep on sliding faster"
       New terms need it first: "tyllau taflu" (machicolations), "bwtresi hedfan" (flying buttresses),
       and the strings added on 2026-10-02: the About panel's scale sentence, the "About the voice"
       Dyfedeg note, the keys panel (`keys…`, `click…` in `src/content/strings.ts`), and "yr annalau
@@ -170,6 +171,33 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       2026-10-02 (1880 summer 23:00, 1282 winter 02:00 and 1880 noon): the rivers go dark navy with
       the land. No change was needed
 - [ ] Re-check autumn trees at overview distance by screenshot (the "glitter" fix was never re-shot)
+- [ ] **Map-style camera** (Dewi, 2026-10-03: "make the camera easier to move around"; he chose
+      map-style): drag slides the land, right-drag turns, the wheel zooms at the cursor, W A S D / Q E /
+      R F, double-click flies there, a one-time hint, the Keys panel in both languages (both since
+      replaced by the welcome panel, [ADR 0051](../adr/0051-one-welcome-panel.md))
+      ([ADR 0050](../adr/0050-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
+      looked at (overview, dragged, turned, zoomed, 1860). Second-Opus review 2026-10-03: the sky no
+      longer throws the camera (wheel zooms at the centre, a sky drag turns, a slide waits above the
+      horizon), tests for a drag ending a follow and a flight and for the hint after Begin, and the
+      Welsh for Shift reworded (in the parked human Welsh check); awaiting Dewi
+- [ ] **Welcome panel** (Dewi, 2026-10-03: controls and info at start,
+      closeable, an obvious icon to reopen): "How to explore" opens after Begin (or at once without it),
+      replaces the Keys panel and the camera hint, explains the controls, timeline, provenance labels, ⓘ,
+      "When are we?" and the settings, with "Show this at start" and a round "?" icon
+      ([ADR 0051](../adr/0051-one-welcome-panel.md)). Built 2026-10-09 with tests seen red by mutation
+      and looked at in English and Welsh; awaiting Dewi. The Welsh text is in the parked human check
+- [ ] **Camera and welcome merged with the cutscenes** (Claude, under the proactive mandate, 2026-10-09):
+      the map-style controls are off while a scene plays and back after Skip, Escape or its end; the
+      welcome waits for a scene, says how to Watch one, and the "?" icon fades with the interface
+      ([ADR 0050](../adr/0050-map-style-camera-controls.md), [ADR 0051](../adr/0051-one-welcome-panel.md)).
+      Built with e2e seen red against the plain merge; awaiting the second-Opus review and Dewi. The new
+      Welsh sentence is in the parked human check
+- [ ] **Camera and welcome merged with the photo layer** (Claude, under the proactive mandate, 2026-10-10):
+      a press on a pin, a place label or a bubble that moves slides the land and opens nothing, the wheel
+      over them zooms, a click still opens them; the welcome describes Photos; the photo panel is in the
+      Escape order ([ADR 0050](../adr/0050-map-style-camera-controls.md),
+      [ADR 0051](../adr/0051-one-welcome-panel.md)). Built with e2e seen red three ways; awaiting the
+      second-Opus review and Dewi. The new Welsh sentence is in the parked human check
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (today `town.style` only decides which towns get chimney smoke)

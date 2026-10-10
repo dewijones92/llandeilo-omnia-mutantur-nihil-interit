@@ -70,6 +70,8 @@ type Track =
 **Watch** on the moment card when the date has a scene; **Skip** and Escape end it; the slider and
 keys are locked while it plays; the timeline is hidden and inert, so only Skip and Escape end a scene
 (the first sketch had a click on the timeline end it; the build dropped that, [ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)). Sound follows the Sound toggle.
+The map-style camera controls are off while a scene plays and come back after it, and the welcome
+panel waits for a scene to end ([ADR 0050](../adr/0050-map-style-camera-controls.md), [ADR 0051](../adr/0051-one-welcome-panel.md)).
 It plays on the 2.6×-scaled diorama, so close-ups of figures are framed to read at that scale.
 
 ## Tests

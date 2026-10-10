@@ -1,4 +1,4 @@
-import { PointerEventTypes, Vector3 } from './world/babylon.ts';
+import { PointerEventTypes, Vector3, type AbstractMesh } from './world/babylon.ts';
 import './ui/styles.css';
 import { CUTSCENES } from './content/cutscenes.ts';
 import { WORLD_CONTENT } from './content/world.ts';
@@ -42,14 +42,15 @@ import { GuessGame } from './ui/guess.ts';
 import { langToggle } from './ui/lang-toggle.ts';
 import { OpeningCard } from './ui/opening.ts';
 import { QualityMenu, storedQuality } from './ui/quality.ts';
-import { showsBegin } from './domain/opening.ts';
+import { showsBegin, welcomeAtStart } from './domain/opening.ts';
 import { chooseQuality, QUALITY } from './domain/quality.ts';
 import { Ambience } from './audio/ambience.ts';
 import { h } from './ui/dom.ts';
-import { Shortcuts } from './ui/shortcuts.ts';
 import { SkyControls } from './ui/sky.ts';
 import { LangStore } from './ui/store.ts';
 import { TimelineBar } from './ui/timeline.ts';
+import { storedWelcome, WelcomePanel, type WelcomeSection } from './ui/welcome.ts';
+import { MapControls } from './world/controls.ts';
 import { createEngine } from './world/engine.ts';
 import { FeatureLayer } from './world/features.ts';
 import { Firelight } from './world/firelight.ts';
@@ -69,6 +70,8 @@ const FRAMING_RADIUS: Readonly<Record<Framing, number>> = {
   site: 420,
   area: 950,
 };
+// A double-click flies in to half the distance, but no closer than this.
+const DOUBLE_CLICK_MIN_RADIUS = 40;
 
 async function start(): Promise<void> {
   const params = new URLSearchParams(location.search);
@@ -196,7 +199,6 @@ async function start(): Promise<void> {
     player.play(scene);
   });
   const flight = new Flight(world.camera);
-  const stage = new Stage(world.camera, flight, new Crowd(world.scene, features.ground), features.ground);
   let dust: SmokeSource[] = [];
   // While a cutscene plays: its year, and the presence of the features it builds (ADR 0042).
   let sceneWorld: { readonly year: Year; built: ReadonlyMap<FeatureId, number> } | undefined;
@@ -268,6 +270,11 @@ async function start(): Promise<void> {
     flight.stopFollowing('stop button');
   });
   const bubbles = new Bubbles(world.scene, people.groups.values(), store, openConversation);
+  const conversationOf = (mesh: AbstractMesh | null | undefined) => {
+    const meta: unknown = mesh?.metadata;
+    if (!meta || typeof meta !== 'object' || !('conversation' in meta)) return undefined;
+    return content.conversations.find((x) => x.id === meta.conversation);
+  };
   world.scene.onPointerObservable.add((info) => {
     if (info.type !== PointerEventTypes.POINTERTAP || player.playing) return;
     const hit = info.pickInfo?.pickedMesh;
@@ -280,13 +287,35 @@ async function start(): Promise<void> {
       home.hidden = false;
       return;
     }
-    const meta: unknown = hit?.metadata;
     if (guess.hidingTheYear) return;
-    if (meta && typeof meta === 'object' && 'conversation' in meta) {
-      const c = content.conversations.find((x) => x.id === meta.conversation);
-      if (c) openConversation(c);
-    }
+    const c = conversationOf(hit);
+    if (c) openConversation(c);
   });
+  const controls = new MapControls(world.camera, world.scene, canvas, features.ground, flight, {
+    onMove(move) {
+      if (move !== 'turn') home.hidden = false;
+    },
+    onDoubleClick(at, x, y) {
+      // A double-click on a person or a train is two clicks on them, which they already answer.
+      const hit = world.scene.pick(x, y).pickedMesh;
+      if (features.trackable(hit) || conversationOf(hit)) {
+        console.info(`dewidebug camera double-click on ${hit?.name ?? '?'} left to its own click`);
+        return;
+      }
+      flight.flyTo(at, Math.max(DOUBLE_CLICK_MIN_RADIUS, world.camera.radius * 0.5), world.camera.beta);
+      home.hidden = false;
+    },
+  });
+  controls.passThrough(pins.el, 'photo pin');
+  controls.passThrough(labels.el, 'place label');
+  controls.passThrough(bubbles.el, 'speech bubble');
+  const stage = new Stage(
+    world.camera,
+    flight,
+    new Crowd(world.scene, features.ground),
+    features.ground,
+    controls,
+  );
   let ambience: Ambience | undefined;
   let soundOn = false;
   const sound = h('button', { class: 'tool', type: 'button', 'aria-pressed': false }, store.t('soundOff'));
@@ -317,14 +346,27 @@ async function start(): Promise<void> {
   store.onChange(() => {
     sound.textContent = store.t(soundOn ? 'soundOn' : 'soundOff');
   });
-  const shortcuts = new Shortcuts(store);
+  const welcome = new WelcomePanel(store, [app, canvas], () => {
+    panel.close();
+    info.open('about');
+  });
+  document.body.append(welcome.el);
   const keysButton = h(
     'button',
     { class: 'tool', type: 'button', 'aria-keyshortcuts': '?' },
     store.t('keys'),
   );
+  // A scene holds the screen, so the welcome waits for it; one asked for at start opens when it ends.
+  let welcomeAfterScene = false;
+  const openWelcome = (section: WelcomeSection, why: string): void => {
+    if (player.playing) {
+      console.info(`dewidebug welcome not opened over a scene why=${why}`);
+      return;
+    }
+    welcome.open(section);
+  };
   keysButton.addEventListener('click', () => {
-    shortcuts.toggle();
+    openWelcome('controls', 'keys button');
   });
   store.onChange(() => {
     keysButton.textContent = store.t('keys');
@@ -406,11 +448,16 @@ async function start(): Promise<void> {
   const player = new CutscenePlayer(store, sourceMap, {
     onStart(scene) {
       const ev = keyDateOf(scene);
+      // Closing the welcome clears its own inert marks, so it closes before the scene sets them, and it
+      // comes back once the scene ends.
+      if (welcome.isOpen) {
+        welcomeAfterScene = true;
+        welcome.close('a scene began');
+      }
       behindScene(true);
       panel.close();
       photoPanel.close();
       info.close();
-      if (shortcuts.isOpen) shortcuts.close();
       flight.stopFollowing('cutscene');
       sceneWorld = { year: ev.when.from, built: new Map() };
       timeline.jump(tAt(content.timeline, ev.when.from));
@@ -431,6 +478,11 @@ async function start(): Promise<void> {
       world.refreshShadows();
       console.info(`dewidebug cutscene landed event=${ev.id} skipped=${String(skipped)}`);
       goToShot(ev);
+      if (welcomeAfterScene) {
+        welcomeAfterScene = false;
+        console.info('dewidebug welcome opens now that the scene has ended');
+        welcome.open('top');
+      }
     },
     soundOn() {
       return soundOn;
@@ -479,7 +531,6 @@ async function start(): Promise<void> {
     panel.el,
     photoPanel.el,
     info.el,
-    shortcuts.el,
     guess.el,
     player.el,
   );
@@ -509,6 +560,16 @@ async function start(): Promise<void> {
       }
       return;
     }
+    const helpKey = e.key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey;
+    // The welcome is modal: Escape and ? close it, and every other key stays with it (scrolling it,
+    // ticking its box) rather than stepping the timeline behind it.
+    if (welcome.isOpen) {
+      if (e.key === 'Escape' || helpKey) {
+        e.preventDefault();
+        welcome.close(e.key);
+      }
+      return;
+    }
     const stepKey = e.key === 'ArrowRight' || e.key === 'ArrowLeft';
     const modified = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     const focus = document.activeElement;
@@ -518,9 +579,9 @@ async function start(): Promise<void> {
       return;
     }
     const typing = focus instanceof HTMLInputElement && focus.type !== 'range';
-    if (e.key === '?' && !typing && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    if (helpKey && !typing) {
       e.preventDefault();
-      shortcuts.toggle();
+      openWelcome('controls', '? key');
       return;
     }
     if (e.key !== 'Escape') return;
@@ -530,8 +591,7 @@ async function start(): Promise<void> {
       document.activeElement?.closest('.prov-wrap')
     )
       return;
-    if (shortcuts.isOpen) shortcuts.close();
-    else if (panel.open) panel.close();
+    if (panel.open) panel.close();
     else if (photoPanel.open) photoPanel.close();
     else if (info.isOpen) info.close();
   });
@@ -547,17 +607,18 @@ async function start(): Promise<void> {
   const compass = new Compass(store, () => {
     flight.turnTo(northAlpha(world.camera.alpha));
   });
-  app.append(compass.el, followChip.el);
+  app.append(compass.el, welcome.button, followChip.el);
   const chrome = [
     brand,
     moment.el,
     timeline.el,
     compass.el,
+    welcome.button,
+    welcome.panel,
     followChip.el,
     panel.el,
     photoPanel.el,
     info.el,
-    shortcuts.el,
     guess.el,
   ];
   if (debug) chrome.push(debug.el);
@@ -658,6 +719,7 @@ async function start(): Promise<void> {
     }
     world.tick(dt);
     features.tick(dt);
+    controls.tick(dt);
     if (features.setViewer(world.camera.globalPosition)) world.refreshShadows();
     flight.tick(dt);
     compass.update(world.camera.alpha);
@@ -681,9 +743,21 @@ async function start(): Promise<void> {
     engine.resize();
   });
   await world.scene.whenReadyAsync();
-  opening.ready(() => {
-    setSound(true);
-  });
+  opening.ready(
+    () => {
+      setSound(true);
+    },
+    () => {
+      if (player.playing) behindScene(true);
+      const atStart = welcomeAtStart(params, navigator.webdriver, storedWelcome());
+      console.info(`dewidebug welcome at start show=${String(atStart.show)} why=${atStart.why}`);
+      if (!atStart.show) return;
+      if (player.playing) {
+        welcomeAfterScene = true;
+        console.info(`dewidebug welcome at start waits for the scene ${player.playing.id} to end`);
+      } else welcome.open('top');
+    },
+  );
   if (debug)
     Object.assign(window, {
       llandeiloDebug: {
@@ -720,7 +794,7 @@ start().catch((err: unknown) => {
   document.body.append(msg);
 });
 
-// The slider, the info tabs, form fields and the 3D view (camera turning) use the arrow keys
+// The slider, the info tabs, form fields and the 3D view (sliding the camera) use the arrow keys
 // themselves; everywhere else they step.
 function ownsArrows(focus: Element | null): boolean {
   if (!focus) return false;

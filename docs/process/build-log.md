@@ -640,6 +640,79 @@ Milestones and what each one taught us. Newest last.
    shared (a unit test failed first on the missing function, then on the edge cases). (5) The bundle is
    490,121 bytes gzipped, recorded in CLAUDE.md. Lesson: **an ADR that says "every copy now uses it" is a
    claim to grep for, not to write from memory.**
+26. **Map-style camera** ([ADR 0050](../adr/0050-map-style-camera-controls.md)). Dewi found himself
+   "just orbiting around a certain point": Babylon's stock inputs turned the view on a left-drag and
+   panned in the screen plane on the right button, and nothing said so. The stock inputs are now
+   detached and `MapControls` slides the land under the cursor, turns on a right-drag, zooms at the
+   cursor and adds keys; the maths is pure (`src/domain/camera-moves.ts`). Seen red first against the
+   unchanged build: every new unit test at its own assertion (stubs returning zeros; four tests that a
+   zero stub passed were tightened until it failed them), and in e2e the grabbed ground point not under
+   the cursor (1,897 units away, the drag had turned the view), a right-drag not turning (it panned),
+   WASD and the arrows not moving the target, the wheel not zooming in, no flight on a double-click, and
+   the keys panel without the new rows. The compass test had been passing without testing its drag: it
+   asserted a bearing over 10°, and the opening view already faces about 20°, so it passed even when the
+   drag (now a right-drag) did not turn the view at all (seen: 0° turned on the old build). It now asserts
+   the change. Lesson: assert the change an action makes, not a value the start state may already have.
+27. **The camera and the sky** (second-Opus review of the map-style camera). At the steepest tilt the top
+   of the view is sky, and a cursor ray that missed the ground fell back to a point 9,000 units along
+   it, high in the air: one wheel notch moved the target about 1,500 units (seen red in e2e: 1,499.99,
+   exactly as the reviewer measured on the GPU), and a drag on the sky threw the camera across the map.
+   A unit test had locked the fallback in ("stops at the furthest distance allowed"); it now asserts the
+   opposite. No point in the sky: the wheel zooms about the centre there, a drag that starts on the sky
+   turns, and a slide pulled above the horizon waits. The new follow test first failed for the wrong
+   reason: its drags started at (400, 600), which is under a panel in 1860, so neither drag reached the
+   3D view; it now checks the element under the start point first, so that failure names itself. The
+   Welsh for "Hold to slide faster" had read as "keep on sliding faster" ("dal i" + verb-noun means
+   "continue to"); it is now "Daliwch hi i lawr i lithro'n gyflymach", pending the parked human check.
+28. **One welcome panel** (Dewi's request; details by Claude under the proactive mandate; [ADR 0051](../adr/0051-one-welcome-panel.md)).
+   Dewi asked for the controls and other info at start, closeable, with an obvious icon to reopen it.
+   The Keys panel and the one-time camera hint became one "How to explore" panel; the Begin card and
+   the welcome share one `setInert`. The panel was built before this pass, so the tests were seen red by
+   mutation: the unit tests for `welcomeAtStart` with the viewer's stored choice removed (two failed at
+   their own assertions), and the e2e with the remembered choice never written (failed at its "hidden
+   after reload" assertion). Two things a screenshot found that
+   green tests did not: the first panel had no height limit inside the wash (a grid area does not
+   resolve `max-height: 100%`), so its footer, with the checkbox and About, was off screen and the click
+   on About timed out as "outside of the viewport"; and a screenshot taken as the panel rose showed it
+   half transparent, so the test now waits for its animation. Lesson: a button that exists in the DOM
+   may be off the screen; click it, and look.
+29. **The ? icon over the panels** (review of the welcome work). At 1440x860 the icon's caption wraps to two
+   lines, so the button reaches 105px down while the right-hand panels started at 92px: the caption sat on
+   the About panel's top edge. Nothing tested panels against the icon, only labels against both. The new
+   e2e test first failed at the About-side assertion (`.convo` overlapping the icon, icon bottom 105,
+   panel top 92); `--below-compass` is now 112px and the test passes for `.convo`, `.info` and `.guess` in
+   English and Welsh. The same pass made the welcome test assert what the tests map claimed (a solid
+   background, and the language sentence rather than the toggle button's label), deleted the unused
+   `WelcomePanel.toggle()`, and made `PROVENANCE_KINDS` fail to compile if a fourth tier is added without
+   being listed.
+30. **Merging the cutscenes into the map-style camera** (Claude, under the proactive mandate). `main` had
+   the cutscene engine; this branch had the map-style camera and the welcome. Six files conflicted, all
+   resolved keeping both sides; the camera and welcome ADRs became 0044 and 0045, since `main` had taken
+   0041 to 0043. The merge that compiled was not the merge that worked: the scene's `Stage` handed the
+   camera back with Babylon's `attachControl()`, which on this branch re-attaches the stock inputs the
+   map-style camera had replaced, so after any scene a left-drag slid the land and turned the view at
+   once. Now `MapControls.setEnabled(false)` while a scene plays (dropping a drag, glide, zoom and held
+   keys) and `true` after, through a `CameraInputs` interface on `Stage`. Seen red first in e2e against
+   the plain merge: keys and the wheel sent to the 3D view during a paused scene moved the camera (drift
+   7.3, turn 0.047 rad, zoom 9.4), and with the stock inputs put back, one left-drag after Skip turned the
+   view by 1.1 rad. The welcome now waits for a scene (a `?cutscene=` link with the welcome due opened it
+   and the scene then closed it for good; red at "visible after the scene"), says how to watch one, and the
+   "?" icon fades with the rest of the interface. Lessons: (1) **two branches can each be right about who
+   owns an object and still be wrong together**: `main` assumed Babylon's inputs were the camera's
+   controls, this branch had replaced them, and no conflict marker pointed at `stage.ts`; search the other
+   side for every call that touches what your branch took over (`attachControl` here). (2) A "camera has
+   settled" test helper that compares two reads one interval apart passed while a landing flight was
+   still under way, because one slow frame left both reads the same; it now wants three still reads in a
+   row. Bundle: the main chunk is 496,323 bytes gzipped after the merge.
+
+Review fixes on that merge: with `?begin=1&cutscene=<id>` the scene starts under the Begin card, and
+pressing Begin cleared the interface's inert marks (the card clears its own), leaving the 3D view
+reachable by Tab and keys for the whole scene. Seen red first (`#scene` not inert after Begin); the card's
+open callback now re-marks the interface when a scene is playing. A second test pins the order in
+`onStart` (close the welcome, then mark inert): with the two lines swapped `#scene` stays reachable, seen
+red. One guard stays untested on purpose: `openWelcome`'s "a scene is playing" check cannot be reached
+from `?` (the scene's own key handler takes it first) or from the Keys button (inert during a scene), so
+it is defensive only.
 
 ## 2026-10-09
 
@@ -953,3 +1026,47 @@ Milestones and what each one taught us. Newest last.
    mesh", was true of the quantity measured and false of the mesh; the number to check is the one nearest the
    thing drawn. (3) **Docs overstated.** The ADR said forts' ditches and roads were laid again; they are laid
    once, by `buildPlan`, on `surfaceAt`. It also understated the relay's cost: every relay loops all eight rail ribbons, and recomputes the normals for and re-uploads the 16,496-vertex roads mesh; the ADR now says so.
+## 2026-10-10
+
+1. **The photo layer merged into the map-style camera and welcome** (branch `feat/map-style-camera`,
+   Claude under the proactive mandate). Conflicts in the ADR index, the decision, build and test logs
+   (both sides kept), `provenance.ts` (`main`'s `infoBadge` drawn with this branch's shared `chip`),
+   `main.ts` (the photo pins and panel appended without the Keys panel this branch removed, and the photo
+   panel in the Escape order after the conversation panel) and the e2e file (both blocks of tests kept;
+   git had interleaved the camera tests with the photo tests). The camera and welcome ADRs became
+   [0045](../adr/0050-map-style-camera-controls.md) and [0046](../adr/0051-one-welcome-panel.md), since
+   `main` had taken 0044 for the photo layer. Integration: (1) a press on a pin never reached the map
+   controls, which listen on the canvas, so a drag that began on a pin did nothing and the wheel over one
+   did not zoom; `MapControls.passThrough` hands a layer's presses to the same drag code, the button
+   keeping the pointer so a plain click still lands on it, and drops the click after a drag. The place
+   labels and the speech bubbles had the same gap and use it too. Seen red three ways, each at its own
+   assertion: with no pass-through the land did not move, without the dropped click the photograph opened
+   after a drag, without the wheel the radius stayed at 140. (2) The welcome says what Photos does, in
+   English and Welsh (red before the line). (3) Escape closing the welcome before the photograph under it,
+   and the "?" icon clear of the photo panel and the Photos toggle, were checked and already held (no
+   change needed). Lesson: **an overlay button over a canvas swallows more than its click.** Every press,
+   drag and wheel on it stops there, so a layer added over the 3D view needs the controls handed its input,
+   not only a pointer-events rule. The first pin-drag test was flaky because a drag let go of at speed
+   glides on and the followed pin can end up hidden behind a neighbour; pausing before letting go (the
+   fling window is 80 ms) made each drag move the land by exactly the cursor's travel. Bundle: the main
+   chunk is 508,785 bytes gzipped after the merge.
+2. **The LiDAR terrain merged into the map-style camera and welcome, and the review of the photo merge
+   fixed** (branch `feat/map-style-camera`, Claude under the proactive mandate). `main` had taken ADRs
+   0045 to 0049 (the forts, the GPU kit, the LiDAR terrain) since the last merge, so the camera and welcome
+   ADRs are now [0050](../adr/0050-map-style-camera-controls.md) and
+   [0051](../adr/0051-one-welcome-panel.md); the fourth renumbering. Conflicts: `main.ts` (`controls.tick`
+   next to `features.setViewer`; the welcome-at-start callback next to the richer debug object), the
+   ADR index, `CLAUDE.md`'s performance line and the build, decision and test logs (both sides kept; the
+   long test rows merged word by word). Review fixes: the pin-drag test's second leg ("a drag from the
+   land that ends on a pin") could never end on a pin, because the land slides with the cursor and a pin
+   keeps its place relative to it, so it tested only a plain land drag; it is removed, with its claim in
+   `docs/tests/_index.md`. The drag helper now refuses to run unless the press lands on the layer under
+   test, so the pass-through cannot go untested if a layout change moves the pin. The label and the
+   speech bubble pass-through, which no test covered (deleting either `passThrough` line failed nothing),
+   each have a drag test, seen red at the slide with the line removed. The merged full run also turned up
+   one failure that was the merge's, not the review's: the e2e `terrainAt` helper picked only the coarse
+   `terrain` mesh, and the LiDAR leaves a hole in it under each detail tile (whose meshes are not
+   pickable by default), so after a scene's Skip landed on Llandeilo the pick found nothing ("no terrain
+   under 900,520"); it now accepts the `detail-` tiles too. Lesson: **a number is renumbered
+   every time `main` moves, so check the highest ADR at the push, not at the merge** (it moved four times
+   in two days). Bundle: the main chunk is 534,258 bytes gzipped after the merge.
