@@ -124,3 +124,12 @@ on it and uploads `test-results-gpu/`.
   runner run never share the GPU or `C:\llandeilo-gpu`.
 - **To stop or remove it**: `systemctl --user disable --now llandeilo-gh-runner`, then
   `./config.sh remove` in the runner folder with a removal token.
+
+## Amended 2026-10-10: CI queues behind a local run
+
+The CI `gpu` job on 93d072c failed in seconds with exit 2: a local GPU run (an agent building Blender
+textures) held the lock. The lock was right to refuse a second run on the one GPU and Windows working copy,
+but a non-blocking CI check that fails because someone is using the laptop tells nobody anything. `run.sh`
+now waits up to `GPU_LOCK_WAIT` seconds for the lock (default 0, so a local second run still fails at once
+and says why), and CI sets 1800; the job's 90-minute timeout still caps it. Decided by Claude, under the
+proactive mandate (ADR 0027).

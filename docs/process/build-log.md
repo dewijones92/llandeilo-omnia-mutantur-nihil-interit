@@ -1251,3 +1251,93 @@ through the noise against main's untextured models. Bundle 552,593 bytes against
 the GPU (WebGL, High) at AD 80, 84 and 110 from 450m and close to a gate, at Medium, and at night: the forts keep the
 valley's colours, the roofs show their courses and grain, the rampart reads as cut earth with a grassed walk
 ([`docs/images/blender/textures/`](../images/blender/textures/)).
+
+## 2026-10-10 (the "flaky" e2e hang)
+
+About one full e2e run in ten (and more under load) failed a random test with `data-ready` never set
+after 150s, and passed when re-run alone: "a provenance badge explains itself", "timeline year labels never
+overlap", "every timeline marker can be clicked", "time of day and season controls" and others, six times
+on 2026-10-09 and 10. Called a flake; by the rule that an unlogged decision is an unanswerable question,
+instrumented instead.
+
+1. **Instrumentation.** `src/platform/startup.ts` and `src/main.ts` log `dewidebug startup <stage> <ms>` at
+   each stage between page load and `data-ready` (`html head parsed`, `main started`, each of `engine`,
+   `heightfield`, `rivers`, `woodland`, `lidar`, `buildings`, `railways`, `roads` loaded or FAILED,
+   `inputs all loaded`, `world built`, `train model loading` and `done`, `scene built`, `scene ready`,
+   `ready`), every start-up fetch (start, status and time, failure), unhandled errors and rejections with the
+   stage, WebGL context loss and creation errors, and a STILL WAITING line at 15, 60 and 120 seconds. The
+   last stage is `body[data-startup]`, the fetches awaiting their response headers `body[data-startup-pending]`. Once per load.
+2. **A shared wait.** `e2e/ready.ts` (`ready(page)`, and the `test` every spec imports) replaced every bare
+   `data-ready` wait (75 in `smoke.spec.ts`, 1 in `terrain.spec.ts`, 1 in `gpu.spec.ts` at first, 81 in
+   `smoke.spec.ts` after merging `main`; none left). A
+   timeout now throws the page state, the requests started but never finished, failed and HTTP-error
+   requests, page errors, the app's start-up lines and the last 30 console lines. The timeout is unchanged.
+3. **Reproduced.** `E2E_WORKERS=3` against a production build, on a laptop at load average 7 to 8: run 1
+   passed (72 passed, 1 skipped, 4.3 minutes); run 2 failed three tests (69 passed, 8.1 minutes), all
+   "the page never became ready", all with `net::ERR_NETWORK_CHANGED` on same-origin script chunks and
+   three different faces: the entry's imports lost so `main.ts` never ran and nothing said so (twice, once on
+   a second navigation inside a test), and a shader chunk lost after start-up began, which left Babylon's
+   `whenReadyAsync` pending for ever (stuck at `scene built`, with a page error
+   "Failed to fetch dynamically imported module"). `docker events` showed a container joining and leaving
+   the Docker bridge every 11 to 15 seconds through the run, and Chromium cancels in-flight requests when the
+   host's network interfaces change. The container is `fis-worker.service` (a local stand-in for another
+   project's worker, `docker run --rm` about every 10 seconds); the failure timestamps were not matched to
+   docker events, so this is a correlation plus an earlier independent note of the same effect (2026-10-02).
+   The unit was stopped on 2026-10-10 at Dewi's choice, the real fix for local runs.
+4. **Fix** ([ADR 0054](../adr/0054-a-page-that-loses-a-script-reloads-once-and-says-where-start-up-stopped.md)):
+   an inline script in `index.html` reloads the page, only before the app is ready (up to three times per session, once per load), when a
+   same-origin script fails or a dynamic import is rejected. `e2e/ready.spec.ts` drops one script request
+   before start-up and one after it began, seen red without the script (never ready after 60s) and green
+   with it. This also protects a visitor whose network changes mid-load.
+   After it: the full run with one worker passed (74 passed, 1 skipped, 10.4 minutes) and two more
+   three-worker runs passed (4.5 and 5.8 minutes). That is two clean runs where one in two failed before, not
+   proof: the churn comes and goes, and the deterministic dropped-chunk tests are the real evidence.
+
+Lesson: **"re-running it passes" is not evidence of a flake, it is what any cause that depends on the
+moment looks like.** The cause was in the environment and the app's silence about it, and one run with the
+failure message written out was enough to find it.
+
+## 2026-10-10 (the fifth-year pin test)
+
+The e2e "every fifth year the photographs are pinned (1895 to 1955) shows a pin at some standard view, and
+1960 shows none" took 6.8 minutes on CI (`test.slow`) because it loaded the page once per year per view, 13
+years at up to three views each, and with the night tests beside it one CI shard ran about 14 minutes while the
+others ran 3 to 8.
+
+1. **One load per view.** It now loads each view once (`radius=140`, `radius=400`, the overview; later views
+   only for the years not yet shown, and always for 1960) and moves through the years in the page. Same
+   assertions: each year 1895 to 1955 shows at least one visible pin at some view, and 1960 shows none at any.
+   Measured locally, same build: 84 seconds before, 24 after on the laptop GPU; 50 seconds after under
+   SwiftShader at Low (CI's renderer, `CI=1 E2E_GPU=0 E2E_QUALITY=low`). I did not re-time the old test under
+   SwiftShader (its first run there hit the 180-second local timeout), so the CI before figure is the 6.8
+   minutes recorded from CI. `test.slow` is gone.
+2. **How the year moves.** A real mouse cannot land on an exact year: Chromium delivers its x as a 32-bit
+   float, which put 1900 at 1899.99 (the slider label floors, so it read "1899"), and a photograph's window
+   ends on a whole year (a photograph dated to 1935 is pinned to 1960), so 1960.0 and 1960.5 are different
+   questions. The test holds a real mouse press on a bare bit of the track, so that letting go never snaps to
+   a key date, and dispatches a `pointermove` at the exact x of each year, the slider's own drag path. It
+   checks the label reads the year it asked for.
+3. **Waiting for state, not time.** The scene applies a new year and lays the pins out in the same rendered
+   frame, so after the move the test waits for the next `requestAnimationFrame` (registered after the
+   engine's own, so it runs after it) and counts the visible pins; a zero gets one more frame before it is
+   believed. A stale frame can only show the previous year's pins, which makes a "none" fail rather than pass.
+4. **Seen red, at the named assertions.** Pins never drawn (`display` never set): `missing` listed all of
+   1895 to 1955. Pin window lingering 100 years instead of 25: `expect(shownAt.get(1960) ?? 0).toBe(0)` failed
+   with 7. Both reverted; `npm run check` and the 13 photo and pin specs pass on a fresh build with one worker.
+
+Lesson: **a test that needs thirteen scenes does not need thirteen page loads**; the slow part of an e2e is
+start-up, so move through the states in one page when the state is reachable the way a visitor reaches it.
+
+**Review of the per-year pin test, 2026-10-10** (second Opus, after the push; no CRITICAL or IMPORTANT). The
+test counted pins one animation frame after a move and relied on the app laying the pins out in the same frame
+as the year: with that order broken on purpose it still passed, counting 1900's pins for 1905. The pin layer
+now stamps the year it last laid out (`.pins[data-year]`), and the test waits for that year before counting,
+so the count is for exactly that year whatever the frame order; with the stamp removed it fails at "laid
+out". CI shard times after this test's rewrite and the move to eight shards: 2 to 10 minutes (the slowest
+had been 14 with eight shards and 20 with six).
+
+**The GPU job failed because the laptop was busy, 2026-10-10.** CI's `gpu` job on 93d072c exited 2 in
+seconds: an agent's local GPU-kit run held `~/.cache/llandeilo-gpu.lock`. `tools/gpu/run.sh` now waits up to
+`GPU_LOCK_WAIT` seconds (CI sets 1800). Checked both ways with the lock held by hand: a 2s wait fails with
+"still holds … after 2s" (exit 2), and a 60s wait logged "lock acquired" after 9s and then passed its 8 GPU
+tests on WebGPU ([ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md), amended).

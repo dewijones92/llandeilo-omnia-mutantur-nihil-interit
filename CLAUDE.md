@@ -306,7 +306,7 @@ WSL→Windows TCP) but Windows reaches WSL's `localhost`. Results come back to `
 keeps `C:\llandeilo-gpu\` (Playwright at the lockfile's version, cached; a fresh copy of the test code
 each run). A self-hosted CI runner job only calls `tools/gpu/run.sh` and uploads `test-results-gpu/`.
 `npm ci` runs only when `node_modules` is missing (`GPU_NPM_CI=1` allows it on a drifted one), each pass has
-a time limit that kills its Windows process tree (`GPU_PASS_TIMEOUT`), and `run.json` names the commit.
+a time limit that kills its Windows process tree (`GPU_PASS_TIMEOUT`), and `run.json` names the commit. One run holds the GPU at a time (`~/.cache/llandeilo-gpu.lock`); a second fails at once unless `GPU_LOCK_WAIT` (seconds) lets it queue, which CI sets to 1800 so it waits behind a local run.
 
 Run `git config core.hooksPath .githooks` once per clone. Local Playwright uses Chromium 136 because
 newer Chromium cannot navigate on this WSL machine; CI uses the bundled browser. Every

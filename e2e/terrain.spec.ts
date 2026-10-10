@@ -1,4 +1,5 @@
-import { expect, test, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { expect, ready as waitReady, test } from './ready.ts';
 import { PLACES } from '../src/content/places.ts';
 import { toWorld, WORLD } from '../src/domain/geo.ts';
 import { RIM_SPACING } from '../src/domain/lidar.ts';
@@ -82,7 +83,7 @@ async function seam(page: Page): Promise<Seam> {
 
 async function ready(page: Page, url: string): Promise<void> {
   await page.goto(url);
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await waitReady(page);
 }
 
 async function moveCamera(page: Page, x: number, z: number, radius: number): Promise<void> {

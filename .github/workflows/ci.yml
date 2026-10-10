@@ -52,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4, 5, 6]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -63,8 +63,8 @@ jobs:
       - run: npx vite build
       - name: Install Chromium for e2e
         run: npx playwright install --with-deps chromium
-      - name: End-to-end tests, shard ${{ matrix.shard }} of 6 (Low graphics)
-        run: npx playwright test --shard=${{ matrix.shard }}/6
+      - name: End-to-end tests, shard ${{ matrix.shard }} of 8 (Low graphics)
+        run: npx playwright test --shard=${{ matrix.shard }}/8
         env:
           E2E_QUALITY: low
       - uses: actions/upload-artifact@v7
@@ -87,6 +87,9 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - name: End-to-end tests and frame timings on the laptop GPU (High, WebGPU)
         run: npm run e2e:gpu
+        env:
+          # Queue behind a local GPU run (the lock) rather than failing; the job's own timeout still caps it.
+          GPU_LOCK_WAIT: 1800
       - uses: actions/upload-artifact@v7
         if: always()
         with:
