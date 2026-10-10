@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Open questions
@@ -40,6 +40,11 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | The date of the 1213 camp | 24 January (the Brut's reckoning) vs 25 January (Lloyd's *History of Carmarthenshire*); the app says late January and gives both (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 
 ## Gaps worth a dedicated pass
+
+- **The forts' surfaces** (2026-10-10, [fort-surfaces](fort-surfaces.md)): the timber species at Dinefwr and whether its
+  timbers were hewn or sawn; how long a turf face stayed bare and whether faces were grassed on purpose; any Roman-period
+  find of shingle or thatch in Wales (a search found none); the Laurieston paper's survey of grass-down laying read
+  against the 1899 Antonine Wall report directly. The new note has not had its independent check.
 
 - **Heneb HER terms of use** (found by the hunter-gatherers check, 2026-10-09; for Dewi). Every Heneb HER
   (Archwilio) page says: "All output resulting from the use of the data must acknowledge the source as

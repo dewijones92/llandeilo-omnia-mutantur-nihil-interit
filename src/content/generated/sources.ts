@@ -2395,6 +2395,36 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/event-effects.md"
   },
   {
+    "id": "surfaces:S1",
+    "title": "T. Romankiewicz, B. Russell, G. Bailey, T. Gardner, J. R. Snyder and C. T. S. Beckett, \"'Another wall of turf': geoarchaeological analysis of the Antonine Wall at 72 Grahamsdyke Street, Laurieston, Falkirk\", *Proceedi…",
+    "url": "https://doi.org/10.9750/PSAS.151.1353",
+    "doc": "docs/research/fort-surfaces.md"
+  },
+  {
+    "id": "surfaces:S2",
+    "title": "Vegetius, *Epitoma rei militaris*, Book III, chapter 8, Latin text at The Latin Library.",
+    "url": "https://www.thelatinlibrary.com/vegetius3.html",
+    "doc": "docs/research/fort-surfaces.md"
+  },
+  {
+    "id": "surfaces:S3",
+    "title": "Pliny the Elder, *Naturalis Historia*, Book XVI, 36, Latin text at LacusCurtius.",
+    "url": "https://penelope.uchicago.edu/Thayer/L/Roman/Texts/Pliny_the_Elder/16*.html",
+    "doc": "docs/research/fort-surfaces.md"
+  },
+  {
+    "id": "surfaces:S4",
+    "title": "Historic England Research Report 84/1993, \"Tree-ring analysis of oak timbers from the 1991 excavations at Vindolanda, Northumberland\".",
+    "url": "https://historicengland.org.uk/research/results/reports/84-1993",
+    "doc": "docs/research/fort-surfaces.md"
+  },
+  {
+    "id": "surfaces:S5",
+    "title": "Glasgow Archaeological Society, *The Antonine Wall Report* (1899), scan at Heidelberg University Library.",
+    "url": "https://digi.ub.uni-heidelberg.de/diglit/antonine_wall1899/0143",
+    "doc": "docs/research/fort-surfaces.md"
+  },
+  {
     "id": "hunters:S1",
     "title": "Heneb Historic Environment Record (via Archwilio), \"Lithic Scatter; Love Lodge Farm\", PRN 109220, Dyffryn Cennen (M. Shiner after Hourihan, Long and Simpson 2015)",
     "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT109220&dbname=dat&tbname=core",
