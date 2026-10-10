@@ -1081,6 +1081,15 @@ it is defensive only.
    NVIDIA GPU, 8 GPU tests and 70 e2e passed (1 skipped) in 5m12s; idle 53fps, orbit 60, scrub 40 (p90
    50ms). Lesson: **a copy list that mirrors code drifts the day the code grows; derive it.**
 
+4. **A test that passed with the feature removed** (CI run on f6dfc49, shard 4: "the map controls stand
+   aside while a scene plays" failed at its last step, the arrow-key slide, moved 0 after a 1.5s hold).
+   The hold was a fixed time, which at CI's ~1fps can span no frame, so the step now holds the key until
+   the camera moves (up to 20s, the time logged as `dewidebug e2e arrow slide`). Checking that fix against
+   a broken build (no key pressed) showed the step had never tested the key: the camera still glides
+   after the drag before it, so "moved more than 5" held with no key at all. The step now starts from
+   `cameraSettled`; with no key it fails at the slide's assertion, with the key it passes (267ms held).
+   Lesson: **a red check of a test fix can reveal that the test was green for the wrong reason**.
+
 ## 2026-10-10 (the "flaky" e2e hang)
 
 About one full e2e run in ten (and more under load) failed a random test with `data-ready` never set
