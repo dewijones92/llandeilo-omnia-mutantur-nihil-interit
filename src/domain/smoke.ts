@@ -34,7 +34,6 @@ export function plumeOf(kind: FeatureKind): Plume | undefined {
     case 'burning':
       return { style: 'burning', fire: true, spread: kind.spread, density: kind.density };
     case 'hillfort':
-    case 'roman-fort':
     case 'countryside':
     case 'railway':
     case 'train':

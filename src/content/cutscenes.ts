@@ -9,28 +9,15 @@ import {
   type Route,
   type Track,
 } from '../domain/cutscene.ts';
-import { WORLD } from '../domain/geo.ts';
-import type { GridRef } from '../domain/model.ts';
+import { polylineLength } from '../domain/polyline.ts';
 import type { Provenance } from '../domain/provenance.ts';
-import { FEATURES } from './features.ts';
+import { FORT_1_ARRIVAL } from './forts.ts';
 import { eventId, featureId } from './ids.ts';
 import { documented, imagined, reconstructed } from './provenance.ts';
 
-// The fort's east gate as the diorama draws it (landmarks are drawn larger than life), so the
-// column walks in at the gate the viewer sees.
-function drawnEastGate(id: string): GridRef {
-  const fort = FEATURES.find((f) => f.id === featureId(id));
-  if (fort?.kind.type !== 'roman-fort') throw new Error(`No Roman fort ${id}`);
-  const half = (fort.kind.width * WORLD.landmarkScale) / 2;
-  return {
-    e: fort.at.e + half * Math.cos(fort.kind.angle),
-    n: fort.at.n + half * Math.sin(fort.kind.angle),
-  };
-}
-
 // Down the Tywi from the north-east along the line of the later Roman road: Coflein's recorded
 // segments S of Llanwrda, SW of Llanwrda, Ashfield Row and Manordeilo, the parchmark entering
-// Llandeilo, then the fort.
+// Llandeilo, then Fort 1's south-east gate.
 export const TYWI_ROAD_FROM_LLANDOVERY: Route = {
   id: 'tywi-road-from-llandovery',
   label: { en: 'Down the Tywi from Llandovery', cy: 'I lawr y Tywi o Lanymddyfri' },
@@ -44,11 +31,11 @@ export const TYWI_ROAD_FROM_LLANDOVERY: Route = {
     { e: 265720, n: 225170 },
     { e: 265240, n: 224900 },
     { e: 262700, n: 222900 },
-    drawnEastGate('roman-fort-a'),
+    ...FORT_1_ARRIVAL,
   ],
   provenance: reconstructed(
-    'No source says which way the army came. The north-east is the likelier direction, inferred from the forts at Llandovery and here and the marching camps east of Llandovery facing south-west. The line follows the later Roman road where Coflein records it, joined by straight lines between the recorded stretches; on the day there was no finished road.',
-    'Does dim ffynhonnell yn dweud o ba ffordd y daeth y fyddin. Y gogledd-ddwyrain yw’r cyfeiriad mwyaf tebygol, wedi’i gasglu o’r caerau yn Llanymddyfri ac yma a’r gwersylloedd ymdeithio i’r dwyrain o Lanymddyfri sy’n wynebu’r de-orllewin. Mae’r llinell yn dilyn y ffordd Rufeinig ddiweddarach lle mae Coflein yn ei chofnodi, gyda llinellau syth rhwng y darnau a gofnodwyd; ar y diwrnod nid oedd ffordd orffenedig.',
+    'No source says which way the army came. The north-east is the likelier direction, inferred from the forts at Llandovery and here and the marching camps east of Llandovery facing south-west. The line follows the later Roman road where Coflein records it, joined by straight lines between the recorded stretches; on the day there was no finished road. It ends outside Fort 1’s south-east gate, one of its two evidenced gateways; which gate the army used is a choice, not a record.',
+    'Does dim ffynhonnell yn dweud o ba ffordd y daeth y fyddin. Y gogledd-ddwyrain yw’r cyfeiriad mwyaf tebygol, wedi’i gasglu o’r caerau yn Llanymddyfri ac yma a’r gwersylloedd ymdeithio i’r dwyrain o Lanymddyfri sy’n wynebu’r de-orllewin. Mae’r llinell yn dilyn y ffordd Rufeinig ddiweddarach lle mae Coflein yn ei chofnodi, gyda llinellau syth rhwng y darnau a gofnodwyd; ar y diwrnod nid oedd ffordd orffenedig. Mae’n gorffen y tu allan i borth de-ddwyreiniol Caer 1, un o’i dwy fynedfa y ceir tystiolaeth ohonynt; dewis yw pa borth a ddefnyddiodd y fyddin, nid cofnod.',
     [
       'roman:S1',
       'roman:S14',
@@ -192,7 +179,7 @@ const SHOTS = [
   { from: 18.8, to: 30, lead: 9300 },
   { from: 30, to: 41.4, lead: 9700 },
   { from: 41.4, to: 60.1, lead: 11030 },
-  { from: 60.1, to: 79, lead: 13230 },
+  { from: 60.1, to: 79, lead: polylineLength(TYWI_ROAD_FROM_LLANDOVERY.points) - PACE * (79 - 60.1) },
 ] as const;
 
 const TRACKS: readonly Track[] = [

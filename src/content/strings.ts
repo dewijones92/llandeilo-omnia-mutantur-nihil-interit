@@ -49,6 +49,10 @@ export const STRINGS = {
     cy: 'Wedi’i ddyfeisio i lenwi bwlch yn y cofnod. Nid yw’n ffeithiol, ond mae’n seiliedig ar yr hyn a wyddom.',
   },
   basedOn: { en: 'Based on', cy: 'Yn seiliedig ar' },
+  partsHeading: {
+    en: 'What is drawn here, part by part',
+    cy: 'Beth sy’n cael ei dynnu yma, rhan wrth ran',
+  },
   sources: { en: 'Sources', cy: 'Ffynonellau' },
   soundOn: { en: 'Sound on', cy: 'Sain ymlaen' },
   soundOff: { en: 'Sound off', cy: 'Sain i ffwrdd' },
@@ -207,8 +211,8 @@ export const STRINGS = {
   faceNorth: { en: 'Compass: face north', cy: "Cwmpawd: wynebu'r gogledd" },
   northLetter: { en: 'N', cy: 'G' },
   aboutBody: {
-    en: `A diorama of the real landscape within ten miles of Llandeilo, built from Ordnance Survey height data. Hills are exaggerated ${HILLS} times. Castles, the abbey, country houses, Roman forts and early houses are drawn ${LANDMARKS} times larger than life so they read at this scale; hillforts and the town, with its church and bridges, keep their true footprint. Move the slider to travel through time. Every item is labelled: documented, reconstructed, or imagined. Hover or tap a label to see why, and the sources.`,
-    cy: `Diorama o'r dirwedd go iawn o fewn deg milltir i Landeilo, wedi'i adeiladu o ddata uchder yr Arolwg Ordnans. Mae'r bryniau wedi'u gorliwio ${HILLS} gwaith. Mae cestyll, yr abaty, plastai, caerau Rhufeinig a thai cynnar wedi'u lluniadu ${LANDMARKS} gwaith yn fwy na'u maint go iawn er mwyn eu gweld ar y raddfa hon; mae bryngaerau a'r dref, gyda'i heglwys a'i phontydd, yn cadw eu hôl troed go iawn. Symudwch y llithrydd i deithio drwy amser. Mae label ar bopeth: wedi'i gofnodi, wedi'i ail-greu, neu ddychmygol. Hofran neu dapio label i weld pam, a'r ffynonellau.`,
+    en: `A diorama of the real landscape within ten miles of Llandeilo, built from Ordnance Survey height data. Hills are exaggerated ${HILLS} times. Castles, the abbey, country houses and early houses are drawn ${LANDMARKS} times larger than life so they read at this scale; hillforts, the Roman forts and their settlement (at their true height too) and the town, with its church and bridges, keep their true footprint. Move the slider to travel through time. Every item is labelled: documented, reconstructed, or imagined. Hover or tap a label to see why, and the sources.`,
+    cy: `Diorama o'r dirwedd go iawn o fewn deg milltir i Landeilo, wedi'i adeiladu o ddata uchder yr Arolwg Ordnans. Mae'r bryniau wedi'u gorliwio ${HILLS} gwaith. Mae cestyll, yr abaty, plastai a thai cynnar wedi'u lluniadu ${LANDMARKS} gwaith yn fwy na'u maint go iawn er mwyn eu gweld ar y raddfa hon; mae bryngaerau, y caerau Rhufeinig a’u hanheddiad (yn eu huchder go iawn hefyd) a'r dref, gyda'i heglwys a'i phontydd, yn cadw eu hôl troed go iawn. Symudwch y llithrydd i deithio drwy amser. Mae label ar bopeth: wedi'i gofnodi, wedi'i ail-greu, neu ddychmygol. Hofran neu dapio label i weld pam, a'r ffynonellau.`,
   },
   credits: { en: 'Credits and licences', cy: 'Cydnabyddiaeth a thrwyddedau' },
   timeOfDay: { en: 'Time of day', cy: 'Adeg o’r dydd' },

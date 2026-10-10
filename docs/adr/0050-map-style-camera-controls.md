@@ -1,19 +1,20 @@
 ---
-title: "ADR 0045: Map-style camera controls"
+title: "ADR 0050: Map-style camera controls"
 kind: adr
 status: accepted
 updated: 2026-10-10
 ---
 
-# ADR 0045: Map-style camera controls
+# ADR 0050: Map-style camera controls
 
 - **Status:** Accepted
 - **Date:** 2026-10-03
 - **Number:** written as 0037 on its branch, renumbered to 0041 when `main` (which had taken 0037 to
   0040) was merged in, then to 0044 when `main` (which had taken 0041 to 0043 for the cutscenes) was
   merged in again on 2026-10-09, then to 0045 when `main` (which had taken 0044 for the photo layer)
-  was merged in a third time the same day.
-- **Amended 2026-10-09 by [0046](0046-one-welcome-panel.md):** the one-time hint and the Keys panel
+  was merged in a third time on 2026-10-10, and finally to 0050 when `main` (which had since taken 0045 to
+  0049 for the forts, the GPU kit and the LiDAR terrain) was merged in a fourth time.
+- **Amended 2026-10-09 by [0051](0051-one-welcome-panel.md):** the one-time hint and the Keys panel
   described below are replaced by the welcome panel, which lists the same controls.
 - **Amended 2026-10-09, merging the cutscenes ([ADR 0041](0041-cutscenes-as-data-on-one-clock.md)):**
   while a scene plays, `MapControls` is switched off (`setEnabled(false)`), which drops a drag under way,

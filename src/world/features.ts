@@ -1,4 +1,4 @@
-import { Vector3, VertexBuffer, type AbstractMesh, type Mesh } from './babylon.ts';
+import { Vector3, type AbstractMesh, type Mesh } from './babylon.ts';
 import { toGrid, toWorld } from '../domain/geo.ts';
 import type { Feature, FeatureId, RollingStock } from '../domain/model.ts';
 import type { LampState } from '../domain/lamplight.ts';
@@ -7,20 +7,25 @@ import { hash2 } from '../domain/noise.ts';
 import { hidesFootprint, rotate, type Plan, type Pt } from '../domain/plan.ts';
 import { smokingFeatures } from '../domain/smoke.ts';
 import { drawnRailway, longestLine, sectionLines } from '../domain/rail.ts';
-import { Surface } from '../domain/surface.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
 import { Buildings, lineRibbons, Train } from './settlement.ts';
 import { planClearing, planWorldScale } from './buildings.ts';
 import { buildFeature, type Ground, type WorldPoint } from './structures.ts';
 import type { SmokeSource } from './smoke.ts';
-import type { Clearing } from './terrain.ts';
+import type { Clearing } from './landcover.ts';
 import type { LoadedModel } from './models.ts';
 import { StreetLamps } from './streetlamps.ts';
+import { levelFor, type Level } from '../domain/lod.ts';
 
 interface Monument {
   readonly mesh: Mesh;
+  /** The full-detail mesh, drawn instead of `mesh` when the camera is near. */
+  readonly near: Mesh | undefined;
+  readonly at: { readonly x: number; readonly z: number };
   readonly hearths: readonly WorldPoint[];
+  level: Level;
+  visible: boolean;
 }
 
 interface TownSet {
@@ -35,7 +40,6 @@ const TOWN_CORE_RADIUS = 1300;
 const CLEARING: Readonly<Record<Exclude<Feature['kind']['type'], 'building'>, number>> = {
   roundhouses: 40,
   hillfort: 85,
-  'roman-fort': 60,
   'hall-houses': 45,
   town: 110,
   countryside: 0,
@@ -94,20 +98,21 @@ export class FeatureLayer {
   ) {
     const scene = world.scene;
     this.ground = (x, z) => world.terrain.heightAt(toGrid({ x, z }));
-    const surface = new Surface(world.terrain.mesh.getVerticesData(VertexBuffer.PositionKind) ?? []);
-    const onSurface: Ground = (x, z) => surface.heightAt(x, z) ?? this.ground(x, z);
+    const onSurface: Ground = (x, z) => world.terrain.surfaceAt(x, z);
     this.surface = onSurface;
     console.info(
-      `dewidebug surface vs grid at centre: surface=${surface.heightAt(0, 0)?.toFixed(2) ?? 'none'} grid=${this.ground(0, 0).toFixed(2)}`,
+      `dewidebug surface vs grid at centre: surface=${onSurface(0, 0).toFixed(2)} grid=${this.ground(0, 0).toFixed(2)}`,
     );
     this.buildings = new Buildings(scene, footprints, this.ground);
     for (const m of this.buildings.meshes) world.addCaster(m);
     world.addLamp(this.buildings.windowMaterial);
     world.addLamp(this.buildings.halos.material);
+    const onGround = (lines: readonly MapLine[]): MapLine[] =>
+      lines.map((l) => ({ ...l, points: world.terrain.lineOnGround(l.points) }));
     this.roads = lineRibbons(
       scene,
       'roads',
-      roads,
+      onGround(roads),
       this.ground,
       (k) => (k === 'A' ? 1.6 : k === 'B' ? 1.1 : 0.8),
       '#b9b6ae',
@@ -119,7 +124,8 @@ export class FeatureLayer {
     world.addLamp(this.streetLamps.halos.material);
     const main = longestLine(railways);
     this.trainLine = main;
-    this.train = main ? new Train(scene, main, this.ground, trainModels) : undefined;
+    const [mainOnGround] = main ? onGround([main]) : [];
+    this.train = mainOnGround ? new Train(scene, mainOnGround, this.ground, trainModels) : undefined;
     const started = performance.now();
     const covered = coveredFootprints(features, footprints);
     const visible = (order: Int32Array): Int32Array => order.filter((i) => !covered.has(i));
@@ -128,7 +134,15 @@ export class FeatureLayer {
       const { x, z } = toWorld(f.at);
       if (f.kind.type === 'railway') {
         const lines = sectionLines(railways, f.kind.section);
-        const mesh = lineRibbons(scene, `rail-${f.id}`, lines, this.ground, () => 1.1, '#6d655c', 0.35);
+        const mesh = lineRibbons(
+          scene,
+          `rail-${f.id}`,
+          onGround(lines),
+          this.ground,
+          () => 1.1,
+          '#6d655c',
+          0.35,
+        );
         mesh.isVisible = false;
         this.rails.set(f.id, mesh);
         console.info(
@@ -149,12 +163,21 @@ export class FeatureLayer {
       }
       const built = buildFeature(scene, f.kind, Math.floor(hash2(x, z, 7) * 1e6), onSurface, x, z);
       if (!built) continue;
-      built.mesh.setEnabled(false);
-      built.mesh.receiveShadows = true;
       const mat = scene.getMaterialByName('building-mat');
-      if (mat) built.mesh.material = mat;
-      if (built.casts) world.addCaster(built.mesh);
-      this.monuments.set(f.id, { mesh: built.mesh, hearths: built.hearths });
+      for (const mesh of built.near ? [built.mesh, built.near] : [built.mesh]) {
+        mesh.setEnabled(false);
+        mesh.receiveShadows = true;
+        if (mat) mesh.material = mat;
+        if (built.casts) world.addCaster(mesh);
+      }
+      this.monuments.set(f.id, {
+        mesh: built.mesh,
+        near: built.near,
+        at: { x, z },
+        hearths: built.hearths,
+        level: 'far',
+        visible: false,
+      });
     }
     console.info(
       `dewidebug features built monuments=${this.monuments.size} towns=${this.towns.size} in ${Math.round(performance.now() - started)}ms`,
@@ -203,8 +226,13 @@ export class FeatureLayer {
     const active = new Map(present.map((p) => [p.feature.id, p]));
     for (const [id, m] of this.monuments) {
       const p = active.get(id)?.presence ?? 0;
-      m.mesh.setEnabled(p > 0.01);
-      if (p > 0.01) m.mesh.scaling.y = 0.05 + 0.95 * (1 - Math.pow(1 - p, 3));
+      m.visible = p > 0.01;
+      if (m.visible) {
+        const rise = 0.05 + 0.95 * (1 - Math.pow(1 - p, 3));
+        m.mesh.scaling.y = rise;
+        if (m.near) m.near.scaling.y = rise;
+      }
+      this.show(m);
     }
     const selections: { id: string; order: Int32Array; count: number }[] = [];
     let lampTown: { id: string; presence: number } | undefined;
@@ -230,6 +258,39 @@ export class FeatureLayer {
     this.trainFeature = railway.train?.feature;
     this.train?.setSpan(railway.train?.span);
     this.roads.isVisible = road > 0.5;
+  }
+
+  private show(m: Monument): void {
+    const full = m.near && m.level === 'near';
+    m.mesh.setEnabled(m.visible && !full);
+    m.near?.setEnabled(m.visible && full === true);
+  }
+
+  /** Swaps each detailed monument between its levels by how far the camera is; true if any swapped, so the shadows can be redrawn. */
+  setViewer(eye: { readonly x: number; readonly y: number; readonly z: number }): boolean {
+    let swapped = false;
+    for (const [id, m] of this.monuments) {
+      if (!m.near) continue;
+      const g = this.surface(m.at.x, m.at.z);
+      const distance = Math.hypot(eye.x - m.at.x, eye.y - g, eye.z - m.at.z);
+      const level = levelFor(distance, m.level);
+      if (level === m.level) continue;
+      m.level = level;
+      swapped = true;
+      this.show(m);
+      console.info(
+        `dewidebug lod ${id} now ${level} at ${Math.round(distance)} units from the camera (${m.visible ? 'drawn' : 'not drawn now'})`,
+      );
+    }
+    return swapped;
+  }
+
+  /** Where each detailed monument is drawn, for the debug overlay. */
+  levels(): string {
+    return [...this.monuments]
+      .filter(([, m]) => m.near)
+      .map(([id, m]) => `${id}=${m.level}`)
+      .join(' ');
   }
 
   setLamps(state: LampState): void {

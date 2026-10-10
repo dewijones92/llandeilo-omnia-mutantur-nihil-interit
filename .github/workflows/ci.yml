@@ -74,6 +74,26 @@ jobs:
           path: test-results/
           if-no-files-found: ignore
 
+  # The real-GPU check: Windows Chrome on Dewi's laptop, at High with WebGPU, through a self-hosted
+  # runner (ADR 0048). Pushes to main only, so no pull request's code ever runs on the laptop; outside
+  # contributors' runs also need approval. It never blocks the deploy, and waits while the laptop is off.
+  gpu:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, gpu, windows-chrome]
+    timeout-minutes: 90
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - run: npm ci --no-audit --no-fund
+      - name: End-to-end tests and frame timings on the laptop GPU (High, WebGPU)
+        run: npm run e2e:gpu
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: gpu-results
+          path: test-results-gpu/
+          if-no-files-found: ignore
+
   deploy:
     if: github.ref == 'refs/heads/main'
     needs: [check, e2e]

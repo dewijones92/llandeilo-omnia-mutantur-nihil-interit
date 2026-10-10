@@ -640,7 +640,7 @@ Milestones and what each one taught us. Newest last.
    shared (a unit test failed first on the missing function, then on the edge cases). (5) The bundle is
    490,121 bytes gzipped, recorded in CLAUDE.md. Lesson: **an ADR that says "every copy now uses it" is a
    claim to grep for, not to write from memory.**
-26. **Map-style camera** ([ADR 0045](../adr/0045-map-style-camera-controls.md)). Dewi found himself
+26. **Map-style camera** ([ADR 0050](../adr/0050-map-style-camera-controls.md)). Dewi found himself
    "just orbiting around a certain point": Babylon's stock inputs turned the view on a left-drag and
    panned in the screen plane on the right button, and nothing said so. The stock inputs are now
    detached and `MapControls` slides the land under the cursor, turns on a right-drag, zooms at the
@@ -664,7 +664,7 @@ Milestones and what each one taught us. Newest last.
    3D view; it now checks the element under the start point first, so that failure names itself. The
    Welsh for "Hold to slide faster" had read as "keep on sliding faster" ("dal i" + verb-noun means
    "continue to"); it is now "Daliwch hi i lawr i lithro'n gyflymach", pending the parked human check.
-28. **One welcome panel** (Dewi's request; details by Claude under the proactive mandate; [ADR 0046](../adr/0046-one-welcome-panel.md)).
+28. **One welcome panel** (Dewi's request; details by Claude under the proactive mandate; [ADR 0051](../adr/0051-one-welcome-panel.md)).
    Dewi asked for the controls and other info at start, closeable, with an obvious icon to reopen it.
    The Keys panel and the one-time camera hint became one "How to explore" panel; the Begin card and
    the welcome share one `setInert`. The panel was built before this pass, so the tests were seen red by
@@ -804,6 +804,189 @@ it is defensive only.
    reloaded the :5051 tab (the log showed a reload per worktree build) and left Vite's dependency cache
    stale, so the page stopped loading with "504 Outdated Optimize Dep". `vite.config.ts` now ignores
    `.claude/`, `dist/` and test output, and scans only `index.html` for dependencies.
+12. **Research stage for the Roman forts and vicus** (issue 3; Claude under the proactive mandate, ADR 0027):
+   `research/roman-forts-and-vicus.md`, reference images in `research/refs/roman-forts/`. The commenter's
+   Heneb "Tywi Time Line" PDF held no survey and no "AD 90-100"; the survey is Stratascan's magnetometry in
+   the primary report's Fig 2. The only grid reference is Coflein's single point, so the forts were
+   georeferenced from the report's Fig 1 and came out about 50m east of it. Lesson: a source a commenter
+   cites may not contain the claim; read the whole file (every page image, not just the text) before
+   deciding the claim is unsupported. The independent check the same day applied corrections: the Fig 1
+   georeference was 45m east and 50m north out, so the "forts disagree with Coflein" finding was false; and
+   Archwilio and llandeilo.org, called unreachable, were reachable at other addresses (the HER gives each fort
+   a grid reference; llandeilo.org's caption explains "AD 90-100"). Lesson: when a page 404s, try the sibling
+   address and the Wayback copy before listing it as a gap, and re-measure a derived number against a second
+   anchor before reporting a conflict with a documented one.
+
+13. **The Roman forts and their vicus, built detailed** (issue 3; Claude under the proactive mandate, ADRs
+   [0045](../adr/0045-estimated-ends-carry-a-latest-date.md),
+   [0046](../adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md),
+   [0047](../adr/0047-detailed-monuments-have-a-far-and-a-near-mesh.md)). From the checked note: Fort 1, Fort 2,
+   Fort 1's backfilled ditches and the settlement are four `building` features with plans of 66, 83, 15 and 18
+   parts, each with its own id, name, provenance and level of detail; the `roman-fort` feature kind and its own
+   renderer are gone. **The placeholders were wrong and are corrected**: `roman-fort-a` sat on Fort 2's
+   centre (Coflein's point), `roman-fort-b` 28m east and 29m south of it, both at 0.12 radians (7 degrees),
+   with tiled roofs and a limewashed headquarters, at 2.6 times life size; Fort 1 is now centred about E 262206
+   N 222470 and Fort 2 about E 262190 N 222538, long axes at bearings 48 and 53, in true size and height.
+   Built in this order, red first where a bug could show: the latest-date rule (ADR 0045) and the fort-ring
+   geometry in unit tests; the plan model's new parts; a screenshot of the first build; then the content
+   tests. What the pictures taught, each cheaper to find by looking than by test:
+   - **The content tests passed while the feature was wrong.** `notAfter` was in the type and the unit
+     test and not in the content builder `feature()`, which copied only `notBefore`, so Fort 1 showed at
+     1.00 in AD 80 instead of 0.65. The new content test (`tests/forts.test.ts`, read through `snapshotAt`)
+     was red at the named dates (Fort 1 at AD 80 was 0.996, Fort 2 at AD 132 was 0.81) until the builder
+     passed it on. Lesson: test what the snapshot says, not what the data says.
+   - **Vertical exaggeration made a fort a farm.** On the `map` setting a 3m barrack drew 7m tall and the
+     headquarters read as a barn. A new `true` setting (across 1, up 1) fixed it; the screenshot with
+     `up: 1` against `up: 2.4` is the evidence for ADR 0046.
+   - **Depth of field blurred the whole screen at a close radius.** Its focus was clamped to 40 units while
+     the camera's lower limit was 25, so a fort at radius 14 was soft everywhere; both limits now follow the
+     detail (10 units).
+   - **The vicus parallel check was wrong, not the vicus.** A test that no two houses share an angle failed
+     on four pairs of a random scatter, which is what random angles do; the real property is the spread of
+     angles and of nearest-neighbour distances, which is what the test now holds.
+   - **Latent trap found, not hit.** A `map` plan hides the OS building footprints under its parts for
+     every year, so a Roman barrack over a modern farm would have removed the farm for ever. No footprint
+     lies within 250m of either fort (checked from `buildings.bin`), and `true` plans hide none; a test
+     reads the data and fails if one ever does.
+   Not drawn, each "perhaps" or contested in the note: the annex, the practice camps, the possible
+   bathhouse, Fort 1's kiln and its third possible ditch, the vicus's funnel ditches and enclosure, the
+   cremations in Fort 2's interior, the Llandyfeisant building. Fort 1's north-east and north-west gates were
+   not found and are not drawn. The About text no longer says the forts are drawn larger than life
+   (a content test holds it). Registration on the LiDAR terrain waits for issue 2 (not in this branch).
+   Looked at (GPU, `tools/shot.mjs`, `docs/images/roman-forts/`): AD 74, 80, 110 and 140 at radius 45 (near)
+   and 160 (the key-date framing), and the card's part list. A card line "Ditch 1 of 2, south-west" appeared
+   twice on the first look at the list, one per piece of a side cut by a gate; a content test now holds every
+   part's name to be its own, in both languages.
+
+14. **The review of the forts build, and the merge with main** (Claude under the proactive mandate). Eleven
+   commits of main had landed, among them the Roman arrival cutscene, whose `drawnEastGate('roman-fort-a')` read
+   the `roman-fort` kind this branch deleted: it merged with no conflict and would have thrown at load. Lessons
+   and fixes, in the order they bit:
+   - **Auto-merged is not compatible.** `tsc` caught the deleted kind in `cutscenes.ts` and its test; the real
+     fix was not a patch but moving the army's road to end outside Fort 1's evidenced south-east gate at true
+     scale, with a test that it goes round the fort and ends within 2m of the gate's line, and the last shot's
+     lead computed from the road's length so the head arrives. The cutscene's own content test then caught the
+     settlement standing at AD 70, before any fort ("nothing drawn whose dates do not contain the scene's
+     year"): the second symptom of the settlement's exact dates.
+   - **A fade window is not a stratigraphy.** Fort 2 started at about 82 with a fade-in from 78, so in AD 79 to
+     82 both forts stood at near full height on one ground, and my own test asserted it. The soft handover was
+     wrong, not the numbers: the evidence rules out coexistence. Fort 2, the levelled ditches and the settlement
+     now start at 83 (the latest end of Fort 1), and a test steps the whole timeline in quarter years and fails
+     on any pair drawn together above 0.01. Red first at the old dates, seen on all of them.
+   - **A trench belongs to one side.** The measured outer ditch (1.0m by 0.5m) sat on the unexcavated
+     south-east side while the south-west side, where Trench 1 actually cut, drew the middle profile; the old
+     test only looked at the south-east side so it could not see it. Profiles are now chosen by side, with a
+     test on the south-west side and on the "not measured here" wording on the south-east.
+   - **The card named the key date's year, not the slider's.** At AD 110 it listed Fort 1, which is gone, and
+     never Fort 2. `listedAt` takes the snapshot's presences; the card rebuilds when the set changes and keeps
+     an open list open. The unit test was red (no such function); the e2e at AD 110 checks the three headings
+     and the rear gate's "not demonstrated" entry.
+   - **Duplicates after a merge.** `tiers.ts` was byte-for-byte main's `provenance.ts`; and ADR 0043 had said
+     every `densify` copy was gone while `terrain.ts` and my `buildings.ts` each still had one. One `densify`
+     now lives in `domain/polyline.ts` with a test. ADRs 0041 to 0043 were also main's, and main then took 0044 for
+     the photographs, so this branch's are 0045 to 0047.
+   - **Contested points stay contested.** The annex (the excavator's suggestion, Trench 3) is now said on the
+     backfilled ditches and kept drawn as a stated simplification; the tile finds, the Jay Lane tower and the
+     unwritten wider berm are worded as the sources are.
+   Looked at (GPU, `tools/shot.mjs`, `docs/images/roman-forts/`): AD 74, 80, 84, 110 and 140 at radii 45 and 160
+   (80 is Fort 1 alone, 84 is Fort 2 over the pale backfilled ditches with the settlement), and the card's parts
+   list at AD 110 (`parts-panel-110.jpg`). Found, not fixed: every source title in the credits shows its markdown
+   asterisks (176 titles), so the Hughes report reads "*The Llandeilo Roman Forts...*".
+   Not done: a visual comparison against the Ludlow drawing's compass orientation (still open in the note).
+
+
+2026-10-10, second-Opus findings on the Roman forts merge, fixed and verified:
+   - **The grain sellers stood inside Fort 1.** "Outside the Roman fort" was placed at E 262280 N 222450, 41.6m
+     across and 64.4m down Fort 1's plan, inside its rampart. Moved to E 262286 N 222408, outside the south-east
+     gate. A new test checks that every conversation at the forts lies outside each fort, and the levelled
+     ditches, drawn at any time in its dates; red on the old position for Fort 1 and its levelled ditches.
+   - **Fort 2's ⓘ** no longer cites a GitHub commenter ("a later date of AD 90 to 100 seen online"), hedges the
+     order ("the excavator reads Fort 2 as the later") with AD 83 as a choice, says the annex may have kept
+     part of Fort 1 in use, and says the levelling evidence once.
+   - **Backfilled ditches** are drawn with `profileOf`, so ring 2 of a two-ditch side is 1.0m, not 1.4m; the test
+     was red at the named assertion.
+   - Also: ADR 0047 (not 0043) for detail parts in the authoring guide; `geo.ts` no longer says the forts are
+     drawn larger than life.
+
+15. **The GPU e2e kit: WebGPU tested for the first time** (Dewi's idea, "Chrome exe in windows has beefy
+   GPU, maybe run any graphics stuff on there?", and his choice of a self-hosted runner; the design Claude
+   under the proactive mandate, ADR 0027; [ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md)).
+   `npm run e2e:gpu` builds and serves the site in WSL and runs Playwright on Windows against Windows
+   Chrome on the NVIDIA GPU. First full run: WebGPU on `nvidia lovelace` with no WebGPU errors, the night
+   halos' WGSL running at last, 7 GPU tests and 37 e2e specs green at High in 5m15s (numbers in
+   CLAUDE.md). Lessons: (1) **WSL cannot reach a Windows browser, but a Windows browser can reach WSL**, so
+   the browser and Playwright go to Windows and only the server stays; a probe showed headless Chrome gets
+   the same NVIDIA adapter as a visible window, so nothing opens on the desktop. (2) **Windows' npm is
+   6.14 through Volta**, older than the lockfile format, so the Windows side installs only Playwright, at
+   the lockfile's version. (3) **A whole-run `--uncapped` stalled once; the cause is not known.** The
+   frame test ran, then each page load slowed until one sat on "Raising the Tywi valley…" for 150s, the
+   next navigation aborted, and output from Windows stopped reaching WSL while the run hung past its
+   limit. WSL's swap was 15.4 of 16 GB full at the time, so memory pressure is as likely as the flags.
+   `--uncapped` now launches a browser for the frame test alone and the rerun was clean (one rerun, so
+   not proof). The run has a 30-minute Playwright limit per pass and `windows.ps1` kills a pass's process
+   tree on a timeout. (4) the summary's
+   duration printed 59.6s as `0m60s` until its unit test caught it. (5) **The first review found the
+   kit's own guards weak**, and each was fixed and checked: the "no WebGPU errors" check could not see
+   Babylon's warnings (so "no WebGPU errors" above was true but unproven; a rerun with the fixed guard
+   is clean, and a self-test now proves the guard fires); `npm ci` ran on a file-time comparison and would
+   have deleted the dev server's `node_modules`; `timeout` left Windows `node.exe` and Chrome running;
+   and a `kill -9` left an orphan preview holding the lock.
+
+16. **Real ground for the town and the Roman forts** (Claude, under the proactive mandate, GitHub issue 2;
+   [ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), [`data/lidar.md`](../data/lidar.md);
+   merged with main on 2026-10-10, which took ADR 0041 to 0047, so this ADR became 0048, and 0049 when the GPU kit took 0048). The long-agreed
+   close-up LiDAR was built: 25 one-kilometre Welsh Government 1m tiles became 80 tiles of 500m in one 3MB
+   file (2m for the town and forts, 10m round them), drawn as flat-shaded meshes at 4, 10 or 20m by distance,
+   in a hole in the Terrain 50 mesh whose rim is watertight by construction (read back from the real vertex
+   buffers: largest gap 0.0000038 world units). One `Terrain` answers the height for everything, so the town
+   sits on its ground; a period's changes are ground edits laid over the base, never written into it.
+   The things that cost time: a winding I had backwards (the new ground was invisible and the plinth showed
+   through the hole, until a unit test pinned Babylon's rule: a face seen from above has its cross product
+   pointing down); a 2m mesh, 127,000 triangles a tile, took 0.4 to 2.5s to upload on this laptop and
+   hitched the camera, so the mesh stops at 4m and the 2m data sets the heights; classifying the ground per
+   triangle at 4m dithered farm and grass into confetti, so covers are scored per 10m block on the lie of
+   the land over 40m each way; 81 separate tile requests failed twice ("Failed to fetch") in the full e2e
+   run under load, so the tiles are one file; and a first draft let trees stand on the coarse triangles'
+   cover while the ground drawn under them used another, which the review caught. The review also showed
+   that adding the rim points shifts the coarse mesh's percentile ranks, so about 0.2% of far-away
+   triangles can change cover; the ADR says so. Seen red first: the LOD, blend, rim, tile-geometry, seam,
+   river and ground-edit unit tests (stubs returning wrong values), the data tests (six tiles, then one,
+   transposed), and all five e2e tests (with the detail switched off). Frame cost, measured on the shared
+   laptop: about a quarter less idle, the same orbiting. Lesson: put the proof of "no seam" in the shipped
+   code (`llandeiloDebug.seam()`), and read it from the buffers, not from the arithmetic that made them.
+
+   **The review of the LiDAR build, fixed 2026-10-10** (second Opus; each finding verified first, ADR 0049
+   amended). (1) **Roads sank into the new ground.** A ribbon takes the height at its vertices and runs
+   straight between them; OS road legs are hundreds of metres long and the 2m ground has bumps. Measured
+   by the e2e test on the old build: a road ribbon 0.85 world units (3.6m) under the ground, against the
+   review's 3.7m over a 551m leg. Fix: a point every 4m inside the region (`densifyWhere`, `Terrain.lineOnGround`)
+   for roads, rail sections and the train, and the forts' ribbons use the same step (they had 6m). Red at
+   the assertion "lowest > 0.1" with the lines left unsplit, green with them split; the street lamps are
+   points on the ground and needed nothing. Looked at on the GPU: the town road at radius 60 is whole, and
+   Fort 1 and Fort 2 at AD 80 and 110 sit with their ditch and road ribbons on the ground
+   (`docs/images/lidar/review-*.jpg`). (2) **Every tree on the map moved.** A tree took its traits from the
+   Delaunay triangle's index and the rim points renumber them. Checked by building main beside the branch:
+   all 148,111 triangles more than 500m outside the region have the same centroid, so seeding from the
+   centroid (`treeSeed`) keeps them; the 277 that changed lie within 103m of the region. My first
+   comparison, of tree positions against main, said 0% unchanged, which was true and meaningless: a new
+   hash re-rolls every tree once, so the check had to be on the triangles, not the trees. (3) The first
+   seed hash, `hash2` on the rounded centroid, collided for 17% of a million centres; a murmur-style mix
+   fixed it, and the unit test that counts distinct seeds is what found it. (4) **A ground edit moves only
+   what asks the height**, not what was placed at start: now said plainly in the ADR, the todo and CLAUDE.md,
+   rather than built (it needs `Terrain` to publish a change and the features, forest and water to
+   re-place). (5) The seam check proved heights, not watertightness: it now also counts coarse corners
+   inside the region (0) and rim edges drawn (450 of 450), in `rimTopology`, with mutation checks that the
+   unit tests fail when either rule is broken. (6) The data note said five date mismatches; it is 16
+   (checked from the manifest). (7) One point-to-segment distance, not two (`nearestOnSegment`). (8) The
+   whole manifest was bundled for one sentence; the credit is generated into one small file. (9)
+   `build-lidar.py --verify`, and the file list from `links.txt`. (10) The coarse-terrain triangle count
+   in CLAUDE.md. Not done: pinning outside-region land cover (a test of it would pin a value that moves
+   whenever the point set does; the trees, which the review said had no test either, now have one). The
+   merge with main took ADR 0041 to 0047 and then, a quarter of an hour later, 0048 for the GPU kit: the
+   LiDAR ADR is 0049, after two renumberings, so check the highest number *at the push*, not at the merge.
+   Final run on the merged tree (2026-10-10): `npm run check` green (487 unit tests), `vite build` green, the
+   full e2e with `E2E_WORKERS=1` 54 passed and 1 skipped (the one that needs `E2E_QUALITY`) in 8.5 minutes;
+   one page-load hang appeared earlier in a two-test run and did not recur on rerun.
 
 ## 2026-10-10
 
@@ -813,7 +996,7 @@ it is defensive only.
    `main.ts` (the photo pins and panel appended without the Keys panel this branch removed, and the photo
    panel in the Escape order after the conversation panel) and the e2e file (both blocks of tests kept;
    git had interleaved the camera tests with the photo tests). The camera and welcome ADRs became
-   [0045](../adr/0045-map-style-camera-controls.md) and [0046](../adr/0046-one-welcome-panel.md), since
+   [0045](../adr/0050-map-style-camera-controls.md) and [0046](../adr/0051-one-welcome-panel.md), since
    `main` had taken 0044 for the photo layer. Integration: (1) a press on a pin never reached the map
    controls, which listen on the canvas, so a drag that began on a pin did nothing and the wheel over one
    did not zoom; `MapControls.passThrough` hands a layer's presses to the same drag code, the button

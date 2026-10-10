@@ -7,7 +7,7 @@ updated: 2026-09-28
 
 # ADR 0009: Terrain from OS Terrain 50 as an irregular low-poly mesh
 
-- **Status:** Accepted
+- **Status:** Accepted, extended by [ADR 0049](0049-lidar-terrain-tiles-blended-into-terrain-50.md)
 - **Date:** 2026-09-26
 
 ## Context
@@ -19,7 +19,8 @@ The Tywi valley's shape is the one constant across every era. The look is clean 
 OS Terrain 50 (Open Government Licence), processed with GDAL by `tools/terrain/build-terrain.sh`, is
 sampled and triangulated with Delaunator into an irregular mesh that follows carved river channels.
 Rivers, buildings, railways, roads and woodland come from OS Open Rivers and Open Map Local via
-`tools/geo/build-osdata.py`. Welsh Government LiDAR for close-ups is a later phase.
+`tools/geo/build-osdata.py`. Welsh Government LiDAR for close-ups is a later phase. (*Updated
+2026-10-09:* built for the town and the Roman forts, see ADR 0049.)
 
 ## Consequences
 

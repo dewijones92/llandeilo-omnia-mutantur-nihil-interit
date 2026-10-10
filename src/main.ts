@@ -17,6 +17,7 @@ import { ad, calendarYear, year, type Year } from './domain/time.ts';
 import {
   loadBuildings,
   loadHeightfield,
+  loadLidar,
   loadRailways,
   loadRivers,
   loadRoads,
@@ -84,24 +85,24 @@ async function start(): Promise<void> {
   const opening = new OpeningCard(store, showsBegin(params, navigator.webdriver), [app, canvas]);
   document.body.append(opening.el);
 
-  const [{ engine, backend }, heightfield, rivers, woodland, footprints, railways, roads] = await Promise.all(
-    [
+  const [{ engine, backend, gpu }, heightfield, rivers, woodland, lidar, footprints, railways, roads] =
+    await Promise.all([
       createEngine(canvas, params.has('webgl')),
       loadHeightfield(),
       loadRivers(),
       loadWoodland(),
+      loadLidar(),
       loadBuildings(),
       loadRailways(),
       loadRoads(),
-    ],
-  );
+    ]);
   const chosen = chooseQuality({
     param: params.get('quality'),
     fx: params.get('fx'),
     stored: storedQuality(),
   });
   console.info(`dewidebug quality start=${chosen.quality} from=${chosen.source}`);
-  const world = new World(engine, heightfield, rivers, woodland, QUALITY[chosen.quality]);
+  const world = new World(engine, heightfield, rivers, woodland, lidar, QUALITY[chosen.quality]);
   const content = WORLD_CONTENT;
   const trainModels = new Map<RollingStock, LoadedModel>();
   const llanelly = await loadModel(
@@ -120,7 +121,14 @@ async function start(): Promise<void> {
   let smokeSources = features.smokeSources([]);
 
   const debug = params.has('debug')
-    ? new DebugOverlay(engine, backend, world.camera, () => world.graphics())
+    ? new DebugOverlay(
+        engine,
+        `${backend} (${gpu})`,
+        world.camera,
+        () => world.graphics(),
+        () => world.terrain.detailStats(),
+        () => features.levels(),
+      )
     : undefined;
   let pending = true;
   let t = Number(params.get('t') ?? Number.NaN);
@@ -672,7 +680,7 @@ async function start(): Promise<void> {
     const near = snap.nearestEvent;
     const shown =
       near && Math.abs(tAt(content.timeline, near.when.from) - t) < MOMENT_RADIUS ? near : undefined;
-    moment.show(shown);
+    moment.show(shown, snap.features);
     labels.setFocus(shown?.place);
     syncPins();
     debug?.update(snap);
@@ -682,6 +690,7 @@ async function start(): Promise<void> {
     applyLight();
   };
   apply();
+  world.settleDetail();
 
   engine.runRenderLoop(() => {
     const dt = engine.getDeltaTime();
@@ -711,6 +720,7 @@ async function start(): Promise<void> {
     world.tick(dt);
     features.tick(dt);
     controls.tick(dt);
+    if (features.setViewer(world.camera.globalPosition)) world.refreshShadows();
     flight.tick(dt);
     compass.update(world.camera.alpha);
     const now = performance.now();
@@ -748,7 +758,17 @@ async function start(): Promise<void> {
       } else welcome.open('top');
     },
   );
-  if (debug) Object.assign(window, { llandeiloDebug: { scene: world.scene } });
+  if (debug)
+    Object.assign(window, {
+      llandeiloDebug: {
+        scene: world.scene,
+        backend,
+        gpu,
+        detail: () => world.terrain.detailStats(),
+        seam: () => world.terrain.seam(),
+        terrain: world.terrain,
+      },
+    });
   // ?cutscene=<id>&cutsceneAt=<seconds> starts a scene part-way through, for screenshots.
   const sceneParam = CUTSCENES.find((c) => c.id === params.get('cutscene'));
   if (sceneParam) {

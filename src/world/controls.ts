@@ -17,7 +17,7 @@ import {
 import { WORLD } from '../domain/geo.ts';
 import type { Flight } from './flight.ts';
 
-// Map-style controls (ADR 0045): left-drag slides the land, right-drag (or Ctrl+drag) turns and tilts,
+// Map-style controls (ADR 0050): left-drag slides the land, right-drag (or Ctrl+drag) turns and tilts,
 // the wheel zooms at the cursor, double-click flies there, and keys slide, turn and tilt.
 
 const MAP_RADIUS = WORLD.radiusMetres / WORLD.metresPerUnit;

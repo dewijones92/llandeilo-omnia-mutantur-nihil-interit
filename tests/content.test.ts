@@ -762,6 +762,19 @@ describe('the railway', () => {
     expect(late.map((f) => f.id)).toEqual([]);
   });
 
+  it('never gives a feature a latest date before its "c." end, and only a feature without exact dates (ADR 0045)', () => {
+    const early = W.features.filter((f) => f.notAfter !== undefined && f.notAfter < f.when.to);
+    expect(early.map((f) => f.id)).toEqual([]);
+    const exact = W.features.filter((f) => f.notAfter !== undefined && f.datesExact);
+    expect(exact.map((f) => f.id)).toEqual([]);
+    expect(W.features.filter((f) => f.notAfter !== undefined).map((f) => f.id)).toEqual([
+      'roman-fort-a',
+      'roman-fort-b',
+      'roman-fort-a-levelled',
+      'roman-vicus',
+    ]);
+  });
+
   it('draws the narrow-gauge stub near Cross Hands as imagined, since no source names it', () => {
     const stub = sections.find((s) => s.boxes === CROSS_HANDS_NARROW_GAUGE.within);
     expect(stub?.feature.provenance.kind).toBe('imagined');
@@ -1112,6 +1125,13 @@ describe('the About panel', () => {
       expect(text).toContain(` ${String(WORLD.verticalExaggeration)} `);
       expect(text).toContain(` ${String(WORLD.landmarkScale)} `);
     }
+  });
+
+  it('does not say the Roman forts are drawn larger than life: they keep their true size and height (ADR 0046)', () => {
+    expect(STRINGS.aboutBody.en).not.toContain('Roman forts and early houses');
+    expect(STRINGS.aboutBody.en).toContain('Roman forts and their settlement');
+    expect(STRINGS.aboutBody.cy).not.toContain('caerau Rhufeinig a thai cynnar');
+    expect(STRINGS.aboutBody.cy).toContain('caerau Rhufeinig a’u hanheddiad');
   });
 });
 

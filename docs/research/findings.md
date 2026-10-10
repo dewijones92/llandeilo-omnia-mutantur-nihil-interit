@@ -39,6 +39,26 @@ because of it. The detail and sources are in each note; this is the summary a ne
   2005. The primary report gives the first as 3.84–3.85ha, probably soon after AD 74, and the second
   as 1.54ha; the site was abandoned by about AD 140 (2026-10-02; the old size and date dispute is
   closed). ([iron age](era-iron-age.md))
+- **Detailed pass on the Dinefwr forts and their vicus (2026-10-09):** three of Fort 2's four gates are
+  evidenced (the rear one is not), both forts were timber and earth with no stone, the survey was
+  Stratascan's magnetometry (not ground radar), the second fort's "around AD 90-100" has no source, the
+  vicus plot is irregular and thinly known, and the survey's "bathhouse" is probably post-medieval brick.
+  The forts' absolute position needs registering on the LiDAR. *Corrected 2026-10-09 (independent check)*: the
+  Heneb HER gives each fort a grid reference (Fort 1 SN 6218 2245, Fort 2 SN 6217 2253), the report's Fig 1 and
+  Coflein agree (the first pass's "about 50m east" was a measurement error), the "AD 90-100" is probably the
+  caption date of the Ludlow painting on llandeilo.org, and Roman tile was found in the fort and vicus.
+  ([roman forts](roman-forts-and-vicus.md))
+- **Built 2026-10-09 ([ADR 0046](../adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)),
+  and the placeholders corrected:** the app's two forts had been boxes at the wrong place and angle (the larger
+  fort on the smaller's centre, the smaller 28m east and 29m south of it, both at about 7 degrees against the
+  figures' 48 to 53, with tiled roofs and a limewashed headquarters, at 2.6 times life size). They are now
+  Fort 1 about E 262206 N 222470 and Fort 2 about E 262190 N 222538 (within 40m and 30m of the HER's points, Fort 2
+  within 5m of Coflein's), drawn in true size, timber and earth only, each part marked documented,
+  reconstructed or imagined. Fort 1 is shown from AD 74 and gone by 83, Fort 2 from 83 (the HER's
+  "possibly around 82" stays in the ⓘ as unproven; a Fort 1 ditch lies under Fort 2's levelling, so they were not
+  together) to 125 and gone by 140. The settlement is drawn from 83 to 135; its pottery from about AD 70 shows
+  earlier activity, not drawn as streets. Fort 1's measured ditch profiles (1.7m by 1.1m, 1.0m by 0.5m) are the
+  south-west side's, from Trench 1; the south-east side's are drawn like them and marked not measured. Registration on the LiDAR is still open.
 - **The Llandeilo Gospels' "Surexit" note** is called "the earliest surviving document in the Welsh
   language", recorded at Llandeilo; the Cadfan Stone at Tywyn may be older as a text, and the note's
   exact date is debated. ([language](language-by-class.md))

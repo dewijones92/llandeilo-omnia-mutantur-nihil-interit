@@ -5,7 +5,17 @@ import tseslint from 'typescript-eslint';
 const PURE_LAYERS = ['src/domain/**', 'src/content/**'];
 
 export default tseslint.config(
-  { ignores: ['.claude/**', 'dist', 'node_modules', 'playwright-report', 'test-results', 'public'] },
+  {
+    ignores: [
+      '.claude/**',
+      'dist',
+      'node_modules',
+      'playwright-report',
+      'test-results',
+      'test-results-gpu',
+      'public',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,

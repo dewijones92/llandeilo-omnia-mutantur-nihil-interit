@@ -2,7 +2,7 @@
 title: Authoring content
 kind: guide
 status: current
-updated: 2026-10-03
+updated: 2026-10-10
 ---
 
 # How research becomes content
@@ -57,7 +57,7 @@ falls at the end of that day. Key dates marked `magnetic` snap the slider and sh
 
 Important buildings are `building` features: a **plan** in `src/content/buildings.ts` plus a
 **condition** (`standing` or `ruin`). One renderer (`src/world/buildings.ts`) draws every plan,
-with one builder per part type: `wall`, `tower`, `hall`, `prism`, `ditch`, `bridge`, `platform`.
+with one builder per part type: `wall`, `tower`, `hall`, `prism`, `ditch`, `road`, `bridge`, `platform`.
 There is no per-castle or per-era code.
 
 - **Plans are in true metres**, measured east (x) and north (y) from the feature's grid reference.
@@ -83,7 +83,15 @@ There is no per-castle or per-era code.
   map data, so they are drawn at **true footprint**, with heights × the terrain's vertical
   exaggeration. A `map` plan hides any OS building footprint it covers, so the church is not
   drawn twice; any plan hides the OS footprint that contains its grid reference (the landmark's own
-  outline), and nothing else.
+  outline), and nothing else. `true` plans (the Roman forts, whose dimensions are the evidence) are
+  true in plan **and in height** and hide only the footprint they stand on (ADR 0046).
+- **Parts that carry their own tier** (the forts): give a part `id`, `name` and `provenance` (the same
+  union as a feature's), and mark small parts `detail: true` so they draw only near the camera (ADR
+  0047). Build repeated parts from small helpers rather than by hand (`src/content/forts.ts`,
+  `src/domain/fort.ts`), keep each part's `id` for good, and write the basis beside the part. A content
+  test (`tests/forts.test.ts`) holds such a plan to its evidence; copy it for the next one.
+- **A feature's dates**: "c." dates may carry `notBefore` (never drawn before it, ADR 0037) and
+  `notAfter` (never drawn after it, ADR 0045), the earliest and latest dates their sources allow.
 - **Orientation**: use a documented one (OS footprint, road line, a described side) and say so;
   otherwise the note says orientation is approximate.
 - A town at a documented size uses the `nearest` OS footprints to its centre. The count can be

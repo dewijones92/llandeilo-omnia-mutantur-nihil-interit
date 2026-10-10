@@ -1,7 +1,7 @@
 {
   "name": "llandeilo-omnia-mutantur-nihil-interit",
   "private": true,
-  "version": "0.6.0",
+  "version": "0.7.0",
   "type": "module",
   "description": "Llandeilo and 10 miles around it, through all of human history: an interactive 3D timeline.",
   "license": "MIT",
@@ -23,6 +23,7 @@
     "test": "vitest run --coverage",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "e2e:gpu": "tools/gpu/run.sh",
     "knip": "knip",
     "check": "npm run format:check && npm run typecheck && npm run lint && npm run test && npm run knip"
   },

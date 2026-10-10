@@ -2,7 +2,7 @@
 title: Release notes
 kind: log
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Release notes
@@ -10,6 +10,42 @@ updated: 2026-10-09
 What changed in the app, for family and visitors, newest first. Each section is also published as a
 GitHub release, tagged with the version in `package.json` ([ADR 0025](../adr/0025-releases-at-visible-milestones.md)).
 Corrections to history are called out: when we get something wrong, we say so.
+
+## v0.7.0 (2026-10-10): the Roman forts at Dinefwr, rebuilt from the excavations
+
+**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
+
+**The two Roman forts, true size and in detail** (from a suggestion on GitHub). The forts in Dinefwr
+Park were rebuilt from the excavation report, the geophysical survey and the regional historic
+environment record. They are placed from the excavation report's map, which agrees with the record's
+grid references to within about 40 metres (the old ones were 40 to 70 metres out and turned about 55
+degrees off):
+
+- **The first fort** (about 3.8 hectares, probably soon after AD 74): timber and turf ramparts, the
+  ditches the survey found (two of them measured by excavation), the two gateways it found, and
+  barracks and a headquarters drawn from the standard plan of such forts.
+- **The smaller second fort** (from about AD 83 in the app, though the date is uncertain) with its three
+  evidenced gates; the rear gate, which was not found, is drawn as a possibility. Part of the first
+  fort's defences may have been kept as an annex; the ⓘ says so, but it is not drawn.
+- **The civilian settlement** north-east of the second fort, as small, scattered timber houses rather
+  than tidy rows, because the survey shows scattered remains, not a street grid; each house is
+  imagined.
+- **What is drawn here, part by part**: the card lists every rampart, ditch, gate and building with how
+  sure we are of it (documented, reconstructed or imagined) and its source. Barracks and towers are
+  drawn by comparison with other forts of the time, and say so.
+- The site was abandoned by about AD 140. The reconstruction painting by Neil Ludlow, for Cambria
+  Archaeology, is credited in the ⓘ as a comparison, not a source.
+
+![The first fort, c. AD 80](../images/releases/v0.7.0/fort1-ad80.jpg)
+![The second fort and the settlement, c. AD 84](../images/releases/v0.7.0/fort2-and-vicus-ad84.jpg)
+![What is drawn here, part by part](../images/releases/v0.7.0/parts-list-ad110.jpg)
+
+**History corrected:** the old forts were drawn 2.6 times too big, in the wrong place, with tiled roofs
+and a limewashed headquarters. Some Roman tile was found here, but nothing shows what roofed the
+buildings, so no tile or limewash is drawn now. A conversation said to be "outside the Roman fort"
+stood inside it once the fort was drawn at its true size, and now stands outside the south-east gate.
+
+Sent by Claude
 
 ## v0.6.0 (2026-10-09): the Roman army arrives, and D. C. Harries's photographs of Llandeilo
 

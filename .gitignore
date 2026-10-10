@@ -7,6 +7,7 @@ coverage/
 # test output
 playwright-report/
 test-results/
+test-results-gpu/
 blob-report/
 
 # env and secrets (public repo: never commit these)
@@ -34,3 +35,8 @@ __pycache__/
 *.pyc
 .claude/worktrees/
 
+
+# raw LiDAR downloads (kept outside the repo in ~/code/data; never commit)
+*.tif
+*.tiff
+lidar-raw/

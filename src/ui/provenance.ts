@@ -1,3 +1,4 @@
+import type { Lang } from '../domain/i18n.ts';
 import type { Provenance, Source } from '../domain/provenance.ts';
 import { h } from './dom.ts';
 import type { LangStore } from './store.ts';
@@ -51,18 +52,31 @@ function listenOnce(): void {
   );
 }
 
+export function basisOf(p: Provenance, lang: Lang): string | null {
+  return p.kind === 'documented'
+    ? (p.note?.[lang] ?? null)
+    : p.kind === 'reconstructed'
+      ? p.basis[lang]
+      : p.groundedIn[lang];
+}
+
+export function sourceItems(p: Provenance, sources: ReadonlyMap<string, Source>): HTMLElement[] {
+  return p.sources
+    .map((id) => sources.get(id))
+    .filter((s): s is Source => s !== undefined)
+    .map((s) =>
+      h('li', {}, s.url ? h('a', { href: s.url, target: '_blank', rel: 'noopener' }, s.title) : s.title),
+    );
+}
+
+export const TIER_ICON = ICON;
+
 export function provenanceBadge(
   p: Provenance,
   store: LangStore,
   sources: ReadonlyMap<string, Source>,
 ): HTMLElement {
-  const lang = store.lang;
-  const basis =
-    p.kind === 'documented'
-      ? (p.note?.[lang] ?? null)
-      : p.kind === 'reconstructed'
-        ? p.basis[lang]
-        : p.groundedIn[lang];
+  const basis = basisOf(p, store.lang);
   return infoBadge(p.kind, store, [
     basis ? h('span', { class: 'prov-basis' }, h('b', {}, `${store.t('basedOn')}: `), basis) : null,
     sourceList(p, store, sources),
@@ -74,12 +88,7 @@ export function sourceList(
   store: LangStore,
   sources: ReadonlyMap<string, Source>,
 ): HTMLElement | null {
-  const list = p.sources
-    .map((id) => sources.get(id))
-    .filter((s): s is Source => s !== undefined)
-    .map((s) =>
-      h('li', {}, s.url ? h('a', { href: s.url, target: '_blank', rel: 'noopener' }, s.title) : s.title),
-    );
+  const list = sourceItems(p, sources);
   return list.length
     ? h('span', { class: 'prov-sources' }, h('b', {}, store.t('sources')), h('ul', {}, ...list))
     : null;

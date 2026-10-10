@@ -1,17 +1,18 @@
 ---
-title: "ADR 0046: One welcome panel, with an icon that always reopens it"
+title: "ADR 0051: One welcome panel, with an icon that always reopens it"
 kind: adr
 status: accepted
 updated: 2026-10-10
 ---
 
-# ADR 0046: One welcome panel, with an icon that always reopens it
+# ADR 0051: One welcome panel, with an icon that always reopens it
 
-- **Status:** Accepted, amends [0045](0045-map-style-camera-controls.md) (its hint and Keys panel)
+- **Status:** Accepted, amends [0050](0050-map-style-camera-controls.md) (its hint and Keys panel)
 - **Date:** 2026-10-09
 - **Number:** written as 0042 on its branch, renumbered to 0045 when `main` (which had taken 0041 to
   0043 for the cutscenes) was merged in, then to 0046 when `main` (which had taken 0044 for the photo
-  layer) was merged in again.
+  layer) was merged in again, and finally to 0051 when `main` (which had since taken 0045 to 0049) was
+  merged in a fourth time on 2026-10-10.
 - **Amended 2026-10-09, merging the cutscenes ([ADR 0041](0041-cutscenes-as-data-on-one-clock.md)):**
   the welcome never opens over a playing scene. A `?cutscene=` link skips the Begin card, so the welcome
   opens at once and the scene closes it (before the scene marks the interface inert, since closing

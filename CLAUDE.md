@@ -40,8 +40,8 @@ so the next reader knows the map was unreliable there.
 | Rendering ✅ | **Babylon.js**: WebGPU engine where supported, WebGL2 fallback | Dewi's pick over three.js: a fuller engine with more built in (inspector, scene tooling, audio), and WebGPU without writing our own engine |
 | Look ✅ | **Clean low-poly** 3D diorama of the real valley that you can orbit around | Charming, fast, and quick to fill every era; fidelity can be raised per era later |
 | Exploring ✅ | Both: the whole 10-mile circle as one diorama, **and** a camera flight into individual places (Dinefwr, Carreg Cennen, Talley, Dryslwyn…) | Overview plus depth |
-| Camera ✅ | **Map-style**: left-drag slides the land under the cursor, right-drag (or Ctrl+drag) turns and tilts, the wheel zooms at the cursor, W A S D / arrows slide, Q E turn, R F tilt, double-click flies there; switched off while a cutscene holds the camera ([ADR 0045](docs/adr/0045-map-style-camera-controls.md)) | Dewi, 2026-10-03: he kept "just orbiting around a certain point" and picked map-style controls |
-| Welcome ✅ | One **"How to explore"** panel, closeable, with an always-visible round **?** icon to reopen it ([ADR 0046](docs/adr/0046-one-welcome-panel.md)). ⚠️ The details are Claude's, under the proactive mandate ([ADR 0027](docs/adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), until Dewi has seen the release: it opens after Begin, has a "Show this at start" box, replaces the Keys panel and the camera hint, is skipped in automated browsers unless `?welcome=1`, and never opens over a playing cutscene | Dewi, 2026-10-03: controls and info at start, closeable, "an obvious icon to open app info etc again" |
+| Camera ✅ | **Map-style**: left-drag slides the land under the cursor, right-drag (or Ctrl+drag) turns and tilts, the wheel zooms at the cursor, W A S D / arrows slide, Q E turn, R F tilt, double-click flies there; switched off while a cutscene holds the camera ([ADR 0050](docs/adr/0050-map-style-camera-controls.md)) | Dewi, 2026-10-03: he kept "just orbiting around a certain point" and picked map-style controls |
+| Welcome ✅ | One **"How to explore"** panel, closeable, with an always-visible round **?** icon to reopen it ([ADR 0051](docs/adr/0051-one-welcome-panel.md)). ⚠️ The details are Claude's, under the proactive mandate ([ADR 0027](docs/adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), until Dewi has seen the release: it opens after Begin, has a "Show this at start" box, replaces the Keys panel and the camera hint, is skipped in automated browsers unless `?welcome=1`, and never opens over a playing cutscene | Dewi, 2026-10-03: controls and info at start, closeable, "an obvious icon to open app info etc again" |
 | Slider ✅ | Both: smooth morphing while dragging, **and** magnetic key dates that snap with a short "moment" | Continuous feel without losing the landmarks |
 | Conversations ✅ | Both: short snippets appear automatically while scrubbing, **and** you can click a person for the full conversation with voice | The world feels alive, with depth on demand |
 | Voices ✅ | `edge-tts` neural voices (Welsh, English, Italian, French); **no robotic TTS** | Natural sound. **Latin = `it-IT-DiegoNeural` reading plain Latin** (Church Latin pronunciation), chosen by ear 2026-09-26 over a classical respelling. Fits medieval clergy; Roman-era lines carry an ⓘ saying Romans pronounced it differently |
@@ -49,7 +49,7 @@ so the next reader knows the map was unreliable there.
 | Language layer ✅ | Show how spoken language changed over time and **by class** (e.g. Welsh farmers vs Norman lords vs Latin clergy), with unknowns shown as unknown | Dewi's request, and a natural fit for the ⓘ model |
 | Almanac layer ✅ | Panel for the current time: food, clothing, homes, religion, money, health, travel, population | "Not just language": more ways into daily life |
 | Family bloodline ✅ | One imagined family recurring in every era, always ⓘ | Makes it personal |
-| Terrain ✅ | **Both**: OS Terrain 50 (50m grid) for the whole 10-mile circle; Welsh Government LiDAR (1-2m) for the close-up places you fly into | The Tywi valley's shape is the one constant across every era. 50m is plenty for a low-poly overview; close-ups need the detail |
+| Terrain ✅ | **Both**: OS Terrain 50 (50m grid) for the whole 10-mile circle; Welsh Government LiDAR (1-2m) for the close-up places you fly into. **Built 2026-10-09** for Llandeilo town and the Roman forts in 500m tiles, 2m data and a 4m mesh, blended into Terrain 50 with no seam; period changes are ground edits laid over the base, never written into it (none is used yet, and objects placed at start do not follow an edit yet) ([ADR 0049](docs/adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), [data note](docs/data/lidar.md)) | The Tywi valley's shape is the one constant across every era. 50m is plenty for a low-poly overview; close-ups need the detail |
 | Timeline scale ✅ | Non-linear (deep time compressed, recent centuries spread) | A linear 12,000-year slider puts everything since the Romans in the last sliver |
 | Content ✅ | Data files in the repo, written ahead of time; **no live AI at runtime** | Reviewable, citable, testable; no runtime AI cost or invented "facts" |
 | v1 scope ✅ | **Vertical slice**: 3 eras done properly end to end before filling in the rest: **Iron Age** (e.g. Garn Goch), **Medieval up to 1282** (Dinefwr, Deheubarth), **Victorian** (gentry vs tenants, Rebecca Riots, railway). Specific sites and dates to be confirmed by research | A thin sweep of 12,000 years would look empty everywhere |
@@ -111,6 +111,10 @@ The summary lives in [`docs/research/findings.md`](docs/research/findings.md), a
 - **Voices**: edge-tts for everything. Latin = `it-IT-DiegoNeural`, plain spelling (Church style),
   chosen by ear on 2026-09-26; Roman-era Latin lines carry an ⓘ saying Romans pronounced it
   differently. Brittonic and Old/Middle Welsh are voiced as modern Welsh stand-ins and labelled so.
+- **The Roman forts are drawn true size and true height, as plans whose every part carries its own tier**
+  ([ADR 0046](docs/adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)):
+  never at the 2.6 times landmark scale, no stone, tile or limewash, no gate without evidence (Fort 2's rear
+  gate is drawn as unproven), the second fort's "AD 90–100" probably from a painting's caption ("around 100AD"), a scene date and not a founding date; Fort 2 starts at AD 83 once Fort 1 is gone, since a Fort 1 ditch lies under Fort 2's levelling.
 - **Research is a draft until independently reviewed.** Each note is `status: draft`; a review pass
   against the notes is part of shipping new content.
 
@@ -279,28 +283,51 @@ tools/terrain/build-terrain.sh && python3 tools/geo/build-osdata.py   # rebuild 
 node tools/shot.mjs '<url>' out.png  # screenshot, using the Chromium that works on this WSL box
 node tools/photo-shots.mjs <base url/> <out dir>  # the photo layer: pins at 1900 and an open photograph, English and Welsh
 node tools/frames.mjs '<url>' <dir> [--perf] [--uncapped]  # shots at several years (YEARS, HOUR, SEASON, PLACES) and GPU frame timings
+npm run e2e:gpu                      # tools/gpu/run.sh [--gpu-only] [--uncapped] [--skip-build]: WebGPU, frame timings and every e2e spec on Windows Chrome's GPU (ADR 0048)
 ```
+
+**Self-hosted GPU runner** ([ADR 0048](docs/adr/0048-gpu-e2e-on-windows-chrome.md)): `dewi-laptop-gpu`, a
+GitHub Actions runner in WSL (`systemctl --user status llandeilo-gh-runner`), runs CI's non-blocking `gpu`
+job (`npm run e2e:gpu`: Windows Chrome, High, WebGPU) on pushes to main only.
 
 **Local GPU:** WSL can render WebGL on the laptop's NVIDIA GPU: launch Chromium with the env
 `GALLIUM_DRIVER=d3d12 MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA` and flags `--use-angle=gl
 --ignore-gpu-blocklist`, and add `?webgl` (WebGPU through WSL stalls). CI has no GPU and keeps
-SwiftShader.
+SwiftShader. **For WebGPU, use Windows Chrome:** `npm run e2e:gpu` builds and serves the site in WSL
+(a `vite preview` on a free port, never 5051) and runs Playwright on Windows (`tools/gpu/windows.ps1`,
+`playwright.gpu.config.ts`) against Windows Chrome, headless, at High, with throwaway profiles, so
+Dewi's own Chrome is never touched. WSL cannot reach a Windows browser (the Hyper-V firewall blocks
+WSL→Windows TCP) but Windows reaches WSL's `localhost`. Results come back to `test-results-gpu/`
+(`webgpu.json`, `frames.json`, screenshots, `summary.txt`); the exit code is Playwright's. Windows
+keeps `C:\llandeilo-gpu\` (Playwright at the lockfile's version, cached; a fresh copy of the test code
+each run). A self-hosted CI runner job only calls `tools/gpu/run.sh` and uploads `test-results-gpu/`.
+`npm ci` runs only when `node_modules` is missing (`GPU_NPM_CI=1` allows it on a drifted one), each pass has
+a time limit that kills its Windows process tree (`GPU_PASS_TIMEOUT`), and `run.json` names the commit.
 
 Run `git config core.hooksPath .githooks` once per clone. Local Playwright uses Chromium 136 because
-newer Chromium cannot navigate on this WSL machine; CI uses the bundled browser. Everything
-automated renders with WebGL2 through SwiftShader at about 1fps, so **WebGPU and real frame rates
-are not measured yet** (a gap, tracked in docs/todos). Particle effects barely advance at 1fps, so
+newer Chromium cannot navigate on this WSL machine; CI uses the bundled browser. Every
+CI run renders with WebGL2 through SwiftShader at about 1fps; WebGPU and real frame rates are measured
+only by `npm run e2e:gpu` (see Local GPU). Particle effects barely advance at 1fps, so
 check them with the particle probe in `?debug` (`window.llandeiloDebug.scene`) rather than by eye.
 
-**Performance numbers** (2026-10-02, WebGL on an NVIDIA RTX 2000 Ada laptop GPU through WSL's D3D12
+**Performance numbers, WebGPU** (2026-10-09, `npm run e2e:gpu`: Windows Chrome 155 headless on the
+NVIDIA RTX 2000 Ada laptop GPU, WebGPU, High, 1920×1080, the 1903 winter overview at 23:00): ready in
+about 8s; vsync on (headless paints at about 57fps here) idle 57fps (p90 18ms), orbiting 57fps (p90
+18ms), scrubbing 23-28fps (median 17-18ms, p90 83-123ms, worst 418ms); vsync off (`--uncapped`) idle
+213-217fps (median 4.4ms), orbiting 125-127fps (p90 13-14ms), scrubbing 99-101fps (p90 7-9ms). The
+whole kit, build to summary, took 5m15s with 7 GPU tests and 37 e2e specs passing (1 skipped, the stored-
+quality test), and 5m51s with 43 once the photo layer merged, against CI's six CPU shards. Why the vsync-on scrub has long frames that the uncapped one
+does not is not known yet.
+
+**Performance numbers, WebGL** (2026-10-02, WebGL on an NVIDIA RTX 2000 Ada laptop GPU through WSL's D3D12
 layer, 1920×1080, `?webgl`): ready in 17s from a warm dev server; idle 41fps; scrubbing 2fps before
 the heavy pass was throttled, about 15fps after (median frame 16.8ms, p90 52ms); terrain recolour about
-30ms for 153,944 triangles when idle, far more when frames queue (`dewidebug terrain recolour`,
+30ms for 153,944 triangles when idle (before the LiDAR; the coarse mesh now has 154,694, of which 150,326 are drawn), far more when frames queue (`dewidebug terrain recolour`,
 `dewidebug apply cost`). Night halos (2026-10-03, [ADR 0040](docs/adr/0040-a-dark-night-and-halos-that-keep-a-few-pixels.md),
 same GPU, High, 1903 overview at 23:00 with 5,374 halos, vsync off via `node tools/frames.mjs <url> <dir>
 --perf --uncapped`): idle 150-159fps before and 162-165 after, orbiting 72-105 before and 92-109
 after, the scrub's apply cost 59ms (features) and 250ms (environment) before, 45 and 246 after: no
-cost measurable through the noise of a shared GPU. With vsync on both hold 60fps idle. Local runs can use the GPU: see the WSL recipe in Build & test. Bundle: the main chunk is
+cost measurable through the noise of a shared GPU. With vsync on both hold 60fps idle. LiDAR terrain (2026-10-09, [ADR 0049](docs/adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), same GPU, 1920x1080, `--perf --uncapped`, town at 400m radius in 2020, machine shared with other agents at load average 15 to 18): idle 110 to 124fps against 139 to 175 before, orbit 66 to 69 against 68 to 81, scrub 41 to 47 against 58 to 77, about 290,000 more triangles; start-up within the noise. Local runs can use the GPU: see the WSL recipe in Build & test. Bundle: the main chunk is
 509KB gzipped (508,785 bytes, 2026-10-10 with the photo layer merged into the map-style camera and welcome; 496,323 bytes on 2026-10-09 with the camera and welcome merged over the cutscenes; 490,121 bytes on the cutscene branch merged with main; 399,487 bytes on 2026-09-28; 387KB on 2026-09-26), plus
 chunks fetched only when needed (about 980KB gzipped across all JS). There is **no size limit**
 (Dewi, 2026-09-28; the 450KB CI budget was mine, never his, and is removed, [ADR 0016](docs/adr/0016-no-bundle-size-limit.md)).

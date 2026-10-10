@@ -4,10 +4,12 @@
 //   node tools/frames.mjs <base url> <out dir> [--perf] [--uncapped]
 // Env: YEARS=1282,1903  HOUR=23  SEASON=winter  PLACES=overview,llandeilo  EXTRA='&quality=low'
 //      DEBUG=1 (show the ?debug overlay in the shots)  PERF_YEAR=1903 (which year to measure)
+//      PERF_PLACE=overview (which place to measure: overview or a place id, e.g. llandeilo)
 // --uncapped turns vsync and the frame-rate limit off, so idle fps shows the real frame cost
 // rather than the display's 60Hz.
 import { chromium } from '@playwright/test';
 import { existsSync, mkdirSync } from 'node:fs';
+import { formatFrameStats, measureFrames, measureScrub } from './frame-timing.ts';
 
 const [base, outdir, ...flags] = process.argv.slice(2);
 if (!base || !outdir)
@@ -40,31 +42,6 @@ const season = process.env.SEASON ?? 'winter';
 const extra = process.env.EXTRA ?? '';
 const debug = process.env.DEBUG === '1' || perf;
 
-// Frame intervals over `ms`, optionally turning the camera a little every frame.
-const frames = (ms, orbit) =>
-  page.evaluate(
-    async ([ms, orbit]) => {
-      const camera = Reflect.get(Reflect.get(window, 'llandeiloDebug') ?? {}, 'scene')?.activeCamera;
-      const out = [];
-      let last = performance.now();
-      const end = last + ms;
-      await new Promise((done) => {
-        const step = (t) => {
-          out.push(t - last);
-          last = t;
-          if (orbit && camera) camera.alpha += 0.004;
-          if (t < end) requestAnimationFrame(step);
-          else done();
-        };
-        requestAnimationFrame(step);
-      });
-      out.sort((a, b) => a - b);
-      const at = (p) => out[Math.min(out.length - 1, Math.floor(out.length * p))].toFixed(1);
-      return `fps=${(out.length / (ms / 1000)).toFixed(1)} median=${at(0.5)}ms p90=${at(0.9)}ms`;
-    },
-    [ms, orbit],
-  );
-
 for (const place of places)
   for (const y of years) {
     const where = place === 'overview' ? '' : `&place=${place}`;
@@ -75,18 +52,13 @@ for (const place of places)
     const out = `${outdir}/${place}-${y}-${season}-${hour}h.png`;
     await page.screenshot({ path: out });
     console.log(`dewidebug frames shot ${out}`);
-    if (!perf || place !== 'overview' || y !== (process.env.PERF_YEAR ?? '1903')) continue;
+    if (!perf || place !== (process.env.PERF_PLACE ?? 'overview') || y !== (process.env.PERF_YEAR ?? '1903'))
+      continue;
     await page.waitForTimeout(3000);
-    console.log(`dewidebug frames idle ${await frames(6000, false)}`);
-    console.log(`dewidebug frames orbit ${await frames(6000, true)}`);
-    await page.getByRole('slider', { name: /Timeline/ }).focus();
+    console.log(`dewidebug frames idle ${formatFrameStats(await measureFrames(page, 6000, false))}`);
+    console.log(`dewidebug frames orbit ${formatFrameStats(await measureFrames(page, 6000, true))}`);
     costs.length = 0;
-    const scrub = frames(8000, false);
-    for (let i = 0; i < 70; i++) {
-      await page.keyboard.press(i % 40 < 20 ? 'ArrowRight' : 'ArrowLeft');
-      await page.waitForTimeout(100);
-    }
-    console.log(`dewidebug frames scrub ${await scrub}`);
+    console.log(`dewidebug frames scrub ${formatFrameStats(await measureScrub(page, 8000))}`);
     console.log(costs.join('\n'));
   }
 await browser.close();

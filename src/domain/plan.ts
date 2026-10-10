@@ -1,3 +1,6 @@
+import type { Bilingual } from './i18n.ts';
+import type { Provenance } from './provenance.ts';
+
 export type Material =
   | 'rubble'
   | 'limestone'
@@ -42,7 +45,19 @@ export interface Built {
   readonly ruin?: Ruin;
 }
 
-export type Part =
+/**
+ * What a part says about itself, for a plan whose parts are held to their sources one by one (the
+ * Roman forts, ADR 0046): an id that names it for good, a name to show, its own provenance, and
+ * `detail`, a part too small to see from afar, drawn only when the camera is near (ADR 0047).
+ */
+export interface PartMeta {
+  readonly id?: string;
+  readonly name?: Bilingual;
+  readonly provenance?: Provenance;
+  readonly detail?: true;
+}
+
+export type PartShape =
   | (Built & {
       readonly type: 'wall';
       readonly path: readonly Pt[];
@@ -50,6 +65,8 @@ export type Part =
       readonly height: number;
       readonly thickness: number;
       readonly top: 'plain' | 'battlements';
+      // The share of the base thickness left at the top: a turf bank narrows, a masonry wall does not.
+      readonly taper?: number;
     })
   | (Built & {
       readonly type: 'tower';
@@ -60,6 +77,7 @@ export type Part =
       readonly top: TowerTop;
       readonly angle?: number;
       readonly batter?: boolean;
+      readonly roofMaterial?: Material;
     })
   | (Built & {
       readonly type: 'hall';
@@ -79,7 +97,21 @@ export type Part =
       readonly height: number;
       readonly top: 'plain' | 'battlements';
     })
-  | { readonly type: 'ditch'; readonly path: readonly Pt[]; readonly width: number }
+  | {
+      readonly type: 'ditch';
+      readonly path: readonly Pt[];
+      readonly width: number;
+      // Metres below the old ground, for a V-shaped ditch: the ground cannot be cut, so the depth shades
+      // the ribbon (a dark core, paler sides) and a backfilled ditch (`fill`) is one flat colour.
+      readonly depth?: number;
+      readonly fill?: Material;
+    }
+  | {
+      readonly type: 'road';
+      readonly path: readonly Pt[];
+      readonly width: number;
+      readonly material: Material;
+    }
   | { readonly type: 'platform'; readonly outline: readonly Pt[]; readonly face: 'rock' | 'turf' }
   | (Built & {
       readonly type: 'bridge';
@@ -90,7 +122,14 @@ export type Part =
       readonly arches: readonly Arch[];
     });
 
-export type Setting = 'landscape' | 'map';
+export type Part = PartShape & PartMeta;
+
+/**
+ * How a plan is scaled: `landscape` larger than life so it reads from afar, `map` true in plan and as tall as
+ * the hills are exaggerated (the town), `true` true in plan and in height, for a place whose dimensions
+ * are the evidence (the Roman forts, ADR 0046). Only `map` hides the modern buildings under it.
+ */
+export type Setting = 'landscape' | 'map' | 'true';
 
 export interface Plan {
   readonly setting: Setting;
@@ -113,6 +152,7 @@ export function partPoints(part: Part): readonly Pt[] {
   switch (part.type) {
     case 'wall':
     case 'ditch':
+    case 'road':
       return part.path;
     case 'prism':
     case 'platform':
@@ -145,6 +185,14 @@ export function hallCorners(h: Extract<Part, { type: 'hall' }>): readonly Pt[] {
     const [x, y] = rotate(p, h.angle);
     return [x + h.at[0], y + h.at[1]];
   });
+}
+
+export const TIERS = ['documented', 'reconstructed', 'imagined'] as const;
+export type Tier = (typeof TIERS)[number];
+
+export function partsByTier(plan: Plan): Readonly<Record<Tier, readonly Part[]>> {
+  const of = (tier: Tier): Part[] => plan.parts.filter((p) => p.provenance?.kind === tier);
+  return { documented: of('documented'), reconstructed: of('reconstructed'), imagined: of('imagined') };
 }
 
 export function planExtent(plan: Plan): number {
@@ -184,6 +232,7 @@ export function covers(plan: Plan, local: Pt): boolean {
         return Math.hypot(local[0] - part.at[0], local[1] - part.at[1]) <= part.size / 2;
       case 'wall':
       case 'ditch':
+      case 'road':
       case 'platform':
       case 'bridge':
         return false;
