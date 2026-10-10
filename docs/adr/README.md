@@ -82,6 +82,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0048](0048-gpu-e2e-on-windows-chrome.md) | The GPU tests run on Windows Chrome, against a preview served from WSL | Accepted (Dewi's idea and runner; design Claude, under the proactive mandate) | 2026-10-09 |
 | [0049](0049-lidar-terrain-tiles-blended-into-terrain-50.md) | LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart | Accepted, extends 0009; amended 2026-10-10 (the review: lines on the ground, tree identity, what an edit moves) | 2026-10-09 |
 | [0052](0052-landmarks-are-scripted-blender-models-built-from-their-plans.md) | Landmarks are scripted Blender models, built from their sourced plans | Accepted (Dewi's decision and scope; the boundary and rules Claude's, under the proactive mandate), supersedes part of 0017 | 2026-10-10 |
+| [0053](0053-the-blender-pipeline-sheet-script-fitted-gltf.md) | The Blender pipeline: a build sheet from the plan, a headless script, glTF fitted to the drawn ground | Accepted (carries out Dewi's 0052; the design Claude's, under the proactive mandate), amends 0047 | 2026-10-10 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

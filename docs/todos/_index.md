@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Backlog
@@ -264,6 +264,15 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
       arrival cutscene ends at Fort 1's south-east gate, and the card lists what the slider's year draws. Still to do
       before it is ticked: checking the forts' registration against the LiDAR's saddle and two knolls (issue 2 has landed and the forts stand on it: looked at on the GPU at AD 80, 110 and 140 on 2026-10-10, their ditch and road ribbons and the settlement's roads follow the ground, [`docs/images/lidar/`](../images/lidar/); whether the Coflein-based placement matches the saddle is not judged). Not built (the issue's own later phases): a
       Blender project, animation, walkable interiors, characters
+- [ ] **Scripted Blender models for the important landmarks** (Dewi, 2026-10-10: "Make all important as stuff in blender maybe? Or?", [ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md); the pipeline Claude's, under the proactive mandate, [ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md), [`design/blender-models.md`](../design/blender-models.md)).
+      **Phase 1 built 2026-10-10, not ticked**: the build sheet, the kit catalogue, `npm run models`, the loader, and the Roman
+      forts (Fort 1, Fort 2, the settlement) drawn from glb above Low, each part's ⓘ listing its kits; unit, content and e2e
+      tests each seen red; looked at on the GPU at AD 80, 84 and 110. Still to do before it is ticked: the second-Opus review,
+      and Dewi's answers to the note's five questions (how photographic, commit or build in CI, what Low shows, clicking a part,
+      the castle order). Next: Carreg Cennen, Dryslwyn, Dinefwr (once its plan is researched), St Teilo's and Talley, the
+      bridge, the Shire Hall and the Provisions Market, the trains (the 1857 train onto this pipeline), then Newton House,
+      Paxton's Tower, Golden Grove and Aberglasney. Not built yet: the hand-edit guard and kit libraries, textures, `?tiers`,
+      a CI rebuild job
 - [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09), then a photo layer pinned to where each was taken, with credit and ⓘ.
       **Agreed ✓. Researched ✓ 2026-10-09** ([`research/dc-harries-photographs.md`](../research/dc-harries-photographs.md)):
       31 photographs found and downloaded (`public/photos/harries/`, data and credits in

@@ -1,15 +1,45 @@
 ---
 title: Scripted Blender models for the important landmarks
 kind: design
-status: proposed
+status: accepted
 updated: 2026-10-10
 ---
 
 # Scripted Blender models for the important landmarks
 
-**Status: proposed, not built.** Written by Claude on 2026-10-10 as a design, for Dewi to agree or
-change before any code. Every choice below marked "proposed" is Claude's; none is Dewi's unless it
-says so.
+**Status: accepted; phase 1 built for the Roman forts (2026-10-10).** Dewi's decision is
+[ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md); the pipeline as built is
+[ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md), which wins where it and this note
+differ. Written by Claude on 2026-10-10 as a design; every choice below marked "proposed" is Claude's, under the
+proactive mandate, and none is Dewi's unless it says so. The ADR numbers this note guessed (0049) were taken
+by other work: the decision is 0052 and the pipeline 0053.
+
+## What was built, and where it differs from this note (2026-10-10)
+
+Built: the build sheet (`src/domain/buildsheet.ts`), the kit catalogue (`src/content/kits.ts`, nine kits),
+kits and hinges on the forts' parts, `npm run models` (`tools/models/build.ts`, `build_landmark.py`,
+`glb.ts`), the loader (`src/world/landmarks.ts`) wired into `FeatureLayer`, the parts card's kit list, the
+`?debug` models line, `?models=off`, and the tests (`src/domain/buildsheet.test.ts`, `tests/models.test.ts`,
+the hinge tests in `tests/forts.test.ts`, two e2e tests). Fort 1, Fort 2 and the settlement have models;
+Fort 1's backfilled ditches lie on the ground and stay procedural, as §2 says.
+
+Different from the note:
+
+- **No ground in the sheet.** A part says whether it `follow`s the ground or stands `rigid` on it, and the
+  loader fits it to the surface the app draws, with the same ground function as `buildPlan` (§1's "Ground"
+  and the terrain-fit risk). So the LiDAR, or any later terrain change, needs no rebuild.
+- **No `gltf-transform`, `meshoptimizer` or quantisation**, so no new dependency: the finisher edits the glb
+  itself, and the files carry no normals (the app computes flat ones). The forts are within budget without
+  compression.
+- **No textures yet**: vertex colours from the one palette in the shared building material, near and far.
+  How photographic the near level should be is still Dewi's question below.
+- **No `EXT_mesh_gpu_instancing`**: parts are merged into one mesh per level in the loader, with each gate
+  leaf a child mesh on its hinge.
+- **Bevels only on squared timbers** (posts, beams, ledges), by edge weight; bevelling everything tripled the
+  triangles.
+- **Not built yet**: the overwrite guard and kit libraries for hand edits, the `?tiers` view, the non-blocking
+  CI rebuild job, the preview renders beyond `--preview`, ruins, prisms and bridges in the sheet, the 1857
+  train on the pipeline.
 
 ## Where this comes from
 

@@ -953,3 +953,29 @@ Milestones and what each one taught us. Newest last.
    mesh", was true of the quantity measured and false of the mesh; the number to check is the one nearest the
    thing drawn. (3) **Docs overstated.** The ADR said forts' ditches and roads were laid again; they are laid
    once, by `buildPlan`, on `surfaceAt`. It also understated the relay's cost: every relay loops all eight rail ribbons, and recomputes the normals for and re-uploads the 16,496-vertex roads mesh; the ADR now says so.
+
+## 2026-10-10
+
+1. **The Blender pipeline, phase 1: the Roman forts drawn from scripted Blender models** (Dewi's decision,
+   ADR 0052: "Make all important as stuff in blender maybe? Or?"; the pipeline Claude's, under the proactive
+   mandate, [ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md)). `npm run models` turns
+   each fort plan into a build sheet in TypeScript, runs headless Blender 4.0.2 once for the landmark (about 7
+   seconds) and finishes the glb with every part's tier, sources and kits. Fort 1 near is 61,346 triangles and
+   1.08 MB, Fort 2 40,916 and 0.74 MB, the settlement 10,760 and 0.15 MB; the far levels about 27 KB. Up close:
+   six-post and four-post timber towers with boarded stages, turves in courses, the breastwork's posts and
+   boards, timber-framed barracks with shingle roofs, thatched houses, planked walkways and gate leaves that
+   pivot on their hinge posts, each detail a kit with its own ⓘ. Lessons: (1) **an empty mesh blacks out the
+   whole frame.** The settlement's far level has no parts, the loader made a mesh with no vertices anyway, and
+   as a shadow caster its infinite bounds turned every pixel black; an empty level now makes no mesh, and an
+   empty ground plan none either. (2) **A worktree's dev server never sees its own edits.** `vite.config.ts`
+   ignores `**/.claude/**` so the always-on server is not reloaded by agents, which also means a dev server
+   started inside a worktree serves its first build for ever; restart it after each change, or test a build.
+   (3) **Bevelling everything tripled the triangles** (170,328 for Fort 1, 11.5 MB); bevelling only squared
+   timbers by edge weight, a 6m station step on the banks and dropping normals from the files (the app
+   computes flat ones) took it to 61,346 and 1.08 MB with no compression and no new dependency. (4) **The
+   probe earns its keep**: with the loader's turn back from Babylon's left-handed root mirrored, the probe
+   lands 20m out (from the raw position the log prints) and every model was refused, which is what the e2e test caught when run red. (5) **Fitting at
+   load time, not in the sheet**: the design note put a grid of ground heights in the sheet, but the drawn
+   surface (LiDAR tiles blended into Terrain 50) exists only in `world/`; the loader instead fits each part to
+   the same ground function the procedural builder uses, so models and fallbacks sit identically and a terrain
+   change needs no rebuild.
