@@ -2109,7 +2109,7 @@ test('at AD 84 at High, Fort 2 and the settlement are drawn from their Blender m
     if (m.text().includes('dewidebug landmark')) loaded.push(m.text());
   });
   await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const debug = page.locator('.debug');
   await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
   await expect(debug).toContainText('roman-vicus=glb:near', { timeout: 90_000 });
@@ -2158,13 +2158,13 @@ test('with ?models=off, and at Low, the forts are drawn from their plans as befo
   page,
 }) => {
   await page.goto('./?debug&quality=high&models=off&place=roman-forts&year=84&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.debug')).toContainText('roman-fort-b=procedural:near');
   await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
   expect(await modelParts(page, 'roman-fort-b')).toEqual([]);
   await expectNoKitsOnCard(page);
   await page.goto('./?debug&quality=low&place=roman-forts&year=84&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.debug')).toContainText('roman-fort-b=procedural:near');
   expect(await modelParts(page, 'roman-fort-b')).toEqual([]);
   await expectNoKitsOnCard(page);
@@ -2174,7 +2174,7 @@ test('switching to Low mid-session brings the procedural forts back and takes th
   page,
 }) => {
   await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const debug = page.locator('.debug');
   await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
   const card = page.locator('.moment-parts');
