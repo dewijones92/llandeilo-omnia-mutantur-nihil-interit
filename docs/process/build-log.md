@@ -1070,3 +1070,13 @@ it is defensive only.
    under 900,520"); it now accepts the `detail-` tiles too. Lesson: **a number is renumbered
    every time `main` moves, so check the highest ADR at the push, not at the merge** (it moved four times
    in two days). Bundle: the main chunk is 534,258 bytes gzipped after the merge.
+
+3. **The GPU job ran no e2e tests after the LiDAR merge** (CI run on afa3b5f, `gpu` failed in 2.5
+   minutes). The summary read "gpu 8 passed 0 failed, e2e 0 passed 0 failed": Playwright on Windows could
+   not load `e2e/terrain.spec.ts`, which imports `public/data/lidar/lidar.json`, because
+   `tools/gpu/run.sh` copied a hand-kept list of paths to Windows and the new import was not on it. The
+   list now comes from the specs' own `from '../…'` imports outside `src` and `tools/gpu` (the first
+   attempt also listed `tools/gpu/results.ts`, already inside `tools/gpu`, and Windows tar refused the
+   duplicate entry), and a missing import fails the run by name. Run locally after the fix: WebGPU on the
+   NVIDIA GPU, 8 GPU tests and 70 e2e passed (1 skipped) in 5m12s; idle 53fps, orbit 60, scrub 40 (p90
+   50ms). Lesson: **a copy list that mirrors code drifts the day the code grows; derive it.**
