@@ -8,12 +8,14 @@ import { formatYear } from '../domain/time.ts';
 import { h } from './dom.ts';
 import { basisOf, provenanceBadge, sourceItems, TIER_ICON } from './provenance.ts';
 import type { LangStore } from './store.ts';
+import { kitInfo } from '../content/kits.ts';
 
 export class MomentCard {
   readonly el = h('article', { class: 'moment panel', 'aria-live': 'polite', hidden: true });
   private current: KeyEvent | undefined;
   private listedKey = '';
   private present: readonly FeaturePresence[] = [];
+  private reopen: ReadonlySet<string> = new Set();
 
   constructor(
     private readonly store: LangStore,
@@ -21,6 +23,7 @@ export class MomentCard {
     private readonly places: ReadonlyMap<string, Place>,
     private readonly scenes: ReadonlyMap<EventId, Cutscene>,
     private readonly onWatch: (scene: Cutscene) => void,
+    private readonly modelled: (feature: string) => boolean = () => false,
   ) {
     store.onChange(() => {
       const ev = this.current;
@@ -32,9 +35,10 @@ export class MomentCard {
   /** The card for a key date; `present` is what the timeline draws now, which decides the parts list. */
   show(ev: KeyEvent | undefined, present: readonly FeaturePresence[] = []): void {
     const listed = ev ? listedAt(present, ev.place) : [];
-    const key = listed.map((f) => f.id).join(',');
+    const key = listed.map((f) => `${f.id}${this.modelled(f.id) ? '+model' : ''}`).join(',');
     if (ev === this.current && key === this.listedKey) return;
     const keepOpen = ev !== undefined && ev === this.current && this.partsOpen();
+    this.reopen = keepOpen ? this.openParts() : new Set();
     this.current = ev;
     this.listedKey = key;
     this.present = present;
@@ -84,6 +88,18 @@ export class MomentCard {
     );
   }
 
+  /** Draws the card again if what is on screen has changed since: a model finished loading, or graphics changed. */
+  refresh(): void {
+    this.show(this.current, this.present);
+  }
+
+  private openParts(): ReadonlySet<string> {
+    const ids = Array.from(this.el.querySelectorAll('details[data-part][open]'), (d) =>
+      d.getAttribute('data-part'),
+    );
+    return new Set(ids.filter((id): id is string => id !== null && id !== ''));
+  }
+
   private partsOpen(): boolean {
     const details = this.el.querySelector('details.moment-parts');
     return details instanceof HTMLDetailsElement && details.open;
@@ -102,7 +118,7 @@ export class MomentCard {
     const fill = (): void => {
       if (details.dataset['filled']) return;
       details.dataset['filled'] = 'true';
-      body.append(...here.flatMap((f) => this.partsOf(f)));
+      body.append(...here.flatMap((f) => this.partsOf(f, this.modelled(f.id))));
       console.info(`dewidebug moment parts opened features=${here.map((f) => f.id).join(',')}`);
     };
     details.addEventListener('toggle', () => {
@@ -115,7 +131,7 @@ export class MomentCard {
     return details;
   }
 
-  private partsOf(f: Feature): HTMLElement[] {
+  private partsOf(f: Feature, modelled: boolean): HTMLElement[] {
     if (f.kind.type !== 'building') return [];
     const lang = this.store.lang;
     const by = partsByTier(f.kind.plan);
@@ -130,18 +146,18 @@ export class MomentCard {
             { class: `tier tier-${tier}` },
             `${TIER_ICON[tier]} ${this.store.t(tier)} (${String(parts.length)})`,
           ),
-          h('ul', {}, ...parts.map((p) => this.partItem(p))),
+          h('ul', {}, ...parts.map((p) => this.partItem(p, modelled))),
         ];
       }),
     ];
   }
 
-  private partItem(p: Part): HTMLElement {
+  private partItem(p: Part, modelled: boolean): HTMLElement {
     const lang = this.store.lang;
     const pr = p.provenance;
     const note = pr ? basisOf(pr, lang) : null;
     const list = pr ? sourceItems(pr, this.sources) : [];
-    return h(
+    const item = h(
       'li',
       {},
       h(
@@ -150,7 +166,49 @@ export class MomentCard {
         h('summary', {}, p.name?.[lang] ?? p.id ?? ''),
         note ? h('p', {}, note) : null,
         list.length ? h('ul', { class: 'moment-sources' }, ...list) : null,
+        modelled ? this.kitsOf(p) : this.kitsOff(p),
       ),
+    );
+    const details = item.querySelector('details');
+    if (details && p.id !== undefined && this.reopen.has(p.id)) details.open = true;
+    return item;
+  }
+
+  // On screen the simplified plan, not the model: say so rather than list detail that is not drawn.
+  private kitsOff(p: Part): HTMLElement | null {
+    if (!p.kits?.length) return null;
+    return h('p', { class: 'moment-kits-off' }, this.store.t('partKitsOff'));
+  }
+
+  // The construction details a Blender model draws on the part, each with its own tier (ADR 0053).
+  private kitsOf(p: Part): HTMLElement | null {
+    if (!p.kits?.length) return null;
+    const lang = this.store.lang;
+    return h(
+      'div',
+      { class: 'moment-kits' },
+      h('h5', {}, this.store.t('partKits')),
+      h(
+        'ul',
+        {},
+        ...p.kits.map((id) => {
+          const kit = kitInfo(id);
+          const basis = basisOf(kit.provenance, lang);
+          const sources = sourceItems(kit.provenance, this.sources);
+          return h(
+            'li',
+            { class: `tier-${kit.provenance.kind}`, 'data-kit': id },
+            h(
+              'b',
+              {},
+              `${TIER_ICON[kit.provenance.kind]} ${kit.name[lang]} (${this.store.t(kit.provenance.kind)})`,
+            ),
+            basis ? ` ${basis}` : null,
+            ...(sources.length ? [h('ul', { class: 'moment-sources' }, ...sources)] : []),
+          );
+        }),
+      ),
+      h('p', { class: 'moment-finish' }, this.store.t('modelFinish')),
     );
   }
 }

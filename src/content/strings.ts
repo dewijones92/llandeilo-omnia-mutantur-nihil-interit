@@ -53,6 +53,18 @@ export const STRINGS = {
     en: 'What is drawn here, part by part',
     cy: 'Beth sy’n cael ei dynnu yma, rhan wrth ran',
   },
+  partKits: {
+    en: 'Detail in the close-up model, and how it is known',
+    cy: 'Manylion yn y model agos, a sut y’u gwyddys',
+  },
+  partKitsOff: {
+    en: 'The simplified model is on screen, so the finer construction detail is not drawn.',
+    cy: 'Y model symlach sydd ar y sgrin, felly nid yw’r manylion adeiladu manylach yn cael eu tynnu.',
+  },
+  modelFinish: {
+    en: 'Bevelled edges and shading are rendering, not evidence.',
+    cy: 'Rendro yw’r ymylon wedi’u beflo a’r cysgodi, nid tystiolaeth.',
+  },
   sources: { en: 'Sources', cy: 'Ffynonellau' },
   soundOn: { en: 'Sound on', cy: 'Sain ymlaen' },
   soundOff: { en: 'Sound off', cy: 'Sain i ffwrdd' },

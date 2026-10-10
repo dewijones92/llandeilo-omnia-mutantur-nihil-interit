@@ -10,6 +10,11 @@ updated: 2026-10-10
 Raised by Dewi, 2026-09-28. **Option A (accurate low-poly) is built** for the phases below. **Option B is chosen**
 for the Blender models (Dewi, 2026-10-10: "Get proper textures", ADR 0052). How plans are written is in [`../content/authoring.md`](../content/authoring.md).
 
+**Built for the Roman forts (2026-10-10):** the pipeline for scripted Blender models of these landmarks
+([`blender-models.md`](blender-models.md), [ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md)).
+Fort 1, Fort 2 and the settlement are drawn from their models above Low graphics; the castles, churches,
+abbey, bridge, town and trains are next, in the note's order.
+
 ## The idea
 
 The important places (castles, the abbey, the church, the forts, the bridge, Newton House) get
@@ -97,8 +102,8 @@ Archaeology" (reference, not evidence) and the Hughes report in each ⓘ. Screen
 **Levels of detail** ([ADR 0047](../adr/0047-detailed-monuments-have-a-far-and-a-near-mesh.md)): a far mesh
 (rampart, ditches, gate towers, roads) beyond 2.3km and a near one inside 2km. **Editing**: a part is a data entry
 (`fort1/gate-sw/tower-left`); gates are separate parts (towers, walkway, passage, two leaves) so a leaf can
-become its own object, though the renderer merges them today. **Not done**: the issue's Blender project (Dewi
-chose the in-app build on 2026-10-09; on 2026-10-10 he chose scripted Blender models for every landmark, [ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md), agreed and started on a branch, not yet in the app), animation, interiors to walk, characters, and registration on the LiDAR terrain.
+become its own object; since 2026-10-10 (ADR 0053) each leaf of the Blender model is its own mesh on its hinge. **Not done**: the issue's Blender project (Dewi
+chose the in-app build on 2026-10-09; on 2026-10-10 he chose scripted Blender models for every landmark, [ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md), built for the forts on 2026-10-10 by [ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md)), animation, interiors to walk, characters, and registration on the LiDAR terrain.
 
 ## Research gaps hit while modelling
 

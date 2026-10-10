@@ -29,6 +29,7 @@ export class DebugOverlay {
     private readonly graphics: () => GraphicsState,
     private readonly detail: () => DetailStats,
     private readonly levels: () => string,
+    private readonly models: () => string,
   ) {
     setInterval(() => {
       this.render();
@@ -61,6 +62,7 @@ export class DebugOverlay {
       ...s.sound.beds.map(heard),
       `features ${s.features.length}: ${s.features.map((f) => `${f.feature.id}@${f.presence.toFixed(2)}[${f.feature.provenance.kind}]`).join(', ')}`,
       `detail ${this.levels() || '-'}`,
+      `models ${this.models() || '-'}`,
       ...s.features.flatMap((f) => planLine(f.feature)),
       `conversations ${s.conversations.map((c) => c.id).join(', ') || '-'}`,
       `almanac ${s.almanac.length}  language ${s.language?.id ?? '-'}  nearest ${s.nearestEvent?.id ?? '-'}`,

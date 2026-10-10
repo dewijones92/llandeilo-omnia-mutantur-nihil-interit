@@ -2090,6 +2090,112 @@ test('at AD 110 Fort 2 stands over Fort 1’s backfilled ditches beside the sett
   await page.screenshot({ path: 'test-results/roman-forts-110-far.png' });
 });
 
+const modelParts = async (page: Page, id: string): Promise<string[]> =>
+  page.evaluate((feature) => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const fn: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'modelParts') : undefined;
+    const got: unknown = typeof fn === 'function' ? fn.call(debug, feature) : [];
+    return Array.isArray(got) ? got.filter((x): x is string => typeof x === 'string') : [];
+  }, id);
+
+test('at AD 84 at High, Fort 2 and the settlement are drawn from their Blender models, and a gate tower from the model opens its ⓘ with the detail it carries, in both languages', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  const loaded: string[] = [];
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug landmark')) loaded.push(m.text());
+  });
+  await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const debug = page.locator('.debug');
+  await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
+  await expect(debug).toContainText('roman-vicus=glb:near', { timeout: 90_000 });
+  expect(loaded.filter((l) => /probe .* error=0\.0\d\dm/.test(l)).length).toBeGreaterThanOrEqual(4);
+  const parts = await modelParts(page, 'roman-fort-b');
+  expect(parts).toContain('fort2/gate-ne/tower-left');
+  expect(parts).toContain('fort2/gate-ne/leaf-left');
+  expect(parts.some((p) => p.includes('/ditch-'))).toBe(false);
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
+  await page.screenshot({ path: 'test-results/roman-forts-84-models.png' });
+  const card = page.locator('.moment-parts');
+  await card.locator('summary').first().click();
+  const tower = card.locator('details[data-part="fort2/gate-ne/tower-left"]');
+  await tower.locator('summary').click();
+  await expect(tower.locator('[data-kit="post-tower-six"]')).toContainText('Six-post timber tower');
+  await expect(tower.locator('[data-kit="post-tower-six"]')).toContainText('Reconstructed');
+  await expect(tower.locator('[data-kit="shingle-roof"]')).toContainText('Imagined');
+  await expect(tower.locator('[data-kit="tower-boarding"]')).toContainText('Imagined');
+  await expect(tower.locator('[data-kit="tower-boarding"]')).toContainText('guard-room');
+  await expect(tower.locator('[data-kit="post-tower-six"]')).not.toContainText('stage');
+  await expect(tower.locator('[data-kit="post-tower-six"] a[href*="herefordshire"]')).toHaveCount(1);
+  await expect(tower.locator('.moment-kits-off')).toHaveCount(0);
+  await expect(tower).toContainText('rendering, not evidence');
+  await page.screenshot({ path: 'test-results/roman-forts-84-models-part.png' });
+  await page.keyboard.press('Escape');
+  await page.mouse.move(900, 200);
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await page.locator('.moment-parts summary').first().click();
+  const twr = page.locator('.moment-parts details[data-part="fort2/gate-ne/tower-left"]');
+  await twr.locator('summary').click();
+  await expect(twr.locator('[data-kit="post-tower-six"]')).toContainText('Tŵr pren chwe phostyn');
+  expect(errors).toEqual([]);
+});
+
+// The card must not list detail that is not drawn: with the plans on screen it says so instead.
+async function expectNoKitsOnCard(page: Page): Promise<void> {
+  const card = page.locator('.moment-parts');
+  await card.locator('summary').first().click();
+  const tower = card.locator('details[data-part="fort2/gate-ne/tower-left"]');
+  await tower.locator('summary').click();
+  await expect(tower.locator('[data-kit]')).toHaveCount(0);
+  await expect(tower.locator('.moment-kits-off')).toContainText('simplified model is on screen');
+}
+
+test('with ?models=off, and at Low, the forts are drawn from their plans as before, and their card lists no model detail', async ({
+  page,
+}) => {
+  await page.goto('./?debug&quality=high&models=off&place=roman-forts&year=84&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.debug')).toContainText('roman-fort-b=procedural:near');
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
+  expect(await modelParts(page, 'roman-fort-b')).toEqual([]);
+  await expectNoKitsOnCard(page);
+  await page.goto('./?debug&quality=low&place=roman-forts&year=84&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await expect(page.locator('.debug')).toContainText('roman-fort-b=procedural:near');
+  expect(await modelParts(page, 'roman-fort-b')).toEqual([]);
+  await expectNoKitsOnCard(page);
+});
+
+test('switching to Low mid-session brings the procedural forts back and takes the model detail off an open card, leaving the open part open', async ({
+  page,
+}) => {
+  await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const debug = page.locator('.debug');
+  await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
+  const card = page.locator('.moment-parts');
+  await card.locator('summary').first().click();
+  const tower = card.locator('details[data-part="fort2/gate-ne/tower-left"]');
+  await tower.locator('summary').click();
+  await expect(tower.locator('[data-kit]').first()).toBeVisible();
+  await expect(tower.locator('.moment-kits h5')).toContainText('close-up model');
+  const graphics = page.getByRole('group', { name: 'Graphics' });
+  await graphics.getByRole('button', { name: 'Low' }).click();
+  await expect(debug).toContainText('roman-fort-b=procedural:near');
+  await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
+  await expect(tower).toHaveJSProperty('open', true);
+  await expect(card.first()).toHaveJSProperty('open', true);
+  await expect(tower.locator('[data-kit]')).toHaveCount(0);
+  await expect(tower.locator('.moment-kits-off')).toContainText('simplified model is on screen');
+  await graphics.getByRole('button', { name: 'High' }).click();
+  await expect(debug).toContainText('roman-fort-b=glb:near');
+  await expect(tower).toHaveJSProperty('open', true);
+  await expect(tower.locator('[data-kit="post-tower-six"]')).toBeVisible();
+});
+
 test('the Roman forts are there from AD 74 and gone by AD 140, and nothing of them stands in between the years the sources rule out', async ({
   page,
 }) => {

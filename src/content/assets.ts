@@ -67,6 +67,14 @@ export const ASSETS: readonly AssetRecord[] = [
     url: 'https://www.railwaysarchive.co.uk/documents/BoT_Pantyffynnon1858.pdf',
   },
   {
+    files: /^models\/landmarks\/[a-z0-9-]+\.(near|far)\.glb$/,
+    what: { en: 'The landmark models', cy: 'Modelau’r tirnodau' },
+    source:
+      'Built by this project’s Blender script tools/models/build_landmark.py from the typed plans in src/content (ADR 0053); each part’s sources are in its ⓘ',
+    licence: 'Original work of this project',
+    url: 'https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/tree/main/tools/models',
+  },
+  {
     files: /^photos\/harries\/\d+\.jpg$/,
     what: { en: 'Photographs by D C Harries', cy: 'Ffotograffau gan D C Harries' },
     source:

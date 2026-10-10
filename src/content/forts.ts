@@ -11,7 +11,7 @@ import {
   type Run,
 } from '../domain/fort.ts';
 import type { GridRef } from '../domain/model.ts';
-import type { Part, PartShape, Plan, Pt } from '../domain/plan.ts';
+import type { KitId, Part, PartMeta, PartShape, Plan, Pt } from '../domain/plan.ts';
 import { rotate } from '../domain/plan.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import type { SourceKey } from './ids.ts';
@@ -87,9 +87,19 @@ const REAR_GATE_UNPROVEN =
 const REAR_GATE_UNPROVEN_CY =
   'Ni ddangoswyd porth cefn Caer 2: mae’r amddiffynfeydd allanol yn ddi-dor yno ac nid oes ond bwlch yn y ffos fewnol. Fe’i tynnir yn llai, heb doeau, fel posibilrwydd.';
 
-function part(shape: PartShape, id: string, name: Bilingual, provenance: Provenance, detail = false): Part {
-  return { ...shape, id, name, provenance, ...(detail ? { detail: true as const } : {}) };
+function part(
+  shape: PartShape,
+  id: string,
+  name: Bilingual,
+  provenance: Provenance,
+  detail = false,
+  extra: Pick<PartMeta, 'kits' | 'hinge'> = {},
+): Part {
+  return { ...shape, id, name, provenance, ...(detail ? { detail: true as const } : {}), ...extra };
 }
+
+const ROOFED: readonly KitId[] = ['shingle-roof'];
+const degrees = (v: Pt): number => (Math.atan2(v[1], v[0]) * 180) / Math.PI;
 
 const turn = (v: Pt, quarter: number): Pt => rotate(v, 90 * quarter);
 const add = (a: Pt, b: Pt, k = 1): Pt => [a[0] + b[0] * k, a[1] + b[1] * k];
@@ -130,6 +140,8 @@ function gateParts(shape: FortShape, p: string, g: GateSpec): Part[] {
       `${id}/tower-${k > 0 ? 'left' : 'right'}`,
       named(`${k > 0 ? 'left' : 'right'} timber tower`, `tŵr pren ${k > 0 ? 'chwith' : 'dde'}`),
       'left' in g.towers ? (k > 0 ? g.towers.left : g.towers.right) : g.towers,
+      false,
+      { kits: ['post-tower-six', 'tower-boarding', ...(g.evidenced ? ROOFED : [])] },
     ),
   );
   const deck = part(
@@ -148,19 +160,21 @@ function gateParts(shape: FortShape, p: string, g: GateSpec): Part[] {
     named('timber walkway over the passage', 'llwybr pren dros y fynedfa'),
     g.rest,
     true,
+    { kits: ['plank-deck'] },
   );
   const leaves = [1, -1].map((k) => {
     const hinge = add(centre, tan, (k * PASSAGE) / 2);
     const closed = turn(tan, k > 0 ? 2 : 0);
     const swung = add([Math.cos(1.13) * closed[0], Math.cos(1.13) * closed[1]], frame.out, -Math.sin(1.13));
     const at = add(hinge, swung, PASSAGE / 4);
+    const drawn = degrees(swung);
     return part(
       {
         type: 'hall',
         at,
         length: PASSAGE / 2,
         width: 0.25,
-        angle: (Math.atan2(swung[1], swung[0]) * 180) / Math.PI,
+        angle: drawn,
         height: 3.4,
         roof: 'none',
         material: 'timber',
@@ -176,6 +190,7 @@ function gateParts(shape: FortShape, p: string, g: GateSpec): Part[] {
         ['fort:S1', 'fort:S16'],
       ),
       true,
+      { kits: ['ledged-leaf'], hinge: { at: hinge, closed: degrees(closed), drawn } },
     );
   });
   const passage = part(
@@ -249,6 +264,8 @@ function circuit(shape: FortShape, p: string, gates: readonly GateSpec[], ditchi
         `${p}/rampart-${run.side}-${String(i)}`,
         { en: `Turf rampart, ${n}`, cy: `Rhagfur tyweirch, ${SIDE_CY[run.side]} ${String(i + 1)}` },
         turf,
+        false,
+        { kits: ['turf-courses'] },
       ),
       part(
         {
@@ -264,6 +281,7 @@ function circuit(shape: FortShape, p: string, gates: readonly GateSpec[], ditchi
         { en: `Timber breastwork, ${n}`, cy: `Parapet pren, ${SIDE_CY[run.side]} ${String(i + 1)}` },
         breast,
         true,
+        { kits: ['post-and-board-breastwork'] },
       ),
     );
   });
@@ -304,11 +322,12 @@ function cornerTowers(shape: FortShape, p: string): Part[] {
       `${p}/corner-tower-${s}`,
       { en: `Corner tower, ${CORNER_EN[s]}`, cy: `Tŵr cornel, ${CORNER_CY[s]}` },
       reconstructed(
-        'No corner tower is evidenced at either fort. One is drawn at each rounded corner by analogy: a corner tower at Jay Lane, a 1st-century earth fort in Herefordshire, thought to have stood on six posts (four were found), was about 4.6m by 2.4m.',
-        'Ni cheir tystiolaeth o dŵr cornel yn yr un gaer. Tynnir un ar bob cornel gron ar sail cymariaethau: roedd tŵr cornel yn Jay Lane, caer bridd o’r 1af ganrif yn Swydd Henffordd, y credir iddo sefyll ar chwe phostyn (canfuwyd pedwar), tua 4.6m wrth 2.4m.',
+        'No corner tower is evidenced at either fort. One is drawn at each rounded corner by analogy: a corner tower at Jay Lane, a 1st-century earth fort in Herefordshire, assumed to have stood on six posts (four were found), measured about 4.6m by 2.4m; its height and roof are not given.',
+        'Ni cheir tystiolaeth o dŵr cornel yn yr un gaer. Tynnir un ar bob cornel gron ar sail cymariaethau: roedd tŵr cornel yn Jay Lane, caer bridd o’r 1af ganrif yn Swydd Henffordd, y tybir iddo sefyll ar chwe phostyn (canfuwyd pedwar), tua 4.6m wrth 2.4m; ni roddir ei uchder na’i do.',
         ['fort:S16'],
       ),
       true,
+      { kits: ['post-tower-six', 'tower-boarding', ...ROOFED] },
     ),
   );
 }
@@ -357,6 +376,7 @@ function interior(p: string, blocks: readonly Block[], known: Provenance, fort: 
       { en: `${k.name.en} ${String(n)}`, cy: `${k.name.cy} ${String(n)}` },
       b.kind === 'barrack' ? barrackBasis(fort) : known,
       true,
+      { kits: ['timber-frame', ...ROOFED] },
     );
   });
 }
@@ -411,12 +431,12 @@ const FORT_1_GATES: readonly GateSpec[] = [
     name: { en: 'South-west gate', cy: 'Porth de-orllewin' },
     towers: {
       right: evidencedTowers(
-        'The south-west gateway is evidenced: four square post-pits, up to 1.2m across, probably belong to a large six-post gate tower (Trench 1). This is the tower on the north side, the one found, the right-hand one looking out; its height and roof are analogy (timber gate towers on posts at Jay Lane).',
-        'Ceir tystiolaeth o’r fynedfa de-orllewinol: mae pedwar pwll postyn sgwâr, hyd at 1.2m ar eu traws, yn ôl pob tebyg yn perthyn i dŵr porth mawr chwe postyn (Ffos Brawf 1). Hwn yw’r tŵr ar yr ochr ogleddol, yr un a ganfuwyd, yr un ar y dde wrth edrych allan; dyfaliad ar sail cymariaethau yw ei uchder a’i do (tyrau porth pren ar byst yn Jay Lane).',
+        'The south-west gateway is evidenced: four square post-pits, up to 1.2m across, probably belong to a large six-post gate tower (Trench 1). This is the tower on the north side, the one found, the right-hand one looking out; its height and roof are a guess: Jay Lane, an earth fort in Herefordshire, gives timber gate towers’ post layout and plan size, and no height or roof.',
+        'Ceir tystiolaeth o’r fynedfa de-orllewinol: mae pedwar pwll postyn sgwâr, hyd at 1.2m ar eu traws, yn ôl pob tebyg yn perthyn i dŵr porth mawr chwe postyn (Ffos Brawf 1). Hwn yw’r tŵr ar yr ochr ogleddol, yr un a ganfuwyd, yr un ar y dde wrth edrych allan; dyfaliad yw ei uchder a’i do: dim ond cynllun pyst a maint plan tyrau porth pren a roddir gan Jay Lane, caer bridd yn Swydd Henffordd, ac nid uchder na tho.',
       ),
       left: gateNote(
-        'This tower is the twin of the one found on the north side of the south-west gateway, across the passage. Nothing of it was found; it is drawn by analogy, as is its height and roof.',
-        'Efaill yw’r tŵr hwn i’r un a ganfuwyd ar ochr ogleddol y fynedfa de-orllewinol, ar draws y fynedfa. Ni chanfuwyd dim ohono; fe’i tynnir ar sail cymariaethau, fel ei uchder a’i do.',
+        'This tower is the twin of the one found on the north side of the south-west gateway, across the passage. Nothing of it was found; it is copied from its twin, whose height and roof are a guess.',
+        'Efaill yw’r tŵr hwn i’r un a ganfuwyd ar ochr ogleddol y fynedfa de-orllewinol, ar draws y fynedfa. Ni chanfuwyd dim ohono; fe’i copïwyd o’i efaill, y mae ei uchder a’i do yn ddyfaliad.',
       ),
     },
     rest: gateNote(
@@ -502,10 +522,11 @@ function fort1Parts(): Part[] {
     { en: 'Interval tower, north-east rampart', cy: 'Tŵr rhyngol, rhagfur gogledd-ddwyreiniol' },
     documented(
       ['fort:S1'],
-      'A four-post structure, probably an interval tower, was found on the north-east inner rampart near the eastern corner (survey). Its 3m size and its height and roof are analogy (four-post interval towers about 2.4 to 3m square at Jay Lane).',
-      'Cafwyd adeilad pedwar postyn, tŵr rhyngol yn ôl pob tebyg, ar y rhagfur mewnol gogledd-ddwyreiniol ger y gornel ddwyreiniol (arolwg). Dyfaliad ar sail cymariaethau yw ei faint 3m, ei uchder a’i do (tyrau rhyngol pedwar postyn tua 2.4 i 3m sgwâr yn Jay Lane).',
+      'A four-post structure, probably an interval tower, was found on the north-east inner rampart near the eastern corner (survey). Its 3m size is analogy (Jay Lane’s four-post interval towers are about 2.4 to 3m square); its height and roof are a guess, since Jay Lane’s page gives plan sizes only.',
+      'Cafwyd adeilad pedwar postyn, tŵr rhyngol yn ôl pob tebyg, ar y rhagfur mewnol gogledd-ddwyreiniol ger y gornel ddwyreiniol (arolwg). Cymhariaeth yw ei faint 3m (mae tyrau rhyngol pedwar postyn Jay Lane tua 2.4 i 3m sgwâr); dyfaliad yw ei uchder a’i do, gan mai dim ond meintiau plan a roddir ar dudalen Jay Lane.',
     ),
     true,
+    { kits: ['post-tower-four', 'tower-boarding', ...ROOFED] },
   );
   const between = (a: number, b: number, n: number): number[] =>
     Array.from({ length: n }, (_, i) => a + ((b - a) * i) / (n - 1));
@@ -853,6 +874,7 @@ function vicusParts(): Part[] {
         ['fort:S1', 'fort:S14'],
       ),
       true,
+      { kits: ['timber-frame', 'thatch-roof'] },
     ),
   );
   return [...roadParts, ...houses];

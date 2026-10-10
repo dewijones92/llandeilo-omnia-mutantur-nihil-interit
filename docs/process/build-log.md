@@ -1090,6 +1090,46 @@ it is defensive only.
    `cameraSettled`; with no key it fails at the slide's assertion, with the key it passes (267ms held).
    Lesson: **a red check of a test fix can reveal that the test was green for the wrong reason**.
 
+5. **The Blender pipeline, phase 1: the Roman forts drawn from scripted Blender models** (Dewi's decision,
+   ADR 0052: "Make all important as stuff in blender maybe? Or?"; the pipeline Claude's, under the proactive
+   mandate, [ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md)). `npm run models` turns
+   each fort plan into a build sheet in TypeScript, runs headless Blender 4.0.2 once for the landmark (about 7
+   seconds) and finishes the glb with every part's tier, sources and kits. Fort 1 near is 61,346 triangles and
+   1.08 MB, Fort 2 40,916 and 0.74 MB, the settlement 10,760 and 0.15 MB; the far levels about 27 KB. Up close:
+   six-post and four-post timber towers with boarded stages, turves in courses, the breastwork's posts and
+   boards, timber-framed barracks with shingle roofs, thatched houses, planked walkways and gate leaves that
+   pivot on their hinge posts, each detail a kit with its own ⓘ. Lessons: (1) **an empty mesh blacks out the
+   whole frame.** The settlement's far level has no parts, the loader made a mesh with no vertices anyway, and
+   as a shadow caster its infinite bounds turned every pixel black; an empty level now makes no mesh, and an
+   empty ground plan none either. (2) **A worktree's dev server never sees its own edits.** `vite.config.ts`
+   ignores `**/.claude/**` so the always-on server is not reloaded by agents, which also means a dev server
+   started inside a worktree serves its first build for ever; restart it after each change, or test a build.
+   (3) **Bevelling everything tripled the triangles** (170,328 for Fort 1, 11.5 MB); bevelling only squared
+   timbers by edge weight, a 6m station step on the banks and dropping normals from the files (the app
+   computes flat ones) took it to 61,346 and 1.08 MB with no compression and no new dependency. (4) **The
+   probe earns its keep**: with the loader's turn back from Babylon's left-handed root mirrored, the probe
+   lands 20m out (from the raw position the log prints) and every model was refused, which is what the e2e test caught when run red. (5) **Fitting at
+   load time, not in the sheet**: the design note put a grid of ground heights in the sheet, but the drawn
+   surface (LiDAR tiles blended into Terrain 50) exists only in `world/`; the loader instead fits each part to
+   the same ground function the procedural builder uses, so models and fallbacks sit identically and a terrain
+   change needs no rebuild. **Second-Opus review, same day** (fixed in the next commits; [ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md)'s
+   amendment): (6) **a source was credited with what it does not say.** The tower kits' ⓘ said the boarded
+   stage and open frame follow Jay Lane; the page (read again directly) gives post layouts, sizes and "the same
+   scantling" only, and for the gatehouses a guard-room at ground level, the opposite of an open frame. The
+   claim had been tested for presence ("the kit has a source that exists") and never for what the source says;
+   a test now at least keeps the stage and boarding words out of the kits that cite Jay Lane for layouts.
+   (7) **The Python script held numbers the sheet did not**, though its docstring and the ADR said it held none
+   (a ridge beam, the stage slab, the thatch's ridge roll). A test now fails when the script reads a measurement
+   no kit holds. The same grep showed the script's own list of kits was a second copy of `KIT_IDS` (a new kit
+   failed the build at "unknown kit"), so a test now holds the two lists equal. (8) **Editing the finisher
+   left every model "up to date"**: the hash covered the sheet and the script but a hand-bumped version stood
+   in for the finisher's source; adding a function to `glb.ts` turned the staleness test red at once, as it
+   should, once the source was hashed. (9) **A mis-turned part passed every test**: nothing compared a mesh
+   with its sheet. Turning every hall 90 degrees in the script now fails the new bounds test at the first
+   barrack ("extent 0: expected 43.5 to be at most 41.4"); the check was cheap, and it passes on all 73 rigid
+   parts of the first build and on the rebuilt ones. (10) **A parts card described detail that was not drawn**
+   at Low and with `?models=off`; its e2e test failed with 3 kits listed when the gate was removed. The GPU kit's e2e pass failed on `lidar.json` before main's fix to it (6b05ed5, merged in); with it, `npm run e2e:gpu` on Windows Chrome at High passed 8 GPU tests and 72 e2e, including the models loading and the card, so the models have now run on WebGPU (idle 57fps, orbit 57, scrub 51, vsync on). One e2e test (the almanac one) hung at load in the full local run and passed when re-run alone, the known load flake.
+
 ### The photo layer on by default (2026-10-10)
 
 Dewi chose "On by default", reversing ADR 0044's off-by-default ([ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md), amended).
@@ -1132,7 +1172,6 @@ by its own size puts its tip tens of metres from the spot, which defeats a pin w
 Lesson: **a test that names something no view contains
 asserts nothing**; find the scene that has it or do not claim it.
 
-
 5. **The photo-pin overlap test failed on CI with the welcome open** (run on a6a8d34, shard 3): four pins
    were "under" the welcome 500ms after it opened. The pins re-lay themselves out on a rendered frame, and
    CI renders at about 1fps, so a fixed half-second wait can end before any frame. The three checks now
@@ -1140,3 +1179,35 @@ asserts nothing**; find the scene that has it or do not claim it.
    `./?year=1900`, and with it on it passes. The same shard's per-year pin test took 6.8 minutes against
    CI's 7-minute per-test limit, so it is marked slow in CI like the night tests. Lesson, the second in a
    day: **on a 1fps renderer a fixed wait is a guess; wait for the state**.
+
+### The Blender pipeline: second-Opus re-review of the fixes (2026-10-10)
+
+A second pass over the first review's fixes found four IMPORTANT points, each verified before it was fixed
+([ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md), second amendment). Jay Lane's page was
+re-read directly: it contradicts itself on its turf (summary "revealed earth ramparts revetted with turf", excavation
+section "no trace of a rampart bank... must have been provided with a turf revetment"), so the turf kit now says so
+and cites Dinefwr's own inference from Fort 1's ditch fill; the gate and interval towers' ⓘ no longer credit Jay Lane
+with height or roof, and the six-post corner tower is "assumed", as its page says. The script's "every measurement is a
+kit parameter" claim was untrue in six places; a test that rejects bare decimals in the drawing functions (colours
+passed to `shade` or `jitter` and `0.5` apart) listed them against the old script, and each is now a kit parameter or a
+named constant. The ADR's "main bundle did not grow" compared two different days' builds: main is 535,397 bytes and the
+branch merged with it 543,954 (+8,557, mostly `kits.ts`'s text), now recorded in CLAUDE.md as well.
+
+Seen red: the bare-decimal test (13 hits on the old script), the wall bounds test (every wall shifted 5m east:
+"fort1/breastwork-ne-0 west: expected 33.9 to be at most 29.2"), the node-transform reader (a part under a shifted
+group read at the origin when the world matrix was ignored), the forts' Jay Lane wording (against the first-review
+`forts.ts`), the turf kit (against the old `kits.ts`), and the Low-mid-session e2e (with the card's open-part memory
+removed: `tower` open expected true, got false). Lessons: **a node's mesh bounds are only scene positions if its
+ancestors are untransformed, so assert that, or compose the matrices**; and **a doc's "did not grow" needs the same
+build on both sides, on the same day, from the same merge**.
+
+Also: a card keeps its open parts when a model finishes loading or Low is chosen, and its kits heading says "in the
+close-up model" (the far level draws none); a kit's sources show on the card; `npm run models` rebuilds when the
+installed Blender differs from the one a model records, and `sheets.ts` counts towards staleness; a second `--force`
+run gave byte-identical glbs and index. Dewi's three answers of the day (commit the glbs, Low shows today's simple
+model, click parts in 3D) are in the decision log, the note and the ADR; clicking parts is agreed and not built.
+Checks: `npm run check` green (572 tests, branches 90.6%); full e2e on a fresh build, `E2E_WORKERS=1`, 77 tests: 76
+passed, 1 skipped (the stored-quality test), 14.3 minutes, no hang and no "never ready" failure with fis-worker
+stopped. Looked at on the GPU (`tools/shot.mjs`, WebGL, High) at AD 80, 84 and 110, radius 60, and a close-up at AD 84:
+Fort 1's turf bank, breastwork and thatched halls at 80; Fort 2 with shingled towers and the settlement at 84 and 110.
+

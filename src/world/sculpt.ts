@@ -4,7 +4,8 @@ import type { Rgb } from '../domain/colour.ts';
 export type V3 = readonly [number, number, number];
 export type V2 = readonly [number, number];
 
-const SHADE_BOTTOM = 0.8;
+/** How dark a surface at the foot of a part is, as a share of its colour; the glTF landmarks use the same. */
+export const SHADE_BOTTOM = 0.8;
 
 export class Sculpt {
   private readonly positions: number[] = [];

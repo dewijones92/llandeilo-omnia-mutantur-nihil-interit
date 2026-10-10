@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Research findings and decisions
@@ -280,6 +280,27 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   thousand, drawn from several different units"; the excavator (roman:S1) says its size suggests "at
   the very least an *ala quingenaria* ... or a *cohors milliaria*", a lower minimum. Both now say it was
   big enough for perhaps a thousand men or more, with both sources in the ⓘ.
+
+- **Jay Lane (fort:S16) does not describe a boarded stage or an open frame under the towers** (corrected
+  2026-10-10, second-Opus review of the Blender models). The first Blender build's tower kits said "the
+  boarded stage and the open frame follow timber towers on posts at Jay Lane", and gave a 0.3m post size to
+  the interval towers on the same footing. The page, read again directly, gives post layouts (gatehouses on
+  two rows of five posts with a tower at each end, a corner tower "assumed" to be six-post, four-post interval towers), plan sizes and "the same scantling"
+  for the interval towers' posts, and says nothing about platforms, stages, boarding or roofs; for the
+  gatehouses it says "a tower 9.5ft square overall would have provided a guard-room at ground level",
+  which points the other way. The kits now credit S16 only with the layouts and sizes; the stage, the boards
+  and a walled ground storey are a separate imagined kit (`tower-boarding`), and the interval tower's posts
+  are drawn at the same 0.4m as the gate posts, an analogy the ⓘ says so about.
+
+- **Jay Lane (fort:S16) contradicts itself on its turf** (found 2026-10-10, second-Opus re-review of the Blender
+  models; the page was re-read directly). Its opening summary says "Excavations revealed earth ramparts revetted
+  with turf", but its excavation section says "No trace of a rampart bank was found, nor were there any postholes
+  for a timber-framed rampart or palisade" and that the rampart "must have been provided with a turf revetment",
+  a suggestion backed by the character of the ditch filling. So the revetment is a suggestion, and the turf-courses
+  kit no longer says it is "recorded". Dinefwr's own turf rampart is a separate inference, from the clay fill of
+  Fort 1's inner ditch (fort:S1), and the kit cites S1 for it. The page also gives the corner tower as
+  "assumed" to have had six posts (four found), and no height or roof for any tower; the gate and interval
+  towers' ⓘ now credit it with post layout and plan size only.
 
 ## Decisions the research drove
 
