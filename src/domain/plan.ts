@@ -83,10 +83,10 @@ export interface KitParamNames {
   'turf-courses': 'course';
   'post-and-board-breastwork': 'post' | 'spacing' | 'board' | 'proud' | 'skin';
   'plank-deck': 'plank' | 'beam' | 'thickness' | 'rail' | 'overhang';
-  'ledged-leaf': 'plank' | 'ledge' | 'inset' | 'clearance';
-  'timber-frame': 'post' | 'spacing' | 'sill' | 'plate';
-  'shingle-roof': 'course' | 'thickness' | 'lip' | 'ridge' | 'ridgeDepth' | 'gable';
-  'thatch-roof': 'thickness' | 'eaves' | 'roll' | 'gable';
+  'ledged-leaf': 'plank' | 'ledge' | 'brace' | 'inset' | 'clearance';
+  'timber-frame': 'post' | 'spacing' | 'sill' | 'plate' | 'beam' | 'setIn';
+  'shingle-roof': 'course' | 'thickness' | 'lip' | 'overlap' | 'ridge' | 'ridgeDepth' | 'gable';
+  'thatch-roof': 'thickness' | 'eaves' | 'roll' | 'rollSeat' | 'gable';
 }
 export type KitParams<K extends KitId> = Readonly<Record<KitParamNames[K], number>>;
 

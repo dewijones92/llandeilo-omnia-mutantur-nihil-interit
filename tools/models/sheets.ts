@@ -7,8 +7,9 @@ import type { BuildSheet } from '../../src/domain/buildsheet.ts';
 
 export const ROOT = join(import.meta.dirname, '../..');
 export const SCRIPT = join(ROOT, 'tools/models/build_landmark.py');
-// The finishing step: a change to either file changes what a glb carries, so every model counts as stale.
-const FINISH = ['tools/models/build.ts', 'tools/models/glb.ts'] as const;
+// The finishing step and this hash: a change to any of these files changes what a glb carries, so every model counts as stale.
+// The Blender version is not here, so the test needs no Blender; `npm run models` compares it with the one a model was built by.
+const FINISH = ['tools/models/build.ts', 'tools/models/glb.ts', 'tools/models/sheets.ts'] as const;
 
 export function sheets(): BuildSheet[] {
   return modelSheets(WORLD_CONTENT.features);

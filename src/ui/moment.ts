@@ -15,6 +15,7 @@ export class MomentCard {
   private current: KeyEvent | undefined;
   private listedKey = '';
   private present: readonly FeaturePresence[] = [];
+  private reopen: ReadonlySet<string> = new Set();
 
   constructor(
     private readonly store: LangStore,
@@ -37,6 +38,7 @@ export class MomentCard {
     const key = listed.map((f) => `${f.id}${this.modelled(f.id) ? '+model' : ''}`).join(',');
     if (ev === this.current && key === this.listedKey) return;
     const keepOpen = ev !== undefined && ev === this.current && this.partsOpen();
+    this.reopen = keepOpen ? this.openParts() : new Set();
     this.current = ev;
     this.listedKey = key;
     this.present = present;
@@ -89,6 +91,13 @@ export class MomentCard {
   /** Draws the card again if what is on screen has changed since: a model finished loading, or graphics changed. */
   refresh(): void {
     this.show(this.current, this.present);
+  }
+
+  private openParts(): ReadonlySet<string> {
+    const ids = Array.from(this.el.querySelectorAll('details[data-part][open]'), (d) =>
+      d.getAttribute('data-part'),
+    );
+    return new Set(ids.filter((id): id is string => id !== null && id !== ''));
   }
 
   private partsOpen(): boolean {
@@ -148,7 +157,7 @@ export class MomentCard {
     const pr = p.provenance;
     const note = pr ? basisOf(pr, lang) : null;
     const list = pr ? sourceItems(pr, this.sources) : [];
-    return h(
+    const item = h(
       'li',
       {},
       h(
@@ -160,6 +169,9 @@ export class MomentCard {
         modelled ? this.kitsOf(p) : this.kitsOff(p),
       ),
     );
+    const details = item.querySelector('details');
+    if (details && p.id !== undefined && this.reopen.has(p.id)) details.open = true;
+    return item;
   }
 
   // On screen the simplified plan, not the model: say so rather than list detail that is not drawn.
@@ -182,6 +194,7 @@ export class MomentCard {
         ...p.kits.map((id) => {
           const kit = kitInfo(id);
           const basis = basisOf(kit.provenance, lang);
+          const sources = sourceItems(kit.provenance, this.sources);
           return h(
             'li',
             { class: `tier-${kit.provenance.kind}`, 'data-kit': id },
@@ -191,6 +204,7 @@ export class MomentCard {
               `${TIER_ICON[kit.provenance.kind]} ${kit.name[lang]} (${this.store.t(kit.provenance.kind)})`,
             ),
             basis ? ` ${basis}` : null,
+            ...(sources.length ? [h('ul', { class: 'moment-sources' }, ...sources)] : []),
           );
         }),
       ),

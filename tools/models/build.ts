@@ -26,6 +26,16 @@ const only = args.filter((a) => !a.startsWith('--'));
 const published = (feature: string, level: LevelName): string =>
   join(ROOT, 'public', modelFile(feature, level));
 
+const blenderNow =
+  execFileSync('blender', ['--version'], { encoding: 'utf8' }).split('\n')[0]?.trim() ?? 'unknown';
+
+function builtWith(feature: string): string | undefined {
+  const file = published(feature, 'near');
+  if (!existsSync(file)) return undefined;
+  const v = readGlb(readFileSync(file)).json.scenes?.[0]?.extras?.['blenderVersion'];
+  return typeof v === 'string' ? v : undefined;
+}
+
 function builtHash(feature: string): string | undefined {
   const file = published(feature, 'near');
   if (!existsSync(file)) return undefined;
@@ -35,11 +45,13 @@ function builtHash(feature: string): string | undefined {
 
 const all = sheets();
 const stale = all.filter(
-  (s) => (only.length === 0 || only.includes(s.feature)) && (force || builtHash(s.feature) !== inputHash(s)),
+  (s) =>
+    (only.length === 0 || only.includes(s.feature)) &&
+    (force || builtHash(s.feature) !== inputHash(s) || builtWith(s.feature) !== blenderNow),
 );
 const landmarks = [...new Set(stale.map((s) => s.landmark))];
 console.log(
-  `dewidebug models ${String(all.length)} features, ${String(stale.length)} to build: ${stale.map((s) => s.feature).join(', ') || 'none'}`,
+  `dewidebug models ${blenderNow}; ${String(all.length)} features, ${String(stale.length)} to build: ${stale.map((s) => s.feature).join(', ') || 'none'}`,
 );
 
 mkdirSync(BUILD, { recursive: true });
@@ -122,6 +134,7 @@ function finish(sheet: BuildSheet, level: LevelName): void {
     setting: sheet.setting,
     inputHash: inputHash(sheet),
     blender: raw.json.asset.generator ?? 'unknown',
+    blenderVersion: blenderNow,
   };
   const done: Glb = { json: raw.json, bin: raw.bin };
   const bytes = writeGlb(done);

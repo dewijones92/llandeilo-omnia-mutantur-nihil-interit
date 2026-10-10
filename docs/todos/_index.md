@@ -300,11 +300,14 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
       the model; unit, content and e2e tests each seen red; looked at on the GPU at AD 80, 84 and 110. The second-Opus review ran
       on 2026-10-10 and its findings were fixed ([ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md)'s
       amendment; the tower kits no longer credit Jay Lane with a stage). Dewi's answers, 2026-10-10: proper textures, edit through
-      scripts not the `.blend`, Dinefwr next. Still to do before it is ticked: the textures, the open questions in the note
-      (commit or build in CI, what Low shows, clicking a part). The models were run on WebGPU on 2026-10-10 (`npm run e2e:gpu`, Windows Chrome, High: 8 GPU tests and 72 e2e passed, the fort model test among them). Next:
+      scripts not the `.blend`, Dinefwr next; and on the note's last questions: commit the glbs ("Commit them"), Low shows
+      "Today's simple model" (both built), and "Yes, click parts in 3D" (agreed, not built). A second-Opus re-review of
+      the fixes ran the same day and its findings were fixed (ADR 0053's second amendment). Still to do before it is
+      ticked: the textures, and clicking a part in 3D (below). The models were run on WebGPU on 2026-10-10 (`npm run e2e:gpu`, Windows Chrome, High: 8 GPU tests and 72 e2e passed, the fort model test among them). Next:
       Dinefwr (once its plan is researched), then Carreg Cennen, Dryslwyn, St Teilo's and Talley, the bridge, the Shire Hall and
       the Provisions Market, the trains (the 1857 train onto this pipeline), then Newton House, Paxton's Tower, Golden Grove and
       Aberglasney. Not built yet: kit libraries, textures, `?tiers`, a CI rebuild job
+- [ ] **Click a part of a modelled landmark in 3D to open its ⓘ** (Dewi, 2026-10-10: "Yes, click parts in 3D", answering the Blender note's open question). **Agreed, not built**: phase 2 builds it together with the textures, from the loader's triangle-to-part table (each part's extras already carry its tier, sources and kits). Pressing a part must not fight the map-style camera's drag or a press on a photo pin or label.
 - [ ] **D. C. Harries photographs** ([#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1)): research, with each photo credited to Harries and its holder (no licence check, Dewi 2026-10-09), then a photo layer pinned to where each was taken, with credit and ⓘ.
       **Agreed ✓. Researched ✓ 2026-10-09** ([`research/dc-harries-photographs.md`](../research/dc-harries-photographs.md)):
       31 photographs found and downloaded (`public/photos/harries/`, data and credits in

@@ -1,7 +1,7 @@
 import { Vector3, type Mesh, type Scene } from './babylon.ts';
 import { hex, mix, type Rgb } from '../domain/colour.ts';
 import { MATERIAL_COLOUR, SETTING_SCALE } from '../domain/materials.ts';
-import { HALL_ROOF, hallRoofRise, RAISED_DROP, TOWER_ROOF } from '../domain/proportions.ts';
+import { DEFAULT_ROOF, HALL_ROOF, hallRoofRise, RAISED_DROP, TOWER_ROOF } from '../domain/proportions.ts';
 import { WORLD } from '../domain/geo.ts';
 import { LOD_STEPS } from '../domain/lidar.ts';
 import type { Level } from '../domain/lod.ts';
@@ -440,7 +440,7 @@ function towerTop(
         towerOutline(f, t, cx, cz, r * TOWER_ROOF.cone.overhang),
         top,
         [cx, top + t.size * TOWER_ROOF.cone.rise * f.up, cz],
-        MATERIAL[t.roofMaterial ?? 'slate'],
+        MATERIAL[t.roofMaterial ?? DEFAULT_ROOF],
       );
       return;
     case 'pyramid':
@@ -448,7 +448,7 @@ function towerTop(
         rect(cx, cz, r * 2 * TOWER_ROOF.pyramid.overhang, r * 2 * TOWER_ROOF.pyramid.overhang, turnOf(f, t)),
         top,
         [cx, top + t.size * TOWER_ROOF.pyramid.rise * f.up, cz],
-        MATERIAL[t.roofMaterial ?? 'slate'],
+        MATERIAL[t.roofMaterial ?? DEFAULT_ROOF],
       );
       return;
   }
@@ -530,7 +530,7 @@ function hall(f: Frame, h: Extract<Part, { type: 'hall' }>): void {
   const top = ground + height;
   f.sculpt.band(floor, top).prism(outline, floor, top, colour);
   for (const o of h.openings ?? []) openings(f, h, o, outline, ground, height);
-  const roofColour = MATERIAL[h.roofMaterial ?? 'slate'];
+  const roofColour = MATERIAL[h.roofMaterial ?? DEFAULT_ROOF];
   const L = h.length * f.across;
   const W = h.width * f.across;
   const rise = hallRoofRise(W, h.pitch) * (f.up / f.across);

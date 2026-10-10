@@ -375,14 +375,14 @@ with before-and-after pictures.
 ## Questions for Dewi
 
 *Answered by Dewi on 2026-10-10, after this note: how real the near level looks (proper textures, option B),
-editing the `.blend` by hand (no: scripts are fine), and the castle order (Dinefwr next). Still open: the
-three below that are not struck through.*
+editing the `.blend` by hand (no: scripts are fine), the castle order (Dinefwr next), and then the last three
+(committing the models, what Low shows, clicking parts). None is open now.*
 
 - ✅ ~~**How real should the near level look?**~~ Answered: "Get proper textures" (Dewi, 2026-10-10).
   The kind of texture (photographic PBR tinted by the palette, as this note assumes, or painted) is still
   to be settled when textures are built.
-- 💭 **Commit the models, or build them in CI?** Proposed: commit the glbs (§4).
-- 💭 **Low graphics**: keep the procedural models there (proposed), or show the far glbs?
-- 💭 **Click a wall for its ⓘ in 3D**: wanted? The extras make it cheap, but it is a new feature.
+- ✅ ~~**Commit the models, or build them in CI?**~~ Answered: "Commit them" (Dewi, 2026-10-10), with the staleness test (§4); built that way.
+- ✅ ~~**Low graphics**: keep the procedural models there, or show the far glbs?~~ Answered: "Today's simple model" (Dewi, 2026-10-10): at Low a landmark is drawn from its procedural plan, as built.
+- ✅ ~~**Click a wall for its ⓘ in 3D**: wanted?~~ Answered: "Yes, click parts in 3D" (Dewi, 2026-10-10). Agreed, **not built in phase 1**: phase 2 builds it with the textures (the loader already keeps the triangle-to-part table); it has a line in the todo file.
 - ✅ ~~**Order**: Carreg Cennen or Dinefwr first?~~ Answered: Dinefwr is next after the forts (Dewi,
   2026-10-10). Its plan is still the less well documented, so its research gaps come first.

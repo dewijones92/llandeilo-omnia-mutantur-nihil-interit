@@ -1,6 +1,7 @@
 import { ImportMeshAsync, Matrix, Mesh, Vector3, VertexBuffer, VertexData, type Scene } from './babylon.ts';
 import type { Level } from '../domain/lod.ts';
 import type { Ground } from './buildings.ts';
+import { SHADE_BOTTOM } from './sculpt.ts';
 
 /** Where a landmark's model goes in the world: its grid reference in world units, its ground there, and its setting's scale. */
 export interface LandmarkFrame {
@@ -60,7 +61,6 @@ function partExtras(metadata: unknown): PartExtras | undefined {
 // result back so x is east, y up and z north, in metres from the anchor. The probe proves it on every load.
 const TO_EAST_UP_NORTH = Matrix.Scaling(-1, 1, -1);
 const PROBE_LIMIT = 0.5;
-const SHADE_FOOT = 0.8;
 
 interface Buffers {
   readonly positions: number[];
@@ -192,7 +192,7 @@ function appendFitted(
   // The same darkening towards the foot that the procedural builder gives every part (Sculpt's band).
   const top = heights.reduce((a, b) => Math.max(a, b), 1e-6);
   const shade = (k: number): number =>
-    SHADE_FOOT + (1 - SHADE_FOOT) * Math.min(1, Math.max(0, (heights[k] ?? 0) / top));
+    SHADE_BOTTOM + (1 - SHADE_BOTTOM) * Math.min(1, Math.max(0, (heights[k] ?? 0) / top));
   for (let t = 0; t + 2 < indices.length; t += 3) {
     const corners = [indices[t] ?? 0, indices[t + 1] ?? 0, indices[t + 2] ?? 0];
     const [a, b, c] = corners.map((k) => [

@@ -1172,3 +1172,34 @@ by its own size puts its tip tens of metres from the spot, which defeats a pin w
 Lesson: **a test that names something no view contains
 asserts nothing**; find the scene that has it or do not claim it.
 
+### The Blender pipeline: second-Opus re-review of the fixes (2026-10-10)
+
+A second pass over the first review's fixes found four IMPORTANT points, each verified before it was fixed
+([ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md), second amendment). Jay Lane's page was
+re-read directly: it contradicts itself on its turf (summary "revealed earth ramparts revetted with turf", excavation
+section "no trace of a rampart bank... must have been provided with a turf revetment"), so the turf kit now says so
+and cites Dinefwr's own inference from Fort 1's ditch fill; the gate and interval towers' ⓘ no longer credit Jay Lane
+with height or roof, and the six-post corner tower is "assumed", as its page says. The script's "every measurement is a
+kit parameter" claim was untrue in six places; a test that rejects bare decimals in the drawing functions (colours
+passed to `shade` or `jitter` and `0.5` apart) listed them against the old script, and each is now a kit parameter or a
+named constant. The ADR's "main bundle did not grow" compared two different days' builds: main is 535,397 bytes and the
+branch merged with it 543,954 (+8,557, mostly `kits.ts`'s text), now recorded in CLAUDE.md as well.
+
+Seen red: the bare-decimal test (13 hits on the old script), the wall bounds test (every wall shifted 5m east:
+"fort1/breastwork-ne-0 west: expected 33.9 to be at most 29.2"), the node-transform reader (a part under a shifted
+group read at the origin when the world matrix was ignored), the forts' Jay Lane wording (against the first-review
+`forts.ts`), the turf kit (against the old `kits.ts`), and the Low-mid-session e2e (with the card's open-part memory
+removed: `tower` open expected true, got false). Lessons: **a node's mesh bounds are only scene positions if its
+ancestors are untransformed, so assert that, or compose the matrices**; and **a doc's "did not grow" needs the same
+build on both sides, on the same day, from the same merge**.
+
+Also: a card keeps its open parts when a model finishes loading or Low is chosen, and its kits heading says "in the
+close-up model" (the far level draws none); a kit's sources show on the card; `npm run models` rebuilds when the
+installed Blender differs from the one a model records, and `sheets.ts` counts towards staleness; a second `--force`
+run gave byte-identical glbs and index. Dewi's three answers of the day (commit the glbs, Low shows today's simple
+model, click parts in 3D) are in the decision log, the note and the ADR; clicking parts is agreed and not built.
+Checks: `npm run check` green (572 tests, branches 90.6%); full e2e on a fresh build, `E2E_WORKERS=1`, 77 tests: 76
+passed, 1 skipped (the stored-quality test), 14.3 minutes, no hang and no "never ready" failure with fis-worker
+stopped. Looked at on the GPU (`tools/shot.mjs`, WebGL, High) at AD 80, 84 and 110, radius 60, and a close-up at AD 84:
+Fort 1's turf bank, breastwork and thatched halls at 80; Fort 2 with shingled towers and the settlement at 84 and 110.
+

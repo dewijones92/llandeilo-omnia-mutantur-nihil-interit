@@ -5,6 +5,9 @@ import type { Material, Part } from './plan.ts';
  * and its fallback cannot drift apart (ADR 0053). Metres, in the plan's own scale before a setting scales it.
  */
 
+/** The roof a tower or hall has when its plan names no material. */
+export const DEFAULT_ROOF: Material = 'slate';
+
 /** Metres a part raised off the ground (a walkway, a granary) reaches below its floor. */
 export const RAISED_DROP = 0.4;
 
@@ -27,7 +30,7 @@ export const TOWER_ROOF = {
 export const HALL_ROOF = { alongOver: 0.4, acrossOver: 0.5, pitch: 0.45 } as const;
 
 export function towerRoofSpec(t: Extract<Part, { type: 'tower' }>): RoofSpec | null {
-  const material = t.roofMaterial ?? 'slate';
+  const material = t.roofMaterial ?? DEFAULT_ROOF;
   switch (t.top) {
     case 'pyramid':
     case 'cone': {
@@ -52,7 +55,7 @@ export function hallRoofRise(width: number, pitch: number | undefined): number {
 }
 
 export function hallRoofSpec(h: Extract<Part, { type: 'hall' }>): RoofSpec | null {
-  const material = h.roofMaterial ?? 'slate';
+  const material = h.roofMaterial ?? DEFAULT_ROOF;
   switch (h.roof) {
     case 'gable':
     case 'hip':

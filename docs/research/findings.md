@@ -292,6 +292,16 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   and a walled ground storey are a separate imagined kit (`tower-boarding`), and the interval tower's posts
   are drawn at the same 0.4m as the gate posts, an analogy the ⓘ says so about.
 
+- **Jay Lane (roman:S16) contradicts itself on its turf** (found 2026-10-10, second-Opus re-review of the Blender
+  models; the page was re-read directly). Its opening summary says "Excavations revealed earth ramparts revetted
+  with turf", but its excavation section says "No trace of a rampart bank was found, nor were there any postholes
+  for a timber-framed rampart or palisade" and that the rampart "must have been provided with a turf revetment",
+  a suggestion backed by the character of the ditch filling. So the revetment is a suggestion, and the turf-courses
+  kit no longer says it is "recorded". Dinefwr's own turf rampart is a separate inference, from the clay fill of
+  Fort 1's inner ditch (roman:S1), and the kit cites S1 for it. The page also gives the corner tower as
+  "assumed" to have had six posts (four found), and no height or roof for any tower; the gate and interval
+  towers' ⓘ now credit it with post layout and plan size only.
+
 ## Decisions the research drove
 
 | Decision | Based on |

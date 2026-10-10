@@ -6,6 +6,8 @@ export interface GlbNode {
   readonly children?: readonly number[];
   readonly translation?: readonly number[];
   readonly rotation?: readonly number[];
+  readonly scale?: readonly number[];
+  readonly matrix?: readonly number[];
   extras?: Record<string, unknown>;
 }
 
@@ -100,7 +102,67 @@ export function glbCounts(json: GlbJson): { readonly triangles: number; readonly
   return { triangles, drawCalls };
 }
 
-/** The box a node's mesh fills, in glTF axes (x east, y up, z south), from its position accessors; undefined for a node with no mesh. */
+type Mat = readonly number[];
+
+const IDENTITY: Mat = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+
+function mul(a: Mat, b: Mat): Mat {
+  const out: number[] = [];
+  for (let c = 0; c < 4; c++)
+    for (let r = 0; r < 4; r++) {
+      let sum = 0;
+      for (let k = 0; k < 4; k++) sum += (a[k * 4 + r] ?? 0) * (b[c * 4 + k] ?? 0);
+      out.push(sum);
+    }
+  return out;
+}
+
+/** A node's own transform as a column-major matrix: its `matrix`, or translation, rotation (a quaternion) and scale. */
+function localMatrix(n: GlbNode): Mat {
+  if (n.matrix) return n.matrix;
+  const [x = 0, y = 0, z = 0, w = 1] = n.rotation ?? [];
+  const [sx = 1, sy = 1, sz = 1] = n.scale ?? [];
+  const [tx = 0, ty = 0, tz = 0] = n.translation ?? [];
+  return [
+    (1 - 2 * (y * y + z * z)) * sx,
+    2 * (x * y + z * w) * sx,
+    2 * (x * z - y * w) * sx,
+    0,
+    2 * (x * y - z * w) * sy,
+    (1 - 2 * (x * x + z * z)) * sy,
+    2 * (y * z + x * w) * sy,
+    0,
+    2 * (x * z + y * w) * sz,
+    2 * (y * z - x * w) * sz,
+    (1 - 2 * (x * x + y * y)) * sz,
+    0,
+    tx,
+    ty,
+    tz,
+    1,
+  ];
+}
+
+/** A node's transform in the scene: its own, then each ancestor's. */
+export function worldMatrix(json: GlbJson, node: GlbNode): Mat {
+  let m = localMatrix(node);
+  let at: GlbNode = node;
+  for (let depth = 0; depth < 64; depth++) {
+    const here = at;
+    const parent = json.nodes.find((p) => p.children?.some((c) => json.nodes[c] === here));
+    if (!parent) return m;
+    m = mul(localMatrix(parent), m);
+    at = parent;
+  }
+  throw new Error('glb node tree is deeper than 64 levels or loops');
+}
+
+/** True if the node and every ancestor sit at the origin, unturned and unscaled: its vertices are already scene positions. */
+export function hasIdentityTransform(json: GlbJson, node: GlbNode): boolean {
+  return worldMatrix(json, node).every((v, i) => Math.abs(v - (IDENTITY[i] ?? 0)) < 1e-6);
+}
+
+/** The box a node's mesh fills in the scene, in glTF axes (x east, y up, z south): its position accessors' boxes carried through the node's world matrix; undefined for a node with no mesh. */
 export function nodeBounds(
   json: GlbJson,
   node: GlbNode,
@@ -108,14 +170,23 @@ export function nodeBounds(
   | { readonly min: readonly [number, number, number]; readonly max: readonly [number, number, number] }
   | undefined {
   if (node.mesh === undefined) return undefined;
+  const world = worldMatrix(json, node);
   const min: [number, number, number] = [Infinity, Infinity, Infinity];
   const max: [number, number, number] = [-Infinity, -Infinity, -Infinity];
   for (const p of json.meshes?.[node.mesh]?.primitives ?? []) {
     const a = p.attributes?.POSITION === undefined ? undefined : json.accessors?.[p.attributes.POSITION];
     if (!a?.min || !a.max) continue;
-    for (let i = 0; i < 3; i++) {
-      min[i] = Math.min(min[i] ?? Infinity, a.min[i] ?? Infinity);
-      max[i] = Math.max(max[i] ?? -Infinity, a.max[i] ?? -Infinity);
+    for (let corner = 0; corner < 8; corner++) {
+      const local = [0, 1, 2].map((i) => ((corner >> i) & 1 ? a.max?.[i] : a.min?.[i]) ?? 0);
+      for (let i = 0; i < 3; i++) {
+        const v =
+          (world[i] ?? 0) * (local[0] ?? 0) +
+          (world[4 + i] ?? 0) * (local[1] ?? 0) +
+          (world[8 + i] ?? 0) * (local[2] ?? 0) +
+          (world[12 + i] ?? 0);
+        min[i] = Math.min(min[i] ?? Infinity, v);
+        max[i] = Math.max(max[i] ?? -Infinity, v);
+      }
     }
   }
   return Number.isFinite(min[0]) ? { min, max } : undefined;

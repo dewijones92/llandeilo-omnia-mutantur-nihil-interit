@@ -4,8 +4,11 @@ Run headless: blender -b --factory-startup -P tools/models/build_landmark.py -- 
 
 TypeScript decides, Blender dresses: every measurement comes from the sheet, worked out by
 src/domain/buildsheet.ts from the typed plan and the kit catalogue (src/content/kits.ts). This script
-holds no history. Every measurement of a detail comes from a kit's parameters; what it adds on its own
-claims nothing: bevels, a small, seeded variation in colour, and the named joins below that sit out of sight.
+holds no history. Every measurement of a detail comes from a kit's parameters, and a test (tests/models.test.ts)
+fails on a bare decimal in a drawing function. What the script adds on its own claims nothing, and is the named
+constants below: STEP and BEVEL (mesh resolution and edge rounding), GAP (the visible seam between boards),
+FACE_*/BACK_* (where a leaf's boards and ledges sit across its thickness), HIDDEN_JOIN (where timbers meet out of
+sight), ROLL_SIDES, CUT_FACE (a colour) and a small, seeded variation in colour.
 
 Blender X is east, Y is north and Z is up, in metres from the feature's grid reference, which is kept
 in the scene's custom properties, never in vertex positions.
@@ -26,6 +29,9 @@ BLENDER = (4, 0)
 STEP = 6.0
 BEVEL = 0.025
 GAP = 0.03
+ROLL_SIDES = 8
+CUT_FACE = (0.78, 0.72, 0.6)  # a turf bank's cut faces: darker earth, a colour and not a size
+EPSILON = 1e-6
 # Where a gate leaf's boards and ledges sit across its thickness, as shares of it: placement, not a measurement.
 FACE_AT, FACE_SHARE, BACK_AT, BACK_SHARE = 0.15, 0.5, 0.25, 0.4
 HIDDEN_JOIN = 0.05  # where two timbers meet inside the thatch or under a board: never seen, so no kit measures it
@@ -253,7 +259,7 @@ def turf_bank(m, sheet, part, path, col, half):
     n = max(2, round(s["top"] / course))
     top_half = half * s["taper"]
     grass = col
-    cut = (col[0] * 0.78, col[1] * 0.72, col[2] * 0.6)
+    cut = tuple(c * f for c, f in zip(col, CUT_FACE))
     widths = [half + (top_half - half) * k / (n - 1) for k in range(n)]
     right = [(widths[0], s["bottom"])]
     for k, w in enumerate(widths):
@@ -266,7 +272,7 @@ def turf_bank(m, sheet, part, path, col, half):
     cols = []
     for i in range(len(section)):
         a, b = section[i], section[(i + 1) % len(section)]
-        flat = abs(a[1] - b[1]) < 1e-6
+        flat = abs(a[1] - b[1]) < EPSILON
         cols.append(m.jitter(grass, 0.05) if flat else m.jitter(cut, 0.06))
     loft_along(m, path, s["closed"], section, cols)
 
@@ -365,7 +371,7 @@ def pyramid(m, sheet, cx, cy, tower_shape, col, shingled):
     slope = math.hypot(w, rise)
     n = max(2, math.ceil(slope / k["course"]))
     for i in range(n):
-        t0, t1 = i / n, min(1, (i + 1) / n + 0.25 / n)
+        t0, t1 = i / n, min(1, (i + 1) / n + k["overlap"] / slope)
         lip = k["lip"]
         lo = rect(cx, cy, 2 * (w * (1 - t0) + lip), 2 * (w * (1 - t0) + lip), turn)
         hi = rect(cx, cy, 2 * w * (1 - t1), 2 * w * (1 - t1), turn) if t1 < 1 else None
@@ -394,7 +400,7 @@ def hall(m, sheet, part, near):
     if "plank-deck" in kits:
         deck(m, sheet, part, col)
         return
-    cx, cy = (0.0, 0.0) if hinge else s["at"]
+    cx, cy = (0, 0) if hinge else s["at"]
     if hinge:
         cx = s["length"] / 2
     turn = 0 if hinge else s["turn"]
@@ -412,7 +418,7 @@ def framed(m, sheet, part, col, cx, cy, turn):
     s = part["shape"]
     k = sheet["kits"]["timber-frame"]
     timber = rgb(sheet["palette"]["timber"])
-    m.box(cx, cy, s["length"] - 0.06, s["width"] - 0.06, s["bottom"], s["top"], turn, m.jitter(col, 0.04))
+    m.box(cx, cy, s["length"] - 2 * k["setIn"], s["width"] - 2 * k["setIn"], s["bottom"], s["top"], turn, m.jitter(col, 0.04))
     corners = rect(0, 0, s["length"], s["width"], 0)
     for i in range(4):
         a, b = corners[i], corners[(i + 1) % 4]
@@ -427,7 +433,7 @@ def framed(m, sheet, part, col, cx, cy, turn):
             post(cx + px, cy + py, k["post"], k["post"], s["bottom"], s["top"], turn + heading, m.jitter(shade(timber, 0.9), 0.05))
         mx, my = turned((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, turn)
         for z0, z1 in ((max(s["bottom"], 0), max(s["bottom"], 0) + k["sill"]), (s["top"] - k["plate"], s["top"])):
-            m.timber(cx + mx, cy + my, length + k["post"], k["post"] * 0.8, z0, z1, turn + heading, m.jitter(timber, 0.05))
+            m.timber(cx + mx, cy + my, length + k["post"], k["beam"], z0, z1, turn + heading, m.jitter(timber, 0.05))
 
 
 def gable(m, sheet, part, roof, cx, cy, turn, col, wall_col, kits):
@@ -466,15 +472,15 @@ def gable(m, sheet, part, roof, cx, cy, turn, col, wall_col, kits):
             faces = [(0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)]
             m.solid(verts, faces, [m.jitter(col, 0.05)] * 6)
         roll = roof_kit["roll"]
-        ring = [(math.cos(a) * roll, math.sin(a) * roll) for a in (math.pi * i / 4 for i in range(8))]
-        rings = [[at(x, y, top + rise + t * 0.6 + z) for y, z in ring] for x in (-L - HIDDEN_JOIN, L + HIDDEN_JOIN)]
+        ring = [(math.cos(a) * roll, math.sin(a) * roll) for a in (2 * math.pi * i / ROLL_SIDES for i in range(ROLL_SIDES))]
+        rings = [[at(x, y, top + rise + roof_kit["rollSeat"] + z) for y, z in ring] for x in (-L - HIDDEN_JOIN, L + HIDDEN_JOIN)]
         m.loft(rings, [shade(col, 0.92)] * 8)
         return
     slope = math.hypot(W, rise)
     n = max(2, math.ceil(slope / roof_kit["course"]))
     for side in (-1, 1):
         for i in range(n):
-            t0, t1 = i / n, min(1, (i + 1) / n + 0.3 / n)
+            t0, t1 = i / n, min(1, (i + 1) / n + roof_kit["overlap"] / slope)
             y0, y1 = side * W * (1 - t0), side * W * (1 - t1)
             z0, z1 = top + rise * t0 - roof_kit["lip"], top + rise * t1
             th = roof_kit["thickness"]
@@ -522,7 +528,7 @@ def leaf(m, sheet, part, col):
     for z in heights:
         m.timber(length / 2, back, length - k["ledge"], width * BACK_SHARE, z - k["ledge"] / 2, z + k["ledge"] / 2, 0, ledge_col)
     for lo, hi in ((0, 1), (1, 2)):
-        m.beam((k["ledge"], back, heights[lo]), (length - k["ledge"], back, heights[hi]), k["ledge"] * 0.8, width * BACK_SHARE, ledge_col)
+        m.beam((k["ledge"], back, heights[lo]), (length - k["ledge"], back, heights[hi]), k["brace"], width * BACK_SHARE, ledge_col)
 # Objects, collections and export -------------------------------------------------------------------
 
 

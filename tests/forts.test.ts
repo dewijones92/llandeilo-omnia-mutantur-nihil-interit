@@ -463,12 +463,28 @@ describe('what the notes say no more than the sources do', () => {
     expect(v).toContain('darnau teilsen Rufeinig');
   });
 
-  it('says one corner tower was found at Jay Lane, thought to be six-post from four posts, not that towers were excavated', () => {
+  it('says one corner tower was found at Jay Lane, assumed to be six-post from four posts, not that towers were excavated', () => {
     const c = parts('roman-fort-a').find((p) => p.id === 'fort1/corner-tower-ne');
     const t = text(c?.provenance);
     expect(t).not.toContain('towers on six posts');
-    expect(t).toContain('thought to have stood on six posts');
+    expect(t).toContain('assumed to have stood on six posts');
     expect(t).toContain('four were found');
+  });
+
+  it('credits Jay Lane with post layout and plan size only, never the height or roof of a gate or interval tower', () => {
+    const towers = ['roman-fort-a', 'roman-fort-b'].flatMap((id) =>
+      parts(id).filter((p) => /\/tower|interval-tower/.test(p.id ?? '')),
+    );
+    expect(towers.length).toBeGreaterThan(4);
+    let cited = 0;
+    for (const p of towers) {
+      const t = text(p.provenance);
+      if (!t.includes('Jay Lane')) continue;
+      cited++;
+      expect(t, p.id).not.toMatch(/height and roof are analogy|its height and roof are analogy/);
+      expect(t, p.id).toMatch(/(height|roof)[^.]*(guess|not given)/);
+    }
+    expect(cited).toBeGreaterThan(0);
   });
 
   it('does not cite a wider berm between Fort 2’s second and third ditches without saying it is not drawn', () => {

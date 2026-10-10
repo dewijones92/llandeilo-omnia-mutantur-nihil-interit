@@ -8,7 +8,7 @@ import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { liesOnGround, MODEL_BUDGET, PROBE, type BuildSheet } from '../src/domain/buildsheet.ts';
 import type { Feature } from '../src/domain/model.ts';
 import { KIT_IDS, type Part } from '../src/domain/plan.ts';
-import { glbCounts, nodeBounds, readGlb, type GlbJson } from '../tools/models/glb.ts';
+import { glbCounts, hasIdentityTransform, nodeBounds, readGlb, type GlbJson } from '../tools/models/glb.ts';
 import { inputHash, sheets } from '../tools/models/sheets.ts';
 
 const root = join(import.meta.dirname, '..');
@@ -145,12 +145,113 @@ describe('the Blender landmark models (ADR 0053)', () => {
     expect(checked).toBeGreaterThan(60);
   });
 
+  it('lays every wall along its path, as wide as its thickness, from its foot to its top, so a shifted or squashed bank is caught', () => {
+    let checked = 0;
+    for (const m of LANDMARK_MODELS) {
+      const sheet = sheetOf(m.feature);
+      for (const level of LEVELS) {
+        const json = glb(m[level].file);
+        for (const { node, id } of partNodes(json)) {
+          const s = sheet.parts.find((p) => p.id === id)?.shape;
+          if (s?.type !== 'wall') continue;
+          const box = nodeBounds(json, node);
+          expect(box, id).toBeDefined();
+          if (!box) continue;
+          const east = s.path.map((p) => p[0]);
+          const north = s.path.map((p) => p[1]);
+          // glTF x is east and z is minus north.
+          const got = { w: box.min[0], e: box.max[0], s: -box.max[2], n: -box.min[2] };
+          const near = 0.1;
+          expect(got.w, `${id} west`).toBeLessThanOrEqual(Math.min(...east) + near);
+          expect(got.e, `${id} east`).toBeGreaterThanOrEqual(Math.max(...east) - near);
+          expect(got.s, `${id} south`).toBeLessThanOrEqual(Math.min(...north) + near);
+          expect(got.n, `${id} north`).toBeGreaterThanOrEqual(Math.max(...north) - near);
+          expect(got.w, `${id} west edge`).toBeGreaterThanOrEqual(Math.min(...east) - s.thickness);
+          expect(got.e, `${id} east edge`).toBeLessThanOrEqual(Math.max(...east) + s.thickness);
+          expect(got.s, `${id} south edge`).toBeGreaterThanOrEqual(Math.min(...north) - s.thickness);
+          expect(got.n, `${id} north edge`).toBeLessThanOrEqual(Math.max(...north) + s.thickness);
+          expect(box.min[1], `${id} foot`).toBeCloseTo(s.bottom, 1);
+          expect(box.max[1], `${id} top`).toBeGreaterThanOrEqual(s.top - 0.05);
+          expect(box.max[1], `${id} top`).toBeLessThanOrEqual(s.top + 0.5);
+          checked++;
+        }
+      }
+    }
+    expect(checked).toBeGreaterThan(30);
+  });
+
+  it('leaves every node at the origin, unturned and unscaled, except the hinged leaves and the probe, so the bounds the tests read are scene positions', () => {
+    for (const m of LANDMARK_MODELS)
+      for (const level of LEVELS) {
+        const json = glb(m[level].file);
+        const moved = json.nodes
+          .filter((n) => n.extras?.['hinge'] === undefined && !n.name?.startsWith('_probe'))
+          .filter((n) => !hasIdentityTransform(json, n))
+          .map((n) => n.name);
+        expect(moved, `${m.feature} ${level}`).toEqual([]);
+      }
+  });
+
   it('uses every kit measurement in the Blender script, and the script reads no measurement a kit does not hold', () => {
     const script = readFileSync(join(root, 'tools/models/build_landmark.py'), 'utf8');
     const held = new Set(KIT_IDS.flatMap((id) => Object.keys(kitParams(id))));
     const read = new Set([...script.matchAll(/\b(?:k|b|roof_kit)\["([a-zA-Z]+)"\]/g)].map((x) => x[1] ?? ''));
     expect([...held].filter((n) => !read.has(n))).toEqual([]);
     expect([...read].filter((n) => !held.has(n))).toEqual([]);
+  });
+
+  it('draws every detail from a kit measurement or a named script constant: no bare number in a drawing function', () => {
+    const script = readFileSync(join(root, 'tools/models/build_landmark.py'), 'utf8');
+    const drawing = [
+      'wall',
+      'turf_bank',
+      'breastwork',
+      'tower',
+      'post_tower',
+      'boarded',
+      'pyramid',
+      'hall',
+      'framed',
+      'gable',
+      'deck',
+      'leaf',
+    ];
+    const bodyOf = (name: string): string => {
+      const start = script.indexOf(`\ndef ${name}(`);
+      expect(start, name).toBeGreaterThan(-1);
+      const rest = script.slice(start + 1);
+      const end = rest.slice(1).search(/\n(def |class |# )/);
+      return end < 0 ? rest : rest.slice(0, end + 1);
+    };
+    // A colour is not a measurement: drop whole shade(...) and jitter(...) calls before looking.
+    const withoutColour = (code: string): string => {
+      let out = code;
+      for (;;) {
+        const m = /\b(?:shade|jitter)\(/.exec(out);
+        if (!m) return out;
+        let depth = 1;
+        let i = m.index + m[0].length;
+        while (depth > 0 && i < out.length) {
+          depth += out[i] === '(' ? 1 : out[i] === ')' ? -1 : 0;
+          i++;
+        }
+        out = `${out.slice(0, m.index)}COLOUR${out.slice(i)}`;
+      }
+    };
+    // Whole numbers here are mesh topology (vertex indices), counts and halving; half a unit is centring. Any
+    // other decimal is a measurement and belongs in a kit.
+    const allowed = new Set(['0.5']);
+    const bare: string[] = [];
+    for (const name of drawing) {
+      const code = withoutColour(bodyOf(name))
+        .split('\n')
+        .filter((l) => !/^\s*("""|#)/.test(l))
+        .map((l) => l.replace(/#.*$/, '').replace(/"[^"]*"/g, '""'))
+        .join('\n');
+      for (const m of code.matchAll(/(?<![\w.])(\d+\.\d+(?:e-?\d+)?|\d+e-?\d+)(?![\w])/g))
+        if (!allowed.has(m[1] ?? '')) bare.push(`${name}: ${m[0]}`);
+    }
+    expect(bare).toEqual([]);
   });
 
   it('takes the roof and footing proportions the procedural builder draws from src/domain/proportions.ts, as the build sheet does', () => {
@@ -271,6 +372,19 @@ describe('the detail kits a model may draw', () => {
     expect(text('tower-boarding')).toMatch(/guess/);
   });
 
+  it('say that Jay Lane contradicts itself on its turf, never that turf revetments are recorded there, and cite Dinefwr’s own inference from Fort 1’s ditch fill', () => {
+    const p = kitInfo('turf-courses').provenance;
+    const basis = p.kind === 'reconstructed' ? p.basis : undefined;
+    for (const lang of ['en', 'cy'] as const) {
+      expect(basis?.[lang], lang).not.toMatch(/recorded at Jay Lane|Cofnodir wynebau tyweirch/);
+    }
+    expect(basis?.en).toMatch(/contradicts itself/);
+    expect(basis?.en).toMatch(/ditch/);
+    expect(basis?.cy).toMatch(/gwrth-ddweud/);
+    expect(p.sources.map(String)).toContain('fort:S1');
+    expect(p.sources.map(String)).toContain('fort:S16');
+  });
+
   it('take every measurement from the catalogue as a positive number of metres', () => {
     for (const id of KIT_IDS) {
       const params = Object.values(kitParams(id));
@@ -304,5 +418,31 @@ describe('the detail kits a model may draw', () => {
           expect(p.type === 'tower' && p.material, p.id).toBe('timber');
       }
     }
+  });
+});
+
+describe('reading a glTF node’s place', () => {
+  const json: GlbJson = {
+    asset: { version: '2.0' },
+    nodes: [
+      { name: 'group', children: [1], translation: [10, 0, -20] },
+      { name: 'part', mesh: 0 },
+      { name: 'turned', mesh: 0, rotation: [0, Math.SQRT1_2, 0, Math.SQRT1_2] },
+    ],
+    meshes: [{ primitives: [{ attributes: { POSITION: 0 } }] }],
+    accessors: [{ count: 8, min: [-1, 0, -2], max: [1, 3, 2] }],
+  };
+
+  it('carries a part’s box through its parents’ transforms, so a part under a shifted group is not read at the origin', () => {
+    const part = json.nodes[1];
+    expect(part && nodeBounds(json, part)).toEqual({ min: [9, 0, -22], max: [11, 3, -18] });
+    expect(part && hasIdentityTransform(json, part)).toBe(false);
+  });
+
+  it('turns a box with its node: a quarter turn about +Y swaps its width and depth', () => {
+    const turned = json.nodes[2];
+    const box = turned && nodeBounds(json, turned);
+    expect(box?.max[0]).toBeCloseTo(2, 6);
+    expect(box?.max[2]).toBeCloseTo(1, 6);
   });
 });

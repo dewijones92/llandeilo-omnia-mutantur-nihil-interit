@@ -322,8 +322,8 @@ function cornerTowers(shape: FortShape, p: string): Part[] {
       `${p}/corner-tower-${s}`,
       { en: `Corner tower, ${CORNER_EN[s]}`, cy: `Tŵr cornel, ${CORNER_CY[s]}` },
       reconstructed(
-        'No corner tower is evidenced at either fort. One is drawn at each rounded corner by analogy: a corner tower at Jay Lane, a 1st-century earth fort in Herefordshire, thought to have stood on six posts (four were found), was about 4.6m by 2.4m.',
-        'Ni cheir tystiolaeth o dŵr cornel yn yr un gaer. Tynnir un ar bob cornel gron ar sail cymariaethau: roedd tŵr cornel yn Jay Lane, caer bridd o’r 1af ganrif yn Swydd Henffordd, y credir iddo sefyll ar chwe phostyn (canfuwyd pedwar), tua 4.6m wrth 2.4m.',
+        'No corner tower is evidenced at either fort. One is drawn at each rounded corner by analogy: a corner tower at Jay Lane, a 1st-century earth fort in Herefordshire, assumed to have stood on six posts (four were found), measured about 4.6m by 2.4m; its height and roof are not given.',
+        'Ni cheir tystiolaeth o dŵr cornel yn yr un gaer. Tynnir un ar bob cornel gron ar sail cymariaethau: roedd tŵr cornel yn Jay Lane, caer bridd o’r 1af ganrif yn Swydd Henffordd, y tybir iddo sefyll ar chwe phostyn (canfuwyd pedwar), tua 4.6m wrth 2.4m; ni roddir ei uchder na’i do.',
         ['fort:S16'],
       ),
       true,
@@ -431,8 +431,8 @@ const FORT_1_GATES: readonly GateSpec[] = [
     name: { en: 'South-west gate', cy: 'Porth de-orllewin' },
     towers: {
       right: evidencedTowers(
-        'The south-west gateway is evidenced: four square post-pits, up to 1.2m across, probably belong to a large six-post gate tower (Trench 1). This is the tower on the north side, the one found, the right-hand one looking out; its height and roof are analogy (timber gate towers on posts at Jay Lane).',
-        'Ceir tystiolaeth o’r fynedfa de-orllewinol: mae pedwar pwll postyn sgwâr, hyd at 1.2m ar eu traws, yn ôl pob tebyg yn perthyn i dŵr porth mawr chwe postyn (Ffos Brawf 1). Hwn yw’r tŵr ar yr ochr ogleddol, yr un a ganfuwyd, yr un ar y dde wrth edrych allan; dyfaliad ar sail cymariaethau yw ei uchder a’i do (tyrau porth pren ar byst yn Jay Lane).',
+        'The south-west gateway is evidenced: four square post-pits, up to 1.2m across, probably belong to a large six-post gate tower (Trench 1). This is the tower on the north side, the one found, the right-hand one looking out; its height and roof are a guess: Jay Lane, an earth fort in Herefordshire, gives timber gate towers’ post layout and plan size, and no height or roof.',
+        'Ceir tystiolaeth o’r fynedfa de-orllewinol: mae pedwar pwll postyn sgwâr, hyd at 1.2m ar eu traws, yn ôl pob tebyg yn perthyn i dŵr porth mawr chwe postyn (Ffos Brawf 1). Hwn yw’r tŵr ar yr ochr ogleddol, yr un a ganfuwyd, yr un ar y dde wrth edrych allan; dyfaliad yw ei uchder a’i do: dim ond cynllun pyst a maint plan tyrau porth pren a roddir gan Jay Lane, caer bridd yn Swydd Henffordd, ac nid uchder na tho.',
       ),
       left: gateNote(
         'This tower is the twin of the one found on the north side of the south-west gateway, across the passage. Nothing of it was found; it is drawn by analogy, as is its height and roof.',
@@ -522,8 +522,8 @@ function fort1Parts(): Part[] {
     { en: 'Interval tower, north-east rampart', cy: 'Tŵr rhyngol, rhagfur gogledd-ddwyreiniol' },
     documented(
       ['fort:S1'],
-      'A four-post structure, probably an interval tower, was found on the north-east inner rampart near the eastern corner (survey). Its 3m size and its height and roof are analogy (four-post interval towers about 2.4 to 3m square at Jay Lane).',
-      'Cafwyd adeilad pedwar postyn, tŵr rhyngol yn ôl pob tebyg, ar y rhagfur mewnol gogledd-ddwyreiniol ger y gornel ddwyreiniol (arolwg). Dyfaliad ar sail cymariaethau yw ei faint 3m, ei uchder a’i do (tyrau rhyngol pedwar postyn tua 2.4 i 3m sgwâr yn Jay Lane).',
+      'A four-post structure, probably an interval tower, was found on the north-east inner rampart near the eastern corner (survey). Its 3m size is analogy (Jay Lane’s four-post interval towers are about 2.4 to 3m square); its height and roof are a guess, since Jay Lane’s page gives plan sizes only.',
+      'Cafwyd adeilad pedwar postyn, tŵr rhyngol yn ôl pob tebyg, ar y rhagfur mewnol gogledd-ddwyreiniol ger y gornel ddwyreiniol (arolwg). Cymhariaeth yw ei faint 3m (mae tyrau rhyngol pedwar postyn Jay Lane tua 2.4 i 3m sgwâr); dyfaliad yw ei uchder a’i do, gan mai dim ond meintiau plan a roddir ar dudalen Jay Lane.',
     ),
     true,
     { kits: ['post-tower-four', 'tower-boarding', ...ROOFED] },
