@@ -1012,3 +1012,23 @@ it is defensive only.
    glides on and the followed pin can end up hidden behind a neighbour; pausing before letting go (the
    fling window is 80 ms) made each drag move the land by exactly the cursor's travel. Bundle: the main
    chunk is 508,785 bytes gzipped after the merge.
+2. **The LiDAR terrain merged into the map-style camera and welcome, and the review of the photo merge
+   fixed** (branch `feat/map-style-camera`, Claude under the proactive mandate). `main` had taken ADRs
+   0045 to 0049 (the forts, the GPU kit, the LiDAR terrain) since the last merge, so the camera and welcome
+   ADRs are now [0050](../adr/0050-map-style-camera-controls.md) and
+   [0051](../adr/0051-one-welcome-panel.md); the fourth renumbering. Conflicts: `main.ts` (`controls.tick`
+   next to `features.setViewer`; the welcome-at-start callback next to the richer debug object), the
+   ADR index, `CLAUDE.md`'s performance line and the build, decision and test logs (both sides kept; the
+   long test rows merged word by word). Review fixes: the pin-drag test's second leg ("a drag from the
+   land that ends on a pin") could never end on a pin, because the land slides with the cursor and a pin
+   keeps its place relative to it, so it tested only a plain land drag; it is removed, with its claim in
+   `docs/tests/_index.md`. The drag helper now refuses to run unless the press lands on the layer under
+   test, so the pass-through cannot go untested if a layout change moves the pin. The label and the
+   speech bubble pass-through, which no test covered (deleting either `passThrough` line failed nothing),
+   each have a drag test, seen red at the slide with the line removed. The merged full run also turned up
+   one failure that was the merge's, not the review's: the e2e `terrainAt` helper picked only the coarse
+   `terrain` mesh, and the LiDAR leaves a hole in it under each detail tile (whose meshes are not
+   pickable by default), so after a scene's Skip landed on Llandeilo the pick found nothing ("no terrain
+   under 900,520"); it now accepts the `detail-` tiles too. Lesson: **a number is renumbered
+   every time `main` moves, so check the highest ADR at the push, not at the merge** (it moved four times
+   in two days). Bundle: the main chunk is 534,258 bytes gzipped after the merge.

@@ -308,7 +308,7 @@ const moved = (a: CameraState, b: CameraState): number => Math.hypot(b.x - a.x, 
 const settled = (panel: Locator): Promise<unknown> =>
   panel.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
 
-/** The point of the terrain (not a tree or a building) under a screen point. */
+/** The point of the terrain (the coarse mesh or a LiDAR detail tile, not a tree or a building) under a screen point. */
 const terrainAt = (page: Page, x: number, y: number): Promise<{ x: number; z: number }> =>
   page.evaluate(
     ([px, py]) => {
@@ -316,8 +316,10 @@ const terrainAt = (page: Page, x: number, y: number): Promise<{ x: number; z: nu
       const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
       const pick: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'pick') : undefined;
       if (typeof pick !== 'function') throw new Error('no scene.pick');
-      const isTerrain = (m: unknown): boolean =>
-        Boolean(m && typeof m === 'object' && Reflect.get(m, 'name') === 'terrain');
+      const isTerrain = (m: unknown): boolean => {
+        const name: unknown = m && typeof m === 'object' ? Reflect.get(m, 'name') : undefined;
+        return name === 'terrain' || (typeof name === 'string' && name.startsWith('detail-'));
+      };
       const info: unknown = Reflect.apply(pick, scene, [px, py, isTerrain]);
       const p: unknown = info && typeof info === 'object' ? Reflect.get(info, 'pickedPoint') : undefined;
       if (!p || typeof p !== 'object') throw new Error(`no terrain under ${String(px)},${String(py)}`);
@@ -1676,6 +1678,36 @@ test('a pin opens its photograph with the credit and an ⓘ for the date and the
   await expect(panel).toBeHidden();
 });
 
+// Presses, lets go after a pause so the land stops dead rather than gliding on, and refuses to run unless
+// the press really lands on `layer`: otherwise a drag from the bare canvas would pass a test of the pass-through.
+const dragFrom = async (
+  page: Page,
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  layer: string,
+): Promise<void> => {
+  const startsOn = await page.evaluate(
+    ([x, y, selector]) => document.elementFromPoint(x, y)?.closest(selector)?.className ?? 'none',
+    [from.x, from.y, layer] as const,
+  );
+  console.info(
+    `dewidebug e2e drag ${String(Math.round(from.x))},${String(Math.round(from.y))} to ${String(Math.round(to.x))},${String(Math.round(to.y))} starts on=${startsOn} wanted=${layer}`,
+  );
+  expect(startsOn).not.toBe('none');
+  await page.mouse.move(from.x, from.y);
+  await page.mouse.down();
+  await page.mouse.move(to.x, to.y, { steps: 8 });
+  await page.waitForTimeout(200);
+  await page.mouse.up();
+};
+
+const centreOf = async (target: Locator): Promise<{ x: number; y: number }> => {
+  await expect(target).toBeVisible();
+  const box = await target.boundingBox();
+  if (!box) throw new Error('no box for the element to press');
+  return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+};
+
 test('a press on a pin that moves slides the land and opens nothing, the wheel over it zooms, and a click still opens it', async ({
   page,
 }) => {
@@ -1683,42 +1715,16 @@ test('a press on a pin that moves slides the land and opens nothing, the wheel o
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   const panel = page.locator('.photo');
   const pin = page.locator('.pin').filter({ visible: true }).first();
-  const centre = async (): Promise<{ x: number; y: number }> => {
-    await expect(pin).toBeVisible();
-    const box = await pin.boundingBox();
-    if (!box) throw new Error('no pin box');
-    return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
-  };
-  // Each drag pauses before letting go, so the land stops dead rather than gliding on, and the second
-  // slides it back by as much as the first: the pins end where they began.
-  const drag = async (from: { x: number; y: number }, to: { x: number; y: number }): Promise<void> => {
-    console.info(
-      `dewidebug e2e drag ${String(Math.round(from.x))},${String(Math.round(from.y))} to ${String(Math.round(to.x))},${String(Math.round(to.y))} starts on=${await page.evaluate(([x, y]) => document.elementFromPoint(x, y)?.closest('button')?.className ?? document.elementFromPoint(x, y)?.tagName ?? 'none', [from.x, from.y] as const)}`,
-    );
-    await page.mouse.move(from.x, from.y);
-    await page.mouse.down();
-    await page.mouse.move(to.x, to.y, { steps: 8 });
-    await page.waitForTimeout(200);
-    await page.mouse.up();
-  };
   let before = await cameraSettled(page);
-  let at = await centre();
-  await drag(at, { x: at.x - 100, y: at.y + 30 });
+  let at = await centreOf(pin);
+  await dragFrom(page, at, { x: at.x - 100, y: at.y + 30 }, '.pin');
   await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(5);
   expect(Math.abs((await cameraState(page)).alpha - before.alpha)).toBeLessThan(1e-3);
   await page.waitForTimeout(500);
   await expect(panel).toBeHidden();
 
-  // A drag from the land that ends on a pin is still a slide, and no click lands on the pin.
   before = await cameraSettled(page);
-  at = await centre();
-  await drag({ x: at.x + 100, y: at.y - 30 }, at);
-  await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(5);
-  await page.waitForTimeout(500);
-  await expect(panel).toBeHidden();
-
-  before = await cameraSettled(page);
-  at = await centre();
+  at = await centreOf(pin);
   await page.mouse.move(at.x, at.y);
   await page.mouse.wheel(0, -300);
   await expect.poll(async () => (await cameraState(page)).radius).toBeLessThan(before.radius * 0.9);
@@ -1728,6 +1734,41 @@ test('a press on a pin that moves slides the land and opens nothing, the wheel o
   await pin.click();
   await expect(panel).toBeVisible();
   await expect(panel.locator('h2')).toHaveText(p.title);
+});
+
+test('a drag that starts on a speech bubble slides the land and drops its click', async ({ page }) => {
+  await page.goto('./?year=1843&place=llandeilo&radius=200&debug');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const bubble = page.locator('.bubble').filter({ visible: true }).first();
+  const before = await cameraSettled(page);
+  const at = await centreOf(bubble);
+  await dragFrom(page, at, { x: at.x - 100, y: at.y + 30 }, '.bubble');
+  await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(5);
+  expect(Math.abs((await cameraState(page)).alpha - before.alpha)).toBeLessThan(1e-3);
+  await page.waitForTimeout(500);
+  await expect(page.locator('.convo')).toBeHidden();
+});
+
+test('a drag that starts on a place label slides the land without flying there, and the wheel over it zooms', async ({
+  page,
+}) => {
+  await page.goto('./?year=1282&debug');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const label = page.locator('.label', { hasText: 'Talyllychau' });
+  let before = await cameraSettled(page);
+  let at = await centreOf(label);
+  await dragFrom(page, at, { x: at.x + 100, y: at.y - 30 }, '.label');
+  await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(5);
+  await page.waitForTimeout(1500);
+  const after = await cameraState(page);
+  expect(Math.abs(after.alpha - before.alpha)).toBeLessThan(1e-3);
+  expect(Math.abs(after.radius - before.radius)).toBeLessThan(1e-3);
+
+  before = await cameraSettled(page);
+  at = await centreOf(label);
+  await page.mouse.move(at.x, at.y);
+  await page.mouse.wheel(0, -300);
+  await expect.poll(async () => (await cameraState(page)).radius).toBeLessThan(before.radius * 0.9);
 });
 
 test('Escape closes the welcome before the photograph under it, then the photograph', async ({ page }) => {
