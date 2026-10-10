@@ -17,6 +17,7 @@ export { Constants } from '@babylonjs/core/Engines/constants.js';
 export { Engine } from '@babylonjs/core/Engines/engine.js';
 export { WebGPUEngine } from '@babylonjs/core/Engines/webgpuEngine.js';
 export { PointerEventTypes } from '@babylonjs/core/Events/pointerEvents.js';
+export { InputManager } from '@babylonjs/core/Inputs/scene.inputManager.js';
 export { Layer } from '@babylonjs/core/Layers/layer.js';
 export { DirectionalLight } from '@babylonjs/core/Lights/directionalLight.js';
 export { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight.js';

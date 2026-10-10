@@ -109,8 +109,13 @@ curl -sf -o /dev/null "$url" || fail "the preview never answered at $url"
 log "preview pid $preview_pid serving dist at $url"
 
 # Windows needs only the test code: the specs, the src modules they import, and the GPU config.
-tar -cf "$stage/repo.tar" package.json tsconfig.json playwright.gpu.config.ts e2e src \
-  tools/frame-timing.ts tools/gpu
+# Files a spec imports from outside src (lidar.json, frame-timing.ts) are read from the specs' own
+# imports, so a new one cannot be missed: a hand-kept list once left the e2e pass loading nothing.
+spec_imports=$(grep -hoE "from '\.\./[^']+'" e2e/*.ts | sed -E "s/^from '\.\.\/(.*)'$/\1/" | grep -vE '^(src|tools/gpu)/' | sort -u)
+for f in $spec_imports; do [ -e "$f" ] || fail "a spec imports $f, which does not exist"; done
+log "spec imports outside src: $(echo $spec_imports)"
+# shellcheck disable=SC2086
+tar -cf "$stage/repo.tar" package.json tsconfig.json playwright.gpu.config.ts e2e src tools/gpu $spec_imports
 rm -rf "$results"
 mkdir -p "$results"
 node -e "

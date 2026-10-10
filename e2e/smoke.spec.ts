@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 import { CUTSCENES } from '../src/content/cutscenes.ts';
 import { EVENTS } from '../src/content/events.ts';
 import { HARRIES_PHOTOGRAPHS } from '../src/content/photographs.ts';
@@ -104,7 +104,7 @@ test('the 3D view receives the mouse through the overlay layers, and keeps its a
   page.on('console', (m) => {
     if (m.text().includes('dewidebug timeline step')) steps.push(m.text());
   });
-  await page.goto('./?year=1282');
+  await page.goto('./?debug&year=1282');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   const target = await page.evaluate(
     () => document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2)?.id ?? '',
@@ -112,10 +112,13 @@ test('the 3D view receives the mouse through the overlay layers, and keeps its a
   expect(target).toBe('scene');
   await page.mouse.click(1100, 150);
   await expect(page.locator('#scene')).toBeFocused();
+  const before = await cameraState(page);
   await page.keyboard.press('ArrowRight');
   // The counter redraws only on a rendered frame (about 1fps here), so check the logged decision.
   await page.waitForTimeout(1000);
   expect(steps).toEqual([]);
+  // In the 3D view the arrows slide the camera across the land, as WASD does.
+  await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(1);
 });
 
 test('a place label flies the camera in and offers the whole valley back', async ({ page }) => {
@@ -255,18 +258,238 @@ test('the compass shows the heading and turns the view to face north', async ({ 
   const compass = page.locator('.compass');
   const box = await page.locator('#scene').boundingBox();
   if (!box) throw new Error('no canvas');
+  const bearing = async (): Promise<number> => Number(await compass.getAttribute('data-bearing'));
+  // The opening view already faces about 20°, so the test reads a change, not a value.
+  const start = await bearing();
+  const turned = async (): Promise<number> => {
+    const d = Math.abs((await bearing()) - start) % 360;
+    return Math.min(d, 360 - d);
+  };
   await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.3);
-  await page.mouse.down();
+  await page.mouse.down({ button: 'right' });
   await page.mouse.move(box.x + box.width * 0.75, box.y + box.height * 0.3, { steps: 6 });
-  await page.mouse.up();
-  await expect.poll(async () => Number(await compass.getAttribute('data-bearing'))).toBeGreaterThan(10);
+  await page.mouse.up({ button: 'right' });
+  await expect.poll(turned).toBeGreaterThan(10);
   await compass.click();
   await expect(compass).toHaveAttribute('data-bearing', '0', { timeout: 60_000 });
 });
 
-test('tapping the train makes the camera follow it until you stop', async ({ page }) => {
-  await page.goto('./?debug&year=1860');
+interface CameraState {
+  readonly x: number;
+  readonly y: number;
+  readonly z: number;
+  readonly alpha: number;
+  readonly beta: number;
+  readonly radius: number;
+}
+
+const cameraState = (page: Page): Promise<CameraState> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const cam: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+    if (!cam || typeof cam !== 'object') throw new Error('no camera');
+    const t: unknown = Reflect.get(cam, 'target');
+    const n = (o: unknown, k: string): number =>
+      Number(o && typeof o === 'object' ? Reflect.get(o, k) : Number.NaN);
+    return {
+      x: n(t, 'x'),
+      y: n(t, 'y'),
+      z: n(t, 'z'),
+      alpha: n(cam, 'alpha'),
+      beta: n(cam, 'beta'),
+      radius: n(cam, 'radius'),
+    };
+  });
+
+const moved = (a: CameraState, b: CameraState): number => Math.hypot(b.x - a.x, b.z - a.z);
+
+// A screenshot of a panel that is still rising shows it half transparent.
+const settled = (panel: Locator): Promise<unknown> =>
+  panel.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+
+/** The point of the terrain (the coarse mesh or a LiDAR detail tile, not a tree or a building) under a screen point. */
+const terrainAt = (page: Page, x: number, y: number): Promise<{ x: number; z: number }> =>
+  page.evaluate(
+    ([px, py]) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+      const pick: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'pick') : undefined;
+      if (typeof pick !== 'function') throw new Error('no scene.pick');
+      const isTerrain = (m: unknown): boolean => {
+        const name: unknown = m && typeof m === 'object' ? Reflect.get(m, 'name') : undefined;
+        return name === 'terrain' || (typeof name === 'string' && name.startsWith('detail-'));
+      };
+      const info: unknown = Reflect.apply(pick, scene, [px, py, isTerrain]);
+      const p: unknown = info && typeof info === 'object' ? Reflect.get(info, 'pickedPoint') : undefined;
+      if (!p || typeof p !== 'object') throw new Error(`no terrain under ${String(px)},${String(py)}`);
+      return { x: Number(Reflect.get(p, 'x')), z: Number(Reflect.get(p, 'z')) };
+    },
+    [x, y],
+  );
+
+test('a click outside the welcome closes it without moving the land, then a left-drag slides the land', async ({
+  page,
+}) => {
+  await page.goto('./?debug&year=1282&welcome=1');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  await expect(welcome).toBeVisible();
+  await expect(welcome).toContainText('Drag to slide the land, as on a map.');
+  const before = await cameraState(page);
+  // The wash around the panel takes the click, so the click that closes it never reaches the 3D view.
+  await page.mouse.click(60, 600);
+  await expect(welcome).toBeHidden();
+  expect(moved(before, await cameraState(page))).toBe(0);
+  const [ax, ay, bx, by] = [900, 520, 620, 380];
+  const grabbed = await terrainAt(page, ax, ay);
+  await page.mouse.move(ax, ay);
+  await page.mouse.down();
+  await page.mouse.move(bx, by, { steps: 8 });
+  // Still held: the ground point grabbed is now under the cursor, as on a map.
+  const under = await terrainAt(page, bx, by);
+  expect(Math.hypot(under.x - grabbed.x, under.z - grabbed.z)).toBeLessThan(6);
+  await page.mouse.up();
+  const after = await cameraState(page);
+  expect(moved(before, after)).toBeGreaterThan(50);
+  expect(after.alpha).toBeCloseTo(before.alpha, 5);
+  expect(after.beta).toBeCloseTo(before.beta, 5);
+});
+
+test('a right-drag turns the view about the same spot', async ({ page }) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const before = await cameraState(page);
+  await page.mouse.move(700, 400);
+  await page.mouse.down({ button: 'right' });
+  await page.mouse.move(900, 340, { steps: 8 });
+  await page.mouse.up({ button: 'right' });
+  await expect
+    .poll(async () => Math.abs((await cameraState(page)).alpha - before.alpha))
+    .toBeGreaterThan(0.1);
+  expect(moved(before, await cameraState(page))).toBeLessThan(1);
+});
+
+test('WASD slides the camera, and Q turns it, once the 3D view has focus', async ({ page }) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.mouse.click(1100, 150);
+  await expect(page.locator('#scene')).toBeFocused();
+  const before = await cameraState(page);
+  await page.keyboard.down('w');
+  await page.waitForTimeout(1500);
+  await page.keyboard.up('w');
+  await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(5);
+  const mid = await cameraState(page);
+  // Forward is the way the camera faces, from the eye towards the target.
+  const facing = { x: -Math.cos(before.alpha), z: -Math.sin(before.alpha) };
+  expect((mid.x - before.x) * facing.x + (mid.z - before.z) * facing.z).toBeGreaterThan(0);
+  await page.keyboard.press('q');
+  await expect.poll(async () => (await cameraState(page)).alpha).toBeGreaterThan(mid.alpha);
+});
+
+test('the wheel zooms towards the point under the cursor', async ({ page }) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const before = await cameraState(page);
+  const [x, y] = [1050, 560];
+  const spot = await terrainAt(page, x, y);
+  await page.mouse.move(x, y);
+  for (let i = 0; i < 4; i++) await page.mouse.wheel(0, -100);
+  await expect.poll(async () => (await cameraState(page)).radius).toBeLessThan(before.radius * 0.6);
+  const after = await cameraState(page);
+  const gap = (s: CameraState): number => Math.hypot(spot.x - s.x, spot.z - s.z);
+  expect(gap(after)).toBeLessThan(gap(before) * 0.8);
+});
+
+/** Whether the terrain is under a screen point (false over the sky). */
+const terrainUnder = (page: Page, x: number, y: number): Promise<boolean> =>
+  terrainAt(page, x, y).then(
+    () => true,
+    () => false,
+  );
+
+const setCamera = async (page: Page, pose: { beta: number; radius: number }): Promise<void> => {
+  await page.evaluate((p) => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const cam: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+    if (!cam || typeof cam !== 'object') throw new Error('no camera');
+    Reflect.set(cam, 'beta', p.beta);
+    Reflect.set(cam, 'radius', p.radius);
+  }, pose);
+  await expect
+    .poll(async () => {
+      const s = await cameraState(page);
+      return Math.abs(s.beta - pose.beta) + Math.abs(s.radius - pose.radius);
+    })
+    .toBeLessThan(0.01);
+};
+
+test('pointing at the sky neither throws the camera across the map nor slides it', async ({ page }) => {
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  // Tilted as far as the limit allows, the top of the view is sky.
+  await setCamera(page, { beta: 1.38, radius: 600 });
+  const [x, y] = [720, 40];
+  expect(await terrainUnder(page, x, y)).toBe(false);
+  const before = await cameraState(page);
+  await page.mouse.move(x, y);
+  await page.mouse.wheel(0, -100);
+  await expect.poll(async () => (await cameraState(page)).radius).toBeLessThan(before.radius * 0.9);
+  await page.waitForTimeout(500);
+  const zoomed = await cameraState(page);
+  // One notch in at the centre moves the target nowhere; at the sky it once moved it about 1,500.
+  expect(moved(before, zoomed)).toBeLessThan(30);
+  // A drag that starts on the sky has no land to hold, so it turns the view instead of sliding it.
+  await page.mouse.move(x, y);
+  await page.mouse.down();
+  await page.mouse.move(x + 200, y + 10, { steps: 8 });
+  await page.mouse.up();
+  await expect
+    .poll(async () => Math.abs((await cameraState(page)).alpha - zoomed.alpha))
+    .toBeGreaterThan(0.1);
+  expect(moved(zoomed, await cameraState(page))).toBeLessThan(30);
+});
+
+test('a double-click on the land flies the camera there', async ({ page }) => {
+  const flights: string[] = [];
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug camera fly to')) flights.push(m.text());
+  });
+  await page.goto('./?debug&year=1282');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const [x, y] = [520, 600];
+  const spot = await terrainAt(page, x, y);
+  await page.mouse.dblclick(x, y);
+  await expect.poll(() => flights.length).toBe(1);
+  await expect
+    .poll(
+      async () => {
+        const s = await cameraState(page);
+        return Math.hypot(spot.x - s.x, spot.z - s.z);
+      },
+      { timeout: 60_000 },
+    )
+    .toBeLessThan(5);
+  await expect(page.getByRole('button', { name: 'Whole valley' })).toBeVisible();
+  // A drag while a flight is under way takes the camera back: the flight stops where it is.
+  const interrupted: string[] = [];
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug camera flight interrupted by=pan')) interrupted.push(m.text());
+  });
+  const [fx, fy] = [1000, 300];
+  await page.mouse.dblclick(fx, fy);
+  await expect.poll(() => flights.length).toBe(2);
+  await page.mouse.move(700, 600);
+  await page.mouse.down();
+  await page.mouse.move(760, 560, { steps: 4 });
+  await page.mouse.up();
+  await expect.poll(() => interrupted.length).toBe(1);
+});
+
+/** Lock the camera on the train, then tap it, as a viewer would. */
+const tapTrain = async (page: Page): Promise<void> => {
   await page.evaluate(() => {
     const debug: unknown = Reflect.get(window, 'llandeiloDebug');
     if (!debug || typeof debug !== 'object') throw new Error('no debug hook');
@@ -288,9 +511,7 @@ test('tapping the train makes the camera follow it until you stop', async ({ pag
   const box = await page.locator('#scene').boundingBox();
   if (!box) throw new Error('no canvas');
   await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
-  const chip = page.locator('.follow-chip');
-  await expect(chip).toBeVisible({ timeout: 30_000 });
-  await expect(chip).toContainText('A Llanelly Railway train');
+  await expect(page.locator('.follow-chip')).toBeVisible({ timeout: 30_000 });
   await page.evaluate(() => {
     const debug: unknown = Reflect.get(window, 'llandeiloDebug');
     const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
@@ -298,6 +519,14 @@ test('tapping the train makes the camera follow it until you stop', async ({ pag
       scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
     if (camera && typeof camera === 'object') Reflect.set(camera, 'lockedTarget', null);
   });
+};
+
+test('tapping the train makes the camera follow it until you stop', async ({ page }) => {
+  await page.goto('./?debug&year=1860');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await tapTrain(page);
+  const chip = page.locator('.follow-chip');
+  await expect(chip).toContainText('A Llanelly Railway train');
   const first = await cameraTarget(page);
   await expect
     .poll(
@@ -309,6 +538,22 @@ test('tapping the train makes the camera follow it until you stop', async ({ pag
     )
     .toBeGreaterThan(5);
   await chip.getByRole('button', { name: 'Stop' }).click();
+  await expect(chip).toBeHidden();
+  // Turning the view keeps the follow; sliding away ends it.
+  await tapTrain(page);
+  const [dx, dy] = [900, 560];
+  const under = await page.evaluate((p) => document.elementFromPoint(p.x, p.y)?.id, { x: dx, y: dy });
+  expect(under, 'the drag must start on the 3D view, not a panel over it').toBe('scene');
+  await page.mouse.move(dx, dy);
+  await page.mouse.down({ button: 'right' });
+  await page.mouse.move(dx + 120, dy - 20, { steps: 6 });
+  await page.mouse.up({ button: 'right' });
+  await page.waitForTimeout(500);
+  await expect(chip).toBeVisible();
+  await page.mouse.move(dx, dy);
+  await page.mouse.down();
+  await page.mouse.move(dx + 120, dy - 40, { steps: 6 });
+  await page.mouse.up();
   await expect(chip).toBeHidden();
 });
 
@@ -589,7 +834,7 @@ test('place labels never sit under the panels, the compass or the timeline', asy
     page.evaluate(() => {
       const panels = [
         ...document.querySelectorAll<HTMLElement>(
-          '.brand, .timeline, .compass, .moment, .shortcuts, .info, .convo, .follow-chip, .debug',
+          '.brand, .timeline, .compass, .help-button, .moment, .welcome, .info, .convo, .follow-chip, .debug',
         ),
       ]
         .filter((el) => !el.hidden)
@@ -607,30 +852,165 @@ test('place labels never sit under the panels, the compass or the timeline', asy
     });
   expect(await covered()).toEqual([]);
   await page.locator('body').press('?');
-  await expect(page.getByRole('dialog', { name: 'Keys and controls' })).toBeVisible();
+  await expect(page.getByRole('dialog', { name: 'How to explore' })).toBeVisible();
   await expect.poll(covered).toEqual([]);
 });
 
-test('the keys panel opens with ? or its button, and closes with Escape, in both languages', async ({
+test('the ? icon and its caption never sit over the right-hand panels, in either language', async ({
+  page,
+}) => {
+  const clash = async (panel: string, target: Locator = page.locator(panel)): Promise<string> => {
+    const [icon, box] = [await page.locator('.help-button').boundingBox(), await target.boundingBox()];
+    if (!icon || !box) return `${panel}: no box`;
+    const overlaps =
+      icon.x < box.x + box.width &&
+      icon.x + icon.width > box.x &&
+      icon.y < box.y + box.height &&
+      icon.y + icon.height > box.y;
+    console.info(
+      `dewidebug e2e help icon ${panel} icon.bottom=${String(Math.round(icon.y + icon.height))} panel.top=${String(Math.round(box.y))}`,
+    );
+    return overlaps ? `${panel} overlaps the help icon` : '';
+  };
+  await page.setViewportSize({ width: 1440, height: 860 });
+  for (const [lang, game] of [
+    ['en', 'When are we?'],
+    ['cy', 'Pryd ydyn ni?'],
+  ] as const) {
+    await page.goto(`./?year=1282&place=llandeilo&radius=200&lang=${lang}`);
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await page.locator('.bubble').filter({ visible: true }).click();
+    await expect(page.locator('.convo')).toBeVisible();
+    expect(await clash('.convo'), lang).toBe('');
+    await page.getByRole('button', { name: 'Almanac' }).click();
+    await expect(page.locator('.info')).toBeVisible();
+    expect(await clash('.info'), lang).toBe('');
+    await page.screenshot({ path: `test-results/help-icon-about-${lang}.png` });
+    await page.getByRole('button', { name: game }).click();
+    await expect(page.locator('.guess')).toBeVisible();
+    expect(await clash('.guess'), lang).toBe('');
+    await page.goto(`./?year=1900&place=llandeilo&radius=140&photos=1&lang=${lang}`);
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    const photos = page.getByRole('button', { name: lang === 'en' ? 'Photos' : 'Lluniau', exact: true });
+    await expect(photos).toHaveAttribute('aria-pressed', 'true');
+    expect(await clash('Photos', photos), lang).toBe('');
+    await page.locator('.pin').filter({ visible: true }).first().click();
+    await expect(page.locator('.photo')).toBeVisible();
+    await settled(page.locator('.photo'));
+    expect(await clash('.photo'), lang).toBe('');
+    await page.screenshot({ path: `test-results/help-icon-photo-${lang}.png` });
+  }
+});
+
+test('? or the Keys button open the welcome at its controls, and Escape or ✕ closes it, in both languages', async ({
   page,
 }) => {
   await page.goto('./');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-  const dialog = page.getByRole('dialog', { name: 'Keys and controls' });
+  const dialog = page.getByRole('dialog', { name: 'How to explore' });
+  // Automated browsers are not shown it at start (?welcome=1 asks for it).
+  await expect(dialog).toBeHidden();
   await page.locator('body').press('?');
   await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('heading', { name: 'Moving around the valley' })).toBeFocused();
   await expect(dialog).toContainText('PageUp');
+  await expect(dialog).toContainText('Slide across the land');
+  await expect(dialog).toContainText('Right-drag (or Ctrl+drag) to turn and tilt.');
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
   await page.getByRole('button', { name: 'Bysellau', exact: true }).click();
-  await expect(page.getByRole('dialog', { name: 'Bysellau a rheolyddion' })).toBeVisible();
-  await page.getByRole('button', { name: 'Bysellau', exact: true }).click();
-  await expect(page.getByRole('dialog', { name: 'Bysellau a rheolyddion' })).toBeHidden();
+  const cy = page.getByRole('dialog', { name: 'Sut i grwydro' });
+  await expect(cy).toBeVisible();
+  await expect(cy.getByRole('heading', { name: 'Symud o gwmpas y dyffryn' })).toBeFocused();
+  await expect(cy).toContainText('Llithro ar draws y tir');
+  await cy.getByRole('button', { name: 'Cau' }).click();
+  await expect(cy).toBeHidden();
   await expect(page.getByRole('button', { name: 'Bysellau', exact: true })).toBeFocused();
   const before = await page.locator('.tl-counter').textContent();
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('.tl-counter')).not.toHaveText(before ?? '');
+});
+
+test('the welcome opens after Begin, reopens from its icon, explains the labels, and can be turned off', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?begin=1&welcome=1');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const card = page.getByRole('dialog', { name: 'Llandeilo' });
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  await expect(card).toBeVisible();
+  await expect(welcome).toBeHidden();
+  await card.getByRole('button', { name: 'Begin' }).click();
+  await expect(welcome).toBeVisible();
+  await expect(welcome.getByRole('heading', { name: 'How to explore' })).toBeFocused();
+  for (const text of [
+    'Drag to slide the land, as on a map.',
+    'Previous and Next',
+    'key dates',
+    'ⓘ',
+    'When are we?',
+    'Graphics',
+    'Sound',
+  ])
+    await expect(welcome).toContainText(text);
+  await expect(welcome).toContainText('English and Cymraeg switch the whole app.');
+  await expect(welcome).toContainText('Photos pins old photographs where each was taken');
+  expect(await welcome.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(255, 255, 255)');
+  for (const kind of ['documented', 'reconstructed', 'imagined'])
+    await expect(welcome.locator(`.prov-${kind}`)).toBeVisible();
+  // Like the Begin card, it keeps focus and clicks off the app behind it while it is open.
+  const appInert = (): Promise<boolean> =>
+    page.evaluate(() => document.getElementById('app')?.inert === true);
+  expect(await appInert()).toBe(true);
+  await expect(card).toBeHidden();
+  await settled(welcome);
+  await page.screenshot({ path: 'test-results/welcome-en.png' });
+  await welcome.getByRole('button', { name: 'Close' }).click();
+  await expect(welcome).toBeHidden();
+  expect(await appInert()).toBe(false);
+
+  const icon = page.getByRole('button', { name: 'How to explore' });
+  await expect(icon).toHaveAttribute('title', 'How to explore: the controls, and what the labels mean');
+  await icon.click();
+  await expect(welcome).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(welcome).toBeHidden();
+  await expect(icon).toBeFocused();
+
+  await icon.click();
+  await welcome.getByRole('button', { name: 'Cymraeg' }).click();
+  const cy = page.getByRole('dialog', { name: 'Sut i grwydro' });
+  await expect(cy).toContainText('Llusgwch i symud y tir, fel ar fap.');
+  await expect(cy).toContainText('Mae Lluniau yn pinio hen ffotograffau lle tynnwyd pob un');
+  await expect(cy.locator('.prov-imagined')).toContainText('Dychmygol');
+  await expect(cy.getByRole('checkbox', { name: 'Dangos hwn wrth ddechrau' })).toBeChecked();
+  await expect(page.getByRole('button', { name: 'Sut i grwydro' })).toHaveAttribute(
+    'title',
+    'Sut i grwydro: y rheolyddion, a beth mae’r labeli’n ei olygu',
+  );
+  await settled(cy);
+  await page.screenshot({ path: 'test-results/welcome-cy.png' });
+  await cy.getByRole('button', { name: 'English' }).click();
+
+  await welcome.getByRole('button', { name: 'About this project' }).click();
+  await expect(welcome).toBeHidden();
+  await expect(page.locator('.info')).toContainText('Credits and licences');
+
+  await icon.click();
+  const atStart = welcome.getByRole('checkbox', { name: 'Show this at start' });
+  await expect(atStart).toBeChecked();
+  await atStart.uncheck();
+  await page.reload();
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await card.getByRole('button', { name: 'Begin' }).click();
+  await expect(card).toBeHidden();
+  await expect(welcome).toBeHidden();
+  await page.getByRole('button', { name: 'How to explore' }).click();
+  await expect(welcome.getByRole('checkbox', { name: 'Show this at start' })).not.toBeChecked();
+  expect(errors).toEqual([]);
 });
 
 test('place labels never overlap one another on the overview', async ({ page }) => {
@@ -813,7 +1193,7 @@ test('the Begin card shows the motto in both languages, and Begin opens the vall
 }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('./?begin=1');
+  await page.goto('./?begin=1&welcome=1');
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
   const card = page.getByRole('dialog', { name: 'Llandeilo' });
   await expect(card).toBeVisible();
@@ -848,11 +1228,16 @@ test('the Begin card shows the motto in both languages, and Begin opens the vall
   await expect(card.getByRole('button', { name: 'Dechrau' })).toBeVisible();
   await card.getByRole('button', { name: 'English' }).click();
   await page.screenshot({ path: 'test-results/begin-card.png' });
+  // The ? pressed while the card waited did not open the welcome under it.
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  await expect(welcome).toBeHidden();
   await card.getByRole('button', { name: 'Begin' }).click();
   await expect(card).toBeHidden();
+  await expect(welcome).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(welcome).toBeHidden();
   await expect(page.getByRole('button', { name: 'Sound on' })).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.tl-counter')).toHaveText(counter ?? '');
-  await expect(page.getByRole('dialog', { name: 'Keys and controls' })).toBeHidden();
   expect(errors).toEqual([]);
 });
 
@@ -1057,6 +1442,159 @@ test('every timeline marker can be clicked at its own centre, however close its 
   await page.screenshot({ path: 'test-results/marker-lanes-1280.png' });
 });
 
+// The scene's camera pose and the controls' last change both land before the next render, so a
+// value read between frames shows whichever moved the camera last.
+const sampleCamera = async (page: Page, ms: number): Promise<CameraState[]> => {
+  const samples: CameraState[] = [];
+  const until = Date.now() + ms;
+  while (Date.now() < until) {
+    samples.push(await cameraState(page));
+    await page.waitForTimeout(100);
+  }
+  return samples;
+};
+
+// Waits until the camera has not moved (a landing flight, a glide) for three reads in a row: one slow
+// frame can leave two reads the same while a flight is still under way.
+const cameraSettled = async (page: Page): Promise<CameraState> => {
+  let last = await cameraState(page);
+  let stillFor = 0;
+  for (let i = 0; i < 120; i++) {
+    await page.waitForTimeout(750);
+    const now = await cameraState(page);
+    const still =
+      moved(last, now) < 0.01 &&
+      Math.abs(now.alpha - last.alpha) < 1e-4 &&
+      Math.abs(now.radius - last.radius) < 0.01;
+    last = now;
+    stillFor = still ? stillFor + 1 : 0;
+    if (stillFor >= 3) return now;
+  }
+  throw new Error('the camera never settled');
+};
+
+test('the map controls stand aside while a scene plays, and come back as they were after Skip', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?debug&year=74');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await page.getByRole('button', { name: /Watch/ }).click();
+  await expect(page.locator('.cutscene')).toBeVisible();
+  // An open ⓘ holds the scene, so its camera stays on one pose and any other move shows.
+  await page.locator('.cs-caption-prov .prov').click();
+  await expect(page.locator('.cutscene')).toHaveClass(/paused/);
+  const held = await cameraSettled(page);
+  // Keys and the wheel sent straight to the 3D view (as one held from before the scene would be).
+  await page.evaluate(() => {
+    const canvas = document.getElementById('scene');
+    canvas?.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyW', key: 'w', bubbles: true }));
+    canvas?.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyQ', key: 'q', bubbles: true }));
+    canvas?.dispatchEvent(new WheelEvent('wheel', { deltaY: -400, bubbles: true, cancelable: true }));
+  });
+  const during = await sampleCamera(page, 3000);
+  const drift = Math.max(...during.map((s) => moved(held, s)));
+  const turn = Math.max(...during.map((s) => Math.abs(s.alpha - held.alpha)));
+  const zoom = Math.max(...during.map((s) => Math.abs(s.radius - held.radius)));
+  expect({ drift, turn, zoom }).toEqual({ drift: 0, turn: 0, zoom: 0 });
+  // The letterbox, not the 3D view, takes a left-drag across the middle of the screen.
+  expect(await page.evaluate(() => document.elementFromPoint(720, 430)?.closest('.cutscene') !== null)).toBe(
+    true,
+  );
+  await page.keyboard.press('Escape');
+  await page.mouse.move(5, 5);
+  await page.getByRole('button', { name: /Skip/ }).click();
+  await expect(page.locator('.cutscene')).toBeHidden();
+  await page.evaluate(() => {
+    const canvas = document.getElementById('scene');
+    canvas?.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyW', key: 'w', bubbles: true }));
+    canvas?.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyQ', key: 'q', bubbles: true }));
+  });
+  // After the landing flight, a left-drag slides the land under the cursor and turns nothing.
+  const before = await cameraSettled(page);
+  const [ax, ay, bx, by] = [900, 520, 620, 420];
+  const grabbed = await terrainAt(page, ax, ay);
+  await page.mouse.move(ax, ay);
+  await page.mouse.down();
+  await page.mouse.move(bx, by, { steps: 8 });
+  // Babylon's own inputs, if they were handed back, would turn the view on this left-drag as well.
+  const dragging = await cameraState(page);
+  expect({ alpha: dragging.alpha, beta: dragging.beta }).toEqual({ alpha: before.alpha, beta: before.beta });
+  const under = await terrainAt(page, bx, by);
+  expect(Math.hypot(under.x - grabbed.x, under.z - grabbed.z)).toBeLessThan(6);
+  await page.mouse.up();
+  const after = await cameraState(page);
+  expect(moved(before, after)).toBeGreaterThan(50);
+  expect(after.alpha).toBeCloseTo(before.alpha, 5);
+  expect(after.beta).toBeCloseTo(before.beta, 5);
+  // The arrow keys slide the view, as before the scene, and do not also turn it.
+  await page.locator('#scene').focus();
+  // Settled first: the drag's glide moves the camera on its own, which once let this pass with no key.
+  const keyed = await cameraSettled(page);
+  // Held until it moves, not for a fixed time: at CI's ~1fps a fixed 1.5s hold can span no frame at all.
+  const heldFrom = Date.now();
+  await page.keyboard.down('ArrowUp');
+  await expect
+    .poll(async () => moved(keyed, await cameraState(page)), { timeout: 20_000, intervals: [250] })
+    .toBeGreaterThan(5);
+  await page.keyboard.up('ArrowUp');
+  console.log(`dewidebug e2e arrow slide moved after ${String(Date.now() - heldFrom)}ms held`);
+  const slid = await cameraState(page);
+  expect(moved(keyed, slid)).toBeGreaterThan(5);
+  expect(slid.alpha).toBeCloseTo(keyed.alpha, 5);
+  expect(errors).toEqual([]);
+});
+
+test('the welcome waits for a scene to end, says how to watch one, and the ? icon steps back meanwhile', async ({
+  page,
+}) => {
+  await page.goto('./?cutscene=roman-arrival&welcome=1');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  const icon = page.locator('.help-button');
+  await expect(page.locator('.cutscene')).toBeVisible();
+  await expect(welcome).toBeHidden();
+  await page.keyboard.press('?');
+  await expect(welcome).toBeHidden();
+  await expect(icon).toHaveCSS('opacity', '0');
+  expect(await icon.evaluate((el) => el.closest('[inert]') !== null)).toBe(true);
+  expect(await page.evaluate(() => document.getElementById('scene')?.inert)).toBe(true);
+  const clear = await page.evaluate(() => {
+    const r = document.querySelector('.help-button')?.getBoundingClientRect();
+    const hit = r ? document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2) : null;
+    return hit?.closest('.help-button') === null;
+  });
+  expect(clear).toBe(true);
+  await page.screenshot({ path: 'test-results/cutscene-with-welcome-due.png' });
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.cutscene')).toBeHidden();
+  await expect(welcome).toBeVisible();
+  await expect(welcome).toContainText('press Watch on its card');
+  await expect(welcome).toContainText('End a scene, or close a panel or a popup');
+  await expect(icon).toHaveCSS('opacity', '1');
+  await page.keyboard.press('Escape');
+  await expect(welcome).toBeHidden();
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await icon.click();
+  await expect(page.getByRole('dialog', { name: 'Sut i grwydro' })).toContainText('pwyswch Gwylio');
+});
+
+test('a welcome due at start waits behind the Begin card and the scene it starts, and opens after Skip', async ({
+  page,
+}) => {
+  await page.goto('./?begin=1&welcome=1&cutscene=roman-arrival');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  await page.getByRole('dialog', { name: 'Llandeilo' }).getByRole('button', { name: 'Begin' }).click();
+  await expect(page.locator('.cutscene')).toBeVisible();
+  await expect(welcome).toBeHidden();
+  expect(await page.evaluate(() => document.getElementById('scene')?.inert)).toBe(true);
+  await page.getByRole('button', { name: /Skip/ }).click();
+  await expect(page.locator('.cutscene')).toBeHidden();
+  await expect(welcome).toBeVisible();
+});
+
 const AT_1900 = './?year=1900&place=llandeilo&radius=140';
 
 const photoFor = (id: string | null): (typeof HARRIES_PHOTOGRAPHS)[number] => {
@@ -1141,6 +1679,115 @@ test('a pin opens its photograph with the credit and an ⓘ for the date and the
   await page.keyboard.press('Escape');
   await page.mouse.move(5, 5);
   await expect(pop).toBeHidden();
+  await expect(panel).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(panel).toBeHidden();
+});
+
+// Presses, lets go after a pause so the land stops dead rather than gliding on, and refuses to run unless
+// the press really lands on `layer`: otherwise a drag from the bare canvas would pass a test of the pass-through.
+const dragFrom = async (
+  page: Page,
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  layer: string,
+): Promise<void> => {
+  const startsOn = await page.evaluate(
+    ([x, y, selector]) => document.elementFromPoint(x, y)?.closest(selector)?.className ?? 'none',
+    [from.x, from.y, layer] as const,
+  );
+  console.info(
+    `dewidebug e2e drag ${String(Math.round(from.x))},${String(Math.round(from.y))} to ${String(Math.round(to.x))},${String(Math.round(to.y))} starts on=${startsOn} wanted=${layer}`,
+  );
+  expect(startsOn).not.toBe('none');
+  await page.mouse.move(from.x, from.y);
+  await page.mouse.down();
+  await page.mouse.move(to.x, to.y, { steps: 8 });
+  await page.waitForTimeout(200);
+  await page.mouse.up();
+};
+
+const centreOf = async (target: Locator): Promise<{ x: number; y: number }> => {
+  await expect(target).toBeVisible();
+  const box = await target.boundingBox();
+  if (!box) throw new Error('no box for the element to press');
+  return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+};
+
+test('a press on a pin that moves slides the land and opens nothing, the wheel over it zooms, and a click still opens it', async ({
+  page,
+}) => {
+  await page.goto(`${AT_1900}&photos=1&debug`);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const panel = page.locator('.photo');
+  const pin = page.locator('.pin').filter({ visible: true }).first();
+  let before = await cameraSettled(page);
+  let at = await centreOf(pin);
+  await dragFrom(page, at, { x: at.x - 100, y: at.y + 30 }, '.pin');
+  await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(5);
+  expect(Math.abs((await cameraState(page)).alpha - before.alpha)).toBeLessThan(1e-3);
+  await page.waitForTimeout(500);
+  await expect(panel).toBeHidden();
+
+  before = await cameraSettled(page);
+  at = await centreOf(pin);
+  await page.mouse.move(at.x, at.y);
+  await page.mouse.wheel(0, -300);
+  await expect.poll(async () => (await cameraState(page)).radius).toBeLessThan(before.radius * 0.9);
+
+  await cameraSettled(page);
+  const p = photoFor(await pin.getAttribute('data-photo'));
+  await pin.click();
+  await expect(panel).toBeVisible();
+  await expect(panel.locator('h2')).toHaveText(p.title);
+});
+
+test('a drag that starts on a speech bubble slides the land and drops its click', async ({ page }) => {
+  await page.goto('./?year=1843&place=llandeilo&radius=200&debug');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const bubble = page.locator('.bubble').filter({ visible: true }).first();
+  const before = await cameraSettled(page);
+  const at = await centreOf(bubble);
+  await dragFrom(page, at, { x: at.x - 100, y: at.y + 30 }, '.bubble');
+  await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(5);
+  expect(Math.abs((await cameraState(page)).alpha - before.alpha)).toBeLessThan(1e-3);
+  await page.waitForTimeout(500);
+  await expect(page.locator('.convo')).toBeHidden();
+});
+
+test('a drag that starts on a place label slides the land without flying there, and the wheel over it zooms', async ({
+  page,
+}) => {
+  await page.goto('./?year=1282&debug');
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const label = page.locator('.label', { hasText: 'Talyllychau' });
+  let before = await cameraSettled(page);
+  let at = await centreOf(label);
+  await dragFrom(page, at, { x: at.x + 100, y: at.y - 30 }, '.label');
+  await expect.poll(async () => moved(before, await cameraState(page))).toBeGreaterThan(5);
+  await page.waitForTimeout(1500);
+  const after = await cameraState(page);
+  expect(Math.abs(after.alpha - before.alpha)).toBeLessThan(1e-3);
+  expect(Math.abs(after.radius - before.radius)).toBeLessThan(1e-3);
+
+  before = await cameraSettled(page);
+  at = await centreOf(label);
+  await page.mouse.move(at.x, at.y);
+  await page.mouse.wheel(0, -300);
+  await expect.poll(async () => (await cameraState(page)).radius).toBeLessThan(before.radius * 0.9);
+});
+
+test('Escape closes the welcome before the photograph under it, then the photograph', async ({ page }) => {
+  await page.goto(`${AT_1900}&photos=1`);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  const panel = page.locator('.photo');
+  await page.locator('.pin').filter({ visible: true }).first().click();
+  await expect(panel).toBeVisible();
+  await page.getByRole('button', { name: 'How to explore' }).click();
+  const welcome = page.getByRole('dialog', { name: 'How to explore' });
+  await expect(welcome).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(welcome).toBeHidden();
   await expect(panel).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(panel).toBeHidden();

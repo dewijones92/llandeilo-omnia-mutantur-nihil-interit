@@ -21,3 +21,9 @@ export function h<K extends keyof HTMLElementTagNameMap>(
   }
   return el;
 }
+
+/** Makes everything behind a modal card unreachable (focus and clicks), or reachable again. */
+export function setInert(behind: readonly HTMLElement[], inert: boolean, by: string): void {
+  for (const el of behind) el.inert = inert;
+  console.info(`dewidebug ${by} behind inert=${String(inert)} (${behind.map((e) => e.id).join(', ')})`);
+}

@@ -2,12 +2,12 @@
 title: "ADR 0047: A detailed monument has a far and a near mesh, chosen by the camera's distance"
 kind: adr
 status: accepted
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # ADR 0047: A detailed monument has a far and a near mesh, chosen by the camera's distance
 
-- **Status:** Accepted
+- **Status:** Accepted; build route amended by [ADR 0052](0052-landmarks-are-scripted-blender-models-built-from-their-plans.md) (2026-10-10: the two meshes are built in Blender)
 - **Date:** 2026-10-09
 - **Decided by:** Claude, under the proactive mandate (ADR 0027), for issue 3 (levels of detail); Dewi can
   overrule it.

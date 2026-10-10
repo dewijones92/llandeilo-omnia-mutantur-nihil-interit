@@ -51,7 +51,7 @@ below links the issue.
 | Issue | Seen | Idea (our summary) | Status | Notes |
 |---|---|---|---|---|
 | [#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1) | 2026-10-09T22:41:53Z | Gather a local studio photographer's photos of Llandeilo's streets and station from about 1900, and place each on the map | ✅ agreed 2026-10-09 | The glass negatives are at the National Library of Wales, copies on People's Collection Wales; the photographer died in 1940, so UK copyright has probably expired, to be checked per image. Shown in the app with its credit, pinned with credit and an ⓘ; otherwise a modelling reference only |
-| [#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2) | 2026-10-09T17:16:08Z | Detailed real-scale terrain for the town and the Roman fort area from LiDAR, tiled with levels of detail, the base ground kept apart from changes by period | ✅ agreed 2026-10-09 | The agreed close-up LiDAR terrain (CLAUDE.md, Terrain) was never built; Welsh Government 1m LiDAR covers the area, licence to confirm per file |
+| [#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2) | 2026-10-10T01:59:41Z | Detailed real-scale terrain for the town and the Roman fort area from LiDAR, tiled with levels of detail, the base ground kept apart from changes by period | ✅ agreed 2026-10-09 | The agreed close-up LiDAR terrain (CLAUDE.md, Terrain) was never built; Welsh Government 1m LiDAR covers the area, licence to confirm per file |
 | [#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3) | 2026-10-09T23:27:37Z | A modular, editable reconstruction of the Roman fort and its civilian settlement on that terrain, ready for animation later | ✅ agreed 2026-10-09 | Research first: published plans and surveys, documented kept apart from reconstruction; a linked reconstruction drawing states no licence; it is used with a credit to its maker (Dewi, 2026-10-09: credit, no licence check), and the second fort's date and the settlement survey still need their sources. Built detailed in the app (Dewi, 2026-10-09). Researched 2026-10-09 ([note](../research/roman-forts-and-vicus.md)): the survey is Stratascan's magnetometry in the Hughes report, not in the linked PDF; "AD 90-100" has no source |
 
 ## Done: the vertical slice (2026-09-26)
@@ -109,7 +109,8 @@ below links the issue.
 - [x] Every English/Welsh text pair audited for dropped facts: 16 meaning gaps and 7 small ones fixed,
       all in the same direction (the Welsh had lost caveats and numbers) (2026-10-02)
 - [ ] Check every place against its Coflein grid reference (only some were verified)
-- [ ] Human check of the Welsh text (parked)
+- [ ] Human check of the Welsh text (parked); include the welcome panel's text and the camera rows, whose Shift line was
+      reworded on 2026-10-03 after a review read the first wording as "keep on sliding faster"
       New terms need it first: "tyllau taflu" (machicolations), "bwtresi hedfan" (flying buttresses),
       and the strings added on 2026-10-02: the About panel's scale sentence, the "About the voice"
       Dyfedeg note, the keys panel (`keys…`, `click…` in `src/content/strings.ts`), and "yr annalau
@@ -170,6 +171,33 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       2026-10-02 (1880 summer 23:00, 1282 winter 02:00 and 1880 noon): the rivers go dark navy with
       the land. No change was needed
 - [ ] Re-check autumn trees at overview distance by screenshot (the "glitter" fix was never re-shot)
+- [ ] **Map-style camera** (Dewi, 2026-10-03: "make the camera easier to move around"; he chose
+      map-style): drag slides the land, right-drag turns, the wheel zooms at the cursor, W A S D / Q E /
+      R F, double-click flies there, a one-time hint, the Keys panel in both languages (both since
+      replaced by the welcome panel, [ADR 0051](../adr/0051-one-welcome-panel.md))
+      ([ADR 0050](../adr/0050-map-style-camera-controls.md)). Built 2026-10-03 with red-first tests and
+      looked at (overview, dragged, turned, zoomed, 1860). Second-Opus review 2026-10-03: the sky no
+      longer throws the camera (wheel zooms at the centre, a sky drag turns, a slide waits above the
+      horizon), tests for a drag ending a follow and a flight and for the hint after Begin, and the
+      Welsh for Shift reworded (in the parked human Welsh check); awaiting Dewi
+- [ ] **Welcome panel** (Dewi, 2026-10-03: controls and info at start,
+      closeable, an obvious icon to reopen): "How to explore" opens after Begin (or at once without it),
+      replaces the Keys panel and the camera hint, explains the controls, timeline, provenance labels, ⓘ,
+      "When are we?" and the settings, with "Show this at start" and a round "?" icon
+      ([ADR 0051](../adr/0051-one-welcome-panel.md)). Built 2026-10-09 with tests seen red by mutation
+      and looked at in English and Welsh; awaiting Dewi. The Welsh text is in the parked human check
+- [ ] **Camera and welcome merged with the cutscenes** (Claude, under the proactive mandate, 2026-10-09):
+      the map-style controls are off while a scene plays and back after Skip, Escape or its end; the
+      welcome waits for a scene, says how to Watch one, and the "?" icon fades with the interface
+      ([ADR 0050](../adr/0050-map-style-camera-controls.md), [ADR 0051](../adr/0051-one-welcome-panel.md)).
+      Built with e2e seen red against the plain merge; awaiting the second-Opus review and Dewi. The new
+      Welsh sentence is in the parked human check
+- [ ] **Camera and welcome merged with the photo layer** (Claude, under the proactive mandate, 2026-10-10):
+      a press on a pin, a place label or a bubble that moves slides the land and opens nothing, the wheel
+      over them zooms, a click still opens them; the welcome describes Photos; the photo panel is in the
+      Escape order ([ADR 0050](../adr/0050-map-style-camera-controls.md),
+      [ADR 0051](../adr/0051-one-welcome-panel.md)). Built with e2e seen red three ways; awaiting the
+      second-Opus review and Dewi. The new Welsh sentence is in the parked human check
 
 - [ ] Garn Goch ramparts: follow the real contour and the scree at the south-west gate
 - [ ] Buildings with period styles (today `town.style` only decides which towns get chimney smoke)
@@ -178,7 +206,9 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [x] Better castle models from their documented plans (Dinefwr's great round tower, Carreg Cennen's gatehouse):
       landmark models built phase by phase from the research, 2026-09-28 ([`design/models.md`](../design/models.md))
 - [ ] Close the modelling research gaps listed in [`design/models.md`](../design/models.md) (Coflein plans, Cadw guidebooks)
-- [ ] Decide option B or C for the landmark models (realistic textures), or keep option A
+- [x] Decide option B or C for the landmark models (realistic textures), or keep option A: **option B**, proper textures on the Blender models (Dewi, 2026-10-10)
+- [ ] The photo layer on by default (Dewi, 2026-10-10), with the e2e checks that pins never cover labels, panels or the timeline
+- [ ] Landmarks as scripted Blender models ([ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md), Dewi 2026-10-10): the pipeline ADR, then the Roman forts first, then Dinefwr Castle (Dewi's pick, 2026-10-10), then the other castles, churches and Talley Abbey, the town's buildings, the bridge and the trains
 - [ ] Roman forts and Garn Goch as plans too (they still use the older builders)
 - [x] The About panel says hills are exaggerated 2.4×, which models are drawn 2.6× larger and which
       keep their true footprint, with both numbers read from `WORLD` so they cannot drift (2026-10-02)
@@ -241,7 +271,7 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 The three issues come first (Dewi: "If possible please prioritise them"), and their material is credited
 rather than licence-checked (Dewi: "ignore licensing problems, just credit the person").
 
-- [ ] **LiDAR terrain for the town and the Roman fort area** ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded.
+- [x] **LiDAR terrain for the town and the Roman fort area** (shipped in v0.8.0, 2026-10-10; release link commented on the issue, left open) ([#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2)): Welsh Government 1m LiDAR, tiled, levels of detail, base ground separate from period changes, sources and licences recorded.
       **Built 2026-10-09, not ticked** (Claude, under the proactive mandate; [ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md),
       [`data/lidar.md`](../data/lidar.md)): the path's steps 1, 2, 4 and 6 are done (agreed; the data and its licence statements
       researched from the publisher's own pages; built, with unit, data and e2e tests each seen red first; looked at on the GPU in

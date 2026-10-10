@@ -2,12 +2,12 @@
 title: "ADR 0046: The Roman forts are drawn true size from typed plans whose parts carry their own tier"
 kind: adr
 status: accepted
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # ADR 0046: The Roman forts are drawn true size from typed plans whose parts carry their own tier
 
-- **Status:** Accepted
+- **Status:** Accepted; build route amended by [ADR 0052](0052-landmarks-are-scripted-blender-models-built-from-their-plans.md) (2026-10-10: the plans are built in Blender)
 - **Date:** 2026-10-09
 - **Decided by:** Claude, under the proactive mandate (ADR 0027), for issue 3, agreed by Dewi on 2026-10-09
   ("built detailed in the app", `process/decision-log.md`); Dewi can overrule any of it.

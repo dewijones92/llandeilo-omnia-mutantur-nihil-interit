@@ -44,6 +44,22 @@ export class Flight {
     return this.followed !== undefined;
   }
 
+  /** The viewer took the camera: a flight stops where it is, and sliding away also ends a follow. */
+  interrupt(by: 'pan' | 'turn' | 'zoom'): void {
+    if (this.to) {
+      console.info(`dewidebug camera flight interrupted by=${by}`);
+      this.from = undefined;
+      this.to = undefined;
+    }
+    if (by === 'pan') this.stopFollowing('user pan');
+  }
+
+  /** Zooming while following changes how close the camera stays, not what it follows. */
+  scaleFollow(k: number): void {
+    const f = this.followed;
+    if (f) f.radius *= k;
+  }
+
   flyTo(target: Vector3, radius: number, beta = 1.0): void {
     this.stopFollowing('fly');
     this.from = this.pose();

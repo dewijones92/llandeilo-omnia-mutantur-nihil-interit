@@ -14,6 +14,11 @@ const CLEARANCE = 3;
 // One dust plume for every this many walking figures.
 const DUST_EVERY = 30;
 
+/** The viewer's own camera controls, which stand aside while a scene holds the camera. */
+export interface CameraInputs {
+  setEnabled(on: boolean, why: string): void;
+}
+
 interface Limits {
   readonly lowerRadius: number | null;
   readonly lowerBeta: number | null;
@@ -30,9 +35,10 @@ export class Stage {
     private readonly flight: Flight,
     private readonly crowd: Crowd,
     private readonly ground: Ground,
+    private readonly inputs: CameraInputs,
   ) {}
 
-  /** Hands the camera to the scene: no mouse control, and close, low shots allowed. */
+  /** Hands the camera to the scene: the viewer's controls stand aside, and close, low shots are allowed. */
   begin(): void {
     const c = this.camera;
     this.saved = {
@@ -40,7 +46,7 @@ export class Stage {
       lowerBeta: c.lowerBetaLimit,
       upperBeta: c.upperBetaLimit,
     };
-    c.detachControl();
+    this.inputs.setEnabled(false, 'a scene holds the camera');
     c.lowerRadiusLimit = 5;
     c.lowerBetaLimit = 0.02;
     c.upperBetaLimit = 1.55;
@@ -55,7 +61,7 @@ export class Stage {
       c.upperBetaLimit = s.upperBeta;
     }
     this.saved = undefined;
-    c.attachControl(true);
+    this.inputs.setEnabled(true, 'the scene ended');
     this.crowd.clear();
   }
 

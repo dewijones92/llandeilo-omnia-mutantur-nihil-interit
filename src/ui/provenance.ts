@@ -11,6 +11,18 @@ const ICON = {
 
 let listening = false;
 
+function chip(kind: Provenance['kind'], label: string): HTMLElement[] {
+  return [
+    h('span', { class: 'prov-icon', 'aria-hidden': 'true' }, ICON[kind]),
+    h('span', { class: 'prov-label' }, label),
+  ];
+}
+
+/** A label drawn as the badges are, without the button or its popup: for explaining them. */
+export function provenanceLabel(kind: Provenance['kind'], store: LangStore): HTMLElement {
+  return h('span', { class: `prov prov-${kind}` }, ...chip(kind, store.t(kind)));
+}
+
 function closeAll(): void {
   for (const el of document.querySelectorAll('.prov-wrap.open')) el.classList.remove('open');
 }
@@ -100,8 +112,7 @@ export function infoBadge(
   const badge = h(
     'button',
     { class: `prov prov-${kind}`, type: 'button', 'aria-label': `${label}. ${help}` },
-    h('span', { class: 'prov-icon', 'aria-hidden': 'true' }, ICON[kind]),
-    h('span', { class: 'prov-label' }, label),
+    ...chip(kind, label),
   );
   const wrap = h('span', { class: 'prov-wrap' }, badge, pop);
   badge.addEventListener('click', (e) => {

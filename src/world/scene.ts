@@ -94,13 +94,10 @@ export class World {
     camera.upperRadiusLimit = 5200;
     camera.lowerBetaLimit = 0.15;
     camera.upperBetaLimit = 1.38;
-    camera.wheelDeltaPercentage = 0.02;
-    camera.pinchDeltaPercentage = 0.004;
-    camera.panningSensibility = 6;
+    // Turning glides on Babylon's inertia; the inputs themselves are MapControls (src/world/controls.ts).
     camera.inertia = 0.88;
     camera.minZ = 2;
     camera.maxZ = 30000;
-    camera.attachControl(true);
     this.camera = camera;
 
     this.hemi = new HemisphericLight('hemi', new Vector3(0.2, 1, 0.1), scene);
