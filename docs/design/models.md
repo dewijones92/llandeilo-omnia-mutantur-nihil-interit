@@ -2,13 +2,16 @@
 title: Realistic models of important buildings
 kind: design
 status: partly built
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Realistic models for the important buildings, through time
 
 Raised by Dewi, 2026-09-28. **Option A (accurate low-poly) is built** for the phases below; option B
 or C is still open. How plans are written is in [`../content/authoring.md`](../content/authoring.md).
+
+**Next (proposed 2026-10-10):** the pipeline for scripted Blender models of these landmarks is in
+[`blender-models.md`](blender-models.md).
 
 ## The idea
 
