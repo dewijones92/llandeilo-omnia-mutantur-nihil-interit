@@ -1129,3 +1129,46 @@ it is defensive only.
    barrack ("extent 0: expected 43.5 to be at most 41.4"); the check was cheap, and it passes on all 73 rigid
    parts of the first build and on the rebuilt ones. (10) **A parts card described detail that was not drawn**
    at Low and with `?models=off`; its e2e test failed with 3 kits listed when the gate was removed. The GPU kit's e2e pass failed on `lidar.json` before main's fix to it (6b05ed5, merged in); with it, `npm run e2e:gpu` on Windows Chrome at High passed 8 GPU tests and 72 e2e, including the models loading and the card, so the models have now run on WebGPU (idle 57fps, orbit 57, scrub 51, vsync on). One e2e test (the almanac one) hung at load in the full local run and passed when re-run alone, the known load flake.
+
+### The photo layer on by default (2026-10-10)
+
+Dewi chose "On by default", reversing ADR 0044's off-by-default ([ADR 0044](../adr/0044-photographs-are-dated-placed-content-with-pins.md), amended).
+`initialPhotos` now ends `stored ?? true`; `?photos=1` and `?photos=0` and the remembered toggle are unchanged,
+so a visitor who switched it off stays off. Seen red first: `tests/photos-pref.test.ts` failed at "is on for a
+first visit" and "ignores any other parameter value" against the old `?? false`. What assumed "off": the toggle
+e2e (it began by asserting `aria-pressed` false; it now starts from empty storage, expects the pins, switches off
+and checks the choice survives a reload), the welcome's Photos line (now says it is on to begin with, English and
+Welsh, asserted in the welcome e2e), CLAUDE.md's `?photos=1`, and the docs. The existing overlap tests (labels
+under panels, labels against each other, the "?" icon) mostly never ran in the pin years: the "?" icon one
+already passed `photos=1`, while the label tests sit at 1880, AD 74 and 1172, where no photograph is pinned, so
+they pass but do not exercise pins. A new e2e covers it: pins at 1900, 1925 and 1950 (overview, town at 140 m
+and 400 m radius), plain, with the welcome open, with the Almanac open, never under the chrome, a bubble, a label
+or the photo panel. Seen red by making `pins.update` ignore the chrome: it failed at "harries-2282276 under welcome".
+No layout change was needed: pins already avoid the chrome and each other, and labels already avoid pins.
+Full e2e (E2E_WORKERS=1, 71 tests): 68 passed, 1 skipped (the stored-quality test), 2 failed with the known
+"page never becomes ready" flake (a right-drag test and the AD 110 Fort 2 test); both passed re-run alone.
+Lesson: **a default flip moves the baseline of every test that never named the setting**; the overlap tests were
+green only because the years they use have no pins, so check what a green test actually exercised.
+
+Review follow-up (same day): the Llandeilo label vanished in the photo years (the overview at 1900, and the town
+at 1925 and 1950) because `main.ts` placed the pins first, avoiding only the chrome, and the labels then avoided
+the pins. Labels now go first (`PlaceLabels.visible` exposes their boxes) and the pins avoid the labels, the
+bubbles and the chrome. Seen red first: the new "Llandeilo label still shows" e2e failed at the label count
+(expected 1, received 0) at `./?year=1900`. "Never under a bubble" in the earlier pin test tested nothing, as no
+pinned year (1895 to 1960: the earliest start, and the latest end 1935 plus the 25 lingering years) has a conversation, so it is dropped from the test, the map and the docs; the code
+still passes the bubbles to the pins. The GPU kit's frame-timing scene (1903 winter night) now carries `&photos=0`
+so its numbers stay comparable with 2026-10-09's. Consequence: in the whole-valley overview at 1900 the one pin that used to fit sat exactly under Llandeilo's
+label, so the overview now shows no pin until the camera comes in; the town views still show several, and
+`a photograph whose caption its picture contradicts` now expects two or more at 1900 (it was three) for the same
+reason. Full e2e on a fresh build (`E2E_WORKERS=1`, 72 tests): 67 passed, 5 failed: two were the known "never ready"
+flake, two were my overview tests assuming a visible pin there, one was the pin-count threshold above; the five
+passed re-run alone after the test edits (the app code did not change after that build).
+Known gap, found in re-review: harries-2281931 (Rhosmaen Street at New Road, 1924 to 1935) sits under the focused
+Llandeilo label at all three standard views (overview, town at 400 and at 140) from 1925 to 1960, and is the only pin in
+1956 to 1960, so those years show no pin at any standard view; it shows once the camera moves (15 to 16 of 16 positions
+at radius 140 to 250). A fix was weighed and not made: the pin layout has no candidate offsets, and nudging a pin sideways or up
+by its own size puts its tip tens of metres from the spot, which defeats a pin whose job is to say where (its accuracy is
+30 m). An e2e pins the gap down: every fifth year 1895 to 1955 shows a pin at some standard view, and 1960 shows none.
+Lesson: **a test that names something no view contains
+asserts nothing**; find the scene that has it or do not claim it.
+

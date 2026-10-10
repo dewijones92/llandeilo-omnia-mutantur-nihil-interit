@@ -3,7 +3,7 @@ import { toWorld } from '../domain/geo.ts';
 import type { Photograph, PhotoId } from '../domain/model.ts';
 import { isPlaced, pinAnchors } from '../domain/photos.ts';
 import { h } from './dom.ts';
-import { overlaps, projector } from './screen-space.ts';
+import { overlaps, projector, type Box } from './screen-space.ts';
 import type { LangStore } from './store.ts';
 
 const SVG = 'http://www.w3.org/2000/svg';
@@ -45,7 +45,7 @@ function cameraGlyph(): SVGElement {
  */
 export class PhotoPins {
   readonly el = h('div', { class: 'pins' });
-  readonly visible: DOMRect[] = [];
+  readonly visible: Box[] = [];
   private readonly pins: Pin[] = [];
   private shown = new Set<PhotoId>();
 
@@ -95,7 +95,7 @@ export class PhotoPins {
     return this.shown.has(id);
   }
 
-  update(avoid: readonly DOMRect[]): void {
+  update(avoid: readonly Box[]): void {
     this.visible.length = 0;
     const project = projector(this.scene);
     if (!project) return;
