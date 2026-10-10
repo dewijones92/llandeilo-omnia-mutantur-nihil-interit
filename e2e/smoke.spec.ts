@@ -1,4 +1,5 @@
-import { expect, test, type Locator, type Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+import { expect, ready, test } from './ready.ts';
 import { CUTSCENES } from '../src/content/cutscenes.ts';
 import { EVENTS } from '../src/content/events.ts';
 import { HARRIES_PHOTOGRAPHS } from '../src/content/photographs.ts';
@@ -12,7 +13,7 @@ test('the valley loads and the slider moves through time', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const slider = page.getByRole('slider', { name: /Timeline|Llinell amser/ });
   await expect(slider).toBeVisible();
   await expect(page.locator('.tl-year')).toHaveText('1282');
@@ -27,7 +28,7 @@ test('the valley loads and the slider moves through time', async ({ page }) => {
 
 test('the interface switches to Welsh', async ({ page }) => {
   await page.goto('./');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.getByRole('button', { name: 'Cymraeg' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'cy');
   await expect(page.locator('.tl-era')).toHaveText('Yr Oesoedd Canol');
@@ -35,7 +36,7 @@ test('the interface switches to Welsh', async ({ page }) => {
 
 test('a conversation opens from its bubble and lists its lines', async ({ page }) => {
   await page.goto('./?place=llandeilo&year=1282&radius=200');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const bubble = page.locator('.bubble').filter({ visible: true });
   await expect(bubble).toBeVisible();
   await bubble.click();
@@ -55,7 +56,7 @@ test('a conversation in modern Welsh says the voice has a standard accent, not t
   page,
 }) => {
   await page.goto('./?place=llandeilo&year=1843&radius=200');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.locator('.bubble').filter({ visible: true }).first().click();
   const note = page.locator('.convo .convo-note', { hasText: 'About the voice' });
   await expect(note).toContainText('Dyfedeg');
@@ -67,7 +68,7 @@ test('the almanac, language and sound controls work for the chosen year', async 
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./?year=1843');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.getByRole('button', { name: 'Almanac' }).click();
   const info = page.locator('.info');
   await expect(info).toBeVisible();
@@ -85,7 +86,7 @@ test('the almanac, language and sound controls work for the chosen year', async 
 
 test('arrow keys move the slider without snapping back to a key date', async ({ page }) => {
   await page.goto('./');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const slider = page.getByRole('slider', { name: /Timeline|Llinell amser/ });
   await slider.focus();
   await page.keyboard.press('Home');
@@ -105,7 +106,7 @@ test('the 3D view receives the mouse through the overlay layers, and keeps its a
     if (m.text().includes('dewidebug timeline step')) steps.push(m.text());
   });
   await page.goto('./?debug&year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const target = await page.evaluate(
     () => document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2)?.id ?? '',
   );
@@ -123,7 +124,7 @@ test('the 3D view receives the mouse through the overlay layers, and keeps its a
 
 test('a place label flies the camera in and offers the whole valley back', async ({ page }) => {
   await page.goto('./?year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.locator('.label', { hasText: 'Talyllychau' }).click();
   const home = page.getByRole('button', { name: 'Whole valley' });
   await expect(home).toBeVisible();
@@ -133,7 +134,7 @@ test('a place label flies the camera in and offers the whole valley back', async
 
 test('a provenance badge explains itself and lists its sources', async ({ page }) => {
   await page.goto('./?year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const badge = page.locator('.moment .prov');
   await badge.click();
   const pop = page.locator('.moment .prov-pop');
@@ -147,7 +148,7 @@ test('a provenance badge explains itself and lists its sources', async ({ page }
 
 test('switching to Welsh translates the moment card and the labels', async ({ page }) => {
   await page.goto('./?year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const note = (name: RegExp) => page.locator('.label', { hasText: name }).locator('.label-note');
   await expect(note(/^Garn Goch/)).toHaveText(' (today)');
   await expect(note(/^Dinefwr/)).toHaveText('');
@@ -160,13 +161,13 @@ test('switching to Welsh translates the moment card and the labels', async ({ pa
     'Llinell amser',
   );
   await page.goto('./?year=74');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.moment-place')).toHaveText('Caerau Rhufeinig Dinefwr (today)');
 });
 
 test('Next and Previous step through key dates and fly the camera there', async ({ page }) => {
   await page.goto('./?year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.tl-counter')).toHaveText(/^\d+ \/ \d+$/);
   const start = await page.locator('.tl-counter').textContent();
   await page.getByRole('button', { name: /Next/ }).click();
@@ -185,7 +186,7 @@ const cameraTarget = async (page: Page): Promise<{ x: number; z: number }> => {
 
 test('two quick clicks on Next move two key dates', async ({ page }) => {
   await page.goto('./?year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const [n, total] = ((await page.locator('.tl-counter').textContent()) ?? '').split(' / ').map(Number);
   await page.getByRole('button', { name: /Next/ }).evaluate((b) => {
     if (!(b instanceof HTMLElement)) throw new Error('Next is not a button');
@@ -197,7 +198,7 @@ test('two quick clicks on Next move two key dates', async ({ page }) => {
 
 test('letting go near a key date snaps the slider but leaves the camera where it was', async ({ page }) => {
   await page.goto('./?debug&year=1282&place=talley');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const before = await cameraTarget(page);
   const track = page.locator('.tl-track');
   const box = await track.boundingBox();
@@ -218,7 +219,7 @@ test('letting go near a key date snaps the slider but leaves the camera where it
 
 test('a minor marker flies the camera to its own event', async ({ page }) => {
   await page.goto('./?debug&year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.getByRole('button', { name: /Paxton’s Tower/ }).dispatchEvent('click');
   const paxton = toWorld({ e: 254094, n: 219151 });
   await expect
@@ -234,7 +235,7 @@ test('a minor marker flies the camera to its own event', async ({ page }) => {
 
 test('Next straight after a minor marker click steps on from that marker', async ({ page }) => {
   await page.goto('./?year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const paxton = EVENTS.find((e) => e.id === 'paxtons-tower');
   if (!paxton) throw new Error('no Paxton event');
   const expected = stepFrom(keySteps(TIMELINE, EVENTS), tAt(TIMELINE, paxton.when.from), 1);
@@ -254,7 +255,7 @@ test('Next straight after a minor marker click steps on from that marker', async
 
 test('the compass shows the heading and turns the view to face north', async ({ page }) => {
   await page.goto('./?year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const compass = page.locator('.compass');
   const box = await page.locator('#scene').boundingBox();
   if (!box) throw new Error('no canvas');
@@ -332,7 +333,7 @@ test('a click outside the welcome closes it without moving the land, then a left
   page,
 }) => {
   await page.goto('./?debug&year=1282&welcome=1');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const welcome = page.getByRole('dialog', { name: 'How to explore' });
   await expect(welcome).toBeVisible();
   await expect(welcome).toContainText('Drag to slide the land, as on a map.');
@@ -358,7 +359,7 @@ test('a click outside the welcome closes it without moving the land, then a left
 
 test('a right-drag turns the view about the same spot', async ({ page }) => {
   await page.goto('./?debug&year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const before = await cameraState(page);
   await page.mouse.move(700, 400);
   await page.mouse.down({ button: 'right' });
@@ -372,7 +373,7 @@ test('a right-drag turns the view about the same spot', async ({ page }) => {
 
 test('WASD slides the camera, and Q turns it, once the 3D view has focus', async ({ page }) => {
   await page.goto('./?debug&year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.mouse.click(1100, 150);
   await expect(page.locator('#scene')).toBeFocused();
   const before = await cameraState(page);
@@ -390,7 +391,7 @@ test('WASD slides the camera, and Q turns it, once the 3D view has focus', async
 
 test('the wheel zooms towards the point under the cursor', async ({ page }) => {
   await page.goto('./?debug&year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const before = await cameraState(page);
   const [x, y] = [1050, 560];
   const spot = await terrainAt(page, x, y);
@@ -428,7 +429,7 @@ const setCamera = async (page: Page, pose: { beta: number; radius: number }): Pr
 
 test('pointing at the sky neither throws the camera across the map nor slides it', async ({ page }) => {
   await page.goto('./?debug&year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   // Tilted as far as the limit allows, the top of the view is sky.
   await setCamera(page, { beta: 1.38, radius: 600 });
   const [x, y] = [720, 40];
@@ -458,7 +459,7 @@ test('a double-click on the land flies the camera there', async ({ page }) => {
     if (m.text().includes('dewidebug camera fly to')) flights.push(m.text());
   });
   await page.goto('./?debug&year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const [x, y] = [520, 600];
   const spot = await terrainAt(page, x, y);
   await page.mouse.dblclick(x, y);
@@ -523,7 +524,7 @@ const tapTrain = async (page: Page): Promise<void> => {
 
 test('tapping the train makes the camera follow it until you stop', async ({ page }) => {
   await page.goto('./?debug&year=1860');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await tapTrain(page);
   const chip = page.locator('.follow-chip');
   await expect(chip).toContainText('A Llanelly Railway train');
@@ -567,14 +568,14 @@ test.describe('off a desktop', () => {
     await banner.getByRole('button', { name: 'Close' }).click();
     await expect(banner).toHaveCount(0);
     await page.reload();
-    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await ready(page);
     await expect(page.locator('.desktop-banner')).toHaveCount(0);
   });
 });
 
 test('no desktop banner on a desktop', async ({ page }) => {
   await page.goto('./?year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.desktop-banner')).toHaveCount(0);
 });
 
@@ -582,7 +583,7 @@ test('time of day and season controls relight the valley, in both languages', as
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./?year=1282&hour=12&season=summer&debug');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const readout = page.locator('.sky-readout');
   await expect(readout).toHaveText('Midday 12:00');
   await expect(page.locator('.debug')).toContainText('sky summer 12.00h');
@@ -713,7 +714,7 @@ test('the night is dark and lit by the light of its time: gas lamps glow in 1880
   page.on('pageerror', (e) => errors.push(e.message));
   const debug = page.locator('.debug');
   await page.goto('./?year=1880&hour=21&season=winter&place=llandeilo&debug');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(debug).toContainText(
     'light homes oil-lamp street gas in town-north-of-tywi by 1876.00 [documented]',
   );
@@ -740,7 +741,7 @@ test('the night is dark and lit by the light of its time: gas lamps glow in 1880
   await expect(page.locator('.loader')).toHaveCount(0);
   await page.screenshot({ path: 'test-results/light-1880-night.png' });
   await page.goto('./?year=1942&hour=21&season=winter&place=llandeilo&debug');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(debug).toContainText('light homes blacked-out street off on 1939.67 [documented]');
   await expect(debug).not.toContainText('street warmth');
   await expect(debug).toContainText('(windows 0.00 hearth 0.00 street 0.00)');
@@ -767,7 +768,7 @@ test('the night light reads from the overview: the halos put the lit town and fa
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./?year=1880&hour=23&season=winter&debug');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.loader')).toHaveCount(0);
   await expect.poll(async () => (await meshState(page, 'halos-window')).visible).toBe(true);
   expect(await setHalos(page, true)).toBe(3);
@@ -790,7 +791,7 @@ test('the night light reads from the overview: the halos put the lit town and fa
 
 test('the day passes on its own when asked, and stops when the slider is moved', async ({ page }) => {
   await page.goto('./?year=1880&hour=10');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const play = page.getByRole('button', { name: 'Let the day pass' });
   await play.click();
   await expect(play).toHaveAttribute('aria-pressed', 'true');
@@ -802,7 +803,7 @@ test('the day passes on its own when asked, and stops when the slider is moved',
 
 test('the timeline year labels never overlap, at any desktop width, in either language', async ({ page }) => {
   await page.goto('./');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const overlaps = async (): Promise<string[]> =>
     page.$$eval('.tl-tick', (els) => {
       const boxes = els
@@ -828,7 +829,7 @@ test('the timeline year labels never overlap, at any desktop width, in either la
 
 test('place labels never sit under the panels, the compass or the timeline', async ({ page }) => {
   await page.goto('./?year=1880&place=llandeilo');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.label').filter({ visible: true }).first()).toBeVisible();
   const covered = async (): Promise<(string | null)[]> =>
     page.evaluate(() => {
@@ -888,7 +889,7 @@ test('photo pins, on by default, never sit under the panels, the timeline, the c
     './?year=1950&place=llandeilo&radius=140',
   ]) {
     await page.goto(url);
-    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await ready(page);
     // In the overview the one pin that fits sits under Llandeilo's label, which wins, so none need show.
     if (url.includes('place='))
       await expect(page.locator('.pin').filter({ visible: true }).first()).toBeVisible();
@@ -908,27 +909,63 @@ test('photo pins, on by default, never sit under the panels, the timeline, the c
 test('every fifth year the photographs are pinned (1895 to 1955) shows a pin at some standard view, and 1960 shows none', async ({
   page,
 }) => {
-  test.slow(
-    Boolean(process.env['CI']),
-    'thirteen years at up to three views each: 6.8 minutes on CI, against its 7-minute limit',
-  );
   const views = ['&place=llandeilo&radius=140', '&place=llandeilo&radius=400', ''];
-  const shown = async (y: number): Promise<number> => {
-    for (const view of views) {
-      await page.goto(`./?year=${String(y)}${view}`);
-      await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
-      await page.waitForTimeout(800);
-      const n = await page.locator('.pin').filter({ visible: true }).count();
-      if (n > 0) return n;
+  const years = [1895, 1900, 1905, 1910, 1915, 1920, 1925, 1930, 1935, 1940, 1945, 1950, 1955, 1960];
+  const pins = page.locator('.pin').filter({ visible: true });
+  // One page load per view: the year is dragged along the timeline inside the page, which is how a
+  // visitor moves it, with the mouse held down so that letting go never snaps to a key date.
+  const shownAt = new Map<number, number>();
+  for (const view of views) {
+    const todo = years.filter((y) => !shownAt.has(y) || y === 1960);
+    const first = todo[0];
+    if (first === undefined) break;
+    await page.goto(`./?year=${String(first)}${view}`);
+    await ready(page);
+    const box = await page.locator('.tl-track').boundingBox();
+    if (!box) throw new Error('The timeline has no box');
+    const at = (y: number): number => box.x + tAt(TIMELINE, year(y)) * box.width;
+    const mid = box.y + box.height / 2;
+    // Start the drag on a bit of track no key-date marker covers: a marker takes the press for itself.
+    const bare = await page.evaluate(
+      (from) => {
+        for (let dx = 0; dx < 200; dx += 3)
+          for (const x of [from.x + dx, from.x - dx]) {
+            const el = document.elementFromPoint(x, from.y);
+            if (el?.closest('.tl-track') && !el.closest('.tl-marker')) return x;
+          }
+        return undefined;
+      },
+      { x: at(first), y: mid },
+    );
+    if (bare === undefined) throw new Error('No bare track to start the drag on');
+    await page.mouse.move(bare, mid);
+    await page.mouse.down();
+    for (const y of todo) {
+      // A real mouse reports x as a 32-bit float, which lands a year short of a whole year about half the
+      // time, and a photograph's window ends on a whole year; so the held drag is carried by a pointermove
+      // at the exact x of the year, and the next rendered frame is waited for in the same breath.
+      await page.evaluate((x) => {
+        const track = document.querySelector('.tl-track');
+        if (!track) throw new Error('no timeline');
+        track.dispatchEvent(new PointerEvent('pointermove', { clientX: x, bubbles: true }));
+      }, at(y));
+      await expect(page.locator('.tl-year'), `${String(y)}${view}`).toHaveText(String(y));
+      // The pin layer stamps the year it last laid out, so the count below is for exactly this year.
+      await expect(page.locator('.pins'), `${String(y)}${view} laid out`).toHaveAttribute(
+        'data-year',
+        String(y),
+      );
+      const n = await pins.count();
+      console.info(`dewidebug e2e pins year=${String(y)} view="${view}" visible=${String(n)}`);
+      if (n > 0) shownAt.set(y, n);
     }
-    return 0;
-  };
-  const missing: number[] = [];
-  for (let y = 1895; y <= 1955; y += 5) if ((await shown(y)) === 0) missing.push(y);
+    await page.mouse.up();
+  }
+  const missing = years.filter((y) => y !== 1960 && !shownAt.has(y));
   expect(missing).toEqual([]);
   // Known gap: 2281931 is the only photograph pinned in 1956 to 1960 and it sits under the Llandeilo label
   // at every standard view (labels win), so those years show no pin until the camera moves.
-  expect(await shown(1960)).toBe(0);
+  expect(shownAt.get(1960) ?? 0).toBe(0);
 });
 
 test('with the pins on by default the Llandeilo label still shows, in the overview and in the town', async ({
@@ -940,7 +977,7 @@ test('with the pins on by default the Llandeilo label still shows, in the overvi
     './?year=1950&place=llandeilo&radius=140',
   ]) {
     await page.goto(url);
-    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await ready(page);
     if (url.includes('place='))
       await expect(page.locator('.pin').filter({ visible: true }).first(), url).toBeVisible();
     await expect(
@@ -975,7 +1012,7 @@ test('the ? icon and its caption never sit over the right-hand panels, in either
     ['cy', 'Pryd ydyn ni?'],
   ] as const) {
     await page.goto(`./?year=1282&place=llandeilo&radius=200&lang=${lang}`);
-    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await ready(page);
     await page.locator('.bubble').filter({ visible: true }).click();
     await expect(page.locator('.convo')).toBeVisible();
     expect(await clash('.convo'), lang).toBe('');
@@ -987,7 +1024,7 @@ test('the ? icon and its caption never sit over the right-hand panels, in either
     await expect(page.locator('.guess')).toBeVisible();
     expect(await clash('.guess'), lang).toBe('');
     await page.goto(`./?year=1900&place=llandeilo&radius=140&photos=1&lang=${lang}`);
-    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await ready(page);
     const photos = page.getByRole('button', { name: lang === 'en' ? 'Photos' : 'Lluniau', exact: true });
     await expect(photos).toHaveAttribute('aria-pressed', 'true');
     expect(await clash('Photos', photos), lang).toBe('');
@@ -1003,7 +1040,7 @@ test('? or the Keys button open the welcome at its controls, and Escape or ✕ c
   page,
 }) => {
   await page.goto('./');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const dialog = page.getByRole('dialog', { name: 'How to explore' });
   // Automated browsers are not shown it at start (?welcome=1 asks for it).
   await expect(dialog).toBeHidden();
@@ -1035,7 +1072,7 @@ test('the welcome opens after Begin, reopens from its icon, explains the labels,
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./?begin=1&welcome=1');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const card = page.getByRole('dialog', { name: 'Llandeilo' });
   const welcome = page.getByRole('dialog', { name: 'How to explore' });
   await expect(card).toBeVisible();
@@ -1103,7 +1140,7 @@ test('the welcome opens after Begin, reopens from its icon, explains the labels,
   await expect(atStart).toBeChecked();
   await atStart.uncheck();
   await page.reload();
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await card.getByRole('button', { name: 'Begin' }).click();
   await expect(card).toBeHidden();
   await expect(welcome).toBeHidden();
@@ -1114,7 +1151,7 @@ test('the welcome opens after Begin, reopens from its icon, explains the labels,
 
 test('place labels never overlap one another on the overview', async ({ page }) => {
   await page.goto('./?year=74');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.label').filter({ visible: true }).first()).toBeVisible();
   const clashes = async (): Promise<string[]> =>
     page.evaluate(() => {
@@ -1133,7 +1170,7 @@ test('place labels never overlap one another on the overview', async ({ page }) 
   await expect.poll(clashes).toEqual([]);
   // At a key date the label of the moment's own place wins any clash.
   await page.goto('./?year=1172');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.moment-place')).toHaveText('Dinefwr');
   await expect(page.locator('.label', { hasText: /^Dinefwr/ })).toBeVisible();
   await expect.poll(clashes).toEqual([]);
@@ -1143,7 +1180,7 @@ test('a key date whose season and hour a source records sets the sky to match, u
   page,
 }) => {
   await page.goto('./?year=1850&hour=17&season=summer');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.locator('.tl-marker[aria-label^="1857"]').first().click();
   await expect(page.locator('.sky-note')).toContainText(
     'Season from the record, hour chosen: Tuesday 20 January 1857',
@@ -1167,7 +1204,7 @@ test('the debug overlay names each sounding bed and its reason: no bells before 
   const debug = page.locator('.debug');
   const at = async (y: number): Promise<void> => {
     await page.goto(`./?debug&year=${String(y)}`);
-    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await ready(page);
   };
   await at(1282);
   await expect(debug).toContainText(/sound river 0\.\d\d reconstructed deeptime:S40/);
@@ -1204,7 +1241,7 @@ test('When are we? hides the year, takes a guess on the timeline, then reveals i
     Math.random = () => 0.5;
   });
   await page.goto('./?debug');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.debug')).toBeVisible();
   await page.getByRole('button', { name: 'Almanac' }).click();
   await expect(page.locator('.info')).toBeVisible();
@@ -1293,7 +1330,7 @@ test('the Begin card shows the motto in both languages, and Begin opens the vall
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./?begin=1&welcome=1');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const card = page.getByRole('dialog', { name: 'Llandeilo' });
   await expect(card).toBeVisible();
   await expect(card).toContainText('Omnia mutantur, nihil interit');
@@ -1344,7 +1381,7 @@ test('runs at the graphics level E2E_QUALITY stores, when it is set', async ({ p
   const wanted = process.env['E2E_QUALITY'];
   test.skip(wanted === undefined, 'only when the run stores a graphics level (CI uses Low)');
   await page.goto('./?debug&year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const line = async (): Promise<string> =>
     ((await page.locator('.debug').textContent()) ?? '').split('\n').find((l) => l.startsWith('quality ')) ??
     '';
@@ -1359,7 +1396,7 @@ test.describe('at the default graphics level', () => {
     page,
   }) => {
     await page.goto('./?debug&year=1282');
-    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await ready(page);
     const debug = page.locator('.debug');
     // The overlay reads these back from the renderer (pipeline, shadow map, forest), not from the table.
     const live = async (): Promise<string> =>
@@ -1382,7 +1419,7 @@ test.describe('at the default graphics level', () => {
     expect(share).toBeGreaterThan(0.25);
     expect(share).toBeLessThan(0.45);
     await page.reload();
-    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+    await ready(page);
     await expect.poll(live).toMatch(/^quality low .* bloom off {2}dof off /);
   });
 });
@@ -1401,7 +1438,7 @@ test('a cutscene plays from the moment card, moves its captions on, and Skip lan
   expect(captions.length).toBeGreaterThan(1);
   const ad74 = formatSliderYear(year(74), 'en');
   await page.goto('./?year=74');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
   await page.getByRole('button', { name: /Watch/ }).click();
   const overlay = page.locator('.cutscene');
@@ -1472,7 +1509,7 @@ test('Next from Talley reaches Llandeilo burning in the winter of 1213, and on p
   page,
 }) => {
   await page.goto('./?debug&year=1185');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const next = page.getByRole('button', { name: /Next/ });
   await next.click();
   await expect(page.locator('.moment h2')).toHaveText('Llandeilo burned, Dinefwr besieged');
@@ -1498,7 +1535,7 @@ test('the 1849 cholera marker opens its card and almanac, in both languages, wit
   page,
 }) => {
   await page.goto('./?year=1857');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const marker = page.locator('.tl-marker[aria-label^="1849"]');
   await expect(marker).toHaveCount(1);
   await marker.click({ timeout: 10_000 });
@@ -1514,7 +1551,7 @@ test('Next from the railway reaches the 1918 influenza, in the autumn its papers
   page,
 }) => {
   await page.goto('./?year=1857');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.getByRole('button', { name: /Next/ }).click();
   await expect(page.locator('.moment h2')).toHaveText('Influenza grips Llandeilo');
   await expect(page.getByRole('button', { name: 'Autumn' })).toHaveAttribute('aria-pressed', 'true');
@@ -1525,7 +1562,7 @@ test('every timeline marker can be clicked at its own centre, however close its 
   page,
 }) => {
   await page.goto('./?year=1282');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const covered = (): Promise<string[]> =>
     page.evaluate(() =>
       [...document.querySelectorAll('.tl-marker')].flatMap((m) => {
@@ -1578,7 +1615,7 @@ test('the map controls stand aside while a scene plays, and come back as they we
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./?debug&year=74');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.getByRole('button', { name: /Watch/ }).click();
   await expect(page.locator('.cutscene')).toBeVisible();
   // An open ⓘ holds the scene, so its camera stays on one pose and any other move shows.
@@ -1649,7 +1686,7 @@ test('the welcome waits for a scene to end, says how to watch one, and the ? ico
   page,
 }) => {
   await page.goto('./?cutscene=roman-arrival&welcome=1');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const welcome = page.getByRole('dialog', { name: 'How to explore' });
   const icon = page.locator('.help-button');
   await expect(page.locator('.cutscene')).toBeVisible();
@@ -1683,7 +1720,7 @@ test('a welcome due at start waits behind the Begin card and the scene it starts
   page,
 }) => {
   await page.goto('./?begin=1&welcome=1&cutscene=roman-arrival');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const welcome = page.getByRole('dialog', { name: 'How to explore' });
   await page.getByRole('dialog', { name: 'Llandeilo' }).getByRole('button', { name: 'Begin' }).click();
   await expect(page.locator('.cutscene')).toBeVisible();
@@ -1708,7 +1745,7 @@ test('a first visit shows the pins in Llandeilo in 1900 and none in 1850, and sw
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(AT_1900);
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   expect(await page.evaluate(() => localStorage.getItem('llandeilo.photos'))).toBeNull();
   const toggle = page.getByRole('button', { name: 'Photos', exact: true });
   const pins = page.locator('.pin').filter({ visible: true });
@@ -1721,18 +1758,18 @@ test('a first visit shows the pins in Llandeilo in 1900 and none in 1850, and sw
   }
   await page.screenshot({ path: 'test-results/photo-pins-1900.png' });
   await page.reload();
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
     'aria-pressed',
     'true',
   );
   await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
   await page.goto('./?year=1850&place=llandeilo&radius=140');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.waitForTimeout(1500);
   await expect(page.locator('.pin').filter({ visible: true })).toHaveCount(0);
   await page.goto(AT_1900);
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
   await page.getByRole('button', { name: 'Photos', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
@@ -1741,7 +1778,7 @@ test('a first visit shows the pins in Llandeilo in 1900 and none in 1850, and sw
   );
   await expect(page.locator('.pin').filter({ visible: true })).toHaveCount(0);
   await page.reload();
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.getByRole('button', { name: 'Photos', exact: true })).toHaveAttribute(
     'aria-pressed',
     'false',
@@ -1749,7 +1786,7 @@ test('a first visit shows the pins in Llandeilo in 1900 and none in 1850, and sw
   await page.waitForTimeout(1500);
   await expect(page.locator('.pin').filter({ visible: true })).toHaveCount(0);
   await page.goto(`${AT_1900}&photos=1`);
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(3);
   expect(errors).toEqual([]);
 });
@@ -1758,7 +1795,7 @@ test('a pin opens its photograph with the credit and an ⓘ for the date and the
   page,
 }) => {
   await page.goto(`${AT_1900}&photos=1`);
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const pin = page.locator('.pin').filter({ visible: true }).first();
   await expect(pin).toBeVisible();
   const p = photoFor(await pin.getAttribute('data-photo'));
@@ -1826,7 +1863,7 @@ test('a press on a pin that moves slides the land and opens nothing, the wheel o
   page,
 }) => {
   await page.goto(`${AT_1900}&photos=1&debug`);
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const panel = page.locator('.photo');
   const pin = page.locator('.pin').filter({ visible: true }).first();
   let before = await cameraSettled(page);
@@ -1852,7 +1889,7 @@ test('a press on a pin that moves slides the land and opens nothing, the wheel o
 
 test('a drag that starts on a speech bubble slides the land and drops its click', async ({ page }) => {
   await page.goto('./?year=1843&place=llandeilo&radius=200&debug');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const bubble = page.locator('.bubble').filter({ visible: true }).first();
   const before = await cameraSettled(page);
   const at = await centreOf(bubble);
@@ -1867,7 +1904,7 @@ test('a drag that starts on a place label slides the land without flying there, 
   page,
 }) => {
   await page.goto('./?year=1282&debug');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const label = page.locator('.label', { hasText: 'Talyllychau' });
   let before = await cameraSettled(page);
   let at = await centreOf(label);
@@ -1887,7 +1924,7 @@ test('a drag that starts on a place label slides the land without flying there, 
 
 test('Escape closes the welcome before the photograph under it, then the photograph', async ({ page }) => {
   await page.goto(`${AT_1900}&photos=1`);
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const panel = page.locator('.photo');
   await page.locator('.pin').filter({ visible: true }).first().click();
   await expect(panel).toBeVisible();
@@ -1906,12 +1943,12 @@ test('a photograph whose caption its picture contradicts is not pinned in 1900, 
 }) => {
   const inn = photoFor('harries-2282261');
   await page.goto('./?year=1900&photos=1&place=llandeilo&radius=400');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   // Two or more: a pin under a place label waits for the label, which wins.
   await expect.poll(() => page.locator('.pin').filter({ visible: true }).count()).toBeGreaterThanOrEqual(2);
   await expect(page.locator(`.pin[data-photo="${inn.id}"]`)).toBeHidden();
   await page.goto('./?year=1925&photos=1&place=llandeilo&radius=400');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const pin = page.locator(`.pin[data-photo="${inn.id}"]`);
   await expect(pin).toBeVisible();
   await pin.click();
@@ -1926,7 +1963,7 @@ test('a photograph whose caption its picture contradicts is not pinned in 1900, 
 
 test('a photograph closes when the slider leaves its years or Photos is switched off', async ({ page }) => {
   await page.goto(`${AT_1900}&photos=1`);
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.locator('.pin').filter({ visible: true }).first().click();
   await expect(page.locator('.photo')).toBeVisible();
   await page.getByRole('button', { name: 'Photos', exact: true }).click();
@@ -1944,7 +1981,7 @@ test('the photo layer reads in Welsh: the toggle, the pin names, the panel’s l
   page,
 }) => {
   await page.goto(`${AT_1900}&photos=1&lang=cy`);
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.getByRole('button', { name: 'Lluniau', exact: true })).toHaveAttribute(
     'aria-pressed',
     'true',
@@ -1979,7 +2016,7 @@ test('the credits on the About tab list every photograph with its credit and cat
   page,
 }) => {
   await page.goto('./?year=1900');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await page.getByRole('button', { name: 'About' }).click();
   const credits = page.locator('.photo-credits li');
   await expect(credits).toHaveCount(HARRIES_PHOTOGRAPHS.length);
@@ -2028,7 +2065,7 @@ test('flying to the Roman forts at AD 80 shows Fort 1 going and nothing of Fort 
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./?debug&place=roman-forts&year=80&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const debug = page.locator('.debug');
   await expect(debug).toContainText('year AD 80');
   await expect.poll(() => presenceOf(page, 'roman-fort-a')).toBeGreaterThan(0.3);
@@ -2045,7 +2082,7 @@ test('flying to the Roman forts at AD 80 shows Fort 1 going and nothing of Fort 
   await expect.poll(() => drawnPlans(page)).toEqual({ near: 1, far: 0 });
   await page.screenshot({ path: 'test-results/roman-forts-80.png' });
   await page.goto('./?debug&place=roman-forts&year=84&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(debug).toContainText('year AD 84');
   await expect.poll(() => presenceOf(page, 'roman-fort-b')).toBe(1);
   expect(await presenceOf(page, 'roman-fort-a')).toBeUndefined();
@@ -2063,7 +2100,7 @@ test('at AD 110 Fort 2 stands over Fort 1’s backfilled ditches beside the sett
   page,
 }) => {
   await page.goto('./?debug&place=roman-forts&year=110&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect.poll(() => presenceOf(page, 'roman-fort-b')).toBe(1);
   expect(await presenceOf(page, 'roman-fort-a')).toBeUndefined();
   expect(await presenceOf(page, 'roman-fort-a-levelled')).toBe(1);
@@ -2108,7 +2145,7 @@ test('at AD 84 at High, Fort 2 and the settlement are drawn from their Blender m
     if (m.text().includes('dewidebug landmark')) loaded.push(m.text());
   });
   await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const debug = page.locator('.debug');
   await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
   await expect(debug).toContainText('roman-vicus=glb:near', { timeout: 90_000 });
@@ -2157,13 +2194,13 @@ test('with ?models=off, and at Low, the forts are drawn from their plans as befo
   page,
 }) => {
   await page.goto('./?debug&quality=high&models=off&place=roman-forts&year=84&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.debug')).toContainText('roman-fort-b=procedural:near');
   await expect.poll(() => drawnPlans(page)).toEqual({ near: 3, far: 0 });
   expect(await modelParts(page, 'roman-fort-b')).toEqual([]);
   await expectNoKitsOnCard(page);
   await page.goto('./?debug&quality=low&place=roman-forts&year=84&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.debug')).toContainText('roman-fort-b=procedural:near');
   expect(await modelParts(page, 'roman-fort-b')).toEqual([]);
   await expectNoKitsOnCard(page);
@@ -2173,7 +2210,7 @@ test('switching to Low mid-session brings the procedural forts back and takes th
   page,
 }) => {
   await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   const debug = page.locator('.debug');
   await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
   const card = page.locator('.moment-parts');
@@ -2200,12 +2237,12 @@ test('the Roman forts are there from AD 74 and gone by AD 140, and nothing of th
   page,
 }) => {
   await page.goto('./?debug&place=roman-forts&year=74&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect.poll(() => presenceOf(page, 'roman-fort-a')).toBe(1);
   expect(await presenceOf(page, 'roman-fort-b')).toBeUndefined();
   await page.screenshot({ path: 'test-results/roman-forts-74.png' });
   await page.goto('./?debug&place=roman-forts&year=140&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.debug')).toContainText('year AD 140');
   await expect(page.locator('.debug')).not.toContainText(/features \d+:[^\n]*roman-(fort-|vicus)/);
   expect(await drawnPlans(page)).toEqual({ near: 0, far: 0 });
@@ -2216,7 +2253,7 @@ test('the first Roman key date lists what is drawn, part by part, and each part 
   page,
 }) => {
   await page.goto('./?year=74&place=roman-forts&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
   const parts = page.locator('.moment-parts');
   await expect(parts.locator('summary')).toHaveText('What is drawn here, part by part');
@@ -2246,7 +2283,7 @@ test('at AD 110 the card lists what is drawn then, Fort 2 with its rear gate sho
   page,
 }) => {
   await page.goto('./?year=110&place=roman-forts&radius=45');
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+  await ready(page);
   await expect(page.locator('.moment h2')).toHaveText('Rome builds forts at Dinefwr');
   const parts = page.locator('.moment-parts');
   await parts.locator('summary').click();

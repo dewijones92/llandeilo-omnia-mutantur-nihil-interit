@@ -2,7 +2,7 @@
 title: "ADR 0036: CI runs the end-to-end tests in four parallel shards"
 kind: adr
 status: accepted
-updated: 2026-10-03
+updated: 2026-10-10
 ---
 
 # ADR 0036: CI runs the end-to-end tests in four parallel shards
@@ -57,3 +57,11 @@ starts from the default High; a test asserts the stored level reaches the render
 config line removed: "quality high", expected "quality low"). The run on 2026-10-09 that prompted it:
 the cutscene test ran past its 7-minute limit on the CPU renderer at High (run 37977166640). Local runs
 on the GPU keep the default unless `E2E_QUALITY` is set.
+
+## Amended 2026-10-10: eight shards
+
+With the photo layer on by default, its new per-year test (6.8 minutes in CI, marked slow) sits next to the
+two night tests in test order, so one shard of six ran about 20 minutes while the others took 8 to 9, and
+it set the deploy's wall time. Playwright shards a `fullyParallel` run by test order, so the heavy tests
+stay together; eight shards split that run of tests across two. Decided by Claude, under the proactive
+mandate (ADR 0027).

@@ -23,6 +23,7 @@ import {
   loadRoads,
   loadWoodland,
 } from './platform/assets.ts';
+import { logUnhandled, startupDone, startupStage, watchStartup } from './platform/startup.ts';
 import { DebugOverlay } from './ui/debug.ts';
 import { PlaceLabels } from './ui/labels.ts';
 import { MomentCard } from './ui/moment.ts';
@@ -74,7 +75,23 @@ const FRAMING_RADIUS: Readonly<Record<Framing, number>> = {
 // A double-click flies in to half the distance, but no closer than this.
 const DOUBLE_CLICK_MIN_RADIUS = 40;
 
+// Awaits one start-up input and logs the stage when it lands, or when it fails (the caller's catch
+// then reports the failure; this names which input it was).
+async function loadStage<T>(name: string, work: Promise<T>): Promise<T> {
+  try {
+    const value = await work;
+    startupStage(`${name} loaded`);
+    return value;
+  } catch (err: unknown) {
+    startupStage(`${name} FAILED`, String(err));
+    throw err;
+  }
+}
+
 async function start(): Promise<void> {
+  startupStage('main started');
+  logUnhandled();
+  let contextState = 'no webgl context event seen';
   const params = new URLSearchParams(location.search);
   const langParam = params.get('lang') ?? '';
   const store = new LangStore(isLang(langParam) ? langParam : 'en');
@@ -83,20 +100,31 @@ async function start(): Promise<void> {
   const canvas = document.getElementById('scene');
   if (!app || !(canvas instanceof HTMLCanvasElement)) throw new Error('Missing #app or #scene');
 
+  canvas.addEventListener('webglcontextlost', () => {
+    contextState = `webgl context LOST at ${String(Math.round(performance.now()))}ms`;
+    console.error(`dewidebug startup ${contextState}`);
+  });
+  canvas.addEventListener('webglcontextcreationerror', (e) => {
+    contextState = 'webgl context creation FAILED';
+    console.error(`dewidebug startup ${contextState}`, e);
+  });
+  watchStartup([15_000, 60_000, 120_000], () => contextState);
+
   const opening = new OpeningCard(store, showsBegin(params, navigator.webdriver), [app, canvas]);
   document.body.append(opening.el);
 
   const [{ engine, backend, gpu }, heightfield, rivers, woodland, lidar, footprints, railways, roads] =
     await Promise.all([
-      createEngine(canvas, params.has('webgl')),
-      loadHeightfield(),
-      loadRivers(),
-      loadWoodland(),
-      loadLidar(),
-      loadBuildings(),
-      loadRailways(),
-      loadRoads(),
+      loadStage('engine', createEngine(canvas, params.has('webgl'))),
+      loadStage('heightfield', loadHeightfield()),
+      loadStage('rivers', loadRivers()),
+      loadStage('woodland', loadWoodland()),
+      loadStage('lidar', loadLidar()),
+      loadStage('buildings', loadBuildings()),
+      loadStage('railways', loadRailways()),
+      loadStage('roads', loadRoads()),
     ]);
+  startupStage('inputs all loaded', `backend=${backend}`);
   const chosen = chooseQuality({
     param: params.get('quality'),
     fx: params.get('fx'),
@@ -104,13 +132,16 @@ async function start(): Promise<void> {
   });
   console.info(`dewidebug quality start=${chosen.quality} from=${chosen.source}`);
   const world = new World(engine, heightfield, rivers, woodland, lidar, QUALITY[chosen.quality]);
+  startupStage('world built');
   const content = WORLD_CONTENT;
   const trainModels = new Map<RollingStock, LoadedModel>();
+  startupStage('train model loading');
   const llanelly = await loadModel(
     world.scene,
     `${import.meta.env.BASE_URL}models/llanelly-train.glb`,
     TRAIN_SCALE,
   );
+  startupStage('train model done', llanelly ? 'loaded' : 'missing (see the model warning above)');
   if (llanelly) trainModels.set('llanelly-1850s', llanelly);
   // Blender models for the important landmarks (ADR 0053), above Low only; ?models=off draws them procedurally.
   const modelsFor = (q: Quality): boolean => q !== 'low' && params.get('models') !== 'off';
@@ -433,7 +464,7 @@ async function start(): Promise<void> {
     store.t('photos'),
   );
   const syncPins = (): void => {
-    pins.setShown(photosOn ? snap.photographs : []);
+    pins.setShown(photosOn ? snap.photographs : [], calendarYear(snap.year));
     const open = photoPanel.open;
     if (open && !pins.has(open.id)) photoPanel.close();
   };
@@ -762,7 +793,9 @@ async function start(): Promise<void> {
   window.addEventListener('resize', () => {
     engine.resize();
   });
+  startupStage('scene built', 'waiting for scene.whenReadyAsync');
   await world.scene.whenReadyAsync();
+  startupStage('scene ready');
   opening.ready(
     () => {
       setSound(true);
@@ -800,11 +833,13 @@ async function start(): Promise<void> {
     console.info(`dewidebug cutscene from url id=${sceneParam.id} at=${String(at)}`);
   }
   document.body.dataset['ready'] = 'true';
+  startupDone();
   console.info(`dewidebug app ready backend=${backend}`);
 }
 
 start().catch((err: unknown) => {
   console.error('dewidebug app failed to start', err);
+  startupStage('FAILED', err instanceof Error ? err.message : String(err));
   const lang = new URLSearchParams(location.search).get('lang') === 'cy' ? 'cy' : 'en';
   document.body.dataset['ready'] = 'error';
   const msg = document.createElement('p');

@@ -48,6 +48,7 @@ export class PhotoPins {
   readonly visible: Box[] = [];
   private readonly pins: Pin[] = [];
   private shown = new Set<PhotoId>();
+  private shownYear: number | undefined;
 
   constructor(
     private readonly scene: Scene,
@@ -87,8 +88,9 @@ export class PhotoPins {
     }
   }
 
-  setShown(photos: readonly Photograph[]): void {
+  setShown(photos: readonly Photograph[], year: number): void {
     this.shown = new Set(photos.map((p) => p.id));
+    this.shownYear = year;
   }
 
   has(id: PhotoId): boolean {
@@ -116,5 +118,8 @@ export class PhotoPins {
       }
       if (pin.el.style.display !== display) pin.el.style.display = display;
     }
+    // The year these pins were laid out for, so a test can count them for exactly that year.
+    const laid = this.shownYear === undefined ? '' : String(this.shownYear);
+    if (this.el.dataset['year'] !== laid) this.el.dataset['year'] = laid;
   }
 }
