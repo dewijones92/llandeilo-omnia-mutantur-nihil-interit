@@ -275,7 +275,7 @@ Decisions table above is the summary; it links to the ADR or log entry that hold
 ## Build & test
 
 ```bash
-npm run dev                          # the always-on dev server on :5051 (?debug for the overlay, ?year=1282, ?place=garn-goch, ?quality=low, ?begin=1, ?photos=1)
+npm run dev                          # the always-on dev server on :5051 (?debug for the overlay, ?year=1282, ?place=garn-goch, ?quality=low, ?begin=1, ?photos=0 to hide the photo pins, which are on by default)
 npm run check                        # format, types, lint, unit tests, knip (the pre-push hook runs the same)
 npx vite build && npx playwright test   # production build and e2e (needs PAGES_BASE to match CI)
 node tools/research/extract-sources.mjs # after any change to docs/research/*.md

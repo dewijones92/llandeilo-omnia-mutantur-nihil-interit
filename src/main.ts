@@ -767,8 +767,9 @@ async function start(): Promise<void> {
     ambience?.near('railcar', trainNear);
     world.scene.render();
     bubbles.update(active, now);
-    pins.update(onScreen(chrome));
-    labels.update([...bubbles.visible, ...pins.visible, ...onScreen(chrome)]);
+    const chromeBoxes = onScreen(chrome);
+    labels.update([...bubbles.visible, ...chromeBoxes]);
+    pins.update([...bubbles.visible, ...labels.visible, ...chromeBoxes]);
   });
   window.addEventListener('resize', () => {
     engine.resize();
