@@ -858,3 +858,98 @@ Milestones and what each one taught us. Newest last.
    is clean, and a self-test now proves the guard fires); `npm ci` ran on a file-time comparison and would
    have deleted the dev server's `node_modules`; `timeout` left Windows `node.exe` and Chrome running;
    and a `kill -9` left an orphan preview holding the lock.
+
+16. **Real ground for the town and the Roman forts** (Claude, under the proactive mandate, GitHub issue 2;
+   [ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), [`data/lidar.md`](../data/lidar.md);
+   merged with main on 2026-10-10, which took ADR 0041 to 0047, so this ADR became 0048, and 0049 when the GPU kit took 0048). The long-agreed
+   close-up LiDAR was built: 25 one-kilometre Welsh Government 1m tiles became 80 tiles of 500m in one 3MB
+   file (2m for the town and forts, 10m round them), drawn as flat-shaded meshes at 4, 10 or 20m by distance,
+   in a hole in the Terrain 50 mesh whose rim is watertight by construction (read back from the real vertex
+   buffers: largest gap 0.0000038 world units). One `Terrain` answers the height for everything, so the town
+   sits on its ground; a period's changes are ground edits laid over the base, never written into it.
+   The things that cost time: a winding I had backwards (the new ground was invisible and the plinth showed
+   through the hole, until a unit test pinned Babylon's rule: a face seen from above has its cross product
+   pointing down); a 2m mesh, 127,000 triangles a tile, took 0.4 to 2.5s to upload on this laptop and
+   hitched the camera, so the mesh stops at 4m and the 2m data sets the heights; classifying the ground per
+   triangle at 4m dithered farm and grass into confetti, so covers are scored per 10m block on the lie of
+   the land over 40m each way; 81 separate tile requests failed twice ("Failed to fetch") in the full e2e
+   run under load, so the tiles are one file; and a first draft let trees stand on the coarse triangles'
+   cover while the ground drawn under them used another, which the review caught. The review also showed
+   that adding the rim points shifts the coarse mesh's percentile ranks, so about 0.2% of far-away
+   triangles can change cover; the ADR says so. Seen red first: the LOD, blend, rim, tile-geometry, seam,
+   river and ground-edit unit tests (stubs returning wrong values), the data tests (six tiles, then one,
+   transposed), and all five e2e tests (with the detail switched off). Frame cost, measured on the shared
+   laptop: about a quarter less idle, the same orbiting. Lesson: put the proof of "no seam" in the shipped
+   code (`llandeiloDebug.seam()`), and read it from the buffers, not from the arithmetic that made them.
+
+   **The review of the LiDAR build, fixed 2026-10-10** (second Opus; each finding verified first, ADR 0049
+   amended). (1) **Roads sank into the new ground.** A ribbon takes the height at its vertices and runs
+   straight between them; OS road legs are hundreds of metres long and the 2m ground has bumps. Measured
+   by the e2e test on the old build: a road ribbon 0.85 world units (3.6m) under the ground, against the
+   review's 3.7m over a 551m leg. Fix: a point every 4m inside the region (`densifyWhere`, `Terrain.lineOnGround`)
+   for roads, rail sections and the train, and the forts' ribbons use the same step (they had 6m). Red at
+   the assertion "lowest > 0.1" with the lines left unsplit, green with them split; the street lamps are
+   points on the ground and needed nothing. Looked at on the GPU: the town road at radius 60 is whole, and
+   Fort 1 and Fort 2 at AD 80 and 110 sit with their ditch and road ribbons on the ground
+   (`docs/images/lidar/review-*.jpg`). (2) **Every tree on the map moved.** A tree took its traits from the
+   Delaunay triangle's index and the rim points renumber them. Checked by building main beside the branch:
+   all 148,111 triangles more than 500m outside the region have the same centroid, so seeding from the
+   centroid (`treeSeed`) keeps them; the 277 that changed lie within 103m of the region. My first
+   comparison, of tree positions against main, said 0% unchanged, which was true and meaningless: a new
+   hash re-rolls every tree once, so the check had to be on the triangles, not the trees. (3) The first
+   seed hash, `hash2` on the rounded centroid, collided for 17% of a million centres; a murmur-style mix
+   fixed it, and the unit test that counts distinct seeds is what found it. (4) **A ground edit moves only
+   what asks the height**, not what was placed at start: now said plainly in the ADR, the todo and CLAUDE.md,
+   rather than built (it needs `Terrain` to publish a change and the features, forest and water to
+   re-place). (5) The seam check proved heights, not watertightness: it now also counts coarse corners
+   inside the region (0) and rim edges drawn (450 of 450), in `rimTopology`, with mutation checks that the
+   unit tests fail when either rule is broken. (6) The data note said five date mismatches; it is 16
+   (checked from the manifest). (7) One point-to-segment distance, not two (`nearestOnSegment`). (8) The
+   whole manifest was bundled for one sentence; the credit is generated into one small file. (9)
+   `build-lidar.py --verify`, and the file list from `links.txt`. (10) The coarse-terrain triangle count
+   in CLAUDE.md. Not done: pinning outside-region land cover (a test of it would pin a value that moves
+   whenever the point set does; the trees, which the review said had no test either, got only a test of the
+   seed hash, which does not fail if the seed goes back to the triangle's index: see the second review
+   below). The
+   merge with main took ADR 0041 to 0047 and then, a quarter of an hour later, 0048 for the GPU kit: the
+   LiDAR ADR is 0049, after two renumberings, so check the highest number *at the push*, not at the merge.
+   Final run on the merged tree (2026-10-10): `npm run check` green (487 unit tests), `vite build` green, the
+   full e2e with `E2E_WORKERS=1` 54 passed and 1 skipped (the one that needs `E2E_QUALITY`) in 8.5 minutes;
+   one page-load hang appeared earlier in a two-test run and did not recur on rerun.
+
+   **The second review of the LiDAR build, fixed 2026-10-10** (second Opus; each finding verified first).
+   (1) **Roads and the railway were buried by the coarse mesh.** `surfaceAt` inside the region is the smooth
+   2m ground, but the mesh drawn is cut at 4, 10 or 20m by camera distance, and the road test compared
+   ribbons with `surfaceAt`, so it could not see it. Built `drawnAt` (the resident tile at its step) and
+   `drawnAtStep`, from one `tileSurfaceAt` that shares the cell cut with `tileGeometry` (unit test seen red
+   with the cut flipped), and rewrote the road test to compare every road and rail leg with the mesh drawn.
+   Red on the old build at the assertion "samples under the mesh": 709 at the overview, 276 in the town view.
+   My first fix, lifting each vertex to the highest mesh any step could draw, made the e2e green and was
+   wrong: the same measure showed the road hovering up to 5m above the 4m mesh in 714 samples, because a
+   coarse mesh bridges a cutting. Reading the "floating" number, not only the "under" one, is what
+   caught it. Chosen instead: ribbons lie on the mesh drawn and are laid again when their tile is redrawn
+   (`Terrain.onDrawnChange`, `Ribbon.relay`, `Train.relay`): none under, at most 0.59 units above, at the
+   overview, in the town and back. That seam also carries ground edits, which the review's earlier
+   finding had said needed building: with a 3m ridge laid, 341 samples were under before and none after.
+   The train's re-laying was not covered by a test (see the third review below). (2) **The tree-identity fix had no test that fails if
+   undone.** The earlier "test" only checked the seed hash. Pulled candidate generation into a pure
+   `treeSites`, moved the rim clearance into `nearRim`, and `tests/tree-identity.test.ts` triangulates a
+   point set with and without the rim and asserts the same tree for every triangle more than 500m outside
+   the region; with the seed taken from the triangle's index it fails with 14,584 trees changed. The 148,111
+   figure above stays a one-off measurement against main's build; this is the standing check.
+
+   **The third review of the LiDAR build, fixed 2026-10-10** (second Opus; each finding verified first, ADR 0049
+   amended). (1) **Ribbon corners were under the mesh.** Each vertex pair was laid at its centreline point's
+   height, so both corners shared one y, and the e2e sampled the midpoint of each leg, which is exactly where
+   that is right. Made the e2e sample both edges and saw it red on the code as it was: 2,412 samples under the
+   mesh drawn, as low as 0.46 units under, at the overview. Fix: each corner is laid at the ground under its own x
+   and z, in the build and in `relay`. Now none under, lowest 0.10 above, at most 0.46 (overview) and 0.51 (town)
+   above, with the 6,216 legs and both edges sampled. Retook the town screenshot at radius 60 on the GPU: roads
+   whole, on the ground. (2) **`Train.relay` had no test.** Added an e2e that puts the train near the town
+   (`Train.placeNear`, behind `llandeiloDebug.placeTrainNear`: the train starts at the far end of its line and
+   takes minutes to reach the town: about 10 units a second over a line some 1,500 units long, so waiting for it was no use) and reads its height
+   above `drawnAt` at the overview, with its tile at 4m and back out. Seen red with the relay call commented
+   out: 0.19 off at the overview and 0.10 off back out. Lesson: the previous fix's own claim, "none under the
+   mesh", was true of the quantity measured and false of the mesh; the number to check is the one nearest the
+   thing drawn. (3) **Docs overstated.** The ADR said forts' ditches and roads were laid again; they are laid
+   once, by `buildPlan`, on `surfaceAt`. It also understated the relay's cost: every relay loops all eight rail ribbons, and recomputes the normals for and re-uploads the 16,496-vertex roads mesh; the ADR now says so.

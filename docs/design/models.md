@@ -99,7 +99,7 @@ Archaeology" (reference, not evidence) and the Hughes report in each ⓘ. Screen
 (rampart, ditches, gate towers, roads) beyond 2.3km and a near one inside 2km. **Editing**: a part is a data entry
 (`fort1/gate-sw/tower-left`); gates are separate parts (towers, walkway, passage, two leaves) so a leaf can
 become its own object, though the renderer merges them today. **Not done**: the issue's Blender project (Dewi
-chose the in-app build), animation, interiors to walk, characters, and registration on the LiDAR terrain.
+chose the in-app build on 2026-10-09; on 2026-10-10 he chose scripted Blender models for every landmark, [ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md), now being built), animation, interiors to walk, characters, and registration on the LiDAR terrain.
 
 ## Research gaps hit while modelling
 

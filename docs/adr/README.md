@@ -2,7 +2,7 @@
 title: Architecture decision records
 kind: index
 status: current
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Architecture decision records
@@ -48,7 +48,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0014](0014-parallel-agents-and-second-review.md) | Parallel agents in worktrees, and a second review of every commit | Accepted | 2026-09-28 |
 | [0015](0015-desktop-only.md) | Desktop only, with a banner elsewhere | Accepted | 2026-09-28 |
 | [0016](0016-no-bundle-size-limit.md) | No bundle size limit | Accepted, supersedes 0004's budget | 2026-09-28 |
-| [0017](0017-hybrid-modelling.md) | Procedural architecture, scripted Blender for props | Accepted | 2026-09-28 |
+| [0017](0017-hybrid-modelling.md) | Procedural architecture, scripted Blender for props | Accepted; "architecture stays procedural" superseded by 0052 | 2026-09-28 |
 | [0018](0018-backlog-as-a-gated-board.md) | The backlog is a board of task files in the repo, gated by a validator | Superseded by 0022 | 2026-09-29 |
 | [0019](0019-suggestions-arrive-as-github-issues.md) | Other people's suggestions arrive as GitHub issues, and become cards | Accepted; forms superseded by 0020, posting rule by 0021, cards by 0022 | 2026-09-29 |
 | [0020](0020-plain-github-issues.md) | Suggestions arrive as plain GitHub issues, with no issue forms | Accepted; posting rule superseded by 0021, cards by 0022 | 2026-10-01 |
@@ -80,6 +80,8 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0046](0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md) | The Roman forts are drawn true size from typed plans whose parts carry their own tier | Accepted | 2026-10-09 |
 | [0047](0047-detailed-monuments-have-a-far-and-a-near-mesh.md) | A detailed monument has a far and a near mesh, chosen by the camera's distance | Accepted | 2026-10-09 |
 | [0048](0048-gpu-e2e-on-windows-chrome.md) | The GPU tests run on Windows Chrome, against a preview served from WSL | Accepted (Dewi's idea and runner; design Claude, under the proactive mandate) | 2026-10-09 |
+| [0049](0049-lidar-terrain-tiles-blended-into-terrain-50.md) | LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart | Accepted, extends 0009; amended 2026-10-10 (the review: lines on the ground, tree identity, what an edit moves) | 2026-10-09 |
+| [0052](0052-landmarks-are-scripted-blender-models-built-from-their-plans.md) | Landmarks are scripted Blender models, built from their sourced plans | Accepted (Dewi's decision and scope; the boundary and rules Claude's, under the proactive mandate), supersedes part of 0017 | 2026-10-10 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

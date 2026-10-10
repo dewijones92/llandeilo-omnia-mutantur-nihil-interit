@@ -6,12 +6,13 @@ import {
   StandardMaterial,
   Vector3,
   VertexData,
+  VertexBuffer,
   type Scene,
 } from './babylon.ts';
 import { hex } from '../domain/colour.ts';
 import { HALOS } from '../domain/halo.ts';
 import type { LampState } from '../domain/lamplight.ts';
-import { WORLD } from '../domain/geo.ts';
+import { inWorldBox, WORLD, type WorldBox } from '../domain/geo.ts';
 import type { GridRef, RollingStock } from '../domain/model.ts';
 import { hash2 } from '../domain/noise.ts';
 import { cumulativeLengths, segmentAt } from '../domain/polyline.ts';
@@ -218,6 +219,14 @@ function windowPanes(scene: Scene): Mesh[] {
   return panes;
 }
 
+export interface Ribbon {
+  readonly mesh: Mesh;
+  // Lays the ribbon again on its ground wherever it passes through one of `areas`.
+  relay(areas: readonly WorldBox[]): void;
+}
+
+// A ribbon along each line, `lift` above `ground` at each of its corners. Corners where `follows` holds are
+// laid again by `relay` when the ground under them is redrawn.
 export function lineRibbons(
   scene: Scene,
   name: string,
@@ -226,9 +235,11 @@ export function lineRibbons(
   widthFor: (kind: string) => number,
   colour: string,
   lift: number,
-): Mesh {
+  follows: (x: number, z: number) => boolean,
+): Ribbon {
   const positions: number[] = [];
   const indices: number[] = [];
+  const followed: { vertex: number; x: number; z: number }[] = [];
   let v = 0;
   for (const line of lines) {
     const w = widthFor(line.kind);
@@ -245,8 +256,14 @@ export function lineRibbons(
       const len = Math.hypot(b.x - a.x, b.z - a.z) || 1;
       const nx = (-(b.z - a.z) / len) * (w / 2);
       const nz = ((b.x - a.x) / len) * (w / 2);
-      const y = ground(p.x, p.z) + lift;
-      positions.push(p.x + nx, y, p.z + nz, p.x - nx, y, p.z - nz);
+      const corners = [
+        { x: p.x + nx, z: p.z + nz },
+        { x: p.x - nx, z: p.z - nz },
+      ];
+      for (const c of corners) {
+        positions.push(c.x, ground(c.x, c.z) + lift, c.z);
+        if (follows(c.x, c.z)) followed.push({ vertex: positions.length / 3 - 1, x: c.x, z: c.z });
+      }
       if (i > 0) indices.push(v - 2, v - 1, v, v - 1, v + 1, v);
       v += 2;
     }
@@ -258,7 +275,7 @@ export function lineRibbons(
   const normals: number[] = [];
   VertexData.ComputeNormals(positions, indices, normals);
   data.normals = normals;
-  data.applyToMesh(mesh);
+  data.applyToMesh(mesh, followed.length > 0);
   const mat = new StandardMaterial(`${name}-mat`, scene);
   mat.diffuseColor = Color3.FromHexString(colour);
   mat.specularColor = Color3.Black();
@@ -267,7 +284,25 @@ export function lineRibbons(
   mesh.material = mat;
   mesh.receiveShadows = true;
   mesh.isPickable = false;
-  return mesh;
+  const relay = (areas: readonly WorldBox[]): void => {
+    let moved = 0;
+    for (const f of followed) {
+      if (!areas.some((box) => inWorldBox(box, f.x, f.z))) continue;
+      const y = ground(f.x, f.z) + lift;
+      const at = f.vertex * 3 + 1;
+      if (Math.abs((positions[at] ?? y) - y) < 1e-6) continue;
+      positions[at] = y;
+      moved++;
+    }
+    if (moved === 0) return;
+    VertexData.ComputeNormals(positions, indices, normals);
+    mesh.updateVerticesData(VertexBuffer.PositionKind, positions, true);
+    mesh.updateVerticesData(VertexBuffer.NormalKind, normals);
+    console.info(
+      `dewidebug ribbon ${name} laid again on ${String(moved)} of ${String(followed.length)} corners`,
+    );
+  };
+  return { mesh, relay };
 }
 
 interface Stock {
@@ -287,7 +322,12 @@ export class Train {
   /** The part of the path in use, as fractions of its length; undefined when no track is drawn. */
   private span: readonly [number, number] | undefined = [0, 1];
 
-  constructor(scene: Scene, line: MapLine, ground: Ground, models: ReadonlyMap<RollingStock, LoadedModel>) {
+  constructor(
+    scene: Scene,
+    line: MapLine,
+    private readonly ground: Ground,
+    models: ReadonlyMap<RollingStock, LoadedModel>,
+  ) {
     this.path = line.points.map((p) => {
       const x = (p.e - WORLD.centre.e) / WORLD.metresPerUnit;
       const z = (p.n - WORLD.centre.n) / WORLD.metresPerUnit;
@@ -316,6 +356,35 @@ export class Train {
 
   get chimney(): Vector3 | undefined {
     return this.current?.chimney;
+  }
+
+  // Lays the path again on its ground wherever it passes through one of `areas`.
+  relay(areas: readonly WorldBox[]): void {
+    for (const p of this.path)
+      if (areas.some((box) => inWorldBox(box, p.x, p.z))) p.y = this.ground(p.x, p.z);
+  }
+
+  // Puts the train on the path vertex nearest (x, z), if that is on the stretch in use; for tests that
+  // need it in one place, since it takes minutes to run from the end of its line to the town.
+  placeNear(x: number, z: number): boolean {
+    const span = this.span;
+    if (!span) return false;
+    let best = -1;
+    let bestSq = Number.POSITIVE_INFINITY;
+    this.path.forEach((p, i) => {
+      const sq = (p.x - x) ** 2 + (p.z - z) ** 2;
+      if (sq < bestSq) {
+        bestSq = sq;
+        best = i;
+      }
+    });
+    const at = this.lengths[best];
+    const from = span[0] * this.total;
+    const run = (span[1] - span[0]) * this.total;
+    if (at === undefined || at < from || at > from + run) return false;
+    this.distance = at - from;
+    console.info(`dewidebug train placed at path vertex ${String(best)} of ${String(this.path.length)}`);
+    return true;
   }
 
   setSpan(span: readonly [number, number] | undefined): void {

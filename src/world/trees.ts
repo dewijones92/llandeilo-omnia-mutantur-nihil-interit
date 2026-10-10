@@ -10,14 +10,17 @@ import {
   type Scene,
 } from './babylon.ts';
 import { snowCover, type SeasonLook } from '../domain/daylight.ts';
-import { hash2 } from '../domain/noise.ts';
-import { MAX_TREE_DENSITY } from '../domain/quality.ts';
-import { COVER_CODE, type Terrain } from './terrain.ts';
+import { leafRolls, treeSites } from '../domain/tree.ts';
+import { COVER_CODE } from './landcover.ts';
+import type { Terrain } from './terrain.ts';
 
 type Rgb3 = readonly [number, number, number];
 
 interface Candidate {
   readonly tri: number;
+  readonly seed: number;
+  readonly x: number;
+  readonly z: number;
   // Uniform in [0, 1): the tree is drawn when this is below the quality's tree density.
   readonly rank: number;
   readonly matrix: Float32Array;
@@ -61,11 +64,11 @@ function treeColour(c: Candidate, look: SeasonLook): Rgb3 {
   if (c.conifer) {
     base = CONIFER;
   } else {
-    const r = hash2(c.tri, 71, 3);
+    const roll = leafRolls(c.seed);
     const leaf = look.season === 'spring' ? LEAF.spring : LEAF.summer;
-    if (r < look.bare) base = BARE;
-    else if (r < look.bare + look.turned * (1 - look.bare)) base = pick(AUTUMN, hash2(c.tri, 72, 5), leaf);
-    else if (hash2(c.tri, 73, 7) < look.blossom) base = pick(BLOSSOM, hash2(c.tri, 74, 2), leaf);
+    if (roll.season < look.bare) base = BARE;
+    else if (roll.season < look.bare + look.turned * (1 - look.bare)) base = pick(AUTUMN, roll.autumn, leaf);
+    else if (roll.blossom < look.blossom) base = pick(BLOSSOM, roll.blossomPick, leaf);
     else base = leaf;
   }
   const shaded: Rgb3 = [base[0] * c.shade, base[1] * c.shade, base[2] * c.shade];
@@ -90,32 +93,29 @@ export class Forest {
     this.conifer = makeConifer(scene, mat);
     const list: Candidate[] = [];
     const t = terrain.tris;
-    for (let i = 0; i < t.count; i++) {
-      const r = hash2(i, 91, 5);
-      if (r >= MAX_TREE_DENSITY) continue;
-      const scale = 1.5 + hash2(i, 17, 2) * 0.9;
-      const rot = Quaternion.RotationAxis(Vector3.Up(), hash2(i, 3, 9) * Math.PI * 2);
-      const jx = (hash2(i, 5, 1) - 0.5) * 3;
-      const jz = (hash2(i, 6, 1) - 0.5) * 3;
+    for (const site of treeSites(t)) {
+      const { traits } = site;
+      const rot = Quaternion.RotationAxis(Vector3.Up(), traits.spin);
+      const y = terrain.inDetail(site.x, site.z) ? terrain.surfaceAt(site.x, site.z) : (t.cy[site.tri] ?? 0);
       const m = Matrix.Compose(
-        new Vector3(scale, scale * (0.9 + hash2(i, 8, 3) * 0.35), scale),
+        new Vector3(traits.scale, traits.scale * traits.tallness, traits.scale),
         rot,
-        new Vector3((t.cx[i] ?? 0) + jx, (t.cy[i] ?? 0) - 0.3, (t.cz[i] ?? 0) + jz),
+        new Vector3(site.x, y - 0.3, site.z),
       );
-      const shade = 0.75 + hash2(i, 12, 4) * 0.35;
-      const heightM = t.heightM[i] ?? 0;
-      const conifer = heightM > 330 || hash2(i, 44, 8) > 0.9;
       const arr = new Float32Array(16);
       m.copyToArray(arr);
       list.push({
-        tri: i,
-        rank: r,
+        tri: site.tri,
+        seed: site.seed,
+        x: site.x,
+        z: site.z,
+        rank: traits.rank,
         matrix: arr,
-        shade,
-        conifer,
-        heightM,
-        north: t.north[i] ?? 0,
-        jitter: t.mix[i] ?? 0.5,
+        shade: traits.shade,
+        conifer: site.conifer,
+        heightM: site.heightM,
+        north: t.north[site.tri] ?? 0,
+        jitter: t.mix[site.tri] ?? 0.5,
       });
     }
     this.candidates = list;
@@ -142,7 +142,8 @@ export class Forest {
     const broad: Candidate[] = [];
     const con: Candidate[] = [];
     for (const c of this.candidates) {
-      if (c.rank < this.density && this.terrain.cover[c.tri] === code) (c.conifer ? con : broad).push(c);
+      if (c.rank < this.density && this.terrain.coverAt(c.x, c.z, c.tri) === code)
+        (c.conifer ? con : broad).push(c);
     }
     this.drawn = broad.length + con.length;
     console.info(`dewidebug forest visible=${String(this.drawn)} density=${this.density.toFixed(2)}`);

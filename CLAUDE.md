@@ -39,6 +39,7 @@ so the next reader knows the map was unreliable there.
 | Stack ✅ | Vite + TypeScript (strict) | Fast dev loop; strict types make bad content data fail at compile time |
 | Rendering ✅ | **Babylon.js**: WebGPU engine where supported, WebGL2 fallback | Dewi's pick over three.js: a fuller engine with more built in (inspector, scene tooling, audio), and WebGPU without writing our own engine |
 | Look ✅ | **Clean low-poly** 3D diorama of the real valley that you can orbit around | Charming, fast, and quick to fill every era; fidelity can be raised per era later |
+| Models ✅ | **Landmarks are scripted Blender models** (castles, the Roman forts, churches and Talley Abbey, the town, the bridge, the trains, and anything of that kind). A `blender -b` script builds each one from its typed, sourced plan and exports glTF, keeping each part's tier and sources for its ⓘ. The plan stays the one source of facts. Generic repeated buildings are a Blender-built kit placed by code; people, trees and the ground stay procedural ([ADR 0052](docs/adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md)) | Dewi, 2026-10-10: "Make all important as stuff in blender", choosing scripted models and their scope; more detail (bevels, roof timbers, textures, hinged gates, levels of detail) without losing provenance |
 | Exploring ✅ | Both: the whole 10-mile circle as one diorama, **and** a camera flight into individual places (Dinefwr, Carreg Cennen, Talley, Dryslwyn…) | Overview plus depth |
 | Slider ✅ | Both: smooth morphing while dragging, **and** magnetic key dates that snap with a short "moment" | Continuous feel without losing the landmarks |
 | Conversations ✅ | Both: short snippets appear automatically while scrubbing, **and** you can click a person for the full conversation with voice | The world feels alive, with depth on demand |
@@ -47,7 +48,7 @@ so the next reader knows the map was unreliable there.
 | Language layer ✅ | Show how spoken language changed over time and **by class** (e.g. Welsh farmers vs Norman lords vs Latin clergy), with unknowns shown as unknown | Dewi's request, and a natural fit for the ⓘ model |
 | Almanac layer ✅ | Panel for the current time: food, clothing, homes, religion, money, health, travel, population | "Not just language": more ways into daily life |
 | Family bloodline ✅ | One imagined family recurring in every era, always ⓘ | Makes it personal |
-| Terrain ✅ | **Both**: OS Terrain 50 (50m grid) for the whole 10-mile circle; Welsh Government LiDAR (1-2m) for the close-up places you fly into | The Tywi valley's shape is the one constant across every era. 50m is plenty for a low-poly overview; close-ups need the detail |
+| Terrain ✅ | **Both**: OS Terrain 50 (50m grid) for the whole 10-mile circle; Welsh Government LiDAR (1-2m) for the close-up places you fly into. **Built 2026-10-09** for Llandeilo town and the Roman forts in 500m tiles, 2m data and a 4m mesh, blended into Terrain 50 with no seam; period changes are ground edits laid over the base, never written into it (none is used yet, and objects placed at start do not follow an edit yet) ([ADR 0049](docs/adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), [data note](docs/data/lidar.md)) | The Tywi valley's shape is the one constant across every era. 50m is plenty for a low-poly overview; close-ups need the detail |
 | Timeline scale ✅ | Non-linear (deep time compressed, recent centuries spread) | A linear 12,000-year slider puts everything since the Romans in the last sliver |
 | Content ✅ | Data files in the repo, written ahead of time; **no live AI at runtime** | Reviewable, citable, testable; no runtime AI cost or invented "facts" |
 | v1 scope ✅ | **Vertical slice**: 3 eras done properly end to end before filling in the rest: **Iron Age** (e.g. Garn Goch), **Medieval up to 1282** (Dinefwr, Deheubarth), **Victorian** (gentry vs tenants, Rebecca Riots, railway). Specific sites and dates to be confirmed by research | A thin sweep of 12,000 years would look empty everywhere |
@@ -320,12 +321,12 @@ does not is not known yet.
 **Performance numbers, WebGL** (2026-10-02, WebGL on an NVIDIA RTX 2000 Ada laptop GPU through WSL's D3D12
 layer, 1920×1080, `?webgl`): ready in 17s from a warm dev server; idle 41fps; scrubbing 2fps before
 the heavy pass was throttled, about 15fps after (median frame 16.8ms, p90 52ms); terrain recolour about
-30ms for 153,944 triangles when idle, far more when frames queue (`dewidebug terrain recolour`,
+30ms for 153,944 triangles when idle (before the LiDAR; the coarse mesh now has 154,694, of which 150,326 are drawn), far more when frames queue (`dewidebug terrain recolour`,
 `dewidebug apply cost`). Night halos (2026-10-03, [ADR 0040](docs/adr/0040-a-dark-night-and-halos-that-keep-a-few-pixels.md),
 same GPU, High, 1903 overview at 23:00 with 5,374 halos, vsync off via `node tools/frames.mjs <url> <dir>
 --perf --uncapped`): idle 150-159fps before and 162-165 after, orbiting 72-105 before and 92-109
 after, the scrub's apply cost 59ms (features) and 250ms (environment) before, 45 and 246 after: no
-cost measurable through the noise of a shared GPU. With vsync on both hold 60fps idle. Local runs can use the GPU: see the WSL recipe in Build & test. Bundle: the main chunk is
+cost measurable through the noise of a shared GPU. With vsync on both hold 60fps idle. LiDAR terrain (2026-10-09, [ADR 0049](docs/adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), same GPU, 1920x1080, `--perf --uncapped`, town at 400m radius in 2020, machine shared with other agents at load average 15 to 18): idle 110 to 124fps against 139 to 175 before, orbit 66 to 69 against 68 to 81, scrub 41 to 47 against 58 to 77, about 290,000 more triangles; start-up within the noise. Local runs can use the GPU: see the WSL recipe in Build & test. Bundle: the main chunk is
 490KB gzipped (490,121 bytes, 2026-10-09 on the cutscene branch merged with main; 399,487 bytes on 2026-09-28; 387KB on 2026-09-26), plus
 chunks fetched only when needed (about 980KB gzipped across all JS). There is **no size limit**
 (Dewi, 2026-09-28; the 450KB CI budget was mine, never his, and is removed, [ADR 0016](docs/adr/0016-no-bundle-size-limit.md)).

@@ -1,5 +1,6 @@
 import type { GridRef } from '../domain/model.ts';
 import { createHeightfield, type Heightfield, type HeightfieldMeta } from '../domain/heightfield.ts';
+import { DetailGround, parseManifest, tileData } from '../domain/lidar.ts';
 
 export interface RiverLine {
   readonly name: string | null;
@@ -40,6 +41,19 @@ export async function loadHeightfield(): Promise<Heightfield> {
     `dewidebug terrain loaded ${meta.width}x${meta.height} cell=${meta.cellSize}m bytes=${data.byteLength}`,
   );
   return createHeightfield(meta, data);
+}
+
+export async function loadLidar(): Promise<DetailGround> {
+  const res = await fetch(asset('data/lidar/lidar.json'));
+  if (!res.ok) throw new Error(`lidar.json fetch failed: ${res.status}`);
+  const manifest = parseManifest(await res.json());
+  const bin = await fetch(asset(`data/lidar/${manifest.data}`));
+  if (!bin.ok) throw new Error(`${manifest.data} fetch failed: ${bin.status}`);
+  const buffer = await bin.arrayBuffer();
+  console.info(
+    `dewidebug lidar loaded ${manifest.tiles.length} tiles (${manifest.tiles.filter((t) => t.areas.length > 0).length} in priority areas) bytes=${buffer.byteLength}`,
+  );
+  return new DetailGround(manifest, tileData(manifest, buffer));
 }
 
 function points(v: unknown): GridRef[] {

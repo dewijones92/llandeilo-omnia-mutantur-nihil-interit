@@ -29,3 +29,14 @@ export function toGrid(p: WorldXZ): GridRef {
 export function heightToWorld(metres: number): number {
   return (metres * WORLD.verticalExaggeration) / WORLD.metresPerUnit;
 }
+
+export interface WorldBox {
+  readonly xMin: number;
+  readonly xMax: number;
+  readonly zMin: number;
+  readonly zMax: number;
+}
+
+export function inWorldBox(box: WorldBox, x: number, z: number): boolean {
+  return x >= box.xMin && x <= box.xMax && z >= box.zMin && z <= box.zMax;
+}

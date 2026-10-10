@@ -1,0 +1,22 @@
+{
+  "crs": "EPSG:27700",
+  "tileSize": 500,
+  "detailStep": 2,
+  "contextStep": 10,
+  "blendMetres": 300,
+  "region": { "eMin": 260000, "eMax": 265000, "nMin": 220500, "nMax": 224500 },
+  "areas": [
+    {
+      "id": "llandeilo",
+      "name": "Llandeilo town",
+      "centre": { "e": 262930, "n": 222236 },
+      "halfSize": 750
+    },
+    {
+      "id": "roman-forts",
+      "name": "Dinefwr Roman forts",
+      "centre": { "e": 262187, "n": 222534 },
+      "halfSize": 500
+    }
+  ]
+}

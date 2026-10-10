@@ -4,6 +4,7 @@
 //   node tools/frames.mjs <base url> <out dir> [--perf] [--uncapped]
 // Env: YEARS=1282,1903  HOUR=23  SEASON=winter  PLACES=overview,llandeilo  EXTRA='&quality=low'
 //      DEBUG=1 (show the ?debug overlay in the shots)  PERF_YEAR=1903 (which year to measure)
+//      PERF_PLACE=overview (which place to measure: overview or a place id, e.g. llandeilo)
 // --uncapped turns vsync and the frame-rate limit off, so idle fps shows the real frame cost
 // rather than the display's 60Hz.
 import { chromium } from '@playwright/test';
@@ -51,7 +52,8 @@ for (const place of places)
     const out = `${outdir}/${place}-${y}-${season}-${hour}h.png`;
     await page.screenshot({ path: out });
     console.log(`dewidebug frames shot ${out}`);
-    if (!perf || place !== 'overview' || y !== (process.env.PERF_YEAR ?? '1903')) continue;
+    if (!perf || place !== (process.env.PERF_PLACE ?? 'overview') || y !== (process.env.PERF_YEAR ?? '1903'))
+      continue;
     await page.waitForTimeout(3000);
     console.log(`dewidebug frames idle ${formatFrameStats(await measureFrames(page, 6000, false))}`);
     console.log(`dewidebug frames orbit ${formatFrameStats(await measureFrames(page, 6000, true))}`);
