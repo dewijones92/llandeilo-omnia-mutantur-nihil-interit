@@ -1215,13 +1215,21 @@ Fort 1's turf bank, breastwork and thatched halls at 80; Fort 2 with shingled to
    [`research/dinefwr-castle.md`](../research/dinefwr-castle.md)). Docs only. Three things worth keeping:
    (1) **a 1m LiDAR surface model (DSM) measures a ruin's standing heights and checks a published plan**: the tile's
    DSM, which the app had not downloaded (it uses the DTM), shows the keep, the curtains and the north-west tower as
-   clean flat wall-tops in a January flight, and fitting the Cadw plan to five of its points showed the plan's scale bar
-   about 5% long; earlier measurements taken from that bar (`building-models.md`) are about 5% large. (2) **A chronicle
+   clean flat wall-tops in a January flight, and fitting the Cadw plan to five of its points showed the plan as
+   reproduced drawn about 5% larger than its scale bar says (cause not known); earlier measurements taken from that bar
+   (`building-models.md`) are about 5% too big. (2) **A chronicle
    date in a secondary source may rest on a manuscript variant**: the HER's "1151 ... built" is the Brut's "repaired the
    castle of Dinweileir", Dinevwr in two manuscripts only. (3) **One source can reach a note by three routes**: Coflein,
    castlewales.com and medievalheritage.eu all carry the Cadw guidebook, so agreeing with each other is not
    cross-checking; the note marks those claims. No `src` change: a draft plan module would fail `knip` and duplicate the
-   one in `buildings.ts`.
+   one in `buildings.ts`. A review of the note the same day (second Opus) found five things worth keeping: the proposed
+   phases left 1600-1660 empty and drew the castle intact to 1600 against the "abandoned" reading (now a contested end
+   about 1450 and a decay phase to the 1660s); the scale-bar fault was stated backwards (the bar is drawn short, not
+   long); a roof is a plan value (`top: 'cone'`, `'pyramid'`, `roof: 'gable'`), not a kit, so the proposed kit list had
+   split one capability across two seams; one painted roofed tower was tiered "documented" as the south turret when
+   the identification is an inference; and a summary had misquoted the Cadw guide as finding no work after the 14th
+   century, when it records post-1403 repairs and a rebuilt south wall. Each was a thing the note's own text, read
+   against its own sources or code, already contradicted.
 
 ## 2026-10-10 (the "flaky" e2e hang)
 

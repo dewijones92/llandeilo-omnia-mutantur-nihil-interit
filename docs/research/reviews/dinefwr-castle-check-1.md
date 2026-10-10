@@ -39,7 +39,7 @@ todo path's step 3 asks for. That pass is still owed before the castle is built.
 | 1 | Coflein's reference is SN 61150 21731 | Coflein [S1] | Gatehouse quotes it as SN61152173 [S7]; listing E 261149 N 221730 [S2]; HER SN6114921730 [S3] | Confirmed (four records within 1.5m) |
 | 2 | The keep's centre is E 261168.5 N 221724.0 | LiDAR DSM ring fit [S24] | The plan's keep, fitted with four other points, lands 1.1m away [S10] | Confirmed (survey) |
 | 3 | The north-west tower's centre is E 261141.5 N 221754.0 | LiDAR fit [S24] | The fitted plan puts it 0.7m away [S10] | Confirmed |
-| 4 | The plan's bar is about 5% long against the ground | Fit of S10 to S24 (8.58 against 8.15 px/m) | The keep-to-tower distance alone gives 8.6 px/m | Confirmed (two measures of one fit; no published statement) |
+| 4 | The plan as reproduced is drawn about 5% larger than its bar says (corrected: this row first said the bar was "long", which is backwards) | Fit of S10 to S24 (8.58 against 8.15 px/m) | The keep-to-tower distance alone gives 8.6 px/m; the 100ft bar agrees with the 30m bar (8.20 and 8.15) | Confirmed for this reproduction (two measures of one fit); that the fault is Cadw's bar is **not** shown, since a photographed or rescaled reproduction would do it too |
 | 5 | Keep "some 12m across" | Coflein [S1] | Gatehouse carries the same text [S7] | Quotation confirmed; the size itself is contradicted by S9, S10 and S24 |
 | 6 | Keep "13.5 meters and walls 2.6 meters thick" | medievalheritage [S9] | No second text gives 13.5m | Single source (text); measured 13.6m [S10][S24] agrees |
 | 7 | Keep 13.6m over the drawn wall, walls 2.9m, inside 7.7m | Plan at the ground's scale [S10] | DSM: wall-walk ring out to 14.6m, which a 1m maximum grid widens [S24] | Confirmed within the survey's resolution |
@@ -80,7 +80,7 @@ todo path's step 3 asks for. That pass is still owed before the castle is built.
 | 42 | The fire: Malkin 1804 "within these few years"; "By the late 18th century ... both roofs had been destroyed by fire" | Moore quoting Malkin [S16] | Cadw guide via castlewales [S8] | Confirmed (independent) |
 | 43 | The south turret roofed with a tiled floor | Cadw guide via castlewales [S8] | Moore: a rectangular tower roofed, with a chimney [S16] | Partly: a roofed square tower confirmed; that it is the south turret single-source |
 | 44 | Courses of flat stones below, mixed flat and rectangular above (Ray Caple) | Moore [S16], read from the page image | None | Single source |
-| 45 | Bedrock: Llandeilo Flags Formation | BGS 50k [S25] | `deeptime:S1` names the formation in the Llandeilo area | Confirmed |
+| 45 | Bedrock: Llandeilo Flags Formation | BGS 50k [S25] | `deeptime:S1` names the formation, but it is Wikipedia, a lead and not a second source | Confirmed by BGS alone (single, authoritative source); "thinly laminated sandstones" rests on the Wikipedia lead only |
 | 46 | Renn's Brecon keeps "built of local rubble reasonably coursed and plastered over" | Renn p. 132 [S17] | None | Single source, and about the group, not Dinefwr; the note says so |
 | 47 | 2000: a 12m length of the south curtain dismantled and rebuilt | HER 42675 [S5] | HER 49626 and 49627 (separate event records) [S5] | Confirmed (one recorder, three records) |
 | 48 | 2002: a new stair in the north-west tower | HER 49736 [S6] | None read | Single source |
@@ -108,6 +108,23 @@ todo path's step 3 asks for. That pass is still owed before the castle is built.
 - **A timber hall's id** clashed with the later stone hall's (`dinefwr/hall`); renamed `dinefwr/hall-timber`.
 - **"In Cadw's care"** was stated without a source; it now rests on Cadw's own listing of the site, Wikipedia (a lead) and
   the HER's 1988 guardianship boundary.
+
+## Corrections from the second-Opus review (2026-10-10)
+
+A later review of the note found these; each was checked against the sources or the code and fixed in the note.
+
+- Claim 4 (above) had the scale-bar fault backwards: the plan as reproduced is drawn about 5% **larger** than its bar
+  says; the cause is unknown. Claim 45 counted a Wikipedia lead as a second source.
+- Claim 28 passed "no records of work ... for the remainder of the Middle Ages" as consistent, but the same guide text
+  records new building and repairs after the 1403 siege, and the summaries had quoted it as "no work after the 14th
+  century".
+- Claim 43 said only that the roofed square tower is single-source as the south turret; the tiers now separate the
+  turret's roof and tiled floor (documented, one source) from the pyramidal form (reconstructed, an inference).
+- Claim 32: the 1213 tower did not simply "hold out"; the Brut has the garrison surrender the castle on terms before
+  the afternoon.
+- Not caught by this check, and found by the review: the phase table left 1600-1660 empty; the proposed kit list
+  duplicated roof shapes the plan model already has; Moore counts three paintings that show the castle, not two; the
+  Cadw guide's text gives Rhys Gryg's death as 1223 in one paragraph and 1233 in another, and the Brut gives 1233.
 
 ## Not checked
 

@@ -280,7 +280,7 @@ These are observations against `src/content/buildings.ts`, not changes made.
   Welsh (1280s) or English (after 1287)? Caple (2007) would settle both.
 - Dinefwr keep diameter: 12m [S21], 13.5m [S22] or about 14m over the base [S23]. *Added 2026-10-10:* measured
   again in [`dinefwr-castle.md`](dinefwr-castle.md), where S23 fitted to the LiDAR gives 13.6m over the drawn wall: S23's
-  scale bar is about 5% long against the ground, so this note's S23 measurements are about 5% large. Still contested.
+  plan is drawn about 5% larger than its scale bar says (bar 8.15 px/m, ground 8.58), so lengths read off the bar, this note's S23 measurements among them, are about 5% too big; the cause is not known. Still contested.
 - Llandeilo old bridge: restored seven arches or a new three-arched bridge after 1798? Its arch
   spans and its exact line downstream of the present bridge.
 - Heights almost everywhere (curtains, gatehouses, ranges) are still not in any source read.
