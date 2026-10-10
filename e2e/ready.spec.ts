@@ -119,9 +119,10 @@ test('a script lost after the app is ready is logged, and the page stays where i
   await expect
     .poll(() => lines.filter((l) => l.includes('chunk lost after ready')).length, { timeout: 15_000 })
     .toBeGreaterThanOrEqual(2);
-  expect(await page.evaluate(() => Reflect.get(window, 'visitorsPlace')), 'the page did not navigate').toBe(
-    'kept',
-  );
+  expect(
+    await page.evaluate(() => String(Reflect.get(window, 'visitorsPlace'))),
+    'the page did not navigate',
+  ).toBe('kept');
   expect(
     lines.filter((l) => l.includes('html head parsed')),
     'the page loaded once',
