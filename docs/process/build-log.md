@@ -1123,6 +1123,9 @@ instrumented instead.
    same-origin script fails or a dynamic import is rejected. `e2e/ready.spec.ts` drops one script request
    before start-up and one after it began, seen red without the script (never ready after 60s) and green
    with it. This also protects a visitor whose network changes mid-load.
+   After it: the full run with one worker passed (74 passed, 1 skipped, 10.4 minutes) and two more
+   three-worker runs passed (4.5 and 5.8 minutes). That is two clean runs where one in two failed before, not
+   proof: the churn comes and goes, and the deterministic dropped-chunk tests are the real evidence.
 
 Lesson: **"re-running it passes" is not evidence of a flake, it is what any cause that depends on the
 moment looks like.** The cause was in the environment and the app's silence about it, and one run with the
