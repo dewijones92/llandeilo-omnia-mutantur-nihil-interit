@@ -272,8 +272,8 @@ interface RibbonReport {
   readonly under: number;
 }
 
-// Every road and rail ribbon leg inside the LiDAR region, sampled along its length, against the mesh
-// drawn there now.
+// Every road and rail ribbon leg inside the LiDAR region, both edges sampled along their length, against
+// the mesh drawn there now.
 async function ribbonsAgainstDrawn(page: Page): Promise<RibbonReport> {
   const { eMin, eMax, nMin, nMax } = lidar.region;
   return page.evaluate(
@@ -321,21 +321,29 @@ async function ribbonsAgainstDrawn(page: Page): Promise<RibbonReport> {
           const b = at(idx[k + 1] ?? 0);
           const c = at(idx[k + 2] ?? 0);
           const d = at(idx[k + 4] ?? 0);
-          const from = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2] as const;
-          const to = [(c[0] + d[0]) / 2, (c[1] + d[1]) / 2, (c[2] + d[2]) / 2] as const;
-          if (!inner(from[0], from[2]) || !inner(to[0], to[2])) continue;
+          const mid = (p: readonly number[], q: readonly number[], i: number): number =>
+            ((p[i] ?? 0) + (q[i] ?? 0)) / 2;
+          if (!inner(mid(a, b, 0), mid(a, b, 2)) || !inner(mid(c, d, 0), mid(c, d, 2))) continue;
           legs++;
-          longest = Math.max(longest, Math.hypot(to[0] - from[0], to[2] - from[2]) * mpu);
-          for (let q = 0; q <= 8; q++) {
-            const f = q / 8;
-            const x = from[0] + (to[0] - from[0]) * f;
-            const z = from[2] + (to[2] - from[2]) * f;
-            const ribbon = from[1] + (to[1] - from[1]) * f;
-            const drawn: unknown = Reflect.apply(drawnAt, terrain, [x, z]);
-            if (typeof drawn !== 'number') continue;
-            lowest = Math.min(lowest, ribbon - drawn);
-            highest = Math.max(highest, ribbon - drawn);
-            if (ribbon < drawn) under++;
+          longest = Math.max(
+            longest,
+            Math.hypot(mid(c, d, 0) - mid(a, b, 0), mid(c, d, 2) - mid(a, b, 2)) * mpu,
+          );
+          for (const [from, to] of [
+            [a, c],
+            [b, d],
+          ] as const) {
+            for (let q = 0; q <= 8; q++) {
+              const f = q / 8;
+              const x = from[0] + (to[0] - from[0]) * f;
+              const z = from[2] + (to[2] - from[2]) * f;
+              const ribbon = from[1] + (to[1] - from[1]) * f;
+              const drawn: unknown = Reflect.apply(drawnAt, terrain, [x, z]);
+              if (typeof drawn !== 'number') continue;
+              lowest = Math.min(lowest, ribbon - drawn);
+              highest = Math.max(highest, ribbon - drawn);
+              if (ribbon < drawn) under++;
+            }
           }
         }
       }
@@ -371,4 +379,93 @@ test('roads and rails follow the LiDAR mesh drawn, as its tiles change step', as
   await expect.poll(async () => finest(await detail(page)), { timeout: 60_000 }).toBe(20);
   await settle();
   expectRibbonsOnTheMesh('overview again, 20m', await ribbonsAgainstDrawn(page));
+});
+
+interface TrainReading {
+  readonly x: number;
+  readonly z: number;
+  readonly above: number;
+}
+
+// Puts the train at the vertex of its line nearest (x, z), waits two frames for it to be drawn there, and
+// reads how far it stands above the mesh drawn under it.
+async function trainAboveDrawn(page: Page, at: { x: number; z: number }): Promise<TrainReading> {
+  return page.evaluate(
+    async ([px, pz]) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      if (typeof debug !== 'object' || !debug) throw new Error('no debug hook');
+      const scene: unknown = Reflect.get(debug, 'scene');
+      const terrain: unknown = Reflect.get(debug, 'terrain');
+      const place: unknown = Reflect.get(debug, 'placeTrainNear');
+      if (typeof scene !== 'object' || !scene || typeof terrain !== 'object' || !terrain)
+        throw new Error('no scene or terrain');
+      if (typeof place !== 'function') throw new Error('no placeTrainNear hook');
+      if (Reflect.apply(place, debug, [px, pz]) !== true) throw new Error('the train could not be placed');
+      const frame = (): Promise<void> =>
+        new Promise((done) => {
+          requestAnimationFrame(() => {
+            done();
+          });
+        });
+      await frame();
+      await frame();
+      const meshes: unknown = Reflect.get(scene, 'meshes');
+      const drawnAt: unknown = Reflect.get(terrain, 'drawnAt');
+      if (!Array.isArray(meshes) || typeof drawnAt !== 'function') throw new Error('no hooks');
+      const train: unknown = meshes.find(
+        (m: unknown) =>
+          typeof m === 'object' &&
+          m !== null &&
+          Reflect.get(m, 'name') === 'diesel-unit' &&
+          Reflect.get(m, 'isVisible') === true,
+      );
+      const position: unknown =
+        typeof train === 'object' && train ? Reflect.get(train, 'position') : undefined;
+      if (typeof position !== 'object' || !position) throw new Error('no visible train');
+      const x: unknown = Reflect.get(position, 'x');
+      const y: unknown = Reflect.get(position, 'y');
+      const z: unknown = Reflect.get(position, 'z');
+      if (typeof x !== 'number' || typeof y !== 'number' || typeof z !== 'number')
+        throw new Error('train has no position');
+      const drawn: unknown = Reflect.apply(drawnAt, terrain, [x, z]);
+      if (typeof drawn !== 'number')
+        throw new Error(`no drawn ground under the train at ${String(x)}, ${String(z)}`);
+      return { x, z, above: y - drawn };
+    },
+    [at.x, at.z] as const,
+  );
+}
+
+// The diesel unit's lift above the ground its path is laid on (`Stock.lift`).
+const TRAIN_LIFT = 0.4;
+
+test('the train stands on the mesh drawn under it, as its tiles change step', async ({ page }) => {
+  await ready(page, './?debug&year=2020&hour=12&season=summer');
+  const settle = async (): Promise<void> => {
+    await expect.poll(async () => (await detail(page)).pending, { timeout: 60_000 }).toBe(0);
+  };
+  await settle();
+  const town = toWorld(place('llandeilo').at);
+  const first = await trainAboveDrawn(page, town);
+  console.info(`dewidebug train overview ${JSON.stringify(first)}`);
+  await moveCamera(page, first.x, first.z, 40);
+  await expect.poll(async () => finest(await detail(page)), { timeout: 60_000 }).toBe(4);
+  await settle();
+  const near = await trainAboveDrawn(page, first);
+  console.info(`dewidebug train near ${JSON.stringify(near)}`);
+  await moveCamera(page, first.x, first.z, 3500);
+  await expect.poll(async () => finest(await detail(page)), { timeout: 60_000 }).toBe(20);
+  await settle();
+  const out = await trainAboveDrawn(page, first);
+  console.info(`dewidebug train out ${JSON.stringify(out)}`);
+  for (const [label, r] of [
+    ['overview', first],
+    ['close, tiles at 4m', near],
+    ['out again, tiles at 20m', out],
+  ] as const) {
+    expect(
+      Math.abs(r.above - TRAIN_LIFT),
+      `${label}: the train's height above the mesh drawn under it, less its lift`,
+    ).toBeLessThan(0.05);
+  }
 });

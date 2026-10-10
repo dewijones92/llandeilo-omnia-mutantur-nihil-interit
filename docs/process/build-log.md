@@ -931,9 +931,25 @@ Milestones and what each one taught us. Newest last.
    (`Terrain.onDrawnChange`, `Ribbon.relay`, `Train.relay`): none under, at most 0.59 units above, at the
    overview, in the town and back. That seam also carries ground edits, which the review's earlier
    finding had said needed building: with a 3m ridge laid, 341 samples were under before and none after.
-   The train's re-laying is not covered by a test. (2) **The tree-identity fix had no test that fails if
+   The train's re-laying was not covered by a test (see the third review below). (2) **The tree-identity fix had no test that fails if
    undone.** The earlier "test" only checked the seed hash. Pulled candidate generation into a pure
    `treeSites`, moved the rim clearance into `nearRim`, and `tests/tree-identity.test.ts` triangulates a
    point set with and without the rim and asserts the same tree for every triangle more than 500m outside
    the region; with the seed taken from the triangle's index it fails with 14,584 trees changed. The 148,111
    figure above stays a one-off measurement against main's build; this is the standing check.
+
+   **The third review of the LiDAR build, fixed 2026-10-10** (second Opus; each finding verified first, ADR 0049
+   amended). (1) **Ribbon corners were under the mesh.** Each vertex pair was laid at its centreline point's
+   height, so both corners shared one y, and the e2e sampled the midpoint of each leg, which is exactly where
+   that is right. Made the e2e sample both edges and saw it red on the code as it was: 2,412 samples under the
+   mesh drawn, as low as 0.46 units under, at the overview. Fix: each corner is laid at the ground under its own x
+   and z, in the build and in `relay`. Now none under, lowest 0.10 above, at most 0.46 (overview) and 0.51 (town)
+   above, with the 6,216 legs and both edges sampled. Retook the town screenshot at radius 60 on the GPU: roads
+   whole, on the ground. (2) **`Train.relay` had no test.** Added an e2e that puts the train near the town
+   (`Train.placeNear`, behind `llandeiloDebug.placeTrainNear`: the train starts at the far end of its line and
+   takes minutes to reach the town: about 10 units a second over a line some 1,500 units long, so waiting for it was no use) and reads its height
+   above `drawnAt` at the overview, with its tile at 4m and back out. Seen red with the relay call commented
+   out: 0.19 off at the overview and 0.10 off back out. Lesson: the previous fix's own claim, "none under the
+   mesh", was true of the quantity measured and false of the mesh; the number to check is the one nearest the
+   thing drawn. (3) **Docs overstated.** The ADR said forts' ditches and roads were laid again; they are laid
+   once, by `buildPlan`, on `surfaceAt`. It also understated the relay's cost: every relay loops all eight rail ribbons, and recomputes the normals for and re-uploads the 16,496-vertex roads mesh; the ADR now says so.

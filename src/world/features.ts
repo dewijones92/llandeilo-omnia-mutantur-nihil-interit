@@ -188,6 +188,10 @@ export class FeatureLayer {
     );
   }
 
+  placeTrainNear(x: number, z: number): boolean {
+    return this.train?.placeNear(x, z) ?? false;
+  }
+
   clearings(present: readonly FeaturePresence[]): Clearing[] {
     const out: Clearing[] = [];
     for (const p of present) {

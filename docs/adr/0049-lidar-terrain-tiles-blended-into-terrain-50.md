@@ -10,7 +10,8 @@ updated: 2026-10-10
 - **Status:** Accepted, extends [ADR 0009](0009-terrain-os-terrain50-low-poly.md)
 - **Date:** 2026-10-09; amended 2026-10-10 (the review's findings, and the merge with main, which took ADRs
   0041 to 0048: this was 0041 on its branch, became 0048 at the first merge, and 0049 when the GPU kit took 0048;
-  and the second review's two findings, ribbons buried by the coarse mesh and the tree identity untested)
+  the second review's two findings, ribbons buried by the coarse mesh and the tree identity untested; and the
+  third's, ribbon corners under the mesh and the train's re-laying untested)
 - **Decided by:** Claude, under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
   so Dewi can overrule it. Dewi agreed the work itself (GitHub issue 2, 2026-10-09) and said to credit
   the source and not chase licence problems; every design choice below is Claude's.
@@ -51,12 +52,13 @@ eased in from the rim over 300m (`DetailGround.metresAt`, `rimWeight`), with riv
 roads, people and rivers all ask it (`heightAt`, `surfaceAt`, `inDetail`); the trees that stood on
 triangle centroids use it inside the region. No place or era has its own path.
 
-A ribbon laid along a line (a road, a railway section, the train's path, a fort's ditch or road) takes the
+A ribbon laid along a line (a road, a railway section, the train's path) takes the
 ground's height only at its vertices and runs straight between them, so over OS road legs hundreds of
 metres long it cut through the 2m ground (found by the review: 10 of 162 road legs in the region had
 ground above them, the worst by 3.7m over a 551m leg). `Terrain.lineOnGround` therefore adds a point
 every 4m, the finest mesh step, to any line inside the region (`densifyWhere`, in the one polyline
-helper of [ADR 0043](0043-one-polyline-helper.md)), and the fort ribbons use the same step. Outside the
+helper of [ADR 0043](0043-one-polyline-helper.md)), and the fort ribbons use the same step (the forts' ditches and roads are laid once, by `buildPlan`, on the
+2m ground `surfaceAt`, and are not laid again; decision 8). Outside the
 region lines are as before. Street lamps are points, each standing on the ground at its own place, so
 they need nothing.
 
@@ -76,14 +78,29 @@ nine samples each, against the old build: 709 samples under the mesh at the over
   is `drawnAt` inside the region (the 2m ground until a tile is built, outside it as before),
   `Terrain.onDrawnChange` publishes the areas of the tiles just built (at a new step, or after a ground
   edit), and `Features` calls `Ribbon.relay` on every road and rail ribbon and `Train.relay` on its path,
-  which re-lay only the vertices inside those areas and upload only if one moved. Result, by the same
-  test at the overview, in the town at radius 60 and back at the overview: none under the mesh, and at
-  most 0.59 units (2.4m) above it, which is the 0.35 lift plus the chord between vertices. Looked at on
-  the GPU at the 2020 overview and in the town at radius 60: the roads and the railway are whole and lie
-  on the ground (`docs/images/lidar/ribbons-overview-2020.jpg`, `ribbons-town-r60.jpg`).
-The cost is one loop over the about 5,100 road vertices in the region per batch of tile builds, with a
-box test per vertex and a height read only for those inside a redrawn tile. This is the seam decision 8
-said was missing, built for ribbons only.
+  which re-lay only the vertices inside those areas and upload only if one moved. Each ribbon corner is
+  laid at the ground under its own x and z, not under its centreline point: a ribbon is up to 1.6 units
+  wide, and on a slope the two corners of one pair stand on different ground (the third review found
+  corners under the mesh (its count: 186 of 10,180 road corners and 89 of 2,434 rail corners at the 2020
+  overview, by as much as 0.46 units), while the e2e sampled only the midpoint. Result, by the e2e test, which now
+  samples both edges of every leg (6,216 legs, nine samples along each edge), at the overview, in the town
+  at radius 60 and back at the overview: none under the mesh (the old code read 2,412 samples under at the
+  overview by the same test), lowest 0.10 above it, and at most 0.46 units (overview) and 0.51 (town)
+  above it, which is the 0.3 or 0.35 lift plus the chord between vertices. The train has its own e2e test: put at the vertex of its line nearest the town
+  (`Train.placeNear`, behind `llandeiloDebug.placeTrainNear`, as it takes minutes to run there), at the
+  overview, then after the camera flies to it and its tile is drawn at 4m, then back out at 20m, it stands
+  its lift (0.4) above the mesh drawn under it to within 0.002 units each time (the test allows 0.05). With
+  `Train.relay` switched off the overview reading was 0.19 off and the one back out 0.10 off; the close one
+  happened to be 0.01 off. Looked at on the GPU in the town at radius 60 after the corner fix: the roads are whole
+  and lie on the ground (`docs/images/lidar/ribbons-town-r60.jpg`). `ribbons-overview-2020.jpg` is from before it.
+The cost of a relay is not small. Every call to `Ribbon.relay` loops every followed corner of its ribbon: the
+road ribbon's 10,187 in the region, and each of the eight rail ribbons' (1,052 and 1,385 for the two seen to be
+laid again in a fly-in to the town; the other six were not counted). When any corner moves, the whole ribbon's normals are recomputed
+(`VertexData.ComputeNormals` over every one of the roads mesh's 16,496 vertices) and its position and normal
+buffers re-uploaded. Six to seven batches were seen during one fly-in from the overview to the town and back,
+bounded by the 15% hysteresis on a tile's step. Acceptable at
+this size; a ribbon cut into per-tile meshes would make it proportional to the tiles redrawn, if it ever shows.
+This is the seam decision 8 said was missing, built for ribbons and the train only.
 
 **3. A hole that is watertight.** The coarse mesh gets points every 40m along the rim of the region and
 drops its own points within 22m of it (the Gabriel condition), so every rim segment is an edge of the
@@ -141,7 +158,7 @@ without using it: their ditches and banks are drawn as ribbons and parts laid on
 the LiDAR they follow the real ridge but do not reshape it.
 
 **What an edit does and does not move.** `Terrain.setGroundEdits` changes the answer to `heightAt`,
-`heightMetres`, `surfaceAt` and the drawn detail meshes, and the road and rail ribbons and the train's
+`heightMetres`, `surfaceAt` and the drawn detail meshes, and the road and rail ribbons (both corners) and the train's
 path, which are laid again on any redrawn tile (decision 2; the e2e edit test lays a 3m ridge across the
 town and checks no ribbon sample is under the mesh, seen red with the re-laying off: 341 samples under).
 Everything else placed once at start keeps the height it was given: building meshes, tree matrices (and the

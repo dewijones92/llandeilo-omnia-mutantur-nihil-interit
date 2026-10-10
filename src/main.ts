@@ -693,6 +693,7 @@ async function start(): Promise<void> {
         detail: () => world.terrain.detailStats(),
         seam: () => world.terrain.seam(),
         terrain: world.terrain,
+        placeTrainNear: (x: number, z: number) => features.placeTrainNear(x, z),
       },
     });
   // ?cutscene=<id>&cutsceneAt=<seconds> starts a scene part-way through, for screenshots.
