@@ -1235,8 +1235,9 @@ What went wrong on the way, each found by looking or by a test:
    so their v axes pointed opposite ways; the unit test caught it (6.33 against -6.33) before any screenshot.
 4. **Grassed turf steps shimmered.** With the turf kit's courses corrected from 0.3m to Vegetius's 0.15m, alternating
    green treads and brown risers aliased into a fence-like pattern at the 100m the camera allows. The research said
-   turves were often laid grass side down, so the faces and steps are now soil (the ditches' cut-earth colour) and only
-   the walk on top is grassed.
+   turves were often laid grass side down, so the faces and steps are now soil and only
+   the walk on top is grassed. (The first soil colour was the ditches' olive cut earth, and it did not read as soil: see the
+   review fixes below.)
 5. **The new surfaces list broke an old e2e selector** (`.moment-kits h5` matched two headings); it has its own class.
 
 Seen red: the quad-seam test; the model surface and grain tests against main's glbs; the texture-files test with one
@@ -1249,8 +1250,52 @@ passed, 1 skipped, 1 failed on the selector above; after the fix 77 passed and 1
 (overview idle 60fps vsync on, scrub 49fps). Frame cost on WebGL (CLAUDE.md's performance line): nothing measurable
 through the noise against main's untextured models. Bundle 552,593 bytes against main's 544,900 (+7.7KB). Looked at on
 the GPU (WebGL, High) at AD 80, 84 and 110 from 450m and close to a gate, at Medium, and at night: the forts keep the
-valley's colours, the roofs show their courses and grain, the rampart reads as cut earth with a grassed walk
+valley's colours, the roofs show their courses and grain, the rampart read as earth with a grassed walk (that was
+wrong at the closest view: the faces were olive and read as a hedge, see the review fixes below)
 ([`docs/images/blender/textures/`](../images/blender/textures/)).
+
+### The Blender models, phase 2: second-Opus review fixes (2026-10-10)
+
+An independent review of the textured models found four IMPORTANT problems and six smaller ones; each was checked first.
+
+- **The rampart faces read as a hedge (confirmed).** On a GPU screenshot at the closest view (AD 84, midday) the
+  turf bank's faces were the ditches' olive cut earth, which under the soil photograph looked like dark clipped hedge,
+  and this log's line above said "cut earth". The faces now have their own brown (`TURF_FACE`, `#947c5c`) and the
+  surface's detail and relief are lower (0.5 and 0.35 against 0.8 and 0.6); the textures and models were rebuilt, and
+  the bank now reads as earth with a grassed walk. What is not fixed: the 0.15m steps still alias into a fine grid on
+  the shaded side at 100m and beyond, and it is the geometry, not the texture (the same picture with the normal map
+  removed was identical). The course depth is a sourced figure (Vegetius), so it is not coarsened to hide that, and
+  ADR 0055's claim that soil faces "fixed the shimmer" now says only that they took the colour contrast out.
+- **A failed texture drew black (confirmed).** Reproduced by aborting `timber-color-1024.webp`: every timber part
+  went black, because Babylon draws a failed texture black and the vertex colours had been lifted to meet it. A map
+  that fails is now dropped from its material and the diffuse colour set to the mean it was lifted by, so the part
+  keeps its palette colour; the normal map and the other surfaces are untouched.
+- **The turf walk was "reconstructed" and called a guess (confirmed).** Its own basis said whether the top was grassed
+  is not known, so it is now imagined (the rampart itself stays reconstructed). The research note, findings and the
+  surfaces test follow. The note's table also called daub "documented" for its make-up while the app said
+  reconstructed: the table now says reconstructed, with the find on the site as the documented part, and says
+  Vegetius describes the turves of a one-night marching camp, not a fort's rampart.
+- **Inert states and ground occlusion had no test (confirmed).** The code did what ADR 0055 says, but only one e2e
+  touched parts. The ground rule moved to `src/domain/partpick.ts` (`hiddenByGround`) with unit tests, and three e2e
+  tests were added: a round ("When are we?") begins with a part's ⓘ open and closes it, nothing is hovered or opened
+  through the round, and the same point works again after Stop; scrubbing to a year the fort is gone from closes
+  the panel; a cutscene closes it. Each was seen red with its guard removed. Two guards were missing, not just untested:
+  `closePanels` did not close the part panel (so it came back after a round), and nothing closed it when its model left
+  the scene. Not tested: hover during a cutscene, because the scene owns the camera and cannot be aimed at a part.
+  Before Begin the scene is inert, so the tap handler now also refuses a click then.
+- **The veil stacked to cream (confirmed).** A tower's many overlapping layers each blended again, and even a single
+  layer at alpha 0.16 was far stronger than 16%, so the hovered tower looked limewashed. The veil is now one mesh per
+  shared transform, drawn with a depth pre-pass, at alpha 0.07; looked at on the GPU the tower keeps its timber and
+  its shingles under a pale tint. An e2e asserts one mesh and the pre-pass (seen red against the old two meshes).
+- **Smaller:** the credits line now says the build normalises the photographs to mid-grey and the app tints them;
+  `npm run textures` writes `src/content/generated/textures.ts` (each map's photograph checksum, detail, size and
+  script hash) and a test fails if a committed map disagrees, as the models' input hash does; main was merged in (ADR
+  0054 and `ready()`, two docs conflicts resolved) and the click test uses `ready()`.
+- **Checks.** `npm run check` green (607 tests, coverage 98.5 / 89.2 / 100 / 99.6); full e2e (`E2E_WORKERS=1`, 89
+  tests): 88 passed, 1 skipped (the stored-quality test), 12.3 minutes. The Windows-Chrome WebGPU kit (`npm run
+  e2e:gpu`) was not re-run for these fixes. Looked at on the GPU (WebGL, High): the rampart at the closest view
+  and from the shaded side, the gate, the hovered tower with and without the veil, and the six pictures in
+  [`docs/images/blender/textures/`](../images/blender/textures/) were retaken.
 
 ## 2026-10-10 (the "flaky" e2e hang)
 

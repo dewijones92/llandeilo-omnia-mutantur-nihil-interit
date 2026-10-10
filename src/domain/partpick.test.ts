@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { enterBox, hitTriangle, partRuns, pickPart, runTriangles } from './partpick.ts';
+import {
+  enterBox,
+  hiddenByGround,
+  hitTriangle,
+  OCCLUDED_BY,
+  partRuns,
+  pickPart,
+  runTriangles,
+} from './partpick.ts';
 
 // Two unit squares facing the viewer (+z), each two triangles: part a at z=0 from x 0 to 1, part b at z=-2 from x 0 to 2.
 const square = (x0: number, x1: number, z: number): number[] => {
@@ -61,5 +69,32 @@ describe('picking a part of a model in 3D (ADR 0055)', () => {
   it('hands back just a part’s own triangles, for the veil drawn over it', () => {
     const b = runs[1];
     expect(b && runTriangles(positions, b)).toEqual(square(0, 2, -2));
+  });
+});
+
+describe('a part behind the ground is not picked (ADR 0055)', () => {
+  const eye = { x: 0, y: 50, z: 0 };
+  const along = { x: 1, y: 0, z: 0 };
+  const hill = (x: number): number => (x > 40 && x < 60 ? 100 : 0);
+
+  it('is hidden by a hill between the eye and the part', () => {
+    expect(hiddenByGround({ origin: eye, direction: along }, hill, 200)).toBe(true);
+  });
+
+  it('is not hidden when the part is nearer than the hill', () => {
+    expect(hiddenByGround({ origin: eye, direction: along }, hill, 30)).toBe(false);
+  });
+
+  it('is not hidden by the ground it stands on, but is once the ground rises above the ray short of it', () => {
+    // A ray falling 1 in 2 from 40m up meets level ground at 80m along, where the part stands.
+    const unit = Math.hypot(1, 0.5);
+    const ray = { origin: { x: 0, y: 40, z: 0 }, direction: { x: 1 / unit, y: -0.5 / unit, z: 0 } };
+    const distance = 80 * unit;
+    expect(hiddenByGround(ray, () => 0, distance)).toBe(false);
+    expect(hiddenByGround(ray, () => 3, distance)).toBe(true);
+  });
+
+  it('never hides a part at the eye', () => {
+    expect(hiddenByGround({ origin: eye, direction: along }, () => 1000, OCCLUDED_BY)).toBe(false);
   });
 });

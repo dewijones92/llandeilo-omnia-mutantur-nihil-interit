@@ -38,7 +38,7 @@ const ph = (id: string, map: 'diff' | 'nor_gl', md5: string): Download => ({
 export const SURFACES: Readonly<Record<TexturedSurface, Surface>> = {
   turf: {
     name: { en: 'Turf: the grassed walk on top', cy: 'Tyweirch: y llwybr glaswelltog ar y brig' },
-    provenance: reconstructed(
+    provenance: imagined(
       'The walk along the top of the rampart, drawn grassed. Dinefwr’s rampart is turf by inference (the clay fill of Fort 1’s inner ditch). Whether the top was grassed, trodden bare or surfaced is not known, so the grass is a guess. The texture is a modern photograph of turf, tinted to the app’s turf colour.',
       'Y llwybr ar hyd brig y rhagfur, wedi’i dynnu’n laswelltog. Tyweirch yw rhagfur Dinefwr trwy gasgliad (llenwad clai ffos fewnol Caer 1). Ni wyddys a oedd y brig yn laswelltog, wedi’i sathru’n foel neu wedi’i wynebu, felly dyfaliad yw’r glaswellt. Ffotograff modern o dyweirch yw’r gwead, wedi’i liwio â lliw tyweirch yr ap.',
       ['fort:S1'],
@@ -68,7 +68,7 @@ export const SURFACES: Readonly<Record<TexturedSurface, Surface>> = {
       normal: ph('excavated_soil_wall', 'nor_gl', '4317ca90d956a836e51f2f5ea51a05a5'),
       metres: 2,
     },
-    look: { detail: 0.8, relief: 0.6 },
+    look: { detail: 0.5, relief: 0.35 },
   },
   timber: {
     name: { en: 'Timber', cy: 'Pren' },

@@ -83,7 +83,7 @@ export const ASSETS: readonly AssetRecord[] = [
       en: `Texture for the models: ${SURFACES[id].name.en}`,
       cy: `Gwead ar gyfer y modelau: ${SURFACES[id].name.cy}`,
     },
-    source: `“${SURFACES[id].photo.title}” by ${SURFACES[id].photo.author}, Poly Haven; resized and tinted to the app’s colour for the material by tools/textures/build.ts`,
+    source: `“${SURFACES[id].photo.title}” by ${SURFACES[id].photo.author}, Poly Haven; resized and normalised to mid-grey by tools/textures/build.ts; the app tints it to its own colour for the material`,
     licence: SURFACE_LICENCE,
     url: SURFACES[id].photo.page,
   })),

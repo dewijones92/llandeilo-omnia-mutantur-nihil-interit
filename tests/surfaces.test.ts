@@ -2,11 +2,13 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSETS } from '../src/content/assets.ts';
+import { TEXTURE_INPUTS } from '../src/content/generated/textures.ts';
 import { SOURCES } from '../src/content/sources.ts';
 import { SURFACE_LICENCE, SURFACES } from '../src/content/surfaces.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { MODELLED } from '../src/content/landmarks.ts';
 import { basisOf } from '../src/ui/provenance.ts';
+import { textureInputHash, textureKey } from '../tools/textures/inputs.ts';
 import { isTextured, partSurfaces, TEXTURE_SIZE, TEXTURED, textureFile } from '../src/domain/surfaces.ts';
 
 const root = join(import.meta.dirname, '..');
@@ -31,6 +33,14 @@ describe('the textures on the landmark models (ADR 0055)', () => {
           expect(existsSync(file), file).toBe(true);
           expect(webpSize(file), file).toEqual({ width: size, height: size });
         }
+  });
+
+  it('are up to date with their settings: run `npm run textures` if a photograph, a surface’s detail or the script changed', () => {
+    const wanted: Record<string, string> = {};
+    for (const id of TEXTURED)
+      for (const map of MAPS)
+        for (const size of SIZES) wanted[textureKey(id, map, size)] = textureInputHash(id, map, size);
+    expect(TEXTURE_INPUTS).toEqual(wanted);
   });
 
   it('fit the texture budget: under 256MB of GPU memory at High and half that at Medium, with mipmaps', () => {
@@ -74,7 +84,8 @@ describe('the textures on the landmark models (ADR 0055)', () => {
       for (const s of p.sources) expect(known.has(String(s)), `${id} ${String(s)}`).toBe(true);
       expect(SURFACES[id].photo.metres, id).toBeGreaterThan(0);
     }
-    // What roofed the forts and the settlement is not known.
+    // What roofed the forts and the settlement is not known, and neither is whether the rampart's walk was grassed.
+    expect(SURFACES.turf.provenance.kind).toBe('imagined');
     expect(SURFACES.shingle.provenance.kind).toBe('imagined');
     expect(SURFACES.thatch.provenance.kind).toBe('imagined');
   });

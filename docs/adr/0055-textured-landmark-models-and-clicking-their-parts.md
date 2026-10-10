@@ -38,7 +38,7 @@ the train follow or a cutscene.
    that list, the Blender script refuses to draw any other, the finisher refuses a model that disagrees, and a test
    holds every committed glb to it. The textured six are turf (the walk on top of a bank), turf-face, timber,
    shingle, daub and thatch. Each has an entry in `src/content/surfaces.ts` with a name in both languages and a
-   provenance: reconstructed for turf, turf-face, timber and daub, imagined for shingle and thatch, never documented
+   provenance: reconstructed for turf-face, timber and daub, imagined for turf (whether the rampart's walk was grassed is not known), shingle and thatch, never documented
    (a photograph of a modern surface cannot document an ancient one). The research is
    [`research/fort-surfaces.md`](../research/fort-surfaces.md).
 2. **The photographs are shared files, tinted to the palette.** Each surface has one CC0 photograph from Poly Haven
@@ -49,12 +49,15 @@ the train follow or a cutscene.
    it averages mid-grey, and the app multiplies it by the face's vertex colour (the one palette) and by two: the model
    keeps the valley's colours, and the photograph adds only its light and dark (`look.detail` sets how much, tuned by
    eye). Shared files rather than textures inside each glb, so three forts carry one timber texture, the glbs stay
-   small and a texture can change without a model rebuild. WebP rather than KTX2, so no transcoder is fetched.
+   small and a texture can change without a model rebuild. WebP rather than KTX2, so no transcoder is fetched. The
+   maps on disk are tied to their settings by `src/content/generated/textures.ts`, which records each map's inputs
+   (the photograph's MD5, `look.detail`, the size and `process.py`'s hash), and a test fails if they disagree.
 3. **The app owns the materials.** `src/world/landmark-materials.ts` makes one material per textured surface, from
    the building material's own settings (`solidMaterial`), so night dimming, fog, shadows and lamps treat a textured
    part as its fallback. The colour map is read as linear data (it is a detail map, not a colour); Babylon clamps a
    material's diffuse colour before it meets the texture, so the factor of two is in the vertex colour
-   (`DETAIL_MEAN`). High uses the 1024 maps, Medium the 512 (`TEXTURE_SIZE`), swapped when the graphics level
+   (`DETAIL_MEAN`). A map that fails to load is dropped from its material and the diffuse colour set to that same
+   mean, so the part keeps its palette colour (Babylon would draw a failed texture black). High uses the 1024 maps, Medium the 512 (`TEXTURE_SIZE`), swapped when the graphics level
    changes; Low draws the procedural plan as before. The far level is unchanged: flat palette, the building material.
 4. **The script says which way a texture runs; the app works out the coordinates.** Each near face gets a grain,
    UPRIGHT (up a wall, up a roof's slope) or LENGTHWISE (along a post, a board, a beam: its longest edge), written into
@@ -74,19 +77,21 @@ the train follow or a cutscene.
    (`src/domain/partpick.ts`): the boxes skip most of the mesh, so a pick on every pointer move (at most one a frame)
    stays cheap, and the ground is marched along the ray so a part behind a hill is not found. Hovering veils the part
    in a pale, slightly warm, translucent overlay that is the same by day and night (a highlight, not a colour that
-   could read as a fact), shows a tip with its name and its feature's, and turns the cursor to a pointer. A click
+   could read as a fact; a depth pre-pass means only the nearest of a part's overlapping layers blends, or a boarded
+   tower would read as limewash), shows a tip with its name and its feature's, and turns the cursor to a pointer. A click
    (Babylon's tap, which a drag past the threshold never is) opens `src/ui/part-info.ts` beside the cursor: the part's
    name, feature, tier, basis, sources, kits and surfaces, the same body as the key date's parts list
    (`src/ui/part-details.ts`, now shared by both), in English and Welsh. A drag slides the land and opens nothing; a
    press on a pin, label or bubble never reaches the canvas; the train and a conversation are tried first; nothing
-   is hovered or opened during a cutscene, a "When are we?" round, or before Begin. Escape or Close shuts the panel.
+   is hovered or opened during a cutscene, a "When are we?" round, or before Begin. Escape or Close shuts the panel, and
+   so does a cutscene or round beginning, or scrubbing to a year the part's feature is not drawn in.
 7. **Every texture is an asset.** `ASSETS` gets one record per surface, made from `SURFACES`, so the credits page
    lists the photograph, its author, its page and CC0; a test fails a texture with no record or the wrong one. The
    ⓘ of each part lists its surfaces with their tiers and the photograph's credit.
 
 ## Consequences
 
-- **Sizes** (2026-10-10): near glbs 1,296,356 bytes (Fort 1), 949,524 (Fort 2) and 140,724 (the settlement), against
+- **Sizes** (2026-10-10): near glbs 1,293,492 bytes (Fort 1), 948,852 (Fort 2) and 140,724 (the settlement), against
   1,201,844, 896,372 and 151,592 before; Fort 1 has 80,834 triangles (69,074 before) and Fort 2 59,028 (51,188),
   because the turf courses halved to 0.15m; the far levels are a little smaller (byte colours). Textures:
   2.50MB to download at High, 0.57MB at Medium; on the GPU 12 maps × 1024² × 4 bytes with mipmaps is about 67MB at
@@ -96,9 +101,12 @@ the train follow or a cutscene.
 - **The turf kit changed**: courses are 0.15m, Vegetius's half Roman foot, at the top of the range measured in fort
   ramparts (Vindolanda's and Strageath's are thinner), and the faces and steps are soil, the turves laid grass side
   down as at Vindolanda and on the Antonine Wall; only the walk on top is grassed. The first textured build drew every
-  step grassed, and at the app's viewing distances 0.15m steps alternating green and brown shimmered. The faces take
-  the app's one cut-earth colour (`CUT_EARTH`, the ditches' sides), so the bank matches the ditches beside it and the
-  script holds no colour of its own for them.
+  step grassed, and at the app's viewing distances 0.15m steps alternating green and brown shimmered; soil faces
+  take the colour contrast out, but the steps themselves still alias at 100m and beyond (a fine grid, most visible on
+  the shaded side), because the 0.15m course is a sourced figure and is not coarsened to hide it. The faces take their
+  own brown (`TURF_FACE`): the first build used the ditches' olive cut earth, which under the soil photograph read as
+  a dark hedge, and the surface's detail and relief were lowered with it. The script holds no colour of its own for
+  them.
 - **What the camera allows**: the closest view is 100m (the camera's lower radius of 10 units), so a 0.5m timber
   texture is about ten pixels across; the photographs read as grain, courses and wear, not as close-up detail.
 - **Not built**: roughness maps (the building material has no PBR), textures on the ditches and roads (the app draws

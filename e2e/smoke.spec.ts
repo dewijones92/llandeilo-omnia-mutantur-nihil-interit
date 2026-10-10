@@ -4,6 +4,8 @@ import { CUTSCENES } from '../src/content/cutscenes.ts';
 import { EVENTS } from '../src/content/events.ts';
 import { HARRIES_PHOTOGRAPHS } from '../src/content/photographs.ts';
 import { TIMELINE } from '../src/content/timeline.ts';
+import { WORLD_CONTENT } from '../src/content/world.ts';
+import { playableSteps } from '../src/domain/guess.ts';
 import { toWorld } from '../src/domain/geo.ts';
 import { keySteps, stepFrom } from '../src/domain/steps.ts';
 import { tAt } from '../src/domain/timeline.ts';
@@ -2226,6 +2228,26 @@ const hoveredPart = async (page: Page): Promise<string> =>
     return typeof got === 'string' ? got : '';
   });
 
+const veilState = async (page: Page): Promise<{ meshes: number; prepass: boolean }> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const meshes: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'meshes') : undefined;
+    const get: unknown =
+      scene && typeof scene === 'object' ? Reflect.get(scene, 'getMaterialByName') : undefined;
+    const mat: unknown = typeof get === 'function' ? get.call(scene, 'part-veil-mat') : undefined;
+    const count = Array.isArray(meshes)
+      ? meshes.filter((m: unknown) => {
+          const name: unknown = m && typeof m === 'object' ? Reflect.get(m, 'name') : '';
+          return typeof name === 'string' && name.startsWith('part-veil');
+        }).length
+      : -1;
+    return {
+      meshes: count,
+      prepass: mat && typeof mat === 'object' ? Reflect.get(mat, 'needDepthPrePass') === true : false,
+    };
+  });
+
 test('at AD 84 at High, hovering a gate tower of Fort 2’s model veils and names it, a click opens its ⓘ with its tier in both languages, and a drag across it opens nothing', async ({
   page,
 }) => {
@@ -2246,6 +2268,8 @@ test('at AD 84 at High, hovering a gate tower of Fort 2’s model veils and name
   await expect(tip).toBeVisible();
   await expect(tip).toContainText('north-east');
   await expect(tip).toContainText('Fort 2');
+  // The veil is one mesh drawn with a depth pre-pass, so a tower's many overlapping layers blend once, not each over the last.
+  expect(await veilState(page)).toEqual({ meshes: 1, prepass: true });
   await page.screenshot({ path: 'test-results/roman-forts-84-part-hover.png' });
   await page.mouse.click(at.x, at.y);
   const info = page.locator('.part-info');
@@ -2274,6 +2298,130 @@ test('at AD 84 at High, hovering a gate tower of Fort 2’s model veils and name
   await page.waitForTimeout(500);
   await expect(info).toBeHidden();
   expect(errors).toEqual([]);
+});
+
+const FORT1_TOWER = 'fort1/gate-sw/tower-right';
+
+const partInfoOpen = async (page: Page): Promise<boolean> =>
+  page.locator('.part-info').evaluate((el) => el instanceof HTMLElement && !el.hidden);
+
+test('a part of the AD 74 fort opens its ⓘ, and it closes when a "When are we?" round begins, and parts stay inert through the round', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  // A fixed draw makes the round the one for the forts' own key date, whose year draws them.
+  const steps = keySteps(WORLD_CONTENT.timeline, WORLD_CONTENT.events);
+  const playable = playableSteps(WORLD_CONTENT, steps);
+  const index = playable.findIndex((st) => st.event.id === 'roman-forts');
+  expect(index, 'the forts are a playable round').toBeGreaterThanOrEqual(0);
+  const draw = (index + 0.5) / playable.length;
+  await page.addInitScript((d) => {
+    Math.random = () => d;
+  }, draw);
+  await page.goto('./?debug&quality=high&place=roman-forts&year=74&radius=45');
+  await ready(page);
+  await expect(page.locator('.debug')).toContainText('roman-fort-a=glb:near', { timeout: 90_000 });
+  const at = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
+  await page.mouse.move(at.x - 30, at.y - 30);
+  await page.mouse.move(at.x, at.y, { steps: 3 });
+  await expect.poll(() => hoveredPart(page)).toBe(`roman-fort-a|${FORT1_TOWER}`);
+  await page.mouse.click(at.x, at.y);
+  await expect.poll(() => partInfoOpen(page)).toBe(true);
+
+  await page.getByRole('button', { name: 'When are we?' }).click();
+  await expect(page.locator('.guess')).toContainText('Round 1 of 5');
+  // The round took the open ⓘ with it, and the year is still the forts' own.
+  expect(await partInfoOpen(page)).toBe(false);
+  await cameraSettled(page);
+  const during = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
+  await page.mouse.move(during.x - 30, during.y - 30);
+  await page.mouse.move(during.x, during.y, { steps: 3 });
+  await page.waitForTimeout(600);
+  expect(await hoveredPart(page)).toBe('');
+  await expect(page.locator('.part-tip')).toHaveJSProperty('hidden', true);
+  await page.mouse.click(during.x, during.y);
+  await page.waitForTimeout(600);
+  expect(await partInfoOpen(page)).toBe(false);
+
+  // Stopping the game gives the parts back: the same point now hovers and opens.
+  await page.getByRole('button', { name: 'Stop the game' }).click();
+  await cameraSettled(page);
+  const after = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
+  await page.mouse.move(after.x - 30, after.y - 30);
+  await page.mouse.move(after.x, after.y, { steps: 3 });
+  await expect.poll(() => hoveredPart(page)).toBe(`roman-fort-a|${FORT1_TOWER}`);
+  await page.mouse.click(after.x, after.y);
+  await expect.poll(() => partInfoOpen(page)).toBe(true);
+
+  // Scrubbing to a year the fort is gone from takes its panel away.
+  await page.getByRole('slider', { name: /Timeline|Llinell amser/ }).press('End');
+  await expect.poll(() => partInfoOpen(page)).toBe(false);
+  expect(errors).toEqual([]);
+});
+
+test('a cutscene takes an open part ⓘ away, and the veil with it', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?debug&quality=high&place=roman-forts&year=74&radius=45');
+  await ready(page);
+  await expect(page.locator('.debug')).toContainText('roman-fort-a=glb:near', { timeout: 90_000 });
+  const at = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
+  await page.mouse.move(at.x - 30, at.y - 30);
+  await page.mouse.move(at.x, at.y, { steps: 3 });
+  await expect.poll(() => hoveredPart(page)).toBe(`roman-fort-a|${FORT1_TOWER}`);
+  await page.mouse.click(at.x, at.y);
+  await expect.poll(() => partInfoOpen(page)).toBe(true);
+  await page.getByRole('button', { name: /Watch/ }).click();
+  await expect(page.locator('.cutscene')).toBeVisible();
+  expect(await partInfoOpen(page)).toBe(false);
+  expect(await hoveredPart(page)).toBe('');
+  await page.getByRole('button', { name: /Skip/ }).click();
+  await expect(page.locator('.cutscene')).toBeHidden();
+  expect(errors).toEqual([]);
+});
+
+test('if one texture fails to load, the parts that use it are drawn in their palette colour, not black', async ({
+  page,
+}) => {
+  const warnings: string[] = [];
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug landmark')) warnings.push(m.text());
+  });
+  await page.route('**/timber-color-1024.webp', (route) => route.abort());
+  await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
+  await ready(page);
+  await expect(page.locator('.debug')).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
+  const state = async (name: string) =>
+    page.evaluate((n) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+      const get: unknown =
+        scene && typeof scene === 'object' ? Reflect.get(scene, 'getMaterialByName') : undefined;
+      const mat: unknown = typeof get === 'function' ? get.call(scene, n) : undefined;
+      if (!mat || typeof mat !== 'object') return undefined;
+      const colour: unknown = Reflect.get(mat, 'diffuseColor');
+      const channel = (c: string): number =>
+        colour && typeof colour === 'object' ? Number(Reflect.get(colour, c)) : Number.NaN;
+      return {
+        colourMap: Reflect.get(mat, 'diffuseTexture') !== null,
+        normalMap: Reflect.get(mat, 'bumpTexture') !== null,
+        diffuse: [channel('r'), channel('g'), channel('b')],
+      };
+    }, name);
+  await expect.poll(() => state('landmark-timber-mat').then((s) => s?.colourMap)).toBe(false);
+  // Detail maps average mid-grey and the vertex colours are lifted twice to meet them, so with no map the
+  // diffuse colour is the mean it was lifted by: the palette colour comes back.
+  expect(await state('landmark-timber-mat')).toMatchObject({ colourMap: false, diffuse: [0.5, 0.5, 0.5] });
+  // Only the failed map is dropped: its normal map and every other surface keep theirs.
+  expect((await state('landmark-timber-mat'))?.normalMap).toBe(true);
+  expect(await state('landmark-shingle-mat')).toMatchObject({
+    colourMap: true,
+    normalMap: true,
+    diffuse: [1, 1, 1],
+  });
+  expect(warnings.some((w) => w.includes('timber') && w.includes('without its color map'))).toBe(true);
+  await page.screenshot({ path: 'test-results/roman-forts-84-timber-map-failed.png' });
 });
 
 // The card must not list detail that is not drawn: with the plans on screen it says so instead.

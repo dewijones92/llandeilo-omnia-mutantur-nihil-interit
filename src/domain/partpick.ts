@@ -4,6 +4,8 @@
  * Positions are a flat triangle list (x, y, z per corner, three corners per triangle), as the loader builds them.
  */
 
+import { rayGround, type GroundAt, type Ray } from './camera-moves.ts';
+
 export type P3 = readonly [number, number, number];
 
 export interface PartRun {
@@ -120,4 +122,18 @@ export function pickPart(
 /** The corners of a run's triangles, for drawing a highlight over just that part. */
 export function runTriangles(positions: ArrayLike<number>, run: PartRun): number[] {
   return Array.from({ length: (run.to - run.from) * 9 }, (_, i) => positions[run.from * 9 + i] ?? 0);
+}
+
+/** The ground must cut a ray this much short of a part, in world units, to hide it: a bank stands on the ground it fits. */
+export const OCCLUDED_BY = 0.5;
+const GROUND_STEPS = 200;
+
+/**
+ * Whether the ground hides a part the ray reached at `distance`: the ground is marched along the ray as far as
+ * the part, less OCCLUDED_BY, so a part behind a hill is not picked but a bank on the slope it stands on is.
+ */
+export function hiddenByGround(ray: Ray, ground: GroundAt, distance: number): boolean {
+  const reach = distance - OCCLUDED_BY;
+  if (reach <= 0) return false;
+  return rayGround(ray, ground, reach, Math.max(1, reach / GROUND_STEPS)) !== undefined;
 }

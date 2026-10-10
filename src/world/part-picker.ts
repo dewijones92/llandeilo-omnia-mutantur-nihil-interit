@@ -8,9 +8,9 @@ import {
   VertexData,
   type Scene,
 } from './babylon.ts';
-import { rayGround, type GroundAt } from '../domain/camera-moves.ts';
+import type { GroundAt } from '../domain/camera-moves.ts';
 import type { Feature } from '../domain/model.ts';
-import { pickPart, runTriangles } from '../domain/partpick.ts';
+import { hiddenByGround, pickPart, runTriangles } from '../domain/partpick.ts';
 import type { FeatureLayer } from './features.ts';
 import type { World } from './scene.ts';
 
@@ -23,12 +23,9 @@ export interface PartPick {
 
 // A pale veil over the part, the same at noon and at night: a highlight, not a colour that could read as a fact.
 const VEIL = new Color3(1, 0.95, 0.8);
-const VEIL_ALPHA = 0.16;
+const VEIL_ALPHA = 0.07;
 // Drawn a little in front of the part's own faces, so the veil never fights them for depth.
 const VEIL_OFFSET = -2;
-// The ground must cut the ray this much short of the part, in world units, to hide it: a bank stands on the ground it fits.
-const OCCLUDED_BY = 0.5;
-const GROUND_STEPS = 200;
 
 /**
  * Finds the part of a Blender model under a screen point, and veils it while it is hovered. Only models on screen
@@ -52,6 +49,8 @@ export class PartPicker {
     mat.diffuseColor = Color3.Black();
     mat.specularColor = Color3.Black();
     mat.alpha = VEIL_ALPHA;
+    // A part is many overlapping layers; with a depth pre-pass only the nearest one blends, so the veil stays a veil.
+    mat.needDepthPrePass = true;
     mat.zOffset = VEIL_OFFSET;
     // A lamp to the night dimming (World.dimSelfLit), so the veil does not fade after dark.
     world.addLamp(mat);
@@ -78,17 +77,7 @@ export class PartPicker {
         if (!best || distance < best.distance) best = { feature: model.feature, part: hit.id, distance };
       }
     if (!best) return undefined;
-    const reach = best.distance - OCCLUDED_BY;
-    const ground =
-      reach > 0
-        ? rayGround(
-            { origin: ray.origin, direction: ray.direction },
-            this.ground,
-            reach,
-            Math.max(1, reach / GROUND_STEPS),
-          )
-        : undefined;
-    if (ground) {
+    if (hiddenByGround({ origin: ray.origin, direction: ray.direction }, this.ground, best.distance)) {
       console.info(`dewidebug part pick ${best.part} is behind the ground: not picked`);
       return undefined;
     }
@@ -103,25 +92,34 @@ export class PartPicker {
     this.veil = [];
     this.veiled = key;
     if (!hit) return;
+    // One veil mesh for all of a part's triangles that share a transform, so the depth pre-pass sees every layer of the
+    // part at once; one mesh per surface (as the model is merged) would each blend over the others.
+    const groups: { readonly parent: Mesh; readonly positions: number[] }[] = [];
     for (const model of this.features.pickables()) {
       if (model.feature.id !== hit.feature.id) continue;
       for (const lm of model.meshes)
         for (const run of lm.runs) {
           if (run.id !== hit.part) continue;
-          const positions = runTriangles(this.positionsOf(lm.mesh), run);
-          const data = new VertexData();
-          data.positions = positions;
-          data.indices = Array.from({ length: positions.length / 3 }, (_, i) => i);
-          const normals: number[] = [];
-          VertexData.ComputeNormals(positions, data.indices, normals);
-          data.normals = normals;
-          const veil = new Mesh(`part-veil-${run.id}`, this.scene);
-          data.applyToMesh(veil);
-          veil.material = this.material;
-          veil.isPickable = false;
-          veil.parent = lm.mesh;
-          this.veil.push(veil);
+          const matrix = lm.mesh.getWorldMatrix();
+          const same = groups.find((g) => g.parent.getWorldMatrix().equals(matrix));
+          const triangles = runTriangles(this.positionsOf(lm.mesh), run);
+          if (same) for (const v of triangles) same.positions.push(v);
+          else groups.push({ parent: lm.mesh, positions: triangles });
         }
+    }
+    for (const g of groups) {
+      const data = new VertexData();
+      data.positions = g.positions;
+      data.indices = Array.from({ length: g.positions.length / 3 }, (_, i) => i);
+      const normals: number[] = [];
+      VertexData.ComputeNormals(g.positions, data.indices, normals);
+      data.normals = normals;
+      const veil = new Mesh(`part-veil-${hit.part}`, this.scene);
+      data.applyToMesh(veil);
+      veil.material = this.material;
+      veil.isPickable = false;
+      veil.parent = g.parent;
+      this.veil.push(veil);
     }
     console.info(
       `dewidebug part hover ${hit.part} on ${hit.feature.id} veiled meshes=${String(this.veil.length)}`,

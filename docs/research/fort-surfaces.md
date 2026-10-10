@@ -29,18 +29,19 @@ well the material itself is known.
 
 | Surface | What it was | Tier | Evidence | Photograph standing in |
 |---|---|---|---|---|
-| Turf (the walk along the rampart's top) | Grass on the top of the bank | reconstructed | Dinefwr's turf rampart is inferred from the clay fill of Fort 1's inner ditch [fort:S1]; whether the top was grassed, trodden bare or surfaced is not known | A modern patch of dry grass and turf on soil |
+| Turf (the walk along the rampart's top) | Grass on the top of the bank | imagined | Dinefwr's turf rampart is inferred from the clay fill of Fort 1's inner ditch [fort:S1]; whether the top was grassed, trodden bare or surfaced is not known | A modern patch of dry grass and turf on soil |
 | Turf face (the faces and steps of the courses) | The soil of the turf blocks, in courses | reconstructed | As above; turf ramparts were built of courses of turf blocks [S1][S2], often laid grass side down, so a new face shows soil with dark lines of grass between courses [S1][S5] | A modern excavated soil face |
 | Timber (posts, beams, boards, planks, gate leaves) | Squared timber, probably oak | reconstructed | No timber survives at Dinefwr; post-pipes and post-pits show where timbers stood [fort:S1]. Vindolanda's excavated timbers are oak [S4], and so were the trees felled for a Castell Henllys rebuild [ironage:S29]; neither is evidence for Dinefwr | Weathered, cracked timber |
 | Shingle (the forts' roofs) | Split timber shingles | imagined | No roof material is evidenced at Dinefwr [fort:S1]; shingle is the kit's choice. If shingles, oak: Pliny calls oak the best wood for them, and says Rome was roofed with shingles for 470 years [S3] | Weathered grey boards, their joints standing for the gaps between shingles in a course |
-| Daub (the barracks' and houses' walls) | Clay daub on wattle, unrendered | documented (daub); reconstructed (its make-up and finish) | Daub with wattle impressions was found on the site [fort:S1]; daub of clay, straw and dung at Castell Henllys [ironage:S30]; no limewash evidenced (ADR 0046) | A modern, rough, cracked clay plaster |
+| Daub (the barracks' and houses' walls) | Clay daub on wattle, unrendered | reconstructed (daub was found on the site, which is documented; what it was made of and its finish are not) | Daub with wattle impressions was found on the site [fort:S1]; daub of clay, straw and dung at Castell Henllys [ironage:S30]; no limewash evidenced (ADR 0046) | A modern, rough, cracked clay plaster |
 | Thatch (the settlement's roofs) | Reed or straw thatch | imagined | What roofed the settlement is not known [fort:S1]; reed at Castell Henllys [ironage:S30], straw at Bryn Eryr [ironage:S32] | A modern angled reed thatch |
 
 ## Turf: courses, their depth, and which way up
 
 - **Vegetius**, writing in the late 4th or early 5th century about camps, says a turf is cut "qui herbarum
   radicibus continet terram" (which holds the earth together with the grass's roots), half a foot high, a foot
-  wide and a foot and a half long [S2] (Book III, chapter 8, read directly). Romankiewicz and others convert
+  wide and a foot and a half long [S2] (Book III, chapter 8, read directly). He is describing the turves of a
+  one-night marching camp, not a fort's rampart, which is one more reason 0.15m is the top of the range. Romankiewicz and others convert
   that to 0.44 by 0.30 by 0.15m [S1].
 - **Measured turf blocks in fort ramparts** are thinner than Vegetius's: 0.30 by 0.30 by 0.08m at Plantation
   Place in London; 0.30-0.40 by 0.25-0.30 by 0.10-0.15m at Strasbourg; 0.46 by 0.30 by 0.03-0.08m in Strageath's

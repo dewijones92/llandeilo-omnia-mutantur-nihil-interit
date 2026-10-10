@@ -1,5 +1,5 @@
 import { toHex } from './colour.ts';
-import { CUT_EARTH, MATERIAL_COLOUR, SETTING_SCALE } from './materials.ts';
+import { MATERIAL_COLOUR, SETTING_SCALE, TURF_FACE } from './materials.ts';
 import { hallRoofSpec, RAISED_DROP, towerRoofSpec, type RoofSpec } from './proportions.ts';
 import { partSurfaces, type SurfaceId } from './surfaces.ts';
 import type { GridRef } from './model.ts';
@@ -130,7 +130,7 @@ export function buildSheet(input: SheetInput): BuildSheet {
   const kitIds = [...new Set(parts.flatMap((p) => p.kits))].sort();
   const palette = {
     ...Object.fromEntries(Object.entries(MATERIAL_COLOUR).map(([m, c]) => [m, toHex(c)])),
-    'turf-face': toHex(CUT_EARTH.side),
+    'turf-face': toHex(TURF_FACE),
   };
   return {
     format: SHEET_FORMAT,

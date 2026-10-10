@@ -393,6 +393,7 @@ async function start(): Promise<void> {
       openConversation(c);
       return;
     }
+    if (partsInert()) return;
     const x = world.scene.pointerX;
     const y = world.scene.pointerY;
     const part = picker.pick(x, y);
@@ -517,6 +518,7 @@ async function start(): Promise<void> {
       panel.close();
       photoPanel.close();
       info.close();
+      partInfo.close('a round began');
     },
   });
   onSeason = () => {
@@ -798,6 +800,9 @@ async function start(): Promise<void> {
     active = new Set(snap.conversations.map((c) => c.id));
     const open = panel.open;
     if (open && !active.has(open.id)) panel.close();
+    const partOpen = partInfo.open;
+    if (partOpen && !drawn.some((p) => p.feature.id === partOpen.feature && p.presence > 0))
+      partInfo.close('its model is not drawn at this year');
     labels.setYear(calendarYear(snap.year));
     const near = snap.nearestEvent;
     const shown =

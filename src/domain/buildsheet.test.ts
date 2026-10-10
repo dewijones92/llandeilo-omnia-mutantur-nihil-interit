@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildSheet, FOOT, liesOnGround, modelFile, PROBE, SEATED, type SheetInput } from './buildsheet.ts';
 import { toHex } from './colour.ts';
-import { CUT_EARTH, MATERIAL_COLOUR } from './materials.ts';
+import { CUT_EARTH, MATERIAL_COLOUR, TURF_FACE } from './materials.ts';
 import { RAISED_DROP } from './proportions.ts';
 import type { Part, PartMeta, PartShape, Plan } from './plan.ts';
 import type { Provenance, SourceId } from './provenance.ts';
@@ -260,10 +260,18 @@ describe('the build sheet a Blender model is made from', () => {
     const sheet = buildSheet(input({ setting: 'landscape', parts: [part(tower, 't')] }));
     expect(sheet.palette['turf']).toBe(toHex(MATERIAL_COLOUR.turf));
     expect(Object.keys(sheet.palette).sort()).toEqual([...Object.keys(MATERIAL_COLOUR), 'turf-face'].sort());
-    // A turf bank's faces are the same cut earth as the ditches beside them.
-    expect(sheet.palette['turf-face']).toBe(toHex(CUT_EARTH.side));
+    // A turf bank's faces are soil, browner than the ditches' cut earth beside them.
+    expect(sheet.palette['turf-face']).toBe(toHex(TURF_FACE));
     expect(sheet.scale).toEqual({ across: 2.6, up: 2.6 });
     expect(sheet.probe).toEqual(PROBE);
+  });
+
+  it('draws a turf bank’s faces as brown, light soil, not the ditches’ olive cut earth, which read as a hedge', () => {
+    const [r, g, b] = [TURF_FACE.r, TURF_FACE.g, TURF_FACE.b];
+    expect(r).toBeGreaterThan(g);
+    expect(g).toBeGreaterThan(b);
+    const lightness = (c: { r: number; g: number; b: number }): number => (c.r + c.g + c.b) / 3;
+    expect(lightness(TURF_FACE)).toBeGreaterThan(lightness(CUT_EARTH.side));
   });
 
   it('refuses what it cannot model yet, rather than drawing it wrong: a ruin, a prism, a bridge', () => {

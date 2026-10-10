@@ -19,8 +19,14 @@ export const MATERIAL_COLOUR: Readonly<Record<Material, Rgb>> = {
   turf: hex('#80925f'),
 };
 
-/** Cut earth: a ditch's floor and sides as the procedural builder draws them, and the faces of a turf bank's courses on a model (ADR 0055). */
+/** Cut earth: a ditch's floor and sides as the procedural builder draws them. */
 export const CUT_EARTH = { floor: hex('#4b4d39'), side: mix(hex('#4b4d39'), hex('#8a8c6a'), 0.55) } as const;
+
+/**
+ * The soil of a turf bank's course faces on a model (ADR 0055): brown and light, so the bank reads as earth beside
+ * the grass of its walk. The ditch's olive cut earth, under the soil photograph's detail, read as a dark hedge.
+ */
+export const TURF_FACE = hex('#947c5c');
 
 /** How much larger than life each setting draws a plan, across and up (ADR 0046). */
 export const SETTING_SCALE: Readonly<Record<Setting, { readonly across: number; readonly up: number }>> = {
