@@ -1,5 +1,6 @@
 import { Vector3, type Mesh, type Scene } from './babylon.ts';
 import { hex, mix, type Rgb } from '../domain/colour.ts';
+import { MATERIAL_COLOUR, SETTING_SCALE } from '../domain/materials.ts';
 import { WORLD } from '../domain/geo.ts';
 import { LOD_STEPS } from '../domain/lidar.ts';
 import type { Level } from '../domain/lod.ts';
@@ -21,34 +22,14 @@ import {
   type Part,
   type Plan,
   type Pt,
-  type Setting,
   type Side,
 } from '../domain/plan.ts';
 import { rect, ring, Sculpt, type V2, type V3 } from './sculpt.ts';
 
 export type Ground = (x: number, z: number) => number;
 
-const SCALE: Readonly<Record<Setting, { readonly across: number; readonly up: number }>> = {
-  landscape: { across: WORLD.landmarkScale, up: WORLD.landmarkScale },
-  map: { across: 1, up: WORLD.verticalExaggeration },
-  true: { across: 1, up: 1 },
-};
-
-const MATERIAL: Readonly<Record<Material, Rgb>> = {
-  rubble: hex('#b3ac9e'),
-  limestone: hex('#c9c4b6'),
-  sandstone: hex('#b09080'),
-  freestone: hex('#dcd3c0'),
-  shale: hex('#8d8e8a'),
-  'black-limestone': hex('#626466'),
-  render: hex('#ebe4d4'),
-  timber: hex('#7a5a3c'),
-  daub: hex('#d4c29a'),
-  thatch: hex('#d2b172'),
-  slate: hex('#5f6670'),
-  rock: hex('#a19f92'),
-  turf: hex('#80925f'),
-};
+const SCALE = SETTING_SCALE;
+const MATERIAL = MATERIAL_COLOUR;
 
 const WEATHER = hex('#8a9a6c');
 const OPENING = hex('#3a3631');

@@ -601,3 +601,46 @@ describe('the arrival cutscene’s road', () => {
     expect(p.kind === 'reconstructed' && p.basis.cy).toContain('de-ddwyreiniol');
   });
 });
+
+describe('the gate leaves’ hinges (ADR 0053)', () => {
+  const leaves = (id: string) => parts(id).filter((p) => p.id?.includes('/leaf-'));
+
+  it('gives every leaf a hinge, and nothing else one', () => {
+    for (const id of FORT_IDS)
+      for (const p of parts(id)) expect(p.hinge !== undefined, p.id).toBe(p.id?.includes('/leaf-') === true);
+    expect(leaves('roman-fort-a')).toHaveLength(4);
+    expect(leaves('roman-fort-b')).toHaveLength(8);
+  });
+
+  it('hangs each leaf from its hinge: the leaf drawn runs from the hinge post in the direction it is drawn', () => {
+    for (const id of ['roman-fort-a', 'roman-fort-b'])
+      for (const p of leaves(id)) {
+        if (p.type !== 'hall' || !p.hinge) throw new Error(`${p.id ?? '?'} is not a hinged hall`);
+        const a = (p.hinge.drawn * Math.PI) / 180;
+        expect(p.angle, p.id).toBeCloseTo(p.hinge.drawn, 9);
+        expect(p.at[0], p.id).toBeCloseTo(p.hinge.at[0] + (Math.cos(a) * p.length) / 2, 9);
+        expect(p.at[1], p.id).toBeCloseTo(p.hinge.at[1] + (Math.sin(a) * p.length) / 2, 9);
+      }
+  });
+
+  it('closes each pair across the passage, the two leaves meeting in the middle', () => {
+    for (const id of ['roman-fort-a', 'roman-fort-b']) {
+      const gates = new Map<string, Part[]>();
+      for (const p of leaves(id)) {
+        const gate = p.id?.split('/')[1] ?? '';
+        gates.set(gate, [...(gates.get(gate) ?? []), p]);
+      }
+      for (const [gate, pair] of gates) {
+        const [l, r] = pair;
+        if (!l?.hinge || !r?.hinge || l.type !== 'hall') throw new Error(`${gate} has no pair`);
+        const shut = (h: NonNullable<Part['hinge']>): Pt => {
+          const a = (h.closed * Math.PI) / 180;
+          return [h.at[0] + Math.cos(a) * l.length, h.at[1] + Math.sin(a) * l.length];
+        };
+        const a = shut(l.hinge);
+        const b = shut(r.hinge);
+        expect(Math.hypot(a[0] - b[0], a[1] - b[1]), `${id} ${gate}`).toBeLessThan(1e-6);
+      }
+    }
+  });
+});

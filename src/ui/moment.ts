@@ -8,6 +8,7 @@ import { formatYear } from '../domain/time.ts';
 import { h } from './dom.ts';
 import { basisOf, provenanceBadge, sourceItems, TIER_ICON } from './provenance.ts';
 import type { LangStore } from './store.ts';
+import { kitInfo } from '../content/kits.ts';
 
 export class MomentCard {
   readonly el = h('article', { class: 'moment panel', 'aria-live': 'polite', hidden: true });
@@ -150,7 +151,38 @@ export class MomentCard {
         h('summary', {}, p.name?.[lang] ?? p.id ?? ''),
         note ? h('p', {}, note) : null,
         list.length ? h('ul', { class: 'moment-sources' }, ...list) : null,
+        this.kitsOf(p),
       ),
+    );
+  }
+
+  // The construction details a Blender model draws on the part, each with its own tier (ADR 0053).
+  private kitsOf(p: Part): HTMLElement | null {
+    if (!p.kits?.length) return null;
+    const lang = this.store.lang;
+    return h(
+      'div',
+      { class: 'moment-kits' },
+      h('h5', {}, this.store.t('partKits')),
+      h(
+        'ul',
+        {},
+        ...p.kits.map((id) => {
+          const kit = kitInfo(id);
+          const basis = basisOf(kit.provenance, lang);
+          return h(
+            'li',
+            { class: `tier-${kit.provenance.kind}`, 'data-kit': id },
+            h(
+              'b',
+              {},
+              `${TIER_ICON[kit.provenance.kind]} ${kit.name[lang]} (${this.store.t(kit.provenance.kind)})`,
+            ),
+            basis ? ` ${basis}` : null,
+          );
+        }),
+      ),
+      h('p', { class: 'moment-finish' }, this.store.t('modelFinish')),
     );
   }
 }

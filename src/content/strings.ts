@@ -53,6 +53,14 @@ export const STRINGS = {
     en: 'What is drawn here, part by part',
     cy: 'Beth sy’n cael ei dynnu yma, rhan wrth ran',
   },
+  partKits: {
+    en: 'Detail on the model, and how it is known',
+    cy: 'Manylion ar y model, a sut y’u gwyddys',
+  },
+  modelFinish: {
+    en: 'Bevelled edges and shading are rendering, not evidence.',
+    cy: 'Rendro yw’r ymylon wedi’u beflo a’r cysgodi, nid tystiolaeth.',
+  },
   sources: { en: 'Sources', cy: 'Ffynonellau' },
   soundOn: { en: 'Sound on', cy: 'Sain ymlaen' },
   soundOff: { en: 'Sound off', cy: 'Sain i ffwrdd' },

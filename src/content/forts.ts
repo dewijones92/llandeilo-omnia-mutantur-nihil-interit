@@ -11,7 +11,7 @@ import {
   type Run,
 } from '../domain/fort.ts';
 import type { GridRef } from '../domain/model.ts';
-import type { Part, PartShape, Plan, Pt } from '../domain/plan.ts';
+import type { KitId, Part, PartMeta, PartShape, Plan, Pt } from '../domain/plan.ts';
 import { rotate } from '../domain/plan.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import type { SourceKey } from './ids.ts';
@@ -87,9 +87,19 @@ const REAR_GATE_UNPROVEN =
 const REAR_GATE_UNPROVEN_CY =
   'Ni ddangoswyd porth cefn Caer 2: mae’r amddiffynfeydd allanol yn ddi-dor yno ac nid oes ond bwlch yn y ffos fewnol. Fe’i tynnir yn llai, heb doeau, fel posibilrwydd.';
 
-function part(shape: PartShape, id: string, name: Bilingual, provenance: Provenance, detail = false): Part {
-  return { ...shape, id, name, provenance, ...(detail ? { detail: true as const } : {}) };
+function part(
+  shape: PartShape,
+  id: string,
+  name: Bilingual,
+  provenance: Provenance,
+  detail = false,
+  extra: Pick<PartMeta, 'kits' | 'hinge'> = {},
+): Part {
+  return { ...shape, id, name, provenance, ...(detail ? { detail: true as const } : {}), ...extra };
 }
+
+const ROOFED: readonly KitId[] = ['shingle-roof'];
+const degrees = (v: Pt): number => (Math.atan2(v[1], v[0]) * 180) / Math.PI;
 
 const turn = (v: Pt, quarter: number): Pt => rotate(v, 90 * quarter);
 const add = (a: Pt, b: Pt, k = 1): Pt => [a[0] + b[0] * k, a[1] + b[1] * k];
@@ -130,6 +140,8 @@ function gateParts(shape: FortShape, p: string, g: GateSpec): Part[] {
       `${id}/tower-${k > 0 ? 'left' : 'right'}`,
       named(`${k > 0 ? 'left' : 'right'} timber tower`, `tŵr pren ${k > 0 ? 'chwith' : 'dde'}`),
       'left' in g.towers ? (k > 0 ? g.towers.left : g.towers.right) : g.towers,
+      false,
+      { kits: ['post-tower-six', ...(g.evidenced ? ROOFED : [])] },
     ),
   );
   const deck = part(
@@ -148,19 +160,21 @@ function gateParts(shape: FortShape, p: string, g: GateSpec): Part[] {
     named('timber walkway over the passage', 'llwybr pren dros y fynedfa'),
     g.rest,
     true,
+    { kits: ['plank-deck'] },
   );
   const leaves = [1, -1].map((k) => {
     const hinge = add(centre, tan, (k * PASSAGE) / 2);
     const closed = turn(tan, k > 0 ? 2 : 0);
     const swung = add([Math.cos(1.13) * closed[0], Math.cos(1.13) * closed[1]], frame.out, -Math.sin(1.13));
     const at = add(hinge, swung, PASSAGE / 4);
+    const drawn = degrees(swung);
     return part(
       {
         type: 'hall',
         at,
         length: PASSAGE / 2,
         width: 0.25,
-        angle: (Math.atan2(swung[1], swung[0]) * 180) / Math.PI,
+        angle: drawn,
         height: 3.4,
         roof: 'none',
         material: 'timber',
@@ -176,6 +190,7 @@ function gateParts(shape: FortShape, p: string, g: GateSpec): Part[] {
         ['fort:S1', 'fort:S16'],
       ),
       true,
+      { kits: ['ledged-leaf'], hinge: { at: hinge, closed: degrees(closed), drawn } },
     );
   });
   const passage = part(
@@ -249,6 +264,8 @@ function circuit(shape: FortShape, p: string, gates: readonly GateSpec[], ditchi
         `${p}/rampart-${run.side}-${String(i)}`,
         { en: `Turf rampart, ${n}`, cy: `Rhagfur tyweirch, ${SIDE_CY[run.side]} ${String(i + 1)}` },
         turf,
+        false,
+        { kits: ['turf-courses'] },
       ),
       part(
         {
@@ -264,6 +281,7 @@ function circuit(shape: FortShape, p: string, gates: readonly GateSpec[], ditchi
         { en: `Timber breastwork, ${n}`, cy: `Parapet pren, ${SIDE_CY[run.side]} ${String(i + 1)}` },
         breast,
         true,
+        { kits: ['post-and-board-breastwork'] },
       ),
     );
   });
@@ -309,6 +327,7 @@ function cornerTowers(shape: FortShape, p: string): Part[] {
         ['fort:S16'],
       ),
       true,
+      { kits: ['post-tower-six', ...ROOFED] },
     ),
   );
 }
@@ -357,6 +376,7 @@ function interior(p: string, blocks: readonly Block[], known: Provenance, fort: 
       { en: `${k.name.en} ${String(n)}`, cy: `${k.name.cy} ${String(n)}` },
       b.kind === 'barrack' ? barrackBasis(fort) : known,
       true,
+      { kits: ['timber-frame', ...ROOFED] },
     );
   });
 }
@@ -506,6 +526,7 @@ function fort1Parts(): Part[] {
       'Cafwyd adeilad pedwar postyn, tŵr rhyngol yn ôl pob tebyg, ar y rhagfur mewnol gogledd-ddwyreiniol ger y gornel ddwyreiniol (arolwg). Dyfaliad ar sail cymariaethau yw ei faint 3m, ei uchder a’i do (tyrau rhyngol pedwar postyn tua 2.4 i 3m sgwâr yn Jay Lane).',
     ),
     true,
+    { kits: ['post-tower-four', ...ROOFED] },
   );
   const between = (a: number, b: number, n: number): number[] =>
     Array.from({ length: n }, (_, i) => a + ((b - a) * i) / (n - 1));
@@ -853,6 +874,7 @@ function vicusParts(): Part[] {
         ['fort:S1', 'fort:S14'],
       ),
       true,
+      { kits: ['timber-frame', 'thatch-roof'] },
     ),
   );
   return [...roadParts, ...houses];

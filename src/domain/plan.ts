@@ -55,6 +55,43 @@ export interface PartMeta {
   readonly name?: Bilingual;
   readonly provenance?: Provenance;
   readonly detail?: true;
+  /** The construction details a Blender model may draw on this part, each with its own provenance (ADR 0053). */
+  readonly kits?: readonly KitId[];
+  /** For a leaf that swings: its hinge post, and the directions (degrees, in the plan) it points closed and as drawn. */
+  readonly hinge?: Hinge;
+}
+
+export const KIT_IDS = [
+  'post-tower-six',
+  'post-tower-four',
+  'turf-courses',
+  'post-and-board-breastwork',
+  'plank-deck',
+  'ledged-leaf',
+  'timber-frame',
+  'shingle-roof',
+  'thatch-roof',
+] as const;
+export type KitId = (typeof KIT_IDS)[number];
+
+// The measurements each kit takes, in metres; the numbers live in the kit catalogue, never in the Blender script.
+export interface KitParamNames {
+  'post-tower-six': 'post' | 'stage' | 'board';
+  'post-tower-four': 'post' | 'stage' | 'board';
+  'turf-courses': 'course';
+  'post-and-board-breastwork': 'post' | 'spacing' | 'board';
+  'plank-deck': 'plank' | 'beam';
+  'ledged-leaf': 'plank' | 'ledge';
+  'timber-frame': 'post' | 'spacing' | 'sill' | 'plate';
+  'shingle-roof': 'course';
+  'thatch-roof': 'thickness';
+}
+export type KitParams<K extends KitId> = Readonly<Record<KitParamNames[K], number>>;
+
+export interface Hinge {
+  readonly at: Pt;
+  readonly closed: number;
+  readonly drawn: number;
 }
 
 export type PartShape =

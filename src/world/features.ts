@@ -10,13 +10,25 @@ import { drawnRailway, longestLine, sectionLines } from '../domain/rail.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
 import { Buildings, lineRibbons, Train, type Ribbon } from './settlement.ts';
-import { planClearing, planWorldScale } from './buildings.ts';
+import { buildPlan, planClearing, planWorldScale } from './buildings.ts';
 import { buildFeature, type Ground, type WorldPoint } from './structures.ts';
 import type { SmokeSource } from './smoke.ts';
 import type { Clearing } from './landcover.ts';
 import type { LoadedModel } from './models.ts';
 import { StreetLamps } from './streetlamps.ts';
 import { levelFor, type Level } from '../domain/lod.ts';
+import { liesOnGround, PROBE, type LandmarkModel } from '../domain/buildsheet.ts';
+import { loadLandmark, type LoadedLandmark } from './landmarks.ts';
+
+/** A monument's Blender model (ADR 0053): both levels, each the ground parts the app draws plus the loaded model. */
+interface ModelSlot {
+  readonly entry: LandmarkModel;
+  readonly feature: Feature;
+  state: 'idle' | 'loading' | 'ready' | 'failed';
+  far: readonly Mesh[];
+  near: readonly Mesh[];
+  parts: readonly string[];
+}
 
 interface Monument {
   readonly mesh: Mesh;
@@ -24,6 +36,8 @@ interface Monument {
   readonly near: Mesh | undefined;
   readonly at: { readonly x: number; readonly z: number };
   readonly hearths: readonly WorldPoint[];
+  readonly seed: number;
+  readonly model: ModelSlot | undefined;
   level: Level;
   visible: boolean;
 }
@@ -71,6 +85,10 @@ function coveredFootprints(features: readonly Feature[], footprints: BuildingFoo
   return covered;
 }
 
+function meshesOf(m: Monument): Mesh[] {
+  return [m.mesh, ...(m.near ? [m.near] : []), ...(m.model?.far ?? []), ...(m.model?.near ?? [])];
+}
+
 export class FeatureLayer {
   private readonly monuments = new Map<FeatureId, Monument>();
   private readonly towns = new Map<FeatureId, TownSet>();
@@ -88,15 +106,22 @@ export class FeatureLayer {
   readonly ground: Ground;
   private readonly surface: Ground;
   private readonly ribbons: Ribbon[] = [];
+  private modelsOn: boolean;
 
   constructor(
-    world: World,
+    private readonly world: World,
     features: readonly Feature[],
     footprints: BuildingFootprints,
     railways: readonly MapLine[],
     roads: readonly MapLine[],
     trainModels: ReadonlyMap<RollingStock, LoadedModel>,
+    private readonly landmarkModels: {
+      readonly list: readonly LandmarkModel[];
+      readonly base: string;
+      readonly on: boolean;
+    },
   ) {
+    this.modelsOn = landmarkModels.on;
     const scene = world.scene;
     this.ground = (x, z) => world.terrain.heightAt(toGrid({ x, z }));
     const onSurface: Ground = (x, z) => world.terrain.surfaceAt(x, z);
@@ -161,7 +186,8 @@ export class FeatureLayer {
         this.towns.set(f.id, { order, target: Math.round(order.length * f.kind.share), lit: false });
         continue;
       }
-      const built = buildFeature(scene, f.kind, Math.floor(hash2(x, z, 7) * 1e6), onSurface, x, z);
+      const seed = Math.floor(hash2(x, z, 7) * 1e6);
+      const built = buildFeature(scene, f.kind, seed, onSurface, x, z);
       if (!built) continue;
       const mat = scene.getMaterialByName('building-mat');
       for (const mesh of built.near ? [built.mesh, built.near] : [built.mesh]) {
@@ -170,11 +196,14 @@ export class FeatureLayer {
         if (mat) mesh.material = mat;
         if (built.casts) world.addCaster(mesh);
       }
+      const entry = landmarkModels.list.find((e) => e.feature === f.id);
       this.monuments.set(f.id, {
         mesh: built.mesh,
         near: built.near,
         at: { x, z },
         hearths: built.hearths,
+        seed,
+        model: entry ? { entry, feature: f, state: 'idle', far: [], near: [], parts: [] } : undefined,
         level: 'far',
         visible: false,
       });
@@ -237,8 +266,8 @@ export class FeatureLayer {
       m.visible = p > 0.01;
       if (m.visible) {
         const rise = 0.05 + 0.95 * (1 - Math.pow(1 - p, 3));
-        m.mesh.scaling.y = rise;
-        if (m.near) m.near.scaling.y = rise;
+        for (const mesh of meshesOf(m)) mesh.scaling.y = rise;
+        if (m.model?.state === 'idle' && this.modelsOn) void this.loadModel(id, m, m.model);
       }
       this.show(m);
     }
@@ -269,16 +298,129 @@ export class FeatureLayer {
   }
 
   private show(m: Monument): void {
-    const full = m.near && m.level === 'near';
-    m.mesh.setEnabled(m.visible && !full);
-    m.near?.setEnabled(m.visible && full === true);
+    const modelled = this.modelsOn && m.model?.state === 'ready';
+    const full = m.level === 'near' && (modelled || m.near !== undefined);
+    m.mesh.setEnabled(m.visible && !modelled && !full);
+    m.near?.setEnabled(m.visible && !modelled && full);
+    for (const mesh of m.model?.far ?? []) mesh.setEnabled(m.visible && modelled && !full);
+    for (const mesh of m.model?.near ?? []) mesh.setEnabled(m.visible && modelled && full);
+  }
+
+  /** Draws the monuments that have Blender models from them (true), or from the procedural plans (false, and at Low). */
+  setModels(on: boolean): void {
+    if (on === this.modelsOn) return;
+    this.modelsOn = on;
+    console.info(`dewidebug landmark models ${on ? 'on' : 'off'}`);
+    for (const [id, m] of this.monuments) {
+      if (on && m.visible && m.model?.state === 'idle') void this.loadModel(id, m, m.model);
+      this.show(m);
+    }
+    this.world.refreshShadows();
+  }
+
+  // Fetched the first time the monument is drawn, so nothing is added to the start; it swaps in once both levels arrive.
+  private async loadModel(id: FeatureId, m: Monument, slot: ModelSlot): Promise<void> {
+    slot.state = 'loading';
+    const kind = slot.feature.kind;
+    if (kind.type !== 'building') {
+      slot.state = 'failed';
+      return;
+    }
+    const scale = planWorldScale(kind.plan);
+    const frame = {
+      ox: m.at.x,
+      oz: m.at.z,
+      baseY: this.surface(m.at.x, m.at.z),
+      across: scale.across,
+      up: scale.up,
+      ground: this.surface,
+    };
+    console.info(`dewidebug landmark ${id} loading ${slot.entry.near.file} and ${slot.entry.far.file}`);
+    const load = (level: Level): Promise<LoadedLandmark | undefined> =>
+      loadLandmark(
+        this.world.scene,
+        `${this.landmarkModels.base}${slot.entry[level].file}`,
+        id,
+        level,
+        PROBE,
+        frame,
+      ).catch((err: unknown) => {
+        console.warn(`dewidebug landmark ${id} ${level} failed to load: drawn procedurally`, err);
+        return undefined;
+      });
+    const [far, near] = await Promise.all([load('far'), load('near')]);
+    if (!far || !near) {
+      far?.mesh?.dispose();
+      near?.mesh?.dispose();
+      slot.state = 'failed';
+      this.show(m);
+      return;
+    }
+    const groundPlan = { ...kind.plan, parts: kind.plan.parts.filter(liesOnGround) };
+    const mat = this.world.scene.getMaterialByName('building-mat');
+    const levelMeshes = (level: Level, loaded: LoadedLandmark): Mesh[] => {
+      // A mesh with no triangles has no bounds, and a shadow caster without bounds blacks out the frame.
+      const ground =
+        groundPlan.parts.length > 0
+          ? [
+              buildPlan(
+                this.world.scene,
+                groundPlan,
+                kind.condition,
+                m.seed,
+                this.surface,
+                m.at.x,
+                m.at.z,
+                level,
+              ),
+            ]
+          : [];
+      const meshes = [...ground, ...(loaded.mesh ? [loaded.mesh] : [])];
+      for (const mesh of meshes) mesh.setEnabled(false);
+      // Hinged leaves are children of the model mesh, so they show and hide with it.
+      for (const mesh of [...meshes, ...loaded.hinged.map((h) => h.mesh)]) {
+        mesh.receiveShadows = true;
+        if (mat) mesh.material = mat;
+      }
+      for (const mesh of meshes) this.world.addCaster(mesh);
+      return meshes;
+    };
+    slot.far = levelMeshes('far', far);
+    slot.near = levelMeshes('near', near);
+    slot.parts = [...near.parts.map((p) => p.id), ...near.hinged.map((h) => h.id)];
+    const rise = m.mesh.scaling.y;
+    for (const mesh of [...slot.far, ...slot.near]) mesh.scaling.y = rise;
+    slot.state = 'ready';
+    this.show(m);
+    this.world.refreshShadows();
+    console.info(
+      `dewidebug landmark ${id} drawn from its model now (${m.level}, probe error near ${near.probeError.toFixed(3)}m far ${far.probeError.toFixed(3)}m)`,
+    );
+  }
+
+  /** Where each monument with a Blender model is drawn from, for the debug overlay: `roman-fort-b=glb:near`. */
+  models(): string {
+    return [...this.monuments]
+      .flatMap(([id, m]) => {
+        if (!m.model) return [];
+        const source = this.modelsOn && m.model.state === 'ready' ? 'glb' : 'procedural';
+        const state = m.model.state === 'ready' || m.model.state === 'idle' ? '' : `(${m.model.state})`;
+        return [`${id}=${source}:${m.level}${state}`];
+      })
+      .join(' ');
+  }
+
+  /** The part ids a monument's near model holds, once loaded; empty before. */
+  modelParts(id: string): readonly string[] {
+    for (const [key, m] of this.monuments) if (key === id) return m.model?.parts ?? [];
+    return [];
   }
 
   /** Swaps each detailed monument between its levels by how far the camera is; true if any swapped, so the shadows can be redrawn. */
   setViewer(eye: { readonly x: number; readonly y: number; readonly z: number }): boolean {
     let swapped = false;
     for (const [id, m] of this.monuments) {
-      if (!m.near) continue;
+      if (!m.near && !m.model) continue;
       const g = this.surface(m.at.x, m.at.z);
       const distance = Math.hypot(eye.x - m.at.x, eye.y - g, eye.z - m.at.z);
       const level = levelFor(distance, m.level);
@@ -296,7 +438,7 @@ export class FeatureLayer {
   /** Where each detailed monument is drawn, for the debug overlay. */
   levels(): string {
     return [...this.monuments]
-      .filter(([, m]) => m.near)
+      .filter(([, m]) => m.near ?? m.model)
       .map(([id, m]) => `${id}=${m.level}`)
       .join(' ');
   }

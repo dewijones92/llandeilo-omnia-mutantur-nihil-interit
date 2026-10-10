@@ -4,6 +4,7 @@ import '@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent.js';
 import '@babylonjs/core/Meshes/thinInstanceMesh.js';
 import '@babylonjs/core/Particles/particleSystemComponent.js';
 import '@babylonjs/loaders/glTF/2.0/glTFLoader.js';
+import '@babylonjs/loaders/glTF/2.0/Extensions/ExtrasAsMetadata.js';
 import { CreateBox } from '@babylonjs/core/Meshes/Builders/boxBuilder.js';
 import { CreateCylinder } from '@babylonjs/core/Meshes/Builders/cylinderBuilder.js';
 import { CreateIcoSphere } from '@babylonjs/core/Meshes/Builders/icoSphereBuilder.js';
