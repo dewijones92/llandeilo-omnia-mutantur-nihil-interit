@@ -1231,6 +1231,22 @@ Fort 1's turf bank, breastwork and thatched halls at 80; Fort 2 with shingled to
    century, when it records post-1403 repairs and a rebuilt south wall. Each was a thing the note's own text, read
    against its own sources or code, already contradicted.
 
+   **The independent check (a second Opus, the same day, [check 2](../research/reviews/dinefwr-castle-check-2.md))**
+   found six more, each verified by fetching the source again: a **1525 end date** for Sir Rhys ap Thomas's residence
+   that none of the three cited sources gives (the listing and the HER say the end of the 15th century and "soon
+   abandoned"; 1525 is his death year); the **1213 siege** reported as walls and a tower held against engines, where the
+   Brut has the walls scaled and the castle taken "save one tower"; an **inner gatehouse of two square towers** on Cadw's
+   1280 plan that the note had left out (measured here, and added as a reconstructed part); a **kit that claimed
+   nothing**; a **quotation ("survive only in short lengths") in no source**, which had reached a second note; and parts
+   marked documented on **one source reaching the note by three routes**. Two things worth keeping: (1) a hedge is
+   easily dropped in a quotation ("may have been an extensive remodelling" had become "an extensive remodelling"), so a
+   quotation check should compare the whole clause; (2) the same agent's own review had called the 1213 reading
+   "confirmed (independent)" while Phase 2 still said the opposite, so a correction made in the Summary has to be
+   searched for in every place the claim recurs (`grep 1213`), not only where it was first noticed. Fitting the second
+   Cadw plan the same way as the first showed it needs **no** scale correction (6.52 px/m against its bar's 6.63), so the
+   5% excess belongs to the period plan alone, not to Cadw's drawings in general. Every one of today's ten kits cites the
+   Roman fort survey, so a medieval part reusing one shows Roman evidence under a medieval label.
+
 ## 2026-10-10 (the "flaky" e2e hang)
 
 About one full e2e run in ten (and more under load) failed a random test with `data-ready` never set

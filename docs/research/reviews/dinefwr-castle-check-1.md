@@ -11,7 +11,7 @@ Reviewed note: [`../dinefwr-castle.md`](../dinefwr-castle.md) (status: draft, 20
 branch `worktree-wf_1b05b839-3c0-2`, with `main` merged in at `bb02d08` (the Blender pipeline and the forts as Blender
 models) before the note was written.
 
-**This check is not independent.** It was written by the same agent that wrote the note, on the same day, because no
+**This check is not independent** (the independent one is [check 2](dinefwr-castle-check-2.md), which also found the 1525 date, the 1213 wording and the missing gatehouse this check let through). It was written by the same agent that wrote the note, on the same day, because no
 second agent could be started from inside the workflow that commissioned it. It is a second reading of each claim
 against the downloaded sources, with every quotation tested by a script, not the fresh pass by another reader that the
 todo path's step 3 asks for. That pass is still owed before the castle is built.
