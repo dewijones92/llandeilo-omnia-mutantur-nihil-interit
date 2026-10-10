@@ -87,7 +87,7 @@ export class PlaceLabels {
     this.order = [...this.labels].sort((a, b) => rank(a) - rank(b));
   }
 
-  update(avoid: readonly DOMRect[] = []): void {
+  update(avoid: readonly Box[] = []): void {
     const project = projector(this.scene);
     if (!project) return;
     // Labels are placed in priority order; one that would overlap an earlier label waits its turn.

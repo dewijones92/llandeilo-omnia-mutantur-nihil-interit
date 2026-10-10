@@ -107,4 +107,8 @@ that pins never sit under the panels, the timeline, the compass or a label at 19
 label tests run at years with no pins, so they do not cover pins. Because a place label is how a visitor flies to
 a place, **labels win a clash with a pin**: the labels are placed first and the pins avoid them (Claude, under the
 proactive mandate, so Dewi can overrule). Pins also avoid conversation bubbles, though none of the pinned years
-has one, so that is not tested. See the [build log](../process/build-log.md), 2026-10-10.
+(1895 to 1960: the earliest start, and the latest end 1935 plus `PHOTO_LINGER_YEARS`) has one, so that is not tested.
+**Known consequence:** photograph 2281931 (Rhosmaen Street at New Road, 1924 to 1935, so pinned to 1960) sits under the
+focused Llandeilo label at all three standard views (overview, town at 400 and at 140) from 1925 to 1960, and is the only
+pin in 1956 to 1960, so those years show no pin until the camera moves (it shows at 15 to 16 of 16 camera positions at
+radius 140 to 250). Nudging the pin aside would misplace a pin whose job is to say where, so it is left as it is. See the [build log](../process/build-log.md), 2026-10-10.

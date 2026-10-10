@@ -1115,7 +1115,7 @@ at 1925 and 1950) because `main.ts` placed the pins first, avoiding only the chr
 the pins. Labels now go first (`PlaceLabels.visible` exposes their boxes) and the pins avoid the labels, the
 bubbles and the chrome. Seen red first: the new "Llandeilo label still shows" e2e failed at the label count
 (expected 1, received 0) at `./?year=1900`. "Never under a bubble" in the earlier pin test tested nothing, as no
-pinned year (about 1890 to 1975) has a conversation, so it is dropped from the test, the map and the docs; the code
+pinned year (1895 to 1960: the earliest start, and the latest end 1935 plus the 25 lingering years) has a conversation, so it is dropped from the test, the map and the docs; the code
 still passes the bubbles to the pins. The GPU kit's frame-timing scene (1903 winter night) now carries `&photos=0`
 so its numbers stay comparable with 2026-10-09's. Consequence: in the whole-valley overview at 1900 the one pin that used to fit sat exactly under Llandeilo's
 label, so the overview now shows no pin until the camera comes in; the town views still show several, and
@@ -1123,6 +1123,12 @@ label, so the overview now shows no pin until the camera comes in; the town view
 reason. Full e2e on a fresh build (`E2E_WORKERS=1`, 72 tests): 67 passed, 5 failed: two were the known "never ready"
 flake, two were my overview tests assuming a visible pin there, one was the pin-count threshold above; the five
 passed re-run alone after the test edits (the app code did not change after that build).
+Known gap, found in re-review: harries-2281931 (Rhosmaen Street at New Road, 1924 to 1935) sits under the focused
+Llandeilo label at all three standard views (overview, town at 400 and at 140) from 1925 to 1960, and is the only pin in
+1956 to 1960, so those years show no pin at any standard view; it shows once the camera moves (15 to 16 of 16 positions
+at radius 140 to 250). A fix was weighed and not made: the pin layout has no candidate offsets, and nudging a pin sideways or up
+by its own size puts its tip tens of metres from the spot, which defeats a pin whose job is to say where (its accuracy is
+30 m). An e2e pins the gap down: every fifth year 1895 to 1955 shows a pin at some standard view, and 1960 shows none.
 Lesson: **a test that names something no view contains
 asserts nothing**; find the scene that has it or do not claim it.
 

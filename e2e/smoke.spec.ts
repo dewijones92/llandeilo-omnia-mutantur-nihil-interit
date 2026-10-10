@@ -907,6 +907,28 @@ test('photo pins, on by default, never sit under the panels, the timeline, the c
   }
 });
 
+test('every fifth year the photographs are pinned (1895 to 1955) shows a pin at some standard view, and 1960 shows none', async ({
+  page,
+}) => {
+  const views = ['&place=llandeilo&radius=140', '&place=llandeilo&radius=400', ''];
+  const shown = async (y: number): Promise<number> => {
+    for (const view of views) {
+      await page.goto(`./?year=${String(y)}${view}`);
+      await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout: 150_000 });
+      await page.waitForTimeout(800);
+      const n = await page.locator('.pin').filter({ visible: true }).count();
+      if (n > 0) return n;
+    }
+    return 0;
+  };
+  const missing: number[] = [];
+  for (let y = 1895; y <= 1955; y += 5) if ((await shown(y)) === 0) missing.push(y);
+  expect(missing).toEqual([]);
+  // Known gap: 2281931 is the only photograph pinned in 1956 to 1960 and it sits under the Llandeilo label
+  // at every standard view (labels win), so those years show no pin until the camera moves.
+  expect(await shown(1960)).toBe(0);
+});
+
 test('with the pins on by default the Llandeilo label still shows, in the overview and in the town', async ({
   page,
 }) => {
