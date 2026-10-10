@@ -26,8 +26,17 @@ const only = args.filter((a) => !a.startsWith('--'));
 const published = (feature: string, level: LevelName): string =>
   join(ROOT, 'public', modelFile(feature, level));
 
-const blenderNow =
-  execFileSync('blender', ['--version'], { encoding: 'utf8' }).split('\n')[0]?.trim() ?? 'unknown';
+function blenderVersion(): string | undefined {
+  try {
+    const out = execFileSync('blender', ['--version'], { encoding: 'utf8' });
+    return /^Blender \d.*$/m.exec(out)?.[0].trim();
+  } catch (err: unknown) {
+    console.warn(
+      `dewidebug models could not run blender --version: ${err instanceof Error ? err.message : String(err)}`,
+    );
+    return undefined;
+  }
+}
 
 function builtWith(feature: string): string | undefined {
   const file = published(feature, 'near');
@@ -44,11 +53,17 @@ function builtHash(feature: string): string | undefined {
 }
 
 const all = sheets();
-const stale = all.filter(
-  (s) =>
-    (only.length === 0 || only.includes(s.feature)) &&
-    (force || builtHash(s.feature) !== inputHash(s) || builtWith(s.feature) !== blenderNow),
-);
+const inScope = all.filter((s) => only.length === 0 || only.includes(s.feature));
+const staleByInputs = inScope.filter((s) => force || builtHash(s.feature) !== inputHash(s));
+// With nothing stale by its inputs a machine without Blender is fine: only the check for a model made by another version is skipped.
+const found = blenderVersion();
+if (staleByInputs.length > 0 && found === undefined)
+  throw new Error('blender is needed to build and could not be run');
+const blenderNow = found ?? 'unknown';
+const stale =
+  found === undefined
+    ? []
+    : inScope.filter((s) => staleByInputs.includes(s) || builtWith(s.feature) !== found);
 const landmarks = [...new Set(stale.map((s) => s.landmark))];
 console.log(
   `dewidebug models ${blenderNow}; ${String(all.length)} features, ${String(stale.length)} to build: ${stale.map((s) => s.feature).join(', ') || 'none'}`,

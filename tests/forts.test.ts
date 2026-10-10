@@ -487,6 +487,18 @@ describe('what the notes say no more than the sources do', () => {
     expect(cited).toBeGreaterThan(0);
   });
 
+  it('says a tower copied from its twin is a copy whose height and roof are a guess, not a drawing by analogy', () => {
+    const twins = ['roman-fort-a', 'roman-fort-b'].flatMap((id) =>
+      parts(id).filter((p) => text(p.provenance).includes('twin')),
+    );
+    expect(twins.length).toBeGreaterThan(0);
+    for (const p of twins) {
+      const t = text(p.provenance);
+      expect(t, p.id).toContain('copied from its twin, whose height and roof are a guess');
+      expect(t, p.id).not.toMatch(/as is its height and roof/);
+    }
+  });
+
   it('does not cite a wider berm between Fort 2’s second and third ditches without saying it is not drawn', () => {
     const d = parts('roman-fort-b').find((p) => p.id?.includes('/ditch-1-se-'));
     expect(text(d?.provenance)).toContain('not drawn');

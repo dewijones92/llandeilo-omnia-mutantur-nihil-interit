@@ -435,8 +435,8 @@ const FORT_1_GATES: readonly GateSpec[] = [
         'Ceir tystiolaeth o’r fynedfa de-orllewinol: mae pedwar pwll postyn sgwâr, hyd at 1.2m ar eu traws, yn ôl pob tebyg yn perthyn i dŵr porth mawr chwe postyn (Ffos Brawf 1). Hwn yw’r tŵr ar yr ochr ogleddol, yr un a ganfuwyd, yr un ar y dde wrth edrych allan; dyfaliad yw ei uchder a’i do: dim ond cynllun pyst a maint plan tyrau porth pren a roddir gan Jay Lane, caer bridd yn Swydd Henffordd, ac nid uchder na tho.',
       ),
       left: gateNote(
-        'This tower is the twin of the one found on the north side of the south-west gateway, across the passage. Nothing of it was found; it is drawn by analogy, as is its height and roof.',
-        'Efaill yw’r tŵr hwn i’r un a ganfuwyd ar ochr ogleddol y fynedfa de-orllewinol, ar draws y fynedfa. Ni chanfuwyd dim ohono; fe’i tynnir ar sail cymariaethau, fel ei uchder a’i do.',
+        'This tower is the twin of the one found on the north side of the south-west gateway, across the passage. Nothing of it was found; it is copied from its twin, whose height and roof are a guess.',
+        'Efaill yw’r tŵr hwn i’r un a ganfuwyd ar ochr ogleddol y fynedfa de-orllewinol, ar draws y fynedfa. Ni chanfuwyd dim ohono; fe’i copïwyd o’i efaill, y mae ei uchder a’i do yn ddyfaliad.',
       ),
     },
     rest: gateNote(

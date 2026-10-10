@@ -8,7 +8,7 @@ holds no history. Every measurement of a detail comes from a kit's parameters, a
 fails on a bare decimal in a drawing function. What the script adds on its own claims nothing, and is the named
 constants below: STEP and BEVEL (mesh resolution and edge rounding), GAP (the visible seam between boards),
 FACE_*/BACK_* (where a leaf's boards and ledges sit across its thickness), HIDDEN_JOIN (where timbers meet out of
-sight), ROLL_SIDES, CUT_FACE (a colour) and a small, seeded variation in colour.
+sight), ROLL_SIDES, MITER_LIMIT, OUTLINE_SIDES, STEEP, TINY, CUT_FACE (a colour) and a small, seeded variation in colour.
 
 Blender X is east, Y is north and Z is up, in metres from the feature's grid reference, which is kept
 in the scene's custom properties, never in vertex positions.
@@ -30,6 +30,10 @@ STEP = 6.0
 BEVEL = 0.025
 GAP = 0.03
 ROLL_SIDES = 8
+STEEP = 0.9  # a beam whose direction is more vertical than this takes east, not up, to find its sides
+TINY = 1e-9  # slack for comparing distances along a path
+MITER_LIMIT = 0.35  # the least a bend's mitre may shrink to before it is cut off, so a sharp corner cannot spike
+OUTLINE_SIDES = {"round": 12, "hexagonal": 6, "octagonal": 8}  # how many sides stand for each outline
 CUT_FACE = (0.78, 0.72, 0.6)  # a turf bank's cut faces: darker earth, a colour and not a size
 EPSILON = 1e-6
 # Where a gate leaf's boards and ledges sit across its thickness, as shares of it: placement, not a measurement.
@@ -99,7 +103,7 @@ class Solids:
         d = [b[i] - a[i] for i in range(3)]
         length = math.sqrt(sum(x * x for x in d)) or 1
         d = [x / length for x in d]
-        up = (0, 0, 1) if abs(d[2]) < 0.9 else (1, 0, 0)
+        up = (0, 0, 1) if abs(d[2]) < STEEP else (1, 0, 0)
         s = cross(d, up)
         sl = math.sqrt(sum(x * x for x in s)) or 1
         s = [x / sl * w / 2 for x in s]
@@ -161,7 +165,7 @@ def outline_of(shape, size, turn, cx, cy):
     r = size / 2
     if shape == "square":
         return rect(cx, cy, size, size, turn)
-    sides = {"round": 12, "hexagonal": 6, "octagonal": 8}[shape]
+    sides = OUTLINE_SIDES[shape]
     k = r / math.cos(math.pi / sides) if shape != "round" else r
     return [(cx + k * math.cos(math.radians(turn) + 2 * math.pi * i / sides), cy + k * math.sin(math.radians(turn) + 2 * math.pi * i / sides)) for i in range(sides)]
 
@@ -194,7 +198,7 @@ def frames(path, closed):
         ty = sum(d[1] for d in dirs)
         tl = math.hypot(tx, ty) or 1
         tx, ty = tx / tl, ty / tl
-        miter = 1 / max(0.35, dirs[0][0] * tx + dirs[0][1] * ty)
+        miter = 1 / max(MITER_LIMIT, dirs[0][0] * tx + dirs[0][1] * ty)
         out.append(((ty * miter, -tx * miter), (tx, ty)))
     return out
 
@@ -216,7 +220,7 @@ def along_path(path, spacing):
         want = total * k / n
         for a, b in zip(path, path[1:]):
             length = math.hypot(b[0] - a[0], b[1] - a[1])
-            if want <= length + 1e-9 or b == path[-1]:
+            if want <= length + TINY or b == path[-1]:
                 t = 0 if length == 0 else min(1, want / length)
                 out.append(((a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t), math.degrees(math.atan2(b[1] - a[1], b[0] - a[0]))))
                 break
@@ -474,7 +478,7 @@ def gable(m, sheet, part, roof, cx, cy, turn, col, wall_col, kits):
         roll = roof_kit["roll"]
         ring = [(math.cos(a) * roll, math.sin(a) * roll) for a in (2 * math.pi * i / ROLL_SIDES for i in range(ROLL_SIDES))]
         rings = [[at(x, y, top + rise + roof_kit["rollSeat"] + z) for y, z in ring] for x in (-L - HIDDEN_JOIN, L + HIDDEN_JOIN)]
-        m.loft(rings, [shade(col, 0.92)] * 8)
+        m.loft(rings, [shade(col, 0.92)] * ROLL_SIDES)
         return
     slope = math.hypot(W, rise)
     n = max(2, math.ceil(slope / roof_kit["course"]))
@@ -581,7 +585,7 @@ def make_object(name, solids, coll, parent, part_id, near):
     for face in bm.faces:
         if solids.bevelled[face.index]:
             for edge in face.edges:
-                edge[weight] = 1.0
+                edge[weight] = 1
             bevelled += 1
     bm.to_mesh(me)
     bm.free()
@@ -589,7 +593,7 @@ def make_object(name, solids, coll, parent, part_id, near):
     for poly in me.polygons:
         c = solids.c[poly.index]
         for li in poly.loop_indices:
-            attr.data[li].color = (c[0], c[1], c[2], 1.0)
+            attr.data[li].color = (c[0], c[1], c[2], 1)
     me.color_attributes.active_color = attr
     obj = bpy.data.objects.new(name, me)
     coll.objects.link(obj)
@@ -712,7 +716,7 @@ def main():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     scene = bpy.context.scene
     scene.unit_settings.system = "METRIC"
-    scene.unit_settings.scale_length = 1.0
+    scene.unit_settings.scale_length = 1
     loaded = [json.load(open(p, encoding="utf-8")) for p in sheets]
     landmarks = {s["landmark"] for s in loaded}
     if len(landmarks) != 1:

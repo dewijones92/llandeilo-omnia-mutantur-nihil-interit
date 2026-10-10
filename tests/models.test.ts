@@ -200,29 +200,15 @@ describe('the Blender landmark models (ADR 0053)', () => {
     expect([...read].filter((n) => !held.has(n))).toEqual([]);
   });
 
-  it('draws every detail from a kit measurement or a named script constant: no bare number in a drawing function', () => {
-    const script = readFileSync(join(root, 'tools/models/build_landmark.py'), 'utf8');
-    const drawing = [
-      'wall',
-      'turf_bank',
-      'breastwork',
-      'tower',
-      'post_tower',
-      'boarded',
-      'pyramid',
-      'hall',
-      'framed',
-      'gable',
-      'deck',
-      'leaf',
-    ];
-    const bodyOf = (name: string): string => {
-      const start = script.indexOf(`\ndef ${name}(`);
-      expect(start, name).toBeGreaterThan(-1);
-      const rest = script.slice(start + 1);
-      const end = rest.slice(1).search(/\n(def |class |# )/);
-      return end < 0 ? rest : rest.slice(0, end + 1);
-    };
+  it('draws every detail from a kit measurement or a named script constant: no bare number in any function of the script', () => {
+    const script = readFileSync(join(root, 'tools/models/build_landmark.py'), 'utf8').replace(
+      /"""[\s\S]*?"""/g,
+      '""',
+    );
+    // Colour, and the preview render's camera: not the model's geometry, so they may hold their own numbers.
+    const exempt = new Set(['rgb', 'shade', 'toward', 'jitter', 'fail', 'preview']);
+    const defs = [...script.matchAll(/^[ ]*def (\w+)\(/gm)];
+    expect(defs.length).toBeGreaterThan(30);
     // A colour is not a measurement: drop whole shade(...) and jitter(...) calls before looking.
     const withoutColour = (code: string): string => {
       let out = code;
@@ -238,19 +224,21 @@ describe('the Blender landmark models (ADR 0053)', () => {
         out = `${out.slice(0, m.index)}COLOUR${out.slice(i)}`;
       }
     };
-    // Whole numbers here are mesh topology (vertex indices), counts and halving; half a unit is centring. Any
-    // other decimal is a measurement and belongs in a kit.
+    // Whole numbers are mesh topology, counts and halving; half a unit is centring. A decimal (with or without a
+    // leading digit), an exponent or a written fraction such as 1 / 3 is a measurement and belongs in a kit.
     const allowed = new Set(['0.5']);
     const bare: string[] = [];
-    for (const name of drawing) {
-      const code = withoutColour(bodyOf(name))
+    defs.forEach((d, k) => {
+      const name = d[1] ?? '';
+      if (exempt.has(name)) return;
+      const end = defs[k + 1]?.index ?? script.length;
+      const code = withoutColour(script.slice(d.index, end))
         .split('\n')
-        .filter((l) => !/^\s*("""|#)/.test(l))
         .map((l) => l.replace(/#.*$/, '').replace(/"[^"]*"/g, '""'))
         .join('\n');
-      for (const m of code.matchAll(/(?<![\w.])(\d+\.\d+(?:e-?\d+)?|\d+e-?\d+)(?![\w])/g))
-        if (!allowed.has(m[1] ?? '')) bare.push(`${name}: ${m[0]}`);
-    }
+      for (const m of code.matchAll(/(?<![\w.])(?:\d*\.\d+(?:e-?\d+)?|\d+e-?\d+|\d+\s*\/\s*\d+)(?!\w)/g))
+        if (!allowed.has(m[0])) bare.push(`${name}: ${m[0]}`);
+    });
     expect(bare).toEqual([]);
   });
 

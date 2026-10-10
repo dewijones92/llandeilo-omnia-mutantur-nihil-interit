@@ -196,7 +196,7 @@ points and a number of suggestions. Corrected:
 
 - **The turf kit said Jay Lane "records" turf revetments** (IMPORTANT). Jay Lane's page contradicts itself: its
   summary says excavation "revealed earth ramparts revetted with turf", but its excavation section says no
-  trace of a rampart bank or its postholes was found and that the rampart "must have been provided with a turf
+  trace of a rampart bank was found, "nor were there any postholes for a timber-framed rampart or palisade", and that the rampart "must have been provided with a turf
   revetment", a suggestion backed by the ditch fill. The kit now says so in both languages without choosing,
   names Dinefwr's own turf rampart as an inference from Fort 1's ditch fill, and cites S1 as well as S16 and
   S15. Recorded in `research/findings.md` and the Roman forts note.
@@ -206,8 +206,16 @@ points and a number of suggestions. Corrected:
 - **Point 1 claimed every measurement was a kit parameter, and the script still hard-coded six** (IMPORTANT):
   see point 1 above. Seen red: the new test listed all of them (`pyramid: 0.25`, `framed: 0.06`, `0.8`,
   `gable: 0.6`, `0.3`, `leaf: 0.8`, and the turf cut colour) against the old script. Unifying the shingle
-  overlap changes the towers' roofs slightly (the towers' courses now run up under the next by the same 0.09m as
-  the halls'), so every model was rebuilt.
+  overlap changes both roofs slightly: the towers' courses used to run up under the next by 0.25 of a course
+  and the halls' by 0.3 of one (at most 0.09m on a 0.3m course), and both now take the one `overlap` of 0.09m,
+  so the halls changed a little too, and every model was rebuilt. Further suggestions done: the test now
+  covers every function of the script but a named list (colour helpers and the preview camera) and also
+  rejects `.5` and `1 / 3` forms; `MITER_LIMIT`, `OUTLINE_SIDES`, `STEEP` and `TINY` are named, and the roll's
+  colours follow `ROLL_SIDES` (seen red: the wider test named `beam: 0.9` and `along_path: 1e-9` on the
+  script as it stood); `npm run models` asks Blender for `^Blender \d` only when it can run it, and a machine
+  without Blender with nothing stale needs none; Jay Lane's gatehouses are described as the page does
+  (three or four, on two rows of five posts, a tower at each end), and the Fort 1 south-west gate's left
+  tower is "copied from its twin, whose height and roof are a guess".
 - **The bundle claim was wrong, and `design/README.md` still said "Proposed, not built"** (IMPORTANT):
   both corrected.
 - **Suggestions done**: the kits heading says "in the close-up model" (the far level draws none of them); a
