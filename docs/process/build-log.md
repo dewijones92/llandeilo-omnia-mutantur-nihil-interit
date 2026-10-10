@@ -1080,3 +1080,41 @@ it is defensive only.
    duplicate entry), and a missing import fails the run by name. Run locally after the fix: WebGPU on the
    NVIDIA GPU, 8 GPU tests and 70 e2e passed (1 skipped) in 5m12s; idle 53fps, orbit 60, scrub 40 (p90
    50ms). Lesson: **a copy list that mirrors code drifts the day the code grows; derive it.**
+
+## 2026-10-10 (the "flaky" e2e hang)
+
+About one full e2e run in ten (and more under load) failed a random test with `data-ready` never set
+after 150s, and passed when re-run alone: "a provenance badge explains itself", "timeline year labels never
+overlap", "every timeline marker can be clicked", "time of day and season controls" and others, six times
+on 2026-10-09 and 10. Called a flake; by the rule that an unlogged decision is an unanswerable question,
+instrumented instead.
+
+1. **Instrumentation.** `src/platform/startup.ts` and `src/main.ts` log `dewidebug startup <stage> <ms>` at
+   each stage between page load and `data-ready` (`html head parsed`, `main started`, each of `engine`,
+   `heightfield`, `rivers`, `woodland`, `lidar`, `buildings`, `railways`, `roads` loaded or FAILED,
+   `inputs all loaded`, `world built`, `train model loading` and `done`, `scene built`, `scene ready`,
+   `ready`), every start-up fetch (start, status and time, failure), unhandled errors and rejections with the
+   stage, WebGL context loss and creation errors, and a STILL WAITING line at 15, 60 and 120 seconds. The
+   last stage is `body[data-startup]`, the fetches in flight `body[data-startup-pending]`. Once per load.
+2. **A shared wait.** `e2e/ready.ts` (`ready(page)`, and the `test` every spec imports) replaced all 77 bare
+   `data-ready` waits (75 in `smoke.spec.ts`, 1 in `terrain.spec.ts`, 1 in `gpu.spec.ts`; none left). A
+   timeout now throws the page state, the requests started but never finished, failed and HTTP-error
+   requests, page errors, the app's start-up lines and the last 30 console lines. The timeout is unchanged.
+3. **Reproduced.** `E2E_WORKERS=3` against a production build, on a laptop at load average 7 to 8: run 1
+   passed (72 passed, 1 skipped, 4.3 minutes); run 2 failed three tests (69 passed, 8.1 minutes), all
+   "the page never became ready", all with `net::ERR_NETWORK_CHANGED` on same-origin script chunks and
+   three different faces: the entry's imports lost so `main.ts` never ran and nothing said so (twice, once on
+   a second navigation inside a test), and a shader chunk lost after start-up began, which left Babylon's
+   `whenReadyAsync` pending for ever (stuck at `scene built`, with a page error
+   "Failed to fetch dynamically imported module"). `docker events` showed a container joining and leaving
+   the Docker bridge every 11 to 15 seconds through the run, and Chromium cancels in-flight requests when the
+   host's network interfaces change. Which container it is was not checked.
+4. **Fix** ([ADR 0053](../adr/0053-a-page-that-loses-a-script-reloads-once-and-says-where-start-up-stopped.md)):
+   an inline script in `index.html` reloads the page (up to three times per session, once per load) when a
+   same-origin script fails or a dynamic import is rejected. `e2e/ready.spec.ts` drops one script request
+   before start-up and one after it began, seen red without the script (never ready after 60s) and green
+   with it. This also protects a visitor whose network changes mid-load.
+
+Lesson: **"re-running it passes" is not evidence of a flake, it is what any cause that depends on the
+moment looks like.** The cause was in the environment and the app's silence about it, and one run with the
+failure message written out was enough to find it.

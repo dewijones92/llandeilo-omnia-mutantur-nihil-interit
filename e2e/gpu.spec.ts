@@ -1,7 +1,8 @@
 // Runs only under playwright.gpu.config.ts (tools/gpu/run.sh): Windows Chrome on the real GPU, at the
 // default High graphics. It fails on a WebGPU error or a page that never gets ready; frame rates are
 // recorded in test-results-gpu/, not asserted.
-import { expect, test, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { expect, ready, test, watchPage } from './ready.ts';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { formatFrameStats, measureFrames, measureScrub } from '../tools/frame-timing.ts';
@@ -34,11 +35,6 @@ function gpuErrors(page: Page): string[] {
     if (isGpuError(m.type(), m.text())) errors.push(`console.${m.type()}: ${m.text()}`);
   });
   return errors;
-}
-
-async function ready(page: Page): Promise<void> {
-  await page.waitForFunction(() => document.body.dataset['ready'] !== undefined, null, { timeout: 150_000 });
-  expect(await page.locator('body').getAttribute('data-ready')).toBe('true');
 }
 
 const debugField = (page: Page, key: string): Promise<string> =>
@@ -112,6 +108,7 @@ test.describe('frame timings at 1920x1080', () => {
     const page = own
       ? await own.newPage({ ...(baseURL ? { baseURL } : {}), viewport: { width: 1920, height: 1080 } })
       : shared;
+    watchPage(page);
     const errors = gpuErrors(page);
     await page.goto(`./${PERF}`);
     await ready(page);
