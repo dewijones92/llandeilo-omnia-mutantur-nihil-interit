@@ -77,8 +77,8 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0043](0043-one-polyline-helper.md) | One helper measures lines of grid points and walks along them | Accepted (Claude, under the proactive mandate) | 2026-10-03 |
 | [0044](0044-photographs-are-dated-placed-content-with-pins.md) | Photographs are dated, placed content, shown as pins | Accepted | 2026-10-09 |
 | [0045](0045-estimated-ends-carry-a-latest-date.md) | An estimated end can carry the latest date its sources allow | Accepted, amends 0035 | 2026-10-09 |
-| [0046](0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md) | The Roman forts are drawn true size from typed plans whose parts carry their own tier | Accepted | 2026-10-09 |
-| [0047](0047-detailed-monuments-have-a-far-and-a-near-mesh.md) | A detailed monument has a far and a near mesh, chosen by the camera's distance | Accepted | 2026-10-09 |
+| [0046](0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md) | The Roman forts are drawn true size from typed plans whose parts carry their own tier | Accepted; build route amended by 0052 | 2026-10-09 |
+| [0047](0047-detailed-monuments-have-a-far-and-a-near-mesh.md) | A detailed monument has a far and a near mesh, chosen by the camera's distance | Accepted; build route amended by 0052 | 2026-10-09 |
 | [0048](0048-gpu-e2e-on-windows-chrome.md) | The GPU tests run on Windows Chrome, against a preview served from WSL | Accepted (Dewi's idea and runner; design Claude, under the proactive mandate) | 2026-10-09 |
 | [0049](0049-lidar-terrain-tiles-blended-into-terrain-50.md) | LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart | Accepted, extends 0009; amended 2026-10-10 (the review: lines on the ground, tree identity, what an edit moves) | 2026-10-09 |
 | [0050](0050-map-style-camera-controls.md) | Map-style camera controls: drag slides the land, right-drag turns, the wheel zooms at the cursor | Accepted; amended by 0051 | 2026-10-03 |
