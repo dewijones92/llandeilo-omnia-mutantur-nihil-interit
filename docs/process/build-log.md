@@ -1132,3 +1132,11 @@ by its own size puts its tip tens of metres from the spot, which defeats a pin w
 Lesson: **a test that names something no view contains
 asserts nothing**; find the scene that has it or do not claim it.
 
+
+5. **The photo-pin overlap test failed on CI with the welcome open** (run on a6a8d34, shard 3): four pins
+   were "under" the welcome 500ms after it opened. The pins re-lay themselves out on a rendered frame, and
+   CI renders at about 1fps, so a fixed half-second wait can end before any frame. The three checks now
+   poll for up to 20s; with pin avoidance switched off (`pins.update([])`) the test still fails at
+   `./?year=1900`, and with it on it passes. The same shard's per-year pin test took 6.8 minutes against
+   CI's 7-minute per-test limit, so it is marked slow in CI like the night tests. Lesson, the second in a
+   day: **on a 1fps renderer a fixed wait is a guess; wait for the state**.
