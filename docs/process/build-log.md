@@ -1286,3 +1286,11 @@ others ran 3 to 8.
 
 Lesson: **a test that needs thirteen scenes does not need thirteen page loads**; the slow part of an e2e is
 start-up, so move through the states in one page when the state is reachable the way a visitor reaches it.
+
+**Review of the per-year pin test, 2026-10-10** (second Opus, after the push; no CRITICAL or IMPORTANT). The
+test counted pins one animation frame after a move and relied on the app laying the pins out in the same frame
+as the year: with that order broken on purpose it still passed, counting 1900's pins for 1905. The pin layer
+now stamps the year it last laid out (`.pins[data-year]`), and the test waits for that year before counting,
+so the count is for exactly that year whatever the frame order; with the stamp removed it fails at "laid
+out". CI shard times after this test's rewrite and the move to eight shards: 2 to 10 minutes (the slowest
+had been 14 with eight shards and 20 with six).

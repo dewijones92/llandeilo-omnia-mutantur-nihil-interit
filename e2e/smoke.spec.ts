@@ -950,20 +950,12 @@ test('every fifth year the photographs are pinned (1895 to 1955) shows a pin at 
         track.dispatchEvent(new PointerEvent('pointermove', { clientX: x, bubbles: true }));
       }, at(y));
       await expect(page.locator('.tl-year'), `${String(y)}${view}`).toHaveText(String(y));
-      // The scene applies the new year and lays the pins out in one rendered frame, so a frame that
-      // starts after the move has the final answer; a second frame is margin at CI's ~1fps.
-      let n = 0;
-      for (let frame = 0; frame < 2 && n === 0; frame++) {
-        await page.evaluate(
-          () =>
-            new Promise<void>((done) => {
-              requestAnimationFrame(() => {
-                done();
-              });
-            }),
-        );
-        n = await pins.count();
-      }
+      // The pin layer stamps the year it last laid out, so the count below is for exactly this year.
+      await expect(page.locator('.pins'), `${String(y)}${view} laid out`).toHaveAttribute(
+        'data-year',
+        String(y),
+      );
+      const n = await pins.count();
       console.info(`dewidebug e2e pins year=${String(y)} view="${view}" visible=${String(n)}`);
       if (n > 0) shownAt.set(y, n);
     }

@@ -464,7 +464,7 @@ async function start(): Promise<void> {
     store.t('photos'),
   );
   const syncPins = (): void => {
-    pins.setShown(photosOn ? snap.photographs : []);
+    pins.setShown(photosOn ? snap.photographs : [], calendarYear(snap.year));
     const open = photoPanel.open;
     if (open && !pins.has(open.id)) photoPanel.close();
   };
