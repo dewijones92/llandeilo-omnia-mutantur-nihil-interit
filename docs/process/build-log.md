@@ -1128,4 +1128,4 @@ it is defensive only.
    with its sheet. Turning every hall 90 degrees in the script now fails the new bounds test at the first
    barrack ("extent 0: expected 43.5 to be at most 41.4"); the check was cheap, and it passes on all 73 rigid
    parts of the first build and on the rebuilt ones. (10) **A parts card described detail that was not drawn**
-   at Low and with `?models=off`; its e2e test failed with 3 kits listed when the gate was removed.
+   at Low and with `?models=off`; its e2e test failed with 3 kits listed when the gate was removed. The GPU kit's e2e pass failed on `lidar.json` before main's fix to it (6b05ed5, merged in); with it, `npm run e2e:gpu` on Windows Chrome at High passed 8 GPU tests and 72 e2e, including the models loading and the card, so the models have now run on WebGPU (idle 57fps, orbit 57, scrub 51, vsync on). One e2e test (the almanac one) hung at load in the full local run and passed when re-run alone, the known load flake.

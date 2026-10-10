@@ -301,7 +301,7 @@ rather than licence-checked (Dewi: "ignore licensing problems, just credit the p
       on 2026-10-10 and its findings were fixed ([ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md)'s
       amendment; the tower kits no longer credit Jay Lane with a stage). Dewi's answers, 2026-10-10: proper textures, edit through
       scripts not the `.blend`, Dinefwr next. Still to do before it is ticked: the textures, the open questions in the note
-      (commit or build in CI, what Low shows, clicking a part), and the WebGPU pass of `npm run e2e:gpu` on the models. Next:
+      (commit or build in CI, what Low shows, clicking a part). The models were run on WebGPU on 2026-10-10 (`npm run e2e:gpu`, Windows Chrome, High: 8 GPU tests and 72 e2e passed, the fort model test among them). Next:
       Dinefwr (once its plan is researched), then Carreg Cennen, Dryslwyn, St Teilo's and Talley, the bridge, the Shire Hall and
       the Provisions Market, the trains (the 1857 train onto this pipeline), then Newton House, Paxton's Tower, Golden Grove and
       Aberglasney. Not built yet: kit libraries, textures, `?tiers`, a CI rebuild job
