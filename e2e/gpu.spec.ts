@@ -17,7 +17,8 @@ import {
 const OUT = process.env['GPU_RESULTS_DIR'] ?? 'test-results-gpu';
 const SHOT_YEARS = [-300, 1282, 1843, 1942, 2026];
 // The year, hour and season tools/frames.mjs has measured since 2026-10-02, so numbers compare.
-const PERF = '?debug&year=1903&hour=23&season=winter';
+// Photos are off here: the pins are on by default since 2026-10-10 and would change the scene measured.
+const PERF = '?debug&year=1903&hour=23&season=winter&photos=0';
 const UNCAPPED = process.env['GPU_UNCAPPED'] === '1';
 
 const save = (name: string, data: unknown): void => {

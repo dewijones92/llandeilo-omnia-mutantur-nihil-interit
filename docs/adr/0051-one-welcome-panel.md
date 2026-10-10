@@ -31,6 +31,8 @@ updated: 2026-10-10
   the panels in the Escape order (scene, welcome, popover, then whichever right-hand panel is open: they
   share one slot), and the "?" icon is checked clear of the photo panel and the Photos toggle as it is of
   the other panels. Chosen by Claude under the proactive mandate.
+- **Amended 2026-10-10, the photo layer on by default ([ADR 0044](0044-photographs-are-dated-placed-content-with-pins.md)):**
+  the Photos line adds that the layer is on to begin with and that Photos switches it off, in English and Welsh.
 - **Decided by:** Dewi asked for the panel and the icon (2026-10-03, see the decision log). The details
   below (when it opens, what it holds, how it closes) were chosen by Claude under the proactive mandate
   ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), so Dewi can overrule them.
