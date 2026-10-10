@@ -19,6 +19,10 @@
         var KEY = 'llandeilo.recovered';
         var handled = false;
         function recover(what) {
+          if (document.body && document.body.dataset.ready === 'true') {
+            console.error('dewidebug startup chunk lost after ready ' + what);
+            return;
+          }
           if (handled) return;
           handled = true;
           var tries = 3;
@@ -36,6 +40,13 @@
           );
           if (reload) location.reload();
         }
+        window.addEventListener('llandeilo:ready', function () {
+          try {
+            sessionStorage.removeItem(KEY);
+          } catch (e) {
+            console.error('dewidebug startup could not clear the reload guard', e);
+          }
+        });
         window.addEventListener(
           'error',
           function (e) {
@@ -51,7 +62,11 @@
         });
         window.addEventListener('unhandledrejection', function (e) {
           var message = String((e.reason && e.reason.message) || e.reason);
-          if (message.indexOf('dynamically imported module') !== -1) recover(message);
+          if (
+            message.indexOf('dynamically imported module') !== -1 ||
+            message.indexOf('Importing a module script failed') !== -1
+          )
+            recover(message);
         });
       })();
     </script>

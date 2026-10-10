@@ -69,6 +69,10 @@ test('a script chunk the network drops while the page loads is fetched again by 
     'the page loaded twice',
   ).toHaveLength(2);
   expect(lines.join('\n')).toContain('reloading (attempt 1 of 3)');
+  expect(
+    await page.evaluate(() => sessionStorage.getItem('llandeilo.recovered')),
+    'the guard is cleared once ready',
+  ).toBeNull();
 });
 
 test('a chunk dropped after start-up began, while the scene loads on demand, is also recovered', async ({
@@ -77,4 +81,51 @@ test('a chunk dropped after start-up began, while the scene loads on demand, is 
   const { dropped, lines } = await readyAfterOneDroppedChunk(page, (startedMain) => startedMain);
   expect(dropped, 'a script requested after main started was dropped').toHaveLength(1);
   expect(lines.join('\n')).toContain('reloading (attempt 1 of 3)');
+  expect(
+    await page.evaluate(() => sessionStorage.getItem('llandeilo.recovered')),
+    'the guard is cleared once ready',
+  ).toBeNull();
+});
+
+test('a failed start is reported at once, not after the timeout', async ({ page }) => {
+  await page.route('**/data/terrain.json', (route) => route.abort('connectionreset'));
+  await page.goto('./');
+  const began = Date.now();
+  const failure = await ready(page, 60_000).then(
+    () => undefined,
+    (e: unknown) => (e instanceof Error ? e.message : String(e)),
+  );
+  expect(failure, 'ready() should have thrown').toBeDefined();
+  expect(failure).toContain('the app failed to start (data-ready=error)');
+  expect(Date.now() - began, 'it should not have waited for the timeout').toBeLessThan(20_000);
+});
+
+test('a script lost after the app is ready is logged, and the page stays where it is', async ({ page }) => {
+  const lines: string[] = [];
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug startup')) lines.push(m.text());
+  });
+  await page.route('**/assets/late-*.js', (route) => route.abort('connectionreset'));
+  await page.goto('./');
+  await ready(page);
+  await page.evaluate(() => {
+    Reflect.set(window, 'visitorsPlace', 'kept');
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = new URL('assets/late-element.js', document.baseURI).href;
+    document.head.append(script);
+    void import(new URL('assets/late-import.js', document.baseURI).href);
+  });
+  await expect
+    .poll(() => lines.filter((l) => l.includes('chunk lost after ready')).length, { timeout: 15_000 })
+    .toBeGreaterThanOrEqual(2);
+  expect(await page.evaluate(() => Reflect.get(window, 'visitorsPlace')), 'the page did not navigate').toBe(
+    'kept',
+  );
+  expect(
+    lines.filter((l) => l.includes('html head parsed')),
+    'the page loaded once',
+  ).toHaveLength(1);
+  expect(lines.join('\n')).not.toContain('reloading');
+  expect(await page.evaluate(() => sessionStorage.getItem('llandeilo.recovered'))).toBeNull();
 });

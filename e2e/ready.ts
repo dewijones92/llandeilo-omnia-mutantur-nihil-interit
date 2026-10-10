@@ -113,14 +113,29 @@ export async function describeNotReady(page: Page): Promise<string> {
   ].join('\n');
 }
 
-/** Waits for `body[data-ready=true]`; on timeout, throws with everything known about where start-up stopped. */
+/**
+ * Waits for `body[data-ready]` to be 'true' or 'error' (a failed start, which `main.ts` reports at once)
+ * and passes only on 'true'. Throws with everything known about where start-up stopped on a timeout or an
+ * 'error'.
+ */
 export async function ready(page: Page, timeout = READY_TIMEOUT_MS): Promise<void> {
   watchPage(page);
+  let state: unknown;
   try {
-    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true', { timeout });
+    const handle = await page.waitForFunction(
+      () => {
+        const value = document.body.dataset['ready'];
+        return value === 'true' || value === 'error' ? value : false;
+      },
+      null,
+      { timeout, polling: 250 },
+    );
+    state = await handle.jsonValue();
   } catch (err: unknown) {
     const report = await describeNotReady(page);
     const cause = err instanceof Error ? err.message.split('\n')[0] : String(err);
     throw new Error(`the page never became ready (${String(cause)})\n${report}`, { cause: err });
   }
+  if (state !== 'true')
+    throw new Error(`the app failed to start (data-ready=${String(state)})\n${await describeNotReady(page)}`);
 }

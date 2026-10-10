@@ -1104,7 +1104,7 @@ instrumented instead.
    `inputs all loaded`, `world built`, `train model loading` and `done`, `scene built`, `scene ready`,
    `ready`), every start-up fetch (start, status and time, failure), unhandled errors and rejections with the
    stage, WebGL context loss and creation errors, and a STILL WAITING line at 15, 60 and 120 seconds. The
-   last stage is `body[data-startup]`, the fetches in flight `body[data-startup-pending]`. Once per load.
+   last stage is `body[data-startup]`, the fetches awaiting their response headers `body[data-startup-pending]`. Once per load.
 2. **A shared wait.** `e2e/ready.ts` (`ready(page)`, and the `test` every spec imports) replaced all 77 bare
    `data-ready` waits (75 in `smoke.spec.ts`, 1 in `terrain.spec.ts`, 1 in `gpu.spec.ts`; none left). A
    timeout now throws the page state, the requests started but never finished, failed and HTTP-error
@@ -1117,9 +1117,12 @@ instrumented instead.
    `whenReadyAsync` pending for ever (stuck at `scene built`, with a page error
    "Failed to fetch dynamically imported module"). `docker events` showed a container joining and leaving
    the Docker bridge every 11 to 15 seconds through the run, and Chromium cancels in-flight requests when the
-   host's network interfaces change. Which container it is was not checked.
-4. **Fix** ([ADR 0053](../adr/0053-a-page-that-loses-a-script-reloads-once-and-says-where-start-up-stopped.md)):
-   an inline script in `index.html` reloads the page (up to three times per session, once per load) when a
+   host's network interfaces change. The container is `fis-worker.service` (a local stand-in for another
+   project's worker, `docker run --rm` about every 10 seconds); the failure timestamps were not matched to
+   docker events, so this is a correlation plus an earlier independent note of the same effect (2026-10-02).
+   The unit was stopped on 2026-10-10 at Dewi's choice, the real fix for local runs.
+4. **Fix** ([ADR 0054](../adr/0054-a-page-that-loses-a-script-reloads-once-and-says-where-start-up-stopped.md)):
+   an inline script in `index.html` reloads the page, only before the app is ready (up to three times per session, once per load), when a
    same-origin script fails or a dynamic import is rejected. `e2e/ready.spec.ts` drops one script request
    before start-up and one after it began, seen red without the script (never ready after 60s) and green
    with it. This also protects a visitor whose network changes mid-load.

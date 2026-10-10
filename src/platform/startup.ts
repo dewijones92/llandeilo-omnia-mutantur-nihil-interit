@@ -1,6 +1,6 @@
 // Start-up diagnostics: one line per stage from page load to `data-ready`, so a page that never
 // becomes ready says where it stopped. The last stage reached is on `body[data-startup]`; the
-// fetches still in flight are on `body[data-startup-pending]`. Each fires once per load.
+// fetches still awaiting their response headers are on `body[data-startup-pending]`. Each fires once per load.
 
 const pending = new Set<string>();
 let last = 'none';
@@ -21,12 +21,8 @@ export function startupStage(stage: string, detail = ''): void {
 
 export function startupDone(): void {
   done = true;
-  try {
-    sessionStorage.removeItem('llandeilo.recovered');
-  } catch (err: unknown) {
-    console.warn('dewidebug startup could not clear the reload guard', err);
-  }
   startupStage('ready');
+  window.dispatchEvent(new Event('llandeilo:ready'));
 }
 
 /** `fetch` that logs when each request starts and how it ended, and tracks which are still pending. */
@@ -59,7 +55,7 @@ export function watchStartup(delaysMs: readonly number[], extra: () => string): 
     window.setTimeout(() => {
       if (done) return;
       console.warn(
-        `dewidebug startup STILL WAITING after ${String(delay)}ms: last stage=${last} pendingFetches=[${[...pending].join(' ')}] ${extra()}`,
+        `dewidebug startup STILL WAITING after ${String(delay)}ms: last stage=${last} fetchesAwaitingHeaders=[${[...pending].join(' ')}] ${extra()}`,
       );
     }, delay);
 }
