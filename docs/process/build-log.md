@@ -1294,3 +1294,9 @@ now stamps the year it last laid out (`.pins[data-year]`), and the test waits fo
 so the count is for exactly that year whatever the frame order; with the stamp removed it fails at "laid
 out". CI shard times after this test's rewrite and the move to eight shards: 2 to 10 minutes (the slowest
 had been 14 with eight shards and 20 with six).
+
+**The GPU job failed because the laptop was busy, 2026-10-10.** CI's `gpu` job on 93d072c exited 2 in
+seconds: an agent's local GPU-kit run held `~/.cache/llandeilo-gpu.lock`. `tools/gpu/run.sh` now waits up to
+`GPU_LOCK_WAIT` seconds (CI sets 1800). Checked both ways with the lock held by hand: a 2s wait fails with
+"still holds … after 2s" (exit 2), and a 60s wait logged "lock acquired" after 9s and then passed its 8 GPU
+tests on WebGPU ([ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md), amended).

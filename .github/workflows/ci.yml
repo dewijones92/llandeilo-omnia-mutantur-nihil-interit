@@ -87,6 +87,9 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - name: End-to-end tests and frame timings on the laptop GPU (High, WebGPU)
         run: npm run e2e:gpu
+        env:
+          # Queue behind a local GPU run (the lock) rather than failing; the job's own timeout still caps it.
+          GPU_LOCK_WAIT: 1800
       - uses: actions/upload-artifact@v7
         if: always()
         with:

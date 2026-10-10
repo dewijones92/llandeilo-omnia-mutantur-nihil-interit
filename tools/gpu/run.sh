@@ -45,7 +45,13 @@ results=$root/test-results-gpu
 # One run at a time: every run shares the one Windows working copy.
 mkdir -p "$HOME/.cache"
 exec 9>"$HOME/.cache/llandeilo-gpu.lock"
-flock -n 9 || fail "another GPU run holds $HOME/.cache/llandeilo-gpu.lock"
+# GPU_LOCK_WAIT (seconds) lets CI queue behind a local run instead of failing at once.
+lock_wait=${GPU_LOCK_WAIT:-0}
+if ! flock -n 9; then
+  log "another GPU run holds $HOME/.cache/llandeilo-gpu.lock; waiting up to ${lock_wait}s"
+  flock -w "$lock_wait" 9 || fail "another GPU run still holds $HOME/.cache/llandeilo-gpu.lock after ${lock_wait}s"
+  log "lock acquired"
+fi
 
 ps=$(command -v powershell.exe || echo /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe)
 [[ -x "$ps" ]] || fail "powershell.exe not found: this kit runs under WSL on a Windows machine"
