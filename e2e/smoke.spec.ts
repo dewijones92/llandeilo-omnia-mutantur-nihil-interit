@@ -1,3 +1,4 @@
+import { mkdirSync, writeFileSync } from 'node:fs';
 import type { Locator, Page } from '@playwright/test';
 import { expect, ready, test } from './ready.ts';
 import { CUTSCENES } from '../src/content/cutscenes.ts';
@@ -2183,8 +2184,28 @@ test('at AD 84 at High, Fort 2 and the settlement are drawn from their Blender m
 });
 
 // Debug hooks for clicking a part of a Blender model in 3D (ADR 0055): bring the part to the middle of the view, then
-// find a screen point over it where a pick finds it.
+// find a screen point over it where a pick finds it. A camera move only shows in the projection once frames have
+// rendered with it (two, measured on SwiftShader at about 1fps), so this waits for frames and then for the point, not
+// for a fixed time.
+const frameId = (page: Page): Promise<number> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const fn: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'getFrameId') : undefined;
+    return typeof fn === 'function' ? Number(fn.call(scene)) : Number.NaN;
+  });
+
+// Waits for frames to render, which is the only thing a "nothing happens" check can wait on: after a fixed time a
+// slow renderer may not have run a frame, and an absence would pass without the app having had the chance to act.
+const framesRendered = async (page: Page, count: number): Promise<void> => {
+  const before = await frameId(page);
+  await expect
+    .poll(() => frameId(page), { message: `${String(count)} frames rendered`, timeout: 90_000 })
+    .toBeGreaterThanOrEqual(before + count);
+};
+
 async function partPoint(page: Page, feature: string, part: string): Promise<{ x: number; y: number }> {
+  const before = await frameId(page);
   await page.evaluate(
     ([f, p]) => {
       const debug: unknown = Reflect.get(window, 'llandeiloDebug');
@@ -2203,19 +2224,30 @@ async function partPoint(page: Page, feature: string, part: string): Promise<{ x
     },
     [feature, part],
   );
-  await page.waitForTimeout(400);
-  const at = await page.evaluate(
-    ([f, p]) => {
-      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
-      const fn: unknown =
-        debug && typeof debug === 'object' ? Reflect.get(debug, 'partScreenPoint') : undefined;
-      const got: unknown = typeof fn === 'function' ? fn.call(debug, f, p) : undefined;
-      return got && typeof got === 'object'
-        ? { x: Number(Reflect.get(got, 'x')), y: Number(Reflect.get(got, 'y')) }
-        : undefined;
-    },
-    [feature, part],
-  );
+  await expect
+    .poll(() => frameId(page), { message: 'frames rendered after the camera moved', timeout: 90_000 })
+    .toBeGreaterThanOrEqual(before + 3);
+  let at: { x: number; y: number } | undefined;
+  await expect
+    .poll(
+      async () => {
+        at = await page.evaluate(
+          ([f, p]) => {
+            const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+            const fn: unknown =
+              debug && typeof debug === 'object' ? Reflect.get(debug, 'partScreenPoint') : undefined;
+            const got: unknown = typeof fn === 'function' ? fn.call(debug, f, p) : undefined;
+            return got && typeof got === 'object'
+              ? { x: Number(Reflect.get(got, 'x')), y: Number(Reflect.get(got, 'y')) }
+              : undefined;
+          },
+          [feature, part],
+        );
+        return at !== undefined;
+      },
+      { message: `a screen point over ${part}`, timeout: 90_000 },
+    )
+    .toBe(true);
   if (!at) throw new Error(`no screen point over ${part}`);
   return at;
 }
@@ -2295,7 +2327,7 @@ test('at AD 84 at High, hovering a gate tower of Fort 2’s model veils and name
   await page.mouse.move(again.x + 50, again.y, { steps: 2 });
   await page.mouse.move(again.x - 50, again.y, { steps: 2 });
   await page.mouse.up();
-  await page.waitForTimeout(500);
+  await framesRendered(page, 3);
   await expect(info).toBeHidden();
   expect(errors).toEqual([]);
 });
@@ -2337,11 +2369,11 @@ test('a part of the AD 74 fort opens its ⓘ, and it closes when a "When are we?
   const during = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
   await page.mouse.move(during.x - 30, during.y - 30);
   await page.mouse.move(during.x, during.y, { steps: 3 });
-  await page.waitForTimeout(600);
+  await framesRendered(page, 3);
   expect(await hoveredPart(page)).toBe('');
   await expect(page.locator('.part-tip')).toHaveJSProperty('hidden', true);
   await page.mouse.click(during.x, during.y);
-  await page.waitForTimeout(600);
+  await framesRendered(page, 3);
   expect(await partInfoOpen(page)).toBe(false);
 
   // Stopping the game gives the parts back: the same point now hovers and opens.
@@ -2356,7 +2388,14 @@ test('a part of the AD 74 fort opens its ⓘ, and it closes when a "When are we?
 
   // Scrubbing to a year the fort is gone from takes its panel away.
   await page.getByRole('slider', { name: /Timeline|Llinell amser/ }).press('End');
-  await expect.poll(() => partInfoOpen(page)).toBe(false);
+  // The present is the heaviest scene: on one slow core it takes two frames of about 8s each to draw, and the panel
+  // closes in the first apply after them.
+  await expect
+    .poll(() => partInfoOpen(page), {
+      message: 'the panel closes once the present has drawn',
+      timeout: 120_000,
+    })
+    .toBe(false);
   expect(errors).toEqual([]);
 });
 
@@ -2380,40 +2419,6 @@ test('a cutscene takes an open part ⓘ away, and the veil with it', async ({ pa
   await expect(page.locator('.cutscene')).toBeHidden();
   expect(errors).toEqual([]);
 });
-
-// The mean colour of the timber-coloured pixels (orange-brown: red well over green, green over blue) in the
-// forts' part of the screen, so a part drawn too bright, too dark or black shows as a number.
-const FORT_CLIP = { x: 520, y: 320, width: 390, height: 220 };
-const timberMean = async (page: Page): Promise<[number, number, number]> => {
-  const png = (await page.screenshot({ clip: FORT_CLIP })).toString('base64');
-  return page.evaluate(async (b64) => {
-    const img = new Image();
-    img.src = `data:image/png;base64,${b64}`;
-    await img.decode();
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) throw new Error('no 2d context');
-    ctx.drawImage(img, 0, 0);
-    const d = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-    const sum = [0, 0, 0];
-    let n = 0;
-    for (let i = 0; i < d.length; i += 4) {
-      const r = d[i] ?? 0;
-      const g = d[i + 1] ?? 0;
-      const b = d[i + 2] ?? 0;
-      if (r > g * 1.3 && r > b * 2) {
-        sum[0] = (sum[0] ?? 0) + r;
-        sum[1] = (sum[1] ?? 0) + g;
-        sum[2] = (sum[2] ?? 0) + b;
-        n++;
-      }
-    }
-    if (n < 2000) throw new Error(`only ${String(n)} timber-coloured pixels: the forts are not in the clip`);
-    return [(sum[0] ?? 0) / n, (sum[1] ?? 0) / n, (sum[2] ?? 0) / n];
-  }, png);
-};
 
 test('if one texture fails to load, the parts that use it are drawn from a flat grey, not black, and keep every other map', async ({
   page,
@@ -2467,68 +2472,120 @@ test('if one texture fails to load, the parts that use it are drawn from a flat 
   expect(warnings.some((w) => w.includes('timber') && w.includes('without its color map'))).toBe(true);
 });
 
-// The mean colour of exactly the timber material's pixels in a view: the screen is read with the timber
-// meshes shown and hidden, and the pixels that differ are the timber's. A hue filter would take in the shingle
-// and other browns, and a failed texture is judged against the photograph on the same geometry.
+// Timber colour, read from the scene's own canvas. page.screenshot has to ask the compositor for a fresh frame, which
+// cost 20-40s each on one slow core and put this test past its time; here the canvas is read inside the render
+// observer straight after a frame is drawn (the only moment a WebGL canvas can be read without preserveDrawingBuffer),
+// so each read costs the frame and no more, and a UI panel can never be mistaken for timber.
+//   hue: the mean colour of the timber-coloured pixels (orange-brown: red well over green, green over blue), so a part
+//        drawn too bright, too dark or black shows as a number.
+//   surface: the mean colour of exactly the timber material's pixels, found by drawing the view with the timber
+//        meshes shown and hidden and taking the pixels that differ. A hue filter would take in the shingle and other
+//        browns, and a failed texture is judged against the photograph on the same geometry.
+const FORT_CLIP = { x: 520, y: 320, width: 390, height: 220 };
 const SURFACE_CLIP = { x: 300, y: 180, width: 840, height: 520 };
-const timberSurfaceMean = async (page: Page): Promise<{ n: number; mean: [number, number, number] }> => {
-  await page.addStyleTag({
-    content: '* { visibility: hidden !important } canvas { visibility: visible !important }',
-  });
-  const setTimber = (visible: boolean) =>
-    page.evaluate((on) => {
+interface TimberRead {
+  readonly n: number;
+  readonly mean: [number, number, number];
+  readonly png: string;
+}
+const readTimber = (
+  page: Page,
+  clip: { x: number; y: number; width: number; height: number },
+  mode: 'hue' | 'surface',
+): Promise<TimberRead> =>
+  page.evaluate(
+    async ({ clip: area, mode: how }) => {
       const debug: unknown = Reflect.get(window, 'llandeiloDebug');
       const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
-      const find: unknown =
-        scene && typeof scene === 'object' ? Reflect.get(scene, 'getMaterialByName') : undefined;
-      const mat: unknown = typeof find === 'function' ? find.call(scene, 'landmark-timber-mat') : undefined;
-      const meshes: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'meshes') : undefined;
-      if (!mat || !Array.isArray(meshes)) throw new Error('no timber material or scene meshes');
-      for (const mesh of meshes)
-        if (mesh && typeof mesh === 'object' && Reflect.get(mesh, 'material') === mat)
-          Reflect.set(mesh, 'isVisible', on);
-    }, visible);
-  const read = async (): Promise<string> =>
-    (await page.screenshot({ clip: SURFACE_CLIP })).toString('base64');
-  const withTimber = await read();
-  await setTimber(false);
-  await page.waitForTimeout(500);
-  const without = await read();
-  await setTimber(true);
-  await page.waitForTimeout(500);
-  return page.evaluate(
-    async ([a, b]) => {
-      const load = async (b64: string): Promise<Uint8ClampedArray> => {
-        const img = new Image();
-        img.src = `data:image/png;base64,${b64}`;
-        await img.decode();
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) throw new Error('no 2d context');
-        ctx.drawImage(img, 0, 0);
-        return ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-      };
-      const [x, y] = [await load(a), await load(b)];
+      if (!scene || typeof scene !== 'object') throw new Error('no scene');
+      const after: unknown = Reflect.get(scene, 'onAfterRenderObservable');
+      const addOnce: unknown = after && typeof after === 'object' ? Reflect.get(after, 'addOnce') : undefined;
+      if (typeof addOnce !== 'function') throw new Error('no onAfterRenderObservable');
+      const canvas = document.getElementById('scene');
+      if (!(canvas instanceof HTMLCanvasElement)) throw new Error('no scene canvas');
+      const scratch = document.createElement('canvas');
+      scratch.width = area.width;
+      scratch.height = area.height;
+      const ctx = scratch.getContext('2d', { willReadFrequently: true });
+      if (!ctx) throw new Error('no 2d context');
+      const box = canvas.getBoundingClientRect();
+      const kx = canvas.width / box.width;
+      const ky = canvas.height / box.height;
+      const frame = (): Promise<Uint8ClampedArray> =>
+        new Promise((resolve) => {
+          addOnce.call(after, () => {
+            ctx.drawImage(
+              canvas,
+              (area.x - box.left) * kx,
+              (area.y - box.top) * ky,
+              area.width * kx,
+              area.height * ky,
+              0,
+              0,
+              area.width,
+              area.height,
+            );
+            resolve(ctx.getImageData(0, 0, area.width, area.height).data);
+          });
+        });
+      const shown = await frame();
+      const png = scratch.toDataURL('image/png').split(',')[1] ?? '';
       const sum = [0, 0, 0];
       let n = 0;
-      for (let i = 0; i < x.length; i += 4) {
-        const diff =
-          Math.abs((x[i] ?? 0) - (y[i] ?? 0)) +
-          Math.abs((x[i + 1] ?? 0) - (y[i + 1] ?? 0)) +
-          Math.abs((x[i + 2] ?? 0) - (y[i + 2] ?? 0));
-        if (diff > 10) {
-          n++;
-          for (const k of [0, 1, 2]) sum[k] = (sum[k] ?? 0) + (x[i + k] ?? 0);
+      const add = (d: Uint8ClampedArray, i: number): void => {
+        n++;
+        for (const k of [0, 1, 2]) sum[k] = (sum[k] ?? 0) + (d[i + k] ?? 0);
+      };
+      if (how === 'hue') {
+        for (let i = 0; i < shown.length; i += 4) {
+          const r = shown[i] ?? 0;
+          const g = shown[i + 1] ?? 0;
+          const b = shown[i + 2] ?? 0;
+          if (r > g * 1.3 && r > b * 2) add(shown, i);
+        }
+      } else {
+        const find: unknown = Reflect.get(scene, 'getMaterialByName');
+        const mat: unknown = typeof find === 'function' ? find.call(scene, 'landmark-timber-mat') : undefined;
+        const meshes: unknown = Reflect.get(scene, 'meshes');
+        if (!mat || !Array.isArray(meshes)) throw new Error('no timber material or scene meshes');
+        const setTimber = (on: boolean): void => {
+          for (const mesh of meshes)
+            if (mesh && typeof mesh === 'object' && Reflect.get(mesh, 'material') === mat)
+              Reflect.set(mesh, 'isVisible', on);
+        };
+        setTimber(false);
+        // The first frame after the change is the one that draws it; the second is the one read, in case an effect lags.
+        await frame();
+        const hidden = await frame();
+        setTimber(true);
+        for (let i = 0; i < shown.length; i += 4) {
+          const diff =
+            Math.abs((shown[i] ?? 0) - (hidden[i] ?? 0)) +
+            Math.abs((shown[i + 1] ?? 0) - (hidden[i + 1] ?? 0)) +
+            Math.abs((shown[i + 2] ?? 0) - (hidden[i + 2] ?? 0));
+          if (diff > 10) add(shown, i);
         }
       }
       const mean: [number, number, number] = [(sum[0] ?? 0) / n, (sum[1] ?? 0) / n, (sum[2] ?? 0) / n];
-      return { n, mean };
+      return { n, mean, png };
     },
-    [withTimber, without] as const,
+    { clip, mode },
   );
+
+const timberMean = async (page: Page, shotName: string): Promise<[number, number, number]> => {
+  const got = await readTimber(page, FORT_CLIP, 'hue');
+  keepShot(shotName, got.png);
+  if (got.n < 2000)
+    throw new Error(`only ${String(got.n)} timber-coloured pixels: the forts are not in the clip`);
+  return got.mean;
 };
+
+const keepShot = (name: string, png: string): void => {
+  mkdirSync('test-results', { recursive: true });
+  writeFileSync(`test-results/${name}`, Buffer.from(png, 'base64'));
+};
+
+const timberSurfaceMean = (page: Page): Promise<TimberRead> => readTimber(page, SURFACE_CLIP, 'surface');
 
 test('a part whose texture failed is drawn as the photograph draws it, within 3% a channel, and near the palette', async ({
   page,
@@ -2538,13 +2595,12 @@ test('a part whose texture failed is drawn as the photograph draws it, within 3%
     await ready(page);
     await expect(page.locator('.debug')).toContainText(ready_, { timeout: 90_000 });
     await cameraSettled(page);
-    await page.waitForTimeout(1500);
+    await framesRendered(page, 3);
   };
   // Failed: the timber's colour map is aborted, so it is the flat grey in its place.
   await page.route('**/timber-color-1024.webp', (route) => route.abort());
   await loadForts('', 'roman-fort-b=glb:near');
-  const blockedHue = await timberMean(page);
-  await page.screenshot({ path: 'test-results/roman-forts-84-timber-map-failed.png' });
+  const blockedHue = await timberMean(page, 'roman-forts-84-timber-map-failed.png');
   const failed = await timberSurfaceMean(page);
 
   // The same framing with the photograph: a failed map must leave the timber where the photograph does.
@@ -2566,8 +2622,7 @@ test('a part whose texture failed is drawn as the photograph draws it, within 3%
   // A loose check against the plans drawn from their palette (different geometry, so a wide margin): the
   // colour a failed part should also be near, and not black.
   await loadForts('&models=off', 'roman-fort-b=procedural:near');
-  const palette = await timberMean(page);
-  await page.screenshot({ path: 'test-results/roman-forts-84-models-off.png' });
+  const palette = await timberMean(page, 'roman-forts-84-models-off.png');
   for (const i of [0, 1, 2]) {
     const want = palette[i] ?? 0;
     expect(
