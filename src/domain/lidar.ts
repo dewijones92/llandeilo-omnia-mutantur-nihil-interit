@@ -83,11 +83,16 @@ export function tileDistance(tile: Bounds & { readonly maxHeight: number }, eye:
   return Math.hypot(dx, dn, dh);
 }
 
+// A tile under a period ground edit is drawn as if this much nearer, so a terrace a few metres across is
+// drawn at the finest step out to the second band's edge rather than smeared by a coarse one (ADR 0056).
+export const EDITED_NEARER = (BAND_EDGES[0] ?? 320) / (BAND_EDGES[1] ?? 850);
+
 export function planSteps(
   tiles: readonly LidarTileInfo[],
   size: number,
   eye: Eye,
   current: ReadonlyMap<string, number>,
+  edited: ReadonlySet<string> = new Set(),
 ): Map<string, number> {
   const plan = new Map<string, number>();
   for (const t of tiles) {
@@ -96,7 +101,8 @@ export function planSteps(
       { eMin: t.e, eMax: t.e + size, nMin: t.n, nMax: t.n + size, maxHeight: t.maxHeight },
       eye,
     );
-    plan.set(key, chooseStep(distance, t.step, current.get(key)));
+    const seen = edited.has(key) ? distance * EDITED_NEARER : distance;
+    plan.set(key, chooseStep(seen, t.step, current.get(key)));
   }
   return plan;
 }

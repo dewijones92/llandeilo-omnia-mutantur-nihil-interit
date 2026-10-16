@@ -351,34 +351,99 @@ const KIND: Readonly<
   barrack: { name: { en: 'Barrack block', cy: 'Bloc barics' }, height: 3 },
 };
 
+// Each building's terrace runs level this far beyond its walls, then eases into the slope over the batter,
+// ending halfway across the 8.5m street to the next barrack. Tuned on the 4m mesh drawn near: 3m of level
+// leaves a wall at most 0.25m under it, 1.5m left 0.95m and 2.5m 1.07m (ADR 0056).
+const PLOT_MARGIN = 3;
+const PLOT_BATTER = 1.25;
+
+function terraceBasis(fort: 1 | 2): Provenance {
+  const levelling =
+    fort === 2
+      ? ' Levelling for Fort 2 is evidenced in one place: the excavator reads a layer in Trench 2 as levelling deposits laid to prepare the site for it, over a backfilled Fort 1 ditch; how far it reached is not known.'
+      : '';
+  const levellingCy =
+    fort === 2
+      ? ' Ceir tystiolaeth o lefelu ar gyfer Caer 2 mewn un man: mae’r cloddiwr yn darllen haen yn Ffos Brawf 2 fel dyddodion lefelu a osodwyd i baratoi’r safle ar ei chyfer, dros ffos o Gaer 1 a lenwyd; ni wyddys pa mor bell yr ymestynnai.'
+      : '';
+  return reconstructed(
+    `No terrace has been found at Dinefwr, and the survey report describes none. Today’s ground falls by up to about ${fort === 1 ? '3.6' : '1.8'}m across one of these buildings, too much for a timber building to stand level on, so each is drawn on a plot cut and filled level at the ground’s average height, its edge eased into the slope. That is analogy: Roman builders levelled ground for buildings elsewhere (at Vindolanda old features were filled and levelled to make even foundations for new barracks; Hardknott’s garrison moved some 5,000 cubic metres to flatten its parade ground; at Birdoswald, one source says, the buildings on the lower ground were terraced up).${levelling} The height, size and edges of each plot are a choice. The ground drawn is today’s, after centuries of ploughing: at Fort 1’s gate some post-pits were cut from a higher level than now survives, so the Roman surface stood higher in places.`,
+    `Ni chafwyd teras yn Ninefwr, ac nid yw adroddiad yr arolwg yn disgrifio’r un. Mae’r tir heddiw’n disgyn hyd at tua ${fort === 1 ? '3.6' : '1.8'}m ar draws un o’r adeiladau hyn, gormod i adeilad pren sefyll yn wastad arno, felly tynnir pob un ar lain a dorrwyd ac a lanwyd yn wastad ar uchder cyfartalog y tir, a’i hymyl yn llyfnhau i’r llethr. Dyfaliad ar sail cymariaethau yw hynny: lefelai adeiladwyr Rhufeinig dir ar gyfer adeiladau mewn mannau eraill (yn Vindolanda llanwyd a lefelwyd hen nodweddion i wneud sylfeini gwastad i farics newydd; symudodd garsiwn Hardknott tua 5,000 metr ciwbig i wastatáu ei faes ymarfer; yn Birdoswald, yn ôl un ffynhonnell, codwyd yr adeiladau ar y tir isaf ar derasau).${levellingCy} Dewis yw uchder, maint ac ymylon pob llain. Tir heddiw a dynnir, wedi canrifoedd o aredig: wrth borth Caer 1 torrwyd rhai pyllau pyst o lefel uwch nag sy’n goroesi, felly roedd yr wyneb Rhufeinig yn uwch mewn mannau.`,
+    ['fort:S1', 'fort:S27', 'fort:S28', 'fort:S29', 'fort:S26'],
+  );
+}
+
+// Blocks that stand closer than their two plots' margins share one plot: the granaries, 1-2m apart.
+const SHARED_PLOT: Partial<Record<Block['kind'], Bilingual>> = {
+  granary: { en: 'Granaries (horrea)', cy: 'Ysguboriau grawn (horrea)' },
+};
+
 function interior(p: string, blocks: readonly Block[], known: Provenance, fort: 1 | 2): Part[] {
   const counts: Record<string, number> = {};
-  return blocks.map((b) => {
+  const halls = blocks.map((b) => {
     counts[b.kind] = (counts[b.kind] ?? 0) + 1;
     const k = KIND[b.kind];
     const n = counts[b.kind] ?? 1;
     const base = b.kind === 'granary' ? { base: k.base ?? 0 } : {};
+    return {
+      block: b,
+      part: part(
+        {
+          type: 'hall',
+          at: b.at,
+          length: b.along,
+          width: b.across,
+          angle: 90,
+          height: k.height,
+          roof: 'gable',
+          pitch: 0.3,
+          roofMaterial: 'timber',
+          material: 'daub',
+          ...base,
+        },
+        `${p}/${b.kind}-${String(n)}`,
+        { en: `${k.name.en} ${String(n)}`, cy: `${k.name.cy} ${String(n)}` },
+        b.kind === 'barrack' ? barrackBasis(fort) : known,
+        true,
+        { kits: ['timber-frame', ...ROOFED] },
+      ),
+    };
+  });
+  const plots = terraceBasis(fort);
+  const groups = new Map<string, typeof halls>();
+  for (const h of halls) {
+    const key = SHARED_PLOT[h.block.kind] ? h.block.kind : (h.part.id ?? '');
+    groups.set(key, [...(groups.get(key) ?? []), h]);
+  }
+  const terraces = [...groups].map(([key, members]) => {
+    // Every block is turned 90 degrees, so its length runs along the plan's y and its width along x.
+    const xs = members.flatMap(({ block: b }) => [b.at[0] - b.across / 2, b.at[0] + b.across / 2]);
+    const ys = members.flatMap(({ block: b }) => [b.at[1] - b.along / 2, b.at[1] + b.along / 2]);
+    const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+    const shared = members.length > 1 ? SHARED_PLOT[members[0]?.block.kind ?? 'barrack'] : undefined;
+    const first = members[0]?.part;
+    const label = shared
+      ? {
+          en: `${shared.en} ${members.map((_, i) => String(i + 1)).join(' and ')}`,
+          cy: `${shared.cy} ${members.map((_, i) => String(i + 1)).join(' a ')}`,
+        }
+      : (first?.name ?? { en: key, cy: key });
     return part(
       {
-        type: 'hall',
-        at: b.at,
-        length: b.along,
-        width: b.across,
+        type: 'terrace',
+        at: [(x0 + x1) / 2, (y0 + y1) / 2],
+        length: y1 - y0 + 2 * PLOT_MARGIN,
+        width: x1 - x0 + 2 * PLOT_MARGIN,
         angle: 90,
-        height: k.height,
-        roof: 'gable',
-        pitch: 0.3,
-        roofMaterial: 'timber',
-        material: 'daub',
-        ...base,
+        batter: PLOT_BATTER,
+        carries: members.map((m) => m.part.id ?? ''),
       },
-      `${p}/${b.kind}-${String(n)}`,
-      { en: `${k.name.en} ${String(n)}`, cy: `${k.name.cy} ${String(n)}` },
-      b.kind === 'barrack' ? barrackBasis(fort) : known,
-      true,
-      { kits: ['timber-frame', ...ROOFED] },
+      shared ? `${p}/${key}/terrace` : `${key}/terrace`,
+      { en: `Levelled terrace: ${label.en}`, cy: `Teras wedi’i lefelu: ${label.cy}` },
+      plots,
     );
   });
+  return [...halls.map((h) => h.part), ...terraces];
 }
 
 function barrackBasis(fort: 1 | 2): Provenance {
@@ -869,8 +934,8 @@ function vicusParts(): Part[] {
       `${p}/house-${String(i + 1)}`,
       { en: `Timber house ${String(i + 1)}`, cy: `Tŷ pren ${String(i + 1)}` },
       imagined(
-        'The survey shows activity either side of the roads where they meet, and excavation found narrow gullies, pits, a hearth and daub from small timber buildings, but no building’s outline: how many there were, their shapes and where they stood are not known. These are drawn small, irregular and turned every way, which is how the plot reads (a tidy street plan has no support), with their short ends to the road as at Cefn Caer. The thatch is a choice.',
-        'Mae’r arolwg yn dangos gweithgarwch bob ochr i’r ffyrdd lle maent yn cwrdd, a chafwyd gwteri cul, pyllau, aelwyd a chlai o adeiladau pren bach wrth gloddio, ond dim amlinelliad adeilad: ni wyddys faint oedd, eu siapiau na lle y safent. Tynnir hwy’n fach, yn afreolaidd ac wedi’u troi bob ffordd, fel y darllenir y cynllun (nid oes cefnogaeth i gynllun stryd twt), â’u pennau byr at y ffordd fel yng Nghefn Caer. Dewis yw’r gwellt.',
+        'The survey shows activity either side of the roads where they meet, and excavation found narrow gullies, pits, a hearth and daub from small timber buildings, but no building’s outline: how many there were, their shapes and where they stood are not known. These are drawn small, irregular and turned every way, which is how the plot reads (a tidy street plan has no support), with their short ends to the road as at Cefn Caer. The thatch is a choice. Each is drawn level at the highest ground under it, its walls carried down the slope; how these houses met the slope is not known.',
+        'Mae’r arolwg yn dangos gweithgarwch bob ochr i’r ffyrdd lle maent yn cwrdd, a chafwyd gwteri cul, pyllau, aelwyd a chlai o adeiladau pren bach wrth gloddio, ond dim amlinelliad adeilad: ni wyddys faint oedd, eu siapiau na lle y safent. Tynnir hwy’n fach, yn afreolaidd ac wedi’u troi bob ffordd, fel y darllenir y cynllun (nid oes cefnogaeth i gynllun stryd twt), â’u pennau byr at y ffordd fel yng Nghefn Caer. Dewis yw’r gwellt. Tynnir pob un yn wastad ar y tir uchaf oddi tano, a’i furiau’n disgyn gyda’r llethr; ni wyddys sut yr oedd y tai hyn yn cwrdd â’r llethr.',
         ['fort:S1', 'fort:S14'],
       ),
       true,

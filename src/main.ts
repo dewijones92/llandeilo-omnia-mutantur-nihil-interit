@@ -145,11 +145,20 @@ async function start(): Promise<void> {
   if (llanelly) trainModels.set('llanelly-1850s', llanelly);
   // Blender models for the important landmarks (ADR 0053), above Low only; ?models=off draws them procedurally.
   const modelsFor = (q: Quality): boolean => q !== 'low' && params.get('models') !== 'off';
-  const features = new FeatureLayer(world, content.features, footprints, railways, roads, trainModels, {
-    list: LANDMARK_MODELS,
-    base: import.meta.env.BASE_URL,
-    on: modelsFor(chosen.quality),
-  });
+  const features = new FeatureLayer(
+    world,
+    content.features,
+    footprints,
+    railways,
+    roads,
+    trainModels,
+    {
+      list: LANDMARK_MODELS,
+      base: import.meta.env.BASE_URL,
+      on: modelsFor(chosen.quality),
+    },
+    content.timeline,
+  );
   const people = new People(world.scene, content.conversations, content.people, features.ground);
   for (const m of people.meshes) world.addCaster(m);
   const smoke = new Smoke(world.scene);
@@ -822,6 +831,7 @@ async function start(): Promise<void> {
         terrain: world.terrain,
         placeTrainNear: (x: number, z: number) => features.placeTrainNear(x, z),
         modelParts: (id: string) => features.modelParts(id),
+        standing: (id: string) => features.standing(id),
       },
     });
   // ?cutscene=<id>&cutsceneAt=<seconds> starts a scene part-way through, for screenshots.

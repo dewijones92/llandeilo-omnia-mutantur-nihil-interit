@@ -152,6 +152,18 @@ export type PartShape =
       readonly material: Material;
     }
   | { readonly type: 'platform'; readonly outline: readonly Pt[]; readonly face: 'rock' | 'turf' }
+  // A level plot cut and filled into the slope for a building, drawn by the ground itself as a period
+  // ground edit (ADR 0056), never by the plan or a model: `length` along `angle`, like a hall's.
+  | {
+      readonly type: 'terrace';
+      readonly at: Pt;
+      readonly length: number;
+      readonly width: number;
+      readonly angle: number;
+      readonly batter: number;
+      /** The ids of the buildings that stand on it. */
+      readonly carries: readonly string[];
+    }
   | (Built & {
       readonly type: 'bridge';
       readonly from: Pt;
@@ -206,11 +218,17 @@ export function partPoints(part: Part): readonly Pt[] {
       ];
     }
     case 'hall':
+    case 'terrace':
       return hallCorners(part);
   }
 }
 
-export function hallCorners(h: Extract<Part, { type: 'hall' }>): readonly Pt[] {
+export function hallCorners(h: {
+  readonly at: Pt;
+  readonly length: number;
+  readonly width: number;
+  readonly angle: number;
+}): readonly Pt[] {
   const l = h.length / 2;
   const w = h.width / 2;
   return (
@@ -274,6 +292,7 @@ export function covers(plan: Plan, local: Pt): boolean {
       case 'road':
       case 'platform':
       case 'bridge':
+      case 'terrace':
         return false;
     }
   });

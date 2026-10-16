@@ -1,6 +1,7 @@
 import { Vector3, type Mesh, type Scene } from './babylon.ts';
 import { hex, mix, type Rgb } from '../domain/colour.ts';
 import { MATERIAL_COLOUR, SETTING_SCALE } from '../domain/materials.ts';
+import { seatOf, standsOnGround } from '../domain/plot.ts';
 import { DEFAULT_ROOF, HALL_ROOF, hallRoofRise, RAISED_DROP, TOWER_ROOF } from '../domain/proportions.ts';
 import { WORLD } from '../domain/geo.ts';
 import { LOD_STEPS } from '../domain/lidar.ts';
@@ -78,13 +79,8 @@ export function buildPlan(
 ): Mesh {
   const baseY = ground(ox, oz);
   const scale = planWorldScale(plan);
-  const terrain = (x: number, z: number): number => ground(ox + x, oz + z) - baseY;
   const angle = plan.angle ?? 0;
-  const platforms = plan.parts.flatMap((p) =>
-    p.type === 'platform'
-      ? [{ face: p.face, outline: p.outline.map((q): V2 => placeAt(q, angle, scale.across)) }]
-      : [],
-  );
+  const { platforms, terrain, onPlan } = planGround(plan, ground, ox, oz);
   const f: Frame = {
     sculpt: new Sculpt(),
     condition,
@@ -92,8 +88,7 @@ export function buildPlan(
     across: scale.across,
     up: scale.up,
     angle,
-    ground: (x, z) =>
-      platforms.some((p) => insideConvex([x, z], p.outline)) ? Math.max(0, terrain(x, z)) : terrain(x, z),
+    ground: onPlan,
     terrain,
   };
   const drawn = plan.parts.filter((p) => level === 'near' || !p.detail);
@@ -105,6 +100,51 @@ export function buildPlan(
     `dewidebug plan built ${condition} ${level} parts=${drawn.length}/${plan.parts.length} tris=${f.sculpt.triangles}`,
   );
   return mesh;
+}
+
+// The ground a plan's parts read, relative to its anchor's: the terrain, raised to the anchor inside a platform.
+function planGround(
+  plan: Plan,
+  ground: Ground,
+  ox: number,
+  oz: number,
+): {
+  readonly platforms: readonly { readonly face: 'rock' | 'turf'; readonly outline: readonly V2[] }[];
+  readonly terrain: (x: number, z: number) => number;
+  readonly onPlan: (x: number, z: number) => number;
+} {
+  const baseY = ground(ox, oz);
+  const { across } = planWorldScale(plan);
+  const angle = plan.angle ?? 0;
+  const terrain = (x: number, z: number): number => ground(ox + x, oz + z) - baseY;
+  const platforms = plan.parts.flatMap((p) =>
+    p.type === 'platform'
+      ? [{ face: p.face, outline: p.outline.map((q): V2 => placeAt(q, angle, across)) }]
+      : [],
+  );
+  const onPlan = (x: number, z: number): number =>
+    platforms.some((p) => insideConvex([x, z], p.outline)) ? Math.max(0, terrain(x, z)) : terrain(x, z);
+  return { platforms, terrain, onPlan };
+}
+
+/** The ground a plan's parts stand on, world y, at a plan-local point: what `buildPlan` reads, platforms and all. */
+export function planGroundAt(plan: Plan, ground: Ground, ox: number, oz: number): (p: Pt) => number {
+  const baseY = ground(ox, oz);
+  const { across } = planWorldScale(plan);
+  const angle = plan.angle ?? 0;
+  const { onPlan } = planGround(plan, ground, ox, oz);
+  return (p) => {
+    const [x, z] = placeAt(p, angle, across);
+    return baseY + onPlan(x, z);
+  };
+}
+
+/** Each standing part's floor, world y, by the rule `buildPlan` draws with, so a Blender model stands where its fallback does. */
+export function planSeats(plan: Plan, ground: Ground, ox: number, oz: number): Map<string, number> {
+  const at = planGroundAt(plan, ground, ox, oz);
+  const out = new Map<string, number>();
+  for (const part of plan.parts) if (part.id && standsOnGround(part)) out.set(part.id, seatOf(part, at));
+  return out;
 }
 
 function placeAt(p: Pt, angle: number, across: number): V2 {
@@ -158,6 +198,14 @@ function colourOf(f: Frame, m: Material): Rgb {
   return f.condition === 'ruin' ? mix(c, WEATHER, 0.22) : c;
 }
 
+// The one seating rule (ADR 0056): the floor at the highest ground under the footprint, never below it.
+function seatIn(f: Frame, part: Parameters<typeof seatOf>[0]): number {
+  return seatOf(part, (p) => {
+    const [x, z] = world(f, p);
+    return f.ground(x, z);
+  });
+}
+
 function lowest(f: Frame, pts: readonly V2[]): number {
   return Math.min(...pts.map(([x, z]) => f.terrain(x, z)));
 }
@@ -186,6 +234,7 @@ function buildPart(f: Frame, part: Part): void {
       bridge(f, part);
       return;
     case 'platform':
+    case 'terrace':
       return;
   }
 }
@@ -361,7 +410,7 @@ function tower(f: Frame, t: Extract<Part, { type: 'tower' }>): void {
   const [cx, cz] = world(f, t.at);
   const r = (t.size / 2) * f.across;
   const outline = towerOutline(f, t, cx, cz, r);
-  const ground = f.ground(cx, cz) + (t.base ?? 0) * f.up;
+  const ground = seatIn(f, t) + (t.base ?? 0) * f.up;
   const floor = raisedFloor(f, t.base, ground) ?? lowest(f, outline) - FOUNDATION;
   const height = t.height * f.up;
   if (t.size >= 10)
@@ -511,7 +560,7 @@ function hall(f: Frame, h: Extract<Part, { type: 'hall' }>): void {
   const outline = hallCorners(h).map((p) => world(f, p));
   const [cx, cz] = world(f, h.at);
   const angle = ((h.angle + f.angle) * Math.PI) / 180;
-  const ground = f.ground(cx, cz) + (h.base ?? 0) * f.up;
+  const ground = seatIn(f, h) + (h.base ?? 0) * f.up;
   const floor = raisedFloor(f, h.base, ground) ?? lowest(f, outline) - FOUNDATION;
   const height = h.height * f.up;
   if (f.condition === 'ruin') {
@@ -653,7 +702,7 @@ function prism(f: Frame, p: Extract<Part, { type: 'prism' }>): void {
   const colour = colourOf(f, p.material);
   const outline = p.outline.map((q) => world(f, q));
   const floor = lowest(f, outline) - FOUNDATION;
-  const ground = Math.max(...outline.map(([x, z]) => f.ground(x, z))) + (p.base ?? 0) * f.up;
+  const ground = seatIn(f, p) + (p.base ?? 0) * f.up;
   const height = p.height * f.up;
   if (f.condition === 'ruin') {
     ruinShell(f, p, outline, floor, ground, height, 1 * f.across, colour);

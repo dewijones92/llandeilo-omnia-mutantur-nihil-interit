@@ -11,6 +11,8 @@ export interface LandmarkFrame {
   readonly across: number;
   readonly up: number;
   readonly ground: Ground;
+  /** Where a rigid part's floor stands, world y: the plan's seating rule for that part (ADR 0056). */
+  readonly seat: (part: string) => number | undefined;
 }
 
 export interface LoadedLandmark {
@@ -70,8 +72,8 @@ interface Buffers {
 
 /**
  * Loads one level of a landmark's model and fits it to the ground the app draws: a `follow` part (a bank)
- * puts each vertex on the ground below it, a `rigid` one (a tower) stands on the ground at its own point
- * and only its footings reach down to the ground. Returns undefined, and logs why, if anything is off.
+ * puts each vertex on the ground below it, a `rigid` one (a tower) stands level at the seat the plan gives
+ * it, the highest ground under its footprint (ADR 0056), and only its footings reach down to the ground. Returns undefined, and logs why, if anything is off.
  */
 export async function loadLandmark(
   scene: Scene,
@@ -165,7 +167,9 @@ function appendFitted(
   const world = m.getWorldMatrix().multiply(TO_EAST_UP_NORTH);
   const { across, up, ground, ox, oz, baseY } = frame;
   const rigid = extras.fit.kind === 'rigid' ? extras.fit.at : undefined;
-  const standOn = rigid ? ground(ox + rigid[0] * across, oz + rigid[1] * across) : 0;
+  const standOn = rigid
+    ? (frame.seat(extras.part) ?? ground(ox + rigid[0] * across, oz + rigid[1] * across))
+    : 0;
   const hx = hinge ? hinge[0] * across : 0;
   const hz = hinge ? hinge[1] * across : 0;
   const placed: number[] = [];

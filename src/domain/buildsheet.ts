@@ -117,12 +117,17 @@ export function liesOnGround(part: Part): boolean {
   return GROUND_TYPES.includes(part.type);
 }
 
+/** Whether the ground draws this part (a terrace, ADR 0056): neither the model nor the plan's mesh has it. */
+export function shapesGround(part: Part): boolean {
+  return part.type === 'terrace';
+}
+
 export function buildSheet(input: SheetInput): BuildSheet {
   const { plan, condition } = input;
   if (condition !== 'standing') throw new Error(`${input.feature}: a ruin cannot be modelled yet`);
   const angle = plan.angle ?? 0;
   const en = (p: Pt): EN => rotate(p, angle);
-  const standing = plan.parts.filter((p) => !liesOnGround(p));
+  const standing = plan.parts.filter((p) => !liesOnGround(p) && !shapesGround(p));
   const parts = standing.map((p) => sheetPart(input.feature, p, en, angle));
   const kitIds = [...new Set(parts.flatMap((p) => p.kits))].sort();
   const palette = Object.fromEntries(Object.entries(MATERIAL_COLOUR).map(([m, c]) => [m, toHex(c)]));
@@ -226,6 +231,7 @@ function sheetPart(feature: string, p: Part, en: (q: Pt) => EN, angle: number): 
     case 'ditch':
     case 'road':
     case 'platform':
+    case 'terrace':
       throw new Error(`${id}: a ${p.type} cannot be modelled yet`);
   }
 }

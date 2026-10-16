@@ -50,7 +50,7 @@ so the next reader knows the map was unreliable there.
 | Language layer ✅ | Show how spoken language changed over time and **by class** (e.g. Welsh farmers vs Norman lords vs Latin clergy), with unknowns shown as unknown | Dewi's request, and a natural fit for the ⓘ model |
 | Almanac layer ✅ | Panel for the current time: food, clothing, homes, religion, money, health, travel, population | "Not just language": more ways into daily life |
 | Family bloodline ✅ | One imagined family recurring in every era, always ⓘ | Makes it personal |
-| Terrain ✅ | **Both**: OS Terrain 50 (50m grid) for the whole 10-mile circle; Welsh Government LiDAR (1-2m) for the close-up places you fly into. **Built 2026-10-09** for Llandeilo town and the Roman forts in 500m tiles, 2m data and a 4m mesh, blended into Terrain 50 with no seam; period changes are ground edits laid over the base, never written into it (none is used yet, and objects placed at start do not follow an edit yet) ([ADR 0049](docs/adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), [data note](docs/data/lidar.md)) | The Tywi valley's shape is the one constant across every era. 50m is plenty for a low-poly overview; close-ups need the detail |
+| Terrain ✅ | **Both**: OS Terrain 50 (50m grid) for the whole 10-mile circle; Welsh Government LiDAR (1-2m) for the close-up places you fly into. **Built 2026-10-09** for Llandeilo town and the Roman forts in 500m tiles, 2m data and a 4m mesh, blended into Terrain 50 with no seam; period changes are ground edits laid over the base, never written into it, drawn while the feature they belong to is drawn (the forts' terraces since 2026-10-16, [ADR 0056](docs/adr/0056-buildings-stand-level-and-the-roman-plots-are-terraced.md); things placed at start other than that feature do not follow an edit yet) ([ADR 0049](docs/adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), [data note](docs/data/lidar.md)) | The Tywi valley's shape is the one constant across every era. 50m is plenty for a low-poly overview; close-ups need the detail |
 | Timeline scale ✅ | Non-linear (deep time compressed, recent centuries spread) | A linear 12,000-year slider puts everything since the Romans in the last sliver |
 | Content ✅ | Data files in the repo, written ahead of time; **no live AI at runtime** | Reviewable, citable, testable; no runtime AI cost or invented "facts" |
 | v1 scope ✅ | **Vertical slice**: 3 eras done properly end to end before filling in the rest: **Iron Age** (e.g. Garn Goch), **Medieval up to 1282** (Dinefwr, Deheubarth), **Victorian** (gentry vs tenants, Rebecca Riots, railway). Specific sites and dates to be confirmed by research | A thin sweep of 12,000 years would look empty everywhere |
@@ -116,6 +116,10 @@ The summary lives in [`docs/research/findings.md`](docs/research/findings.md), a
   ([ADR 0046](docs/adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)):
   never at the 2.6 times landmark scale, no stone, tile or limewash, no gate without evidence (Fort 2's rear
   gate is drawn as unproven), the second fort's "AD 90–100" probably from a painting's caption ("around 100AD"), a scene date and not a founding date; Fort 2 starts at AD 83 once Fort 1 is gone, since a Fort 1 ditch lies under Fort 2's levelling.
+- **Every building stands level at the highest ground under its footprint**, never buried, its walls carried down the
+  slope; the Roman forts' buildings stand on reconstructed terraces cut and filled into today's LiDAR ground, an analogy
+  (no terrace is evidenced at Dinefwr; levelling once, for Fort 2) ([ADR 0056](docs/adr/0056-buildings-stand-level-and-the-roman-plots-are-terraced.md)).
+  A ground edit is only as fine as the mesh that draws it: measure burial on the drawn mesh, not the asked ground.
 - **Research is a draft until independently reviewed.** Each note is `status: draft`; a review pass
   against the notes is part of shipping new content.
 
@@ -285,6 +289,7 @@ npm run models                       # after any change to a modelled plan or ki
 tools/terrain/build-terrain.sh && python3 tools/geo/build-osdata.py   # rebuild map data (see docs/data)
 node tools/shot.mjs '<url>' out.png  # screenshot, using the Chromium that works on this WSL box
 node tools/photo-shots.mjs <base url/> <out dir>  # the photo layer: pins at 1900 and an open photograph, English and Welsh
+node tools/fort-shots.mjs <base url/> <out dir> [years]  # the forts at issue 3's framing, with each fort's deepest wall under the drawn mesh (env TARGET=e,n RADIUS BETA ALPHA PLACE)
 node tools/frames.mjs '<url>' <dir> [--perf] [--uncapped]  # shots at several years (YEARS, HOUR, SEASON, PLACES) and GPU frame timings
 npm run e2e:gpu                      # tools/gpu/run.sh [--gpu-only] [--uncapped] [--skip-build]: WebGPU, frame timings and every e2e spec on Windows Chrome's GPU (ADR 0048)
 ```

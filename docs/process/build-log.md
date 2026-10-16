@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Build log
@@ -1300,3 +1300,43 @@ seconds: an agent's local GPU-kit run held `~/.cache/llandeilo-gpu.lock`. `tools
 `GPU_LOCK_WAIT` seconds (CI sets 1800). Checked both ways with the lock held by hand: a 2s wait fails with
 "still holds … after 2s" (exit 2), and a 60s wait logged "lock acquired" after 9s and then passed its 8 GPU
 tests on WebGPU ([ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md), amended).
+
+## 2026-10-16
+
+**Issue 3's barracks sunk into the slope, and terraces for the forts** ([ADR 0056](../adr/0056-buildings-stand-level-and-the-roman-plots-are-terraced.md);
+research: [`roman-forts-and-vicus.md`](../research/roman-forts-and-vicus.md#the-ground-the-forts-stood-on-levelling-and-terraces-2026-10-16)).
+Claude, under the proactive mandate, carrying out the work Dewi agreed.
+
+1. **Measured first.** On the 2m LiDAR, across each drawn building of the forts: the ground falls up to 3.59m (Fort 1,
+   barrack 15), 1.82m (Fort 2, barrack 5), 1.19m (vicus house 7). Seated at its own point, the deepest corner was
+   2.43m under the ground in Fort 1 (barrack 15), 0.71m in Fort 2 and 0.65m in the vicus. In the app the hills are
+   2.4 times their height and the forts true height, so on the drawn mesh barrack 15's uphill end stood 5.84m under
+   ground against 3m walls (the e2e measure, main's code): the screenshot in the issue.
+2. **Every plan, not just the forts.** The same measure (`dewidebug seats`, logged once per plan at start) found
+   buildings buried at one point wherever there is a slope (metres of ground, on the ground each plan reads, crag
+   platforms included): Dryslwyn 17.17m, Aberglasney 6.05m, Carreg Cennen 4.56m, Talley 3.98m, Golden Grove 2.70m,
+   Paxton's Tower 2.24m, Dinefwr 0.81m, the town's churches and Newton House 0.3 to 1.0m (prisms, such as the old
+   bridge's, already stood at their highest corner). Now none; the walls downhill are taller instead: Dryslwyn's hall
+   block and Carreg Cennen's towers visibly so, Aberglasney's house no longer half sunk (looked at before and after,
+   from the live site and this build, at 1300 and 1900).
+3. **Terraces on the 4m mesh.** The first plots (1.5m level beyond the walls, 2.5m batter) were exact on the 2m
+   ground and still left walls 0.95m under the 4m mesh, and the forts' tiles were drawn at 20m at the issue's
+   framing, which smears a terrace altogether. A tile under a drawn edit now takes the 4m step out to 850m, and the
+   level margin was tuned on the drawn mesh: 3m gives 0.25m, 2.5m gave 1.07m, a 1m end margin 1.56m, a 0.5m batter
+   0.90m (a sharp step between two neighbours' levels pulls the mesh up). Lesson: **a ground edit is only as fine
+   as the mesh that draws it**; measure what is drawn, not what is asked.
+4. **Known cost.** A fort road beside a terrace is uneven close up (seen at 200m), and steep batters make a few dark
+   facets; both would go with a 2m mesh. Two more 4m tiles while a fort is near.
+5. **Seen red, at the named assertions.** Unit (`tests/terraces.test.ts`): the seating rule put back to one point
+   failed "bury no corner ... deeper than a sill beam" at 0.165m (Fort 1's south-west gate tower, terraces kept);
+   terraces taken out failed "downhill footing ... a few tenths of a metre" at 1.87m (Fort 1's headquarters). E2E
+   (`e2e/terrain.spec.ts`, "buildings stand on the mesh drawn"): the one-point rule with terraces failed at 0.57m
+   (Fort 1), 0.63m (Fort 2), 1.64m (vicus); with neither, as on main, 5.84, 1.71 and 1.57. Now 0.25, 0.12 and 0.10
+   (the test allows 0.4).
+6. **Screenshots looked at** (GPU, WebGL through WSL's D3D12, High, 1600x900, `node tools/fort-shots.mjs`): the
+   issue's framing at AD 74, 84 and 110, and Fort 1's south-west barracks at AD 74 before and after
+   ([`../images/roman-forts/terraces/`](../images/roman-forts/terraces/)).
+
+![Fort 1's south-west barracks at AD 74, before: the near row sunk into the slope](../images/roman-forts/terraces/fort1-south-west-barracks-ad74-before.jpg)
+![The same, after: each barrack on its levelled terrace](../images/roman-forts/terraces/fort1-south-west-barracks-ad74-after.jpg)
+

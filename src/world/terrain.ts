@@ -145,16 +145,29 @@ export class Terrain {
 
   // Where the LiDAR reaches, the river channels are cut into the ground and the period's ground edits
   // laid over it, so the drawn surface and everything standing on it agree.
-  private shape(g: GridRef, metres: number): number {
+  private shape(g: GridRef, metres: number, edits: readonly GroundEdit[] = this.edits): number {
     if (!this.ground.contains(g)) return metres;
     const w = this.ground.weightAt(g);
     const channel = w > 0 ? this.land.rivers.channelAt(g.e, g.n) : undefined;
     const carved = channel ? carveChannel(metres, channel, w) : metres;
-    return applyEdits(carved, g, this.edits);
+    return applyEdits(carved, g, edits);
   }
 
   metresAt(g: GridRef): number {
     return this.shape(g, this.groundMetres(g));
+  }
+
+  // The ground with `edits` laid over it instead of the ones drawn now: what a feature is built on, since it
+  // is built once at start but drawn only in the years its own ground edits hold (ADR 0056).
+  metresWith(g: GridRef, edits: readonly GroundEdit[]): number {
+    return this.shape(g, this.groundMetres(g), edits);
+  }
+
+  // Where a feature built for `edits` stands, in world units: `surfaceAt` with those edits, whatever is drawn now.
+  surfaceWith(x: number, z: number, edits: readonly GroundEdit[]): number {
+    return this.inDetail(x, z)
+      ? heightToWorld(this.metresWith(toGrid({ x, z }), edits))
+      : this.surfaceAt(x, z);
   }
 
   setGroundEdits(edits: readonly GroundEdit[]): void {
@@ -162,7 +175,10 @@ export class Terrain {
     for (const e of edits) checkEdit(e, this.ground.manifest.region, this.ground.manifest.blendMetres);
     const touched = [...this.edits, ...edits].map((e) => e.area);
     this.edits = edits;
-    this.detail.invalidate(touched);
+    this.detail.invalidate(
+      touched,
+      edits.map((e) => e.area),
+    );
     console.info(
       `dewidebug terrain ground edits now [${editsKey(edits)}] touching ${String(touched.length)} areas`,
     );

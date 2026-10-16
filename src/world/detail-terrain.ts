@@ -110,6 +110,8 @@ export class DetailTerrain {
   private builds = 0;
   private pending = 0;
   private settledAt: Eye | undefined;
+  // The tiles under a period ground edit drawn now, which take a finer step (ADR 0056).
+  private edited: ReadonlySet<string> = new Set();
 
   private readonly infos = new Map<string, LidarTileInfo>();
 
@@ -168,7 +170,7 @@ export class DetailTerrain {
     const started = performance.now();
     const { manifest } = this.deps.ground;
     const current = new Map([...this.resident].map(([k, r]) => [k, r.step]));
-    const plan = planSteps(manifest.tiles, manifest.tileSize, eye, current);
+    const plan = planSteps(manifest.tiles, manifest.tileSize, eye, current, this.edited);
     const todo: { info: LidarTileInfo; want: number; distance: number }[] = [];
     for (const info of manifest.tiles) {
       const key = tileKey(info.e, info.n);
@@ -219,9 +221,16 @@ export class DetailTerrain {
 
   // The ground changed under these areas: their tiles are rebuilt, at their present steps, as the
   // time budget allows.
-  invalidate(areas: readonly Bounds[]): void {
+  invalidate(areas: readonly Bounds[], edited: readonly Bounds[] = []): void {
     const size = this.deps.ground.manifest.tileSize;
     let marked = 0;
+    this.edited = new Set(
+      this.deps.ground.manifest.tiles
+        .filter((t) =>
+          edited.some((a) => t.e < a.eMax && t.e + size > a.eMin && t.n < a.nMax && t.n + size > a.nMin),
+        )
+        .map((t) => tileKey(t.e, t.n)),
+    );
     for (const info of this.deps.ground.manifest.tiles) {
       const hit = areas.some(
         (a) => info.e < a.eMax && info.e + size > a.eMin && info.n < a.nMax && info.n + size > a.nMin,
@@ -237,7 +246,7 @@ export class DetailTerrain {
       }
     }
     console.info(
-      `dewidebug detail invalidate areas=${String(areas.length)} tiles marked stale=${String(marked)}`,
+      `dewidebug detail invalidate areas=${String(areas.length)} tiles marked stale=${String(marked)} drawn finer for their edits=${String(this.edited.size)}`,
     );
   }
 

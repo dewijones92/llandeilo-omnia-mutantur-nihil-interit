@@ -10,7 +10,19 @@ import { drawnRailway, longestLine, sectionLines } from '../domain/rail.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
 import { Buildings, lineRibbons, Train, type Ribbon } from './settlement.ts';
-import { buildPlan, planClearing, planWorldScale } from './buildings.ts';
+import { buildPlan, planClearing, planGroundAt, planSeats, planWorldScale } from './buildings.ts';
+import type { GroundEdit } from '../domain/groundedit.ts';
+import {
+  editsBuiltOn,
+  editsDrawn,
+  footprintSamples,
+  SEAT_TOLERANCE,
+  seats,
+  standsOnGround,
+  terracesByFeature,
+} from '../domain/plot.ts';
+import type { Timeline } from '../domain/timeline.ts';
+import { heightToWorld } from '../domain/geo.ts';
 import { buildFeature, type Ground, type WorldPoint } from './structures.ts';
 import type { SmokeSource } from './smoke.ts';
 import type { Clearing } from './landcover.ts';
@@ -31,12 +43,17 @@ interface ModelSlot {
 }
 
 interface Monument {
+  readonly feature: Feature;
   readonly mesh: Mesh;
   /** The full-detail mesh, drawn instead of `mesh` when the camera is near. */
   readonly near: Mesh | undefined;
   readonly at: { readonly x: number; readonly z: number };
   readonly hearths: readonly WorldPoint[];
   readonly seed: number;
+  /** The ground it was built on: the base ground with the terraces drawn in its first year (ADR 0056). */
+  readonly ground: Ground;
+  /** Each standing part's floor, world y, which the procedural mesh and the model both stand on. */
+  readonly seats: ReadonlyMap<string, number>;
   readonly model: ModelSlot | undefined;
   level: Level;
   visible: boolean;
@@ -108,6 +125,7 @@ export class FeatureLayer {
   private readonly ribbons: Ribbon[] = [];
   private modelsOn: boolean;
   private readonly modelListeners: (() => void)[] = [];
+  private readonly terraces: ReadonlyMap<FeatureId, readonly GroundEdit[]>;
 
   constructor(
     private readonly world: World,
@@ -121,6 +139,7 @@ export class FeatureLayer {
       readonly base: string;
       readonly on: boolean;
     },
+    timeline: Timeline,
   ) {
     this.modelsOn = landmarkModels.on;
     const scene = world.scene;
@@ -160,6 +179,10 @@ export class FeatureLayer {
     const [mainOnGround] = main ? onGround([main]) : [];
     this.train = mainOnGround ? new Train(scene, mainOnGround, onRibbon, trainModels) : undefined;
     const started = performance.now();
+    this.terraces = terracesByFeature(features, (g) => world.terrain.metresWith(g, []));
+    console.info(
+      `dewidebug terraces ${[...this.terraces].map(([id, e]) => `${id}=${String(e.length)}`).join(' ') || 'none'}`,
+    );
     const covered = coveredFootprints(features, footprints);
     const visible = (order: Int32Array): Int32Array => order.filter((i) => !covered.has(i));
     console.info(`dewidebug features hide ${covered.size} OS footprints that are drawn as landmark models`);
@@ -188,8 +211,14 @@ export class FeatureLayer {
         continue;
       }
       const seed = Math.floor(hash2(x, z, 7) * 1e6);
-      const built = buildFeature(scene, f.kind, seed, onSurface, x, z);
+      const builtOn = editsBuiltOn(f, features, timeline, this.terraces);
+      const ground: Ground =
+        builtOn.length > 0 ? (gx, gz) => world.terrain.surfaceWith(gx, gz, builtOn) : onSurface;
+      const built = buildFeature(scene, f.kind, seed, ground, x, z);
       if (!built) continue;
+      const seated =
+        f.kind.type === 'building' ? planSeats(f.kind.plan, ground, x, z) : new Map<string, number>();
+      if (f.kind.type === 'building') this.logSeats(f, ground, x, z, builtOn.length);
       const mat = scene.getMaterialByName('building-mat');
       for (const mesh of built.near ? [built.mesh, built.near] : [built.mesh]) {
         mesh.setEnabled(false);
@@ -199,11 +228,14 @@ export class FeatureLayer {
       }
       const entry = landmarkModels.list.find((e) => e.feature === f.id);
       this.monuments.set(f.id, {
+        feature: f,
         mesh: built.mesh,
         near: built.near,
         at: { x, z },
         hearths: built.hearths,
         seed,
+        ground,
+        seats: seated,
         model: entry ? { entry, feature: f, state: 'idle', far: [], near: [], parts: [] } : undefined,
         level: 'far',
         visible: false,
@@ -261,6 +293,7 @@ export class FeatureLayer {
   }
 
   apply(present: readonly FeaturePresence[]): void {
+    this.world.terrain.setGroundEdits(editsDrawn(this.terraces, present));
     const active = new Map(present.map((p) => [p.feature.id, p]));
     for (const [id, m] of this.monuments) {
       const p = active.get(id)?.presence ?? 0;
@@ -332,10 +365,11 @@ export class FeatureLayer {
     const frame = {
       ox: m.at.x,
       oz: m.at.z,
-      baseY: this.surface(m.at.x, m.at.z),
+      baseY: m.ground(m.at.x, m.at.z),
       across: scale.across,
       up: scale.up,
-      ground: this.surface,
+      ground: m.ground,
+      seat: (part: string) => m.seats.get(part),
     };
     console.info(`dewidebug landmark ${id} loading ${slot.entry.near.file} and ${slot.entry.far.file}`);
     const load = (level: Level): Promise<LoadedLandmark | undefined> =>
@@ -365,18 +399,7 @@ export class FeatureLayer {
       // A mesh with no triangles has no bounds, and a shadow caster without bounds blacks out the frame.
       const ground =
         groundPlan.parts.length > 0
-          ? [
-              buildPlan(
-                this.world.scene,
-                groundPlan,
-                kind.condition,
-                m.seed,
-                this.surface,
-                m.at.x,
-                m.at.z,
-                level,
-              ),
-            ]
+          ? [buildPlan(this.world.scene, groundPlan, kind.condition, m.seed, m.ground, m.at.x, m.at.z, level)]
           : [];
       const meshes = [...ground, ...(loaded.mesh ? [loaded.mesh] : [])];
       for (const mesh of meshes) mesh.setEnabled(false);
@@ -426,6 +449,49 @@ export class FeatureLayer {
   }
 
   /** The part ids a monument's near model holds, once loaded; empty before. */
+  /**
+   * Where each standing part of a monument stands, for the debug hook and the e2e test: its floor (world y)
+   * and the world points under its footprint, to read against the mesh drawn there.
+   */
+  standing(id: string): { id: string; floor: number; at: [number, number][] }[] {
+    let m: Monument | undefined;
+    for (const [key, v] of this.monuments) if (key === id) m = v;
+    const f = m?.feature;
+    if (!m || f?.kind.type !== 'building') return [];
+    const plan = f.kind.plan;
+    const { across } = planWorldScale(plan);
+    return plan.parts.filter(standsOnGround).flatMap((part) => {
+      const floor = part.id ? m.seats.get(part.id) : undefined;
+      if (floor === undefined || !part.id) return [];
+      const at = footprintSamples(part).map((p): [number, number] => {
+        const [x, z] = rotate(p, plan.angle ?? 0);
+        return [m.at.x + x * across, m.at.z + z * across];
+      });
+      return [{ id: part.id, floor, at }];
+    });
+  }
+
+  // How deep each standing part's corners would be buried under the old rule (the floor at the part's own
+  // point) and under the seating rule now, against the ground the monument is built on: the numbers behind ADR 0056.
+  private logSeats(f: Feature, ground: Ground, x: number, z: number, terraces: number): void {
+    if (f.kind.type !== 'building') return;
+    const plan = f.kind.plan;
+    const all = seats(plan, planGroundAt(plan, ground, x, z));
+    if (all.length === 0) return;
+    const metres = (world: number): number => world / heightToWorld(1);
+    const before = Math.max(...all.map((s) => metres(s.highest - s.atPoint)));
+    const after = Math.max(...all.map((s) => metres(s.highest - s.floor)));
+    const step = Math.max(...all.map((s) => metres(s.floor - s.lowest)));
+    const over = all.filter((s) => metres(s.highest - s.atPoint) > SEAT_TOLERANCE);
+    console.info(
+      `dewidebug seats ${f.id} parts=${String(all.length)} terraces=${String(terraces)} buried-at-one-point max=${before.toFixed(2)}m (${String(over.length)} over ${String(SEAT_TOLERANCE)}m) buried-now max=${after.toFixed(2)}m tallest-footing=${step.toFixed(2)}m (ground metres)`,
+    );
+    for (const s of over)
+      console.info(
+        `dewidebug seat ${f.id} ${s.id} would-be-buried=${metres(s.highest - s.atPoint).toFixed(2)}m footing=${metres(s.floor - s.lowest).toFixed(2)}m`,
+      );
+  }
+
   modelParts(id: string): readonly string[] {
     for (const [key, m] of this.monuments) if (key === id) return m.model?.parts ?? [];
     return [];

@@ -2,12 +2,14 @@
 title: "ADR 0049: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart"
 kind: adr
 status: accepted
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # ADR 0049: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart
 
-- **Status:** Accepted, extends [ADR 0009](0009-terrain-os-terrain50-low-poly.md)
+- **Status:** Accepted, extends [ADR 0009](0009-terrain-os-terrain50-low-poly.md); extended by
+  [ADR 0056](0056-buildings-stand-level-and-the-roman-plots-are-terraced.md) (2026-10-16), which feeds the ground edits
+  of decision 8 from the timeline (a fort's terraces while it is drawn) and draws a tile under an edit at a finer step
 - **Date:** 2026-10-09; amended 2026-10-10 (the review's findings, and the merge with main, which took ADRs
   0041 to 0048: this was 0041 on its branch, became 0048 at the first merge, and 0049 when the GPU kit took 0048;
   the second review's two findings, ribbons buried by the coarse mesh and the tree identity untested; and the

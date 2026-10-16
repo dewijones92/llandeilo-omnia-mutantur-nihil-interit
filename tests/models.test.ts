@@ -5,7 +5,13 @@ import { LANDMARK_MODELS } from '../src/content/generated/models.ts';
 import { KITS, kitInfo, kitParams } from '../src/content/kits.ts';
 import { MODELLED, modelSheets } from '../src/content/landmarks.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
-import { liesOnGround, MODEL_BUDGET, PROBE, type BuildSheet } from '../src/domain/buildsheet.ts';
+import {
+  liesOnGround,
+  MODEL_BUDGET,
+  PROBE,
+  shapesGround,
+  type BuildSheet,
+} from '../src/domain/buildsheet.ts';
 import type { Feature } from '../src/domain/model.ts';
 import { KIT_IDS, type Part } from '../src/domain/plan.ts';
 import { glbCounts, hasIdentityTransform, nodeBounds, readGlb, type GlbJson } from '../tools/models/glb.ts';
@@ -55,7 +61,7 @@ describe('the Blender landmark models (ADR 0053)', () => {
 
   it('holds every standing part of the plan in the near model and every part not marked detail in the far one, each once', () => {
     for (const m of LANDMARK_MODELS) {
-      const standing = planParts(m.feature).filter((p) => !liesOnGround(p));
+      const standing = planParts(m.feature).filter((p) => !liesOnGround(p) && !shapesGround(p));
       for (const level of LEVELS) {
         const want = standing.filter((p) => level === 'near' || !p.detail).map((p) => p.id);
         const got = partNodes(glb(m[level].file)).map((n) => n.id);

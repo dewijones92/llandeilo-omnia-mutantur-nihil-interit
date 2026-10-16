@@ -470,3 +470,91 @@ test('the train stands on the mesh drawn under it, as its tiles change step', as
     ).toBeLessThan(0.05);
   }
 });
+
+interface Buried {
+  readonly parts: number;
+  readonly worst: number;
+  readonly part: string;
+  readonly fine: number;
+}
+
+// How deep, in metres at the forts' true height, the mesh drawn now rises over the floor of any standing
+// part of a fort, at each point under its footprint (ADR 0056), and how many of its tiles are drawn at 4m.
+async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
+  return page.evaluate((featureId) => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    if (typeof debug !== 'object' || !debug) throw new Error('no llandeiloDebug');
+    const standing: unknown = Reflect.get(debug, 'standing');
+    const terrain: unknown = Reflect.get(debug, 'terrain');
+    if (typeof standing !== 'function' || typeof terrain !== 'object' || !terrain)
+      throw new Error('no standing hook or terrain');
+    const drawnAt: unknown = Reflect.get(terrain, 'drawnAt');
+    if (typeof drawnAt !== 'function') throw new Error('no drawnAt');
+    const list: unknown = Reflect.apply(standing, debug, [featureId]);
+    if (!Array.isArray(list)) throw new Error('standing did not answer a list');
+    let worst = Number.NEGATIVE_INFINITY;
+    let part = '';
+    for (const s of list) {
+      const floor: unknown = Reflect.get(s, 'floor');
+      const at: unknown = Reflect.get(s, 'at');
+      if (typeof floor !== 'number' || !Array.isArray(at)) throw new Error('a seat without floor or points');
+      for (const p of at) {
+        if (!Array.isArray(p)) continue;
+        const drawn: unknown = Reflect.apply(drawnAt, terrain, [p[0], p[1]]);
+        if (typeof drawn !== 'number') continue;
+        if (drawn - floor > worst) {
+          worst = drawn - floor;
+          part = String(Reflect.get(s, 'id'));
+        }
+      }
+    }
+    const detailFn: unknown = Reflect.get(debug, 'detail');
+    const stats: unknown = typeof detailFn === 'function' ? Reflect.apply(detailFn, debug, []) : undefined;
+    const byStep: unknown = typeof stats === 'object' && stats ? Reflect.get(stats, 'byStep') : undefined;
+    const fine: unknown = typeof byStep === 'object' && byStep ? Reflect.get(byStep, '4') : 0;
+    return { parts: list.length, worst: worst * 10, part, fine: typeof fine === 'number' ? fine : 0 };
+  }, id);
+}
+
+// Issue 3's comment: on the slope some of Fort 1's barracks sank below the ground. Looking north-west
+// across the forts as the commenter did, no wall of the fort drawn stands more than a few tenths of a
+// metre under the mesh drawn there, on its terrace (ADR 0056).
+for (const [year, id] of [
+  [74, 'roman-fort-a'],
+  [110, 'roman-fort-b'],
+  [110, 'roman-vicus'],
+] as const) {
+  test(`AD ${String(year)}: ${id}'s buildings stand on the mesh drawn, none sunk into the slope`, async ({
+    page,
+  }) => {
+    await ready(page, `./?debug&year=${String(year)}&hour=12&season=summer&place=roman-forts&radius=55`);
+    await page.evaluate(() => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const scene: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'scene') : undefined;
+      const camera: unknown =
+        typeof scene === 'object' && scene ? Reflect.get(scene, 'activeCamera') : undefined;
+      if (typeof camera !== 'object' || !camera) throw new Error('no camera');
+      Reflect.set(camera, 'alpha', -Math.PI / 4);
+      Reflect.set(camera, 'beta', 0.95);
+    });
+    await expect
+      .poll(async () => (await detail(page)).byStep['4'] ?? 0, { timeout: 60_000 })
+      .toBeGreaterThanOrEqual(1);
+    await expect
+      .poll(
+        async () => {
+          const d = await detail(page);
+          return d.pending + d.stale;
+        },
+        { timeout: 60_000 },
+      )
+      .toBe(0);
+    const b = await buriedOnTheMesh(page, id);
+    console.info(`dewidebug e2e fort seats AD ${String(year)} ${id} ${JSON.stringify(b)}`);
+    expect(b.parts, `${id}: standing parts`).toBeGreaterThan(10);
+    expect(
+      b.worst,
+      `${id}: the deepest any wall stands under the mesh drawn (metres), at ${b.part}`,
+    ).toBeLessThan(0.4);
+  });
+}
