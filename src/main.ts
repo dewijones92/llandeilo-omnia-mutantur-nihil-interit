@@ -47,6 +47,10 @@ import { QualityMenu, storedQuality } from './ui/quality.ts';
 import { showsBegin, welcomeAtStart } from './domain/opening.ts';
 import { chooseQuality, QUALITY, type Quality } from './domain/quality.ts';
 import { LANDMARK_MODELS } from './content/generated/models.ts';
+import { TEXTURE_SIZE, type TextureSize } from './domain/surfaces.ts';
+import { LandmarkMaterials } from './world/landmark-materials.ts';
+import { PartPicker, type PartPick } from './world/part-picker.ts';
+import { PartInfo } from './ui/part-info.ts';
 import { Ambience } from './audio/ambience.ts';
 import { h } from './ui/dom.ts';
 import { SkyControls } from './ui/sky.ts';
@@ -75,6 +79,8 @@ const FRAMING_RADIUS: Readonly<Record<Framing, number>> = {
 };
 // A double-click flies in to half the distance, but no closer than this.
 const DOUBLE_CLICK_MIN_RADIUS = 40;
+// Medium draws the models' textures at half size (ADR 0055); Low draws no model, so its size is never used.
+const textureSizeFor = (q: Quality): TextureSize => (q === 'high' ? TEXTURE_SIZE.high : TEXTURE_SIZE.medium);
 
 // Awaits one start-up input and logs the stage when it lands, or when it fails (the caller's catch
 // then reports the failure; this names which input it was).
@@ -146,10 +152,16 @@ async function start(): Promise<void> {
   if (llanelly) trainModels.set('llanelly-1850s', llanelly);
   // Blender models for the important landmarks (ADR 0053), above Low only; ?models=off draws them procedurally.
   const modelsFor = (q: Quality): boolean => q !== 'low' && params.get('models') !== 'off';
+  const landmarkMaterials = new LandmarkMaterials(
+    world.scene,
+    import.meta.env.BASE_URL,
+    textureSizeFor(chosen.quality),
+  );
   const features = new FeatureLayer(world, content.features, footprints, railways, roads, trainModels, {
     list: LANDMARK_MODELS,
     base: import.meta.env.BASE_URL,
     on: modelsFor(chosen.quality),
+    materials: landmarkMaterials,
   });
   const people = new People(world.scene, content.conversations, content.people, features.ground);
   for (const m of people.meshes) world.addCaster(m);
@@ -321,6 +333,45 @@ async function start(): Promise<void> {
     flight.stopFollowing('stop button');
   });
   const bubbles = new Bubbles(world.scene, people.groups.values(), store, openConversation);
+  // Clicking a part of a Blender model in 3D opens its ⓘ (ADR 0055); hovering veils it and names it.
+  const picker = new PartPicker(world, features, features.ground);
+  const partInfo = new PartInfo(store, sourceMap);
+  const partsInert = (): boolean => player.playing !== undefined || guess.hidingTheYear || opening.isWaiting;
+  let hoverAt: { x: number; y: number } | undefined;
+  let hoverDue = false;
+  const hoverPart = (hit: PartPick | undefined, x: number, y: number): void => {
+    picker.highlight(hit);
+    // The tip names a part; once its panel is open the panel says more, so the tip stands aside.
+    const open = partInfo.open;
+    const named = hit && !(open?.feature === hit.feature.id && open.part === hit.part);
+    if (hit && named) partInfo.showTip(hit.feature, hit.part, x, y);
+    else partInfo.hideTip();
+    canvas.style.cursor = hit ? 'pointer' : '';
+  };
+  canvas.addEventListener('pointermove', (e) => {
+    // A drag slides the land (ADR 0050): nothing is hovered while a button is held.
+    if (e.buttons !== 0 || partsInert()) {
+      hoverAt = undefined;
+      hoverPart(undefined, 0, 0);
+      return;
+    }
+    const r = canvas.getBoundingClientRect();
+    hoverAt = { x: e.clientX - r.left, y: e.clientY - r.top };
+    if (hoverDue) return;
+    hoverDue = true;
+    // At most one pick a frame, however fast the pointer moves.
+    requestAnimationFrame(() => {
+      hoverDue = false;
+      const at = hoverAt;
+      if (!at || partsInert()) return;
+      const r2 = canvas.getBoundingClientRect();
+      hoverPart(picker.pick(at.x, at.y), at.x + r2.left, at.y + r2.top);
+    });
+  });
+  canvas.addEventListener('pointerleave', () => {
+    hoverAt = undefined;
+    hoverPart(undefined, 0, 0);
+  });
   const conversationOf = (mesh: AbstractMesh | null | undefined) => {
     const meta: unknown = mesh?.metadata;
     if (!meta || typeof meta !== 'object' || !('conversation' in meta)) return undefined;
@@ -340,7 +391,21 @@ async function start(): Promise<void> {
     }
     if (guess.hidingTheYear) return;
     const c = conversationOf(hit);
-    if (c) openConversation(c);
+    if (c) {
+      openConversation(c);
+      return;
+    }
+    if (partsInert()) return;
+    const x = world.scene.pointerX;
+    const y = world.scene.pointerY;
+    const part = picker.pick(x, y);
+    console.info(
+      `dewidebug part click at ${x.toFixed(0)},${y.toFixed(0)} hit=${part ? `${part.feature.id}|${part.part}` : 'none'}`,
+    );
+    const r = canvas.getBoundingClientRect();
+    partInfo.hideTip();
+    if (part) partInfo.show(part.feature, part.part, x + r.left, y + r.top);
+    else partInfo.close('click on no part');
   });
   const controls = new MapControls(world.camera, world.scene, canvas, features.ground, flight, {
     onMove(move) {
@@ -455,6 +520,7 @@ async function start(): Promise<void> {
       panel.close();
       photoPanel.close();
       info.close();
+      partInfo.close('a round began');
     },
   });
   onSeason = () => {
@@ -509,6 +575,8 @@ async function start(): Promise<void> {
       panel.close();
       photoPanel.close();
       info.close();
+      partInfo.close('a scene began');
+      hoverPart(undefined, 0, 0);
       flight.stopFollowing('cutscene');
       sceneWorld = { year: ev.when.from, built: new Map() };
       timeline.jump(tAt(content.timeline, ev.when.from));
@@ -555,6 +623,7 @@ async function start(): Promise<void> {
   );
   const quality = new QualityMenu(store, chosen.quality, (q) => {
     world.setQuality(QUALITY[q]);
+    landmarkMaterials.setSize(textureSizeFor(q));
     features.setModels(modelsFor(q));
   });
   brand.append(row2, skyControls.el, quality.el);
@@ -565,6 +634,8 @@ async function start(): Promise<void> {
     bubbles.el,
     pins.el,
     moment.el,
+    partInfo.el,
+    partInfo.tip,
     panel.el,
     photoPanel.el,
     info.el,
@@ -584,6 +655,8 @@ async function start(): Promise<void> {
     photoPanel.el,
     info.el,
     guess.el,
+    partInfo.el,
+    partInfo.tip,
     player.el,
   );
   const compact = (): void => {
@@ -643,7 +716,8 @@ async function start(): Promise<void> {
       document.activeElement?.closest('.prov-wrap')
     )
       return;
-    if (panel.open) panel.close();
+    if (partInfo.open) partInfo.close('Escape');
+    else if (panel.open) panel.close();
     else if (photoPanel.open) photoPanel.close();
     else if (info.isOpen) info.close();
   });
@@ -728,6 +802,9 @@ async function start(): Promise<void> {
     active = new Set(snap.conversations.map((c) => c.id));
     const open = panel.open;
     if (open && !active.has(open.id)) panel.close();
+    const partOpen = partInfo.open;
+    if (partOpen && !drawn.some((p) => p.feature.id === partOpen.feature && p.presence > 0))
+      partInfo.close('its model is not drawn at this year');
     labels.setYear(calendarYear(snap.year));
     const near = snap.nearestEvent;
     const shown =
@@ -824,6 +901,9 @@ async function start(): Promise<void> {
         terrain: world.terrain,
         placeTrainNear: (x: number, z: number) => features.placeTrainNear(x, z),
         modelParts: (id: string) => features.modelParts(id),
+        partScreenPoint: (feature: string, part: string) => picker.screenPointOf(feature, part),
+        hoveredPart: () => picker.hovered,
+        partCentre: (feature: string, part: string) => picker.centreOf(feature, part),
       },
     });
   // ?cutscene=<id>&cutsceneAt=<seconds> starts a scene part-way through, for screenshots.

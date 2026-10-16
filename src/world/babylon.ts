@@ -31,6 +31,7 @@ export type { UniformBuffer } from '@babylonjs/core/Materials/uniformBuffer.js';
 export type { SubMesh } from '@babylonjs/core/Meshes/subMesh.js';
 export { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial.js';
 export { DynamicTexture } from '@babylonjs/core/Materials/Textures/dynamicTexture.js';
+export { Texture } from '@babylonjs/core/Materials/Textures/texture.js';
 export { Color3, Color4 } from '@babylonjs/core/Maths/math.color.js';
 export { Matrix, Quaternion, Vector3 } from '@babylonjs/core/Maths/math.vector.js';
 export { AbstractMesh } from '@babylonjs/core/Meshes/abstractMesh.js';

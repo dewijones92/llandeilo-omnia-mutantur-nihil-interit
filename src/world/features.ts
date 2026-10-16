@@ -18,7 +18,8 @@ import type { LoadedModel } from './models.ts';
 import { StreetLamps } from './streetlamps.ts';
 import { levelFor, type Level } from '../domain/lod.ts';
 import { liesOnGround, PROBE, type LandmarkModel } from '../domain/buildsheet.ts';
-import { loadLandmark, type LoadedLandmark } from './landmarks.ts';
+import { loadLandmark, type LandmarkMesh, type LoadedLandmark } from './landmarks.ts';
+import type { LandmarkMaterials } from './landmark-materials.ts';
 
 /** A monument's Blender model (ADR 0053): both levels, each the ground parts the app draws plus the loaded model. */
 interface ModelSlot {
@@ -28,6 +29,15 @@ interface ModelSlot {
   far: readonly Mesh[];
   near: readonly Mesh[];
   parts: readonly string[];
+  /** The model's meshes at each level, with their part runs, for picking a part in 3D (ADR 0055). */
+  pick: { far: readonly LandmarkMesh[]; near: readonly LandmarkMesh[] };
+}
+
+/** A mesh of a monument's model that is on screen now, for picking a part in 3D. */
+export interface PickableModel {
+  readonly feature: Feature;
+  readonly level: Level;
+  readonly meshes: readonly LandmarkMesh[];
 }
 
 interface Monument {
@@ -120,6 +130,7 @@ export class FeatureLayer {
       readonly list: readonly LandmarkModel[];
       readonly base: string;
       readonly on: boolean;
+      readonly materials: LandmarkMaterials;
     },
   ) {
     this.modelsOn = landmarkModels.on;
@@ -204,7 +215,9 @@ export class FeatureLayer {
         at: { x, z },
         hearths: built.hearths,
         seed,
-        model: entry ? { entry, feature: f, state: 'idle', far: [], near: [], parts: [] } : undefined,
+        model: entry
+          ? { entry, feature: f, state: 'idle', far: [], near: [], parts: [], pick: { far: [], near: [] } }
+          : undefined,
         level: 'far',
         visible: false,
       });
@@ -352,8 +365,7 @@ export class FeatureLayer {
       });
     const [far, near] = await Promise.all([load('far'), load('near')]);
     if (!far || !near) {
-      far?.mesh?.dispose();
-      near?.mesh?.dispose();
+      for (const l of [...(far?.meshes ?? []), ...(near?.meshes ?? [])]) l.mesh.dispose();
       slot.state = 'failed';
       this.show(m);
       for (const fn of this.modelListeners) fn();
@@ -378,19 +390,31 @@ export class FeatureLayer {
               ),
             ]
           : [];
-      const meshes = [...ground, ...(loaded.mesh ? [loaded.mesh] : [])];
+      // Leaves hang from the first model mesh; a level of leaves alone has none, so they stand in the list themselves.
+      const leaves = loaded.meshes.length ? [] : loaded.hinged.flatMap((h) => h.meshes.map((l) => l.mesh));
+      const meshes = [...ground, ...loaded.meshes.map((l) => l.mesh), ...leaves];
       for (const mesh of meshes) mesh.setEnabled(false);
-      // Hinged leaves are children of the model mesh, so they show and hide with it.
-      for (const mesh of [...meshes, ...loaded.hinged.map((h) => h.mesh)]) {
+      for (const mesh of ground) {
         mesh.receiveShadows = true;
         if (mat) mesh.material = mat;
+      }
+      // Hinged leaves are children of the first model mesh, so they show and hide with it.
+      for (const l of [...loaded.meshes, ...loaded.hinged.flatMap((h) => h.meshes)]) {
+        l.mesh.receiveShadows = true;
+        const surfaceMat = l.key === 'flat' ? mat : this.landmarkModels.materials.get(l.key);
+        if (surfaceMat) l.mesh.material = surfaceMat;
       }
       for (const mesh of meshes) this.world.addCaster(mesh);
       return meshes;
     };
     slot.far = levelMeshes('far', far);
     slot.near = levelMeshes('near', near);
-    slot.parts = [...near.parts.map((p) => p.id), ...near.hinged.map((h) => h.id)];
+    slot.parts = near.parts;
+    const pickable = (l: LoadedLandmark): LandmarkMesh[] => [
+      ...l.meshes,
+      ...l.hinged.flatMap((h) => h.meshes),
+    ];
+    slot.pick = { far: pickable(far), near: pickable(near) };
     const rise = m.mesh.scaling.y;
     for (const mesh of [...slot.far, ...slot.near]) mesh.scaling.y = rise;
     slot.state = 'ready';
@@ -411,6 +435,7 @@ export class FeatureLayer {
         const state = m.model.state === 'ready' || m.model.state === 'idle' ? '' : `(${m.model.state})`;
         return [`${id}=${source}:${m.level}${state}`];
       })
+      .concat(this.modelsOn ? [`textures=${String(this.landmarkModels.materials.textureSize)}`] : [])
       .join(' ');
   }
 
@@ -423,6 +448,17 @@ export class FeatureLayer {
   /** Calls `fn` whenever a monument starts or stops being drawn from its model. */
   onModelsChanged(fn: () => void): void {
     this.modelListeners.push(fn);
+  }
+
+  /** The model meshes on screen now, with their part runs, for picking a part in 3D; none at Low or from the plans. */
+  pickables(): PickableModel[] {
+    if (!this.modelsOn) return [];
+    return [...this.monuments.values()].flatMap((m) => {
+      const slot = m.model;
+      if (slot?.state !== 'ready' || !m.visible) return [];
+      const meshes = slot.pick[m.level].filter((l) => l.mesh.isEnabled(true));
+      return meshes.length ? [{ feature: slot.feature, level: m.level, meshes }] : [];
+    });
   }
 
   /** The part ids a monument's near model holds, once loaded; empty before. */

@@ -7,12 +7,31 @@ updated: 2026-10-10
 
 # Scripted Blender models for the important landmarks
 
-**Status: accepted; phase 1 built for the Roman forts (2026-10-10).** Dewi's decision is
+**Status: accepted; phases 1 and 2 built for the Roman forts (2026-10-10).** Phase 2 (textures and clicking a part in
+3D) is [ADR 0055](../adr/0055-textured-landmark-models-and-clicking-their-parts.md). Dewi's decision is
 [ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-from-their-plans.md); the pipeline as built is
 [ADR 0053](../adr/0053-the-blender-pipeline-sheet-script-fitted-gltf.md), which wins where it and this note
 differ. Written by Claude on 2026-10-10 as a design; every choice below marked "proposed" is Claude's, under the
 proactive mandate, and none is Dewi's unless it says so. The ADR numbers this note guessed (0049) were taken
 by other work: the decision is 0052 and the pipeline 0053.
+
+## Phase 2: textures and clicking a part (2026-10-10)
+
+Built for the Roman forts ([ADR 0055](../adr/0055-textured-landmark-models-and-clicking-their-parts.md), research in
+[`research/fort-surfaces.md`](../research/fort-surfaces.md)). Different from §3 and §5 of this note:
+
+- **Six surfaces, not one texture per material**: turf (the walk on a bank), turf-face (the courses' soil), timber,
+  shingle, daub and thatch, each with its own tier, named per part by `partSurfaces` and held to the glb by a test.
+- **Photographs tinted to the palette** (§3's "palette colour as a tint", made exact): each colour map is divided by
+  its mean, so a model keeps the valley's colours and the photograph adds its light and dark. CC0, Poly Haven, 1024 at
+  High and 512 at Medium, lossy WebP, one shared file per surface and map.
+- **No UVs in the file**: the script writes each face's grain (upright or lengthwise) into its colour's alpha and the
+  app works out coordinates in metres; UVs in the glb tripled Fort 1 past the 1.5MB budget.
+- **No roughness or AO maps**: the building material is not PBR, and the models are lit as their fallbacks are.
+- **The near draw-call budget is 16** (five surfaces and eight leaves for Fort 2), not §5's 12.
+- **Clicking a part**: the loader's triangle runs per part, each with a box, make a pick cheap enough for every
+  pointer move; the hovered part is veiled and named, and a click opens its ⓘ, the same body as the parts list.
+- **The turf kit changed with the research**: 0.15m courses, soil faces, grass only on the walk.
 
 ## What was built, and where it differs from this note (2026-10-10)
 
@@ -33,14 +52,15 @@ Different from the note:
 - **No `gltf-transform`, `meshoptimizer` or quantisation**, so no new dependency: the finisher edits the glb
   itself, and the files carry no normals (the app computes flat ones). The forts are within budget without
   compression.
-- **No textures yet**: vertex colours from the one palette in the shared building material, near and far.
+- **No textures in phase 1**: vertex colours from the one palette in the shared building material, near and far.
+  *Phase 2 added them (above).*
   Dewi has since answered (2026-10-10, "Get proper textures", option B): textures are wanted and are the next
   step for the pipeline, not built in phase 1.
 - **No `EXT_mesh_gpu_instancing`**: parts are merged into one mesh per level in the loader, with each gate
   leaf a child mesh on its hinge.
 - **Bevels only on squared timbers** (posts, beams, ledges), by edge weight; bevelling everything tripled the
   triangles.
-- **Not built yet**: textures, kit libraries of hand-modelled assets, the `?tiers` view, the non-blocking
+- **Not built yet**: kit libraries of hand-modelled assets, the `?tiers` view, the non-blocking
   CI rebuild job (the overwrite guard for hand edits is moot: Dewi chose scripts over editing the `.blend`), the preview renders beyond `--preview`, ruins, prisms and bridges in the sheet, the 1857
   train on the pipeline.
 
@@ -379,8 +399,9 @@ editing the `.blend` by hand (no: scripts are fine), the castle order (Dinefwr n
 (committing the models, what Low shows, clicking parts). None is open now.*
 
 - ✅ ~~**How real should the near level look?**~~ Answered: "Get proper textures" (Dewi, 2026-10-10).
-  The kind of texture (photographic PBR tinted by the palette, as this note assumes, or painted) is still
-  to be settled when textures are built.
+  The kind of texture (photographic PBR tinted by the palette, as this note assumes, or painted) was
+  to be settled when textures were built: photographs tinted to the palette, chosen by Claude under the proactive
+  mandate in phase 2 (ADR 0055).
 - ✅ ~~**Commit the models, or build them in CI?**~~ Answered: "Commit them" (Dewi, 2026-10-10), with the staleness test (§4); built that way.
 - ✅ ~~**Low graphics**: keep the procedural models there, or show the far glbs?~~ Answered: "Today's simple model" (Dewi, 2026-10-10): at Low a landmark is drawn from its procedural plan, as built.
 - ✅ ~~**Click a wall for its ⓘ in 3D**: wanted?~~ Answered: "Yes, click parts in 3D" (Dewi, 2026-10-10). Agreed, **not built in phase 1**: phase 2 builds it with the textures (the loader already keeps the triangle-to-part table); it has a line in the todo file.

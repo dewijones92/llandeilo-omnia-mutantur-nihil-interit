@@ -53,7 +53,7 @@ body {
   pointer-events: none;
 }
 
-#app > :not(.labels):not(.bubbles):not(.pins) {
+#app > :not(.labels):not(.bubbles):not(.pins):not(.part-tip) {
   pointer-events: auto;
 }
 
@@ -702,14 +702,17 @@ button {
   margin-bottom: 6px;
   font-size: 12px;
 }
-.moment-kits h5 {
+.moment-kits h5,
+.moment-surfaces h5 {
   margin: 6px 0 2px;
   font: 600 12px/1.3 var(--ui);
 }
-.moment-kits ul {
+.moment-kits ul,
+.moment-surfaces ul {
   margin: 0;
 }
-.moment-kits li {
+.moment-kits li,
+.moment-surfaces li {
   font-size: 12px;
   line-height: 1.35;
   margin-bottom: 3px;
@@ -2242,4 +2245,58 @@ button {
 
 .photo .prov-basis {
   overflow-wrap: anywhere;
+}
+
+/* A part of a Blender model, hovered or clicked in 3D (ADR 0055). The tip never takes the pointer. */
+.part-tip {
+  position: fixed;
+  z-index: 40;
+  max-width: 260px;
+  padding: 6px 10px;
+  display: grid;
+  gap: 1px;
+  font-size: 12.5px;
+  line-height: 1.3;
+}
+.part-tip[hidden],
+.part-info[hidden] {
+  display: none;
+}
+.part-tip span {
+  color: var(--muted);
+}
+.part-tip .part-tip-hint {
+  font-size: 11.5px;
+}
+.part-info {
+  position: fixed;
+  z-index: 41;
+  width: min(400px, calc(100vw - 32px));
+  max-height: min(70vh, 640px);
+  overflow-y: auto;
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.part-info h2 {
+  margin: 0 0 6px;
+  font: 600 18px/1.25 var(--display);
+}
+.part-info-of {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.part-info-close {
+  float: right;
+  margin: 0 0 6px 8px;
+}
+.part-info p,
+.part-info li {
+  font-size: 12.5px;
+}
+.moment-photo {
+  display: block;
+  color: var(--muted);
+  font-size: 11.5px;
 }

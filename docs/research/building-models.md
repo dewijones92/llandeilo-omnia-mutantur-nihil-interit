@@ -2,7 +2,7 @@
 title: Measured models of the important buildings
 kind: research
 status: draft
-updated: 2026-10-02
+updated: 2026-10-16
 ---
 
 # Measured models of the important buildings, phase by phase
@@ -168,8 +168,8 @@ Coflein NPRN 425, **SN 61150 21731** [S21]; the app point is within 5m.
 | Keep as a ruin | "Now a two storey stump crowned by the remains of the seventeenth century summerhouse" [S21] | [S21] | Medium |
 | North-west tower | Small round tower at the north-west angle, about 7m across (measured about 7.3m) [S22][S23]; "a smaller round tower at the northern angle" [S21]. Its courtyard side was rebuilt flat in the later 13th century [S22] | [S21][S22][S23] | High |
 | Hall and chamber block | Along the north-east curtain between the north-west tower and the keep: a first-floor hall 13 x 6m (early 14th century) and a late-13th-century chamber block of a basement and two floors, partly outside the curtain, with a square latrine turret [S22][S23]; "fine towered lodgings along the north-east curtain" [S21] | [S21][S22][S23] | High |
-| Gates and barbican | Original gate on the south-east by the keep; an inner gatehouse about 1250-70 [S22]. Later the inner gate moved to the **south curtain near the south-west turret**, reached by a long walled passage running along below the south curtain from a Middle Gate on the south-east [S22][S23]: "a lower walled barbican" [S21]. Outer gate on the east side of the lower outer ward [S22][S23] | [S21][S22][S23] | High |
-| Outer ward | Upper part measured roughly 39 x 35m; walls survive only in short lengths; in 1282 "two large and three small buildings" were put up there [S22] | [S22][S23] | Low (size) |
+| Gates and barbican | Original gate on the south-east by the keep; a gatehouse inside it about 1250-70 [S22] (the south-east gate's gatehouse, `gate-se` in [`dinefwr-castle.md`](dinefwr-castle.md), not the 1280s inner gatehouse). Later the inner gate moved to the **south curtain near the south-west turret**, reached by a long walled passage running along below the south curtain from a Middle Gate on the south-east [S22][S23]: "a lower walled barbican" [S21]. Outer gate on the east side of the lower outer ward [S22][S23] | [S21][S22][S23] | High |
+| Outer ward | Upper part measured roughly 39 x 35m; today the outer bailey is "covered with forest and without any significant visible stonework fragments" [S22] (corrected 2026-10-10: this row said walls "survive only in short lengths", which no source says); in 1282 "two large and three small buildings" were put up there [S22] | [S22][S23] | Low (size) |
 | Town | Old town sites shown north and east of the castle, marked "site of?" [S23]; "the upper town, thought to have been sited on the castle ridge, was first recorded in 1281" [S21] | [S21][S23] | Medium |
 
 ## Carreg Cennen Castle
@@ -278,7 +278,9 @@ These are observations against `src/content/buildings.ts`, not changes made.
   (150ft in 1710)? What were the cloister ranges' widths and heights?
 - Dryslwyn: who built the middle ward, Maredudd ap Rhys or Rhys ap Maredudd? Was the borough wall
   Welsh (1280s) or English (after 1287)? Caple (2007) would settle both.
-- Dinefwr keep diameter: 12m [S21], 13.5m [S22] or about 14m over the base [S23].
+- Dinefwr keep diameter: 12m [S21], 13.5m [S22] or about 14m over the base [S23]. *Added 2026-10-10:* measured
+  again in [`dinefwr-castle.md`](dinefwr-castle.md), where S23 fitted to the LiDAR gives 13.6m over the drawn wall: S23's
+  plan is drawn about 5% larger than its scale bar says (bar 8.15 px/m, ground 8.58), so lengths read off the bar, this note's S23 measurements among them, are about 5% too big; the cause is not known. Still contested.
 - Llandeilo old bridge: restored seven arches or a new three-arched bridge after 1798? Its arch
   spans and its exact line downstream of the present bridge.
 - Heights almost everywhere (curtains, gatehouses, ranges) are still not in any source read.

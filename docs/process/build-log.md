@@ -1211,6 +1211,128 @@ passed, 1 skipped (the stored-quality test), 14.3 minutes, no hang and no "never
 stopped. Looked at on the GPU (`tools/shot.mjs`, WebGL, High) at AD 80, 84 and 110, radius 60, and a close-up at AD 84:
 Fort 1's turf bank, breastwork and thatched halls at 80; Fort 2 with shingled towers and the settlement at 84 and 110.
 
+6. **Dinefwr Castle researched for its Blender model** (Claude, for Dewi's pick of the next model;
+   [`research/dinefwr-castle.md`](../research/dinefwr-castle.md)). Docs only. Three things worth keeping:
+   (1) **a 1m LiDAR surface model (DSM) measures a ruin's standing heights and checks a published plan**: the tile's
+   DSM, which the app had not downloaded (it uses the DTM), shows the keep, the curtains and the north-west tower as
+   clean flat wall-tops in a January flight, and fitting the Cadw plan to five of its points showed the plan as
+   reproduced drawn about 5% larger than its scale bar says (cause not known); earlier measurements taken from that bar
+   (`building-models.md`) are about 5% too big. (2) **A chronicle
+   date in a secondary source may rest on a manuscript variant**: the HER's "1151 ... built" is the Brut's "repaired the
+   castle of Dinweileir", Dinevwr in two manuscripts only. (3) **One source can reach a note by three routes**: Coflein,
+   castlewales.com and medievalheritage.eu all carry the Cadw guidebook, so agreeing with each other is not
+   cross-checking; the note marks those claims. No `src` change: a draft plan module would fail `knip` and duplicate the
+   one in `buildings.ts`. A review of the note the same day (second Opus) found five things worth keeping: the proposed
+   phases left 1600-1660 empty and drew the castle intact to 1600 against the "abandoned" reading (now a contested end
+   about 1450 and a decay phase to the 1660s); the scale-bar fault was stated backwards (the bar is drawn short, not
+   long); a roof is a plan value (`top: 'cone'`, `'pyramid'`, `roof: 'gable'`), not a kit, so the proposed kit list had
+   split one capability across two seams; one painted roofed tower was tiered "documented" as the south turret when
+   the identification is an inference; and a summary had misquoted the Cadw guide as finding no work after the 14th
+   century, when it records post-1403 repairs and a rebuilt south wall. Each was a thing the note's own text, read
+   against its own sources or code, already contradicted.
+
+   **The independent check (a second Opus, the same day, [check 2](../research/reviews/dinefwr-castle-check-2.md))**
+   found six more, each verified by fetching the source again: a **1525 end date** for Sir Rhys ap Thomas's residence
+   that none of the three cited sources gives (the listing and the HER say the end of the 15th century and "soon
+   abandoned"; 1525 is his death year); the **1213 siege** reported as walls and a tower held against engines, where the
+   Brut has the walls scaled and the castle taken "save one tower"; an **inner gatehouse of two square towers** on Cadw's
+   1280 plan that the note had left out (measured here, and added as a reconstructed part); a **kit that claimed
+   nothing**; a **quotation ("survive only in short lengths") in no source**, which had reached a second note; and parts
+   marked documented on **one source reaching the note by three routes**. Two things worth keeping: (1) a hedge is
+   easily dropped in a quotation ("may have been an extensive remodelling" had become "an extensive remodelling"), so a
+   quotation check should compare the whole clause; (2) the same agent's own review had called the 1213 reading
+   "confirmed (independent)" while Phase 2 still said the opposite, so a correction made in the Summary has to be
+   searched for in every place the claim recurs (`grep 1213`), not only where it was first noticed. Fitting the second Cadw plan's 1280 panel the same way as the first showed that panel needs **no** scale correction (6.52 px/m against its bar's 6.63); check 3 (below) found that was that panel's alone, the plan's panels being drawn at different scales. All ten of today's kits are Roman-period evidence or analogy (seven cite the Llandeilo fort survey, three only Jay Lane), so a medieval part reusing one shows Roman evidence under a medieval label.
+
+   **A third independent read (2026-10-16, [check 3](../research/reviews/dinefwr-castle-check-3.md))** found five important points, each verified against the source or re-measured before fixing: (1) the "needs no scale correction" claim held for the 1280 panel only: the keep to north-west tower distance (survey 40.36m) is 274, 261, 296 and 292 pixels on the 1250-70, 1280, 1330 and 1750 panels, 6.78, 6.48, 7.33 and 7.24 px/m, so the panels are drawn up to 13% apart and each needs its own fit (re-measured here from the image, with an independent two-point refit of the gatehouse towers); (2) the inner gatehouse's drawn gap of 1m cannot hold the 3m passage estimated for the gate, so the model now sets the towers 3.0m apart, recorded as a departure from the plan; (3) the Tudor works are dated to the end of the 15th century by the listing and medievalheritage only, the HER saying "in Tudor times", so the range is c. 1485-1525 with c. 1500 as the estimate, and the 1531 confiscation (medievalheritage) is a holder, not a resident; (4) a turret's latrine-or-watch contest had been written onto the south turret when it belongs to the chamber block's turret; (5) the tier rule was uneven: the listing's "gatehouse added on S" was not cited, "nothing stands to measure" ignored S9's remaining loop holes and bar hole, and the outer wards' stone walls had been given the banks' second strand. Also corrected: the kit claim ("all ten cite `fort:S1`" was wrong: seven do), and "a strong tower" in 1213 is Cadw's gloss on a Brut that records a conditional surrender. Two things worth keeping: (1) **a fit to one panel of a multi-panel figure is a fit to that panel**: the check that justified a general claim ("Cadw's two plans") had measured one of five panels; (2) when a note says an assertion about a set of sources is true "of all" of them (all ten kits, both plans, all three documents), count them rather than trust the earlier count.
+
+   **A fourth independent read (2026-10-16, [check 4](../research/reviews/dinefwr-castle-check-4.md))** found that check 3's fix for finding 2 was itself wrong. Check 3 had called the gap between the inner gatehouse's towers "a hairline" in S10, said nothing gives the passage as that narrow, and moved the towers 3.0m apart as a "departure from the plan". Re-measured from the pixels, **both Cadw plans draw the gate about 1.3-1.5m wide**: S10 has no towers and a plain break in the curtain of 13 pixels between the red fills (1.2-1.5m at 8.58 px/m), and S11's 1280 panel has 8-9 clear pixels between the towers on every row from y 306 to 318 (1.2-1.4m at 6.48 px/m); S9's "the door's bar hole" fits a door-width gate. The model now follows the drawings (towers on the two-point refit's centres (2.0, -15.3) and (8.1, -15.3), `gate-inner` a door of about 1.4m, one source: Cadw), the tier columns of `gate-inner` and `gatehouse-inner` say what is Cadw's (existence, form, gap) and what the fit's (place and spacing), and a build-list point asks the `gatehouse-inner` provenance note to say its spacing comes from the 1280 panel's fit. Smaller points: S2's independence from the guide is not known (its description is undated); S9, S10 and S11 are one source in five forms (with S1 and S8); the 1250-70 "inner gatehouse" is the south-east gate's `gate-se`; `fort:S14` is the vicus evidence from Trawscoed and Llanio, not "another Roman fort"; and the 1213 surrender is worded as an agreement before the afternoon to surrender unless relieved by the next evening. **Two things worth keeping:** (1) a fix made to reconcile a measurement with an estimate (a 1m gap against a 3m passage) has to be checked against the measurement's other source first: S10 was a second plan that disagreed with the estimate too, and the note had read it as "a hairline" without measuring it; (2) the "gap" had been computed as centre spacing minus tower width, which carries both measurements' errors, where the clear pixels between the outlines are read directly; where a figure can be read off the picture, read it, and say whether the outlines count (here the gap is 1.2-1.4m clear and up to about 1.9m if the outlines are centred on the wall faces).
+
+### The Blender models, phase 2: textures and clicking a part (2026-10-10)
+
+Built for the Roman forts ([ADR 0055](../adr/0055-textured-landmark-models-and-clicking-their-parts.md)), carrying out
+Dewi's "Get proper textures" and "Yes, click parts in 3D"; the design is Claude's, under the proactive mandate. The
+research came first ([`research/fort-surfaces.md`](../research/fort-surfaces.md)): six surfaces, each with its tier,
+and one CC0 Poly Haven photograph each, tinted to the palette, at 1024 for High and 512 for Medium. Hovering a part of
+a model veils and names it; a click opens its ⓘ, the same body as the key date's parts list.
+
+What went wrong on the way, each found by looking or by a test:
+
+1. **UVs from Blender tripled the files.** Writing texture coordinates in the glb split every vertex per face: Fort
+   1's near model went from 1.2MB to 4.2MB against a 1.5MB budget. The script now writes each face's grain into its
+   colour's alpha and the app works out coordinates in metres; with byte colours (the finisher converts Blender's
+   16-bit ones) Fort 1 is 1.30MB.
+2. **Everything textured came out half as bright.** Babylon clamps a material's diffuse colour to 1 before it meets
+   the texture, so a diffuse of 2 to lift a mid-grey detail map did nothing, and a second bug read the map as sRGB.
+   Found by switching the maps off in a debug session (the vertex colours alone were right); the lift is now in the
+   vertex colour and the map is read as linear data. Lesson: **when a texture darkens a scene, take the texture away
+   first and see which half is wrong**.
+3. **The lengthwise grain seamed every quad.** Both triangles of a quad share the diagonal but walk it opposite ways,
+   so their v axes pointed opposite ways; the unit test caught it (6.33 against -6.33) before any screenshot.
+4. **Grassed turf steps shimmered.** With the turf kit's courses corrected from 0.3m to Vegetius's 0.15m, alternating
+   green treads and brown risers aliased into a fence-like pattern at the 100m the camera allows. The research said
+   turves were often laid grass side down, so the faces and steps are now soil and only
+   the walk on top is grassed. (The first soil colour was the ditches' olive cut earth, and it did not read as soil: see the
+   review fixes below.)
+5. **The new surfaces list broke an old e2e selector** (`.moment-kits h5` matched two headings); it has its own class.
+
+Seen red: the quad-seam test; the model surface and grain tests against main's glbs; the texture-files test with one
+map removed; the click e2e with picking switched off ("hover expected the tower, got none"). Not seen red: the drag
+check, because Babylon already refuses a tap once a press has passed the drag threshold, so a guard written for it in
+the controls was never needed and was taken out. Checks: `npm run check` green; a second `npm run models -- --force`
+and `npm run textures -- --force` gave byte-identical files. Full e2e (`E2E_WORKERS=1`, 78 tests): the first run 76
+passed, 1 skipped, 1 failed on the selector above; after the fix 77 passed and 1 skipped (12.9 minutes). The GPU kit
+(`npm run e2e:gpu`, Windows Chrome, WebGPU, High) passed 8 GPU tests and 77 e2e, the click test among them, in 5m38s
+(overview idle 60fps vsync on, scrub 49fps). Frame cost on WebGL (CLAUDE.md's performance line): nothing measurable
+through the noise against main's untextured models. Bundle 552,593 bytes against main's 544,900 (+7.7KB). Looked at on
+the GPU (WebGL, High) at AD 80, 84 and 110 from 450m and close to a gate, at Medium, and at night: the forts keep the
+valley's colours, the roofs show their courses and grain, the rampart read as earth with a grassed walk (that was
+wrong at the closest view: the faces were olive and read as a hedge, see the review fixes below)
+([`docs/images/blender/textures/`](../images/blender/textures/)).
+
+### The Blender models, phase 2: second-Opus review fixes (2026-10-10)
+
+An independent review of the textured models found four IMPORTANT problems and six smaller ones; each was checked first.
+
+- **The rampart faces read as a hedge (confirmed).** On a GPU screenshot at the closest view (AD 84, midday) the
+  turf bank's faces were the ditches' olive cut earth, which under the soil photograph looked like dark clipped hedge,
+  and this log's line above said "cut earth". The faces now have their own brown (`TURF_FACE`, `#947c5c`) and the
+  surface's detail and relief are lower (0.5 and 0.35 against 0.8 and 0.6); the textures and models were rebuilt, and
+  the bank now reads as earth with a grassed walk. What is not fixed: the 0.15m steps still alias into a fine grid on
+  the shaded side at 100m and beyond, and it is the geometry, not the texture (the same picture with the normal map
+  removed was identical). The course depth is a sourced figure (Vegetius), so it is not coarsened to hide that, and
+  ADR 0055's claim that soil faces "fixed the shimmer" now says only that they took the colour contrast out.
+- **A failed texture drew black (confirmed).** Reproduced by aborting `timber-color-1024.webp`: every timber part
+  went black, because Babylon draws a failed texture black and the vertex colours had been lifted to meet it. A map
+  that fails is now dropped from its material and the diffuse colour set to the mean it was lifted by, so the part
+  keeps its palette colour; the normal map and the other surfaces are untouched.
+- **The turf walk was "reconstructed" and called a guess (confirmed).** Its own basis said whether the top was grassed
+  is not known, so it is now imagined (the rampart itself stays reconstructed). The research note, findings and the
+  surfaces test follow. The note's table also called daub "documented" for its make-up while the app said
+  reconstructed: the table now says reconstructed, with the find on the site as the documented part, and says
+  Vegetius describes the turves of a one-night marching camp, not a fort's rampart.
+- **Inert states and ground occlusion had no test (confirmed).** The code did what ADR 0055 says, but only one e2e
+  touched parts. The ground rule moved to `src/domain/partpick.ts` (`hiddenByGround`) with unit tests, and three e2e
+  tests were added: a round ("When are we?") begins with a part's ⓘ open and closes it, nothing is hovered or opened
+  through the round, and the same point works again after Stop; scrubbing to a year the fort is gone from closes
+  the panel; a cutscene closes it. Each was seen red with its guard removed. Two guards were missing, not just untested:
+  `closePanels` did not close the part panel (so it came back after a round), and nothing closed it when its model left
+  the scene. Not tested: hover during a cutscene, because the scene owns the camera and cannot be aimed at a part.
+  Before Begin the scene is inert, so the tap handler now also refuses a click then.
+- **The veil stacked to cream (confirmed).** A tower's many overlapping layers each blended again, and even a single
+  layer at alpha 0.16 was far stronger than 16%, so the hovered tower looked limewashed. The veil is now one mesh per
+  shared transform, drawn with a depth pre-pass, at alpha 0.07; looked at on the GPU the tower keeps its timber and
+  its shingles under a pale tint. An e2e asserts one mesh and the pre-pass (seen red against the old two meshes).
+- **Smaller:** the credits line now says the build normalises the photographs to mid-grey and the app tints them;
+  `npm run textures` writes `src/content/generated/textures.ts` (each map's photograph checksum, detail, size and
+  script hash) and a test fails if a committed map disagrees, as the models' input hash does; main was merged in (ADR
+  0054 and `ready()`, two docs conflicts resolved) and the click test uses `ready()`.
+- **Checks.** `npm run check` green (607 tests, coverage 98.5 / 89.2 / 100 / 99.6); full e2e (`E2E_WORKERS=1`, 89
+  tests): 88 passed, 1 skipped (the stored-quality test), 12.3 minutes. The Windows-Chrome WebGPU kit (`npm run
+  e2e:gpu`) was not re-run for these fixes. Looked at on the GPU (WebGL, High): the rampart at the closest view
+  and from the shaded side, the gate, the hovered tower with and without the veil, and the six pictures in
+  [`docs/images/blender/textures/`](../images/blender/textures/) were retaken.
+
 ## 2026-10-10 (the "flaky" e2e hang)
 
 About one full e2e run in ten (and more under load) failed a random test with `data-ready` never set
@@ -1300,6 +1422,53 @@ seconds: an agent's local GPU-kit run held `~/.cache/llandeilo-gpu.lock`. `tools
 `GPU_LOCK_WAIT` seconds (CI sets 1800). Checked both ways with the lock held by hand: a 2s wait fails with
 "still holds … after 2s" (exit 2), and a 60s wait logged "lock acquired" after 9s and then passed its 8 GPU
 tests on WebGPU ([ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md), amended).
+
+   **A fifth read (2026-10-16, post-push, no CRITICAL)** found the numbers did not close: the 1.4m door at x 4.4 sat
+   inside the west tower's footprint (S10's fit and S11's put the gap 0.7m apart in x, inside their errors), and centres
+   6.1m apart with 5.0m towers leave 1.1m, not 1.4m (hole-centre spacing read against outer-box widths). One rule now:
+   the gatehouse is built from its gap, centred at x 5.1 on the S11 fit, 1.4m wide, towers 4.9m at the panel's
+   outer-box spacing of 6.3m, and the door is the gap. The hall's existence was also still lifted by the listing,
+   whose independence is not known; it is now one source: Cadw. Lesson: **a measurement table must close** (gap +
+   width = spacing) before a builder reads it.
+
+**Final second-Opus review of the textured models, 2026-10-10.** Two IMPORTANT findings, both checked first.
+
+1. **A failed texture drew the part about 20% too bright.** The fallback set the material's diffuse colour to the
+   photographs' mean (0.5), but Babylon scales the light and the emissive glow by the texture too and only the
+   vertex colour had been doubled, so the part came out at 115/75/28 against the palette's 94/60/20 (the timber-
+   coloured pixels of the forts at AD 84, radius 45). The e2e only read the material's fields, so it passed. The
+   fallback is now one shared 1x1 mid-grey texture and the diffuse colour stays white; the test compares the
+   failed part's on-screen colour with `?models=off` at the same framing. Seen red at the ratio (1.23 on red)
+   before the fix, green after (94/62/22). Lesson: **check a fallback by what is drawn, not by the fields that
+   should draw it.**
+2. **The timber ⓘ overstated its evidence.** "Vindolanda's excavated timbers are oak" came from a tree-ring
+   report, which samples oak by method and says nothing of the site's other woods, and the Castell Henllys house
+   is a modern rebuild of an Iron Age house. Reworded in both languages, and the note now says one line of
+   evidence from a method that favours oak, plus one analogy. Hanson (1978), the Elginhaugh report and the
+   Carlisle reports could not be read (paywalled or refused), so they are listed as unread and not cited; a
+   search summary says alder, not oak, dominates Carlisle's small roundwood, kept as an uncited lead.
+
+Smaller: the Antonine Wall Report (1899) was never read, so the turf faces cite the 2022 paper that cites it, not
+the report; Vegetius's half-foot turf is for a marching camp's bank, and the turf face and kit say so; ADR 0055's
+texture sizes are corrected to the files' (2,442,864 and 551,648 bytes) and it records that mipmaps cannot cure the
+turf steps' striping, with the normal map's level as the lever if it shimmers in motion.
+
+**Review of the fallback fix, 2026-10-16** (second Opus, after 3232e3f): two IMPORTANT findings, both reproduced.
+
+1. **The on-screen fallback test could not tell a grey 20% too dark from the right one.** Its hue filter took in the
+   shingle and other browns, gamma squashed a 20% error to 5 or 6%, and `?models=off` is different geometry (on
+   SwiftShader that alone used 2.4 of its 3-level blue allowance). It now reads only the timber material's own
+   pixels (the timber meshes hidden and shown, two screenshots diffed) and compares the failed run with the
+   photograph-textured run on the same geometry, within 3% a channel; `?models=off` stays as a 15% check. Proven
+   by changing the fallback grey: it fails at 102 (red 104.9 against 111.8) and at 154 (121.6 against 111.7), and
+   passes at 128. Lesson: **prove a tolerance by moving the thing it guards in both directions, not by one run that
+   was red before the fix.**
+2. **The timber ⓘ still said "oak is only part of the wood found there"**, which rests on an uncited blog. It now
+   says only what the method supports: tree-ring dating works on oak, so it does not say what other woods were used.
+
+Also: the turf-face ⓘ calls the 1899 work "the report", not a survey, and ADR 0055 no longer says mipmaps cannot
+help the steps' striping and then offers a texture lever; the normal map adds to it, and only antialiasing or
+coarser steps at distance act on the shape.
 
 ## Downloads: the world's assets as .glb, 2026-10-16
 
