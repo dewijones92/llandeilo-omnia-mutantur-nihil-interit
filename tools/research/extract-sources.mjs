@@ -26,6 +26,7 @@ const PREFIX = {
   'light-after-dark': 'light',
   'roman-forts-and-vicus': 'fort',
   'dc-harries-photographs': 'harries',
+  'fort-surfaces': 'surfaces',
   'dinefwr-castle': 'dinefwr',
 };
 

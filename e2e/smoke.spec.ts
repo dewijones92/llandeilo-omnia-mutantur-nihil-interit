@@ -1,9 +1,12 @@
+import { mkdirSync, writeFileSync } from 'node:fs';
 import type { Locator, Page } from '@playwright/test';
 import { expect, ready, test } from './ready.ts';
 import { CUTSCENES } from '../src/content/cutscenes.ts';
 import { EVENTS } from '../src/content/events.ts';
 import { HARRIES_PHOTOGRAPHS } from '../src/content/photographs.ts';
 import { TIMELINE } from '../src/content/timeline.ts';
+import { WORLD_CONTENT } from '../src/content/world.ts';
+import { playableSteps } from '../src/domain/guess.ts';
 import { toWorld } from '../src/domain/geo.ts';
 import { keySteps, stepFrom } from '../src/domain/steps.ts';
 import { tAt } from '../src/domain/timeline.ts';
@@ -2180,6 +2183,455 @@ test('at AD 84 at High, Fort 2 and the settlement are drawn from their Blender m
   expect(errors).toEqual([]);
 });
 
+// Debug hooks for clicking a part of a Blender model in 3D (ADR 0055): bring the part to the middle of the view, then
+// find a screen point over it where a pick finds it. A camera move only shows in the projection once frames have
+// rendered with it (two, measured on SwiftShader at about 1fps), so this waits for frames and then for the point, not
+// for a fixed time.
+const frameId = (page: Page): Promise<number> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const fn: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'getFrameId') : undefined;
+    return typeof fn === 'function' ? Number(fn.call(scene)) : Number.NaN;
+  });
+
+// Waits for frames to render, which is the only thing a "nothing happens" check can wait on: after a fixed time a
+// slow renderer may not have run a frame, and an absence would pass without the app having had the chance to act.
+const framesRendered = async (page: Page, count: number): Promise<void> => {
+  const before = await frameId(page);
+  await expect
+    .poll(() => frameId(page), { message: `${String(count)} frames rendered`, timeout: 90_000 })
+    .toBeGreaterThanOrEqual(before + count);
+};
+
+async function partPoint(page: Page, feature: string, part: string): Promise<{ x: number; y: number }> {
+  const before = await frameId(page);
+  await page.evaluate(
+    ([f, p]) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const fn: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'partCentre') : undefined;
+      const centre: unknown = typeof fn === 'function' ? fn.call(debug, f, p) : undefined;
+      const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+      const camera: unknown =
+        scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+      if (!centre || typeof centre !== 'object' || !camera || typeof camera !== 'object') return;
+      const target: unknown = Reflect.get(camera, 'target');
+      const set: unknown = target && typeof target === 'object' ? Reflect.get(target, 'set') : undefined;
+      if (typeof set === 'function')
+        set.call(target, Reflect.get(centre, 'x'), Reflect.get(centre, 'y'), Reflect.get(centre, 'z'));
+      Reflect.set(camera, 'radius', 10);
+      Reflect.set(camera, 'beta', 1.1);
+    },
+    [feature, part],
+  );
+  await expect
+    .poll(() => frameId(page), { message: 'frames rendered after the camera moved', timeout: 90_000 })
+    .toBeGreaterThanOrEqual(before + 3);
+  let at: { x: number; y: number } | undefined;
+  await expect
+    .poll(
+      async () => {
+        at = await page.evaluate(
+          ([f, p]) => {
+            const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+            const fn: unknown =
+              debug && typeof debug === 'object' ? Reflect.get(debug, 'partScreenPoint') : undefined;
+            const got: unknown = typeof fn === 'function' ? fn.call(debug, f, p) : undefined;
+            return got && typeof got === 'object'
+              ? { x: Number(Reflect.get(got, 'x')), y: Number(Reflect.get(got, 'y')) }
+              : undefined;
+          },
+          [feature, part],
+        );
+        return at !== undefined;
+      },
+      { message: `a screen point over ${part}`, timeout: 90_000 },
+    )
+    .toBe(true);
+  if (!at) throw new Error(`no screen point over ${part}`);
+  return at;
+}
+
+const hoveredPart = async (page: Page): Promise<string> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const fn: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'hoveredPart') : undefined;
+    const got: unknown = typeof fn === 'function' ? fn.call(debug) : '';
+    return typeof got === 'string' ? got : '';
+  });
+
+const veilState = async (page: Page): Promise<{ meshes: number; prepass: boolean }> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const meshes: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'meshes') : undefined;
+    const get: unknown =
+      scene && typeof scene === 'object' ? Reflect.get(scene, 'getMaterialByName') : undefined;
+    const mat: unknown = typeof get === 'function' ? get.call(scene, 'part-veil-mat') : undefined;
+    const count = Array.isArray(meshes)
+      ? meshes.filter((m: unknown) => {
+          const name: unknown = m && typeof m === 'object' ? Reflect.get(m, 'name') : '';
+          return typeof name === 'string' && name.startsWith('part-veil');
+        }).length
+      : -1;
+    return {
+      meshes: count,
+      prepass: mat && typeof mat === 'object' ? Reflect.get(mat, 'needDepthPrePass') === true : false,
+    };
+  });
+
+test('at AD 84 at High, hovering a gate tower of Fort 2’s model veils and names it, a click opens its ⓘ with its tier in both languages, and a drag across it opens nothing', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
+  await ready(page);
+  await expect(page.locator('.debug')).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
+  await expect(page.locator('.debug')).toContainText('textures=1024');
+  const tower = 'fort2/gate-ne/tower-left';
+  const at = await partPoint(page, 'roman-fort-b', tower);
+  const canvasAt = await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.id ?? '', at);
+  expect(canvasAt).toBe('scene');
+  await page.mouse.move(at.x - 30, at.y - 30);
+  await page.mouse.move(at.x, at.y, { steps: 3 });
+  await expect.poll(() => hoveredPart(page)).toBe(`roman-fort-b|${tower}`);
+  const tip = page.locator('.part-tip');
+  await expect(tip).toBeVisible();
+  await expect(tip).toContainText('north-east');
+  await expect(tip).toContainText('Fort 2');
+  // The veil is one mesh drawn with a depth pre-pass, so a tower's many overlapping layers blend once, not each over the last.
+  expect(await veilState(page)).toEqual({ meshes: 1, prepass: true });
+  await page.screenshot({ path: 'test-results/roman-forts-84-part-hover.png' });
+  await page.mouse.click(at.x, at.y);
+  const info = page.locator('.part-info');
+  await expect(info).toBeVisible();
+  await expect(info).toHaveAttribute('data-part', tower);
+  await expect(info.locator('.part-info-tier')).toContainText('Reconstructed');
+  await expect(info.locator('[data-kit="post-tower-six"]')).toContainText('Six-post timber tower');
+  await expect(info.locator('[data-surface="timber"]')).toContainText('Rough Wood');
+  await expect(info.locator('[data-surface="shingle"]')).toContainText('Imagined');
+  await expect(tip).toBeHidden();
+  await page.screenshot({ path: 'test-results/roman-forts-84-part-info.png' });
+  await page.getByRole('button', { name: 'Cymraeg', exact: true }).click();
+  await expect(info.locator('.part-info-tier')).toContainText('Wedi’i ail-greu');
+  await expect(info.locator('[data-kit="post-tower-six"]')).toContainText('Tŵr pren chwe phostyn');
+  await page.keyboard.press('Escape');
+  await expect(info).toBeHidden();
+  // A drag that starts and ends on the tower slides the land (ADR 0050) and opens nothing.
+  await page.getByRole('button', { name: 'English', exact: true }).click();
+  const again = await partPoint(page, 'roman-fort-b', tower);
+  await page.mouse.move(again.x - 50, again.y);
+  await page.mouse.down();
+  // Quick, and back to where it began: a press that passed the drag threshold on the way is not a click.
+  await page.mouse.move(again.x + 50, again.y, { steps: 2 });
+  await page.mouse.move(again.x - 50, again.y, { steps: 2 });
+  await page.mouse.up();
+  await framesRendered(page, 3);
+  await expect(info).toBeHidden();
+  expect(errors).toEqual([]);
+});
+
+const FORT1_TOWER = 'fort1/gate-sw/tower-right';
+
+const partInfoOpen = async (page: Page): Promise<boolean> =>
+  page.locator('.part-info').evaluate((el) => el instanceof HTMLElement && !el.hidden);
+
+test('a part of the AD 74 fort opens its ⓘ, and it closes when a "When are we?" round begins, and parts stay inert through the round', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  // A fixed draw makes the round the one for the forts' own key date, whose year draws them.
+  const steps = keySteps(WORLD_CONTENT.timeline, WORLD_CONTENT.events);
+  const playable = playableSteps(WORLD_CONTENT, steps);
+  const index = playable.findIndex((st) => st.event.id === 'roman-forts');
+  expect(index, 'the forts are a playable round').toBeGreaterThanOrEqual(0);
+  const draw = (index + 0.5) / playable.length;
+  await page.addInitScript((d) => {
+    Math.random = () => d;
+  }, draw);
+  await page.goto('./?debug&quality=high&place=roman-forts&year=74&radius=45');
+  await ready(page);
+  await expect(page.locator('.debug')).toContainText('roman-fort-a=glb:near', { timeout: 90_000 });
+  const at = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
+  await page.mouse.move(at.x - 30, at.y - 30);
+  await page.mouse.move(at.x, at.y, { steps: 3 });
+  await expect.poll(() => hoveredPart(page)).toBe(`roman-fort-a|${FORT1_TOWER}`);
+  await page.mouse.click(at.x, at.y);
+  await expect.poll(() => partInfoOpen(page)).toBe(true);
+
+  await page.getByRole('button', { name: 'When are we?' }).click();
+  await expect(page.locator('.guess')).toContainText('Round 1 of 5');
+  // The round took the open ⓘ with it, and the year is still the forts' own.
+  expect(await partInfoOpen(page)).toBe(false);
+  await cameraSettled(page);
+  const during = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
+  await page.mouse.move(during.x - 30, during.y - 30);
+  await page.mouse.move(during.x, during.y, { steps: 3 });
+  await framesRendered(page, 3);
+  expect(await hoveredPart(page)).toBe('');
+  await expect(page.locator('.part-tip')).toHaveJSProperty('hidden', true);
+  await page.mouse.click(during.x, during.y);
+  await framesRendered(page, 3);
+  expect(await partInfoOpen(page)).toBe(false);
+
+  // Stopping the game gives the parts back: the same point now hovers and opens.
+  await page.getByRole('button', { name: 'Stop the game' }).click();
+  await cameraSettled(page);
+  const after = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
+  await page.mouse.move(after.x - 30, after.y - 30);
+  await page.mouse.move(after.x, after.y, { steps: 3 });
+  await expect.poll(() => hoveredPart(page)).toBe(`roman-fort-a|${FORT1_TOWER}`);
+  await page.mouse.click(after.x, after.y);
+  await expect.poll(() => partInfoOpen(page)).toBe(true);
+
+  // Scrubbing to a year the fort is gone from takes its panel away.
+  await page.getByRole('slider', { name: /Timeline|Llinell amser/ }).press('End');
+  // The present is the heaviest scene: on one slow core it takes two frames of about 8s each to draw, and the panel
+  // closes in the first apply after them.
+  await expect
+    .poll(() => partInfoOpen(page), {
+      message: 'the panel closes once the present has drawn',
+      timeout: 120_000,
+    })
+    .toBe(false);
+  expect(errors).toEqual([]);
+});
+
+test('a cutscene takes an open part ⓘ away, and the veil with it', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./?debug&quality=high&place=roman-forts&year=74&radius=45');
+  await ready(page);
+  await expect(page.locator('.debug')).toContainText('roman-fort-a=glb:near', { timeout: 90_000 });
+  const at = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
+  await page.mouse.move(at.x - 30, at.y - 30);
+  await page.mouse.move(at.x, at.y, { steps: 3 });
+  await expect.poll(() => hoveredPart(page)).toBe(`roman-fort-a|${FORT1_TOWER}`);
+  await page.mouse.click(at.x, at.y);
+  await expect.poll(() => partInfoOpen(page)).toBe(true);
+  await page.getByRole('button', { name: /Watch/ }).click();
+  await expect(page.locator('.cutscene')).toBeVisible();
+  expect(await partInfoOpen(page)).toBe(false);
+  expect(await hoveredPart(page)).toBe('');
+  await page.getByRole('button', { name: /Skip/ }).click();
+  await expect(page.locator('.cutscene')).toBeHidden();
+  expect(errors).toEqual([]);
+});
+
+test('if one texture fails to load, the parts that use it are drawn from a flat grey, not black, and keep every other map', async ({
+  page,
+}) => {
+  const warnings: string[] = [];
+  page.on('console', (m) => {
+    if (m.text().includes('dewidebug landmark')) warnings.push(m.text());
+  });
+  await page.route('**/timber-color-1024.webp', (route) => route.abort());
+  await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
+  await ready(page);
+  await expect(page.locator('.debug')).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
+  const state = async (name: string) =>
+    page.evaluate((n) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+      const get: unknown =
+        scene && typeof scene === 'object' ? Reflect.get(scene, 'getMaterialByName') : undefined;
+      const mat: unknown = typeof get === 'function' ? get.call(scene, n) : undefined;
+      if (!mat || typeof mat !== 'object') return undefined;
+      const colour: unknown = Reflect.get(mat, 'diffuseColor');
+      const channel = (c: string): number =>
+        colour && typeof colour === 'object' ? Number(Reflect.get(colour, c)) : Number.NaN;
+      const map: unknown = Reflect.get(mat, 'diffuseTexture');
+      return {
+        colourMap:
+          map !== null &&
+          !(map && typeof map === 'object' && Reflect.get(map, 'name') === 'landmark-detail-mean'),
+        midGrey:
+          map !== null && typeof map === 'object' && Reflect.get(map, 'name') === 'landmark-detail-mean',
+        normalMap: Reflect.get(mat, 'bumpTexture') !== null,
+        diffuse: [channel('r'), channel('g'), channel('b')],
+      };
+    }, name);
+  await expect.poll(() => state('landmark-timber-mat').then((s) => s?.colourMap)).toBe(false);
+  // The photographs average mid-grey and the vertex colours are lifted to meet them, so the failed map is
+  // replaced by a flat mid-grey (a diffuse colour alone would leave the light and the glow unscaled).
+  expect(await state('landmark-timber-mat')).toMatchObject({
+    colourMap: false,
+    midGrey: true,
+    diffuse: [1, 1, 1],
+  });
+  // Only the failed map is dropped: its normal map and every other surface keep theirs.
+  expect((await state('landmark-timber-mat'))?.normalMap).toBe(true);
+  expect(await state('landmark-shingle-mat')).toMatchObject({
+    colourMap: true,
+    midGrey: false,
+    normalMap: true,
+    diffuse: [1, 1, 1],
+  });
+  expect(warnings.some((w) => w.includes('timber') && w.includes('without its color map'))).toBe(true);
+});
+
+// Timber colour, read from the scene's own canvas. page.screenshot has to ask the compositor for a fresh frame, which
+// cost 20-40s each on one slow core and put this test past its time; here the canvas is read inside the render
+// observer straight after a frame is drawn (the only moment a WebGL canvas can be read without preserveDrawingBuffer),
+// so each read costs the frame and no more, and a UI panel can never be mistaken for timber.
+//   hue: the mean colour of the timber-coloured pixels (orange-brown: red well over green, green over blue), so a part
+//        drawn too bright, too dark or black shows as a number.
+//   surface: the mean colour of exactly the timber material's pixels, found by drawing the view with the timber
+//        meshes shown and hidden and taking the pixels that differ. A hue filter would take in the shingle and other
+//        browns, and a failed texture is judged against the photograph on the same geometry.
+const FORT_CLIP = { x: 520, y: 320, width: 390, height: 220 };
+const SURFACE_CLIP = { x: 300, y: 180, width: 840, height: 520 };
+interface TimberRead {
+  readonly n: number;
+  readonly mean: [number, number, number];
+  readonly png: string;
+}
+const readTimber = (
+  page: Page,
+  clip: { x: number; y: number; width: number; height: number },
+  mode: 'hue' | 'surface',
+): Promise<TimberRead> =>
+  page.evaluate(
+    async ({ clip: area, mode: how }) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+      if (!scene || typeof scene !== 'object') throw new Error('no scene');
+      const after: unknown = Reflect.get(scene, 'onAfterRenderObservable');
+      const addOnce: unknown = after && typeof after === 'object' ? Reflect.get(after, 'addOnce') : undefined;
+      if (typeof addOnce !== 'function') throw new Error('no onAfterRenderObservable');
+      const canvas = document.getElementById('scene');
+      if (!(canvas instanceof HTMLCanvasElement)) throw new Error('no scene canvas');
+      const scratch = document.createElement('canvas');
+      scratch.width = area.width;
+      scratch.height = area.height;
+      const ctx = scratch.getContext('2d', { willReadFrequently: true });
+      if (!ctx) throw new Error('no 2d context');
+      const box = canvas.getBoundingClientRect();
+      const kx = canvas.width / box.width;
+      const ky = canvas.height / box.height;
+      const frame = (): Promise<Uint8ClampedArray> =>
+        new Promise((resolve) => {
+          addOnce.call(after, () => {
+            ctx.drawImage(
+              canvas,
+              (area.x - box.left) * kx,
+              (area.y - box.top) * ky,
+              area.width * kx,
+              area.height * ky,
+              0,
+              0,
+              area.width,
+              area.height,
+            );
+            resolve(ctx.getImageData(0, 0, area.width, area.height).data);
+          });
+        });
+      const shown = await frame();
+      const png = scratch.toDataURL('image/png').split(',')[1] ?? '';
+      const sum = [0, 0, 0];
+      let n = 0;
+      const add = (d: Uint8ClampedArray, i: number): void => {
+        n++;
+        for (const k of [0, 1, 2]) sum[k] = (sum[k] ?? 0) + (d[i + k] ?? 0);
+      };
+      if (how === 'hue') {
+        for (let i = 0; i < shown.length; i += 4) {
+          const r = shown[i] ?? 0;
+          const g = shown[i + 1] ?? 0;
+          const b = shown[i + 2] ?? 0;
+          if (r > g * 1.3 && r > b * 2) add(shown, i);
+        }
+      } else {
+        const find: unknown = Reflect.get(scene, 'getMaterialByName');
+        const mat: unknown = typeof find === 'function' ? find.call(scene, 'landmark-timber-mat') : undefined;
+        const meshes: unknown = Reflect.get(scene, 'meshes');
+        if (!mat || !Array.isArray(meshes)) throw new Error('no timber material or scene meshes');
+        const setTimber = (on: boolean): void => {
+          for (const mesh of meshes)
+            if (mesh && typeof mesh === 'object' && Reflect.get(mesh, 'material') === mat)
+              Reflect.set(mesh, 'isVisible', on);
+        };
+        setTimber(false);
+        // The first frame after the change is the one that draws it; the second is the one read, in case an effect lags.
+        await frame();
+        const hidden = await frame();
+        setTimber(true);
+        for (let i = 0; i < shown.length; i += 4) {
+          const diff =
+            Math.abs((shown[i] ?? 0) - (hidden[i] ?? 0)) +
+            Math.abs((shown[i + 1] ?? 0) - (hidden[i + 1] ?? 0)) +
+            Math.abs((shown[i + 2] ?? 0) - (hidden[i + 2] ?? 0));
+          if (diff > 10) add(shown, i);
+        }
+      }
+      const mean: [number, number, number] = [(sum[0] ?? 0) / n, (sum[1] ?? 0) / n, (sum[2] ?? 0) / n];
+      return { n, mean, png };
+    },
+    { clip, mode },
+  );
+
+const timberMean = async (page: Page, shotName: string): Promise<[number, number, number]> => {
+  const got = await readTimber(page, FORT_CLIP, 'hue');
+  keepShot(shotName, got.png);
+  if (got.n < 2000)
+    throw new Error(`only ${String(got.n)} timber-coloured pixels: the forts are not in the clip`);
+  return got.mean;
+};
+
+const keepShot = (name: string, png: string): void => {
+  mkdirSync('test-results', { recursive: true });
+  writeFileSync(`test-results/${name}`, Buffer.from(png, 'base64'));
+};
+
+const timberSurfaceMean = (page: Page): Promise<TimberRead> => readTimber(page, SURFACE_CLIP, 'surface');
+
+test('a part whose texture failed is drawn as the photograph draws it, within 3% a channel, and near the palette', async ({
+  page,
+}) => {
+  const loadForts = async (query: string, ready_: string): Promise<void> => {
+    await page.goto(`./?debug&quality=high&place=roman-forts&year=84&radius=45${query}`);
+    await ready(page);
+    await expect(page.locator('.debug')).toContainText(ready_, { timeout: 90_000 });
+    await cameraSettled(page);
+    await framesRendered(page, 3);
+  };
+  // Failed: the timber's colour map is aborted, so it is the flat grey in its place.
+  await page.route('**/timber-color-1024.webp', (route) => route.abort());
+  await loadForts('', 'roman-fort-b=glb:near');
+  const blockedHue = await timberMean(page, 'roman-forts-84-timber-map-failed.png');
+  const failed = await timberSurfaceMean(page);
+
+  // The same framing with the photograph: a failed map must leave the timber where the photograph does.
+  await page.unroute('**/timber-color-1024.webp');
+  await loadForts('', 'roman-fort-b=glb:near');
+  const photo = await timberSurfaceMean(page);
+  expect(failed.n, 'timber pixels with the map failed').toBeGreaterThan(1000);
+  expect(photo.n, 'timber pixels with the photograph').toBeGreaterThan(1000);
+  // The photograph averages mid-grey, so the two agree to under 1% on both GPU and SwiftShader; a fallback
+  // grey 20% off moves red by about 8% and 6%.
+  for (const i of [0, 1, 2]) {
+    const want = photo.mean[i] ?? 0;
+    expect(
+      Math.abs((failed.mean[i] ?? 0) - want) / want,
+      `channel ${String(i)}: failed ${failed.mean.map((v) => v.toFixed(1)).join('/')} vs photograph ${photo.mean.map((v) => v.toFixed(1)).join('/')}`,
+    ).toBeLessThanOrEqual(0.03);
+  }
+
+  // A loose check against the plans drawn from their palette (different geometry, so a wide margin): the
+  // colour a failed part should also be near, and not black.
+  await loadForts('&models=off', 'roman-fort-b=procedural:near');
+  const palette = await timberMean(page, 'roman-forts-84-models-off.png');
+  for (const i of [0, 1, 2]) {
+    const want = palette[i] ?? 0;
+    expect(
+      Math.abs((blockedHue[i] ?? 0) - want),
+      `channel ${String(i)}: blocked ${blockedHue.join('/')} vs palette ${palette.join('/')}`,
+    ).toBeLessThanOrEqual(Math.max(want * 0.15, 4));
+  }
+});
+
 // The card must not list detail that is not drawn: with the plans on screen it says so instead.
 async function expectNoKitsOnCard(page: Page): Promise<void> {
   const card = page.locator('.moment-parts');
@@ -2228,7 +2680,9 @@ test('switching to Low mid-session brings the procedural forts back and takes th
   await expect(tower.locator('[data-kit]')).toHaveCount(0);
   await expect(tower.locator('.moment-kits-off')).toContainText('simplified model is on screen');
   await graphics.getByRole('button', { name: 'High' }).click();
-  await expect(debug).toContainText('roman-fort-b=glb:near');
+  await expect(debug).toContainText('quality high');
+  // Coming back to High loads the models and their textures again, which at CI's ~1fps takes as long as the first load.
+  await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
   await expect(tower).toHaveJSProperty('open', true);
   await expect(tower.locator('[data-kit="post-tower-six"]')).toBeVisible();
 });

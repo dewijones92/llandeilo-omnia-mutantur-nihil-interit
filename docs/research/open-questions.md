@@ -54,6 +54,10 @@ for the next pass. Each note's own "Open questions" section has the full list an
 
 ## Gaps worth a dedicated pass
 
+- **The forts' surfaces** (2026-10-10, [fort-surfaces](fort-surfaces.md)): the timber species at Dinefwr and whether its
+  timbers were hewn or sawn; how long a turf face stayed bare and whether faces were grassed on purpose; any Roman-period
+  find of shingle or thatch in Wales (a search found none); the Laurieston paper's survey of grass-down laying read
+  against the 1899 Antonine Wall report directly. The new note has not had its independent check.
 - **Dinefwr Castle's fabric** (2026-10-10, for the Blender model): no source read gives any medieval height, the
   building stone, mortar, render or a roof covering, or the forms of the Lord Rhys's castle and the 1280s bailey
   buildings. The Cadw guidebook (Rees and Caple, 1999 and 2007), Colvin's *King's Works* (1963, pp. 641-4, the repair

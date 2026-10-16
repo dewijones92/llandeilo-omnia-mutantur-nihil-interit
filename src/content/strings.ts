@@ -61,6 +61,15 @@ export const STRINGS = {
     en: 'The simplified model is on screen, so the finer construction detail is not drawn.',
     cy: 'Y model symlach sydd ar y sgrin, felly nid yw’r manylion adeiladu manylach yn cael eu tynnu.',
   },
+  partSurfaces: {
+    en: 'What its surfaces show in the close-up model, and how it is known',
+    cy: 'Beth y mae ei arwynebau’n ei ddangos yn y model agos, a sut y’i gwyddys',
+  },
+  surfacePhoto: { en: 'Photograph standing in for it', cy: 'Ffotograff yn sefyll yn ei le' },
+  surfaceBy: { en: 'by', cy: 'gan' },
+  partTipHint: { en: 'Click to see how it is known', cy: 'Cliciwch i weld sut y’i gwyddys' },
+  partInfo: { en: 'About this part of the model', cy: 'Am y rhan hon o’r model' },
+  partTier: { en: 'How it is known', cy: 'Sut y’i gwyddys' },
   modelFinish: {
     en: 'Bevelled edges and shading are rendering, not evidence.',
     cy: 'Rendro yw’r ymylon wedi’u beflo a’r cysgodi, nid tystiolaeth.',

@@ -6,9 +6,9 @@ import type { Source } from '../domain/provenance.ts';
 import { listedAt, type FeaturePresence } from '../domain/state.ts';
 import { formatYear } from '../domain/time.ts';
 import { h } from './dom.ts';
-import { basisOf, provenanceBadge, sourceItems, TIER_ICON } from './provenance.ts';
+import { partBody } from './part-details.ts';
+import { provenanceBadge, TIER_ICON } from './provenance.ts';
 import type { LangStore } from './store.ts';
-import { kitInfo } from '../content/kits.ts';
 
 export class MomentCard {
   readonly el = h('article', { class: 'moment panel', 'aria-live': 'polite', hidden: true });
@@ -154,9 +154,6 @@ export class MomentCard {
 
   private partItem(p: Part, modelled: boolean): HTMLElement {
     const lang = this.store.lang;
-    const pr = p.provenance;
-    const note = pr ? basisOf(pr, lang) : null;
-    const list = pr ? sourceItems(pr, this.sources) : [];
     const item = h(
       'li',
       {},
@@ -164,51 +161,11 @@ export class MomentCard {
         'details',
         { 'data-part': p.id ?? '' },
         h('summary', {}, p.name?.[lang] ?? p.id ?? ''),
-        note ? h('p', {}, note) : null,
-        list.length ? h('ul', { class: 'moment-sources' }, ...list) : null,
-        modelled ? this.kitsOf(p) : this.kitsOff(p),
+        ...partBody(p, modelled, this.store, this.sources),
       ),
     );
     const details = item.querySelector('details');
     if (details && p.id !== undefined && this.reopen.has(p.id)) details.open = true;
     return item;
-  }
-
-  // On screen the simplified plan, not the model: say so rather than list detail that is not drawn.
-  private kitsOff(p: Part): HTMLElement | null {
-    if (!p.kits?.length) return null;
-    return h('p', { class: 'moment-kits-off' }, this.store.t('partKitsOff'));
-  }
-
-  // The construction details a Blender model draws on the part, each with its own tier (ADR 0053).
-  private kitsOf(p: Part): HTMLElement | null {
-    if (!p.kits?.length) return null;
-    const lang = this.store.lang;
-    return h(
-      'div',
-      { class: 'moment-kits' },
-      h('h5', {}, this.store.t('partKits')),
-      h(
-        'ul',
-        {},
-        ...p.kits.map((id) => {
-          const kit = kitInfo(id);
-          const basis = basisOf(kit.provenance, lang);
-          const sources = sourceItems(kit.provenance, this.sources);
-          return h(
-            'li',
-            { class: `tier-${kit.provenance.kind}`, 'data-kit': id },
-            h(
-              'b',
-              {},
-              `${TIER_ICON[kit.provenance.kind]} ${kit.name[lang]} (${this.store.t(kit.provenance.kind)})`,
-            ),
-            basis ? ` ${basis}` : null,
-            ...(sources.length ? [h('ul', { class: 'moment-sources' }, ...sources)] : []),
-          );
-        }),
-      ),
-      h('p', { class: 'moment-finish' }, this.store.t('modelFinish')),
-    );
   }
 }

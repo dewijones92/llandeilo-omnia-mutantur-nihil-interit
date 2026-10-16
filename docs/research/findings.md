@@ -59,6 +59,14 @@ because of it. The detail and sources are in each note; this is the summary a ne
   together) to 125 and gone by 140. The settlement is drawn from 83 to 135; its pottery from about AD 70 shows
   earlier activity, not drawn as streets. Fort 1's measured ditch profiles (1.7m by 1.1m, 1.0m by 0.5m) are the
   south-west side's, from Trench 1; the south-east side's are drawn like them and marked not measured. Registration on the LiDAR is still open.
+- **What the forts' surfaces were, for the textured models (2026-10-10)** ([fort surfaces](fort-surfaces.md)). Turf blocks
+  measured in Roman fort ramparts are 0.03 to 0.15m high (Vindolanda 0.06 to 0.08m, Strageath's Flavian rampart 0.03
+  to 0.08m) and Vegetius gives half a Roman foot, about 0.15m: the turf kit's 0.3m courses, a guess, were twice the
+  largest, and are now 0.15m. Turves were often laid grass side down (Croy and Balmuildy Road on the Antonine Wall,
+  Vindolanda), not at Laurieston consistently either way, so the bank's faces are drawn as soil and only its walk as
+  grass, which is imagined (whether the top was grassed is not known). Oak is an analogy for the timber (Vindolanda's oak timbers; Pliny on oak shingles); daub was found
+  at the site, but its make-up and finish are reconstructed, and it is drawn bare (no limewash); what roofed the forts and the settlement stays imagined. Every texture is a
+  modern photograph standing in for the look, and says so in its ⓘ.
 - **The Llandeilo Gospels' "Surexit" note** is called "the earliest surviving document in the Welsh
   language", recorded at Llandeilo; the Cadfan Stone at Tywyn may be older as a text, and the note's
   exact date is debated. ([language](language-by-class.md))

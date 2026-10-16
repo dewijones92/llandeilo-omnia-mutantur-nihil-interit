@@ -10,7 +10,16 @@ import {
   type LandmarkModel,
   type ModelLevel,
 } from '../../src/domain/buildsheet.ts';
-import { glbCounts, readGlb, writeGlb, type Glb } from './glb.ts';
+import {
+  drawGroups,
+  glbCounts,
+  readGlb,
+  withByteColours,
+  writeGlb,
+  type Glb,
+  type GlbJson,
+  type GlbNode,
+} from './glb.ts';
 import { inputHash, ROOT, SCRIPT, sheets } from './sheets.ts';
 
 const BUILD = join(ROOT, 'build/models');
@@ -123,6 +132,11 @@ function finish(sheet: BuildSheet, level: LevelName): void {
       );
     if (seen.has(part)) throw new Error(`${sheet.feature} ${level}: part ${part} appears twice`);
     seen.add(part);
+    const surfaces = level === 'near' ? surfacesIn(raw.json, node) : undefined;
+    if (surfaces && [...surfaces].sort().join() !== [...p.surfaces].join())
+      throw new Error(
+        `${sheet.feature} ${level}: part ${part} shows ${surfaces.join(',')}, its sheet ${p.surfaces.join(',')}`,
+      );
     node.extras = {
       part: p.id,
       tier: p.tier,
@@ -130,9 +144,13 @@ function finish(sheet: BuildSheet, level: LevelName): void {
       detail: p.detail,
       kits: p.kits,
       fit: p.fit,
+      ...(surfaces ? { surfaces } : {}),
       ...(p.hinge ? { hinge: p.hinge } : {}),
     };
   }
+  // The app supplies the materials (ADR 0055): each part's surfaces, in primitive order, are all a glb keeps of them.
+  for (const mesh of raw.json.meshes ?? []) for (const prim of mesh.primitives) delete prim.material;
+  delete raw.json.materials;
   if (!probe) throw new Error(`${sheet.feature} ${level}: no probe`);
   const want = sheet.levels[level];
   const missing = want.filter((id) => !seen.has(id));
@@ -151,7 +169,7 @@ function finish(sheet: BuildSheet, level: LevelName): void {
     blender: raw.json.asset.generator ?? 'unknown',
     blenderVersion: blenderNow,
   };
-  const done: Glb = { json: raw.json, bin: raw.bin };
+  const done: Glb = withByteColours({ json: raw.json, bin: raw.bin });
   const bytes = writeGlb(done);
   writeFileSync(published(sheet.feature, level), bytes);
   const counts = glbCounts(raw.json);
@@ -160,19 +178,27 @@ function finish(sheet: BuildSheet, level: LevelName): void {
   );
 }
 
+/** The surface of each of a part node's primitives, in order, from the material Blender named for it. */
+function surfacesIn(json: GlbJson, node: GlbNode): string[] {
+  if (node.mesh === undefined) throw new Error(`node ${node.name ?? '?'} has no mesh`);
+  return (json.meshes?.[node.mesh]?.primitives ?? []).map((prim) => {
+    const name = prim.material === undefined ? undefined : json.materials?.[prim.material]?.name;
+    if (!name) throw new Error(`node ${node.name ?? '?'} has a primitive with no surface material`);
+    return name;
+  });
+}
+
 function levelOf(sheet: BuildSheet, level: LevelName): ModelLevel {
   const file = published(sheet.feature, level);
   const bytes = readFileSync(file);
   const { json } = readGlb(bytes);
   const counts = glbCounts(json);
   const parts = json.nodes.filter((n) => typeof n.extras?.['part'] === 'string');
-  const hinged = parts.filter((n) => n.extras?.['hinge'] !== undefined).length;
   return {
     file: modelFile(sheet.feature, level),
     bytes: bytes.byteLength,
     triangles: counts.triangles,
-    // What the app draws it with: every part merged into one mesh, and each hinged part on its own.
-    drawCalls: (parts.length > hinged ? 1 : 0) + hinged,
+    drawCalls: drawGroups(json),
     parts: parts.length,
   };
 }

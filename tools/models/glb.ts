@@ -1,4 +1,5 @@
 // Reading and writing the binary glTF container, and the few fields of its JSON the pipeline and its tests use.
+import { isTextured } from '../../src/domain/surfaces.ts';
 
 export interface GlbNode {
   readonly name?: string;
@@ -15,16 +16,24 @@ export interface GlbJson {
   readonly asset: { readonly version: string; generator?: string };
   readonly nodes: GlbNode[];
   readonly meshes?: readonly {
-    readonly primitives: readonly {
+    readonly primitives: {
       readonly indices?: number;
-      readonly attributes?: { readonly POSITION?: number };
+      readonly attributes?: { readonly POSITION?: number; readonly COLOR_0?: number };
+      material?: number;
     }[];
   }[];
+  materials?: readonly { readonly name?: string }[];
   readonly accessors?: readonly {
     readonly count: number;
     readonly min?: readonly number[];
     readonly max?: readonly number[];
+    readonly bufferView?: number;
+    readonly byteOffset?: number;
+    componentType?: number;
+    readonly normalized?: boolean;
   }[];
+  readonly bufferViews?: { byteOffset?: number; byteLength: number; readonly byteStride?: number }[];
+  readonly buffers?: { byteLength: number }[];
   readonly scenes?: { extras?: Record<string, unknown> }[];
   readonly [key: string]: unknown;
 }
@@ -88,7 +97,80 @@ export function writeGlb(glb: Glb): Uint8Array {
   return out;
 }
 
-/** Triangles and draw calls (primitives) in the file: what the budgets count. */
+const UNSIGNED_BYTE = 5121;
+const UNSIGNED_SHORT = 5123;
+const SHORT_TO_BYTE = 255 / 65535;
+
+/**
+ * The same file with its vertex colours as bytes rather than Blender's 16-bit numbers: half the colour data, and a
+ * byte per channel is finer than a flat face colour needs; the grain code in the alpha survives (src/domain/texturing.ts).
+ */
+export function withByteColours(glb: Glb): Glb {
+  const json = glb.json;
+  const accessors = json.accessors ?? [];
+  const views = json.bufferViews ?? [];
+  const colour = new Set<number>();
+  for (const m of json.meshes ?? [])
+    for (const prim of m.primitives) {
+      const i = prim.attributes?.COLOR_0;
+      const a = i === undefined ? undefined : accessors[i];
+      if (a?.componentType === UNSIGNED_SHORT && a.normalized && a.bufferView !== undefined && !a.byteOffset)
+        colour.add(i ?? -1);
+    }
+  const convertViews = new Set([...colour].map((i) => accessors[i]?.bufferView ?? -1));
+  for (const v of convertViews)
+    if (views[v]?.byteStride !== undefined)
+      throw new Error('a colour buffer view with a stride is not handled');
+  const chunks: Uint8Array[] = [];
+  let at = 0;
+  views.forEach((view, i) => {
+    const from = view.byteOffset ?? 0;
+    let data = glb.bin.subarray(from, from + view.byteLength);
+    if (convertViews.has(i)) {
+      const shorts = new DataView(data.buffer, data.byteOffset, data.byteLength);
+      data = Uint8Array.from({ length: data.byteLength / 2 }, (_, k) =>
+        Math.round(shorts.getUint16(k * 2, true) * SHORT_TO_BYTE),
+      );
+    }
+    view.byteOffset = at;
+    view.byteLength = data.byteLength;
+    chunks.push(data);
+    const pad = (4 - (data.byteLength % 4)) % 4;
+    if (pad) chunks.push(new Uint8Array(pad));
+    at += data.byteLength + pad;
+  });
+  for (const i of colour) {
+    const a = accessors[i];
+    if (a) a.componentType = UNSIGNED_BYTE;
+  }
+  const bin = new Uint8Array(at);
+  let k = 0;
+  for (const c of chunks) {
+    bin.set(c, k);
+    k += c.byteLength;
+  }
+  const buffer = json.buffers?.[0];
+  if (buffer) buffer.byteLength = at;
+  return { json, bin };
+}
+
+/** The meshes the app draws a level with (ADR 0055): one per textured surface and one for every untextured face, for the merged parts and again for each hinged part on its own. */
+export function drawGroups(json: GlbJson): number {
+  const key = (s: unknown): string => (typeof s === 'string' && isTextured(s) ? s : 'flat');
+  const merged = new Set<string>();
+  let hinged = 0;
+  for (const n of json.nodes) {
+    const e = n.extras;
+    if (typeof e?.['part'] !== 'string') continue;
+    const surfaces: unknown = e['surfaces'];
+    const keys = new Set(Array.isArray(surfaces) && surfaces.length ? surfaces.map(key) : ['flat']);
+    if (e['hinge'] !== undefined) hinged += keys.size;
+    else for (const k of keys) merged.add(k);
+  }
+  return merged.size + hinged;
+}
+
+/** Triangles and primitives in the file. */
 export function glbCounts(json: GlbJson): { readonly triangles: number; readonly drawCalls: number } {
   let triangles = 0;
   let drawCalls = 0;
