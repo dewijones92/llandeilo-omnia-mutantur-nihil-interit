@@ -1586,3 +1586,44 @@ brief; findings treated as hypotheses and checked first; all confirmed). Claude,
     skipped (15.5 minutes). Screenshots re-taken on the GPU and looked at: the issue's framing at AD 74, 84 and 110
     and Fort 1's barracks at AD 74 before (main) and after, both replaced in `docs/images/roman-forts/terraces/`.
 12. **The reviewer's housekeeping note** (it deleted three of another agent's scratch files) needs no code change.
+
+**The terraces track, second review pass and Dewi's decision, 2026-10-16** (ADR 0056, amended). Dewi's decision on the
+castles: "One rule for all", so the seating rule stays for every building, no exemption.
+
+13. **The fort e2e read recorded floors, not drawn geometry** (IMPORTANT, done). A reviewer's mutants stayed green: **M1**,
+    `hall()` drawing at its centre's ground while still recording the seat, and **M3**, `appendFitted` placing a rigid
+    part's vertices at the ground under its own point while recording `standOn`. A recorded floor is a claim about what
+    was drawn, not the drawing. The e2e now reads each part's floor off the vertices: `columnTops` (pure, in
+    `src/domain/plot.ts`, unit-tested) takes the highest vertex within 0.1m of each footprint corner in the part's
+    triangle run (`Drawn.runs`, filled by `buildPlan`; the model's `PartRun`s), and `floorFromTops` takes the lowest
+    corner top less the wall's height (a merlon or post only ever raises a corner, so the minimum is the wall). A gate
+    leaf turns on its hinge, so its top is its highest vertex. A 0.3m radius first read every vicus house 0.30m high:
+    the thatch's eave lies that near a corner; at 0.1m the drawn floor equals the recorded one to 1e-5m for all 85
+    standing parts. The test fails if a drawn floor differs from its record by 0.1m, and its "none sunk" check uses the
+    drawn floor. **Seen red**: M1 (a wall drawn 0.48m under in Fort 2 and 1.64m in the vicus against 0.4, and a 0.38m gap between
+    the drawn and recorded floor in Fort 1 against 0.1), M3 (the model's rigid parts 0.57, 0.63, 1.64m under), and
+    the one-point seat put back inside `seatIn` (0.57, 0.63, 1.64m), each failing at the assertion it names; the
+    mutants were reverted and the diff checked. Lesson: **an assertion over a value the code under test wrote is
+    checking the code against itself; read the artefact.**
+14. **The plots' batter was one cell** (SUGGESTION, done). At 1.25m the mesh drew each plot's end as a single steep dark
+    facet, and the review's close shots at a radius of 16m showed slivers and patchy ramps. At 4m a small sliver
+    remained at each plot's end; at **8m, two cells**, it is a ramp: the deepest wall under the mesh is 0.06m (Fort 1),
+    0.12m (Fort 2) and 0.10m (vicus). The street between barracks is 8.5m, so the two plots' eases cross in it; the
+    margin stays 3m. Looked at on the GPU at the issue's framing (AD 74, 84, 110) and close to Fort 1's south-west
+    barracks at AD 74, before (main at 5c29017) and after, at the same camera.
+15. **Dryslwyn's hall block shows a façade about a storey taller than its plan** (SUGGESTION, done, as Dewi chose to keep
+    one rule). Every Dryslwyn plan's ⓘ now says, in both languages (`SLOPE_SEATING`, `withNote`), that a downhill
+    wall's extra height comes from how the app draws the slope (hills 2.4 times, the castle larger than life), not from
+    the sources. Dryslwyn at 1290, before and after, is in `docs/images/roman-forts/terraces/`. Carreg Cennen (4.56m of
+    ground lifted), Talley (3.98m) and Aberglasney (6.05m) are lifted the same way and do not carry the note yet.
+16. **Hedges** (SUGGESTION, done): the research note's table now reads "levelling is *possibly* evidenced once", S26
+    (Birdoswald, an encyclopedia's summary of a guidebook) is a lead and no longer one of the "independent sources",
+    and the terrace ⓘ no longer names Birdoswald at all (a test pins it); the ADR's Context says the same.
+17. **Result.** After merging main at 5c29017 (the CI picking-test fix), the three part-picking and texture smoke tests that
+    failed under CI settings pass. `npm run check` green (630 unit tests). The full e2e on the GPU through WSL, one
+    worker: 91 passed, 1 skipped, and 1 failed at start-up with `net::ERR_NETWORK_CHANGED` on `roads.json` (the laptop's
+    network, not the app; the test passed alone on the rerun) in 27 minutes. The full e2e under CI settings
+    (`CI=1 E2E_QUALITY=low E2E_GPU=0 E2E_WORKERS=1`, after `npx vite build` with `PAGES_BASE`): 93 passed in 29.4 minutes. Screenshots
+    re-taken on the GPU and looked at: the issue's framing at AD 74, 84 and 110, Fort 1's south-west barracks at AD 74
+    before (main) and after at the same camera, and Dryslwyn at 1290 before and after, all in
+    `docs/images/roman-forts/terraces/`.

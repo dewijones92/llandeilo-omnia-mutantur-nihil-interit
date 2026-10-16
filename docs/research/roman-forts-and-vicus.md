@@ -534,7 +534,7 @@ with its ramparts running along the crest of the flanking ridges" [S2], so its m
 |---|---|---|
 | "Both forts appear to have utilised a relatively flat toped ridge with the long axis of the forts orientated along the line of the ridge" | Discussion, p30 | The excavator's reading of the site as a whole: flat-topped, not flat. |
 | Fort 2's rear gate "corresponds with the highest point of the fort and a second slightly lower knoll corresponds with the location of the porta praetoria. The remaining area of the fort is laid out on more level ground along the top of a low ridge"; "the layout of the fort appears to follow conventional lines" | Geophysics, p9 | Fort 2's rear on the high point is the textbook siting (Hyginus, below). |
-| "The overlying deposits of silty-clay (2022 and 1012) possibly represent levelling deposits, preparing the site for the construction of the later fort (Fort 2)"; layer 2012 is "up to 0.4m deep", over a Fort 1 ditch | Trench 2, p11 | **Levelling is evidenced once**: in one 20m by 6m trench, "possibly", for Fort 2. Nothing says how far it reached. |
+| "The overlying deposits of silty-clay (2022 and 1012) possibly represent levelling deposits, preparing the site for the construction of the later fort (Fort 2)"; layer 2012 is "up to 0.4m deep", over a Fort 1 ditch | Trench 2, p11 | **Levelling is possibly evidenced once**: in one 20m by 6m trench, "possibly", for Fort 2. Nothing says how far it reached. |
 | Two post-pits "were cut from a slightly higher level (ie through the overlying layer 1046 ...)"; the outer ditch "was surprisingly shallow ... it is possible that it was originally cut from a higher level (as was clearly the case with at lest two of the square post-pits)" | Trench 1, p10-11 | The Roman surface at Fort 1's south-west gate was higher than the level most features were seen at: up to 0.3m of layer 1046 lay over it, under 0.3m of ploughsoil. |
 | "The ploughsoil (3000) was up to 0.3m thick and overlay weathered shale bedrock (3003)", into which the building trenches are cut | Trench 3, p12 | Fort 1's barrack-like foundations survive only as slots in the bedrock: the floors and the ground they stood on are gone. |
 | A road surface "that has subsequently been ploughed away"; "a series of plough marks (4020) cutting the underlying shale bedrock"; ploughsoil 0.25m to 0.55m in Trench 4, from "the significant slope down from the south to the north" | Trenches 2, 4/5 | Ploughing has cut into the bedrock in places. |
@@ -571,11 +571,12 @@ real, though: 3.6m along a 50m timber building is not something a builder could 
 | Birdoswald (Hadrianic) | "The area South of the via principalis to the Southern gate was a lower area, meaning all buildings in this section needed to be terraced up" | S26 (Wikipedia, citing T. Wilmott's English Heritage guidebook, 2nd ed. 2025) | **one source**, an encyclopedia's summary: a lead |
 | Cardiff (late Roman fort) | "It is possible that in the 2nd or 3rd century that this slope may have been terraced along the line of the north-south road" (Webster 1981b) | S31 | one source, "possible" |
 
-(Review 2026-10-16: the terrace ⓘ cites only S1, S27 and S28; S26 and S29 are encyclopedia summaries, leads and not
-sources, and are named so in the ⓘ.)
+(Review 2026-10-16: the terrace ⓘ cites only S1, S27 and S28. S26 and S29 are encyclopedia summaries, leads and not
+sources; Birdoswald (S26) was named as a lead in the ⓘ and is now left out of it until its guidebook is read.)
 
 So the general practice, **levelling and building up the ground for barracks and other works**, is supported
-by independent sources (S27; S28 with S29; S26). **A terrace cut under each barrack of an early timber fort on a
+by independent sources (S27; S28 with S29). S26 (Birdoswald, an encyclopedia's summary of a guidebook) is a lead,
+not a source: no one has read the guidebook. **A terrace cut under each barrack of an early timber fort on a
 slope is not demonstrated by any source read**, at Dinefwr or elsewhere. It is drawn as analogy, each plot
 labelled reconstructed.
 
