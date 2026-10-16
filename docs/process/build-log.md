@@ -1386,3 +1386,25 @@ seconds: an agent's local GPU-kit run held `~/.cache/llandeilo-gpu.lock`. `tools
 `GPU_LOCK_WAIT` seconds (CI sets 1800). Checked both ways with the lock held by hand: a 2s wait fails with
 "still holds … after 2s" (exit 2), and a 60s wait logged "lock acquired" after 9s and then passed its 8 GPU
 tests on WebGPU ([ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md), amended).
+
+**Final second-Opus review of the textured models, 2026-10-10.** Two IMPORTANT findings, both checked first.
+
+1. **A failed texture drew the part about 20% too bright.** The fallback set the material's diffuse colour to the
+   photographs' mean (0.5), but Babylon scales the light and the emissive glow by the texture too and only the
+   vertex colour had been doubled, so the part came out at 115/75/28 against the palette's 94/60/20 (the timber-
+   coloured pixels of the forts at AD 84, radius 45). The e2e only read the material's fields, so it passed. The
+   fallback is now one shared 1x1 mid-grey texture and the diffuse colour stays white; the test compares the
+   failed part's on-screen colour with `?models=off` at the same framing. Seen red at the ratio (1.23 on red)
+   before the fix, green after (94/62/22). Lesson: **check a fallback by what is drawn, not by the fields that
+   should draw it.**
+2. **The timber ⓘ overstated its evidence.** "Vindolanda's excavated timbers are oak" came from a tree-ring
+   report, which samples oak by method and says nothing of the site's other woods, and the Castell Henllys house
+   is a modern rebuild of an Iron Age house. Reworded in both languages, and the note now says one line of
+   evidence from a method that favours oak, plus one analogy. Hanson (1978), the Elginhaugh report and the
+   Carlisle reports could not be read (paywalled or refused), so they are listed as unread and not cited; a
+   search summary says alder, not oak, dominates Carlisle's small roundwood, kept as an uncited lead.
+
+Smaller: the Antonine Wall Report (1899) was never read, so the turf faces cite the 2022 paper that cites it, not
+the report; Vegetius's half-foot turf is for a marching camp's bank, and the turf face and kit say so; ADR 0055's
+texture sizes are corrected to the files' (2,442,864 and 551,648 bytes) and it records that mipmaps cannot cure the
+turf steps' striping, with the normal map's level as the lever if it shimmers in motion.

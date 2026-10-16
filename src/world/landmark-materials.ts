@@ -1,4 +1,4 @@
-import { Color3, Texture, type Scene, type StandardMaterial } from './babylon.ts';
+import { Color3, DynamicTexture, Texture, type Scene, type StandardMaterial } from './babylon.ts';
 import { SURFACES } from '../content/surfaces.ts';
 import { DETAIL_MEAN } from '../domain/texturing.ts';
 import { textureFile, type TexturedSurface, type TextureSize } from '../domain/surfaces.ts';
@@ -13,6 +13,7 @@ const ANISOTROPY = 8;
  */
 export class LandmarkMaterials {
   private readonly made = new Map<TexturedSurface, StandardMaterial>();
+  private fallback: DynamicTexture | undefined;
 
   constructor(
     private readonly scene: Scene,
@@ -74,13 +75,32 @@ export class LandmarkMaterials {
     const bump = map('normal');
     bump.level = s.look.relief;
     mat.bumpTexture = bump;
-    for (const t of old) t?.dispose();
+    for (const t of old) if (t !== this.fallback) t?.dispose();
   }
 
   /**
-   * A map that did not load is taken off its material, because Babylon draws a failed texture black. Without
-   * the colour map the vertex colours, which were lifted to meet it, meet a diffuse colour of the same mean
-   * instead, so the part shows its flat palette colour rather than a silhouette.
+   * One 1x1 mid-grey standing in for a colour map that did not load. A material's colour (the light and the
+   * emissive glow as well as the vertex colour) is multiplied by its texture, and the vertex colours were
+   * lifted by 1/DETAIL_MEAN to meet a photograph averaging DETAIL_MEAN, so a plain diffuse colour would
+   * draw the part too bright; a grey of that same mean scales everything back to the palette colour.
+   */
+  private midGrey(): DynamicTexture {
+    if (this.fallback) return this.fallback;
+    const t = new DynamicTexture('landmark-detail-mean', { width: 1, height: 1 }, this.scene, false);
+    const ctx = t.getContext();
+    const grey = Math.round(DETAIL_MEAN * 255);
+    ctx.fillStyle = `rgb(${String(grey)},${String(grey)},${String(grey)})`;
+    ctx.fillRect(0, 0, 1, 1);
+    t.update(false);
+    t.gammaSpace = false;
+    this.fallback = t;
+    return t;
+  }
+
+  /**
+   * A map that did not load is taken off its material, because Babylon draws a failed texture black. The colour
+   * map is replaced by a flat grey of the photographs' mean, so the part shows its palette colour rather than a
+   * silhouette or a colour too bright.
    */
   private dropFailed(
     surface: TexturedSurface,
@@ -89,8 +109,7 @@ export class LandmarkMaterials {
     t: Texture,
   ): void {
     if (kind === 'color' && mat.diffuseTexture === t) {
-      mat.diffuseTexture = null;
-      mat.diffuseColor = new Color3(DETAIL_MEAN, DETAIL_MEAN, DETAIL_MEAN);
+      mat.diffuseTexture = this.midGrey();
     } else if (kind === 'normal' && mat.bumpTexture === t) mat.bumpTexture = null;
     else return;
     t.dispose();

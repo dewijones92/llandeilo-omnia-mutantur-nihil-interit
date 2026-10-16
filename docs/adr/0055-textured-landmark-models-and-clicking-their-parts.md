@@ -56,8 +56,11 @@ the train follow or a cutscene.
    the building material's own settings (`solidMaterial`), so night dimming, fog, shadows and lamps treat a textured
    part as its fallback. The colour map is read as linear data (it is a detail map, not a colour); Babylon clamps a
    material's diffuse colour before it meets the texture, so the factor of two is in the vertex colour
-   (`DETAIL_MEAN`). A map that fails to load is dropped from its material and the diffuse colour set to that same
-   mean, so the part keeps its palette colour (Babylon would draw a failed texture black). High uses the 1024 maps, Medium the 512 (`TEXTURE_SIZE`), swapped when the graphics level
+   (`DETAIL_MEAN`). A colour map that fails to load is dropped from its material and one shared 1x1 mid-grey (the same mean) put in
+   its place, so the part keeps its palette colour (Babylon would draw a failed texture black). A diffuse colour of
+   that mean was tried first and drew the part about 20% too bright on screen: Babylon scales the light and the
+   emissive glow by the texture too, and only the vertex colour had been lifted, so the grey has to be a texture.
+   A test compares the failed part's on-screen colour with `?models=off` at the same framing. High uses the 1024 maps, Medium the 512 (`TEXTURE_SIZE`), swapped when the graphics level
    changes; Low draws the procedural plan as before. The far level is unchanged: flat palette, the building material.
 4. **The script says which way a texture runs; the app works out the coordinates.** Each near face gets a grain,
    UPRIGHT (up a wall, up a roof's slope) or LENGTHWISE (along a post, a board, a beam: its longest edge), written into
@@ -94,7 +97,7 @@ the train follow or a cutscene.
 - **Sizes** (2026-10-10): near glbs 1,293,492 bytes (Fort 1), 948,852 (Fort 2) and 140,724 (the settlement), against
   1,201,844, 896,372 and 151,592 before; Fort 1 has 80,834 triangles (69,074 before) and Fort 2 59,028 (51,188),
   because the turf courses halved to 0.15m; the far levels are a little smaller (byte colours). Textures:
-  2.50MB to download at High, 0.57MB at Medium; on the GPU 12 maps × 1024² × 4 bytes with mipmaps is about 67MB at
+  2,442,864 bytes to download at High (2.44MB), 551,648 at Medium (0.55MB); on the GPU 12 maps × 1024² × 4 bytes with mipmaps is about 67MB at
   High and 17MB at Medium, under the 256MB budget. Fort 2's near model draws in 13 calls (five surfaces and eight
   leaves), so the near budget is 16, not 12: the design note's 12 was "one per material, plus hinged parts" and
   assumed fewer of each.
@@ -103,7 +106,8 @@ the train follow or a cutscene.
   down as at Vindolanda and on the Antonine Wall; only the walk on top is grassed. The first textured build drew every
   step grassed, and at the app's viewing distances 0.15m steps alternating green and brown shimmered; soil faces
   take the colour contrast out, but the steps themselves still alias at 100m and beyond (a fine grid, most visible on
-  the shaded side), because the 0.15m course is a sourced figure and is not coarsened to hide it. The faces take their
+  the shaded side), because the 0.15m course is a sourced figure and is not coarsened to hide it. No fix was made from stills (2026-10-10), which show no shimmer. Mipmaps cannot help: it is the geometry that stripes, not a texture; if it
+  shimmers in motion, fading the soil normal map's `bumpTexture.level` with distance is the lever. The faces take their
   own brown (`TURF_FACE`): the first build used the ditches' olive cut earth, which under the soil photograph read as
   a dark hedge, and the surface's detail and relief were lowered with it. The script holds no colour of its own for
   them.

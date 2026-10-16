@@ -56,9 +56,9 @@ export const SURFACES: Readonly<Record<TexturedSurface, Surface>> = {
   'turf-face': {
     name: { en: 'Turf: the faces of the courses', cy: 'Tyweirch: wynebau’r haenau' },
     provenance: reconstructed(
-      'The faces and set-back steps of the courses of turves, drawn as the turves’ soil: turves were often laid grass side down (on the Antonine Wall and at Vindolanda), and how soon a face grew over is not known. Turf blocks measured in Roman fort ramparts are 0.03 to 0.15m high; Vegetius gives half a Roman foot, about 0.15m, which the courses are drawn at. The texture is a modern photograph of an excavated soil face, standing in for the turves.',
-      'Wynebau a grisiau haenau’r tyweirch, wedi’u tynnu fel pridd y tyweirch: gosodid tyweirch yn aml â’r glaswellt i lawr (ar Fur Antoninus ac yn Vindolanda), ac ni wyddys pa mor fuan y tyfodd glaswellt dros wyneb. Mae blociau tyweirch a fesurwyd yn rhagfuriau caerau Rhufeinig rhwng 0.03 a 0.15m o uchder; mae Vegetius yn rhoi hanner troedfedd Rufeinig, tua 0.15m, a dyna uchder yr haenau a dynnir. Ffotograff modern o wyneb pridd wedi’i gloddio yw’r gwead, yn sefyll yn lle’r tyweirch.',
-      ['fort:S1', 'surfaces:S1', 'surfaces:S2', 'surfaces:S5'],
+      'The faces and set-back steps of the courses of turves, drawn as the turves’ soil: turves were often laid grass side down (on the Antonine Wall and at Vindolanda; the 1899 survey of the Wall is cited through the 2022 paper), and how soon a face grew over is not known. Turf blocks measured in Roman fort ramparts are 0.03 to 0.15m high; Vegetius gives half a Roman foot, about 0.15m, for the bank of a marching camp, which the courses are drawn at. The texture is a modern photograph of an excavated soil face, standing in for the turves.',
+      'Wynebau a grisiau haenau’r tyweirch, wedi’u tynnu fel pridd y tyweirch: gosodid tyweirch yn aml â’r glaswellt i lawr (ar Fur Antoninus ac yn Vindolanda; dyfynnir arolwg 1899 o’r Mur drwy bapur 2022), ac ni wyddys pa mor fuan y tyfodd glaswellt dros wyneb. Mae blociau tyweirch a fesurwyd yn rhagfuriau caerau Rhufeinig rhwng 0.03 a 0.15m o uchder; mae Vegetius yn rhoi hanner troedfedd Rufeinig, tua 0.15m, ar gyfer clawdd gwersyll gorymdeithio, a dyna uchder yr haenau a dynnir. Ffotograff modern o wyneb pridd wedi’i gloddio yw’r gwead, yn sefyll yn lle’r tyweirch.',
+      ['fort:S1', 'surfaces:S1', 'surfaces:S2'],
     ),
     photo: {
       title: 'Excavated Soil Wall',
@@ -73,8 +73,8 @@ export const SURFACES: Readonly<Record<TexturedSurface, Surface>> = {
   timber: {
     name: { en: 'Timber', cy: 'Pren' },
     provenance: reconstructed(
-      'Squared timber, probably oak. No timber survives at Dinefwr: the posts are known from their pipes and pits. Oak is an analogy: Vindolanda’s excavated timbers are oak, and oak was felled for a Castell Henllys rebuild. The texture is a modern photograph of weathered timber, tinted to the app’s timber colour.',
-      'Pren sgwâr, derw yn ôl pob tebyg. Nid oes pren wedi goroesi yn Ninefwr: o’u pibellau a’u pyllau y gwyddys am y pyst. Cymhariaeth yw derw: derw yw coed a gloddiwyd yn Vindolanda, a thorrwyd derw i ailgodi tŷ yng Nghastell Henllys. Ffotograff modern o bren wedi hindreulio yw’r gwead, wedi’i liwio â lliw pren yr ap.',
+      'Squared timber, probably oak. No timber survives at Dinefwr: the posts are known from their pipes and pits. Oak is an analogy: the Vindolanda timbers dated by tree-rings are oak (the method samples oak, and oak is only part of the wood found there), and a modern rebuild of an Iron Age house at Castell Henllys used oak. Neither is evidence for Dinefwr. The texture is a modern photograph of weathered timber, tinted to the app’s timber colour.',
+      'Pren sgwâr, derw yn ôl pob tebyg. Nid oes pren wedi goroesi yn Ninefwr: o’u pibellau a’u pyllau y gwyddys am y pyst. Cymhariaeth yw derw: derw yw’r coed yn Vindolanda a ddyddiwyd o’u cylchoedd blynyddol (mae’r dull yn samplu derw, a dim ond rhan o’r pren a gafwyd yno yw derw), a defnyddiodd ailgodiad modern o dŷ Oes yr Haearn yng Nghastell Henllys dderw. Nid yw’r naill na’r llall yn dystiolaeth ar gyfer Dinefwr. Ffotograff modern o bren wedi hindreulio yw’r gwead, wedi’i liwio â lliw pren yr ap.',
       ['fort:S1', 'surfaces:S4', 'ironage:S29'],
     ),
     photo: {

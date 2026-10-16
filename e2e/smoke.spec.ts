@@ -2381,7 +2381,41 @@ test('a cutscene takes an open part ⓘ away, and the veil with it', async ({ pa
   expect(errors).toEqual([]);
 });
 
-test('if one texture fails to load, the parts that use it are drawn in their palette colour, not black', async ({
+// The mean colour of the timber-coloured pixels (orange-brown: red well over green, green over blue) in the
+// forts' part of the screen, so a part drawn too bright, too dark or black shows as a number.
+const FORT_CLIP = { x: 520, y: 320, width: 390, height: 220 };
+const timberMean = async (page: Page): Promise<[number, number, number]> => {
+  const png = (await page.screenshot({ clip: FORT_CLIP })).toString('base64');
+  return page.evaluate(async (b64) => {
+    const img = new Image();
+    img.src = `data:image/png;base64,${b64}`;
+    await img.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('no 2d context');
+    ctx.drawImage(img, 0, 0);
+    const d = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    const sum = [0, 0, 0];
+    let n = 0;
+    for (let i = 0; i < d.length; i += 4) {
+      const r = d[i] ?? 0;
+      const g = d[i + 1] ?? 0;
+      const b = d[i + 2] ?? 0;
+      if (r > g * 1.3 && r > b * 2) {
+        sum[0] = (sum[0] ?? 0) + r;
+        sum[1] = (sum[1] ?? 0) + g;
+        sum[2] = (sum[2] ?? 0) + b;
+        n++;
+      }
+    }
+    if (n < 2000) throw new Error(`only ${String(n)} timber-coloured pixels: the forts are not in the clip`);
+    return [(sum[0] ?? 0) / n, (sum[1] ?? 0) / n, (sum[2] ?? 0) / n];
+  }, png);
+};
+
+test('if one texture fails to load, the parts that use it are drawn from a flat grey, not black, and keep every other map', async ({
   page,
 }) => {
   const warnings: string[] = [];
@@ -2403,25 +2437,65 @@ test('if one texture fails to load, the parts that use it are drawn in their pal
       const colour: unknown = Reflect.get(mat, 'diffuseColor');
       const channel = (c: string): number =>
         colour && typeof colour === 'object' ? Number(Reflect.get(colour, c)) : Number.NaN;
+      const map: unknown = Reflect.get(mat, 'diffuseTexture');
       return {
-        colourMap: Reflect.get(mat, 'diffuseTexture') !== null,
+        colourMap:
+          map !== null &&
+          !(map && typeof map === 'object' && Reflect.get(map, 'name') === 'landmark-detail-mean'),
+        midGrey:
+          map !== null && typeof map === 'object' && Reflect.get(map, 'name') === 'landmark-detail-mean',
         normalMap: Reflect.get(mat, 'bumpTexture') !== null,
         diffuse: [channel('r'), channel('g'), channel('b')],
       };
     }, name);
   await expect.poll(() => state('landmark-timber-mat').then((s) => s?.colourMap)).toBe(false);
-  // Detail maps average mid-grey and the vertex colours are lifted twice to meet them, so with no map the
-  // diffuse colour is the mean it was lifted by: the palette colour comes back.
-  expect(await state('landmark-timber-mat')).toMatchObject({ colourMap: false, diffuse: [0.5, 0.5, 0.5] });
+  // The photographs average mid-grey and the vertex colours are lifted to meet them, so the failed map is
+  // replaced by a flat mid-grey (a diffuse colour alone would leave the light and the glow unscaled).
+  expect(await state('landmark-timber-mat')).toMatchObject({
+    colourMap: false,
+    midGrey: true,
+    diffuse: [1, 1, 1],
+  });
   // Only the failed map is dropped: its normal map and every other surface keep theirs.
   expect((await state('landmark-timber-mat'))?.normalMap).toBe(true);
   expect(await state('landmark-shingle-mat')).toMatchObject({
     colourMap: true,
+    midGrey: false,
     normalMap: true,
     diffuse: [1, 1, 1],
   });
   expect(warnings.some((w) => w.includes('timber') && w.includes('without its color map'))).toBe(true);
+});
+
+test('a part whose texture failed is drawn in the colour ?models=off draws it, not brighter', async ({
+  page,
+}) => {
+  await page.route('**/timber-color-1024.webp', (route) => route.abort());
+  await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
+  await ready(page);
+  await expect(page.locator('.debug')).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
+  await cameraSettled(page);
+  await page.waitForTimeout(1500);
+  const blocked = await timberMean(page);
   await page.screenshot({ path: 'test-results/roman-forts-84-timber-map-failed.png' });
+
+  // The same framing with the plans drawn from their palette: the colour the failed part should show.
+  await page.unroute('**/timber-color-1024.webp');
+  await page.goto('./?debug&quality=high&models=off&place=roman-forts&year=84&radius=45');
+  await ready(page);
+  await expect(page.locator('.debug')).toContainText('roman-fort-b=procedural:near');
+  await cameraSettled(page);
+  await page.waitForTimeout(1500);
+  const palette = await timberMean(page);
+  await page.screenshot({ path: 'test-results/roman-forts-84-models-off.png' });
+  // Within 8% per channel, or 3 levels where a channel is small (the blue of timber is about 20).
+  for (const i of [0, 1, 2]) {
+    const want = palette[i] ?? 0;
+    expect(
+      Math.abs((blocked[i] ?? 0) - want),
+      `channel ${String(i)}: blocked ${blocked.join('/')} vs palette ${palette.join('/')}`,
+    ).toBeLessThanOrEqual(Math.max(want * 0.08, 3));
+  }
 });
 
 // The card must not list detail that is not drawn: with the plans on screen it says so instead.

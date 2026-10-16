@@ -30,8 +30,8 @@ well the material itself is known.
 | Surface | What it was | Tier | Evidence | Photograph standing in |
 |---|---|---|---|---|
 | Turf (the walk along the rampart's top) | Grass on the top of the bank | imagined | Dinefwr's turf rampart is inferred from the clay fill of Fort 1's inner ditch [fort:S1]; whether the top was grassed, trodden bare or surfaced is not known | A modern patch of dry grass and turf on soil |
-| Turf face (the faces and steps of the courses) | The soil of the turf blocks, in courses | reconstructed | As above; turf ramparts were built of courses of turf blocks [S1][S2], often laid grass side down, so a new face shows soil with dark lines of grass between courses [S1][S5] | A modern excavated soil face |
-| Timber (posts, beams, boards, planks, gate leaves) | Squared timber, probably oak | reconstructed | No timber survives at Dinefwr; post-pipes and post-pits show where timbers stood [fort:S1]. Vindolanda's excavated timbers are oak [S4], and so were the trees felled for a Castell Henllys rebuild [ironage:S29]; neither is evidence for Dinefwr | Weathered, cracked timber |
+| Turf face (the faces and steps of the courses) | The soil of the turf blocks, in courses | reconstructed | As above; turf ramparts were built of courses of turf blocks [S1][S2], often laid grass side down, so a new face shows soil with dark lines of grass between courses [S1] | A modern excavated soil face |
+| Timber (posts, beams, boards, planks, gate leaves) | Squared timber, probably oak | reconstructed | No timber survives at Dinefwr; post-pipes and post-pits show where timbers stood [fort:S1]. The Vindolanda timbers dated by tree-rings are oak [S4], a method that samples oak, so it says little of the site's other woods; a modern rebuild of an Iron Age house at Castell Henllys used oak [ironage:S29]; both are analogy, and neither is evidence for Dinefwr | Weathered, cracked timber |
 | Shingle (the forts' roofs) | Split timber shingles | imagined | No roof material is evidenced at Dinefwr [fort:S1]; shingle is the kit's choice. If shingles, oak: Pliny calls oak the best wood for them, and says Rome was roofed with shingles for 470 years [S3] | Weathered grey boards, their joints standing for the gaps between shingles in a course |
 | Daub (the barracks' and houses' walls) | Clay daub on wattle, unrendered | reconstructed (daub was found on the site, which is documented; what it was made of and its finish are not) | Daub with wattle impressions was found on the site [fort:S1]; daub of clay, straw and dung at Castell Henllys [ironage:S30]; no limewash evidenced (ADR 0046) | A modern, rough, cracked clay plaster |
 | Thatch (the settlement's roofs) | Reed or straw thatch | imagined | What roofed the settlement is not known [fort:S1]; reed at Castell Henllys [ironage:S30], straw at Bryn Eryr [ironage:S32] | A modern angled reed thatch |
@@ -41,7 +41,8 @@ well the material itself is known.
 - **Vegetius**, writing in the late 4th or early 5th century about camps, says a turf is cut "qui herbarum
   radicibus continet terram" (which holds the earth together with the grass's roots), half a foot high, a foot
   wide and a foot and a half long [S2] (Book III, chapter 8, read directly). He is describing the turves of a
-  one-night marching camp, not a fort's rampart, which is one more reason 0.15m is the top of the range. Romankiewicz and others convert
+  one-night marching camp, not a fort's rampart, which is one more reason 0.15m is the top of the range (the
+  app's ⓘ for the turf faces and the `turf-courses` kit say so). Romankiewicz and others convert
   that to 0.44 by 0.30 by 0.15m [S1].
 - **Measured turf blocks in fort ramparts** are thinner than Vegetius's: 0.30 by 0.30 by 0.08m at Plantation
   Place in London; 0.30-0.40 by 0.25-0.30 by 0.10-0.15m at Strasbourg; 0.46 by 0.30 by 0.03-0.08m in Strageath's
@@ -50,7 +51,9 @@ well the material itself is known.
 - **Grass side down** was recorded at Croy and Balmuildy Road on the Antonine Wall and at Vindolanda; at
   Laurieston the blocks were laid neither always grass-down nor always grass-up [S1]. The Glasgow
   Archaeological Society's 1899 report argued from the dark lines in its sections that turves were laid with
-  the grass below [S5] (a period interpretation, read through a search summary of the scan, not directly).
+  the grass below; that report ([S5]) was never read directly (the scan refused every fetch), and what is
+  known of it here is what [S1] cites from it (pp. 73 and 76, for grass-down laying at Croy). The app cites
+  [S1] and does not cite [S5].
 - **What changed in the app.** The `turf-courses` kit drew courses 0.3m deep, "a guess". It now draws them
   0.15m deep, Vegetius's half foot, at the top of the measured range (Vindolanda's and Strageath's are about
   half that), and the kit says so. The faces and the set-back steps are textured as soil, the turves laid
@@ -65,9 +68,20 @@ well the material itself is known.
 - Nothing of the forts' timbers survives; the posts are known from their pipes and pits [fort:S1].
 - Oak: Historic England's tree-ring report on Vindolanda is titled for, and dates, its oak timbers: 53 samples,
   felled locally from mature woodland [S4] (title and summary through a search result: the report page refused a
-  direct read). A summary of Vindolanda's wood finds gives oak as the most frequent species, about 40% (a
-  secondary blog, a lead only, not cited in the app). One Castell Henllys roundhouse rebuild used about 34 oak trees
-  [ironage:S29] (the figures are that source's, as the Iron Age note's correction says). Two independent lines for oak as the usual building timber; neither is Dinefwr's own.
+  direct read). **Tree-ring work samples oak by method**: oak is what can be dated, so the report cannot say how
+  much of the site's wood was oak. A summary of Vindolanda's wood finds gives oak as the most frequent species,
+  about 40% (a secondary blog, a lead only, not cited in the app). One Castell Henllys roundhouse rebuild used
+  about 34 oak trees [ironage:S29] (the figures are that source's, as the Iron Age note's correction says), but it
+  is a modern rebuild of an Iron Age house: not evidence of what Roman soldiers built with. So there is **one
+  line of evidence for oak, from a method that favours it, and one analogy**; nothing from Dinefwr itself.
+- A counter-lead, from search summaries read on 2026-10-10 and not read directly (the pages refused a fetch): at
+  Carlisle's Castle Street and Annetwell Street Roman sites alder is recorded as the most frequent species in
+  small roundwood, with oak mostly as branchwood early on and favoured in the settled second century. That is
+  roundwood, not structural timber, but it shows a Roman military site's wood was not all oak. Not cited.
+- Not read: W. S. Hanson, "The Organisation of Roman Military Timber-Supply", *Britannia* 9 (1978), 293-305
+  (Cambridge Core: paywalled, only the opening paragraph was seen, which says little evidence for timber supply
+  survives), and the Elginhaugh report (Hanson 2007, Britannia Monograph 23; no excerpt found). Both are worth
+  reading for species and a better source than the Vindolanda summary for oak as the building timber.
 - So the timber texture is labelled an analogy: squared timber, probably oak, from what other sites used. The
   photograph is a weathered, split-grain timber, which a post a few years in the Welsh weather would be; fresh-cut
   oak is paler, and the app's timber colour (unchanged) carries the colour.
@@ -101,7 +115,7 @@ well the material itself is known.
 
 ## Gaps and open questions
 
-- The timber species at Dinefwr, and whether any timbers were sawn or hewn.
+- The timber species at Dinefwr, and whether any timbers were sawn or hewn. Whether oak was the usual structural timber of Roman auxiliary forts, which Hanson (1978), the Elginhaugh report and Carlisle's Castle Street report would settle, unread so far.
 - How long a turf face stayed bare, and whether faces were grassed on purpose.
 - Any Roman-period find of shingle or thatch in Wales.
 - The 2022 Laurieston paper's full survey of grass-down laying across sites; the 1899 report read directly.
@@ -112,4 +126,4 @@ well the material itself is known.
 - [S2] Vegetius, *Epitoma rei militaris*, Book III, chapter 8, Latin text at The Latin Library. https://www.thelatinlibrary.com/vegetius3.html : read directly: a turf is cut holding the earth with the grass's roots, half a foot high, a foot wide, a foot and a half long, and the turves are ranged to make the bank.
 - [S3] Pliny the Elder, *Naturalis Historia*, Book XVI, 36, Latin text at LacusCurtius. https://penelope.uchicago.edu/Thayer/L/Roman/Texts/Pliny_the_Elder/16*.html : read directly: oak makes the best shingle; Rome was shingled for 470 years until the war with Pyrrhus (citing Cornelius Nepos).
 - [S4] Historic England Research Report 84/1993, "Tree-ring analysis of oak timbers from the 1991 excavations at Vindolanda, Northumberland". https://historicengland.org.uk/research/results/reports/84-1993 : title and summary through a search result (the page refused a direct read): 53 samples, a chronology to AD 103, local timber felled from mature woodland.
-- [S5] Glasgow Archaeological Society, *The Antonine Wall Report* (1899), scan at Heidelberg University Library. https://digi.ub.uni-heidelberg.de/diglit/antonine_wall1899/0143 : through a search summary only: the dark line in its sections, read as turves laid grass side down. A period interpretation.
+- [S5] Glasgow Archaeological Society, *The Antonine Wall Report* (1899), scan at Heidelberg University Library. https://digi.ub.uni-heidelberg.de/diglit/antonine_wall1899/0143 : never read directly (the scan was bot-blocked); known only through a search summary and through [S1], which cites it (pp. 73, 76) for grass-down laying at Croy: the dark line in its sections, read as turves laid grass side down. A period interpretation. Not cited in the app.
