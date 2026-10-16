@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Build log
@@ -1300,3 +1300,57 @@ seconds: an agent's local GPU-kit run held `~/.cache/llandeilo-gpu.lock`. `tools
 `GPU_LOCK_WAIT` seconds (CI sets 1800). Checked both ways with the lock held by hand: a 2s wait fails with
 "still holds … after 2s" (exit 2), and a 60s wait logged "lock acquired" after 9s and then passed its 8 GPU
 tests on WebGPU ([ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md), amended).
+
+## Downloads: the world's assets as .glb, 2026-10-16
+
+Built for issue #4 on Dewi's decision ([ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md)).
+What was built: a Downloads tab (`src/ui/downloads.ts`), the list (`src/content/downloads.ts`, from the asset
+manifest, the features and two generated indexes), `tools/terrain/export-glb.ts` (21 LiDAR tiles to .glb, 4m,
+7,990,828 bytes in all), `tools/downloads/stamp.ts` and `build.ts` (`npm run downloads`), and `gridMesh` in
+`src/domain/tilemesh.ts`.
+
+Numbers, measured 2026-10-16: a tile is 380,536 bytes at 4m (31,250 triangles) and 1,508,540 at 2m
+(125,000); the 21 tiles are 7.99MB at 4m (3.8MB as a gzipped tar) and 31.7MB at 2m (16MB gzipped). `public/`
+was 19MB before. The credit block adds 488 bytes to each landmark glb and the train.
+
+Things that cost time or would surprise a fresh session:
+
+1. **`node tools/terrain/export-glb.ts` fails without `--experimental-transform-types`.** Node's default type
+   stripping refuses TypeScript parameter properties, and `src/domain/lidar.ts` (`RimProfile`) uses them; the
+   error ("TypeScript parameter property is not supported in strip-only mode") names a line in `lidar.ts`, not
+   in the tool. `npm run downloads` passes the flag. `tools/models/build.ts` runs without it only because its
+   imports happen to have none.
+2. **Editing the models' finishing step would have forced a Blender rebuild of everything.** `inputHash`
+   covers `tools/models/build.ts`, `glb.ts` and `sheets.ts`, so the credit stamp lives in `tools/downloads/`
+   and runs afterwards. Check before touching those three files.
+3. **The stamp changes the models' byte sizes**, which `generated/models.ts` records and `tests/models.test.ts`
+   checks; `npm run downloads` ends by running the models build once more, which rewrites the index without
+   rebuilding anything.
+4. **The vicus's far model is an empty glb** (528 bytes, no geometry). It is not listed.
+5. **A first Welsh draft joined two area names with "a" ("Tref Llandeilo a Caerau Rhufeinig Dinefwr").** After
+   "a" Welsh softens the next word (a Chaerau), so a mechanical join is wrong; names are joined with " / "
+   instead. No Welsh speaker has checked the new strings (the human Welsh check is parked); "teilsen" for a
+   tile and "Lawrlwythiadau" for Downloads are Claude's.
+6. **The side panel was rebuilt whenever the year changed**, because its render key included the almanac and the
+   era even for About. That does not reset the scroll (tried: `scrollTop` survived, since the rebuild is one
+   synchronous swap; an earlier draft of this entry said it jumped, and it did not), but it closes an open
+   credit disclosure and drops focus. Only the Almanac and Language tabs depend on time now. The e2e opens a
+   tile's credit, moves the year to 2026 and checks it is still open (red with the old key, at the last
+   assertion); it also checks `scrollTop` is unchanged, which never failed.
+
+Checked in Blender 4.0.2 (headless import of `lidar-262000-222500.glb`, 2026-10-16): 15,876 vertices and 31,250
+faces, every face up, x and y from 2000 to 2500 (the tile's offset from the region corner), heights 52.65 to
+81.31, the vertex nearest E 262188 N 222532 at 76.81m, where GDAL reads 76.83m from the 1m source (the 2m average
+accounts for the 2cm). The Blender importer is the only third-party reader tried: no glTF validator or SketchUp
+was run.
+
+Tests seen red, each at the assertion it names: the exported mesh's winding (a swapped index order: "winds every
+triangle so that it faces up", `-16`) and the cut (the inverted diagonal rule: "cuts every cell as the app
+does"); the train restored unstamped ("lists a file that exists" at `size`: 232048 against 232500, and
+"carries every download's credit and licence": `isStamped` false); a tile origin one metre out in the
+extras (`tileOriginBng` 262001 against 262000) and a tile's heights 0.5m high (`height 0,0` 25.88 against
+25.38), each after regenerating the files with the fault; a stray glb in `public/models/landmarks` ("offers
+every glb the app ships"); the terrain source without the LiDAR sentence (the attribution test); a Download
+link pointing at `…glb.missing` (the href pattern, and the downloaded file's name in the second e2e) and the
+shared attribution line removed (`#dl-terrain .dl-attribution` not found), and the panel rebuilt on a year change (the open credit closed).
+

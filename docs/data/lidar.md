@@ -2,7 +2,7 @@
 title: Close-up terrain from Welsh Government LiDAR
 kind: guide
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Close-up terrain from Welsh Government LiDAR
@@ -201,3 +201,32 @@ and the datum note. Tile edges share vertices. The Roman forts at 2m are 9 objec
 a 39MB `.blend` (not committed). Checked by reopening the file: the vertex nearest E 262186 N 222534 is
 76.83m, and GDAL reads 76.81m at that point of the 1m source. The original 1m elevation data is the
 downloaded GeoTIFFs, kept outside the repository and checksummed in the manifest.
+
+## Downloadable glb tiles
+
+```bash
+npm run downloads        # exports the tiles below, stamps every downloadable glb with its credit and licence, refreshes the indexes
+node --experimental-transform-types tools/terrain/export-glb.ts --step 2 --out <dir>   # the full 2m set, to a folder of your choice
+```
+
+`tools/terrain/export-glb.ts` writes each 2m tile (21 of the 80) to `public/models/terrain/lidar-<easting>-<northing>.glb`,
+which the app's Downloads tab offers ([ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md)).
+It reads `lidar.json` and `lidar.bin` through the app's own `parseManifest` and `tileData`, takes every
+second sample (4m; `--step 2` keeps all of them), and cuts each cell into the two triangles the app cuts it
+into. The heights are the stored ones, unblended: none of the app's easing into Terrain 50 at the region's
+rim, river channels or period ground edits.
+
+- **Axes and units:** glTF's, in metres: x east, y up (height as the LiDAR gives it), z minus the northing. A
+  tile's vertices run from x = 0 to 500 and z = -500 to 0, so its south-west corner is its own origin.
+- **Where each tile sits:** the node's translation is the tile's offset from the region's south-west corner
+  (E 260000 N 220500), so all the tiles opened together land in place; neighbours share their edge vertices
+  exactly. The tile's own British National Grid origin is in the node's extras (`tileOriginBng`, EPSG:27700,
+  with `tileOriginMeaning`), the region's in the scene's (`sceneOriginBng`, `crs`, `axes`), and the list
+  shows it as "262000 E, 222000 N".
+- **Credit and licence:** in the file's `asset.copyright` (the exact LiDAR credit above, then a line on the
+  export) and `asset.extras` (`licence`, `sourceUrl`, the project and its URL), taken from
+  `src/content/assets.ts`.
+- **Size:** 380,536 bytes a tile at 4m (31,250 triangles, uint16 indices, no normals), 7,990,828 for the 21;
+  at 2m 1,508,540 and 31.7MB, which is why the committed set is 4m.
+- **Only today's ground.** The tiles say nothing of earlier periods.
+
