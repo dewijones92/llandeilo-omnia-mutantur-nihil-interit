@@ -17,6 +17,12 @@
       "name": "Dinefwr Roman forts",
       "centre": { "e": 262187, "n": 222534 },
       "halfSize": 500
+    },
+    {
+      "id": "dinefwr-castle",
+      "name": "Dinefwr Castle hill",
+      "centre": { "e": 261150, "n": 221731 },
+      "halfSize": 500
     }
   ]
 }

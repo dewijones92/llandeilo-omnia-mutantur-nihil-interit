@@ -84,14 +84,40 @@ describe('the LiDAR tiles on disk', () => {
 });
 
 describe('the detail region', () => {
-  it('holds the town and the Roman forts, at the places the content names', () => {
-    for (const id of ['llandeilo', 'roman-forts']) {
-      const place = W.places.find((p) => p.id === id);
-      expect(place, id).toBeDefined();
-      const area = manifest.areas.find((a) => a.id === id);
-      expect(area, id).toBeDefined();
-      if (place && area) expect(insideBounds(area, place.at), id).toBe(true);
+  it('holds the town, the Roman forts and Dinefwr Castle, at the places the content names', () => {
+    const pairs = [
+      ['llandeilo', 'llandeilo'],
+      ['roman-forts', 'roman-forts'],
+      ['dinefwr', 'dinefwr-castle'],
+    ] as const;
+    for (const [placeId, areaId] of pairs) {
+      const place = W.places.find((p) => p.id === placeId);
+      expect(place, placeId).toBeDefined();
+      const area = manifest.areas.find((a) => a.id === areaId);
+      expect(area, areaId).toBeDefined();
+      if (place && area) expect(insideBounds(area, place.at), areaId).toBe(true);
     }
+  });
+
+  it('centres the castle area on Coflein\u2019s grid reference and covers the keep, ditches and approach', () => {
+    const coflein = { e: 261150, n: 221731 };
+    const keep = { e: 261168.5, n: 221724 };
+    const area = manifest.areas.find((a) => a.id === 'dinefwr-castle');
+    expect(area).toBeDefined();
+    if (!area) return;
+    expect((area.eMin + area.eMax) / 2).toBe(coflein.e);
+    expect((area.nMin + area.nMax) / 2).toBe(coflein.n);
+    expect(insideBounds(area, keep)).toBe(true);
+    for (const [de, dn] of [
+      [-300, 0],
+      [300, 0],
+      [0, -300],
+      [0, 300],
+    ] as const)
+      expect(
+        insideBounds(area, { e: coflein.e + de, n: coflein.n + dn }),
+        `${String(de)},${String(dn)}`,
+      ).toBe(true);
   });
 
   it('lies inside the disc and leaves room for the blend inside every area', () => {
