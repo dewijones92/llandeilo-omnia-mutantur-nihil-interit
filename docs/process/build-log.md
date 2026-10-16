@@ -1337,3 +1337,11 @@ seconds: an agent's local GPU-kit run held `~/.cache/llandeilo-gpu.lock`. `tools
 `GPU_LOCK_WAIT` seconds (CI sets 1800). Checked both ways with the lock held by hand: a 2s wait fails with
 "still holds … after 2s" (exit 2), and a 60s wait logged "lock acquired" after 9s and then passed its 8 GPU
 tests on WebGPU ([ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md), amended).
+
+   **A fifth read (2026-10-16, post-push, no CRITICAL)** found the numbers did not close: the 1.4m door at x 4.4 sat
+   inside the west tower's footprint (S10's fit and S11's put the gap 0.7m apart in x, inside their errors), and centres
+   6.1m apart with 5.0m towers leave 1.1m, not 1.4m (hole-centre spacing read against outer-box widths). One rule now:
+   the gatehouse is built from its gap, centred at x 5.1 on the S11 fit, 1.4m wide, towers 4.9m at the panel's
+   outer-box spacing of 6.3m, and the door is the gap. The hall's existence was also still lifted by the listing,
+   whose independence is not known; it is now one source: Cadw. Lesson: **a measurement table must close** (gap +
+   width = spacing) before a builder reads it.
