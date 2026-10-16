@@ -2,7 +2,7 @@
 title: Release notes
 kind: log
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Release notes
@@ -10,6 +10,54 @@ updated: 2026-10-10
 What changed in the app, for family and visitors, newest first. Each section is also published as a
 GitHub release, tagged with the version in `package.json` ([ADR 0025](../adr/0025-releases-at-visible-milestones.md)).
 Corrections to history are called out: when we get something wrong, we say so.
+
+## v0.9.0 (2026-10-16): the Roman forts rebuilt in Blender, with textured parts you can click
+
+**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
+
+**The Roman forts and their settlement at Dinefwr are now detailed 3D models** (from a suggestion on GitHub).
+Each is built by a script in Blender, the free 3D program, from the same plan the app used before, which marks
+each part as evidenced, compared with other forts, or guessed. Up close you now see how they may have been built:
+timber gate and corner towers on posts, the turf rampart laid in courses, the breastwork, the barracks' timber
+frames, wattle-and-daub walls, and shingle and thatch roofs. Much of this detail (the towers' boarding, the
+breastwork, the gates, the roofs) is our guess, and each piece says so. From a distance a plainer version,
+without the detail, is drawn, and at Low graphics the app draws the forts as before.
+
+![Fort 2 and its settlement in AD 84, in the new models](../images/releases/v0.9.0/fort2-ad84-textured.jpg)
+
+**Photographic surfaces, and each one says how it is known.** Up close, the models carry photographic textures
+(public domain photographs from Poly Haven, credited on the About tab) toned to the valley's colours: turf, the
+soil faces of the rampart, timber, daub, shingle and thatch. A surface is a claim like anything else, so each one
+says whether it is reconstructed from evidence or imagined. The forts are drawn in timber, turf and earth only,
+with no stone, tile or limewash. Some Roman tile was dug up there, but nothing shows which building it came from.
+
+**Click a part of a fort** (at High or Medium graphics). Hovering over a tower, a gate, a barrack or the rampart
+highlights it and names it; a click opens what is known about that part, how sure we are, the sources, and the
+detail drawn on it. The ditches and roads stay on the key date's "part by part" list.
+
+![A gate tower's card, opened by clicking it](../images/releases/v0.9.0/fort2-part-info.jpg)
+
+**Old photographs are on from the start.** The camera pins for the old photographs of Llandeilo (from v0.6.0)
+now show without switching them on; the Photos button still turns them off, and the app remembers. Where a pin
+and a place name compete for the same spot, the place name wins and the pin shows once you move the camera.
+
+![Llandeilo in 1900, with its photograph pins and its name](../images/releases/v0.9.0/photos-1900-town.jpg)
+
+**Corrections to history:**
+
+- The gate and interval towers' height and roof had been credited to the Roman fort at Jay Lane, in
+  Herefordshire, as a comparison. Its published account gives only the towers' post layout and size, so their
+  height and roof are now marked as our guess.
+- In the first Blender models (on the site since 10 October), the rampart's turf courses were a guessed 0.3m
+  deep, twice the deepest turf measured in a Roman rampart. They are now 0.15m, half a Roman foot, the size the
+  Roman writer Vegetius gives for a marching camp's bank.
+- Every step of the rampart's turf courses was drawn as grass. Turves were often laid grass side down, so the
+  faces and steps are now bare soil, with grass only on the walk along the top (a guess too).
+
+**Smaller fixes:** if a part of the page fails to download while the app is starting, it now reloads and tries
+again (up to three times) instead of stalling. Once the app is running it never reloads, so you keep your place.
+
+Sent by Claude
 
 ## v0.8.0 (2026-10-10): real ground under the town and the forts, and an easier camera
 
