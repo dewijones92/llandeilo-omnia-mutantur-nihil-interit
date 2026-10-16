@@ -2,7 +2,7 @@
 title: Decision log
 kind: log
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Decision log
@@ -230,3 +230,11 @@ can overrule it; the narrator in the UI language and captions always on are Dewi
 | The near models' draw-call budget is 16, not 12 (Fort 2: five surfaces and eight gate leaves); the near glbs carry no texture coordinates (the app works them out from each face's grain) and no materials | Claude, under the proactive mandate: UVs in the file tripled Fort 1 past the 1.5MB budget; 13 draw calls cost nothing measurable |
 | With the photo layer on by default, a place label wins a clash with a photo pin: labels are placed first and the pins avoid them (and the conversation bubbles) | A place label is how a visitor flies to a place; the Llandeilo label had vanished in the photo years because the pins were placed first. Decided by Claude under the proactive mandate (ADR 0027), so Dewi can overrule. A consequence: the whole-valley overview at 1900 shows no pin, because the one that fitted sat under Llandeilo's label; and photograph 2281931 (1924 to 1935, pinned to 1960) is hidden under the Llandeilo label at all three standard views from 1925, the only pin in 1956 to 1960, so those years show none until the camera moves. Nudging pins aside was weighed and left, as it would misplace them |
 | Once the app is ready, a lost script chunk is logged (`chunk lost after ready`) and the page is not reloaded; only a failure before ready reloads, at most three times a session ([ADR 0054](../adr/0054-a-page-that-loses-a-script-reloads-once-and-says-where-start-up-stopped.md)) | Claude, under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), 2026-10-10; Dewi can overrule |
+
+## 2026-10-16
+
+| Decision | Why |
+|---|---|
+| Issues #3 (the new comment) and #4 are answered on GitHub, #4 labelled enhancement and agreed as work | Dewi, 2026-10-16: "post both", after reviewing the drafts |
+| Models from outside (e.g. SketchUp) are not brought into the app: the app's models stay scripted in Blender from our sourced plans | Dewi, 2026-10-16: "we build the models ourselves using blender", and "just to be clear - we script up the models ourselves using blender" |
+| The app offers a way to download its assets (models and detailed terrain) as .glb, not converted to other formats | Dewi, 2026-10-16: "we will offer a way to download assets from the world", then "just offer it as glb - so we dont have to convert - its an open format that can be used in any programs" |

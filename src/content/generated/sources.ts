@@ -1051,6 +1051,180 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/deep-time-and-natural-history.md"
   },
   {
+    "id": "dinefwr:S1",
+    "title": "Coflein (RCAHMW), \"Dynefor Castle\" (Castell Dinefwr), NPRN 425, SN 61150 21731 (RCAHMW, February 2011, from Rees and Caple, Cadw guide, revised edition 2007).",
+    "url": "https://coflein.gov.uk/en/site/425/",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S2",
+    "title": "Cadw, Listed Buildings Full Report 11117, \"Old Dynevor Castle\", Grade I, designated 8 July 1966, E 261149 N 221730.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=11117",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S3",
+    "title": "Heneb Historic Environment Record (Archwilio), PRN 882, \"Dinevor Castle; Dinefwr Castle; Old Town\", SN6114921730.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT882&dbname=dat&tbname=core",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S4",
+    "title": "Heneb HER (Archwilio), PRN 881, \"Dinevor Castle; Dinefwr Castle\", motte, SN61152173.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT881&dbname=dat&tbname=core",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S5",
+    "title": "Heneb HER (Archwilio), PRN 42675, 49626 and 49627, \"Dinefwr Castle South Curtain Wall\".",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT42675&dbname=dat&tbname=core",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S6",
+    "title": "Heneb HER (Archwilio), PRN 49736, \"Dinefwr Castle\", building survey, SN61132174.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT49736&dbname=dat&tbname=core",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S7",
+    "title": "Gatehouse Gazetteer, \"Dinefwr Castle\", record 216 (updated 20 April 2017).",
+    "url": "https://gatehouse-gazetteer.info/Welshsites/216.html",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S8",
+    "title": "castlewales.com (Jeffrey L. Thomas), \"Dinefwr Castle\", text from Sian E. Rees and Chris Caple, the Cadw guidebook for Dinefwr and Dryslwyn castles (1999), photographs 2002.",
+    "url": "https://castlewales.com/dinefwr.html",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S9",
+    "title": "medievalheritage.eu, \"Dinefwr – castle\" (bibliography: Caple and Rees 2007; Davis 2011, 2021; Kenyon 2010; Lindsay 1998; Lloyd, Orbach and Scourfield 2006; Salter 1996).",
+    "url": "https://medievalheritage.eu/en/main-page/heritage/wales/dinefwr-castle/",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S10",
+    "title": "medievalheritage.eu, \"plan of the castle with time stratification according to C.Caple, S.Rees\" (Early/Mid-Thirteenth Century Phase 1 and Phase 2, Late Thirteenth/Early Fourteenth Century, Medieval (Uncertain Date), S…",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dinefwr-plan-12.jpg",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S11",
+    "title": "medievalheritage.eu, \"plan of the castle expansion stages according to C.Caple, S.Rees\" (1230-50, 1250-70, 1280, 1330, 1750; new, existing and assumed walls; 20m and 60ft bars).",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dinefwr-plan-11.jpg",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S12",
+    "title": "medievalheritage.eu, \"plan of the castle from the 14th century according to J.Kenyon\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2018/05/Dinefwr-plan-01.jpg",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S13",
+    "title": "Chris Jones-Jenkins, reconstruction of Dinefwr Castle in the 14th century from the west, for Cadw, as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dinefwr-rekonstrukcja-22.jpg",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S14",
+    "title": "Chris Jones-Jenkins, cutaway reconstruction of the north range in the 14th century, for Cadw, as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dinefwr-rekonstrukcja-23.jpg",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S15",
+    "title": "Paul R. Davis, reconstruction of the castle from the south-east, line drawing, as reproduced by medievalheritage.eu (book not stated).",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/08/Dinefwr-rekonstrukcja-11.jpg",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S16",
+    "title": "Donald Moore, \"Dynevor Castle and Newton House: some seventeenth-century pictures\", *Archaeologia Cambrensis* 143 (1994, published 1996), 204-35, Welsh Journals (National Library of Wales).",
+    "url": "https://journals.library.wales/view/4718179/4751353/213",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S17",
+    "title": "D. F. Renn, \"The round keeps of the Brecon region\", *Archaeologia Cambrensis* 110 (1961), pp. 129-43, Welsh Journals.",
+    "url": "https://journals.library.wales/view/4718179/4743652/153",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S18",
+    "title": "*Brut y Tywysogion, or the Chronicle of the Princes*, ed. and trans. John Williams ab Ithel (Rolls Series, London, 1860), Internet Archive.",
+    "url": "https://archive.org/details/brutytywysogiono00cara",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S19",
+    "title": "Dictionary of Welsh Biography, \"RHYS ap GRUFFYDD (1132-1197)\".",
+    "url": "https://biography.wales/article/s-RHYS-APG-1132.html",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S20",
+    "title": "Dictionary of Welsh Biography, \"RHYS GRYG ('Rhys the Hoarse,' died 1234)\" (R. T. Jenkins, 1959).",
+    "url": "https://biography.wales/article/s-RHYS-GRY-1234",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S21",
+    "title": "Dictionary of Welsh Biography, \"RHYS ap THOMAS, Sir (1449-1525)\" (J. F. Rees).",
+    "url": "https://biography.wales/article/s-RHYS-APT-1449.html",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S22",
+    "title": "National Trust Collections 869191 and 869194, British (Welsh) School, \"Dinefwr Castle, Llandeilo, from the South West\" and \"... from the North\", oil on canvas, 83.8 x 124.5cm, dated \"circa 1710 to circa 1730\", via Wik…",
+    "url": "https://commons.wikimedia.org/wiki/File:British_(Welsh",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S23",
+    "title": "Samuel and Nathaniel Buck, \"The South View of Denefawr-Castle, in the County of Caermarthen\", engraving, 1740, National Library of Wales, via Wikimedia Commons.",
+    "url": "https://commons.wikimedia.org/wiki/File:The_south_view_of_Denefawr-Castle,_in_the_county_of_Caermarthen.jpeg",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S24",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tile SN6121 (`wg_del_26_261221_20220113dsm.tif`, `...dtm.tif`), DataMapWales; Open Government Licence v3 (see [`../data/lidar.md`](../data/lidar.md)).",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_26_261221_20220113dsm.tif",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S25",
+    "title": "British Geological Survey, DiGMapGB-50 bedrock (v9.25, released 31 March 2025; sheet 212, Llandovery), GetFeatureInfo at the castle.",
+    "url": "https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S26",
+    "title": "Cadw, \"Castell Dinefwr\" (visitor page).",
+    "url": "https://cadw.gov.wales/visit/places-to-visit/castell-dinefwr",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S27",
+    "title": "National Trust, \"History of Dinefwr\".",
+    "url": "https://www.nationaltrust.org.uk/visit/wales/dinefwr/history-of-dinefwr",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S28",
+    "title": "W. Samuel, *Llandilo, present and past; an illustrated guide to the ancient castles and other antiquities of the neighbourhood* (Carmarthen, 1868), \"Plan of Dynevor Castle\", p. 25; British Library, Flickr Commons (no …",
+    "url": "https://commons.wikimedia.org/wiki/File:Plan_of_Dynevor_(Dinfwr",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dinefwr:S29",
+    "title": "Wikipedia, \"Dinefwr Castle\".",
+    "url": "https://en.wikipedia.org/wiki/Dinefwr_Castle",
+    "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
     "id": "ironage:S1",
     "title": "\"Y Gaer Fawr, Garn Goch\" (NPRN 100866), Coflein (RCAHMW).",
     "url": "https://coflein.gov.uk/en/site/100866",
