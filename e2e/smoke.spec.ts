@@ -1606,19 +1606,24 @@ const sampleCamera = async (page: Page, ms: number): Promise<CameraState[]> => {
   return samples;
 };
 
-// Waits until the camera has not moved (a landing flight, a glide) for three reads in a row: one slow
-// frame can leave two reads the same while a flight is still under way.
+// Waits until the camera has not moved (a landing flight, a glide) across three samples, each of which has a new
+// rendered frame in it: one slow frame can leave two reads the same while a flight is still under way.
 const cameraSettled = async (page: Page): Promise<CameraState> => {
   let last = await cameraState(page);
+  let lastFrame = await frameId(page);
   let stillFor = 0;
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < 240; i++) {
     await page.waitForTimeout(750);
     const now = await cameraState(page);
+    const frame = await frameId(page);
+    // A sample with no new frame in it says nothing: the camera cannot have moved without one.
+    if (frame <= lastFrame) continue;
     const still =
       moved(last, now) < 0.01 &&
       Math.abs(now.alpha - last.alpha) < 1e-4 &&
       Math.abs(now.radius - last.radius) < 0.01;
     last = now;
+    lastFrame = frame;
     stillFor = still ? stillFor + 1 : 0;
     if (stillFor >= 3) return now;
   }
@@ -2217,9 +2222,11 @@ const framesRendered = async (page: Page, count: number): Promise<void> => {
     .toBeGreaterThanOrEqual(before + count);
 };
 
+// Moves the camera onto a part and returns the screen point over it. The frame id is read in the same evaluate as the
+// move, so no frame can fall between them: the first frame drawn with the new camera has an id above it, and waiting
+// for it to rise by three means two frames have been drawn with the new camera and a third has begun.
 async function partPoint(page: Page, feature: string, part: string): Promise<{ x: number; y: number }> {
-  const before = await frameId(page);
-  await page.evaluate(
+  const moveFrame = await page.evaluate(
     ([f, p]) => {
       const debug: unknown = Reflect.get(window, 'llandeiloDebug');
       const fn: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'partCentre') : undefined;
@@ -2227,19 +2234,23 @@ async function partPoint(page: Page, feature: string, part: string): Promise<{ x
       const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
       const camera: unknown =
         scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
-      if (!centre || typeof centre !== 'object' || !camera || typeof camera !== 'object') return;
+      if (!centre || typeof centre !== 'object' || !camera || typeof camera !== 'object') return Number.NaN;
       const target: unknown = Reflect.get(camera, 'target');
       const set: unknown = target && typeof target === 'object' ? Reflect.get(target, 'set') : undefined;
       if (typeof set === 'function')
         set.call(target, Reflect.get(centre, 'x'), Reflect.get(centre, 'y'), Reflect.get(centre, 'z'));
       Reflect.set(camera, 'radius', 10);
       Reflect.set(camera, 'beta', 1.1);
+      const frameOf: unknown =
+        scene && typeof scene === 'object' ? Reflect.get(scene, 'getFrameId') : undefined;
+      return typeof frameOf === 'function' ? Number(frameOf.call(scene)) : Number.NaN;
     },
     [feature, part],
   );
+  if (Number.isNaN(moveFrame)) throw new Error(`could not move the camera onto ${part}`);
   await expect
     .poll(() => frameId(page), { message: 'frames rendered after the camera moved', timeout: 90_000 })
-    .toBeGreaterThanOrEqual(before + 3);
+    .toBeGreaterThanOrEqual(moveFrame + 3);
   let at: { x: number; y: number } | undefined;
   await expect
     .poll(
@@ -2380,6 +2391,9 @@ test('a part of the AD 74 fort opens its ⓘ, and it closes when a "When are we?
   expect(await partInfoOpen(page)).toBe(false);
   await cameraSettled(page);
   const during = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
+  // The point must be over the canvas, not under the round's panel, or the absences below would prove nothing.
+  const duringOver = await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.id ?? '', during);
+  expect(duringOver, 'the part is over the canvas during the round').toBe('scene');
   await page.mouse.move(during.x - 30, during.y - 30);
   await page.mouse.move(during.x, during.y, { steps: 3 });
   await framesRendered(page, 3);
@@ -2567,10 +2581,13 @@ const readTimber = async (page: Page, clip: Clip, mode: 'hue' | 'surface'): Prom
   const webgpu = (await backendOf(page)) === 'webgpu';
   let frame: () => Promise<string>;
   if (webgpu) {
-    if (mode === 'surface')
-      await page.addStyleTag({
-        content: '* { visibility: hidden !important } canvas { visibility: visible !important }',
-      });
+    // A WebGPU read is a screenshot, which takes whatever the DOM draws over the clip, so both modes hide the UI.
+    await page.evaluate(() => {
+      const style = document.createElement('style');
+      style.dataset['hideUi'] = '';
+      style.textContent = '* { visibility: hidden !important } canvas { visibility: visible !important }';
+      document.head.append(style);
+    });
     frame = async () => {
       await framesRendered(page, 2);
       return (await page.screenshot({ clip })).toString('base64');
@@ -2585,6 +2602,10 @@ const readTimber = async (page: Page, clip: Clip, mode: 'hue' | 'surface'): Prom
     hidden = await frame();
     await timberVisible(page, true);
   }
+  if (webgpu)
+    await page.evaluate(() => {
+      document.querySelector('style[data-hide-ui]')?.remove();
+    });
   const mean = await page.evaluate(
     async ([a, b]) => {
       const load = async (b64: string): Promise<Uint8ClampedArray> => {
@@ -2642,6 +2663,10 @@ const timberSurfaceMean = (page: Page): Promise<TimberRead> => readTimber(page, 
 test('a part whose texture failed is drawn as the photograph draws it, within 3% a channel, and near the palette', async ({
   page,
 }) => {
+  test.slow(
+    Boolean(process.env['CI']),
+    'five forts loads and ten reads on the CPU in CI take 4.5 to 4.9 minutes of the 7 allowed',
+  );
   const loadForts = async (query: string, ready_: string): Promise<void> => {
     await page.goto(`./?debug&quality=high&place=roman-forts&year=84&radius=45${query}`);
     await ready(page);

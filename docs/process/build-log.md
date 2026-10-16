@@ -1486,18 +1486,25 @@ and failed from fixed waits and per-read costs that only a slow renderer shows: 
    part's screen point. The projection only follows the camera once frames have drawn with it: a probe on CI
    settings read the point as `null` for the frame after the move and correct from the second frame on, so 400ms
    was before any frame. It now waits for three frames (`scene.getFrameId()`) and then polls for the point. Seen
-   red on the old helper under CI settings, green on the new.
+   red on the old helper under CI settings, green on the new. (Corrected the same day: the frame id was read in a
+   separate call before the camera moved, so only two frames after the move were guaranteed, not three. It is now
+   read in the evaluate that moves the camera, so the first frame drawn with the new camera has a higher id, and
+   waiting for it to rise by three means two frames drawn with the new camera and a third begun.)
 2. **The AD 74 round test (`expect.poll` still true after 30s).** Scrubbing to the present (End) draws the
    heaviest scene, and the panel closes in the first `apply` after it. Measured on CI settings with the run pinned
    to cores: 6 to 9s on 28 cores, 19s on two, 27s on one, and CI is slower than all three, so the 30s default was
    the failing part and not the app. The poll now waits up to 120s and names what it waits for. The three "nothing
-   happens" checks (a drag opens nothing, parts stay inert in a round) waited a fixed 500-600ms, which at 1fps can
-   end before the app has had a frame in which to act, so each now waits for three rendered frames before it
-   asserts the absence.
+   happens" checks (a drag opens nothing, parts stay inert in a round) waited a fixed 500-600ms, so each now waits
+   for three rendered frames before it asserts the absence. (Corrected: the app decides those on `pointermove` and
+   `pointerup` synchronously and does not need a frame to act; a frame wait is still the right wait, since it
+   proves the page was alive and drawing, but it is not what the inert paths depend on. The round test also never
+   checked that its point was over the canvas, and not under the 420px `.guess` panel, which would make the
+   absences vacuous; it now asserts `elementFromPoint` is the scene, as the hover test does.)
 3. **The failed-texture colour test (420s timeout inside `page.screenshot`).** Each screenshot asks the compositor
    for a new frame and cost 20-40s on one slow core; the test took ten. It now reads the scene canvas inside
    `scene.onAfterRenderObservable` straight after a frame is drawn, which costs the frame and no more, takes the
-   timber pixels from the canvas alone (a UI panel can no longer be counted), and keeps the two look-at PNGs as the
+   timber pixels from the canvas alone (true on WebGL only: the WebGPU path took a clip screenshot, which includes any
+   DOM over the clip, until it hid the UI in both modes on 2026-10-16), and keeps the two look-at PNGs as the
    forts' clip. One core: 3.7 minutes against more than 7 before. It still fails if the fallback grey is 20% off:
    102 gives 104.6 against 111.6 (6.3%) and 154 gives 121.5 against 111.5 (9.0%), and 128 passes.
    Lesson: **a screenshot is not a free read on a slow renderer; read the pixels the frame just drew.**
@@ -1530,3 +1537,15 @@ models Babylon's per-frame inertia and reproduces the -2.748 plateau) and as the
 is non-zero and requires north to hold for four more rendered frames (it read 52 and 59 on the old code).
 Lesson: **anything that sets a pose each frame must also own the camera's inertia, or the old motion outlives it on a
 slow renderer; and a poll for a value that a later frame overwrites passes by luck.**
+
+**Review follow-ups to the CI-renderer fixes, 2026-10-16** (a review of ec86387, all in `e2e/smoke.spec.ts`).
+`partPoint` reads the frame id in the same evaluate that moves the camera (see the correction under item 1 above).
+`readTimber` on WebGPU now hides the UI for both modes, not only `'surface'`, and removes the style tag when it has
+read, so `timberMean`'s clip screenshot cannot include DOM inside `FORT_CLIP`. `cameraSettled` was three unchanged
+samples 750ms apart, which is time; a sample now counts only if a new frame was rendered since the last, so a stalled
+renderer cannot read as a settled camera. The "When are we?" round test checks that its `during` point is over the
+canvas. The failed-texture colour test uses 4.5 to 4.9 minutes of CI's 7, so it is `test.slow` on CI with the reason
+beside it.
+Verified under CI settings (`CI=1 E2E_QUALITY=low E2E_GPU=0`, one worker): the compass test 10 of 10 (and 6 of 6 earlier,
+3 of 3 red on the old flight), and the eight tests that use `partPoint` or `cameraSettled`, 8 passed in 11.0 minutes, the
+texture test at 3.4. On the GPU, `npm run e2e:gpu` (WebGPU, Windows Chrome): 8 GPU and 89 e2e passed, 1 skipped.
