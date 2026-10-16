@@ -155,6 +155,16 @@ test('the Roman forts get their own fine tiles when you go there', async ({ page
   expect(d.pending).toBe(0);
 });
 
+test('Dinefwr Castle hill gets fine tiles too, where it used to be drawn at 10m', async ({ page }) => {
+  const castle = place('dinefwr');
+  await ready(page, './?debug&year=1282&hour=12&season=summer&place=dinefwr&radius=30');
+  const d = await detail(page);
+  const e = Math.floor(castle.at.e / 500) * 500;
+  const n = Math.floor(castle.at.n / 500) * 500;
+  expect(d.tileSteps[`${String(e)}_${String(n)}`]).toBe(4);
+  expect(d.pending).toBe(0);
+});
+
 test('the detail meets the coarse terrain along the rim without a gap', async ({ page }) => {
   await ready(page, './?debug&year=2020&hour=12&season=summer&place=llandeilo&radius=40');
   const s = await seam(page);

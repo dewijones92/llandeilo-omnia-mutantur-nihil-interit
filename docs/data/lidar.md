@@ -2,13 +2,15 @@
 title: Close-up terrain from Welsh Government LiDAR
 kind: guide
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Close-up terrain from Welsh Government LiDAR
 
-The data behind the detailed ground at Llandeilo town and the Roman forts in Dinefwr Park
+The data behind the detailed ground at Llandeilo town, the Roman forts in Dinefwr Park and, since
+2026-10-16, the Dinefwr Castle hill
 ([GitHub issue 2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2),
+[issue 4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4),
 [ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md)). Written by Claude under the
 proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
 2026-10-09; the licence and accuracy statements were read from the sources named, on that date.
@@ -118,12 +120,46 @@ The full hashes are in `public/data/lidar/lidar.json` (`source.tiles`).
 | Area | Centre (OS grid) | Square | Tiles at 2m | Why there |
 |---|---|---|---|---|
 | `llandeilo` | E 262930, N 222236 | 1.5km (E 262180 to 263680, N 221486 to 222986) | 16 | The `llandeilo` place's own reference |
-| `roman-forts` | E 262187, N 222534 | 1km (E 261687 to 262687, N 222034 to 223034) | 9 | The `roman-forts` place, whose reference is Coflein's; the Dinefwr Castle hill is not given detail of its own |
+| `roman-forts` | E 262187, N 222534 | 1km (E 261687 to 262687, N 222034 to 223034) | 9 | The `roman-forts` place, whose reference is Coflein's |
+| `dinefwr-castle` | E 261150, N 221731 | 1km (E 260650 to 261650, N 221231 to 222231) | 9 | Coflein's grid reference for Dinefwr Castle (NPRN 425, SN 61150 21731), added 2026-10-16 ([issue 4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4); below) |
 
-The two overlap, so the 21 tiles of 500m that touch either are kept at 2m (2.65MB). The **region**
-round them, E 260000 to 265000 and N 220500 to 224500 (5km by 4km, 80 tiles of 500m), is kept at 10m
-for the other 59 tiles (0.31MB). A test (`tests/lidar.test.ts`) fails if either place's reference is
-not inside its area, or an area comes within the 300m blend margin of the region's edge.
+The areas overlap (the town and the forts share 4 tiles, the forts and the castle 1: tile E 261500 N 222000),
+so the 29 tiles of 500m that touch any of them are kept at 2m (3.65MB; 8 of them are the castle's, new on
+2026-10-16). The **region** round them, E 260000 to 265000 and N 220500 to 224500 (5km by 4km, 80 tiles
+of 500m), is kept at 10m for the other 51 tiles (0.27MB). A test (`tests/lidar.test.ts`) fails if a
+place's reference is not inside its area, if the castle area is not centred on Coflein's reference with
+the keep and 300m each way inside it, or if an area comes within the 300m blend margin of the region's
+edge.
+
+### The castle area (2026-10-16)
+
+Agreed with Dewi on 2026-10-16 (issue 4, decision log); the placing and size below are Claude's,
+under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)).
+
+- **Centre: Coflein's grid reference**, SN 61150 21731 (NPRN 425, [S21] in
+  [`building-models.md`](../research/building-models.md)) = E 261150 N 221731. The `dinefwr` place the
+  content registry holds is at E 261155 N 221729, 5.4m from it (`building-models.md` records that offset as 5m),
+  so it is inside the area whichever is used. The Dinefwr research on another branch (not merged when this was
+  written) puts the keep's centre at E 261168.5 N 221724, 18.5m east and 7m south of Coflein's reference; the
+  area is centred on Coflein's, which is the place reference in this repository, and the keep is inside it by a
+  wide margin. Which of the two is the better centre for the keep has not been settled here.
+- **Half-size 500m (a 1km square).** What it has to hold: the castle on its crag, its rock-cut ditches
+  (Coflein: two enclosures and rock-hewn ditches) and the ground round it. A hillshade of the 1m data made for
+  this note (not committed) shows (read by eye) the crag's foot 100 to 130m south of the castle and a ridge running north-east
+  from it for more than 600m; 500m each way covers the crag, the escarpment and the first part of the ridge. The
+  way up to the castle is not sourced in this repository, so the size does not rest on it. Tiles are 500m, so a
+  half-size of 400m would touch the same nine tiles; 350m would touch six, leaving out the column east of
+  E 261500. 500m was chosen to cover the ridge end and to match the forts' area, not measured against a need.
+- **Source tiles: none new.** The region did not change, so all 25 of the 1km GeoTIFFs were already on disk;
+  `fetch-lidar.sh` was re-run on 2026-10-16 and reported all 25 "already complete" (48MB in total), and
+  `build-lidar.py --verify` matched every file's hash to the manifest. Nothing was downloaded.
+- **Result:** 8 more tiles at 2m (each 126,002 bytes against 5,202 at 10m), `lidar.bin` from 2,952,960 to
+  3,919,360 bytes (+966,400; gzipped 1,915,502 to 2,480,657, +565,155), `lidar.json` unchanged in size at 21KB.
+  The other 72 tiles are byte for byte what they were (compared by offset, tile by tile); the only change to
+  one is its manifest `areas` list (tile E 261500 N 222000 now lists both areas).
+- **Checked against Terrain 50:** the tile-by-tile test (mean gap under 2m) passes for the new tiles, and a
+  throwaway script on 2026-10-16 found a transposed tile would be caught in 65 of the 80 tiles (60 of 80 was
+  the figure for the earlier 21 tiles in this note; the 65 is a new measurement, not a re-run of the old).
 
 ## What the build makes (`tools/terrain/build-lidar.py`)
 
@@ -133,20 +169,20 @@ not inside its area, or an area comes within the 300m blend margin of the region
    little-endian **centimetres**, row by row from the north-west corner, so neighbouring tiles share
    their edge vertices exactly. 2m tiles are 251 x 251 (126KB); 10m tiles are 51 x 51 (5KB). The 10m
    values are samples of the same 2m raster, so where the two resolutions meet they agree. All 80 tiles
-   go one after another into one file, `public/data/lidar/lidar.bin` (2.95MB), because a page load of
+   go one after another into one file, `public/data/lidar/lidar.bin` (3.92MB since the castle area; 2.95MB before), because a page load of
    81 separate requests failed twice under load in the end-to-end tests ("Failed to fetch"); each tile's
    byte offset is in the manifest, so a later version can fetch one tile with an HTTP range request.
 3. `public/data/lidar/lidar.json` lists the region, areas, every tile (position, step, offset, byte
    count, lowest and highest height) and every source raster, with the credit.
 
-The two files are 3.0MB together. They are committed; the downloads are not.
+The two files are 3.9MB together (3.0MB before the castle area). They are committed; the downloads are not.
 
 Same frame as the existing terrain: the world is OS grid metres, with the centre at E 262900 N 222500
 and 10m to a world unit (`src/domain/geo.ts`). OS Terrain 50 is read as cell-centred samples (`sampleHeight`'s half-cell offset);
 the LiDAR tiles are vertex samples, which the same function reads once a tile's origin is moved half a
 step. No data is shifted. `tests/lidar.test.ts` compares every tile with Terrain 50 and fails if a tile is
 transposed or shifted (seen red with one tile transposed), except one whose ground is nearly symmetric:
-transposing is detectable in 60 of the 80 tiles.
+transposing is detectable in 65 of the 80 tiles (60 of 80 before the castle area; re-measured 2026-10-16).
 
 ## What it looks like
 
@@ -168,6 +204,29 @@ the LiDAR holds there: field boundaries, tracks, ridge and furrow, ponds, and tr
 
 ![A hillshade of the 1m LiDAR over part of Dinefwr Park](../images/lidar/dinefwr-park-hillshade.jpg)
 
+**Dinefwr Castle hill, 2026-10-16.** Before (the hill at 10m, as on main at 097c8cf) and after (the castle area
+at 2m, drawn at a 4m mesh near the camera), the same camera on `?place=dinefwr&year=2020`, on the GPU
+through WSL, 1600x900, High. The radius is in world units (10m each), so 12 is 120m from the castle, 25 is
+250m, 60 is 600m and 200 is 2km. At 600m and 2km the difference is slight: a sharper, more broken face to the
+crag on the east side at 600m, and none that can be pointed to at 2km, where 77 of the 80 tiles are drawn at 20m
+and the rest at 10m. It shows at 250m and 120m.
+
+| | Before | After |
+|---|---|---|
+| 120m from the castle | ![](../images/lidar/before-castle-2020-r12.jpg) | ![](../images/lidar/after-castle-2020-r12.jpg) |
+| 250m | ![](../images/lidar/before-castle-2020-r25.jpg) | ![](../images/lidar/after-castle-2020-r25.jpg) |
+| 600m | ![](../images/lidar/before-castle-2020-r60.jpg) | ![](../images/lidar/after-castle-2020-r60.jpg) |
+| 2km | ![](../images/lidar/before-castle-2020-r200.jpg) | ![](../images/lidar/after-castle-2020-r200.jpg) |
+| 2km, 1282 | ![](../images/lidar/before-castle-1282-r200.jpg) | ![](../images/lidar/after-castle-1282-r200.jpg) |
+
+**What the finer ground shows, and one thing it exposes.** The facets on the crag and the slopes round it are
+4m instead of 10m, so the escarpment reads as a broken rock face rather than a few
+large planes. It also shows that the castle's model stands on a flat floor at one height while the ground
+inside its yard is not flat: a knoll of the real ground comes up through the courtyard floor. It did before
+(a single pyramid at 10m); at 4m its shape is more irregular. That is how the model is seated on the ground
+(the issue 3 comment about buildings sinking on a slope is the same family), not a fault of the terrain, and
+it has been left as it is; it is on the todo list.
+
 ## Rebuilding and expanding
 
 ```bash
@@ -176,7 +235,8 @@ python3 tools/terrain/build-lidar.py  # needs GDAL's command-line tools and nump
 python3 tools/terrain/build-lidar.py --verify   # checks the raw tiles against the manifest; builds nothing
 ```
 
-- **A new area** (the issue's "expand later without rebuilding the initial terrain"): add an entry to
+- **A new area** (the issue's "expand later without rebuilding the initial terrain"; done once, for the castle, on
+  2026-10-16, with no change to the code): add an entry to
   `areas` in `lidar-areas.json`, and widen `region` if it falls outside it (edges are multiples of
   500). Run both scripts. Tiles already built are rewritten byte for byte from the same sources; the
   renderer, the manifest reader and the tests need no change. Keep every area 300m (the blend margin)

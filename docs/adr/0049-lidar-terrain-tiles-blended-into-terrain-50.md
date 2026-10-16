@@ -2,7 +2,7 @@
 title: "ADR 0049: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart"
 kind: adr
 status: accepted
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # ADR 0049: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart
@@ -11,7 +11,8 @@ updated: 2026-10-10
 - **Date:** 2026-10-09; amended 2026-10-10 (the review's findings, and the merge with main, which took ADRs
   0041 to 0048: this was 0041 on its branch, became 0048 at the first merge, and 0049 when the GPU kit took 0048;
   the second review's two findings, ribbons buried by the coarse mesh and the tree identity untested; and the
-  third's, ribbon corners under the mesh and the train's re-laying untested)
+  third's, ribbon corners under the mesh and the train's re-laying untested); amended 2026-10-16 (a third
+  area, Dinefwr Castle: see "Amendment" below; no new ADR, since nothing in the design changed)
 - **Decided by:** Claude, under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
   so Dewi can overrule it. Dewi agreed the work itself (GitHub issue 2, 2026-10-09) and said to credit
   the source and not chase licence problems; every design choice below is Claude's.
@@ -43,7 +44,7 @@ vertex heights (`uint16` centimetres, edge vertices shared with the neighbour), 
 hash. Tiles that touch the two priority areas (`tools/terrain/lidar-areas.json`: Llandeilo 1.5km, the
 Roman forts 1km, centred on those places' references) keep every 2m; the rest of a 5km by 4km region
 keeps every 10m. Raw downloads stay outside git; 3.0MB of processed tiles are committed. A new area is a
-line in `lidar-areas.json` and a rerun.
+line in `lidar-areas.json` and a rerun (done once since, for the castle: see "Amendment, 2026-10-16" below).
 
 **2. One ground, one seam.** `Terrain` ([`src/world/terrain.ts`](../../src/world/terrain.ts)) answers
 "how high is the ground here" for everything: OS Terrain 50 outside the region, and inside it the LiDAR,
@@ -218,6 +219,45 @@ at the rim.
 - Ground edits are built and tested but empty, and consumers placed at start do not follow them (decision 8).
 - Block colours are 10m squares: where two covers meet the edge is a stair step at 4m facets. Smaller
   blocks or per-triangle scoring would smooth it, at four times the repaint.
+
+## Amendment, 2026-10-16: a third area, Dinefwr Castle
+
+- **Decided by.** Dewi agreed the work (GitHub issue 4: "Detailed terrain for the Dinefwr Castle area like the fort
+  area's"; agreed 2026-10-16, decision log: "post both", after reviewing the drafts, and the todo item
+  "Dinefwr Castle at 2m LiDAR"). The area's centre and size are Claude's, under the proactive mandate
+  ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), so Dewi can overrule them.
+- **What changed.** One entry in `tools/terrain/lidar-areas.json`: `dinefwr-castle`, centred on Coflein's grid
+  reference for Dinefwr Castle (NPRN 425, SN 61150 21731 = E 261150 N 221731), half-size 500m (E 260650 to 261650,
+  N 221231 to 222231), and a rerun of `build-lidar.py`. No code changed: this is the "a new area is a line and a
+  rerun" this ADR was written to allow. The region is unchanged (the area is 650m or more inside its edges, the
+  blend margin being 300m), so no tile had to be downloaded: all 25 source rasters were already on disk.
+- **Why Coflein's reference, and why 500m.** Reasons and the 18.5m gap to the keep's centre in the Dinefwr research
+  on another branch are in [`docs/data/lidar.md`](../data/lidar.md#the-castle-area-2026-10-16). In short: Coflein's is
+  the place reference in this repository (the `dinefwr` place is 5.4m from it), and 500m is the forts' size and
+  covers the crag, the escarpment and the first part of the ridge. The size is a judgement, not a measured need.
+- **Result.** 29 tiles at 2m instead of 21 (8 new, each 126,002 bytes against 5,202 at 10m); `lidar.bin` 2,952,960
+  to 3,919,360 bytes (+966,400; gzipped +565,155), fetched at start with the other map data. The other 72 tiles are
+  byte for byte the same. `Terrain.seam()` at the castle view: 450 base and 3,221 detail vertices, largest gap
+  0.0000038 world units, none unmatched.
+- **Cost, measured** with `node tools/frames.mjs` (WebGL on the RTX 2000 Ada laptop GPU through WSL, 1920x1080,
+  `--perf --uncapped`, `?place=dinefwr&radius=40` so the camera is 400m out, 2020, summer noon), three runs of each
+  with the data file swapped under the same build, alternating, the laptop shared with other agents (load average 7
+  to 10, so a figure moves by a third between runs). Idle 126, 108, 96fps before against 120, 84, 78 after; orbiting
+  92.5, 73.5, 59.8 against 50.0, 60.8, 43.0; scrubbing 67.6, 72.8, 51.1 against 94.0, 66.4, 39.9. Read as about a
+  quarter less when idle or orbiting at the castle, as for the town ([above](#consequences)), and no difference
+  that can be told from the noise when scrubbing. Start-up (`tools/shot.mjs`, page load to ready): 8.5 to 9.6s
+  before, 6.9 to 10.3s after, within the noise. The main script chunk is unchanged (same file hash, 544,938 bytes
+  gzipped at this commit), because the tiles are data, not code.
+- **What the finer ground showed.** Looked at on the GPU at 120m, 250m, 600m and 2km: the crag and its slopes are
+  4m facets instead of 10m ones near the camera, and the difference is slight from far off (almost every tile is
+  drawn at 20m beyond a kilometre and a half). It also exposed that the castle model stands on one flat floor while
+  the ground in its yard rises into a knoll that comes up through it. That was already true at 10m, and is
+  more irregular at 4m. It is about how the model is seated (the same family as the buildings sinking on the
+  forts' slope, issue 3), not the terrain, and is not changed here; it is on the todo list.
+- **Tests.** `tests/lidar.test.ts` now checks the castle area exists, holds the `dinefwr` place, is centred on
+  Coflein's reference, and holds the keep's centre and 300m each way (seen failing first at "dinefwr-castle:
+  expected undefined to be defined"). The existing tests check the new tiles against Terrain 50, the shared edges,
+  the 300m margin to the region's edge and that every tile an area touches is at 2m.
 
 ## Alternatives considered
 

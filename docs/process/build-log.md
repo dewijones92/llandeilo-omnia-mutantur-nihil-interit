@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Build log
@@ -1300,3 +1300,46 @@ seconds: an agent's local GPU-kit run held `~/.cache/llandeilo-gpu.lock`. `tools
 `GPU_LOCK_WAIT` seconds (CI sets 1800). Checked both ways with the lock held by hand: a 2s wait fails with
 "still holds … after 2s" (exit 2), and a 60s wait logged "lock acquired" after 9s and then passed its 8 GPU
 tests on WebGPU ([ADR 0048](../adr/0048-gpu-e2e-on-windows-chrome.md), amended).
+
+## 2026-10-16 (Dinefwr Castle at 2m LiDAR)
+
+Issue 4, agreed 2026-10-16 (Claude, under the proactive mandate for the area's centre and size;
+[ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md) amended, [data note](../data/lidar.md#the-castle-area-2026-10-16)).
+
+1. **The change is one JSON entry and a rerun.** `dinefwr-castle`, centred on Coflein's grid reference
+   (SN 61150 21731 = E 261150 N 221731), half-size 500m. No code changed: the manifest reader, the
+   renderer and the tests already took any area, which is what ADR 0049 was written for. The region
+   did not change, so nothing was downloaded: `fetch-lidar.sh` reported all 25 rasters complete and
+   `build-lidar.py --verify` matched every hash.
+2. **Proved the rebuild leaves the rest alone.** The old and new `lidar.bin` were compared tile by tile
+   by offset: 72 of 80 tiles identical, 8 changed from 10m to 2m, and the only manifest difference on an
+   unchanged tile is the `areas` list of the tile the forts and the castle share.
+3. **Size.** 8 tiles x (126,002 - 5,202) = +966,400 bytes: `lidar.bin` 2,952,960 to 3,919,360 (gzipped
+   1,915,502 to 2,480,657). The main script chunk has the same hash as before (544,938 bytes gzipped).
+4. **Test first.** `tests/lidar.test.ts` was changed before the data: both new assertions failed with
+   "dinefwr-castle: expected undefined to be defined" and "expected undefined to be defined" (the
+   `toBeDefined()` on the area). After the rebuild they pass, and so do the existing tile-by-tile checks
+   against Terrain 50 for the new tiles. A new e2e test (`Dinefwr Castle hill gets fine tiles too`) flies
+   to the place at radius 30 and expects its tile at the 4m step; against the old data (the old `lidar.bin`
+   and manifest copied over `dist/data/lidar`, same build) it failed at the named assertion with
+   "Expected: 4, Received: 10"; with the new data it passes.
+5. **Checks.** `npm run check` green (574 tests, branches 90.61%, functions 100%). The whole e2e suite on a
+   fresh build, `E2E_WORKERS=1`: 84 passed and 1 skipped (the stored-quality test) in 22.0 minutes with the
+   laptop at load average 7 to 15, no "never ready" failure; that run predates the new castle test, which was
+   then run on its own (red on the old data, green on the new) together with the forts and rim tests. The
+   ribbon, train and seam tests passed unchanged in the full run. The seam at the castle view: 450 base and
+   3,221 detail vertices, largest gap 0.0000038 world units, none unmatched.
+6. **Looked at** (GPU through WSL, `tools/shot.mjs`, High, `?place=dinefwr&year=2020`, before and after
+   from the same build with only the data swapped): 120m, 250m, 600m and 2km from the castle, plus 2km in 1282.
+   The crag's facets are 4m instead of 10m near the camera; from 2km it is hard to tell the two apart, as
+   nearly every tile is drawn at 20m there. Saved as `docs/images/lidar/{before,after}-castle-*`. Cost at the
+   castle is about a quarter fewer idle and orbiting frames per second on a shared laptop (three runs each,
+   figures in the ADR); scrubbing within the noise.
+7. **A finding, not fixed.** The finer ground shows a knoll of real ground coming up through the courtyard
+   floor of the castle model, which stands on one flat floor. It was there at 10m too, as a single
+   pyramid. It is a model-seating question, the same family as the Roman forts' barracks sinking on their
+   slope (issue 3); recorded on the todo list.
+
+Lesson: **swapping the data file under one build is the cleanest before and after** for a data-only change
+(same code, same hash for the script chunk, only the tiles differ), and it makes a failing test on the old
+data a proof of the change rather than of the build.
