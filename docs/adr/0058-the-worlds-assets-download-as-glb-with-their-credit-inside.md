@@ -9,6 +9,7 @@ updated: 2026-10-16
 
 - **Status:** Accepted (Dewi's decision and format; the design Claude's, under the proactive mandate, [ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md))
 - **Date:** 2026-10-16
+- **Amended:** 2026-10-16, later the same day, on Dewi's decision that the terrain is "2m, as a release asset": decisions 1, 2, 4, 5, 6, 9 and 10 and the Consequences changed; the 4m committed set and its 10MB cap are gone
 
 ## Context
 
@@ -27,52 +28,54 @@ itself, who made it or under what licence.
    tab strip, with arrow-key navigation over all four. It lists every file with its name, what it shows,
    its period, its size, its credit and licence, and a link with the `download` attribute. A landmark
    model is labelled by its parts' tiers (decision 8), the train by its own ⓘ, a terrain tile by neither. All text is in the string table or the content files in English and
-   Welsh.
+   Welsh. The list is built when the tab is first shown, and a failure there shows an error line and logs
+   `dewidebug downloads list failed`, so a gap in the data costs the tab, not the app (amended).
 
 2. **One list, no second one.** `src/content/downloads.ts` builds the list from the landmark index
-   (`generated/models.ts`), a generated index of the train and the terrain tiles
-   (`generated/downloads.ts`), the features (name, dates, provenance) and the asset manifest
+   (`generated/models.ts`), a generated index of the landmarks' part tiers and the train
+   (`generated/downloads.ts`), the terrain tool's manifest (`generated/terrain-tiles.ts`), the features (name, dates, provenance) and the asset manifest
    (`src/content/assets.ts`, whose `assetFor(file)` is the one lookup). A file with no manifest record
    throws; a glb in `public/models` that holds geometry and is not listed fails a test, so a new model
-   cannot be forgotten. Sizes are in the generated index and a test checks them against the files.
+   cannot be forgotten. Sizes are in the generated indexes and tests check them against the files (the
+   terrain's against a fresh build, as the files themselves are not in the repo).
 
 3. **Each glb carries its credit and licence in its own `asset` block** (`copyright` and
-   `extras`, from the manifest, by `tools/downloads/stamp.ts`). The geometry, the scene and every part's
+   `extras`, from the manifest, by `tools/downloads/stamp.ts`), and again in its first scene's extras
+   (`credit`, `licence`, `licenceUrl`, `sourceUrl`), which is where Blender's importer looks. The geometry, the scene and every part's
    tier and sources are untouched (checked byte for byte for the binary chunk of two files). The LiDAR's
    attribution is the manifest's text, which starts with the exact `LIDAR_CREDIT` sentence.
 
-4. **The detailed terrain is exported once, by a tool** (`tools/terrain/export-glb.ts`,
-   `npm run downloads`): one .glb per detailed tile (the 21 tiles held at 2m), from the same
-   `lidar.bin` the app reads, cut into triangles by the same rule as the app (the flatter diagonal; the
-   rule is now exported from `tilemesh.ts` and `gridMesh` is tested against the app's own
-   `tileGeometry`), with the LiDAR's own heights: no blending into Terrain 50, no river channels, no
-   period earthworks. Axes are glTF's, in real metres. Each tile's mesh starts at its own south-west
-   corner, and its node's translation is its offset from the region's south-west corner
-   (E 260000 N 220500), so every tile opened together lands in place and neighbours meet exactly (they
-   share edge vertices; a test compares the edge heights). The British National Grid origin of the tile
-   is in the node's extras (`tileOriginBng`, and what it means), in the scene's extras (`sceneOriginBng`,
-   the CRS EPSG:27700, the axes) and in the list. The vertical datum note is the one `lidar.md` already
-   gives (not stated by the source; agrees with OS Terrain 50 to about 0.2m).
+4. **The detailed terrain is built by a tool, at the full 2m, for release** (`tools/terrain/export-glb.ts`,
+   `npm run terrain-glb -- <outdir>`): one .glb per detailed tile (the 29 held at 2m across the town, the
+   Roman forts and Dinefwr Castle), from the same `lidar.bin` the app reads, every stored sample kept
+   (250 by 250 cells, 125,000 triangles, uint16 indices, about 1.5MB a tile, 43.8MB the set), cut into
+   triangles by the same rule as the app (the flatter diagonal; the rule is exported from `tilemesh.ts`
+   and `gridMesh` is tested against the app's own `tileGeometry`), with the LiDAR's own heights: no
+   blending into Terrain 50, no river channels, no period earthworks. Axes are glTF's, in real metres. Each
+   tile's mesh starts at its own south-west corner, and its node's translation is its offset from the
+   region's south-west corner (E 260000 N 220500), so every tile opened together lands in place and
+   neighbours meet exactly (they share edge vertices; a test compares the edge heights). The British
+   National Grid origin of the tile is in the node's extras (`tileOriginBng`, and what it means), in the
+   scene's extras (`sceneOriginBng`, the CRS EPSG:27700, the axes) and in the list. The vertical datum note
+   is the one `lidar.md` already gives (not stated by the source; agrees with OS Terrain 50 to about 0.2m).
+   The build is deterministic (no timestamps), and a test builds it twice and compares hashes.
 
-5. **Committed, at 4m.** The step is the app's own near mesh (ADR 0049) and the whole set is 7,990,828
-   bytes (21 tiles of about 380,536 bytes, 31,250 triangles each; 3.8MB as a gzipped tar), against
-   31,679,364 bytes (16MB compressed) at the full 2m. The rest of `public/` is 19MB, so the committed set
-   adds about 40% rather than about 165%, and a test holds it under 10MB. The full-resolution set is one
-   command away (`node --experimental-transform-types tools/terrain/export-glb.ts --step 2 --out <dir>`),
-   and is **not** published: building it into a GitHub release asset at release time would be the route
-   if it is wanted; it was not done because nothing here may publish.
-
-   **Open, and Dewi's (2026-10-16 review):** the Dinefwr Castle 2m area on the castle LiDAR branch
-   (`worktree-wf_18a614f9-03d-2`) takes the detailed tiles from 21 to 29 (9 in the new area, one shared with
-   the forts), so the 4m set becomes about 11.0MB and the 10MB test fails on merge, on purpose. The choices:
-   raise the cap to about 11MB and commit them; or keep the cap and publish the terrain as a GitHub release
-   asset instead; or also publish the 2m set (about 31.7MB plus the new tiles) as a release asset beside the
-   committed 4m. Issue #4 asked for terrain "in the same format as the high res terrain", and the reply
-   promised the detailed tiles, so 4m is a halving of what was offered: the Terrain note now says the
-   files are coarser than the survey. `TERRAIN_AREA_NAMES` already holds the castle area's name.
+5. **Published as release assets, not committed (Dewi, 2026-10-16: "2m, as a release asset").** The first
+   version committed the 21 tiles at 4m (8.0MB) under a 10MB test; adding Dinefwr Castle's 2m area would
+   have made that about 11.0MB, and the choices were to raise the cap, publish the terrain as a release
+   asset, or publish 2m as well. Dewi chose the full 2m as a release asset, so the repository does not
+   grow: the committed 4m glbs and the cap are removed. At each release the tool's output is attached
+   (`gh release create ... <files>`, [`releases.md`](../process/releases.md)); every terrain link in the
+   app is `https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/releases/latest/download/lidar-<e>-<n>.glb`.
+   The tool also writes the manifest the list is built from, `src/content/generated/terrain-tiles.ts`
+   (each tile's asset name, size, triangles, heights, areas and sha256), which is committed, so the list
+   shows each tile's size and credit with no file in the repo; a test rebuilds the tiles and checks every
+   size and hash against it. Consequence: until a release carries the files, the links 404; the Terrain note
+   says the tiles are attached to each release on GitHub, not kept in the app. The models stay committed,
+   as before.
 
 6. **Not listed:** a level with no triangles. The vicus has no far model (its houses are all detail), and
-   its far glb is 528 bytes of nothing.
+   its far glb is an empty model: a few hundred bytes of header, scene and credit, with no geometry.
 
 7. **The stamp is a second pass, not part of the Blender finishing step.** `tools/models/build.ts`,
    `glb.ts` and `sheets.ts` are hashed into every model's `inputHash` (ADR 0053), so editing them would
@@ -94,43 +97,62 @@ itself, who made it or under what licence.
    and its y is not tied to any ground (the app fits each part when it loads, ADR 0053), while a terrain
    tile's origin is the region's south-west corner (E 260000, N 220500) with absolute heights, so opened
    together a fort would land kilometres away. The stamp adds `placement` to each landmark's asset extras:
-   the anchor on the grid, the anchor's place in the terrain scene (`e - 260000, 0, -(n - 220500)`), and
-   a sentence saying to drop each part onto the ground in use. It is the second pass's job
-   (`modelPlacement` in `tools/downloads/stamp.ts`).
+   the anchor on the grid, the anchor's place in the terrain scene (`e - 260000, ground, -(n - 220500)`),
+   the ground height there (`groundAtAnchorMetres`, the LiDAR's own bilinear height at the anchor from the
+   finest tile that holds it, the same data the terrain export uses: 76.1m for Fort 1, 76.77m for Fort 2,
+   72.32m for the vicus), and a sentence saying that over sloping ground the parts do not all stand on the
+   tiles and each should be dropped onto the ground in use. The first version left y at 0, 76m under the
+   tiles' ground. The credit, licence and placement are repeated in the glb's first scene's extras, because
+   Blender's importer keeps a scene's extras and ignores the asset block's. It is the second pass's job
+   (`modelPlacement` and `stampAsset` in `tools/downloads/stamp.ts`).
 
-10. **The models carry shape, not colour.** Since ADR 0055 a glb keeps no materials (the app supplies them);
-    each part names its surfaces in its extras. The Models note says so, and that a part's sources are ids,
-    which the project's research notes explain, not citations.
+10. **The models carry shape and vertex colours, not the app's materials or textures.** Since ADR 0055 a
+    glb has no materials and no textures; each primitive has a `COLOR_0` vertex colour (one palette colour per
+    face, whose alpha value is an internal code for the surface's grain, not transparency), and each part
+    names its surfaces in its extras. The Models note says so, and that a part's sources are ids, which the
+    project's research notes explain, not citations. A test checks every model glb for `COLOR_0` and for
+    no textures, images or materials, and the note for the words. (The first version said "no colours".)
+
+11. **The OGL's own text is linked from the LiDAR records.** `AssetRecord` has an optional `licenceUrl`
+    (the National Archives' Open Government Licence v3.0 page for the two LiDAR records), stamped into the
+    asset and scene extras of each tile and linked beside the source page in a row's credit.
 
 ## Consequences
 
 - The SketchUp use that issue #4's author described works with a standard format and no conversion:
   Blender, SketchUp, game engines and viewers open the files; the credit and the licence travel with them.
   Dewi's decisions were the scope and the glb format.
-- `buildDownloads` runs when the app starts (`src/main.ts`) and throws on a gap (a model with no manifest
-  record, a terrain area with no name), so such a gap would stop the app, not only the tab. The unit tests
-  catch every such gap before a deploy, which is the reason it was left eager.
-- Adding a model to `MODELLED` (Dinefwr, say) or an area to `lidar-areas.json` and rebuilding adds it to
-  the list after `npm run downloads`; a model or area with no name fails a test rather than being
+- `buildDownloads` throws on a gap (a model with no manifest record, a terrain area with no name). It
+  first ran when the app started, so a gap would have stopped the app; it now runs when the tab is first
+  shown, inside a `try`, and the tab shows an error line (an end-to-end test takes an area's name out of the
+  bundle and checks the app stays ready and the other tabs work). The unit tests still catch every such gap
+  before a deploy.
+- Adding a model to `MODELLED` (Dinefwr, say) rebuilds into the list after `npm run downloads`, and an area
+  to `lidar-areas.json` after `npm run terrain-glb -- <outdir>` (and a release that attaches the new tiles); a model or area with no name fails a test rather than being
   skipped. `TERRAIN_AREA_NAMES` is the one table that needs a line (English and Welsh).
 - The licence column shows the manifest's text. For our own models that is "Original work of this
   project", which is not a licence: the repository's `package.json` says MIT and nothing else states a
   reuse licence for the models. That is Dewi's to settle; the code does not invent one.
-- The terrain at 4m loses what 2m shows (a Roman ditch is 2 to 3m wide), though it is what the app
-  draws near. The tiles are today's ground only; the page says so.
-- Run `npm run downloads` after `npm run models`, after rebuilding the train, and after rebuilding the
-  LiDAR tiles. The tool needs `--experimental-transform-types` because the app's `lidar.ts` uses
+- The terrain is the 2m the app stores; the survey is 1m, so the Terrain note says the files are still
+  coarser than the survey and that a Roman fort's 2 to 3m ditches are a sample or two across. The tiles
+  are today's ground only; the page says so.
+- Run `npm run downloads` after `npm run models` and after rebuilding the train. Run `npm run terrain-glb --
+  <outdir>` after rebuilding the LiDAR tiles or changing an area, commit the manifest it writes, and attach
+  the files to the release (`gh release create v<version> ... <outdir>/*.glb`). The tools need `--experimental-transform-types` because the app's `lidar.ts` uses
   parameter properties, which Node's type stripping refuses; the npm script passes it.
-- Binary glbs change in this commit (a credit block of about 490 bytes each), so a branch that rebuilds
+- Binary glbs change (a credit and placement block of about 1.7KB each), so a branch that rebuilds
   or edits them will conflict; resolve by taking its geometry and running `npm run downloads`.
 
 ## Alternatives considered
 
-- **The full 2m tiles committed.** 31.7MB (16MB compressed) added to a public repo's history for ever,
-  for a resolution the app does not draw. Kept as an option, not the default.
-- **The full set built at release time into a GitHub release asset and linked.** Right if 2m is wanted;
-  rejected for now because it needs a published release this work cannot make, and a link to a file that
-  does not exist yet.
+- **The full 2m tiles committed.** 43.8MB (22.0MB as a gzipped tar) added to a public repo's history for
+  ever. Rejected.
+- **The tiles committed at 4m (8.0MB for 21, about 11.0MB for 29) under a size cap.** The first version.
+  Halves what issue #4's reply promised, and needed a cap raised or dropped as areas were added; replaced
+  by the release assets on Dewi's decision.
+- **The full set built at release time into a GitHub release asset and linked.** Chosen (decision 5). Its
+  cost is that the links 404 until a release carries the files, and that the files are not in the repo,
+  so the manifest's hashes are the check.
 - **Putting the stamp into `tools/models/build.ts`'s finishing step.** The natural seam, and the better
   one for future models, but it changes the hash of every model and forces a full Blender rebuild and a
   merge conflict on every binary; the second pass costs one command and a test.
