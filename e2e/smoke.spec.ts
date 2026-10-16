@@ -282,6 +282,34 @@ test('the compass shows the heading and turns the view to face north', async ({ 
   await expect(compass).toHaveAttribute('data-bearing', '0');
 });
 
+test('a right-drag already turning when a flight starts takes the camera back from it', async ({ page }) => {
+  const seen: string[] = [];
+  page.on('console', (m) => seen.push(m.text()));
+  await page.goto('./?debug&year=1282');
+  await ready(page);
+  const compass = page.locator('.compass');
+  const box = await page.locator('#scene').boundingBox();
+  if (!box) throw new Error('no canvas');
+  await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.3);
+  await page.mouse.down({ button: 'right' });
+  await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.3, { steps: 4 });
+  await expect.poll(() => seen.some((t) => t.includes('dewidebug camera drag start kind=turn'))).toBe(true);
+  // A flight starts under the held drag, as stepping to a key date does (the compass is the nearest button).
+  await compass.evaluate((el) => {
+    if (el instanceof HTMLElement) el.click();
+  });
+  await expect.poll(() => seen.some((t) => t.includes('dewidebug camera turn from'))).toBe(true);
+  await page.mouse.move(box.x + box.width * 0.75, box.y + box.height * 0.3, { steps: 4 });
+  await page.mouse.up({ button: 'right' });
+  await expect
+    .poll(() => seen.some((t) => t.includes('dewidebug camera flight interrupted by=turn')), {
+      message: 'the held drag interrupted the flight',
+    })
+    .toBe(true);
+  await cameraSettled(page);
+  expect(await compass.getAttribute('data-bearing'), 'the flight to north did not finish').not.toBe('0');
+});
+
 const turnGlide = (page: Page): Promise<number> =>
   page.evaluate(() => {
     const debug: unknown = Reflect.get(window, 'llandeiloDebug');
@@ -298,6 +326,8 @@ interface CameraState {
   readonly alpha: number;
   readonly beta: number;
   readonly radius: number;
+  /** The scene's frame id, read in the same evaluate as the pose, so the two belong together. */
+  readonly frame: number;
 }
 
 const cameraState = (page: Page): Promise<CameraState> =>
@@ -309,6 +339,10 @@ const cameraState = (page: Page): Promise<CameraState> =>
     const t: unknown = Reflect.get(cam, 'target');
     const n = (o: unknown, k: string): number =>
       Number(o && typeof o === 'object' ? Reflect.get(o, k) : Number.NaN);
+    const frameOf = (sc: unknown): number => {
+      const fn: unknown = sc && typeof sc === 'object' ? Reflect.get(sc, 'getFrameId') : undefined;
+      return typeof fn === 'function' ? Number(fn.call(sc)) : Number.NaN;
+    };
     return {
       x: n(t, 'x'),
       y: n(t, 'y'),
@@ -316,6 +350,7 @@ const cameraState = (page: Page): Promise<CameraState> =>
       alpha: n(cam, 'alpha'),
       beta: n(cam, 'beta'),
       radius: n(cam, 'radius'),
+      frame: frameOf(scene),
     };
   });
 
@@ -1610,20 +1645,17 @@ const sampleCamera = async (page: Page, ms: number): Promise<CameraState[]> => {
 // rendered frame in it: one slow frame can leave two reads the same while a flight is still under way.
 const cameraSettled = async (page: Page): Promise<CameraState> => {
   let last = await cameraState(page);
-  let lastFrame = await frameId(page);
   let stillFor = 0;
   for (let i = 0; i < 240; i++) {
     await page.waitForTimeout(750);
     const now = await cameraState(page);
-    const frame = await frameId(page);
     // A sample with no new frame in it says nothing: the camera cannot have moved without one.
-    if (frame <= lastFrame) continue;
+    if (now.frame <= last.frame) continue;
     const still =
       moved(last, now) < 0.01 &&
       Math.abs(now.alpha - last.alpha) < 1e-4 &&
       Math.abs(now.radius - last.radius) < 0.01;
     last = now;
-    lastFrame = frame;
     stillFor = still ? stillFor + 1 : 0;
     if (stillFor >= 3) return now;
   }

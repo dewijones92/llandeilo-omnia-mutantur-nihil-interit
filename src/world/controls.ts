@@ -273,6 +273,9 @@ export class MapControls {
       );
       this.flight.interrupt(d.kind);
       this.hooks.onMove(d.kind);
+    } else if (this.flight.flying) {
+      console.info(`dewidebug camera drag already moving takes the camera from a flight kind=${d.kind}`);
+      this.flight.interrupt(d.kind);
     }
     if (d.kind === 'turn') {
       this.camera.inertialAlphaOffset -= (x - d.lastX) / this.camera.angularSensibilityX;

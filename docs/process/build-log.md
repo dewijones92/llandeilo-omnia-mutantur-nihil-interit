@@ -1549,3 +1549,18 @@ beside it.
 Verified under CI settings (`CI=1 E2E_QUALITY=low E2E_GPU=0`, one worker): the compass test 10 of 10 (and 6 of 6 earlier,
 3 of 3 red on the old flight), and the eight tests that use `partPoint` or `cameraSettled`, 8 passed in 11.0 minutes, the
 texture test at 3.4. On the GPU, `npm run e2e:gpu` (WebGPU, Windows Chrome): 8 GPU and 89 e2e passed, 1 skipped.
+
+**Follow-ups to the compass fix, 2026-10-16** (review of c661bcb). (1) `cameraSettled` now takes the frame id in the
+same evaluate as the pose (`CameraState.frame`), as `partPoint` does. (2) The per-tick `stopInertia()` in
+`Flight.tick` is dropped: deleting it left all three unit tests green, and nothing can add inertia mid-flight without
+interrupting the flight first (keys call `interrupt`, the wheel zooms through `zoomLog`, a drag interrupts, see 3), so it
+could only do harm. The start-of-flight clear is what the compass fix needs and stays. (3) A right-drag already past the
+drag threshold when a flight starts (stepping to a key date calls `goToShot` while the button is held) was never
+interrupted, because `interrupt` fired only on the drag's first move; the per-tick clear then swallowed its turning
+silently, and without the clear the flight and the drag would have fought over `alpha`. `MapControls.move` now interrupts
+the flight on any move while one is flying (a `dewidebug` line says so). New e2e "a right-drag already turning when a
+flight starts takes the camera back from it": holds a right-drag, fires the compass click under it, moves on, and
+requires the interrupt line and that the view did not finish at north. Seen red on the old `controls.ts` at the
+interrupt assertion (2 of 2), green with the change. CI settings: that test and the compass test 5 of 5 each (3 of 3 on the
+final file), and the seven other camera and part tests 8 of 8; the GPU kit result is below.
+GPU kit (WebGPU, Windows Chrome) on the final files: 8 GPU and 90 e2e passed, 1 skipped.

@@ -134,7 +134,6 @@ export class Flight {
     this.track(dt);
     const { from, to } = this;
     if (!from || !to) return;
-    this.stopInertia();
     this.elapsed += dt;
     const f = Math.min(1, this.elapsed / this.duration);
     const e = f < 0.5 ? 4 * f * f * f : 1 - Math.pow(-2 * f + 2, 3) / 2;
