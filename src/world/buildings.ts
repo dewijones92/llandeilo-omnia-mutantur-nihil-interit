@@ -1,7 +1,7 @@
 import { Vector3, type Mesh, type Scene } from './babylon.ts';
 import { hex, mix, type Rgb } from '../domain/colour.ts';
 import { CUT_EARTH, MATERIAL_COLOUR, SETTING_SCALE } from '../domain/materials.ts';
-import { seatOf } from '../domain/plot.ts';
+import { seatOf, standsOnGround } from '../domain/plot.ts';
 import { DEFAULT_ROOF, HALL_ROOF, hallRoofRise, RAISED_DROP, TOWER_ROOF } from '../domain/proportions.ts';
 import { WORLD } from '../domain/geo.ts';
 import { LOD_STEPS } from '../domain/lidar.ts';
@@ -68,9 +68,11 @@ export interface Drawn {
   readonly floors: Map<string, number>;
   /** The ground each road part's edges were laid on, as x, y, z points. */
   readonly roads: Map<string, [number, number, number][]>;
+  /** The triangles each standing part drew in the mesh, so the e2e test can read its walls off the geometry. */
+  readonly runs: Map<string, { readonly from: number; readonly to: number }>;
 }
 
-export const newDrawn = (): Drawn => ({ floors: new Map(), roads: new Map() });
+export const newDrawn = (): Drawn => ({ floors: new Map(), roads: new Map(), runs: new Map() });
 
 export function planWorldScale(plan: Plan): { readonly across: number; readonly up: number } {
   const s = SCALE[plan.setting];
@@ -111,7 +113,11 @@ export function buildPlan(
   };
   const drawn = plan.parts.filter((p) => level === 'near' || !p.detail);
   for (const p of platforms) platform(f, p.face, p.outline);
-  for (const part of drawn) buildPart(f, part);
+  for (const part of drawn) {
+    const from = f.sculpt.triangles;
+    buildPart(f, part);
+    if (part.id && record && standsOnGround(part)) record.runs.set(part.id, { from, to: f.sculpt.triangles });
+  }
   const mesh = f.sculpt.toMesh(scene, `plan-${condition}-${level}`);
   mesh.position = new Vector3(ox, baseY, oz);
   console.info(

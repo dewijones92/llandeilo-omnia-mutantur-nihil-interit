@@ -1,4 +1,4 @@
-import { Vector3, type AbstractMesh, type Mesh } from './babylon.ts';
+import { Vector3, VertexBuffer, type AbstractMesh, type Mesh } from './babylon.ts';
 import { toGrid, toWorld, WORLD } from '../domain/geo.ts';
 import type { Feature, FeatureId, RollingStock } from '../domain/model.ts';
 import type { LampState } from '../domain/lamplight.ts';
@@ -17,6 +17,9 @@ import {
   clearingMetres,
   editsBuiltOn,
   editsDrawn,
+  columnTops,
+  footprint,
+  floorFromTops,
   footprintSamples,
   SEAT_TOLERANCE,
   seats,
@@ -57,6 +60,12 @@ export interface StandingPart {
   readonly procedural: number | undefined;
   readonly model: number | undefined;
   readonly at: [number, number][];
+  /** How many of `at` are the footprint's corners (they come first). */
+  readonly corners: number;
+  /** A wall's height above its floor, world units (base and height, at the plan's vertical scale). */
+  readonly rise: number;
+  /** The floor each builder drew the part standing on, read off its mesh (the lowest wall top less `rise`); undefined if that builder drew none of it. */
+  readonly drawn: { readonly procedural: number | undefined; readonly model: number | undefined };
 }
 
 /** The points a road's edges were laid on, from the procedural draw or from the ground parts drawn beside the model. */
@@ -102,6 +111,66 @@ interface TownSet {
 }
 
 const TOWN_CORE_RADIUS = 1300;
+
+/** How near a corner, in world units (0.1m), a vertex counts as part of its wall when the walls are read off the mesh. */
+const TOP_RADIUS = 0.01;
+
+const vector = (v: {
+  readonly x: number;
+  readonly y: number;
+  readonly z: number;
+}): [number, number, number] => [v.x, v.y, v.z];
+
+// The highest vertex of a part's near model at each corner point, over every mesh the part was merged into. A gate
+// leaf hangs from the model on its hinge and turns, so its corners are not where the plan's are: its top is its highest vertex.
+function modelTops(
+  m: Monument,
+  part: string,
+  points: readonly (readonly [number, number])[],
+): (number | undefined)[] | undefined {
+  const runs = (m.model?.pick.near ?? []).flatMap((l) =>
+    l.runs.filter((r) => r.id === part).map((run) => ({ l, run })),
+  );
+  if (runs.length === 0) return undefined;
+  const tops: (number | undefined)[] = points.map(() => undefined);
+  for (const { l, run } of runs) {
+    const positions = l.mesh.getVerticesData(VertexBuffer.PositionKind);
+    if (!positions) continue;
+    const hung = l.mesh.parent !== null;
+    const read = hung ? inWorld(l.mesh, positions) : positions;
+    const origin = hung ? [0, 0, 0] : vector(l.mesh.position);
+    const found = columnTops(
+      read,
+      run,
+      [origin[0] ?? 0, origin[1] ?? 0, origin[2] ?? 0],
+      points,
+      hung ? Number.POSITIVE_INFINITY : TOP_RADIUS,
+      hung ? 1 : l.mesh.scaling.y,
+    );
+    found.forEach((t, i) => {
+      const best = tops[i];
+      if (t !== undefined && (best === undefined || t > best)) tops[i] = t;
+    });
+  }
+  return tops;
+}
+
+function inWorld(mesh: Mesh, positions: ArrayLike<number>): number[] {
+  const matrix = mesh.computeWorldMatrix(true);
+  const out: number[] = [];
+  const v = new Vector3();
+  for (let i = 0; i < positions.length; i += 3) {
+    Vector3.TransformCoordinatesFromFloatsToRef(
+      positions[i] ?? 0,
+      positions[i + 1] ?? 0,
+      positions[i + 2] ?? 0,
+      matrix,
+      v,
+    );
+    out.push(v.x, v.y, v.z);
+  }
+  return out;
+}
 
 function clearingOf(kind: Feature['kind']): number {
   return clearingMetres(kind) / WORLD.metresPerUnit;
@@ -549,13 +618,45 @@ export class FeatureLayer {
     if (!m || f?.kind.type !== 'building') return [];
     const plan = f.kind.plan;
     const { across } = planWorldScale(plan);
+    const { up } = planWorldScale(plan);
+    const drawnMesh = m.near ?? m.mesh;
+    const proceduralPositions = drawnMesh.getVerticesData(VertexBuffer.PositionKind);
     return plan.parts.filter(standsOnGround).flatMap((part) => {
       if (!part.id) return [];
       const at = footprintSamples(part).map((p): [number, number] => {
         const [x, z] = rotate(p, plan.angle ?? 0);
         return [m.at.x + x * across, m.at.z + z * across];
       });
-      return [{ id: part.id, procedural: m.seats.get(part.id), model: m.model?.floors.get(part.id), at }];
+      const corners = footprint(part).length;
+      const cornerPoints = at.slice(0, corners);
+      const run = m.drawn?.runs.get(part.id);
+      const rise = ((part.base ?? 0) + part.height) * up;
+      const proceduralTops =
+        run && proceduralPositions
+          ? columnTops(
+              proceduralPositions,
+              run,
+              vector(drawnMesh.position),
+              cornerPoints,
+              TOP_RADIUS,
+              drawnMesh.scaling.y,
+            )
+          : undefined;
+      const modelled = modelTops(m, part.id, cornerPoints);
+      return [
+        {
+          id: part.id,
+          procedural: m.seats.get(part.id),
+          model: m.model?.floors.get(part.id),
+          at,
+          corners,
+          rise,
+          drawn: {
+            procedural: proceduralTops && floorFromTops(proceduralTops, rise),
+            model: modelled && floorFromTops(modelled, rise),
+          },
+        },
+      ];
     });
   }
 

@@ -3,7 +3,15 @@ import { mint } from './brand.ts';
 import { applyEdits } from './groundedit.ts';
 import { SETTING_SCALE } from './materials.ts';
 import type { Part, Plan } from './plan.ts';
-import { footprint, footprintSamples, seatOf, seats, terraceEdits } from './plot.ts';
+import {
+  columnTops,
+  floorFromTops,
+  footprint,
+  footprintSamples,
+  seatOf,
+  seats,
+  terraceEdits,
+} from './plot.ts';
 import type { SourceId } from './provenance.ts';
 import { ad, range } from './time.ts';
 
@@ -139,5 +147,33 @@ describe('terraces as ground edits', () => {
         baseMetres: () => 0,
       }),
     ).toThrow(/provenance/);
+  });
+});
+
+describe('reading a part’s floor off what was drawn (ADR 0056)', () => {
+  // Two triangles of a box 4m across: a wall top at y=6 over (0,0), (4,0) and (4,4), and a peak at y=9 over (2,2).
+  const positions = [0, 6, 0, 4, 6, 0, 4, 6, 4, 0, 6, 0, 2, 9, 2, 4, 6, 4];
+  const corners = [
+    [0, 0],
+    [4, 0],
+    [4, 4],
+    [9, 9],
+  ] as const;
+
+  it('takes the highest vertex near each corner, and nothing where none is near', () => {
+    expect(columnTops(positions, { from: 0, to: 2 }, [0, 0, 0], corners, 0.1)).toEqual([6, 6, 6, undefined]);
+  });
+
+  it('moves with the mesh’s position and stretch, and reads only its own run', () => {
+    expect(columnTops(positions, { from: 0, to: 2 }, [10, 100, 20], [[14, 20]], 0.1, 2)).toEqual([112]);
+    expect(columnTops(positions, { from: 1, to: 2 }, [0, 0, 0], [[0, 0]], 0.1)).toEqual([6]);
+    expect(columnTops(positions, { from: 1, to: 2 }, [0, 0, 0], [[2, 2]], 0.1)).toEqual([9]);
+    expect(columnTops(positions, { from: 0, to: 1 }, [0, 0, 0], [[2, 2]], 0.1)).toEqual([undefined]);
+  });
+
+  it('gives the floor as the lowest wall top less the wall’s height, so a merlon never lowers it', () => {
+    expect(floorFromTops([6, 7.2, 6], 4)).toBe(2);
+    expect(floorFromTops([7.2, 6.5, undefined], 4)).toBe(2.5);
+    expect(floorFromTops([undefined], 4)).toBeUndefined();
   });
 });

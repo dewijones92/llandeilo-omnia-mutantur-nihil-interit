@@ -476,6 +476,15 @@ interface Buried {
   /** Parts the procedural draw set a floor for, and parts the model did (0 until it loads). */
   readonly proceduralFloors: number;
   readonly modelFloors: number;
+  /** Parts whose walls were read off the mesh each builder drew (the procedural near mesh, the model's rigid-part run). */
+  readonly proceduralMeasured: number;
+  readonly modelMeasured: number;
+  /** The most, in metres, that a floor read off the mesh differs from the floor the builder recorded: the record must be what was drawn. */
+  readonly recordGap: number;
+  readonly recordGapPart: string;
+  readonly recordGaps: string[];
+  /** Parts a builder drew whose walls could not be read off its mesh. */
+  readonly unmeasured: string[];
   readonly worst: number;
   readonly part: string;
   readonly worstModel: number;
@@ -491,7 +500,8 @@ interface Buried {
 
 // How deep, in metres at the forts' true height, the mesh drawn now rises over the floor each builder drew a
 // standing part at (the procedural draw's, and the Blender model's once loaded), at each point under its
-// footprint (ADR 0056), and how many of its tiles are drawn at 4m. The floors are the ones the builders used.
+// footprint (ADR 0056), and how many of its tiles are drawn at 4m. The floors are read off the vertices each
+// builder drew (its lowest wall top at the footprint's corners, less the wall's height), not from what it recorded.
 async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
   return page.evaluate((featureId) => {
     const debug: unknown = Reflect.get(window, 'llandeiloDebug');
@@ -537,15 +547,39 @@ async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
       part: '',
       worstModel: Number.NEGATIVE_INFINITY,
       modelPart: '',
+      proceduralMeasured: 0,
+      modelMeasured: 0,
+      recordGap: 0,
+      recordGapPart: '',
+      recordGaps: [] as string[],
+      unmeasured: [] as string[],
     };
     for (const s of list) {
       const at: unknown = Reflect.get(s, 'at');
       if (!Array.isArray(at)) throw new Error('a standing part without footprint points');
+      const measured: unknown = Reflect.get(s, 'drawn');
+      if (typeof measured !== 'object' || !measured)
+        throw new Error('a standing part without measured floors');
       for (const kind of ['procedural', 'model'] as const) {
-        const floor: unknown = Reflect.get(s, kind);
-        if (typeof floor !== 'number') continue;
+        const recorded: unknown = Reflect.get(s, kind);
+        if (typeof recorded !== 'number') continue;
         if (kind === 'procedural') out.proceduralFloors++;
         else out.modelFloors++;
+        const floor: unknown = Reflect.get(measured, kind);
+        if (typeof floor !== 'number') {
+          out.unmeasured.push(`${String(Reflect.get(s, 'id'))} ${kind}`);
+          continue;
+        }
+        if (kind === 'procedural') out.proceduralMeasured++;
+        else out.modelMeasured++;
+        if (Math.abs(floor - recorded) > 0.005)
+          out.recordGaps.push(
+            `${String(Reflect.get(s, 'id'))} ${kind} ${((floor - recorded) * 10).toFixed(2)}m`,
+          );
+        if (Math.abs(floor - recorded) > out.recordGap) {
+          out.recordGap = Math.abs(floor - recorded);
+          out.recordGapPart = String(Reflect.get(s, 'id'));
+        }
         for (const p of at) {
           if (!Array.isArray(p)) continue;
           const drawn: unknown = Reflect.apply(drawnAt, terrain, [p[0], p[1]]);
@@ -577,6 +611,7 @@ async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
       ...out,
       worst: out.worst * 10,
       worstModel: out.worstModel * 10,
+      recordGap: out.recordGap * 10,
       meshGap: meshGap * 10,
       smoothGap: smoothGap * 10,
       roadPoints,
@@ -636,6 +671,7 @@ for (const [year, id] of [
     console.info(`dewidebug e2e fort seats AD ${String(year)} ${id} ${JSON.stringify(b)}`);
     expect(b.parts, `${id}: standing parts`).toBeGreaterThan(10);
     expect(b.proceduralFloors, `${id}: parts the procedural draw set a floor for`).toBe(b.parts);
+    expect(b.proceduralMeasured, `${id}: parts whose walls were read off the procedural mesh`).toBe(b.parts);
     expect(
       b.worst,
       `${id}: the deepest any wall the plan draws stands under the mesh drawn (metres), at ${b.part}`,
@@ -655,9 +691,14 @@ for (const [year, id] of [
       `${id}: the most any road edge sits above or below the mesh drawn under it (metres)`,
     ).toBeLessThan(0.05);
     expect(b.modelFloors, `${id}: parts the Blender model stood`).toBeGreaterThan(0);
+    expect(b.modelMeasured, `${id}: parts whose walls were read off the model's mesh`).toBe(b.modelFloors);
     expect(
       b.worstModel,
       `${id}: the deepest any rigid part of the model stands under the mesh drawn (metres), at ${b.modelPart}`,
     ).toBeLessThan(0.4);
+    expect(
+      b.recordGap,
+      `${id}: a floor read off a drawn mesh against the one its builder recorded (metres), at ${b.recordGapPart}`,
+    ).toBeLessThan(0.1);
   });
 }

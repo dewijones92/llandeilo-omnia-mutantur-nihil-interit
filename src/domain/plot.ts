@@ -53,6 +53,40 @@ export function footprintSamples(part: Standing): readonly Pt[] {
   return [...ring, ...mids, centre];
 }
 
+/**
+ * The highest drawn vertex within `radius` of each point (world x, z), among the triangles `from` to `to` of a flat
+ * triangle list whose mesh sits at `origin` and is stretched `yScale` upright: the wall top at each corner of a part as it was drawn, read from the
+ * geometry and not from what a builder recorded. Undefined where the run has no vertex that near.
+ */
+export function columnTops(
+  positions: ArrayLike<number>,
+  run: { readonly from: number; readonly to: number },
+  origin: readonly [number, number, number],
+  points: readonly (readonly [number, number])[],
+  radius: number,
+  yScale = 1,
+): (number | undefined)[] {
+  const tops: (number | undefined)[] = points.map(() => undefined);
+  const limit = radius * radius;
+  for (let k = run.from * 9; k < run.to * 9; k += 3) {
+    const x = (positions[k] ?? 0) + origin[0];
+    const z = (positions[k + 2] ?? 0) + origin[2];
+    const y = (positions[k + 1] ?? 0) * yScale + origin[1];
+    points.forEach((p, i) => {
+      if ((x - p[0]) ** 2 + (z - p[1]) ** 2 > limit) return;
+      const best = tops[i];
+      if (best === undefined || y > best) tops[i] = y;
+    });
+  }
+  return tops;
+}
+
+/** Where a part's floor was actually drawn: its lowest wall top less its height (a merlon or a post only ever raises a corner's top). */
+export function floorFromTops(tops: readonly (number | undefined)[], rise: number): number | undefined {
+  const found = tops.filter((t): t is number => t !== undefined);
+  return found.length === 0 ? undefined : Math.min(...found) - rise;
+}
+
 /** The height a part's floor stands at, on whatever ground `heightAt` reads (plan-local points in, any unit out). */
 export function seatOf(part: Standing, heightAt: (p: Pt) => number): number {
   return Math.max(...footprintSamples(part).map(heightAt));
