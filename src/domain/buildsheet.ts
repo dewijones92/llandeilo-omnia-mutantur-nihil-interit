@@ -1,6 +1,7 @@
 import { toHex } from './colour.ts';
-import { MATERIAL_COLOUR, SETTING_SCALE } from './materials.ts';
+import { MATERIAL_COLOUR, SETTING_SCALE, TURF_FACE } from './materials.ts';
 import { hallRoofSpec, RAISED_DROP, towerRoofSpec, type RoofSpec } from './proportions.ts';
+import { partSurfaces, type SurfaceId } from './surfaces.ts';
 import type { GridRef } from './model.ts';
 import {
   rotate,
@@ -75,6 +76,8 @@ export interface SheetPart {
   readonly detail: boolean;
   readonly kits: readonly KitId[];
   readonly material: Material;
+  /** The surfaces its near model shows (ADR 0055): the script draws every face as one of these. */
+  readonly surfaces: readonly SurfaceId[];
   readonly fit: Fit;
   readonly shape: SheetShape;
   /** A leaf's hinge post and the directions it points closed and as drawn, degrees anticlockwise from east. */
@@ -90,7 +93,7 @@ export interface BuildSheet {
   readonly anchor: GridRef;
   readonly setting: Setting;
   readonly scale: { readonly across: number; readonly up: number };
-  /** Each material's colour, from the one palette: keys are `Material`s. */
+  /** Each material's colour, from the one palette: keys are `Material`s, and `turf-face` for a turf bank's cut earth. */
   readonly palette: Readonly<Record<string, string>>;
   /** Each kit's measurements, for the kits the parts ask for: keys are `KitId`s. */
   readonly kits: Readonly<Record<string, Readonly<Record<string, number>>>>;
@@ -130,7 +133,10 @@ export function buildSheet(input: SheetInput): BuildSheet {
   const standing = plan.parts.filter((p) => !liesOnGround(p) && !shapesGround(p));
   const parts = standing.map((p) => sheetPart(input.feature, p, en, angle));
   const kitIds = [...new Set(parts.flatMap((p) => p.kits))].sort();
-  const palette = Object.fromEntries(Object.entries(MATERIAL_COLOUR).map(([m, c]) => [m, toHex(c)]));
+  const palette = {
+    ...Object.fromEntries(Object.entries(MATERIAL_COLOUR).map(([m, c]) => [m, toHex(c)])),
+    'turf-face': toHex(TURF_FACE),
+  };
   return {
     format: SHEET_FORMAT,
     feature: input.feature,
@@ -175,6 +181,7 @@ function sheetPart(feature: string, p: Part, en: (q: Pt) => EN, angle: number): 
         ...base,
         ...hinge,
         material: p.material,
+        surfaces: partSurfaces(p),
         fit: { kind: 'follow' },
         shape: {
           type: 'wall',
@@ -190,10 +197,12 @@ function sheetPart(feature: string, p: Part, en: (q: Pt) => EN, angle: number): 
     case 'tower': {
       const at = en(p.at);
       const top = raised(p.base) + p.height;
+      const roof = towerRoofSpec(p);
       return {
         ...base,
         ...hinge,
         material: p.material,
+        surfaces: partSurfaces(p),
         fit: { kind: 'rigid', at },
         shape: {
           type: 'tower',
@@ -203,16 +212,18 @@ function sheetPart(feature: string, p: Part, en: (q: Pt) => EN, angle: number): 
           bottom: bottomOf(p.base),
           top,
           turn: (p.angle ?? 0) + angle,
-          roof: towerRoofSpec(p),
+          roof,
         },
       };
     }
     case 'hall': {
       const at = en(p.at);
+      const roof = hallRoofSpec(p);
       return {
         ...base,
         ...hinge,
         material: p.material,
+        surfaces: partSurfaces(p),
         fit: { kind: 'rigid', at },
         shape: {
           type: 'hall',
@@ -222,7 +233,7 @@ function sheetPart(feature: string, p: Part, en: (q: Pt) => EN, angle: number): 
           turn: p.angle + angle,
           bottom: bottomOf(p.base),
           top: raised(p.base) + p.height,
-          roof: hallRoofSpec(p),
+          roof,
         },
       };
     }
@@ -260,6 +271,6 @@ export interface LandmarkModel {
 
 /** Budgets per level at High (ADR 0053): triangles, draw calls and bytes. */
 export const MODEL_BUDGET = {
-  near: { triangles: 150_000, drawCalls: 12, bytes: 1_500_000 },
+  near: { triangles: 150_000, drawCalls: 16, bytes: 1_500_000 },
   far: { triangles: 15_000, drawCalls: 3, bytes: 150_000 },
 } as const;

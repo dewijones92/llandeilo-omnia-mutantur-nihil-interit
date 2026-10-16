@@ -16,7 +16,7 @@ Decisions table once agreed, and work items to [`../todos/_index.md`](../todos/_
 | [`timeline-experience.md`](timeline-experience.md) | Previous/next through key dates, the camera going to the action, sound and visual effects per event |
 | [`conversations-by-class.md`](conversations-by-class.md) | Typical conversations at every key date, one per class of people, in the language each class spoke |
 | [`models.md`](models.md) | Realistic models for the important buildings and castles, phase by phase through time |
-| [`blender-models.md`](blender-models.md) | **Accepted; phase 1 built for the Roman forts** (2026-10-10). Scripted Blender models for the important landmarks: typed plan → build sheet → headless Blender → glTF with each part's tier in its extras, loaded by one loader |
+| [`blender-models.md`](blender-models.md) | **Accepted; phases 1 and 2 built for the Roman forts** (2026-10-10; phase 2, textures and clicking a part, is ADR 0055). Scripted Blender models for the important landmarks: typed plan → build sheet → headless Blender → glTF with each part's tier in its extras, loaded by one loader |
 | [`sound-and-assets.md`](sound-and-assets.md) | Immersive sound and other assets: generate, use a generative service, or find openly licensed ones |
 | [`feedback.md`](feedback.md) | Visitor feedback and corrections, ideally as GitHub issues: options and a recommendation |
 | [`analytics.md`](analytics.md) | Privacy-friendly analytics and error reporting: options and a recommendation |

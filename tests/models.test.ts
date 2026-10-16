@@ -14,7 +14,17 @@ import {
 } from '../src/domain/buildsheet.ts';
 import type { Feature } from '../src/domain/model.ts';
 import { KIT_IDS, type Part } from '../src/domain/plan.ts';
-import { glbCounts, hasIdentityTransform, nodeBounds, readGlb, type GlbJson } from '../tools/models/glb.ts';
+import {
+  drawGroups,
+  glbCounts,
+  hasIdentityTransform,
+  nodeBounds,
+  readGlb,
+  type Glb,
+  type GlbJson,
+} from '../tools/models/glb.ts';
+import { partSurfaces } from '../src/domain/surfaces.ts';
+import { GRAIN_STEPS } from '../src/domain/texturing.ts';
 import { inputHash, sheets } from '../tools/models/sheets.ts';
 
 const root = join(import.meta.dirname, '..');
@@ -302,7 +312,51 @@ describe('the Blender landmark models (ADR 0053)', () => {
         expect(bytes, entry.file).toBeLessThanOrEqual(MODEL_BUDGET[level].bytes);
         expect(entry.triangles, entry.file).toBeLessThanOrEqual(MODEL_BUDGET[level].triangles);
         expect(entry.drawCalls, entry.file).toBeLessThanOrEqual(MODEL_BUDGET[level].drawCalls);
+        expect(entry.drawCalls, entry.file).toBe(drawGroups(json));
       }
+  });
+
+  it('tells the app each near part’s surfaces, exactly as the plan gives them, and the far level none (ADR 0055)', () => {
+    let checked = 0;
+    for (const m of LANDMARK_MODELS) {
+      const byId = new Map(planParts(m.feature).map((p) => [p.id, p]));
+      for (const { id, extras } of partNodes(glb(m.near.file))) {
+        const p = byId.get(id);
+        const surfaces = extras['surfaces'];
+        expect(Array.isArray(surfaces), id).toBe(true);
+        expect(Array.isArray(surfaces) && [...new Set(surfaces)].sort(), id).toEqual(
+          p && [...partSurfaces(p)],
+        );
+        checked++;
+      }
+      for (const { id, extras } of partNodes(glb(m.far.file))) expect(extras['surfaces'], id).toBeUndefined();
+    }
+    expect(checked).toBeGreaterThan(100);
+  });
+
+  it('brings no materials of its own, so every model is lit by the app’s one set (ADR 0055)', () => {
+    for (const m of LANDMARK_MODELS)
+      for (const level of LEVELS) {
+        const json = glb(m[level].file);
+        expect(json.materials, m[level].file).toBeUndefined();
+        for (const mesh of json.meshes ?? [])
+          for (const prim of mesh.primitives) expect(prim.material, m[level].file).toBeUndefined();
+      }
+  });
+
+  it('writes each near face’s grain into its colour’s alpha, in byte colours, as a code the app can read (ADR 0055)', () => {
+    const codes = new Map<number, number>();
+    for (const m of LANDMARK_MODELS) {
+      const file = readGlb(readFileSync(join(root, 'public', m.near.file)));
+      for (const mesh of file.json.meshes ?? [])
+        for (const prim of mesh.primitives) {
+          const alpha = colourAlphas(file, prim.attributes?.COLOR_0);
+          for (const a of alpha) codes.set(a, (codes.get(a) ?? 0) + 1);
+        }
+    }
+    // Byte alpha = (code + 1) / GRAIN_STEPS of 255: upright and lengthwise, and nothing else.
+    const allowed = [1, 2].map((k) => Math.round((k / GRAIN_STEPS) * 255));
+    expect([...codes.keys()].sort((a, b) => a - b)).toEqual(allowed);
   });
 
   it('keeps every part id short enough for Blender’s object names', () => {
@@ -318,6 +372,17 @@ describe('the Blender landmark models (ADR 0053)', () => {
     expect(() => modelSheets(roads)).toThrow(/no plan/);
   });
 });
+
+/** Every alpha byte of a primitive's colour attribute, which must be unsigned bytes. */
+function colourAlphas(file: Glb, accessor: number | undefined): number[] {
+  const a = accessor === undefined ? undefined : file.json.accessors?.[accessor];
+  if (!a) throw new Error('a primitive has no colour');
+  expect(a.componentType).toBe(5121);
+  const view = file.json.bufferViews?.[a.bufferView ?? -1];
+  if (!view) throw new Error('a colour has no buffer view');
+  const from = (view.byteOffset ?? 0) + (a.byteOffset ?? 0);
+  return Array.from({ length: a.count }, (_, i) => file.bin[from + i * 4 + 3] ?? -1);
+}
 
 describe('the detail kits a model may draw', () => {
   const used = new Set(
@@ -377,6 +442,16 @@ describe('the detail kits a model may draw', () => {
     expect(basis?.cy).toMatch(/gwrth-ddweud/);
     expect(p.sources.map(String)).toContain('fort:S1');
     expect(p.sources.map(String)).toContain('fort:S16');
+  });
+
+  it('lay turves in courses half a Roman foot deep, as Vegetius gives them, and say the faces were laid grass side down', () => {
+    expect(kitParams('turf-courses')['course']).toBe(0.15);
+    const p = kitInfo('turf-courses').provenance;
+    const basis = p.kind === 'reconstructed' ? p.basis : undefined;
+    expect(basis?.en).toMatch(/Vegetius/);
+    expect(basis?.en).toMatch(/grass side down/);
+    expect(basis?.cy).toMatch(/Vegetius/);
+    expect(p.sources.map(String)).toEqual(expect.arrayContaining(['surfaces:S1', 'surfaces:S2']));
   });
 
   it('take every measurement from the catalogue as a positive number of metres', () => {
