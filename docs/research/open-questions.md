@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-09
+updated: 2026-10-16
 ---
 
 # Open questions
@@ -26,7 +26,20 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | Victoria's weight (the 1841 engine) | 18 tons (Board of Trade, 1858) vs 14 tons working weight (1985 history) | [railway](railway-locomotives.md) |
 | The red kite's 1930s low point | fewer than ten pairs (BTO) vs a single known nest (Aberystwyth University) | [deep time](deep-time-and-natural-history.md) |
 | Where Cymdeithas yr Iaith was founded | Pontarddulais vs Pontardawe (two Wikipedia pages) | [language](language-by-class.md) |
-| When Dinefwr fell to English control | 1277 vs 1287 framings | [medieval](era-medieval-to-1282.md) |
+| When Dinefwr fell to English control | 1277 vs 1287 framings; the HER adds "From 1276 onwards, the castle was largely kept in English hands" (added 2026-10-10) | [medieval](era-medieval-to-1282.md), [dinefwr](dinefwr-castle.md) |
+| Dinefwr's first record, 1151 | "built by two brothers Maredudd and Rhys" (HER) vs the Rolls Series Brut, where the brothers "repaired the castle of Dinweileir" and only manuscripts C and E read Dinevwr; Gatehouse says Dinweiler is a different castle (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
+| When the Lord Rhys took Dinefwr | 1162 (Rolls Series Brut's years), 1163 (Gatehouse's list of Brut entries), 1165 (medievalheritage.eu) (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
+| Who built Dinefwr's keep and curtain, and in what order | One phase 1230-50 (Cadw's phase plans); the keep possibly Rhys Gryg's (Cadw guide); a rebuild after the 1220 dismantling (HER); the keep first and the curtain later (Moore); Rhys Gryg died 1233 (Cadw guide) or 1234 (DWB) (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
+| Dinefwr keep's diameter | "some 12m" (Coflein) vs 13.5m with 2.6m walls (medievalheritage.eu) vs 13.6m over the drawn wall on the Cadw plan at the ground's scale, about 14m on the LiDAR (measured 2026-10-10; was 12-14m in building-models.md) | [dinefwr](dinefwr-castle.md), [buildings](building-models.md) |
+| Dinefwr's other sizes | North-west tower about 7m (text) vs 7.9m measured; curtain 1.8m (text) vs 1.4-1.6m as drawn; ditches "about 15 meters" vs 22-30m lip to lip on the LiDAR today (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
+| A Tudor phase at Dinefwr | Sir Rhys ap Thomas's works at the end of the 15th century ("Late C15 additions", Cadw listing; "modified", then "soon abandoned" for Newton, HER; "rebuilding", medievalheritage.eu; none says 1525, his death year in the DWB, so on the Tudor reading the castle ends in c. 1485-1525, taken as c. 1500: the listing and medievalheritage say the end of the 15th century, the HER only "Tudor times", and medievalheritage's 1531 confiscation says who held it, not who lived there) vs "no records of work" after the repairs that followed the 1403 siege, and abandonment for Newton from the 15th (Cadw guide); the DWB's works by Sir Rhys are at Carew (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
+| When the summerhouse was built on Dinefwr's keep, and whether its top storey is medieval | c. 1660-70 (paintings, Moore 1994), later 17th century (Coflein, Cadw guide), c. 1710-30 (the National Trust's date for the same paintings), C17(?)/C18 (listing), late 18th to early 19th century (HER, contradicted by the Bucks' 1740 engraving); the top storey post-medieval (Apted) or a medieval stepped storey (Moore's alternative); roofs burned before 1804 (Malkin) (added 2026-10-10; the app's "1660, or 17th/18th or 18th/19th century" text gives part of this) | [dinefwr](dinefwr-castle.md) |
+| What happened to Dinefwr in 1316 (Llywelyn Bren's rising) | Wikipedia: "recorded to have been burnt", citing Cadw's visitor page, which does not say it; medievalheritage.eu: "attacked ... but avoided significant damages"; `timeline-and-earliest-occupation.md` has a "reportedly burnt" row marked documented on a single uncited source (added 2026-10-10, check 2 of the Dinefwr note) | [dinefwr](dinefwr-castle.md) |
+| Who owns Dinefwr Castle today | "owned by the National Trust" (Cadw's visitor page) vs the Dyfed Wildlife Trust buying Castle Woods "including the old castle ruins" in 1979 (Moore 1994); Cadw manages the site (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
+| The chamber block's turret at Dinefwr | A latrine turret (medievalheritage.eu) vs a watch turret (the Cadw guide's 1999 text) (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
+| The 1280s inner gatehouse at Dinefwr | Two hollow square towers on Cadw's 1280 phase plan, "perhaps a gatehouse" and "a lost gatehouse" in medievalheritage.eu, a new gate that "may have been" a remodelling of the original gatehouse in the Cadw guide; one source (Cadw), nothing of the towers standing (S9 says only the inner gate's loop holes and bar hole remain); both Cadw plans draw the inner gate about 1.4m (1.2-1.5m) wide (S10 a break in the curtain, S11 the gap between the towers) and the model follows them, though S9's surviving loop holes and bar hole may give the real width (added 2026-10-10; gap added 2026-10-16; width corrected 2026-10-16, check 4) | [dinefwr](dinefwr-castle.md) |
+| Cadw's Dinefwr plans' scale | The period plan as reproduced is about 5% larger than its bars say when fitted to the LiDAR; the 1280 panel of the phase plans fits within 2% of its bar, but that plan's five panels are drawn at different scales (keep to north-west tower 6.78, 6.48, 7.33 and 7.24 px/m on the 1250-70, 1280, 1330 and 1750 panels; one 20m bar of about 6.5-6.65), so each panel needs its own fit and only the 1280 has had one; cause unknown (added 2026-10-10; panel point added 2026-10-16) | [dinefwr](dinefwr-castle.md) |
+| Dinefwr keep's ground-floor door | Possibly original (Renn 1961) vs pierced in the 14th century (medievalheritage.eu; Cadw guide "may" 1326) (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
 | Cost of Llandeilo Bridge | £22,000 (Cadw) vs "over £12,000" (Coflein) | [victorian](era-victorian.md) |
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
 | St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02) | [buildings](building-models.md), [victorian](era-victorian.md) |
@@ -41,6 +54,12 @@ for the next pass. Each note's own "Open questions" section has the full list an
 
 ## Gaps worth a dedicated pass
 
+- **Dinefwr Castle's fabric** (2026-10-10, for the Blender model): no source read gives any medieval height, the
+  building stone, mortar, render or a roof covering, or the forms of the Lord Rhys's castle and the 1280s bailey
+  buildings. The Cadw guidebook (Rees and Caple, 1999 and 2007), Colvin's *King's Works* (1963, pp. 641-4, the repair
+  accounts), Kenyon 2010, *The Buildings of Wales* (2006), RCAHMW's 1917 inventory (no. 317) and the Cambria
+  Archaeology reports on the south curtain (2001), south turret (2002) and north-west tower (2003) were not read; they
+  are where the answers are likely to be. ([dinefwr](dinefwr-castle.md))
 - **Heneb HER terms of use** (found by the hunter-gatherers check, 2026-10-09; for Dewi). Every Heneb HER
   (Archwilio) page says: "All output resulting from the use of the data must acknowledge the source as
   follows: Derived from information held by the Heneb HER Charitable Trust copyright", and "If you wish to

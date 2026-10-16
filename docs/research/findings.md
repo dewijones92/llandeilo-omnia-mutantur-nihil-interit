@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Research findings and decisions
@@ -94,6 +94,50 @@ because of it. The detail and sources are in each note; this is the summary a ne
   region, or not in Wales at all. Both are in the app since 2026-10-03, the 1849 one as a card only. The Victorian note had said
   no local cholera case was found; that, and the almanac line built on it, are corrected.
   ([ripples](ripples-from-afar.md))
+
+## Dinefwr Castle for a Blender model (2026-10-10)
+
+From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agent the same day
+([check 1](reviews/dinefwr-castle-check-1.md)) and then independently by a second Opus
+([check 2](reviews/dinefwr-castle-check-2.md), whose six important findings were each verified against the sources and fixed), and a third time on 2026-10-16 ([check 3](reviews/dinefwr-castle-check-3.md): five important findings and a set of suggestions, each verified or re-measured, and fixed), and a fourth time the same day ([check 4](reviews/dinefwr-castle-check-4.md): two important findings, one of them check 3's own fix, and a set of suggestions). Written by Claude for the Blender model Dewi chose next (decision log, 2026-10-10).
+
+- **The Cadw plan fits the 2020-22 LiDAR to about a metre**, once its scale is taken from the ground: fitted to five
+  points it is 8.58 pixels a metre against its own bar's 8.15, so the plan as reproduced is drawn about 5% larger than its
+  bar says and lengths read off the bar are about 5% too big (the cause, in the drawing, its bar or the reproduction, is
+  not known; the 1280 panel of Cadw's phase plans fits within 2% of its own bar, but that plan's panels are drawn at different scales, keep to north-west tower 6.5 to 7.3 pixels a metre, so each needs its own fit before anything is measured off it). The keep's centre is E 261168.5 N 221724.0, about 20m east-south-east of Coflein's reference, which lies
+  inside the inner ward. ([dinefwr:S10],
+  [dinefwr:S24])
+- **The keep is about 13.6-14m across**, not Coflein's "some 12m"; medievalheritage's 13.5m is the nearest text. It stays
+  contested in the app.
+- **Today's standing heights are measured**: the keep's top storey to 113.6m OD and its wall-walk to 110.4m over a ward
+  floor of about 99.8m; the curtains 5-7m above the ward inside and up to 15m above the slope outside. No source gives
+  any medieval height.
+- **The summerhouse on the keep was roofed by 1740 at the latest** (the Bucks' engraving), and two oil paintings show it
+  with a conical roof and pennant, dated c. 1660-70 by Moore (1994) and c. 1710-30 by the National Trust. The HER's "late
+  18th to early 19th century" for its building is contradicted; the roofs burned before 1804 (Malkin). The app shows the
+  summerhouse from 1660 to today as one phase; the roofed stage ended about 1800.
+- **The "1151 first record" is a manuscript variant**: the Rolls Series Brut has the brothers repair "the castle of
+  Dinweileir", with Dinevwr only in manuscripts C and E, and it says repaired, not built. Kept contested.
+- **No Tudor works can be placed**: the listing and medievalheritage date Sir Rhys ap Thomas's works to the end of the 15th century, the HER says only "in Tudor times" and that he "soon abandoned" the castle for Newton, and none gives 1525 (his death year in the DWB; an earlier draft of the note had put it in as the end of the residence); the abandonment is therefore c. 1500 within a range of c. 1485-1525, an inference, and medievalheritage's 1531 confiscation says who held the castle, not who lived there; the Cadw guide
+  records repairs and a rebuilt south wall after the 1403 siege and then "no records of work ... for the remainder of the Middle
+  Ages", and the DWB's gatehouse and windows by Sir Rhys are at Carew.
+- **A Cadw-plan feature was missing, and the siege of 1213 was misread.** Cadw's 1280 phase plan draws the inner
+  gate flanked by two hollow square towers inside the south curtain (gone by 1750, under the grand stair); the note now
+  has them as `dinefwr/gatehouse-inner`, reconstructed (one source, hedged "perhaps" by medievalheritage), about 4.9-5.1m square each, placed by fitting that panel to the survey (about ±2m, on its own scale); Cadw draws a gap of 8-9 clear pixels between them, about 1.2-1.4m, and its other plan draws the inner gate as a break in the curtain of the same width, so both plans show a gate of about 1.4m (1.2-1.5m) and the model follows them (an earlier "departure" setting the towers 3.0m apart rested on reading one plan as a hairline and is withdrawn: [check 4](reviews/dinefwr-castle-check-4.md)). And in 1213 the Brut has the walls scaled and the castle taken "save one
+  tower", whose garrison agreed before the afternoon to surrender, unless relieved by the next evening ("unless they should receive support by the evening of next day": a conditional surrender, with three hostages): it was not "held against engines and ladders", and "strong tower" is Cadw's gloss, not the Brut's.
+- **Plan rows marked documented now say when they rest on Cadw alone** ("documented (one source: Cadw)"), because
+  Coflein, castlewales.com and medievalheritage.eu are one source in three forms; and no source read says the outer
+  bailey has any standing wall (medievalheritage: "without any significant visible stonework fragments"), so the ruin phase
+  draws none.
+- **The ten kits are all Roman evidence or analogy**: seven cite the Llandeilo fort survey (`fort:S1`), three only Jay Lane in Herefordshire (`fort:S16`), and two also Trawscoed and Llanio (a Wikipedia page, a lead, for the turf courses; the geophysical survey round both forts, which is the vicus evidence, for the thatch roof). An earlier line saying all ten cite `fort:S1` was wrong.
+- **No source read names the stone, mortar, render or any roof covering.** The keep is "courses of flat stones" (Ray
+  Caple, via Moore) on the Llandeilo Flags Formation (BGS); render is an analogy from Renn's Brecon keeps only.
+- **What the app's model gets wrong today** (for the build, not changed here): the outline (`DINEFWR_INNER_CORNERS`, a
+  2026-09-28 guess) against the measured one; the stone castle from 1220 against a keep of c. 1230-50; one summerhouse
+  phase to today; a 12m keep; the plan drawn at 2.6 times, which the forts gave up for true size; and the ⓘ's "still a residence under Sir
+  Rhys ap Thomas (d. 1525)", which states one side of a contested point (the Cadw guide has the site abandoned from the 15th
+  century; the DWB's works by Sir Rhys are at Carew) as fact, together with a castle that runs to 1600 and a ruin from
+  1600, where the note proposes a contested end in the 15th century and a decay phase to the 1660s.
 
 ## Conversations by class (2026-09-28)
 
