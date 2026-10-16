@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-09
+updated: 2026-10-16
 ---
 
 # Open questions
@@ -40,6 +40,15 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | The date of the 1213 camp | 24 January (the Brut's reckoning) vs 25 January (Lloyd's *History of Carmarthenshire*); the app says late January and gives both (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 
 ## Gaps worth a dedicated pass
+
+- **The forts' ground** (2026-10-16, [ADR 0056](../adr/0056-buildings-stand-level-and-the-roman-plots-are-terraced.md)).
+  Were the buildings of either fort terraced, and how did Roman timber forts on slopes level their plots? Not
+  answered by any source read. The Stratascan interpretation reports (2003; Heard 2005) might show scarps; Hughes's
+  Trench 2 levelling needs its extent; a published excavation of a Flavian timber fort on a slope (Pen Llystyn,
+  Caerhun, Llanio, Pumsaint were searched for and not reached) would give a real analogy. Historic England's listings
+  for Hardknott (1009349) and Whitley Castle (1006621) and its 2009 survey report could not be read (blocked). How the
+  castles and houses elsewhere in the app met their slopes has not been researched at all; they stand by the seating
+  rule alone.
 
 - **Heneb HER terms of use** (found by the hunter-gatherers check, 2026-10-09; for Dewi). Every Heneb HER
   (Archwilio) page says: "All output resulting from the use of the data must acknowledge the source as

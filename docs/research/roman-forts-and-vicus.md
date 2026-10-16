@@ -2,7 +2,7 @@
 title: The Dinefwr Roman forts and their civilian settlement (vicus), for a detailed reconstruction
 kind: research
 status: draft
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # The Dinefwr Roman forts and their vicus, for a detailed reconstruction
@@ -511,6 +511,85 @@ minus 10m relative to one another** (same figure). *Corrected 2026-10-09 (indepe
   view is restricted by Penlan Fawr [S1]. The LiDAR should show the saddle and the two knolls; use those
   to register.
 
+## The ground the forts stood on: levelling and terraces (2026-10-16)
+
+Asked by the commenter on issue 3 (2026-10-12): some of Fort 1's barracks sank below the ground on the
+slope; was the site levelled in Roman times, and does the geophysical survey say otherwise? Researched
+2026-10-16 by Claude, under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md));
+built as [ADR 0056](../adr/0056-buildings-stand-level-and-the-roman-plots-are-terraced.md). The report [S1] was
+downloaded again and searched in full (pdftotext) for "terrace", "level", "slope", "platform", "plough",
+"truncat" and "subsoil"; every passage that bears on it is below.
+
+**How much the ground falls (measured on today's LiDAR, not a source).** On the 2m Welsh Government LiDAR
+the app draws ([`docs/data/lidar.md`](../data/lidar.md)), Fort 1's interior spans 72.0 to 81.4m above sea
+level, 9.4m of relief, and Fort 2's 75.2 to 80.2m, 5.1m (a 20m grid across each interior). Across the
+footprint of one drawn building the fall is up to **3.59m in Fort 1** (barrack 15, 50m by 8.5m: about 7% along
+it), 1.83m under its headquarters, **1.82m in Fort 2** (barrack 5) and 1.19m under a vicus house. The numbers
+per part are in the build log (2026-10-16). Fort 1's setting explains it: Coflein puts it on "an elevated saddle
+with its ramparts running along the crest of the flanking ridges" [S2], so its middle is lower than its sides.
+
+**What the excavation says** [S1]:
+
+| Passage | Where | What it shows |
+|---|---|---|
+| "Both forts appear to have utilised a relatively flat toped ridge with the long axis of the forts orientated along the line of the ridge" | Discussion, p30 | The excavator's reading of the site as a whole: flat-topped, not flat. |
+| Fort 2's rear gate "corresponds with the highest point of the fort and a second slightly lower knoll corresponds with the location of the porta praetoria. The remaining area of the fort is laid out on more level ground along the top of a low ridge"; "the layout of the fort appears to follow conventional lines" | Geophysics, p9 | Fort 2's rear on the high point is the textbook siting (Hyginus, below). |
+| "The overlying deposits of silty-clay (2022 and 1012) possibly represent levelling deposits, preparing the site for the construction of the later fort (Fort 2)"; layer 2012 is "up to 0.4m deep", over a Fort 1 ditch | Trench 2, p11 | **Levelling is evidenced once**: in one 20m by 6m trench, "possibly", for Fort 2. Nothing says how far it reached. |
+| Two post-pits "were cut from a slightly higher level (ie through the overlying layer 1046 ...)"; the outer ditch "was surprisingly shallow ... it is possible that it was originally cut from a higher level (as was clearly the case with at lest two of the square post-pits)" | Trench 1, p10-11 | The Roman surface at Fort 1's south-west gate was higher than the level most features were seen at: up to 0.3m of layer 1046 lay over it, under 0.3m of ploughsoil. |
+| "The ploughsoil (3000) was up to 0.3m thick and overlay weathered shale bedrock (3003)", into which the building trenches are cut | Trench 3, p12 | Fort 1's barrack-like foundations survive only as slots in the bedrock: the floors and the ground they stood on are gone. |
+| A road surface "that has subsequently been ploughed away"; "a series of plough marks (4020) cutting the underlying shale bedrock"; ploughsoil 0.25m to 0.55m in Trench 4, from "the significant slope down from the south to the north" | Trenches 2, 4/5 | Ploughing has cut into the bedrock in places. |
+
+The report never uses the word "terrace" (searched). **The survey** (Stratascan's magnetometry, interpreted in
+the report and shown in its Fig 2) is described in terms of ditches, roads and rectilinear and pit-like
+anomalies; no passage describes a scarp, a platform or a terrace edge, for or against. Claude's reading, not a
+source: a magnetometer maps contrasts in buried magnetic material (ditch fills, burnt clay, hearths), and a plot
+cut into shale and made up with the same shale would show little contrast, so the survey's silence is not
+evidence that there was no levelling. The Stratascan interpretation reports (2003; Heard 2005) are not online
+(Gaps, item 5).
+
+**Today's surface is not the Roman one.** It has been lowered by ploughing (0.25 to 0.55m of ploughsoil over
+truncated features, bedrock scored by the plough) and raised in Trench 2 by levelling; the turf ramparts are
+gone, pushed back into the ditches; the park was landscaped in the 18th century, and a tree clump's ditch
+shows in the survey [S1]. So the ground the app draws, today's LiDAR, may be wrong for the Roman period by
+tenths of a metre in either direction, and by much more at the rampart. No source gives a Roman ground
+model for the site.
+
+**The app makes the slope look steeper than it was.** The diorama exaggerates heights 2.4 times
+([ADR 0009](../adr/0009-terrain-os-terrain50-low-poly.md)), but the forts are drawn at true height
+([ADR 0046](../adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)). A real
+3.6m fall along a barrack is drawn as 8.6m against walls 3m high. That, and seating each building at one point
+with a level floor, is why whole barracks vanished into the hill in the commenter's screenshot. The fall is
+real, though: 3.6m along a 50m timber building is not something a builder could ignore.
+
+**How Roman builders met sloping or uneven ground (analogy, not Dinefwr evidence).**
+
+| Site | What it says | Source | Second source |
+|---|---|---|---|
+| The manual: Pseudo-Hyginus, *De munitionibus castrorum* 56 | "primum locum habent quae ex campo in eminentiam leniter attolluntur, in qua positione porta decimana eminentissimo loco constituitur" (Claude's translation: first choice goes to ground that rises gently from the plain, with the rear gate at the highest point). Written for marching camps; it shows sloping ground was chosen, not avoided | S30 (Latin text) | S1 (Fort 2's rear gate on the high point, "conventional lines") |
+| Vindolanda (timber forts, late 1st century) | Earlier features "had then been filled and levelled with debris and rubbish to create even foundations, 35–50 cm higher than the previous occupation, for the new barracks of the larger Period II fort"; a later surface "was deliberately built up to accommodate the new barrack above" | S27 | one source for this site |
+| Hardknott (Hadrianic) | "the garrison moved an estimated 5,000 cubic metres of stone and earth to flatten a 140 by 80 metre area" (the parade ground) | S28 | S29 (the "levelled parade ground", citing Historic England's listing 1009349, which could not be read directly) |
+| Birdoswald (Hadrianic) | "The area South of the via principalis to the Southern gate was a lower area, meaning all buildings in this section needed to be terraced up" | S26 (Wikipedia, citing T. Wilmott's English Heritage guidebook, 2nd ed. 2025) | **one source**, an encyclopedia's summary: a lead |
+| Cardiff (late Roman fort) | "It is possible that in the 2nd or 3rd century that this slope may have been terraced along the line of the north-south road" (Webster 1981b) | S31 | one source, "possible" |
+
+So the general practice, **levelling and building up the ground for barracks and other works**, is supported
+by independent sources (S27; S28 with S29; S26). **A terrace cut under each barrack of an early timber fort on a
+slope is not demonstrated by any source read**, at Dinefwr or elsewhere. It is drawn as analogy, each plot
+labelled reconstructed.
+
+**Checked and not supporting**, so the next reader does not chase them: a search summary said a Stracathro
+barrack of 1969 was "built up from a lower level on sloping ground", but the source itself (*Discovery and
+Excavation in Scotland* 1969, read) says nothing of the kind, only that the sleeper trenches of a barrack at
+least 90 feet long were traced. Fendoch (Richmond and McIntyre 1939, read in full) has the "natural terrace
+above the Fendoch Burn", not terraced buildings. Housesteads and Whitley Castle are on slopes, but the pages
+reached (English Heritage; Historic England's were blocked) say nothing of terracing inside them.
+
+**Outcome.** No direct evidence for terraced plots at Dinefwr; levelling evidenced once, for Fort 2; the Roman
+surface differs from today's; a levelled plot under each building is a labelled analogy. Built: every
+building in either fort stands on a reconstructed level terrace, a period ground edit drawn while its fort is
+drawn, and every building in the app stands at the highest ground under its footprint, so no corner is
+buried (the vicus houses and the towers, which have no terraces, carry their walls down the slope)
+([ADR 0056](../adr/0056-buildings-stand-level-and-the-roman-plots-are-terraced.md)).
+
 ## Provenance table (per element)
 
 | Element | Tier | Basis | Sources |
@@ -670,3 +749,9 @@ above, but the builder should know them.
 - [S23] Heneb, Historic Environment Record (Archwilio), records PRN 47636 (Fort 1, SN 6218 2245), 47637 (Fort 2, SN 6217 2253), 47638 (the north-east road, SN 6225 2260), 47646-47650 (finds, including 47648, the 2000 denarii), 869 (the Domitian denarii hoard) and 886 (six 3rd-century bronze coins), 7367 (Llandyfeisant temple or villa), 47835 and 48198 (the 2003 survey and its assessment), 50045. https://archwilio.org.uk/arch/query/page.php?watprn=DAT47637&dbname=dat&tbname=core (replace the number for each record; rate-limited after about a dozen calls). Fort summaries are by M. Page, 2013, "based on Hughes"; they give Fort 2 "possibly around 82 AD". Read by the independent check, 2026-10-09.
 - [S24] llandeilo.org, "Llandeilo's Roman Fort". https://llandeilo.org/roman_settlement.html (the `.php` address is dead) : captions the Ludlow painting "what the second fort may have looked like around 100AD (Drawing: Cambria Archaeology)" beside the 2003 geophysics plot (Cambria Archaeology newsletter No 2, Summer 2003); 3.9 hectares, "about AD 74", vicus "from 75 AD to 120 AD" (unsourced; the report governs). A community page, a lead only. Read by the independent check, 2026-10-09.
 - [S25] Dyfed Archaeological Trust, "Llandeilo Fort Dig Diary" (2005), Wayback copy of 2 February 2021. http://web.archive.org/web/20210202144706/http://www.dyfedarchaeology.org.uk/digllandeilofort.htm : written before the excavation; a palisade, four timber gatehouses and a grid of roads "would have" existed. Reconstruction in the conditional, never evidence; superseded by the 2007 report [S1]. Read by the independent check, 2026-10-09.
+- [S26] Wikipedia, "Banna (Birdoswald)". https://en.wikipedia.org/wiki/Banna_%28Birdoswald%29 : "The area South of the via principalis to the Southern gate was a lower area, meaning all buildings in this section needed to be terraced up", citing Tony Wilmott, *Birdoswald Roman Fort* (2nd ed., English Heritage, 2025). Read 2026-10-16; the guidebook itself not seen. A lead, one source.
+- [S27] Andrew Birley and Alexander Meyer, "The Archaeological Context (Part 3, 2019)", *Tabulae Vindolandenses* IV, Roman Inscriptions of Britain online. https://romaninscriptionsofbritain.org/tabvindol/vol-IV/arch-context-pt-3 : earlier features "filled and levelled with debris and rubbish to create even foundations, 35–50 cm higher than the previous occupation, for the new barracks of the larger Period II fort"; a surface "deliberately built up to accommodate the new barrack above"; a drain "cut into the natural boulder clay bank of the hillside". Read 2026-10-16.
+- [S28] English Heritage, "History of Hardknott Roman Fort". https://www.english-heritage.org.uk/visit/places/hardknott-roman-fort/history/ : "the garrison moved an estimated 5,000 cubic metres of stone and earth to flatten a 140 by 80 metre area" for the parade ground; the walls "rise and fall following the irregular contours of the ground". Read 2026-10-16.
+- [S29] Wikipedia, "Hardknott Roman Fort". https://en.wikipedia.org/wiki/Hardknott_Roman_Fort : "the levelled parade ground", citing Historic England, National Heritage List entry 1009349 (not readable directly on 2026-10-16: a Cloudflare challenge); a 1930 plan by R. G. Collingwood shows "embanked edges to ensure a level surface". Read 2026-10-16. The second source for the levelling at Hardknott.
+- [S30] Pseudo-Hyginus, *De munitionibus castrorum* 56, Latin text, IntraText edition. https://www.intratext.com/IXT/LAT0347/_PS.HTM : "Nam quod attinet ad soli electionem in statuenda metatione, primum locum habent quae ex campo in eminentiam leniter attolluntur, in qua positione porta decimana eminentissimo loco constituitur, ut regiones castris subiaceant". The translation in this note is Claude's. A manual for marching camps whose date (late 1st to 3rd century) is disputed. Read 2026-10-16.
+- [S31] Heneb Historic Environment Record GGAT00101s, Cardiff Roman fort. https://archwilio.org.uk/her/chi3/report/page.php?watprn=GGAT00101s : the site "appears originally to have been higher at the east end"; "It is possible that in the 2nd or 3rd century that this slope may have been terraced along the line of the north-south road" (Webster 1981b, 210). Read 2026-10-16. A lead.
