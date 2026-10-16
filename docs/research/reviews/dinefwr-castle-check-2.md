@@ -2,7 +2,7 @@
 title: Check 2 of dinefwr-castle.md
 kind: review
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Check 2: Dinefwr Castle, phase by phase, for a Blender model
@@ -16,6 +16,8 @@ against the source, fetched afresh** (the Cadw listing, the HER record, castlewa
 in the Rolls Series translation, Renn's pages from the Welsh Journals page images, and both Cadw plans downloaded and
 measured), before being fixed. The verdicts below say what was found, not what was reported. Fixes were made by a Claude
 agent working from the findings, so the fixes themselves still want a reader who did not make them.
+
+**Corrected 2026-10-16 by [check 3](dinefwr-castle-check-3.md):** finding 3's "S11 needs no 5% correction" held for the 1280 panel only; finding 1's "about 1500 at most" and its "end of the 15th century" credit to the HER were not the HER's words; and the suggestion that "all ten kits cite `fort:S1`" was wrong (seven do). The table below is left as written.
 
 ## Important findings
 

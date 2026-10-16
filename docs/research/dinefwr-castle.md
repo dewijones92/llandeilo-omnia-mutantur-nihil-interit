@@ -2,7 +2,7 @@
 title: Dinefwr Castle (Castell Dinefwr), phase by phase, for a Blender model
 kind: research
 status: draft
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Dinefwr Castle, phase by phase, for a Blender model
@@ -19,7 +19,9 @@ Dewi's. Checked on the same day against a second source per claim, by the same a
 second-Opus review of 2026-10-10 found five important problems and several smaller ones, each verified against the sources or the code and fixed here (listed at the end of
 check 1). The independent check of every documented claim by a second Opus followed on 2026-10-10
 ([check 2](reviews/dinefwr-castle-check-2.md)): six important findings and a list of suggestions, each verified against
-the source (fetched again) and fixed here, with the verdicts recorded in that file.
+the source (fetched again) and fixed here, with the verdicts recorded in that file. A third independent read followed
+on 2026-10-16 ([check 3](reviews/dinefwr-castle-check-3.md)): five important findings and a set of suggestions, each
+verified against the source or re-measured, and fixed here.
 
 It extends the Dinefwr sections of [`era-medieval-to-1282.md`](era-medieval-to-1282.md) (history to 1287) and
 [`building-models.md`](building-models.md) (the first measured outline, 2026-10-02), and does not repeat their political
@@ -62,10 +64,19 @@ HER or Renn where they do not copy Cadw, or the paintings.
   drawn about 5% larger than its bar says, so lengths read off the bar are about 5% too big (the 30m bar runs 244
   pixels, 8.13-8.15 px/m, its 20m tick agreeing; the 100ft bar reads 8.20 px/m, so the two bars agree with each other).
   Whether the fault is in Cadw's drawing, its bar, or this reproduction (possibly a photographed page) is **not known**.
-  Sizes below use the ground's scale and say so [S10][S24]. The phase plans [S11] were fitted the same way (the keep and
-  north-west tower centres from the survey, three corners from the S10 fit): residuals 0.4-1.0m, **6.52 pixels a metre
-  against the 20m bar's 6.63** (2%, inside the error of reading points off a picture) and a rotation of 4.2 degrees. So
-  the 5% excess is S10's alone, not common to Cadw's two plans; why they differ is **not known** [S11][S24].
+  Sizes below use the ground's scale and say so [S10][S24]. The **1280 panel** of the phase plans [S11] (image 1300 x
+  1013 pixels) was fitted the same way (the keep and north-west tower centres from the survey, three corners from the
+  S10 fit): residuals 0.4-1.0m, **6.52 pixels a metre against the 20m bar's 6.63** (2%, inside the error of reading
+  points off a picture) and a rotation of 4.2 degrees; a second, two-point fit on the hole centres of the keep (pixel
+  1071.4, 269.7) and the north-west tower (916.7, 59.0) gives 6.48 px/m and 5.7 degrees (check 3). **That fit is the
+  1280 panel's alone.** S11's panels are drawn at different scales: the keep-to-north-west-tower distance (survey
+  40.36m) is 274 pixels on the 1250-70 panel (6.78 px/m), 261 on the 1280 (6.48), 296 on the 1330 (7.33) and 292 on the
+  1750 (7.24), against one shared 20m bar of about 130-133 pixels (6.5-6.65 px/m). So the 1250-70 and 1280 panels are
+  within about 4% of the bar, while the 1330 and 1750 panels are 10-12% over it and about 13% larger than the 1280 one
+  (the keep's hole is likewise about 53-54 pixels wide on those two panels and 46-50 on the others, which points to
+  scale, not to a moved tower). **Every panel needs its own fit to the survey before anything is measured off it**; only
+  the 1280 panel
+  has been fitted. Why the plans differ from their bars, and from each other, is **not known** [S11][S24].
 - **The keep is about 13.6m across** over its drawn wall (14.5m over a fainter outer line, probably the battered
   base), with walls about 2.9m and an inside about 7.7m [S10][S24]; on the surface model the wall-walk ring reaches 14.6m
   across, which a 1m grid can overstate by up to a metre [S24].
@@ -83,15 +94,20 @@ HER or Renn where they do not copy Cadw, or the paintings.
   under the Crown in the 1280s the chamber block, a new gate in the south curtain with a long walled approach (the
   barbican), the south turret and (reconstructed, one source) an inner gatehouse of two square towers, gone by 1750; about 1326-30 the hall; and in the 17th/18th century the summerhouse on the keep, a grand stair and
   cross walls.
-- **Nothing on the plans is Tudor.** The listing ("Late C15 additions by Sir Rhys ap Thomas") [S2], the HER [S3] and
-  medievalheritage ("carried out its rebuilding") [S9] give Sir Rhys ap Thomas works at the castle at the end of the 15th century, and the HER adds that "he soon abandoned the
-  castle in favour of a new mansion at Newton House" [S3]; none gives an end date, and 1525 is only his death, from the
-  DWB [S21]. The Cadw guide says
+- **Nothing on the plans is Tudor.** The listing ("Late C15 additions by Sir Rhys ap Thomas") [S2] and medievalheritage
+  ("At the end of the fifteenth century ... carried out its rebuilding") [S9] date Sir Rhys ap Thomas's works to the end
+  of the 15th century. The HER says only "In Tudor times, it was modified by Sir Rhys ap Thomas, but he soon abandoned
+  the castle in favour of a new mansion at Newton House" [S3]: "Tudor times" (from 1485), no closer. None gives an end
+  date, and 1525 is only his death, from the DWB [S21]; medievalheritage adds that in 1531 his grandson "was executed
+  for treason, and the castle was confiscated by the Crown, though later the family could get it back" [S9], which says
+  who held it, not that anyone lived there. The Cadw guide says
   "There are no records of work at Dinefwr for the remainder of the Middle Ages" and that the old site was abandoned
   from the 15th century for Newton [S8] (Newton House, now Plas Dinefwr [S2]; the borough is Y Drenewydd, "Newtown or
   Drenewydd" [S1]). The DWB's "extensive alterations to the castle, building the gate-house and
-  inserting windows" are at **Carew**, not Dinefwr [S21]. **Contested; a Tudor phase has no part to draw**, so the model has the castle to a contested date, about 1450 (about 1500 on the Tudor
-  reading: work at the end of the 15th century, then soon abandoned), and then a decay phase to the 1660s (see the plan).
+  inserting windows" are at **Carew**, not Dinefwr [S21]. **Contested; a Tudor phase has no part to draw**, so the model
+  has the castle to a contested date, about 1450 (c. 1500 on the Tudor reading, within a range of c. 1485-1525 on the
+  HER: "Tudor times" from 1485, to Sir Rhys's death in 1525 as the latest he could have worked there, an inference; then
+  "soon abandoned"), and then a decay phase to the 1660s (see the plan).
 - **The summerhouse on the keep existed, roofed, long before the HER's date.** Two oil paintings of the castle (and a third, of Newton House, with the castle far behind it) show the
   keep with a stepped-in, paler top storey, a ring of narrow windows and a conical roof with a finial and pennant, and
   a square tower with a pyramidal roof [S16][S22]. Moore dates them c. 1660-70 (Harris c. 1670) [S16]; the National
@@ -107,11 +123,14 @@ HER or Renn where they do not copy Cadw, or the paintings.
   the reading of manuscripts C and E [S18]; Gatehouse notes that Dinefwr "is not the same as Dinweiler mentioned
   several times in the chronicles" [S7]. So the 1151 record rests on two manuscripts' reading, and it says *repaired*,
   not *built*. **Contested.**
-- **By 1213 there were walls and a strong tower.** The Brut: young Rhys set engines and ladders against the walls and
-  took "the castle altogether, save one tower", where the garrison held out until, "before the afternoon", it surrendered
-  the castle on terms, giving hostages [S18]; the Cadw guide reads the same entry as "By the time of the
-  siege of 1213, there were certainly walls and a tower strong enough to withstand siege engines" [S8] (a reading of the
-  Brut, not a second source). What they looked like is not known.
+- **By 1213 there were walls and a tower.** The Brut: young Rhys set engines and ladders against the walls and
+  took "the castle altogether, save one tower", where the garrison held out until, "before the afternoon", it "delivered
+  three hostages, and gave up the castle, unless they should receive support by the evening of next day", on terms for
+  their clothes, arms and the safety of their limbs [S18] (a conditional surrender: it lapsed if relief came by the next
+  evening); the Cadw guide reads the same entry as "By the time of the
+  siege of 1213, there were certainly walls and a tower strong enough to withstand siege engines" [S8] (Cadw's reading
+  of the Brut, not a second source; "strong" is Cadw's gloss, since the Brut says only that the garrison defended itself
+  with missiles and surrendered before the afternoon). What they looked like is not known.
 - **What the walls are built of is not stated by any source read.** The keep's lower part is "courses of flat stones",
   its top storey "mixed flat and rectangular stones" (Ray Caple's examination for Cadw in the 1990s, via Moore) [S16].
   The bedrock under the castle is the Llandeilo Flags Formation (sandstone, limestone and mudstone) [S25]. That the
@@ -147,7 +166,10 @@ ditches 20-30m wide. A Dinefwr detail area would bring the ditches and the ridge
 - **The ridge.** The castle is "upon a high wooded ridge above the meandering Tywi" [S1]; "the castle of Dynevor is
   situated on the summit of a lofty hill above the river Towy" (Gerald of Wales, 1188, as Moore translates) [S16];
   Renn: "on a protruding bluff 200 ft.a.s.l." (p. 140, about 61m) [S17]. The ward floor is measured at about 100m OD (about
-  330 ft) [S24], so Renn's figure is a rough one or from another datum; not resolved. The floodplain below the
+  330 ft) [S24], so Renn's figure is a rough one or from another datum. **An alternative reading** (an inference, not
+  Renn's words: "a.s.l." is above sea level): if he meant the bluff's height above the valley floor, the ward is about
+  77m (about 250ft) above the floodplain (about 23m OD, below), nearer his figure than 330ft but still not 200ft. Not
+  resolved. The floodplain below the
   south slope is at about 23m OD [S24]. "The high, steep slopes of the hill provided protection, primarily from the
   south" [S9].
 - **The ditches.** "Two enclosures defined by deep rock-hewn ditches cutting across the summit of the ridge" [S1]; "a
@@ -191,7 +213,9 @@ ditches 20-30m wide. A Dinefwr detail area would bring the ditches and the ridge
 - **1213 (documented: the chronicle).** The Brut: young Rhys "placed engines and inventions for attacking the castle;
   and placed ladders against the walls", and "possess[ed] himself of the castle altogether, save one tower", where the
   garrison defended itself "with missiles and other engines" until, "before the afternoon", it surrendered the castle
-  and gave three hostages [S18]. So the walls were scaled and taken; only one tower held out, and not for long. The Cadw
+  and gave three hostages, giving it up "unless they should receive support by the evening of next day" (a conditional
+  surrender, on terms for their clothes, arms and limbs) [S18]. So the walls were scaled and taken; only one tower held
+  out, and not for long. The Cadw
   guide's "certainly walls and a tower strong enough to withstand siege engines" [S8] is its reading of that entry, not a
   second source. Llandeilo was burned the same year [S18].
 - **The dismantling.** "Llywelyn forced Rhys Grug to dismantle the castle in the early 13th century" (HER) [S3]; "It may
@@ -247,14 +271,14 @@ ditches 20-30m wide. A Dinefwr detail area would bring the ditches and the ridge
 | North-west tower | "a smaller round tower at the northern angle" [S1]; "about 7 meters in diameter", no fireplace or latrine, courtyard side rebuilt straight [S9]; "a circular tower to NW" [S2] | Centre (-8.5, 23.0); 7.9m over the drawn wall (8.4m over its outer line), walls 2.1m, inside 3.7m; top about 111.2m OD (max 113.0); inside surface 103.3m [S10][S24] | Documented; diameter contested 7 against 7.9m |
 | Chamber block | A quadrangular block on the north side, "partially extended beyond the perimeter of the wall", "a basement with two upper floors", small Gothic windows, "a passage to the adjacent, four-sided latrine turret", floors on stone corbels, fireplaces, north windows with seats [S9]; "fine towered lodgings along the north-east curtain" [S1]; "equipped with a watch turret" [S8] | North-east face 14.6m, from (9.0, 19.4) to (21.5, 11.9); depth about 8.5m; today 107.8-113.2m OD [S10][S24] | Documented; storey heights unknown |
 | South-west latrine bay | "At the south-western perimeter wall a latrine bay was placed with the entrance pierced in the wall thickness", first half of the 13th century [S9] | The plan shows a projection on the west curtain [S10]; not measured | Documented (one source: Cadw guide via S9); size and place from the plan, low |
-| Hall | "13 meters long and 6 meters wide", on the upper floor over a store, external stairs, fireplace, latrine on the west [S9]; "a rectangular hall facing N" [S2] | Between the north-west tower and the chamber block on the north curtain, which it overlies [S10] | Documented (size single-source; not yet measured on the fitted plan, so whether 13 x 6m is an internal size is not known); roof unknown |
-| Inner gate | Moved west into the south curtain in the later 13th century; "only the lateral loop holes and the door's bar hole remain" [S9] | At (4.4, -17.5) [S10] | Documented (one source: Cadw: S9, S10, S11); lies 1.4m from the gap between the inner gatehouse's towers (next row) |
-| Inner gatehouse (1280 to before 1750) | "perhaps a gatehouse was placed" on the inner side of the rebuilt south curtain; "a lost gatehouse from the late 13th century" under the grand stair [S9]; "creating an inner gate and barbican from the original gatehouse" "may have been" the 1280s work [S8]; drawn on the 1280 and 1330 plans, absent in 1750 [S11] | Two hollow square towers, each about 5.1 x 5.1m outside and 2.6m inside, centres (1.7, -15.4) and (7.8, -15.5), drawn gap about 1m centred (4.8, -16.1); about ±2m [S11] fitted to [S10][S24] | Reconstructed (one source: Cadw; S9 hedges it with "perhaps"; nothing stands to measure) |
-| South turret | Four-sided, "protruding in front of the perimeter", a small room with a latrine above the ground floor [S9]; built with the new gate "seems likely" [S8] | About 4 x 4m at the south-west angle [S10] | Documented (stands: the survey fits it as a control point [S24] and the HER names a 2002 report on it [S3]; the 1280s date and the form are one source: Cadw; size measured, low). Its function is contested: a latrine turret (S9) |
-| Barbican (foregate) | "a lower walled barbican" [S1]; an "elongated gate neck (passage) along the southern curtain", ending at an entrance before the ditch, "probably closed by a portcullis and a door", wall-walks on both sides [S9] | Outer wall from (-5.3, -19.2) to (11.6, -24.3) and (31.3, -31.3); Middle Gate at (22.2, -28.3), drawn about 6 x 3m [S10] | Line documented (one source: Cadw; S8 hedges the 1280s date with "may have been", and S10 shades the line "Medieval (Uncertain Date)" while S11 draws it new in 1280); portcullis reconstructed |
+| Hall | "13 meters long and 6 meters wide", on the upper floor over a store, external stairs, fireplace, latrine on the west [S9]; "a rectangular hall facing N" [S2] | Between the north-west tower and the chamber block on the north curtain, which it overlies [S10] | Documented (existence: S9 and the listing's "a rectangular hall facing N" [S2]; the **13 x 6m size is one source: S9, i.e. Cadw's guide**, and not yet measured on the fitted plan, so whether it is an internal size is not known); roof unknown |
+| Inner gate | Moved west into the south curtain in the later 13th century; "only the lateral loop holes and the door's bar hole remain" [S9]; the listing has Edward I add "a gatehouse ... on S" [S2] (which gatehouse it does not say) | At (4.4, -17.5) [S10] | Documented (one source: Cadw: S9, S10, S11; the listing's "gatehouse ... on S" is unspecific support for a 1280s southern gate and does not say which, so it does not lift the label); passage width unknown; the modelled gatehouse towers are centred on it (next row) |
+| Inner gatehouse (1280 to before 1750) | "perhaps a gatehouse was placed" on the inner side of the rebuilt south curtain; "a lost gatehouse from the late 13th century" under the grand stair [S9]; "creating an inner gate and barbican from the original gatehouse" "may have been" the 1280s work [S8]; drawn on the 1280 and 1330 plans, absent in 1750 [S11] | As drawn on the 1280 panel and fitted to the ground (that panel's own fit, S11 being at a different scale per panel; see the Summary): two hollow square towers, each about 5.1 x 5.1m outside and 2.6m inside, centres (1.7, -15.4) and (7.8, -15.5), drawn gap about 1.0m centred (4.8, -16.1); about ±2m (check 3's two-point refit: (2.0, -15.3) and (8.1, -15.3), rotation 5.7 degrees against the first fit's 4.2). S10 draws a hairline gap, so both plans show the towers almost touching. **Departure from the plan:** a 1m gap leaves no gate to drive through and nothing says the passage was that narrow, so the model treats Cadw's gap as schematic and sets the centres 4.05m either side of the inner gate's centre (4.4, -17.5) [S10]: (0.35, -15.5) and (8.45, -15.5), the towers 3.0m apart, leaving the 3m passage estimated for `dinefwr/gate-inner`; the move from the fitted centres is 0.4-1.7m, inside the fit's ±2m [S11][S10][S24] | Reconstructed (one source: Cadw for the towers' form and place; S9 hedges it with "perhaps"; the listing's "a gatehouse ... on S" [S2] supports a 1280s southern gatehouse without saying which or of what form; S9 says the inner gate's lateral loop holes and the door's bar hole remain, which are not measured here and give no size for the towers, so there is nothing of the towers to measure) |
+| South turret | Four-sided, "protruding in front of the perimeter", a small room with a latrine above the ground floor [S9]; built with the new gate "seems likely" [S8] | About 4 x 4m at the south-west angle [S10] | Documented (stands: the survey fits it as a control point [S24] and the HER names a 2002 report on it [S3]; the 1280s date and the form are one source: Cadw; size measured, low) |
+| Barbican (foregate) | "a lower walled barbican" [S1]; an "elongated gate neck (passage) along the southern curtain", ending at an entrance before the ditch, "probably closed by a portcullis and a door", wall-walks on both sides [S9] | Outer wall from (-5.3, -19.2) to (11.6, -24.3) and (31.3, -31.3); Middle Gate at (22.2, -28.3), drawn about 6 x 3m [S10] | Line documented (one source: Cadw; S8 hedges the 1280s date with "may have been", and S10 shades the line "Medieval (Uncertain Date)" while S11 draws it new in 1280; the listing's 1280s "gatehouse ... on S" [S2] does not say whether it is this, the Middle Gate or the inner gatehouse); portcullis reconstructed |
 | Original gate | "an ordinary portal in the wall, located on the south-east side, in close proximity to the keep"; "Around 1250-1270, it was reinforced with a gatehouse, atypically placed entirely on the inside" [S9] | Gap in the south-east curtain on the 1230-50 and 1250-70 plans [S11] | Documented (one source: Cadw) |
-| Outer ward (upper) | "a slightly higher northern part and a lower southern part, in the eastern part of which the gatehouse was placed" [S9]; "To the east of the upper castle there was an outer ward wall, fortified with a wall and a dry moat (ditch)", but today the outer bailey is "covered with forest and without any significant visible stonework fragments" [S9] | Inside about 36 x 31m, from (38.6, -13.0) to (74.7, -11.8) and (57.9, 4.0) to (58.9, -27.5); a north wall piece (48.0, 3.7) to (68.5, 0.2); platform about 98.5m OD, about 1.3m below the inner ward [S10][S24] | Outline documented (the plan, and the terrain model's banks agree to about 5m [S24]); the wall is not visible today, and its height is unknown |
-| Outer ward (lower) and outer gate | Lower outer ward with its walls; the outer gate on its east side [S10]; "Outer Gate" [S10] | Walls (39.3, -33.9), (57.9, -52.0), (76.7, -56.1), (77.2, -33.9); outer gate at (78.8, -31.3) [S10]; the terrain model shows the south-east corner at about (80, -55) [S24] | Outline documented (the plan, and the terrain model's banks agree to about 5m [S24]); the outer gate one source: Cadw; S10 shades both "Medieval (Uncertain Date)", so which phase they belong to is an estimate |
+| Outer ward (upper) | "a slightly higher northern part and a lower southern part, in the eastern part of which the gatehouse was placed" [S9]; "To the east of the upper castle there was an outer ward wall, fortified with a wall and a dry moat (ditch)", but today the outer bailey is "covered with forest and without any significant visible stonework fragments" [S9] | Inside about 36 x 31m, from (38.6, -13.0) to (74.7, -11.8) and (57.9, 4.0) to (58.9, -27.5); a north wall piece (48.0, 3.7) to (68.5, 0.2); platform about 98.5m OD, about 1.3m below the inner ward [S10][S24] | Line documented (the plan, and the terrain model's banks agree to about 5m [S24]: the banks show where the enclosure ran, not that a stone wall stood); **the stone wall itself one source: Cadw** (S9 says there was one and S10 draws it, while S9 says no significant stonework is visible today); its height is unknown |
+| Outer ward (lower) and outer gate | Lower outer ward with its walls; the outer gate on its east side [S10]; "Outer Gate" [S10] | Walls (39.3, -33.9), (57.9, -52.0), (76.7, -56.1), (77.2, -33.9); outer gate at (78.8, -31.3) [S10]; the terrain model shows the south-east corner at about (80, -55) [S24] | Line documented (the plan, and the terrain model's banks agree to about 5m [S24]: banks, not a wall); **the stone wall and the outer gate one source: Cadw** (S10 draws them; no stonework is said to be visible); S10 shades both "Medieval (Uncertain Date)", so which phase they belong to is an estimate |
 | Bailey buildings | "two large and three small buildings were erected in the bailey" in the 1280s [S8][S9] | - | Number documented (one source by two routes); form imagined |
 | The town | "The upper town, thought to have been sited on the castle ridge, was first recorded in 1281" [S1]; "Old Town (site of?)" north and east of the castle [S10] | - | Place reconstructed |
 
@@ -276,11 +300,14 @@ ditches 20-30m wide. A Dinefwr detail area would bring the ditches and the ridge
 
 ## Phase 4: the late-medieval and Tudor residence (contested)
 
-- **For.** "Late C15 additions by Sir Rhys ap Thomas" [S2]; "In Tudor times, it was modified by Sir Rhys ap Thomas, but
-  he soon abandoned the castle in favour of a new mansion at Newton House" [S3]; "At the end of the fifteenth century,
-  the castle was in the possession of Sir Rhys ap Thomas, who carried out its rebuilding" [S9]. So the works are dated
-  to the end of the 15th century and the abandonment follows "soon" (HER); none of the three gives 1525, which is his
-  death in the DWB [S21]. The lordship was leased to
+- **For.** "Late C15 additions by Sir Rhys ap Thomas" [S2]; "At the end of the fifteenth century, the castle was in the
+  possession of Sir Rhys ap Thomas, who carried out its rebuilding" [S9]; and the HER, undated: "In Tudor times, it was
+  modified by Sir Rhys ap Thomas, but he soon abandoned the castle in favour of a new mansion at Newton House" [S3]. So
+  the end of the 15th century is the listing's and medievalheritage's date; the HER says "Tudor times" (from 1485) and
+  "soon abandoned"; none of the three gives 1525, which is his death in the DWB [S21]. medievalheritage adds that in
+  1531 his grandson Rhys ap Gruffydd "was executed for treason, and the castle was confiscated by the Crown, though
+  later the family could get it back" [S9]: the castle was still held then, which says nothing of whether it was lived
+  in. The lordship was leased to
   Gruffudd ap Nicolas in 1440 [S21].
 - **Against.** "There are no records of work at Dinefwr for the remainder of the Middle Ages, and it appears that from
   the 15th century the old site was abandoned in favour of the more convenient situation of the first Newton house" [S8];
@@ -291,9 +318,11 @@ ditches 20-30m wide. A Dinefwr detail area would bring the ditches and the ridge
   date in the 15th century, taken here as about 1450 (an estimate: after the post-1403 repairs [S8], inside Coflein's
   "earlier fifteenth century" [S1]), with the ⓘ giving both readings; then a **decay** phase to the 1660s paintings, an
   abandoned castle whose standing heights are imagined and whose end state is documented only by the paintings [S16].
-  The Tudor reading (work by Sir Rhys ap Thomas at the end of the 15th century, then "soon abandoned" for Newton
-  [S2][S3][S9], which would end the castle about 1500: an estimate from "soon", since no source dates the abandonment, and
-  1525 is only his death [S21]) is given in the ⓘ, not drawn: no part can be placed. This replaces the app's "castle to 1600, ruin from 1600" (`dinefwr-castle`, `dinefwr-ruin`): 1600 is
+  The Tudor reading (work by Sir Rhys ap Thomas, dated to the end of the 15th century by the listing and
+  medievalheritage and to "Tudor times" by the HER, then "soon abandoned" for Newton [S2][S3][S9], which would end the
+  castle somewhere in c. 1485-1525, taken as c. 1500: the range is the HER's "Tudor times" to his death in 1525 [S21],
+  an inference, since no source dates the abandonment) is given in the ⓘ, not drawn: no part can be placed. This
+  replaces the app's "castle to 1600, ruin from 1600" (`dinefwr-castle`, `dinefwr-ruin`): 1600 is
   a round number no source gives, and "still a residence under Sir Rhys ap Thomas" states one side of a contested point as
   fact.
 
@@ -387,7 +416,8 @@ GitHub issues for which Dewi waived licence checks) and are linked instead.
 7. **The curtain's thickness**: 1.8m [S9] against 1.4-1.6m as drawn at the ground's scale [S10][S24].
 8. **The ditches' width**: about 15m [S9] against 22-30m lip to lip today [S24].
 9. **The keep's ground-floor door**: an original feature (possible, Renn) or 14th-century [S17][S9][S8].
-10. **A Tudor phase**: Sir Rhys ap Thomas's additions [S2][S3][S9] against no record of work and abandonment from the
+10. **A Tudor phase**: Sir Rhys ap Thomas's additions, at the end of the 15th century (listing, medievalheritage) or in
+    "Tudor times" (HER) [S2][S3][S9], against no record of work and abandonment from the
     15th century [S8][S1].
 11. **The summerhouse's date**: c. 1660-70 (paintings, Moore), later 17th century (Coflein, Cadw guide), c. 1710-30
     (National Trust's date for the paintings), C17(?)/C18 (listing), late 18th to early 19th century (HER, against the
@@ -399,7 +429,9 @@ GitHub issues for which Dewi waived licence checks) and are linked instead.
 14. **The chamber block's turret**: a latrine turret (medievalheritage [S9]) or a watch turret (the Cadw guide's 1999
     text [S8]).
 15. **The 1280s inner gatehouse and the new gate**: "perhaps a gatehouse was placed" [S9] and Cadw's drawn pair of towers
-    [S11]; the new gate "may have been" a remodelling of the original gatehouse [S8] against the gate moved west into a
+    [S11], drawn about 1.0m apart on the 1280 panel (S10 a hairline), too close for a gate, so the model sets them 3.0m
+    apart (a departure, `dinefwr/gatehouse-inner`); the new gate "may have been" a remodelling of the original gatehouse
+    [S8] against the gate moved west into a
     rebuilt south curtain [S9].
 16. **What happened in 1316**: "recorded to have been burnt" (Wikipedia, citing a Cadw page that does not say it [S29][S26])
     against "attacked ... but avoided significant damages" [S9].
@@ -427,6 +459,8 @@ GitHub issues for which Dewi waived licence checks) and are linked instead.
 - **The 1280s bailey buildings**: form and place.
 - **The upper town's** site and extent; whether "Old Town (site of?)" is the 1281 town.
 - **The east curtain**, drawn only as "assumed".
+- **The 1230-50, 1250-70, 1330 and 1750 panels of S11** have not been fitted to the survey; each is at its own scale
+  (Summary).
 - **Who owns the castle today**: the National Trust (Cadw's page) or the Wildlife Trust that bought Castle Woods in 1979
   (Moore); and whether the castle's land was ever transferred.
 - **What happened to Dinefwr in 1316** (Llywelyn Bren's rising): Wikipedia says it is "recorded to have been burnt",
@@ -469,12 +503,13 @@ and `fort2/` do.
 | `dinefwr-rhys` | 1151 to c. 1230 | First record 1151 (contested); the new-style castle after 1171-72 [S19]; walls and a tower by 1213 [S18]; dismantling 1220 [S8]. Ends when the keep's phase begins |
 | `dinefwr-welsh-stone` | c. 1230 to c. 1280 | Keep and curtain 1230-50, north-west tower and inner gatehouse 1250-70 [S11]. Could be split at 1250 |
 | `dinefwr-crown` | c. 1280 to c. 1326 | The 1280s works [S8][S11] |
-| `dinefwr-castle` | c. 1326 to c. 1450 (about 1500 on the Tudor reading) | Hall and later works [S8][S11]; the south wall rebuilt after the 1403 siege [S8]; still maintained in the earlier 15th century [S1]. **The end is contested and the date an estimate**: the Cadw guide has the site abandoned "from the 15th century" [S8]; Coflein has Newton replacing it "as early as the later part of the century" [S1]; the listing, HER and medievalheritage have Sir Rhys ap Thomas working at it at the end of the 15th century, the HER adding that he "soon abandoned" it [S2][S3][S9], which would end the phase about 1500 (an estimate; no source gives 1525). The Tudor phase adds no part |
-| `dinefwr-decay` | c. 1450 (about 1500 on the Tudor reading) to c. 1660 | The abandoned castle, unroofed and shedding stone, ending as the paintings show it [S16]. Its start is the castle phase's contested end, c. 1450 to c. 1500; its end is the paintings' date, c. 1660-70 [S16] or c. 1710-30 [S22], and the summerhouse phase begins at the earlier. Without it the timeline would show no castle for 1600-1660 (the app today covers those years with `dinefwr-ruin`) |
+| `dinefwr-castle` | c. 1326 to c. 1450 (c. 1500 on the Tudor reading, within c. 1485-1525) | Hall and later works [S8][S11]; the south wall rebuilt after the 1403 siege [S8]; still maintained in the earlier 15th century [S1]. **The end is contested and the date an estimate**: the Cadw guide has the site abandoned "from the 15th century" [S8]; Coflein has Newton replacing it "as early as the later part of the century" [S1]; the listing and medievalheritage date Sir Rhys ap Thomas's works to the end of the 15th century and the HER to "Tudor times", adding that he "soon abandoned" it [S2][S3][S9], which would end the phase in c. 1485-1525 (the HER's "Tudor times" to his death in 1525 [S21], an inference), c. 1500 as the estimate; no source gives an end date, and the 1531 confiscation [S9] says who held the castle, not who lived in it. The Tudor phase adds no part |
+| `dinefwr-decay` | c. 1450 (c. 1500, within c. 1485-1525, on the Tudor reading) to c. 1660 | The abandoned castle, unroofed and shedding stone, ending as the paintings show it [S16]. Its start is the castle phase's contested end, c. 1450 to c. 1500 (range to 1525); its end is the paintings' date, c. 1660-70 [S16] or c. 1710-30 [S22], and the summerhouse phase begins at the earlier. Without it the timeline would show no castle for 1600-1660 (the app today covers those years with `dinefwr-ruin`) |
 | `dinefwr-summerhouse` | c. 1660 to c. 1795 | Roofed top storey and turret, paintings to the fire [S16][S22][S23][S8]; both ends contested |
 | `dinefwr-ruin` | c. 1795 to now | Roofless; today's heights [S24] |
 
-The dates join with no gap: 1151, c. 1230, c. 1280, c. 1326, c. 1450 (or about 1500), c. 1660, c. 1795, now. Every boundary is contested or
+The dates join with no gap: 1151, c. 1230, c. 1280, c. 1326, c. 1450 (or c. 1500), c. 1660, c. 1795, now. Every
+boundary is contested or
 approximate, and the ⓘ says so.
 
 **Phase `dinefwr-rhys` (form unknown throughout).**
@@ -488,9 +523,15 @@ approximate, and the ⓘ says so.
 | `dinefwr/tower-1213` | tower | Place and form **unknown**; one tower held out in 1213 until the garrison surrendered on terms. Estimate: square, 7m, 10m high, at the keep's place | documented that it existed; form imagined | S18, S8 | none | flaggy rubble (analogy) |
 | `dinefwr/hall-timber` | hall | **Unknown** (estimate 14 x 7m, 5m to the eaves) | imagined | S8 | `thatch-roof` or `shingle-roof` (existing, analogy) | timber, thatch or shingle |
 
-**The existing kits are Roman.** Every one of today's ten kits in `src/content/kits.ts` cites the Roman fort survey
-(`fort:S1`, with Jay Lane and the vicus as analogies): the breastwork, the timber frame, the shingle and thatch roofs and
-the ledged leaf are Fort 1's evidence or guesses. Reused unchanged on a 12th- or 13th-century castle (`fence-outer`,
+**The existing kits are Roman.** Every one of today's ten kits in `src/content/kits.ts` rests on Roman-period evidence
+or analogy, none medieval: seven cite the Llandeilo fort survey (`fort:S1`: the two post towers, the turf courses, the
+ledged leaf, the timber frame, the shingle roof and the thatch roof) and three cite only Jay Lane, a Roman fort in
+Herefordshire (`fort:S16`: the tower boarding, the post-and-board breastwork and the plank deck); the turf courses and
+the thatch roof also cite Trawscoed, another Roman fort and not the vicus (`fort:S15`, `fort:S14`). Earlier versions
+of this paragraph and check 2 said all ten cite `fort:S1`, with Jay Lane and the vicus as analogies; that was wrong
+(corrected in [check 3](reviews/dinefwr-castle-check-3.md)), though the conclusion stands. The timber frame, the
+shingle and thatch roofs and the ledged leaf are Fort 1's evidence or guesses; the breastwork is Jay Lane's. Reused
+unchanged on a 12th- or 13th-century castle (`fence-outer`,
 `hall-timber`, `buildings`, and the `ledged-leaf`, `timber-frame` and roof kits named in the later phases), each would show
 **Roman evidence under a medieval label**. Each reuse therefore needs either a new kit with its own medieval basis, or
 an analogy text in the kit's provenance saying the numbers are a Roman guess borrowed for want of a medieval one; the
@@ -507,7 +548,7 @@ Lord Rhys's castle has no form at all to draw them from.
 | `dinefwr/gate-se` | gap in the curtain by the keep, then a gatehouse inside it (1250-70) | Gap about 3m (estimate); gatehouse **unknown** in size (estimate 6 x 5m, 7m high) | documented (place; one source: Cadw); form reconstructed | S9, S11 | `ledged-leaf` (existing, analogy) | flaggy rubble, timber |
 | `dinefwr/tower-nw` | tower, round, at (-8.5, 23.0) | 7.9m (measured) or about 7m (text), walls 2.1m, inside 3.7m; today's top about 11.4m above the ward; medieval height **unknown** (estimate 11m). From 1250 | documented | S1, S9, S10, S11, S24 | `coursed-rubble`; tower `top: 'battlements'` (existing) | flaggy rubble |
 | `dinefwr/latrine-sw` | latrine bay projecting from the west curtain | **Unknown** (estimate 3 x 2m); first half of the 13th century | documented (existence; one source: Cadw guide via S9) | S9, S10 | `coursed-rubble` | flaggy rubble |
-| `dinefwr/outer-ward-wall` | wall, the upper outer ward's line, inside the box x 38.6 to 74.7, y 4.0 to -27.5 (the box's corners, not points on the wall; the vertices are to be read off S10 at build, the north piece (48.0, 3.7) to (68.5, 0.2) being measured) | Height and thickness **unknown** (estimate 4m, 1.5m); no significant stonework is visible today [S9] | documented (line; the plan and the terrain model's banks agree to about 5m [S24]; the wall is not visible today and its phase is an estimate, S10 shading it "Medieval (Uncertain Date)"); height imagined | S10, S9 | `coursed-rubble` | flaggy rubble |
+| `dinefwr/outer-ward-wall` | wall, the upper outer ward's line, inside the box x 38.6 to 74.7, y 4.0 to -27.5 (the box's corners, not points on the wall; the vertices are to be read off S10 at build, the north piece (48.0, 3.7) to (68.5, 0.2) being measured) | Height and thickness **unknown** (estimate 4m, 1.5m); no significant stonework is visible today [S9] | documented (line: the plan and the terrain model's banks agree to about 5m [S24], which shows the line of the enclosure and not that a wall stood; **the stone wall itself one source: Cadw** (S9, S10), S9 saying no significant stonework is visible today; phase an estimate, S10 shading it "Medieval (Uncertain Date)"); height imagined | S10, S9 | `coursed-rubble` | flaggy rubble |
 | `dinefwr/buildings` | halls in the ward | **Unknown**; Cadw's plans mark two possible buildings with "?" | imagined | S11, S9 | `shingle-roof` or `thatch-roof` (analogy) | timber, roof |
 
 **Phase `dinefwr-crown`** (as `dinefwr-welsh-stone`, plus these; `gate-se` closes).
@@ -516,12 +557,12 @@ Lord Rhys's castle has no form at all to draw them from.
 |---|---|---|---|---|---|---|
 | `dinefwr/chamber-block` | hall (or prism), north-east face (9.0, 19.4) to (21.5, 11.9), projecting outside the curtain | 14.6 x about 8.5m (measured); basement and two floors; height **unknown** (today to 8-13m above the ward; estimate 12m) | documented | S9, S8, S1, S10, S24 | `coursed-rubble`, `loop-window`; hall `roof: 'gable'` or `'parapet'` (existing plan values; unknown: analogy) | flaggy rubble, roof |
 | `dinefwr/latrine-turret` | tower, square, on the chamber block | **Unknown** in size (estimate 3m) | documented (existence; one source: Cadw, which calls it a latrine turret [S9] or a watch turret [S8]: function **contested**) | S9, S8 | `coursed-rubble` | flaggy rubble |
-| `dinefwr/gate-inner` | gate in the south curtain at (4.4, -17.5) | Passage **unknown** (estimate 3m) | documented (one source: Cadw) | S9, S10 | `ledged-leaf` (analogy) | timber |
-| `dinefwr/gatehouse-inner` | two hollow square towers flanking the inner gate, inside the south curtain; from 1280 (S11's first plan with them) to before 1750 | Each about 5.1 x 5.1m outside and 2.6m inside (walls about 1.3m), centres (1.7, -15.4) and (7.8, -15.5) in the plan frame, drawn gap between them about 1m, centred (4.8, -16.1) (fitted to the ground at about ±2m: the plan reproduction S11 needs no scale correction, unlike S10; see the Summary); height **unknown** (estimate 9m, as the south turret); lost at an unknown date between 1330 and 1750, so it ends at the start of `dinefwr-summerhouse` (c. 1660, an estimate) and always before `dinefwr/stair-grand`, which stands on its site [S9] | reconstructed (one source: Cadw; S9 hedges it with "perhaps"; nothing stands to measure) | S11, S9, S8, S10 | `coursed-rubble`; tower `top: 'battlements'` (existing; unknown: analogy); `loop-window` (S9: "the lateral loop holes ... remain"; one source) | flaggy rubble |
+| `dinefwr/gate-inner` | gate in the south curtain at (4.4, -17.5) | Passage **unknown** (estimate 3m; the `gatehouse-inner` towers are set 3.0m apart to leave it) | documented (one source: Cadw; the listing's "gatehouse ... on S" [S2] is unspecific and does not lift it) | S9, S10, S2 | `ledged-leaf` (analogy) | timber |
+| `dinefwr/gatehouse-inner` | two hollow square towers flanking the inner gate, inside the south curtain; from 1280 (S11's first plan with them) to before 1750 | Each about 5.1 x 5.1m outside and 2.6m inside (walls about 1.3m), centres **(0.35, -15.5) and (8.45, -15.5)** in the plan frame, 3.0m apart, centred on the inner gate (4.4, -17.5) to leave the 3m passage: **a departure from the plan**, which draws centres (1.7, -15.4) and (7.8, -15.5) with a gap of about 1.0m (fitted to the ground at about ±2m on the 1280 panel's own scale, S11's panels differing from each other by up to 13%; the gap is treated as schematic, see the parts table and the Summary); height **unknown** (estimate 9m, as the south turret); lost at an unknown date between 1330 and 1750, so it ends at the start of `dinefwr-summerhouse` (c. 1660, an estimate) and always before `dinefwr/stair-grand`, which stands on its site [S9] | reconstructed (one source: Cadw for the towers' form and place; S9 hedges it with "perhaps"; the listing's "a gatehouse ... on S" [S2] is unspecific; only the inner gate's loop holes and bar hole are said to remain [S9], unmeasured) | S11, S9, S8, S10, S2 | `coursed-rubble`; tower `top: 'battlements'` (existing; unknown: analogy); `loop-window` (S9: "the lateral loop holes ... remain"; one source) | flaggy rubble |
 | `dinefwr/turret-s` | tower, square, at the south-west angle, about (-7, -17) | About 4 x 4m (measured, low); height **unknown** (estimate 9m) | documented (stands, fitted as a survey control point [S24]; the 1280s date and form one source: Cadw) | S9, S8, S10 | `coursed-rubble`; tower `top: 'battlements'` (existing; unknown: analogy) | flaggy rubble |
-| `dinefwr/barbican` | wall, (-5.3, -19.2), (11.6, -24.3), (31.3, -31.3), with wall-walks | Height **unknown** (estimate 4m); thickness about 1.2m (estimate) | documented (line; one source: Cadw, with the 1280s date hedged by S8) | S1, S9, S10 | `coursed-rubble`; wall `top: 'battlements'` (existing; the barbican wall is called crenellated only for its post-1403 rebuilding [S8], so crenellation in the 1280s is an **inference**); wall-walks have no plan value yet | flaggy rubble |
+| `dinefwr/barbican` | wall, (-5.3, -19.2), (11.6, -24.3), (31.3, -31.3), with wall-walks | Height **unknown** (estimate 4m); thickness about 1.2m (estimate) | documented (line; one source: Cadw, with the 1280s date hedged by S8; the listing's "gatehouse ... on S" [S2] does not say whether it is this) | S1, S9, S10 | `coursed-rubble`; wall `top: 'battlements'` (existing; the barbican wall is called crenellated only for its post-1403 rebuilding [S8], so crenellation in the 1280s is an **inference**); wall-walks have no plan value yet | flaggy rubble |
 | `dinefwr/gate-middle` | small gatehouse at (22.2, -28.3) | About 6 x 3m (measured, low); height **unknown** | documented (place; one source: Cadw); portcullis reconstructed | S9, S10 | `portcullis` (new, reconstructed), `ledged-leaf` | flaggy rubble, timber |
-| `dinefwr/outer-ward-lower` | wall, (39.3, -33.9), (57.9, -52.0), (76.7, -56.1), (77.2, -33.9) | Height **unknown** (estimate 3m) | documented (line: the plan, and the terrain model's banks to about 5m [S24]; phase an estimate) | S10, S24 | `coursed-rubble` | flaggy rubble |
+| `dinefwr/outer-ward-lower` | wall, (39.3, -33.9), (57.9, -52.0), (76.7, -56.1), (77.2, -33.9) | Height **unknown** (estimate 3m) | documented (line: the plan, and the terrain model's banks to about 5m [S24], banks and not a wall; **the stone wall one source: Cadw** (S10); phase an estimate) | S10, S24 | `coursed-rubble` | flaggy rubble |
 | `dinefwr/gate-outer` | gate at (78.8, -31.3) | **Unknown** | documented (place; one source: Cadw) | S10, S9 | `ledged-leaf` | timber |
 | `dinefwr/bailey-buildings` | 5 halls in the outer ward, 2 large and 3 small | Number documented; size and place **unknown** (estimate 14 x 7m and 8 x 5m) | imagined (form) | S8, S9 | `timber-frame`, `thatch-roof` or `shingle-roof` (existing, analogy) | timber, daub, roof |
 
@@ -529,7 +570,7 @@ Lord Rhys's castle has no form at all to draw them from.
 
 | id | Shape | Dimensions | Tier | Sources | Kits needed | Textures needed |
 |---|---|---|---|---|---|---|
-| `dinefwr/hall` | hall on the north curtain between the north-west tower and the chamber block | 13 x 6m (text; single source), first floor over a store; height **unknown** (estimate 9m); roof **unknown** | documented (size) | S9, S2, S10 | `coursed-rubble`; hall `roof: 'gable'` (existing); `stone-stair` (new kit: external stair, "probably") | flaggy rubble, roof covering (analogy) |
+| `dinefwr/hall` | hall on the north curtain between the north-west tower and the chamber block | 13 x 6m (text; single source), first floor over a store; height **unknown** (estimate 9m); roof **unknown** | documented (existence: S9 and the listing [S2]; the 13 x 6m size is **one source: S9, Cadw's guide**) | S9, S2, S10 | `coursed-rubble`; hall `roof: 'gable'` (existing); `stone-stair` (new kit: external stair, "probably") | flaggy rubble, roof covering (analogy) |
 | `dinefwr/west-building` | hall along the west curtain | **Unknown** in size (the plans' "?" building) | documented that it existed (one source: Cadw [S8]); form imagined | S8, S11 | as above | as above |
 | `dinefwr/keep-door` | opening in the keep's base | **Unknown** size | documented, date contested | S17, S9, S8 | none | - |
 | `dinefwr/barbican-wall-rebuilt` | the barbican's first stretch from the south turret, about (-5.3, -19.2) towards (11.6, -24.3) (extent estimated), replacing that part of `dinefwr/barbican` | "the crenellated south wall on the entrance passage was totally rebuilt to butt up against the south turret"; height **unknown** (estimate 4m) | reconstructed ("it may have been this period" [S8]); dated after 1403, so it joins in this phase, not the 1280s | S8 | `coursed-rubble`; wall `top: 'battlements'` (existing) | flaggy rubble |
@@ -543,7 +584,8 @@ Lord Rhys's castle has no form at all to draw them from.
 | `dinefwr/hall`, `dinefwr/chamber-block` | hall, prism | "In advanced decay" by the 1660s [S16]; standing heights **unknown** (estimate: walls to the first floor, floors and roofs gone) | the end state documented (S16); the stages imagined | S16 | as `dinefwr-castle` | flaggy rubble, ivy (optional) |
 | `dinefwr/curtain`, `dinefwr/barbican`, `dinefwr/gatehouse-inner` and the rest | walls | The paintings show "a curving curtain wall with crenellated rampart" on the south-west side [S16]; every other height **unknown** | documented for that wall (S16); the rest imagined | S16 | as `dinefwr-castle` | flaggy rubble |
 
-**Phase `dinefwr-summerhouse`** (the `dinefwr-decay` castle, plus these).
+**Phase `dinefwr-summerhouse`** (the `dinefwr-decay` castle, plus these; `dinefwr/gatehouse-inner` has closed, ending
+where this phase begins).
 
 | id | Shape | Dimensions | Tier | Sources | Kits needed | Textures needed |
 |---|---|---|---|---|---|---|
@@ -592,7 +634,10 @@ banks and ditches on the terrain model [S24], and whether any short length of wa
    amendment).
 5. **Ground**: a LiDAR detail area for the castle, so the ditches and the ridge come from the survey.
 6. **The `at`** moves to Coflein's point; the 5m difference is inside the model's error, but the rule is the forts'.
-7. **The research gaps** above, especially the King's Works accounts (roofs) and the Cadw guidebook (heights), would turn
+7. **A content test for the one-source label.** `Provenance` `documented` has an optional `note` that the ⓘ shows
+   (`basisOf`, `src/ui/provenance.ts`). A content test should require a "one source: Cadw" note on every part this note
+   labels so (S9, S10 and S11 are one source in three forms), so the ⓘ never presents them as a cross-check.
+8. **The research gaps** above, especially the King's Works accounts (roofs) and the Cadw guidebook (heights), would turn
    several "imagined" heights into documented ones.
 
 ## Sources
@@ -607,7 +652,18 @@ banks and ditches on the terrain model [S24], and whether any short length of wa
 - [S8] castlewales.com (Jeffrey L. Thomas), "Dinefwr Castle", text from Sian E. Rees and Chris Caple, the Cadw guidebook for Dinefwr and Dryslwyn castles (1999), photographs 2002. https://castlewales.com/dinefwr.html — the Lord Rhys's castle "perhaps of a similar form to that which survives today"; the layout "probably first adopted at this time"; "By the time of the siege of 1213, there were certainly walls and a tower strong enough to withstand siege engines"; Rhys Gryg's 1220 dismantling; the keep "conventionally dated to around the 1230s", possibly Rhys Gryg's; the 1280s repairs and the "two large and three small buildings"; the chamber block, inner gate, barbican and south turret; the hall and 1326; 1343 and 1353; the south wall rebuilt after the Glyndŵr siege; "There are no records of work at Dinefwr for the remainder of the Middle Ages"; the late 17th-century summerhouse, the south turret's roof and tiled floor; "By the late 18th century, however, both roofs had been destroyed by fire"; estate repairs that "rebuilt or refaced" large areas; "the restored wall-walk". Read directly.
 - [S9] medievalheritage.eu, "Dinefwr – castle" (bibliography: Caple and Rees 2007; Davis 2011, 2021; Kenyon 2010; Lindsay 1998; Lloyd, Orbach and Scourfield 2006; Salter 1996). https://medievalheritage.eu/en/main-page/heritage/wales/dinefwr-castle/ — history ("captured by Rhys ap Gruffydd (Lord Rhys) in 1165"; Rhys ap Thomas "carried out its rebuilding"; "after the fire of the eighteenth century"); architecture: ditches "about 15 meters", pentagon of walls "1.8 meters thick", courtyard "approximately 50 x 28 meters", keep "13.5 meters and walls 2.6 meters thick", battered base and roll moulding, first-floor entrance, ground-floor portal of the 14th century, three slits; south-east gate and the 1250-70 gatehouse inside; north-west tower "about 7 meters"; chamber block, latrine turret, floors on corbels; hall "13 meters long and 6 meters wide"; the later gate, south turret and foregate with wall-walks; outer ward; 17th-century changes. Secondary. Same page as `models:S22`. Read directly.
 - [S10] medievalheritage.eu, "plan of the castle with time stratification according to C.Caple, S.Rees" (Early/Mid-Thirteenth Century Phase 1 and Phase 2, Late Thirteenth/Early Fourteenth Century, Medieval (Uncertain Date), Seventeenth/Eighteenth Century; North-West Tower, Hall, Chamber Block, Keep, Inner Gate, Turret, Middle Gate, Outer Gate, Outer Ward Upper and Lower, Ditch, Old Town (site of?)); 30m and 100ft scale bars. https://medievalheritage.eu/wp-content/uploads/2019/10/Dinefwr-plan-12.jpg — measured 2026-10-10 and fitted to S24 (30m bar 8.15 px/m, 100ft bar 8.20; the ground 8.58 px/m: the plan as reproduced is drawn about 5% larger than its bars say, cause unknown). Same image as `models:S23`. Cadw, Crown copyright; not copied.
-- [S11] medievalheritage.eu, "plan of the castle expansion stages according to C.Caple, S.Rees" (1230-50, 1250-70, 1280, 1330, 1750; new, existing and assumed walls; 20m and 60ft bars). https://medievalheritage.eu/wp-content/uploads/2019/10/Dinefwr-plan-11.jpg — viewed and measured; fitted 2026-10-10 to the survey [S24] by the same method as S10 (keep and north-west tower centres, three corners: residuals 0.4-1.0m, 6.52 px/m against its 20m bar's 6.63, rotation 4.2 degrees), and the 1280 panel's two inner-gate towers read off it. Cadw, Crown copyright; not copied.
+- [S11] medievalheritage.eu, "plan of the castle expansion stages according to C.Caple, S.Rees" (1230-50, 1250-70, 1280,
+  1330, 1750; new, existing and assumed walls; 20m and 60ft bars).
+  https://medievalheritage.eu/wp-content/uploads/2019/10/Dinefwr-plan-11.jpg — viewed and measured; the **1280 panel
+  only** (image 1300 x 1013 pixels) fitted 2026-10-10 to the survey [S24] by the same method as S10 (keep and north-west
+  tower centres, three corners: residuals 0.4-1.0m, 6.52 px/m against its 20m bar's 6.63, rotation 4.2 degrees; the
+  three corner pixels were not recorded), and its two inner-gate towers read off it; refitted 2026-10-16 (check 3) on
+  two points, the hole centres of the keep (1071.4, 269.7) and the north-west tower (916.7, 59.0) in panel pixels
+  against (18.5, -7.0) and (-8.5, 23.0) in the plan frame: 6.48 px/m, 5.7 degrees, tower hole centres (959.6, 312.4) and
+  (999.2, 316.7) giving (2.0, -15.3) and (8.1, -15.3). **The panels are at different scales** (keep to north-west tower
+  274, 261, 296 and 292 pixels on the 1250-70, 1280, 1330 and 1750 panels, 6.78, 6.48, 7.33 and 7.24 px/m; one 20m bar
+  of about 130-133 pixels), so each needs its own fit before anything is measured off it. Cadw, Crown copyright; not
+  copied.
 - [S12] medievalheritage.eu, "plan of the castle from the 14th century according to J.Kenyon". https://medievalheritage.eu/wp-content/uploads/2018/05/Dinefwr-plan-01.jpg — viewed for shape; its scale bar is inconsistent (`models:S24`). Not copied.
 - [S13] Chris Jones-Jenkins, reconstruction of Dinefwr Castle in the 14th century from the west, for Cadw, as reproduced by medievalheritage.eu. https://medievalheritage.eu/wp-content/uploads/2019/10/Dinefwr-rekonstrukcja-22.jpg — keep with a conical roof inside its battlements, ranges, outer ward and town; walls painted pale. An artist's reconstruction, viewed. Not copied.
 - [S14] Chris Jones-Jenkins, cutaway reconstruction of the north range in the 14th century, for Cadw, as reproduced by medievalheritage.eu. https://medievalheritage.eu/wp-content/uploads/2019/10/Dinefwr-rekonstrukcja-23.jpg — hall and chamber block, roof trusses, floors, stairs. Viewed. Not copied.
