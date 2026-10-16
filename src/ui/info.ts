@@ -1,14 +1,17 @@
-import { ASSETS, EXTERNAL_CREDITS } from '../content/assets.ts';
+import { ASSETS, EXTERNAL_CREDITS, REPO_URL } from '../content/assets.ts';
+import type { Download } from '../content/downloads.ts';
 import { ALMANAC_TOPICS } from '../content/languages.ts';
 import type { AlmanacEntry, LanguageSnapshot, Photograph } from '../domain/model.ts';
 import type { Source } from '../domain/provenance.ts';
 import { formatSliderYear } from '../domain/time.ts';
 import type { Snapshot } from '../domain/state.ts';
 import { h } from './dom.ts';
+import { downloadsBody } from './downloads.ts';
 import { provenanceBadge } from './provenance.ts';
 import type { LangStore } from './store.ts';
 
-export type InfoTab = 'almanac' | 'language' | 'about';
+const TABS = ['almanac', 'language', 'about', 'downloads'] as const;
+export type InfoTab = (typeof TABS)[number];
 
 export class InfoPanel {
   readonly el = h('aside', { class: 'info panel', hidden: true });
@@ -25,6 +28,7 @@ export class InfoPanel {
       readonly events: number;
       readonly features: number;
       readonly photographs: readonly Photograph[];
+      readonly downloads: readonly Download[];
     },
   ) {
     store.onChange(() => {
@@ -66,10 +70,13 @@ export class InfoPanel {
 
   private render(): void {
     const s = this.snapshot;
-    const key = `${this.tab}|${this.store.lang}|${s?.almanac.map((a) => a.id).join(',') ?? ''}|${s?.language?.id ?? ''}|${s?.era?.id ?? ''}`;
+    const byTime = this.tab === 'almanac' || this.tab === 'language';
+    const key = byTime
+      ? `${this.tab}|${this.store.lang}|${s?.almanac.map((a) => a.id).join(',') ?? ''}|${s?.language?.id ?? ''}|${s?.era?.id ?? ''}`
+      : `${this.tab}|${this.store.lang}`;
     if (key === this.key) return;
     this.key = key;
-    const tabs = (['almanac', 'language', 'about'] as const).map((t) => {
+    const tabs = TABS.map((t) => {
       const b = h(
         'button',
         {
@@ -87,13 +94,12 @@ export class InfoPanel {
         this.el.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]')?.focus();
       });
       b.addEventListener('keydown', (e) => {
-        const order = ['almanac', 'language', 'about'] as const;
-        const i = order.indexOf(t);
+        const i = TABS.indexOf(t);
         const next =
           e.key === 'ArrowRight'
-            ? order[(i + 1) % 3]
+            ? TABS[(i + 1) % TABS.length]
             : e.key === 'ArrowLeft'
-              ? order[(i + 2) % 3]
+              ? TABS[(i + TABS.length - 1) % TABS.length]
               : undefined;
         if (!next) return;
         e.preventDefault();
@@ -113,10 +119,11 @@ export class InfoPanel {
     let body: HTMLElement;
     if (this.tab === 'almanac') body = this.almanac(s?.almanac ?? []);
     else if (this.tab === 'language') body = this.language(s?.language);
+    else if (this.tab === 'downloads') body = downloadsBody(this.counts.downloads, this.store, this.sources);
     else body = this.about();
     this.el.replaceChildren(
       h('div', { class: 'info-head' }, h('div', { class: 'seg', role: 'tablist' }, ...tabs), close),
-      this.tab === 'about' ? h('div') : this.whenEl,
+      byTime ? this.whenEl : h('div'),
       h('div', { id: 'info-body', role: 'tabpanel', 'aria-labelledby': `info-tab-${this.tab}` }, body),
     );
   }
@@ -156,8 +163,15 @@ export class InfoPanel {
     );
   }
 
+  private downloadsLink(): HTMLElement {
+    const link = h('button', { class: 'tool', type: 'button' }, this.store.t('downloadsFromAbout'));
+    link.addEventListener('click', () => {
+      this.open('downloads');
+    });
+    return link;
+  }
+
   private about(): HTMLElement {
-    const repo = 'https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit';
     return h(
       'div',
       { class: 'info-about' },
@@ -167,6 +181,7 @@ export class InfoPanel {
         {},
         `${this.counts.events} ${this.store.t('keyDates')} · ${this.counts.features} ${this.store.t('featuresCount')} · ${this.counts.sources} ${this.store.t('sourcesCount')}`,
       ),
+      h('p', {}, this.downloadsLink()),
       h('h3', {}, this.store.t('credits')),
       h(
         'ul',
@@ -201,7 +216,7 @@ export class InfoPanel {
         {},
         h(
           'a',
-          { href: `${repo}/tree/main/docs`, target: '_blank', rel: 'noopener' },
+          { href: `${REPO_URL}/tree/main/docs`, target: '_blank', rel: 'noopener' },
           this.store.t('researchLink'),
         ),
       ),

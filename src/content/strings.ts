@@ -227,6 +227,33 @@ export const STRINGS = {
     cy: `Diorama o'r dirwedd go iawn o fewn deg milltir i Landeilo, wedi'i adeiladu o ddata uchder yr Arolwg Ordnans ac, o gwmpas y dref a’r caerau Rhufeinig, o ddata LiDAR Llywodraeth Cymru. Mae'r bryniau wedi'u gorliwio ${HILLS} gwaith. Mae cestyll, yr abaty, plastai a thai cynnar wedi'u lluniadu ${LANDMARKS} gwaith yn fwy na'u maint go iawn er mwyn eu gweld ar y raddfa hon; mae bryngaerau, y caerau Rhufeinig a’u hanheddiad (yn eu huchder go iawn hefyd) a'r dref, gyda'i heglwys a'i phontydd, yn cadw eu hôl troed go iawn. Symudwch y llithrydd i deithio drwy amser. Mae label ar bopeth: wedi'i gofnodi, wedi'i ail-greu, neu ddychmygol. Hofran neu dapio label i weld pam, a'r ffynonellau.`,
   },
   credits: { en: 'Credits and licences', cy: 'Cydnabyddiaeth a thrwyddedau' },
+  downloads: { en: 'Downloads', cy: 'Lawrlwythiadau' },
+  downloadsFromAbout: {
+    en: 'Download the models and the terrain',
+    cy: 'Lawrlwytho’r modelau a’r tir',
+  },
+  downloadsIntro: {
+    en: 'The models and the ground the app draws, as .glb files: an open format that Blender, SketchUp, game engines and most other 3D programs can open. Each file carries its own credit and licence.',
+    cy: 'Y modelau a’r tir y mae’r ap yn eu tynnu, fel ffeiliau .glb: fformat agored y gall Blender, SketchUp, peiriannau gemau a’r rhan fwyaf o raglenni 3D eraill ei agor. Mae pob ffeil yn cario ei chydnabyddiaeth a’i thrwydded ei hun.',
+  },
+  downloadsModels: { en: 'Models', cy: 'Modelau' },
+  downloadsModelsNote: {
+    en: 'Built from sourced plans in real metres. Each part carries its tier, documented, reconstructed or imagined, and its sources, inside the file; the ⓘ here says how sure we are of the whole.',
+    cy: 'Wedi’u hadeiladu o gynlluniau â ffynonellau mewn metrau go iawn. Mae pob rhan yn cario ei haen, wedi’i chofnodi, wedi’i hail-greu neu’n ddychmygol, a’i ffynonellau, y tu mewn i’r ffeil; mae’r ⓘ yma’n dweud pa mor sicr ydym o’r cyfan.',
+  },
+  downloadsTerrain: { en: 'Terrain', cy: 'Tir' },
+  downloadsTerrainNote: {
+    en: 'Today’s bare ground, measured from the air by the Welsh Government’s LiDAR survey, at the grid size shown on each tile so that the files stay small. The app lays earlier ground on top of it; these tiles are only today’s. Each tile is a square in real metres with its British National Grid origin in the file, and neighbouring tiles share their edges, so they meet when opened together.',
+    cy: 'Tir noeth heddiw, wedi’i fesur o’r awyr gan arolwg LiDAR Llywodraeth Cymru, ar faint y grid a ddangosir ar bob teilsen fel bod y ffeiliau’n aros yn fach. Mae’r ap yn gosod tir cynharach ar ei ben; tir heddiw yn unig yw’r teils hyn. Mae pob teilsen yn sgwâr mewn metrau go iawn â’i tharddiad ar Grid Cenedlaethol Prydain yn y ffeil, ac mae teils cyfagos yn rhannu eu hymylon, felly maent yn cwrdd pan agorir hwy gyda’i gilydd.',
+  },
+  downloadLink: { en: 'Download .glb', cy: 'Lawrlwytho .glb' },
+  downloadPeriod: { en: 'Period', cy: 'Cyfnod' },
+  downloadSize: { en: 'Size', cy: 'Maint' },
+  downloadTriangles: { en: 'Triangles', cy: 'Trionglau' },
+  downloadHeights: { en: 'Heights', cy: 'Uchderau' },
+  downloadOrigin: { en: 'Grid origin', cy: 'Tarddiad y grid' },
+  downloadOriginNote: { en: 'south-west corner', cy: 'cornel y de-orllewin' },
+  downloadCreditLicence: { en: 'Credit and licence', cy: 'Cydnabyddiaeth a thrwydded' },
   timeOfDay: { en: 'Time of day', cy: 'Adeg o’r dydd' },
   season: { en: 'Season', cy: 'Tymor' },
   skyNote: {

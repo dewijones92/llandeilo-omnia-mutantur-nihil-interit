@@ -1082,6 +1082,88 @@ button {
   color: var(--ink-soft);
 }
 
+.info-head {
+  flex-wrap: wrap;
+}
+
+.info-head .seg button {
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+.dl-note {
+  margin: 4px 0 8px;
+}
+
+.dl-attribution {
+  font-size: 12px;
+}
+
+.dl-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+}
+
+.dl-name {
+  overflow-wrap: anywhere;
+}
+
+.dl-variant {
+  padding: 1px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.info .info-list .dl-what {
+  margin: 4px 0 6px;
+  font-size: 14px;
+}
+
+.dl-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2px 10px;
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.dl-facts dt {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.dl-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.dl-credit {
+  margin: 8px 0;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.dl-credit summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.info .dl-credit p {
+  margin: 4px 0;
+  font-size: 12px;
+}
+
+.dl-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
 .label.anachronistic .label-name {
   opacity: 0.62;
 }

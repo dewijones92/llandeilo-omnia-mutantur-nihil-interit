@@ -36,6 +36,7 @@ import { FollowChip } from './ui/follow-chip.ts';
 import { desktopBanner } from './ui/desktop-banner.ts';
 import { ConversationPanel } from './ui/conversation.ts';
 import { InfoPanel, type InfoTab } from './ui/info.ts';
+import { buildDownloads } from './content/downloads.ts';
 import { PhotoPanel } from './ui/photo-panel.ts';
 import { PhotoPins } from './ui/photo-pins.ts';
 import { initialPhotos, rememberPhotos, storedPhotos } from './ui/photos-pref.ts';
@@ -298,6 +299,7 @@ async function start(): Promise<void> {
     events: content.events.length,
     features: content.features.length,
     photographs: content.photographs,
+    downloads: buildDownloads(content.features),
   });
   const photoPanel = new PhotoPanel(store, sourceMap);
   const pins = new PhotoPins(world.scene, content.photographs, features.ground, store, (photo) => {

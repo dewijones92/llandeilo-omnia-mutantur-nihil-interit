@@ -8,14 +8,14 @@ export const LANDMARK_MODELS: readonly LandmarkModel[] = [
     "inputHash": "ae05b3b9a6522a9c",
     "near": {
       "file": "models/landmarks/roman-fort-a.near.glb",
-      "bytes": 1201844,
+      "bytes": 1202332,
       "triangles": 69074,
       "drawCalls": 5,
       "parts": 47
     },
     "far": {
       "file": "models/landmarks/roman-fort-a.far.glb",
-      "bytes": 27656,
+      "bytes": 28140,
       "triangles": 1224,
       "drawCalls": 1,
       "parts": 10
@@ -27,14 +27,14 @@ export const LANDMARK_MODELS: readonly LandmarkModel[] = [
     "inputHash": "16454d71706a5a66",
     "near": {
       "file": "models/landmarks/roman-fort-b.near.glb",
-      "bytes": 896372,
+      "bytes": 896860,
       "triangles": 51188,
       "drawCalls": 9,
       "parts": 50
     },
     "far": {
       "file": "models/landmarks/roman-fort-b.far.glb",
-      "bytes": 27152,
+      "bytes": 27640,
       "triangles": 884,
       "drawCalls": 1,
       "parts": 16
@@ -46,14 +46,14 @@ export const LANDMARK_MODELS: readonly LandmarkModel[] = [
     "inputHash": "0dd2a08c234b36ff",
     "near": {
       "file": "models/landmarks/roman-vicus.near.glb",
-      "bytes": 151592,
+      "bytes": 152080,
       "triangles": 10760,
       "drawCalls": 1,
       "parts": 16
     },
     "far": {
       "file": "models/landmarks/roman-vicus.far.glb",
-      "bytes": 528,
+      "bytes": 1012,
       "triangles": 0,
       "drawCalls": 0,
       "parts": 0

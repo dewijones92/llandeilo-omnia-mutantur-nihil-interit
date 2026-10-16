@@ -11,6 +11,10 @@ export interface AssetRecord {
 
 const OS = 'Contains OS data © Crown copyright and database right 2026';
 const OGL = 'Open Government Licence v3.0';
+const LIDAR_LICENCE = `${OGL}, as stated on the DataMapWales LiDAR download page (the tile catalogue's own entry states none)`;
+const LIDAR_URL = 'https://datamap.gov.wales/maps/lidar-data-download/';
+
+export const REPO_URL = 'https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit';
 
 export const EXTERNAL_CREDITS: readonly {
   readonly what: Bilingual;
@@ -38,8 +42,15 @@ export const ASSETS: readonly AssetRecord[] = [
     files: /^data\/lidar\/lidar\.(bin|json)$/,
     what: { en: 'Close-up terrain heights', cy: 'Uchderau’r tir manwl' },
     source: `${LIDAR_CREDIT} Resampled to 2m and 10m by tools/terrain/build-lidar.py.`,
-    licence: `${OGL}, as stated on the DataMapWales LiDAR download page (the tile catalogue's own entry states none)`,
-    url: 'https://datamap.gov.wales/maps/lidar-data-download/',
+    licence: LIDAR_LICENCE,
+    url: LIDAR_URL,
+  },
+  {
+    files: /^models\/terrain\/lidar-\d+-\d+\.glb$/,
+    what: { en: 'Close-up terrain tiles (glb)', cy: 'Teils tir manwl (glb)' },
+    source: `${LIDAR_CREDIT} Exported to glb by tools/terrain/export-glb.ts from the 2m tiles in public/data/lidar, with the heights unchanged.`,
+    licence: LIDAR_LICENCE,
+    url: LIDAR_URL,
   },
   {
     files: /^data\/rivers\.json$/,
@@ -72,7 +83,7 @@ export const ASSETS: readonly AssetRecord[] = [
     source:
       'Built by this project’s Blender script tools/models/build_landmark.py from the typed plans in src/content (ADR 0053); each part’s sources are in its ⓘ',
     licence: 'Original work of this project',
-    url: 'https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/tree/main/tools/models',
+    url: `${REPO_URL}/tree/main/tools/models`,
   },
   {
     files: /^photos\/harries\/\d+\.jpg$/,
@@ -91,3 +102,8 @@ export const ASSETS: readonly AssetRecord[] = [
     url: 'https://github.com/rany2/edge-tts',
   },
 ];
+
+/** The record that credits a published file (its path under public/), if any. */
+export function assetFor(file: string): AssetRecord | undefined {
+  return ASSETS.find((a) => a.files.test(file));
+}

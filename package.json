@@ -25,6 +25,7 @@
     "e2e": "playwright test",
     "e2e:gpu": "tools/gpu/run.sh",
     "models": "node tools/models/build.ts",
+    "downloads": "node --experimental-transform-types --no-warnings tools/downloads/build.ts",
     "knip": "knip",
     "check": "npm run format:check && npm run typecheck && npm run lint && npm run test && npm run knip"
   },
