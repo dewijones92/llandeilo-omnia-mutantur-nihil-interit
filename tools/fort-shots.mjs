@@ -41,6 +41,8 @@ for (const year of years) {
     `${base}?year=${year}&hour=13&season=summer&place=${process.env.PLACE ?? 'roman-forts'}&debug${process.env.EXTRA ?? ''}`,
   );
   await page.waitForFunction(() => document.body.dataset.ready !== undefined, null, { timeout: 180000 });
+  // The place's own camera flight can still be running when the page is ready; PRE=ms lets it end before the camera is set.
+  await page.waitForTimeout(Number(process.env.PRE ?? 0));
   const report = await page.evaluate(async (f) => {
     const debug = Reflect.get(window, 'llandeiloDebug');
     for (const el of document.querySelectorAll('.debug.panel')) el.style.display = 'none';

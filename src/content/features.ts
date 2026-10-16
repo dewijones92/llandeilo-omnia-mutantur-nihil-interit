@@ -24,6 +24,7 @@ import {
   OLD_BRIDGE,
   PAXTONS_TOWER,
   SCOTT_CHURCH,
+  SLOPE_SEATING,
   TALLEY,
   TALLEY_ABANDONED,
   TALLEY_PARISH,
@@ -40,7 +41,7 @@ import {
   ROMAN_VICUS,
   VICUS_AT,
 } from './forts.ts';
-import { documented, imagined, reconstructed } from './provenance.ts';
+import { documented, imagined, reconstructed, withNote } from './provenance.ts';
 
 type Spec = {
   readonly id: string;
@@ -486,10 +487,13 @@ export const FEATURES: readonly Feature[] = [
     from: ad(1225),
     to: ad(1250),
     label: { en: 'Dryslwyn Castle, the first ward', cy: 'Castell Dryslwyn, y ward gyntaf' },
-    provenance: documented(
-      ['models:S1', 'models:S3', 'models:S4', 'models:S6', 'medieval:S21'],
-      'The first castle, built by Rhys Gryg in the 1220s: a polygonal walled court on the summit with a round keep about 12m across on its east side, beside the gate, and a great hall on the south side. The shape follows the hilltop as the OS terrain shows it; heights are approximate, and so is the date the middle ward was added.',
-      "Y castell cyntaf, a godwyd gan Rys Gryg yn yr 1220au: clos amlochrog â mur o'i amgylch ar y copa, gyda gorthwr crwn tua 12m ar draws ar ei ochr ddwyreiniol, wrth y porth, a neuadd fawr ar yr ochr ddeheuol. Mae'r siâp yn dilyn pen y bryn fel y dengys tir yr Arolwg Ordnans; bras yw'r uchderau, a'r dyddiad yr ychwanegwyd y ward ganol hefyd.",
+    provenance: withNote(
+      documented(
+        ['models:S1', 'models:S3', 'models:S4', 'models:S6', 'medieval:S21'],
+        'The first castle, built by Rhys Gryg in the 1220s: a polygonal walled court on the summit with a round keep about 12m across on its east side, beside the gate, and a great hall on the south side. The shape follows the hilltop as the OS terrain shows it; heights are approximate, and so is the date the middle ward was added.',
+        "Y castell cyntaf, a godwyd gan Rys Gryg yn yr 1220au: clos amlochrog â mur o'i amgylch ar y copa, gyda gorthwr crwn tua 12m ar draws ar ei ochr ddwyreiniol, wrth y porth, a neuadd fawr ar yr ochr ddeheuol. Mae'r siâp yn dilyn pen y bryn fel y dengys tir yr Arolwg Ordnans; bras yw'r uchderau, a'r dyddiad yr ychwanegwyd y ward ganol hefyd.",
+      ),
+      SLOPE_SEATING,
     ),
     place: 'dryslwyn',
   }),
@@ -500,10 +504,13 @@ export const FEATURES: readonly Feature[] = [
     from: ad(1250),
     to: ad(1280),
     label: { en: 'Dryslwyn Castle, with its middle ward', cy: 'Castell Dryslwyn, gyda’i ward ganol' },
-    provenance: documented(
-      ['models:S1', 'models:S3', 'models:S4', 'models:S5', 'models:S6'],
-      'A middle ward was added on the north-east slope in the mid-13th century, and a great chamber beside the hall. Who built it is contested: Maredudd ap Rhys (Cadw listing) or Rhys ap Maredudd (medievalheritage). Coflein dates both outer courts to the later 13th century, against the Cadw plan’s mid-13th century for this one. Its size is about 55m by 30m measured from the Cadw plan, against 70m by 30m in the same site’s text; and the overall size measured from the plan (about 119m by 107m) does not fit the ward sizes, which add up to a longer castle. It is drawn from the ward sizes, larger like every landmark; the dates of this phase are approximate.',
-      "Ychwanegwyd ward ganol ar lethr y gogledd-ddwyrain yng nghanol y 13eg ganrif, a siambr fawr wrth y neuadd. Mae dadl ynghylch pwy a'i cododd: Maredudd ap Rhys (rhestriad Cadw) neu Rhys ap Maredudd (medievalheritage). Mae Coflein yn dyddio'r ddau glos allanol i ddiwedd y 13eg ganrif, yn erbyn canol y 13eg ganrif ar gynllun Cadw ar gyfer hwn. Mae ei maint tua 55m wrth 30m wedi'i fesur o gynllun Cadw, yn erbyn 70m wrth 30m yn nhestun yr un wefan; ac nid yw'r maint cyffredinol a fesurwyd o'r cynllun (tua 119m wrth 107m) yn cyd-fynd â maint y wardiau, sy'n adio i gastell hirach. Fe'i darlunnir o faint y wardiau, yn fwy fel pob tirnod; bras yw dyddiadau'r cyfnod hwn.",
+    provenance: withNote(
+      documented(
+        ['models:S1', 'models:S3', 'models:S4', 'models:S5', 'models:S6'],
+        'A middle ward was added on the north-east slope in the mid-13th century, and a great chamber beside the hall. Who built it is contested: Maredudd ap Rhys (Cadw listing) or Rhys ap Maredudd (medievalheritage). Coflein dates both outer courts to the later 13th century, against the Cadw plan’s mid-13th century for this one. Its size is about 55m by 30m measured from the Cadw plan, against 70m by 30m in the same site’s text; and the overall size measured from the plan (about 119m by 107m) does not fit the ward sizes, which add up to a longer castle. It is drawn from the ward sizes, larger like every landmark; the dates of this phase are approximate.',
+        "Ychwanegwyd ward ganol ar lethr y gogledd-ddwyrain yng nghanol y 13eg ganrif, a siambr fawr wrth y neuadd. Mae dadl ynghylch pwy a'i cododd: Maredudd ap Rhys (rhestriad Cadw) neu Rhys ap Maredudd (medievalheritage). Mae Coflein yn dyddio'r ddau glos allanol i ddiwedd y 13eg ganrif, yn erbyn canol y 13eg ganrif ar gynllun Cadw ar gyfer hwn. Mae ei maint tua 55m wrth 30m wedi'i fesur o gynllun Cadw, yn erbyn 70m wrth 30m yn nhestun yr un wefan; ac nid yw'r maint cyffredinol a fesurwyd o'r cynllun (tua 119m wrth 107m) yn cyd-fynd â maint y wardiau, sy'n adio i gastell hirach. Fe'i darlunnir o faint y wardiau, yn fwy fel pob tirnod; bras yw dyddiadau'r cyfnod hwn.",
+      ),
+      SLOPE_SEATING,
     ),
     place: 'dryslwyn',
   }),
@@ -514,10 +521,13 @@ export const FEATURES: readonly Feature[] = [
     from: ad(1280),
     to: ad(1430),
     label: { en: 'Dryslwyn Castle', cy: 'Castell Dryslwyn' },
-    provenance: documented(
-      ['models:S1', 'models:S3', 'models:S4', 'models:S6', 'medieval:S21', 'medieval:S22'],
-      'Three wards, unique among native Welsh castles. The outer ward, running north-north-east to a gatehouse at its north end over a ditch, an apartment block outside the south curtain and a chapel tower at the south-east corner were added in the later 13th century, probably by Rhys ap Maredudd after 1271, so the castle besieged in 1287 had all three wards. Coflein and the Cadw listing say this was Welsh work before 1287; medievalheritage names no builder and records repairs after the siege. It is drawn from about 1280 (the Cadw listing says perhaps after the war of 1282–3), and decommissioned in the early 15th century; both dates are approximate.',
-      "Tair ward, yn unigryw ymysg cestyll brodorol Cymru. Ychwanegwyd y ward allanol, sy'n rhedeg i'r gogledd-gogledd-ddwyrain at borthdy yn ei phen gogleddol dros ffos, bloc o ystafelloedd y tu allan i'r llenfur deheuol a thŵr capel yn y gornel dde-ddwyreiniol yn ddiweddarach yn y 13eg ganrif, gan Rys ap Maredudd ar ôl 1271 mae'n debyg, felly roedd gan y castell dan warchae yn 1287 y tair ward. Mae Coflein a rhestriad Cadw yn dweud mai gwaith Cymreig cyn 1287 oedd hwn; nid yw medievalheritage yn enwi adeiladydd ac mae'n cofnodi atgyweirio ar ôl y gwarchae. Fe'i darlunnir o tua 1280 (mae rhestriad Cadw yn dweud efallai ar ôl rhyfel 1282–3), ac fe'i datgomisiynwyd yn gynnar yn y 15fed ganrif; bras yw'r ddau ddyddiad.",
+    provenance: withNote(
+      documented(
+        ['models:S1', 'models:S3', 'models:S4', 'models:S6', 'medieval:S21', 'medieval:S22'],
+        'Three wards, unique among native Welsh castles. The outer ward, running north-north-east to a gatehouse at its north end over a ditch, an apartment block outside the south curtain and a chapel tower at the south-east corner were added in the later 13th century, probably by Rhys ap Maredudd after 1271, so the castle besieged in 1287 had all three wards. Coflein and the Cadw listing say this was Welsh work before 1287; medievalheritage names no builder and records repairs after the siege. It is drawn from about 1280 (the Cadw listing says perhaps after the war of 1282–3), and decommissioned in the early 15th century; both dates are approximate.',
+        "Tair ward, yn unigryw ymysg cestyll brodorol Cymru. Ychwanegwyd y ward allanol, sy'n rhedeg i'r gogledd-gogledd-ddwyrain at borthdy yn ei phen gogleddol dros ffos, bloc o ystafelloedd y tu allan i'r llenfur deheuol a thŵr capel yn y gornel dde-ddwyreiniol yn ddiweddarach yn y 13eg ganrif, gan Rys ap Maredudd ar ôl 1271 mae'n debyg, felly roedd gan y castell dan warchae yn 1287 y tair ward. Mae Coflein a rhestriad Cadw yn dweud mai gwaith Cymreig cyn 1287 oedd hwn; nid yw medievalheritage yn enwi adeiladydd ac mae'n cofnodi atgyweirio ar ôl y gwarchae. Fe'i darlunnir o tua 1280 (mae rhestriad Cadw yn dweud efallai ar ôl rhyfel 1282–3), ac fe'i datgomisiynwyd yn gynnar yn y 15fed ganrif; bras yw'r ddau ddyddiad.",
+      ),
+      SLOPE_SEATING,
     ),
     place: 'dryslwyn',
   }),
@@ -528,10 +538,13 @@ export const FEATURES: readonly Feature[] = [
     from: ad(1430),
     to: NOW,
     label: { en: 'Dryslwyn Castle, a ruin', cy: 'Castell Dryslwyn, yn adfail' },
-    provenance: reconstructed(
-      'A fragmentary ruin today. How high each part stands is approximate, and the date it was abandoned has not been researched.',
-      'Adfail darniog heddiw. Bras yw uchder pob rhan, ac nid ymchwiliwyd i ddyddiad ei adael.',
-      ['medieval:S21', 'medieval:S22'],
+    provenance: withNote(
+      reconstructed(
+        'A fragmentary ruin today. How high each part stands is approximate, and the date it was abandoned has not been researched.',
+        'Adfail darniog heddiw. Bras yw uchder pob rhan, ac nid ymchwiliwyd i ddyddiad ei adael.',
+        ['medieval:S21', 'medieval:S22'],
+      ),
+      SLOPE_SEATING,
     ),
     place: 'dryslwyn',
   }),

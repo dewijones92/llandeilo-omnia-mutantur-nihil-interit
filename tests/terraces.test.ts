@@ -203,3 +203,28 @@ describe('the terraces as parts', () => {
     }
   });
 });
+
+const textOf = (p: Feature['provenance']): { readonly en: string; readonly cy: string } | undefined =>
+  p.kind === 'documented' ? p.note : p.kind === 'reconstructed' ? p.basis : p.groundedIn;
+
+describe('what the ⓘ says about the slope and the terraces (ADR 0056)', () => {
+  it('says on every Dryslwyn plan, in both languages, that a downhill wall’s extra height is how the app draws the ground', () => {
+    for (const id of ['dryslwyn-first', 'dryslwyn-two-wards', 'dryslwyn-castle', 'dryslwyn-ruin']) {
+      const text = textOf(feature(id).provenance);
+      expect(text?.en, id).toMatch(
+        /downhill wall therefore shows taller than the plan gives.*not from the sources/s,
+      );
+      expect(text?.cy, id).toMatch(/nid o’r ffynonellau/);
+    }
+  });
+
+  it('leaves Birdoswald, an encyclopedia lead nobody has read the source of, out of every terrace ⓘ', () => {
+    for (const id of ['roman-fort-a', 'roman-fort-b']) {
+      for (const t of planOf(feature(id)).filter((p) => p.type === 'terrace')) {
+        const text = t.provenance && textOf(t.provenance);
+        expect(`${text?.en ?? ''} ${text?.cy ?? ''}`, t.id).not.toMatch(/Birdoswald/);
+        expect(text?.en, t.id).toMatch(/Vindolanda/);
+      }
+    }
+  });
+});

@@ -1,3 +1,4 @@
+import type { Bilingual } from '../domain/i18n.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import { src, type SourceKey } from './ids.ts';
 
@@ -22,3 +23,17 @@ export const imagined = (en: string, cy: string, keys: readonly SourceKey[]): Pr
   groundedIn: { en, cy },
   sources: keys.map(src),
 });
+
+const joined = (a: Bilingual, b: Bilingual): Bilingual => ({ en: `${a.en} ${b.en}`, cy: `${a.cy} ${b.cy}` });
+
+/** The same provenance with a sentence added to its note, basis or grounding: what it says about the content stays one claim. */
+export function withNote(p: Provenance, note: Bilingual): Provenance {
+  switch (p.kind) {
+    case 'documented':
+      return { ...p, note: p.note ? joined(p.note, note) : note };
+    case 'reconstructed':
+      return { ...p, basis: joined(p.basis, note) };
+    case 'imagined':
+      return { ...p, groundedIn: joined(p.groundedIn, note) };
+  }
+}

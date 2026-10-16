@@ -540,6 +540,8 @@ async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
       throw new Error('no meshWith or surfaceWith or edits');
     let meshGap = 0;
     let smoothGap = 0;
+    const recordGaps: string[] = [];
+    const unmeasured: string[] = [];
     const out = {
       proceduralFloors: 0,
       modelFloors: 0,
@@ -551,8 +553,6 @@ async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
       modelMeasured: 0,
       recordGap: 0,
       recordGapPart: '',
-      recordGaps: [] as string[],
-      unmeasured: [] as string[],
     };
     for (const s of list) {
       const at: unknown = Reflect.get(s, 'at');
@@ -567,15 +567,13 @@ async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
         else out.modelFloors++;
         const floor: unknown = Reflect.get(measured, kind);
         if (typeof floor !== 'number') {
-          out.unmeasured.push(`${String(Reflect.get(s, 'id'))} ${kind}`);
+          unmeasured.push(`${String(Reflect.get(s, 'id'))} ${kind}`);
           continue;
         }
         if (kind === 'procedural') out.proceduralMeasured++;
         else out.modelMeasured++;
         if (Math.abs(floor - recorded) > 0.005)
-          out.recordGaps.push(
-            `${String(Reflect.get(s, 'id'))} ${kind} ${((floor - recorded) * 10).toFixed(2)}m`,
-          );
+          recordGaps.push(`${String(Reflect.get(s, 'id'))} ${kind} ${((floor - recorded) * 10).toFixed(2)}m`);
         if (Math.abs(floor - recorded) > out.recordGap) {
           out.recordGap = Math.abs(floor - recorded);
           out.recordGapPart = String(Reflect.get(s, 'id'));
@@ -612,6 +610,8 @@ async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
       worst: out.worst * 10,
       worstModel: out.worstModel * 10,
       recordGap: out.recordGap * 10,
+      recordGaps,
+      unmeasured,
       meshGap: meshGap * 10,
       smoothGap: smoothGap * 10,
       roadPoints,

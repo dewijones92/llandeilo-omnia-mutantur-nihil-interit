@@ -351,11 +351,12 @@ const KIND: Readonly<
   barrack: { name: { en: 'Barrack block', cy: 'Bloc barics' }, height: 3 },
 };
 
-// Each building's terrace runs level this far beyond its walls, then eases into the slope over the batter,
-// ending halfway across the 8.5m street to the next barrack. Tuned on the 4m mesh drawn near: 3m of level
-// leaves a wall at most 0.25m under it, 1.5m left 0.95m and 2.5m 1.07m (ADR 0056).
+// Each building's terrace runs level this far beyond its walls, then eases into the slope over the batter. The
+// batter is two 4m cells of the mesh drawn near, so the ease is a ramp and not one steep facet; beside a barrack
+// the two plots' eases cross in the 8.5m street. Tuned on that mesh (ADR 0056): with a 1.25m batter 3m of level
+// left a wall at most 0.25m under it (1.5m left 0.95m, 2.5m 1.07m), and a 4m or 8m batter leaves it at most 0.12m.
 const PLOT_MARGIN = 3;
-const PLOT_BATTER = 1.25;
+const PLOT_BATTER = 8;
 
 function terraceBasis(fort: 1 | 2): Provenance {
   const levelling =
@@ -367,8 +368,8 @@ function terraceBasis(fort: 1 | 2): Provenance {
       ? ' Efallai fod tystiolaeth o lefelu ar gyfer Caer 2 mewn un man: mae’r cloddiwr yn darllen haen yn Ffos Brawf 2 fel dyddodion lefelu, o bosibl, a osodwyd i baratoi’r safle ar ei chyfer, dros ffos o Gaer 1 a lenwyd; ni wyddys pa mor bell yr ymestynnai.'
       : '';
   return reconstructed(
-    `No terrace has been found at Dinefwr, and the survey report describes none. Today’s ground falls by up to about ${fort === 1 ? '3.6' : '1.8'}m across one of these buildings, too much for a timber building to stand level on, so each is drawn on a plot cut and filled level at the ground’s average height, its edge eased into the slope. That is analogy: Roman builders levelled ground for barracks and works elsewhere (at Vindolanda old features were filled and levelled to make even foundations for new barracks; Hardknott’s garrison moved some 5,000 cubic metres to flatten its parade ground; at Birdoswald an encyclopedia’s summary, a lead and not a source, says the buildings on the lower ground were terraced up).${levelling} The height, size and edges of each plot are a choice. The ground drawn is today’s, after centuries of ploughing: at Fort 1’s gate some post-pits were cut from a higher level than now survives, so the Roman surface stood higher in places.`,
-    `Ni chafwyd teras yn Ninefwr, ac nid yw adroddiad yr arolwg yn disgrifio’r un. Mae’r tir heddiw’n disgyn hyd at tua ${fort === 1 ? '3.6' : '1.8'}m ar draws un o’r adeiladau hyn, gormod i adeilad pren sefyll yn wastad arno, felly tynnir pob un ar lain a dorrwyd ac a lanwyd yn wastad ar uchder cyfartalog y tir, a’i hymyl yn llyfnhau i’r llethr. Dyfaliad ar sail cymariaethau yw hynny: lefelai adeiladwyr Rhufeinig dir ar gyfer barics a gwaith mewn mannau eraill (yn Vindolanda llanwyd a lefelwyd hen nodweddion i wneud sylfeini gwastad i farics newydd; symudodd garsiwn Hardknott tua 5,000 metr ciwbig i wastatáu ei faes ymarfer; yn Birdoswald dywed crynodeb gwyddoniadur, arweiniad ac nid ffynhonnell, i’r adeiladau ar y tir isaf gael eu codi ar derasau).${levellingCy} Dewis yw uchder, maint ac ymylon pob llain. Tir heddiw a dynnir, wedi canrifoedd o aredig: wrth borth Caer 1 torrwyd rhai pyllau pyst o lefel uwch nag sy’n goroesi, felly roedd yr wyneb Rhufeinig yn uwch mewn mannau.`,
+    `No terrace has been found at Dinefwr, and the survey report describes none. Today’s ground falls by up to about ${fort === 1 ? '3.6' : '1.8'}m across one of these buildings, too much for a timber building to stand level on, so each is drawn on a plot cut and filled level at the ground’s average height, its edge eased into the slope. That is analogy: Roman builders levelled ground for barracks and works elsewhere (at Vindolanda old features were filled and levelled to make even foundations for new barracks; Hardknott’s garrison moved some 5,000 cubic metres to flatten its parade ground).${levelling} The height, size and edges of each plot are a choice. The ground drawn is today’s, after centuries of ploughing: at Fort 1’s gate some post-pits were cut from a higher level than now survives, so the Roman surface stood higher in places.`,
+    `Ni chafwyd teras yn Ninefwr, ac nid yw adroddiad yr arolwg yn disgrifio’r un. Mae’r tir heddiw’n disgyn hyd at tua ${fort === 1 ? '3.6' : '1.8'}m ar draws un o’r adeiladau hyn, gormod i adeilad pren sefyll yn wastad arno, felly tynnir pob un ar lain a dorrwyd ac a lanwyd yn wastad ar uchder cyfartalog y tir, a’i hymyl yn llyfnhau i’r llethr. Dyfaliad ar sail cymariaethau yw hynny: lefelai adeiladwyr Rhufeinig dir ar gyfer barics a gwaith mewn mannau eraill (yn Vindolanda llanwyd a lefelwyd hen nodweddion i wneud sylfeini gwastad i farics newydd; symudodd garsiwn Hardknott tua 5,000 metr ciwbig i wastatáu ei faes ymarfer).${levellingCy} Dewis yw uchder, maint ac ymylon pob llain. Tir heddiw a dynnir, wedi canrifoedd o aredig: wrth borth Caer 1 torrwyd rhai pyllau pyst o lefel uwch nag sy’n goroesi, felly roedd yr wyneb Rhufeinig yn uwch mewn mannau.`,
     ['fort:S1', 'fort:S27', 'fort:S28'],
   );
 }

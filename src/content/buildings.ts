@@ -1,4 +1,12 @@
+import { WORLD } from '../domain/geo.ts';
+import type { Bilingual } from '../domain/i18n.ts';
 import type { Part, Plan, Pt } from '../domain/plan.ts';
+
+/** What a building on a slope owes to how the app draws the ground, for the ⓘ of any plan the seating rule lifts (ADR 0056). */
+export const SLOPE_SEATING: Bilingual = {
+  en: `Each building stands level at the highest ground under it, its walls carried down the slope. On a steep slope the downhill wall therefore shows taller than the plan gives: that extra height comes from how the app draws the ground (hills exaggerated ${String(WORLD.verticalExaggeration)} times, and the building drawn larger than life like every landmark), not from the sources.`,
+  cy: `Mae pob adeilad yn sefyll yn wastad ar y tir uchaf oddi tano, a’i furiau’n disgyn gyda’r llethr. Ar lethr serth, felly, mae’r mur ar yr ochr isaf yn dangos yn dalach nag y mae’r cynllun yn ei roi: daw’r uchder ychwanegol hwnnw o’r ffordd y mae’r ap yn tynnu’r tir (bryniau wedi’u gorliwio ${String(WORLD.verticalExaggeration)} gwaith, a’r adeilad wedi’i dynnu’n fwy na bywyd fel pob tirnod), nid o’r ffynonellau.`,
+};
 
 const landscape = (parts: readonly Part[], extra: Omit<Plan, 'setting' | 'parts'> = {}): Plan => ({
   setting: 'landscape',
