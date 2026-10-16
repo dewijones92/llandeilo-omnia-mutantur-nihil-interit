@@ -13,7 +13,7 @@ function checkHeights(heights: Float32Array, cells: number): void {
 }
 
 // Which way a cell is cut into two triangles: along nw-se when that diagonal is the flatter one.
-function cutsNorthWestToSouthEast(nw: number, ne: number, sw: number, se: number): boolean {
+export function cutsNorthWestToSouthEast(nw: number, ne: number, sw: number, se: number): boolean {
   return Math.abs(nw - se) <= Math.abs(ne - sw);
 }
 
@@ -134,6 +134,46 @@ export function tileGeometry(
     hang(farX, heights[k * side + cells] ?? 0, z0, farX, heights[(k + 1) * side + cells] ?? 0, z1, 1, 0);
   }
   return { positions, normals, triangles, groundTriangles: groundTriangleCount(cells) };
+}
+
+export interface GridMesh {
+  readonly positions: Float32Array;
+  readonly indices: Uint16Array | Uint32Array;
+  readonly triangles: number;
+}
+
+// The same ground as `tileGeometry` (the same cut of each cell) as a shared-vertex mesh for export, with no skirt and no
+// normals. Axes are glTF's: x metres east of the tile's west edge, y the height, z minus the metres north of its south
+// edge, so a face seen from above winds anticlockwise and points up. Row i of `heights` runs from the north-west corner.
+export function gridMesh(heights: Float32Array, cells: number, spacing: number): GridMesh {
+  checkHeights(heights, cells);
+  const side = cells + 1;
+  const positions = new Float32Array(side * side * 3);
+  for (let i = 0; i < side; i++) {
+    for (let j = 0; j < side; j++) {
+      const at = (i * side + j) * 3;
+      positions[at] = j * spacing;
+      positions[at + 1] = heights[i * side + j] ?? 0;
+      positions[at + 2] = (i - cells) * spacing;
+    }
+  }
+  const indices =
+    side * side <= 0xffff ? new Uint16Array(cells * cells * 6) : new Uint32Array(cells * cells * 6);
+  let o = 0;
+  for (let i = 0; i < cells; i++) {
+    for (let j = 0; j < cells; j++) {
+      const nw = i * side + j;
+      const ne = nw + 1;
+      const sw = nw + side;
+      const se = sw + 1;
+      const h = (v: number): number => heights[v] ?? 0;
+      const cut = cutsNorthWestToSouthEast(h(nw), h(ne), h(sw), h(se))
+        ? [nw, sw, se, nw, se, ne]
+        : [nw, sw, ne, ne, sw, se];
+      for (const v of cut) indices[o++] = v;
+    }
+  }
+  return { positions, indices, triangles: groundTriangleCount(cells) };
 }
 
 // The height of the surface `tileGeometry` draws at (x, z), from the same (cells + 1) squared `heights` and
