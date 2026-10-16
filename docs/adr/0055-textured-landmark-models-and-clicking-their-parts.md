@@ -60,7 +60,7 @@ the train follow or a cutscene.
    its place, so the part keeps its palette colour (Babylon would draw a failed texture black). A diffuse colour of
    that mean was tried first and drew the part about 20% too bright on screen: Babylon scales the light and the
    emissive glow by the texture too, and only the vertex colour had been lifted, so the grey has to be a texture.
-   A test compares the failed part's on-screen colour with `?models=off` at the same framing. High uses the 1024 maps, Medium the 512 (`TEXTURE_SIZE`), swapped when the graphics level
+   A test compares the failed timber's on-screen colour with the photograph's on the same geometry, over the timber material's own pixels only, within 3% a channel. High uses the 1024 maps, Medium the 512 (`TEXTURE_SIZE`), swapped when the graphics level
    changes; Low draws the procedural plan as before. The far level is unchanged: flat palette, the building material.
 4. **The script says which way a texture runs; the app works out the coordinates.** Each near face gets a grain,
    UPRIGHT (up a wall, up a roof's slope) or LENGTHWISE (along a post, a board, a beam: its longest edge), written into
@@ -106,8 +106,9 @@ the train follow or a cutscene.
   down as at Vindolanda and on the Antonine Wall; only the walk on top is grassed. The first textured build drew every
   step grassed, and at the app's viewing distances 0.15m steps alternating green and brown shimmered; soil faces
   take the colour contrast out, but the steps themselves still alias at 100m and beyond (a fine grid, most visible on
-  the shaded side), because the 0.15m course is a sourced figure and is not coarsened to hide it. No fix was made from stills (2026-10-10), which show no shimmer. Mipmaps cannot help: it is the geometry that stripes, not a texture; if it
-  shimmers in motion, fading the soil normal map's `bumpTexture.level` with distance is the lever. The faces take their
+  the shaded side), because the 0.15m course is a sourced figure and is not coarsened to hide it. No fix was made from stills (2026-10-10), which show no shimmer. The striping is the shape of the steps, so mipmaps cannot help it; the soil normal map adds to it, and
+  fading `bumpTexture.level` with distance would take that part away, but only antialiasing or coarser steps at
+  distance act on the shape itself. If it shimmers in motion, those are the levers. The faces take their
   own brown (`TURF_FACE`): the first build used the ditches' olive cut earth, which under the soil photograph read as
   a dark hedge, and the surface's detail and relief were lowered with it. The script holds no colour of its own for
   them.

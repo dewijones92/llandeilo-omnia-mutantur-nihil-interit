@@ -1452,3 +1452,20 @@ Smaller: the Antonine Wall Report (1899) was never read, so the turf faces cite 
 the report; Vegetius's half-foot turf is for a marching camp's bank, and the turf face and kit say so; ADR 0055's
 texture sizes are corrected to the files' (2,442,864 and 551,648 bytes) and it records that mipmaps cannot cure the
 turf steps' striping, with the normal map's level as the lever if it shimmers in motion.
+
+**Review of the fallback fix, 2026-10-16** (second Opus, after 3232e3f): two IMPORTANT findings, both reproduced.
+
+1. **The on-screen fallback test could not tell a grey 20% too dark from the right one.** Its hue filter took in the
+   shingle and other browns, gamma squashed a 20% error to 5 or 6%, and `?models=off` is different geometry (on
+   SwiftShader that alone used 2.4 of its 3-level blue allowance). It now reads only the timber material's own
+   pixels (the timber meshes hidden and shown, two screenshots diffed) and compares the failed run with the
+   photograph-textured run on the same geometry, within 3% a channel; `?models=off` stays as a 15% check. Proven
+   by changing the fallback grey: it fails at 102 (red 104.9 against 111.8) and at 154 (121.6 against 111.7), and
+   passes at 128. Lesson: **prove a tolerance by moving the thing it guards in both directions, not by one run that
+   was red before the fix.**
+2. **The timber ⓘ still said "oak is only part of the wood found there"**, which rests on an uncited blog. It now
+   says only what the method supports: tree-ring dating works on oak, so it does not say what other woods were used.
+
+Also: the turf-face ⓘ calls the 1899 work "the report", not a survey, and ADR 0055 no longer says mipmaps cannot
+help the steps' striping and then offers a texture lever; the normal map adds to it, and only antialiasing or
+coarser steps at distance act on the shape.

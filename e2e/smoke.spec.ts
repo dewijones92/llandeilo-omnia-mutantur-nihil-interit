@@ -2467,34 +2467,113 @@ test('if one texture fails to load, the parts that use it are drawn from a flat 
   expect(warnings.some((w) => w.includes('timber') && w.includes('without its color map'))).toBe(true);
 });
 
-test('a part whose texture failed is drawn in the colour ?models=off draws it, not brighter', async ({
+// The mean colour of exactly the timber material's pixels in a view: the screen is read with the timber
+// meshes shown and hidden, and the pixels that differ are the timber's. A hue filter would take in the shingle
+// and other browns, and a failed texture is judged against the photograph on the same geometry.
+const SURFACE_CLIP = { x: 300, y: 180, width: 840, height: 520 };
+const timberSurfaceMean = async (page: Page): Promise<{ n: number; mean: [number, number, number] }> => {
+  await page.addStyleTag({
+    content: '* { visibility: hidden !important } canvas { visibility: visible !important }',
+  });
+  const setTimber = (visible: boolean) =>
+    page.evaluate((on) => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+      const find: unknown =
+        scene && typeof scene === 'object' ? Reflect.get(scene, 'getMaterialByName') : undefined;
+      const mat: unknown = typeof find === 'function' ? find.call(scene, 'landmark-timber-mat') : undefined;
+      const meshes: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'meshes') : undefined;
+      if (!mat || !Array.isArray(meshes)) throw new Error('no timber material or scene meshes');
+      for (const mesh of meshes)
+        if (mesh && typeof mesh === 'object' && Reflect.get(mesh, 'material') === mat)
+          Reflect.set(mesh, 'isVisible', on);
+    }, visible);
+  const read = async (): Promise<string> =>
+    (await page.screenshot({ clip: SURFACE_CLIP })).toString('base64');
+  const withTimber = await read();
+  await setTimber(false);
+  await page.waitForTimeout(500);
+  const without = await read();
+  await setTimber(true);
+  await page.waitForTimeout(500);
+  return page.evaluate(
+    async ([a, b]) => {
+      const load = async (b64: string): Promise<Uint8ClampedArray> => {
+        const img = new Image();
+        img.src = `data:image/png;base64,${b64}`;
+        await img.decode();
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('no 2d context');
+        ctx.drawImage(img, 0, 0);
+        return ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      };
+      const [x, y] = [await load(a), await load(b)];
+      const sum = [0, 0, 0];
+      let n = 0;
+      for (let i = 0; i < x.length; i += 4) {
+        const diff =
+          Math.abs((x[i] ?? 0) - (y[i] ?? 0)) +
+          Math.abs((x[i + 1] ?? 0) - (y[i + 1] ?? 0)) +
+          Math.abs((x[i + 2] ?? 0) - (y[i + 2] ?? 0));
+        if (diff > 10) {
+          n++;
+          for (const k of [0, 1, 2]) sum[k] = (sum[k] ?? 0) + (x[i + k] ?? 0);
+        }
+      }
+      const mean: [number, number, number] = [(sum[0] ?? 0) / n, (sum[1] ?? 0) / n, (sum[2] ?? 0) / n];
+      return { n, mean };
+    },
+    [withTimber, without] as const,
+  );
+};
+
+test('a part whose texture failed is drawn as the photograph draws it, within 3% a channel, and near the palette', async ({
   page,
 }) => {
+  const loadForts = async (query: string, ready_: string): Promise<void> => {
+    await page.goto(`./?debug&quality=high&place=roman-forts&year=84&radius=45${query}`);
+    await ready(page);
+    await expect(page.locator('.debug')).toContainText(ready_, { timeout: 90_000 });
+    await cameraSettled(page);
+    await page.waitForTimeout(1500);
+  };
+  // Failed: the timber's colour map is aborted, so it is the flat grey in its place.
   await page.route('**/timber-color-1024.webp', (route) => route.abort());
-  await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
-  await ready(page);
-  await expect(page.locator('.debug')).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
-  await cameraSettled(page);
-  await page.waitForTimeout(1500);
-  const blocked = await timberMean(page);
+  await loadForts('', 'roman-fort-b=glb:near');
+  const blockedHue = await timberMean(page);
   await page.screenshot({ path: 'test-results/roman-forts-84-timber-map-failed.png' });
+  const failed = await timberSurfaceMean(page);
 
-  // The same framing with the plans drawn from their palette: the colour the failed part should show.
+  // The same framing with the photograph: a failed map must leave the timber where the photograph does.
   await page.unroute('**/timber-color-1024.webp');
-  await page.goto('./?debug&quality=high&models=off&place=roman-forts&year=84&radius=45');
-  await ready(page);
-  await expect(page.locator('.debug')).toContainText('roman-fort-b=procedural:near');
-  await cameraSettled(page);
-  await page.waitForTimeout(1500);
+  await loadForts('', 'roman-fort-b=glb:near');
+  const photo = await timberSurfaceMean(page);
+  expect(failed.n, 'timber pixels with the map failed').toBeGreaterThan(1000);
+  expect(photo.n, 'timber pixels with the photograph').toBeGreaterThan(1000);
+  // The photograph averages mid-grey, so the two agree to under 1% on both GPU and SwiftShader; a fallback
+  // grey 20% off moves red by about 8% and 6%.
+  for (const i of [0, 1, 2]) {
+    const want = photo.mean[i] ?? 0;
+    expect(
+      Math.abs((failed.mean[i] ?? 0) - want) / want,
+      `channel ${String(i)}: failed ${failed.mean.map((v) => v.toFixed(1)).join('/')} vs photograph ${photo.mean.map((v) => v.toFixed(1)).join('/')}`,
+    ).toBeLessThanOrEqual(0.03);
+  }
+
+  // A loose check against the plans drawn from their palette (different geometry, so a wide margin): the
+  // colour a failed part should also be near, and not black.
+  await loadForts('&models=off', 'roman-fort-b=procedural:near');
   const palette = await timberMean(page);
   await page.screenshot({ path: 'test-results/roman-forts-84-models-off.png' });
-  // Within 8% per channel, or 3 levels where a channel is small (the blue of timber is about 20).
   for (const i of [0, 1, 2]) {
     const want = palette[i] ?? 0;
     expect(
-      Math.abs((blocked[i] ?? 0) - want),
-      `channel ${String(i)}: blocked ${blocked.join('/')} vs palette ${palette.join('/')}`,
-    ).toBeLessThanOrEqual(Math.max(want * 0.08, 3));
+      Math.abs((blockedHue[i] ?? 0) - want),
+      `channel ${String(i)}: blocked ${blockedHue.join('/')} vs palette ${palette.join('/')}`,
+    ).toBeLessThanOrEqual(Math.max(want * 0.15, 4));
   }
 });
 
