@@ -4,7 +4,7 @@ import type { Feature } from '../domain/model.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import type { TimeRange } from '../domain/time.ts';
 import { assetFor, type AssetRecord } from './assets.ts';
-import { TERRAIN_TILES, TRAIN_MODEL } from './generated/downloads.ts';
+import { LANDMARK_TIERS, TERRAIN_TILES, TRAIN_MODEL } from './generated/downloads.ts';
 import { LANDMARK_MODELS } from './generated/models.ts';
 
 /** A published .glb with its size, as `tools/downloads/build.ts` found it; the Downloads list is built from these and the asset manifest. */
@@ -13,6 +13,9 @@ export interface ModelFile {
   readonly bytes: number;
   readonly triangles: number;
 }
+
+/** How many of a model's parts are documented, reconstructed or imagined, counted from the parts' own tiers in the glb. */
+export type PartTiers = Readonly<Record<Provenance['kind'], number>>;
 
 export interface TerrainTileFile extends ModelFile {
   readonly e: number;
@@ -37,7 +40,9 @@ export interface Download {
   readonly what: Bilingual;
   readonly period: Period;
   readonly asset: AssetRecord;
+  /** Set only where the whole file has one tier (the train); a landmark model is labelled by `tiers`, never by its site's. */
   readonly provenance?: Provenance;
+  readonly tiers?: PartTiers;
   readonly triangles: number;
   readonly tile?: {
     readonly e: number;
@@ -54,11 +59,12 @@ export interface Download {
 export const TERRAIN_AREA_NAMES: Readonly<Record<string, Bilingual>> = {
   llandeilo: { en: 'Llandeilo town', cy: 'Tref Llandeilo' },
   'roman-forts': { en: 'Dinefwr Roman forts', cy: 'Caerau Rhufeinig Dinefwr' },
+  'dinefwr-castle': { en: 'Dinefwr Castle hill', cy: 'Bryn Castell Dinefwr' },
 };
 
 const NEAR_WHAT: Bilingual = {
-  en: 'The full model, built from the plan in real metres. Every part is tagged documented, reconstructed or imagined, with its sources, inside the file.',
-  cy: 'Y model llawn, wedi’i adeiladu o’r cynllun mewn metrau go iawn. Mae pob rhan wedi’i thagio’n wedi’i gofnodi, wedi’i ail-greu neu’n ddychmygol, gyda’i ffynonellau, y tu mewn i’r ffeil.',
+  en: 'The full model, built from the plan in real metres. Every part is tagged documented, reconstructed or imagined, with its source ids, inside the file.',
+  cy: 'Y model llawn, wedi’i adeiladu o’r cynllun mewn metrau go iawn. Mae pob rhan wedi’i thagio’n wedi’i gofnodi, wedi’i ail-greu neu’n ddychmygol, gyda dynodwyr eu ffynonellau, y tu mewn i’r ffeil.',
 };
 
 const FAR_WHAT: Bilingual = {
@@ -77,14 +83,20 @@ const TRAIN_WHAT: Bilingual = {
 };
 
 const TERRAIN_PERIOD: Bilingual = {
-  en: 'Today: the ground as surveyed from the air in 2020 to 2022',
-  cy: 'Heddiw: y tir fel yr arolygwyd ef o’r awyr yn 2020 i 2022',
+  en: 'Today: the ground as surveyed from the air in the winter of 2021 to 2022 (the tile files are dated December 2021 to February 2022)',
+  cy: 'Heddiw: y tir fel yr arolygwyd ef o’r awyr yng ngaeaf 2021 i 2022 (mae ffeiliau’r teils wedi’u dyddio Rhagfyr 2021 i Chwefror 2022)',
 };
 
 function assetOf(file: string): AssetRecord {
   const asset = assetFor(file);
   if (!asset) throw new Error(`${file} is listed for download but the asset manifest has no record of it`);
   return asset;
+}
+
+function tiersOf(file: string): PartTiers {
+  const tiers = LANDMARK_TIERS[file];
+  if (!tiers) throw new Error(`${file} is a landmark model with no part tiers in generated/downloads.ts`);
+  return tiers;
 }
 
 function featureNamed(features: readonly Feature[], id: string): Feature {
@@ -130,7 +142,7 @@ export function buildDownloads(features: readonly Feature[]): Download[] {
         what: level === 'near' ? NEAR_WHAT : FAR_WHAT,
         period: featurePeriod(f),
         asset: assetOf(entry.file),
-        provenance: f.provenance,
+        tiers: tiersOf(entry.file),
         triangles: entry.triangles,
       });
     }

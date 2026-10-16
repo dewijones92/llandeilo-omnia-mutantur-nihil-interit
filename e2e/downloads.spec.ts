@@ -62,6 +62,7 @@ for (const lang of ['en', 'cy'] as const) {
       await expect(row.locator('.dl-what'), file).toHaveText(d.what[lang]);
       await expect(row.locator('.dl-facts'), file).toContainText(formatBytes(d.bytes, lang));
       await expect(row.locator('.dl-link'), file).toHaveAttribute('href', new RegExp(`${file}$`));
+      await expect(row.locator('.dl-link'), file).toHaveAttribute('download', '');
       await expect(row.locator('.dl-link'), file).toHaveText(w.download);
       await expect(row.locator('.dl-credit summary'), file).toHaveText(w.licence);
       await expect(row.locator('.dl-credit'), file).toContainText(d.asset.licence);
@@ -70,11 +71,27 @@ for (const lang of ['en', 'cy'] as const) {
     const tile = panel.locator(`.dl[data-file="${TILE}"]`);
     await expect(tile.locator('.dl-name')).toContainText('SN 62000 22000');
     await expect(tile.locator('.dl-name')).toContainText(lang === 'en' ? 'Llandeilo town' : 'Tref Llandeilo');
-    await expect(tile.locator('.dl-facts')).toContainText('262000 E, 222000 N');
+    await expect(tile.locator('.dl-facts')).toContainText(
+      lang === 'en' ? '262000 E, 222000 N' : '262000 D, 222000 G',
+    );
     await expect(tile.locator('.dl-credit')).toContainText(LIDAR_CREDIT);
     await expect(tile.locator('.dl-credit')).toContainText('Open Government Licence v3.0');
     await expect(panel.locator('#dl-terrain .dl-attribution')).toContainText(LIDAR_CREDIT);
-    await expect(panel.locator(`.dl[data-file="${FORT_1}"] .prov`).first()).toBeVisible();
+    const fort = panel.locator(`.dl[data-file="${FORT_1}"]`);
+    const tiers = byFile(FORT_1).tiers;
+    if (!tiers) throw new Error('the fort’s model has no part tiers');
+    await expect(fort.locator('.dl-tier[data-tier="reconstructed"]')).toContainText(
+      String(tiers.reconstructed),
+    );
+    await expect(fort.locator('.dl-tier[data-tier="imagined"]')).toContainText(String(tiers.imagined));
+    await expect(fort.locator('.dl-tier[data-tier="reconstructed"] .prov').first()).toBeVisible();
+    await expect(
+      fort.locator('.prov-wrap'),
+      'a model is labelled by its parts, not badged by its site',
+    ).toHaveCount(0);
+    await expect(panel.locator(`.dl[data-file="${TRAIN}"] .prov-wrap`)).toHaveCount(1);
+    for (const credit of await panel.locator('.dl-credit p').allTextContents())
+      expect(credit, 'no double full stop in a credit').not.toMatch(/\.\./);
     await panel.locator(`.dl[data-file="${FORT_1}"]`).scrollIntoViewIfNeeded();
     await page.screenshot({ path: `test-results/downloads-models-${lang}.png` });
     await tile.scrollIntoViewIfNeeded();

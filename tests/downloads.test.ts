@@ -5,12 +5,19 @@ import { describe, expect, it } from 'vitest';
 import { assetFor } from '../src/content/assets.ts';
 import { buildDownloads, formatBytes, TERRAIN_AREA_NAMES, type Download } from '../src/content/downloads.ts';
 import { LIDAR_CREDIT } from '../src/content/generated/lidar-credit.ts';
-import { TERRAIN_TILES, TRAIN_MODEL } from '../src/content/generated/downloads.ts';
+import { LANDMARK_TIERS, TERRAIN_TILES, TRAIN_MODEL } from '../src/content/generated/downloads.ts';
 import { LANDMARK_MODELS } from '../src/content/generated/models.ts';
+import { STRINGS } from '../src/content/strings.ts';
 import { WORLD_CONTENT } from '../src/content/world.ts';
 import { glbCounts, readGlb, type Glb } from '../tools/models/glb.ts';
-import { isStamped, readAssetBlock } from '../tools/downloads/stamp.ts';
-import { detailedTiles, EXPORT_STEP_M, exportTerrain, loadLidar } from '../tools/terrain/export-glb.ts';
+import { anchorOf, isStamped, modelPlacement, readAssetBlock } from '../tools/downloads/stamp.ts';
+import {
+  detailedTiles,
+  EXPORT_STEP_M,
+  exportTerrain,
+  loadLidar,
+  tileGlb,
+} from '../tools/terrain/export-glb.ts';
 
 const root = join(import.meta.dirname, '..');
 const publicFile = (file: string): string => join(root, 'public', file);
@@ -72,9 +79,13 @@ describe('the Downloads list (ADR 0058)', () => {
   });
 
   it('carries every download’s credit and licence inside the glb itself, as the manifest states them', () => {
+    const { manifest } = loadLidar();
     for (const d of downloads) {
       const glb = read(d.file);
-      expect(isStamped(glb, d.asset), `${d.file}: run npm run downloads`).toBe(true);
+      const extra = d.file.startsWith('models/landmarks/')
+        ? { placement: modelPlacement(glb, manifest.region) }
+        : undefined;
+      expect(isStamped(glb, d.asset, extra), `${d.file}: run npm run downloads`).toBe(true);
       const block = readAssetBlock(glb);
       expect(block.copyright, d.file).toBe(d.asset.source);
       expect(JSON.stringify(block.extras), d.file).toContain(JSON.stringify(d.asset.licence).slice(1, -1));
@@ -97,6 +108,10 @@ describe('the Downloads list (ADR 0058)', () => {
       expect(TERRAIN_AREA_NAMES[a.id]?.en, a.id).toBeTruthy();
       expect(TERRAIN_AREA_NAMES[a.id]?.cy, a.id).toBeTruthy();
     }
+    expect(TERRAIN_AREA_NAMES['dinefwr-castle']?.en, 'the castle area the 2m branch adds').toBe(
+      'Dinefwr Castle hill',
+    );
+    expect(TERRAIN_AREA_NAMES['dinefwr-castle']?.cy).toBeTruthy();
     for (const d of downloads) {
       for (const text of [d.name, d.what]) {
         expect(text.en.length, d.file).toBeGreaterThan(0);
@@ -106,10 +121,9 @@ describe('the Downloads list (ADR 0058)', () => {
     }
   });
 
-  it('gives each model its feature’s provenance and dates, and leaves out a level with nothing in it', () => {
+  it('gives each model its feature’s dates and name, and leaves out a level with nothing in it', () => {
     const fort = downloads.find((d) => d.file === 'models/landmarks/roman-fort-a.near.glb');
     const feature = WORLD_CONTENT.features.find((f) => f.id === 'roman-fort-a');
-    expect(fort?.provenance).toBe(feature?.provenance);
     expect(fort?.period).toEqual({ kind: 'range', when: feature?.when, approximate: true });
     expect(fort?.name).toBe(feature?.label);
     const vicus = LANDMARK_MODELS.find((m) => m.feature === 'roman-vicus');
@@ -118,6 +132,49 @@ describe('the Downloads list (ADR 0058)', () => {
     const train = downloads.find((d) => d.file === TRAIN_MODEL.file);
     expect(train?.period.kind).toBe('range');
     expect(train?.triangles).toBe(glbCounts(read(TRAIN_MODEL.file).json).triangles);
+  });
+
+  it('labels a landmark model by its parts, never by its site: no row claims a tier its parts do not have', () => {
+    const landmarks = downloads.filter((d) => d.file.startsWith('models/landmarks/'));
+    expect(landmarks.length).toBeGreaterThan(0);
+    for (const d of landmarks) {
+      expect(d.provenance, `${d.file} is badged by its feature, not its parts`).toBeUndefined();
+      const counted = { documented: 0, reconstructed: 0, imagined: 0 };
+      for (const node of read(d.file).json.nodes) {
+        const tier = node.extras?.['tier'];
+        if (tier === 'documented' || tier === 'reconstructed' || tier === 'imagined') counted[tier]++;
+      }
+      expect(d.tiers, d.file).toEqual(counted);
+      expect(counted.documented + counted.reconstructed + counted.imagined, d.file).toBeGreaterThan(0);
+    }
+    expect(Object.keys(LANDMARK_TIERS).sort()).toEqual(landmarks.map((d) => d.file).sort());
+    const fort1 = downloads.find((d) => d.file === 'models/landmarks/roman-fort-a.near.glb');
+    const vicus = downloads.find((d) => d.file === 'models/landmarks/roman-vicus.near.glb');
+    expect(
+      fort1?.tiers?.documented,
+      'the fort’s site is documented, but few of its drawn parts are',
+    ).toBeLessThan(fort1?.tiers?.reconstructed ?? 0);
+    expect(vicus?.tiers?.documented, 'the vicus is drawn entirely from invention').toBe(0);
+    expect(vicus?.tiers?.reconstructed).toBe(0);
+    expect(vicus?.tiers?.imagined).toBeGreaterThan(0);
+    const train = downloads.find((d) => d.file === TRAIN_MODEL.file);
+    expect(train?.provenance?.kind, 'the train is one reconstructed model').toBe('reconstructed');
+    expect(train?.tiers).toBeUndefined();
+  });
+
+  it('tells a downloader how to put a landmark model on the terrain, from its own anchor, inside the glb', () => {
+    const { manifest } = loadLidar();
+    for (const d of downloads.filter((x) => x.file.startsWith('models/landmarks/'))) {
+      const glb = read(d.file);
+      const anchor = anchorOf(glb);
+      expect(readAssetBlock(glb).extras, d.file).toMatchObject({
+        placement: {
+          anchorBng: anchor,
+          atInTerrainScene: [anchor.e - manifest.region.eMin, 0, -(anchor.n - manifest.region.nMin)],
+        },
+      });
+      expect(JSON.stringify(readAssetBlock(glb).extras), d.file).toContain('onto the ground you use');
+    }
   });
 });
 
@@ -243,8 +300,55 @@ describe('the terrain tiles', () => {
     }
   });
 
+  it('say which sample they keep in plain words, and say every sample when they keep them all', () => {
+    for (const d of terrain) {
+      const note = String(read(d.file).json.nodes[0]?.extras?.['heights']);
+      expect(note, d.file).toContain('every second sample');
+      expect(note, d.file).not.toMatch(/\dth sample/);
+    }
+    const tile = detailed[0];
+    const samples = tile && data.get(`${String(tile.e)}_${String(tile.n)}`);
+    if (!tile || !samples) throw new Error('no detailed tile');
+    const full = tileGlb(manifest, tile, samples, tile.step);
+    expect(String(full.glb.json.nodes[0]?.extras?.['heights'])).toContain('every sample');
+    expect(String(full.glb.json.nodes[0]?.extras?.['heights'])).not.toMatch(/1th|first sample/);
+  });
+
+  it('are dated as the tile files are, not as the whole national survey', () => {
+    for (const d of terrain) {
+      expect(d.period.kind, d.file).toBe('text');
+      const text = d.period.kind === 'text' ? d.period.text : undefined;
+      expect(text?.en, d.file).toMatch(/December 2021 to February 2022/);
+      expect(text?.en, d.file).not.toMatch(/2020/);
+      expect(text?.cy, d.file).toMatch(/Rhagfyr 2021 i Chwefror 2022/);
+      expect(text?.cy, d.file).not.toMatch(/2020/);
+    }
+  });
+
   it('stay small enough to commit: the whole set under 10MB', () => {
     expect(terrain.reduce((sum, d) => sum + d.bytes, 0)).toBeLessThan(10_000_000);
+  });
+});
+
+describe('the words around the files', () => {
+  it('say the terrain is coarser than the survey, and claim no period ground that the app does not have', () => {
+    const note = STRINGS.downloadsTerrainNote;
+    expect(note.en).toMatch(/coarser than the survey/);
+    expect(note.cy).toMatch(/bras/);
+    for (const text of [note.en, note.cy]) {
+      expect(text).not.toMatch(/earlier ground|tir cynharach/);
+      expect(text).toMatch(/2m|2 m/);
+    }
+  });
+
+  it('say the models carry shape and part names but not the app’s colours, where the parts sit, and only source ids', () => {
+    const note = STRINGS.downloadsModelsNote;
+    expect(note.en).toMatch(/ids of its sources/);
+    expect(note.en).toMatch(/not (its|the) (colours|textures)|no colours/);
+    expect(note.en).toMatch(/ground/);
+    expect(note.cy).toMatch(/dynodwyr/);
+    expect(note.en).not.toMatch(/how sure we are of the whole/);
+    expect(downloads.find((d) => d.file.includes('fort-a.near'))?.what.en).not.toMatch(/with its sources/);
   });
 });
 

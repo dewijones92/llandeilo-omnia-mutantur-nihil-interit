@@ -9,7 +9,6 @@ updated: 2026-10-16
 
 - **Status:** Accepted (Dewi's decision and format; the design Claude's, under the proactive mandate, [ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md))
 - **Date:** 2026-10-16
-- **Number:** written for track C of the 2026-10-16 work. Track A takes 0056, track B 0057, and another branch holds 0055; check the highest number at the push, not at the merge.
 
 ## Context
 
@@ -26,8 +25,8 @@ itself, who made it or under what licence.
 1. **A Downloads tab in the app's side panel** (`src/ui/downloads.ts`, the fourth tab of `InfoPanel`
    beside Almanac, Language and About), reached from a button at the top of About's credits and from the
    tab strip, with arrow-key navigation over all four. It lists every file with its name, what it shows,
-   its period, its size, its provenance badge (the ⓘ, for a model), and its credit and licence, and a link
-   with the `download` attribute. All text is in the string table or the content files in English and
+   its period, its size, its credit and licence, and a link with the `download` attribute. A landmark
+   model is labelled by its parts' tiers (decision 8), the train by its own ⓘ, a terrain tile by neither. All text is in the string table or the content files in English and
    Welsh.
 
 2. **One list, no second one.** `src/content/downloads.ts` builds the list from the landmark index
@@ -63,6 +62,15 @@ itself, who made it or under what licence.
    and is **not** published: building it into a GitHub release asset at release time would be the route
    if it is wanted; it was not done because nothing here may publish.
 
+   **Open, and Dewi's (2026-10-16 review):** the Dinefwr Castle 2m area on the castle LiDAR branch
+   (`worktree-wf_18a614f9-03d-2`) takes the detailed tiles from 21 to 29 (9 in the new area, one shared with
+   the forts), so the 4m set becomes about 11.0MB and the 10MB test fails on merge, on purpose. The choices:
+   raise the cap to about 11MB and commit them; or keep the cap and publish the terrain as a GitHub release
+   asset instead; or also publish the 2m set (about 31.7MB plus the new tiles) as a release asset beside the
+   committed 4m. Issue #4 asked for terrain "in the same format as the high res terrain", and the reply
+   promised the detailed tiles, so 4m is a halving of what was offered: the Terrain note now says the
+   files are coarser than the survey. `TERRAIN_AREA_NAMES` already holds the castle area's name.
+
 6. **Not listed:** a level with no triangles. The vicus has no far model (its houses are all detail), and
    its far glb is 528 bytes of nothing.
 
@@ -73,10 +81,35 @@ itself, who made it or under what licence.
    index records the new sizes. A model rebuilt by `npm run models` loses its stamp until `npm run
    downloads` is run, and the tests say so.
 
+8. **A landmark model is labelled by its parts, not by its site (review, 2026-10-16).** The feature's
+   provenance is how well the *site* is known (Fort 1 and Fort 2 are documented; the vicus is
+   reconstructed), while the parts inside the glb are 41 reconstructed, 4 imagined and 2 documented in
+   Fort 1 near, 42 / 8 / 0 in Fort 2 near, and 16 of 16 imagined in the vicus. A downloader who sees a green
+   "Documented" badge on a model takes its shape as attested, so a landmark row has no site badge: it shows
+   the count of its parts in each tier (`LANDMARK_TIERS`, counted from the glb's own part extras by
+   `npm run downloads`), and a test compares the row with the file. The train is one reconstructed model
+   and keeps its ⓘ. The Models note says a fort's site can be better documented than its drawing.
+
+9. **A model says how to be placed on the terrain, inside the file.** A landmark's origin is its anchor
+   and its y is not tied to any ground (the app fits each part when it loads, ADR 0053), while a terrain
+   tile's origin is the region's south-west corner (E 260000, N 220500) with absolute heights, so opened
+   together a fort would land kilometres away. The stamp adds `placement` to each landmark's asset extras:
+   the anchor on the grid, the anchor's place in the terrain scene (`e - 260000, 0, -(n - 220500)`), and
+   a sentence saying to drop each part onto the ground in use. It is the second pass's job
+   (`modelPlacement` in `tools/downloads/stamp.ts`).
+
+10. **The models carry shape, not colour.** Since ADR 0055 a glb keeps no materials (the app supplies them);
+    each part names its surfaces in its extras. The Models note says so, and that a part's sources are ids,
+    which the project's research notes explain, not citations.
+
 ## Consequences
 
-- Dewi's SketchUp-style use works with a standard format and no conversion: Blender, SketchUp, game
-  engines and viewers open the files; the credit and the licence travel with them.
+- The SketchUp use that issue #4's author described works with a standard format and no conversion:
+  Blender, SketchUp, game engines and viewers open the files; the credit and the licence travel with them.
+  Dewi's decisions were the scope and the glb format.
+- `buildDownloads` runs when the app starts (`src/main.ts`) and throws on a gap (a model with no manifest
+  record, a terrain area with no name), so such a gap would stop the app, not only the tab. The unit tests
+  catch every such gap before a deploy, which is the reason it was left eager.
 - Adding a model to `MODELLED` (Dinefwr, say) or an area to `lidar-areas.json` and rebuilding adds it to
   the list after `npm run downloads`; a model or area with no name fails a test rather than being
   skipped. `TERRAIN_AREA_NAMES` is the one table that needs a line (English and Welsh).

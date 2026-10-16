@@ -3,7 +3,7 @@ import type { Lang } from '../domain/i18n.ts';
 import type { Source } from '../domain/provenance.ts';
 import { formatYear } from '../domain/time.ts';
 import { h } from './dom.ts';
-import { provenanceBadge } from './provenance.ts';
+import { provenanceBadge, provenanceLabel } from './provenance.ts';
 import type { LangStore } from './store.ts';
 
 function periodText(p: Period, lang: Lang): string {
@@ -15,6 +15,27 @@ const count = (v: number, lang: Lang): string => v.toLocaleString(lang === 'cy' 
 
 function fact(label: string, value: string): HTMLElement[] {
   return [h('dt', {}, label), h('dd', {}, value)];
+}
+
+const TIER_ORDER = ['documented', 'reconstructed', 'imagined'] as const;
+
+/** A model's parts by tier, drawn as the ⓘ badges are, so what a downloader sees is how well known the parts are, not the site. */
+function tierSummary(d: Download, store: LangStore): HTMLElement | null {
+  const tiers = d.tiers;
+  if (!tiers) return null;
+  return h(
+    'div',
+    { class: 'dl-tiers' },
+    h('span', { class: 'dl-tiers-label' }, store.t('downloadParts')),
+    ...TIER_ORDER.filter((kind) => tiers[kind] > 0).map((kind) =>
+      h(
+        'span',
+        { class: 'dl-tier', 'data-tier': kind },
+        `${count(tiers[kind], store.lang)} `,
+        provenanceLabel(kind, store),
+      ),
+    ),
+  );
 }
 
 function row(d: Download, store: LangStore, sources: ReadonlyMap<string, Source>): HTMLElement {
@@ -31,7 +52,7 @@ function row(d: Download, store: LangStore, sources: ReadonlyMap<string, Source>
           ),
           ...fact(
             store.t('downloadOrigin'),
-            `${String(d.tile.e)} E, ${String(d.tile.n)} N (${store.t('downloadOriginNote')})`,
+            `${String(d.tile.e)} ${store.t('eastLetter')}, ${String(d.tile.n)} ${store.t('northLetter')} (${store.t('downloadOriginNote')})`,
           ),
         ]
       : []),
@@ -47,12 +68,13 @@ function row(d: Download, store: LangStore, sources: ReadonlyMap<string, Source>
     ),
     h('p', { class: 'dl-what' }, d.what[lang]),
     h('dl', { class: 'dl-facts' }, ...facts),
+    tierSummary(d, store),
     d.provenance ? provenanceBadge(d.provenance, store, sources) : null,
     h(
       'details',
       { class: 'dl-credit' },
       h('summary', {}, store.t('downloadCreditLicence')),
-      h('p', {}, `${d.asset.source}. `),
+      h('p', {}, /[.!?]$/.test(d.asset.source) ? d.asset.source : `${d.asset.source}.`),
       h('a', { href: d.asset.url, target: '_blank', rel: 'noopener' }, d.asset.licence),
     ),
     h(

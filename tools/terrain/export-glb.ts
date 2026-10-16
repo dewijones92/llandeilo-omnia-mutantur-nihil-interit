@@ -74,6 +74,13 @@ export function tileHeightsAt(
   return out;
 }
 
+/** Which of the stored samples an export keeps, in words: every one, every second, every fourth. */
+function samplesKept(stride: number): string {
+  if (stride === 1) return 'every sample';
+  const words: Readonly<Record<number, string>> = { 2: 'second', 3: 'third', 4: 'fourth', 5: 'fifth' };
+  return `every ${words[stride] ?? `${String(stride)}th`} sample`;
+}
+
 const pad4 = (n: number): number => (4 - (n % 4)) % 4;
 
 export function tileGlb(
@@ -137,9 +144,7 @@ export function tileGlb(
           minHeightMetres: minHeight,
           maxHeightMetres: maxHeight,
           areas: tile.areas,
-          heights:
-            'the LiDAR’s own bare-earth heights (the 1m DTM averaged to 2m, here every ' +
-            `${String(step / tile.step)}th sample) in metres; the source does not state a vertical datum, and it agrees with OS Terrain 50 (Ordnance Datum Newlyn) to about 0.2m on average`,
+          heights: `the LiDAR’s own bare-earth heights (the 1m DTM averaged to 2m, here ${samplesKept(step / tile.step)}) in metres; the source does not state a vertical datum, and it agrees with OS Terrain 50 (Ordnance Datum Newlyn) to about 0.2m on average`,
           edges: 'edge vertices are shared exactly with the neighbouring tile, so tiles meet without a gap',
         },
       },

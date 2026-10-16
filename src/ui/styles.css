@@ -1146,6 +1146,27 @@ button {
   overflow-wrap: anywhere;
 }
 
+.dl-tiers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.dl-tiers-label {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.dl-tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .dl-credit {
   margin: 8px 0;
   font-size: 12px;
