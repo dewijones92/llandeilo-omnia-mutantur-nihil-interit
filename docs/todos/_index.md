@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Backlog
@@ -52,7 +52,8 @@ below links the issue.
 |---|---|---|---|---|
 | [#1](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/1) | 2026-10-09T22:41:53Z | Gather a local studio photographer's photos of Llandeilo's streets and station from about 1900, and place each on the map | ✅ agreed 2026-10-09 | The glass negatives are at the National Library of Wales, copies on People's Collection Wales; the photographer died in 1940, so UK copyright has probably expired, to be checked per image. Shown in the app with its credit, pinned with credit and an ⓘ; otherwise a modelling reference only |
 | [#2](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/2) | 2026-10-10T01:59:41Z | Detailed real-scale terrain for the town and the Roman fort area from LiDAR, tiled with levels of detail, the base ground kept apart from changes by period | ✅ agreed 2026-10-09 | The agreed close-up LiDAR terrain (CLAUDE.md, Terrain) was never built; Welsh Government 1m LiDAR covers the area, licence to confirm per file |
-| [#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3) | 2026-10-09T23:27:37Z | A modular, editable reconstruction of the Roman fort and its civilian settlement on that terrain, ready for animation later | ✅ agreed 2026-10-09 | Research first: published plans and surveys, documented kept apart from reconstruction; a linked reconstruction drawing states no licence; it is used with a credit to its maker (Dewi, 2026-10-09: credit, no licence check), and the second fort's date and the settlement survey still need their sources. Built detailed in the app (Dewi, 2026-10-09). Researched 2026-10-09 ([note](../research/roman-forts-and-vicus.md)): the survey is Stratascan's magnetometry in the Hughes report, not in the linked PDF; "AD 90-100" has no source |
+| [#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3) | 2026-10-16T16:28:48Z | A modular, editable reconstruction of the Roman fort and its civilian settlement on that terrain, ready for animation later | ✅ agreed 2026-10-09 | Research first: published plans and surveys, documented kept apart from reconstruction; a linked reconstruction drawing states no licence; it is used with a credit to its maker (Dewi, 2026-10-09: credit, no licence check), and the second fort's date and the settlement survey still need their sources. Built detailed in the app (Dewi, 2026-10-09). Researched 2026-10-09 ([note](../research/roman-forts-and-vicus.md)): the survey is Stratascan's magnetometry in the Hughes report, not in the linked PDF; "AD 90-100" has no source. 2026-10-12 comment with a screenshot: some of Fort 1's barracks sink below today's ground on the slope (each building is seated at one point with a level floor, on the modern LiDAR surface); answered 2026-10-16: research levelling and terraces, then draw platforms (reconstructed) or seat each building, so nothing is buried |
+| [#4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4) | 2026-10-16T16:28:51Z | Detailed terrain for the Dinefwr Castle area like the fort area's, and the terrain exportable for SketchUp so outside models can be tried on it | ✅ agreed 2026-10-16 | The castle hill is inside the LiDAR region but only at 10m; it gets a 2m area. Outside models are not brought into the app: our models stay scripted in Blender from sourced plans (Dewi, 2026-10-16). Instead the app gets a way to download the world's assets (our models and the detailed terrain) as .glb, each with its credit and licence; the terrain needs a one-off .glb export, the models already are .glb. Answered 2026-10-16, label enhancement |
 
 ## Done: the vertical slice (2026-09-26)
 
@@ -265,6 +266,12 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [x] Compass showing the heading; click to face north (Dewi, 2026-09-28)
 - [x] Tap the train to follow it with the camera; Stop, a flight or Whole valley ends it (Dewi, 2026-09-28)
 - [ ] More things to follow: animals, carts, drovers, boats, once they exist
+
+## Agreed 2026-10-16 (Dewi, from issues #3 and #4)
+
+- [ ] **The fort's buildings sit on their ground, not under it** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research whether the barracks stood on levelled terraces (the excavator's levelling for Fort 2; the outer ditch "cut from a higher level"; what the magnetometry shows), then draw terraced platforms as period ground edits (reconstructed, ADR 0049) or seat each building on the ground, with an e2e that no building's footprint is buried by more than its footing.
+- [ ] **Dinefwr Castle at 2m LiDAR** ([#4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4)): a `dinefwr-castle` area in `tools/terrain/lidar-areas.json` round Coflein's SN 61150 21731, rebuilt; needed by the Dinefwr Blender model too.
+- [ ] **Download the world's assets** ([#4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4)): a Downloads section in the app listing our models and the detailed terrain tiles as .glb (Dewi, 2026-10-16: "just offer it as glb"), each with its credit and licence from the asset manifest; the terrain tiles exported to .glb once by a tool, in real metres with their British National Grid origin.
 
 ## Agreed 2026-10-09 (Dewi, before the second weekend run)
 
