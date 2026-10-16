@@ -228,19 +228,27 @@ at the rim.
   ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), so Dewi can overrule them.
 - **What changed.** One entry in `tools/terrain/lidar-areas.json`: `dinefwr-castle`, centred on Coflein's grid
   reference for Dinefwr Castle (NPRN 425, SN 61150 21731 = E 261150 N 221731), half-size 500m (E 260650 to 261650,
-  N 221231 to 222231), and a rerun of `build-lidar.py`. No code changed: this is the "a new area is a line and a
-  rerun" this ADR was written to allow. The region is unchanged (the area is 650m or more inside its edges, the
+  N 221231 to 222231), and a rerun of `build-lidar.py`. The area itself needed no code: it is the "a new area is a
+  line and a rerun" this ADR was written to allow. (The one code change came later the same day, from Dewi's word
+  on the castle point, below.) The region is unchanged (the area is 650m or more inside its edges, the
   blend margin being 300m), so no tile had to be downloaded: all 25 source rasters were already on disk.
 - **Why Coflein's reference, and why 500m.** Reasons and the 18.5m gap to the keep's centre in the
   [Dinefwr research](../research/dinefwr-castle.md) are in [`docs/data/lidar.md`](../data/lidar.md#the-castle-area-2026-10-16).
   In short: Coflein's point is the documented reference (the Cadw listing and the HER put it within 1.5m, and the
   research recommends it as the feature's `at`), and 500m is the forts' size and covers the crag, the escarpment
   and the first part of the ridge. The size is a judgement, not a measured need.
-- **The area's centre and the place's `at` are two different points, on purpose for now.** The other two areas are
-  centred exactly on their place's `at` (decision 1); the `dinefwr` place is at E 261155 N 221729, 5.4m from the
-  castle area's centre, and is inside it. Moving the place's `at` to Coflein's point would change where the
-  castle's camera flights and its model stand, so it is left for Dewi (todo item "Dinefwr Castle at 2m LiDAR").
-  `tests/lidar.test.ts` keeps the two within 10m.
+- **One castle point (Dewi, 2026-10-16: "Move the place to Coflein's").** The castle point was first held in
+  two places that agreed with each other and not with the area: the `dinefwr` place's `at` (camera flights, labels)
+  and `DINEFWR_CASTLE` in `src/content/features.ts` (where the four castle buildings, the model, stand), both
+  E 261155 N 221729, 5.4m from the area's centre. Dewi chose Coflein's reference, so all three now read one fact: the
+  exported `DINEFWR_CASTLE_AT` in `src/content/places.ts` (E 261150 N 221731) is the place's `at` and every castle
+  feature's `at`, and the area's centre in `tools/terrain/lidar-areas.json` (a build input the Python script reads,
+  so it cannot import the constant) is the same numbers, held together by a test. This moves the castle's camera
+  flights and its model 5.4m (5m west, 2m north), which is also where the research's plan frame has its origin
+  ("metres east and north of Coflein's point"). The other two areas are centred exactly on their place's `at`
+  (decision 1); the castle area now is too. `tests/lidar.test.ts` asserts the area's centre, the place's `at` and the `at`
+  of `dinefwr-rhys`, `dinefwr-castle`, `dinefwr-ruin` and `dinefwr-summerhouse` all equal `DINEFWR_CASTLE_AT` (seen
+  failing with one feature put back on the old numbers: "dinefwr-rhys is at the castle point").
 - **Result.** 29 tiles at 2m instead of 21 (8 new, each 126,002 bytes against 5,202 at 10m); `lidar.bin` 2,952,960
   to 3,919,360 bytes (+966,400; gzipped +565,155), fetched at start with the other map data. The other 72 tiles are
   byte for byte the same. `Terrain.seam()` at the castle view: 450 base and 3,221 detail vertices, largest gap
@@ -253,7 +261,7 @@ at the rim.
   quarter less when idle or orbiting at the castle, as for the town ([above](#consequences)), and no difference
   that can be told from the noise when scrubbing. Start-up (`tools/shot.mjs`, page load to ready): 8.5 to 9.6s
   before, 6.9 to 10.3s after, within the noise. The main script chunk is unchanged (same file hash, 544,938 bytes
-  gzipped at this commit), because the tiles are data, not code.
+  gzipped at af27075, the commit before the merge of main's textured models; measured by building that commit alone), because the tiles are data, not code.
 - **What the finer ground showed.** Looked at on the GPU at 120m, 250m, 600m and 2km: the crag and its slopes are
   4m facets instead of 10m ones near the camera, and the difference is slight from far off (almost every tile is
   drawn at 20m beyond a kilometre and a half). It also exposed that the castle model stands on one flat floor while
@@ -266,9 +274,16 @@ at the rim.
   not changed here; it is on the todo list. That the model's yard really covers the keep ground has not been
   measured against the model's own plan.
 - **Tests.** `tests/lidar.test.ts` now checks the castle area exists, holds the `dinefwr` place, is centred on
-  Coflein's reference, and holds the keep's centre and 300m each way (seen failing first at "dinefwr-castle:
-  expected undefined to be defined"). The existing tests check the new tiles against Terrain 50, the shared edges,
-  the 300m margin to the region's edge and that every tile an area touches is at 2m.
+  the one castle point (Coflein's reference), and holds the keep's centre and 300m each way (seen failing first at
+  "dinefwr-castle: expected undefined to be defined"). The existing tests check the new tiles against Terrain 50, the shared edges,
+  the 300m margin to the region's edge and that every tile an area touches is at 2m. In the browser
+  (`e2e/terrain.spec.ts`) the castle's own tile is checked at 4m, and so is the road on the castle area's one
+  road-bearing tile: of the nine tiles the area touches, only E 261500 N 221000 carries a road (four map segments,
+  101 ribbon legs at 4m) and none carries a railway (counted from `public/data/roads.json` and `railways.json`
+  by segment midpoint on 2026-10-16), so no road crosses the tile the castle stands on and no railway any castle
+  tile. The test aims the camera at E 261850 N 221070 from 40m, waits for that tile at the 4m step, asserts at least one
+  ribbon leg lies on it, then checks every ribbon against the mesh drawn (seen failing, 877 samples under the mesh,
+  with ribbons laid on the smooth ground instead of the mesh drawn).
 
 ## Alternatives considered
 

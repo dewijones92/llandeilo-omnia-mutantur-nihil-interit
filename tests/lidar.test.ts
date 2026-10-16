@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { DINEFWR_CASTLE_AT } from '../src/content/places.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { createHeightfield, sampleHeight } from '../src/domain/heightfield.ts';
@@ -99,7 +100,7 @@ describe('the detail region', () => {
     }
   });
 
-  it('centres the castle area on its declared centre, within 10m of the dinefwr place, and holds the keep and 300m round it', () => {
+  it('centres the castle area on the one castle point, which the place and every castle feature use', () => {
     const keep = { e: 261168.5, n: 221724 };
     const area = manifest.areas.find((a) => a.id === 'dinefwr-castle');
     const place = W.places.find((p) => p.id === 'dinefwr');
@@ -109,7 +110,14 @@ describe('the detail region', () => {
     const { centre } = area;
     expect((area.eMin + area.eMax) / 2, 'east midpoint is the centre').toBe(centre.e);
     expect((area.nMin + area.nMax) / 2, 'north midpoint is the centre').toBe(centre.n);
-    expect(Math.hypot(centre.e - place.at.e, centre.n - place.at.n), 'centre to place').toBeLessThan(10);
+    expect(centre, 'area centre is the castle point').toEqual(DINEFWR_CASTLE_AT);
+    expect(place.at, 'place is the castle point').toEqual(DINEFWR_CASTLE_AT);
+    expect(DINEFWR_CASTLE_AT, "Coflein's SN 61150 21731").toEqual({ e: 261150, n: 221731 });
+    const castleFeatures = W.features.filter((f) => f.place === place.id && f.id.startsWith('dinefwr-'));
+    expect(castleFeatures.map((f) => f.id).sort()).toEqual(
+      ['dinefwr-castle', 'dinefwr-ruin', 'dinefwr-rhys', 'dinefwr-summerhouse'].sort(),
+    );
+    for (const f of castleFeatures) expect(f.at, `${f.id} is at the castle point`).toEqual(DINEFWR_CASTLE_AT);
     expect(insideBounds(area, keep), 'keep').toBe(true);
     for (const [de, dn] of [
       [-300, 0],

@@ -163,7 +163,23 @@ test('Dinefwr Castle hill gets fine tiles too, where it used to be drawn at 10m'
   const n = Math.floor(castle.at.n / 500) * 500;
   expect(d.tileSteps[`${String(e)}_${String(n)}`]).toBe(4);
   expect(d.pending).toBe(0);
-  expectRibbonsOnTheMesh('castle, 4m near', await ribbonsAgainstDrawn(page));
+});
+
+test('a road on the castle area’s own 4m tile is laid on the mesh drawn', async ({ page }) => {
+  await ready(page, './?debug&year=2020&hour=12&season=summer');
+  const tile = { eMin: 261500, eMax: 262000, nMin: 221000, nMax: 221500 };
+  const castle = lidar.areas.find((a) => a.id === 'dinefwr-castle');
+  expect(castle, 'the castle area').toBeDefined();
+  if (!castle) return;
+  expect(tile.eMin, 'the tile reaches into the castle area').toBeLessThan(castle.eMax);
+  expect(tile.nMax, 'the tile reaches into the castle area').toBeGreaterThan(castle.nMin);
+  const target = toWorld({ e: 261850, n: 221070 });
+  await moveCamera(page, target.x, target.z, 40);
+  await expect.poll(async () => (await detail(page)).tileSteps['261500_221000'], { timeout: 60_000 }).toBe(4);
+  await expect.poll(async () => (await detail(page)).pending, { timeout: 60_000 }).toBe(0);
+  const report = await ribbonsAgainstDrawn(page, tile);
+  expect(report.inTile, 'road legs on the 4m castle tile').toBeGreaterThan(0);
+  expectRibbonsOnTheMesh('castle tile, 4m near', report);
 });
 
 test('the detail meets the coarse terrain along the rim without a gap', async ({ page }) => {
@@ -282,14 +298,24 @@ interface RibbonReport {
   readonly lowest: number;
   readonly highest: number;
   readonly under: number;
+  readonly inTile: number;
+}
+
+interface TileBox {
+  readonly eMin: number;
+  readonly eMax: number;
+  readonly nMin: number;
+  readonly nMax: number;
 }
 
 // Every road and rail ribbon leg inside the LiDAR region, both edges sampled along their length, against
 // the mesh drawn there now.
-async function ribbonsAgainstDrawn(page: Page): Promise<RibbonReport> {
+// `inTile` counts the legs whose both ends lie in `tile`, when one is given.
+async function ribbonsAgainstDrawn(page: Page, tile?: TileBox): Promise<RibbonReport> {
   const { eMin, eMax, nMin, nMax } = lidar.region;
+  const t = tile ?? { eMin: 0, eMax: 0, nMin: 0, nMax: 0 };
   return page.evaluate(
-    ([e0, e1, n0, n1, cE, cN, mpu]) => {
+    ([e0, e1, n0, n1, cE, cN, mpu, te0, te1, tn0, tn1]) => {
       const debug: unknown = Reflect.get(window, 'llandeiloDebug');
       const scene: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'scene') : undefined;
       const terrain: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'terrain') : undefined;
@@ -313,6 +339,12 @@ async function ribbonsAgainstDrawn(page: Page): Promise<RibbonReport> {
       let lowest = Number.POSITIVE_INFINITY;
       let highest = Number.NEGATIVE_INFINITY;
       let under = 0;
+      let inTile = 0;
+      const within = (x: number, z: number): boolean => {
+        const e = cE + x * mpu;
+        const n = cN + z * mpu;
+        return e >= te0 && e < te1 && n >= tn0 && n < tn1;
+      };
       for (const mesh of meshes) {
         const name = typeof mesh === 'object' && mesh ? String(Reflect.get(mesh, 'name')) : '';
         if (name !== 'roads' && !name.startsWith('rail-')) continue;
@@ -337,6 +369,7 @@ async function ribbonsAgainstDrawn(page: Page): Promise<RibbonReport> {
             ((p[i] ?? 0) + (q[i] ?? 0)) / 2;
           if (!inner(mid(a, b, 0), mid(a, b, 2)) || !inner(mid(c, d, 0), mid(c, d, 2))) continue;
           legs++;
+          if (within(mid(a, b, 0), mid(a, b, 2)) && within(mid(c, d, 0), mid(c, d, 2))) inTile++;
           longest = Math.max(
             longest,
             Math.hypot(mid(c, d, 0) - mid(a, b, 0), mid(c, d, 2) - mid(a, b, 2)) * mpu,
@@ -359,9 +392,21 @@ async function ribbonsAgainstDrawn(page: Page): Promise<RibbonReport> {
           }
         }
       }
-      return { legs, longest, lowest, highest, under };
+      return { legs, longest, lowest, highest, under, inTile };
     },
-    [eMin, eMax, nMin, nMax, WORLD.centre.e, WORLD.centre.n, WORLD.metresPerUnit] as const,
+    [
+      eMin,
+      eMax,
+      nMin,
+      nMax,
+      WORLD.centre.e,
+      WORLD.centre.n,
+      WORLD.metresPerUnit,
+      t.eMin,
+      t.eMax,
+      t.nMin,
+      t.nMax,
+    ] as const,
   );
 }
 

@@ -274,12 +274,14 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       **Built 2026-10-16, not ticked** (Claude, under the proactive mandate; [ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md)
       amended, [`data/lidar.md`](../data/lidar.md#the-castle-area-2026-10-16)): path steps 1, 4 and 6 are done (a 1km area centred on
       Coflein's reference, 29 tiles at 2m, `lidar.bin` 3.92MB; the area test seen failing first; looked at on the GPU at 120m, 250m, 600m and
-      2km, in 2020 and 1282, `docs/images/lidar/*castle*`). Not done: step 5, the second Opus pass. Open for Dewi: whether Coflein's
-      reference or the keep's centre in the Dinefwr research (18.5m east, 7m south) should centre the area, and whether 500m is the
-      right half-size, and whether to move the `dinefwr` place's `at` (5.4m off) onto Coflein's point so the area's centre and
-      the place are one fact; none changes the tiles' content, only how many are at 2m. The first review's fixes landed
-      the same day (the issue quote paraphrased, the docs and tests updated, a castle ribbon check added); the second Opus
-      pass is still not done.
+      2km, in 2020 and 1282, `docs/images/lidar/*castle*`). Dewi decided on 2026-10-16 to "Move the place to Coflein's", so there is now
+      one castle point (`DINEFWR_CASTLE_AT` in `src/content/places.ts`, E 261150 N 221731) that the place's `at`, the four castle
+      features' `at` (the model) and the area's centre all read, held together by a test; the camera flights and the model moved
+      5.4m. Still open for Dewi: whether the keep's centre in the Dinefwr research (18.5m east, 7m south of Coflein's point), not
+      Coflein's reference, should centre the area, and whether 500m is the right half-size; neither changes the tiles' content, only
+      how many are at 2m. The first review's fixes landed the same day, and a second review's (the castle point held twice; the
+      castle ribbon check that never met a road on a castle tile, now aimed at the area's one road-bearing tile); step 5, the
+      second Opus pass, is still not done.
 - [ ] **The castle's yard floor and the ground under it** (Claude, under the proactive mandate, found 2026-10-16 while looking at the 2m castle area): the Dinefwr castle model stands on one flat floor, and ground that is probably the real keep's comes up through its courtyard (sampled: the ward is flat at 99.7 to 100.2m OD and rises to 101.0 to 101.6m where the research fits the keep, under a model drawn 2.6 times larger than life; it did at 10m, more irregularly at 4m). Seat the plan on its ground, or lay a `level` ground edit for the platform ([ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), decision 8); the same family as the forts' buildings in the item above. Not built.
 - [ ] **Download the world's assets** ([#4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4)): a Downloads section in the app listing our models and the detailed terrain tiles as .glb (Dewi, 2026-10-16: "just offer it as glb"), each with its credit and licence from the asset manifest; the terrain tiles exported to .glb once by a tool, in real metres with their British National Grid origin.
 

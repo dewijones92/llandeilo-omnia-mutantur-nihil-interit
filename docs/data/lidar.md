@@ -127,9 +127,9 @@ The areas overlap (the town and the forts share 4 tiles, the forts and the castl
 so the 29 tiles of 500m that touch any of them are kept at 2m (3.65MB; 8 of them are the castle's, new on
 2026-10-16). The **region** round them, E 260000 to 265000 and N 220500 to 224500 (5km by 4km, 80 tiles
 of 500m), is kept at 10m for the other 51 tiles (0.27MB). A test (`tests/lidar.test.ts`) fails if a
-place's reference is not inside its area, if the castle area's centre is not its own midpoint and within
-10m of the `dinefwr` place, or does not hold the keep and 300m each way round it, or if an area comes within the 300m blend margin of the region's
-edge.
+place's reference is not inside its area, if the castle area's centre is not its own midpoint or is not the one
+castle point the `dinefwr` place and the four castle features use (`DINEFWR_CASTLE_AT`), or does not hold the keep
+and 300m each way round it, or if an area comes within the 300m blend margin of the region's edge.
 
 ### The castle area (2026-10-16)
 
@@ -140,18 +140,19 @@ under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-u
   [`building-models.md`](../research/building-models.md)) = E 261150 N 221731. The Cadw listing (E 261149 N 221730)
   and the HER (SN 61149 21730) put it within 1.5m, so three records agree ([S1] to [S3] in the
   [Dinefwr research](../research/dinefwr-castle.md#placement), which recommends it as the feature's `at`). The
-  `dinefwr` place the content registry holds is at E 261155 N 221729, 5.4m from it (`building-models.md` records that
-  offset as 5m), so it is inside the area whichever is used. The other two areas are centred exactly on their place's
-  `at`; this one is not, and the 5.4m split is left in place until Dewi says whether to move the place's `at` to
-  Coflein's point (it would move the castle's flights and its model; todo item "Dinefwr Castle at 2m LiDAR"). The
-  same research puts the keep's centre at E 261168.5 N 221724, 18.5m east and 7m south of Coflein's reference, fitted
+  `dinefwr` place and the four castle features were at E 261155 N 221729, 5.4m from it (`building-models.md` recorded
+  that offset as 5m). **Dewi decided on 2026-10-16 to "Move the place to Coflein's"**, so the place's `at`, the
+  castle features' `at` and this area's centre are now one fact, `DINEFWR_CASTLE_AT` in `src/content/places.ts`
+  (the area's centre is the same numbers in `lidar-areas.json`, which Python reads, and a test holds them equal).
+  The castle's flights and its model moved 5.4m with it. The other two areas are centred exactly on their place's
+  `at`, and so is this one. The same research puts the keep's centre at E 261168.5 N 221724, 18.5m east and 7m south of Coflein's reference, fitted
   on the LiDAR surface model [S24]; the keep is inside the area by a wide margin. Which of the two is the better
   centre for the keep has not been settled here.
 - **Half-size 500m (a 1km square).** What it has to hold: the castle on its crag, its rock-cut ditches
   (Coflein: two enclosures and rock-hewn ditches) and the ground round it. A hillshade of the 1m data made for
   this note (not committed) shows (read by eye) the crag's foot 100 to 130m south of the castle and a ridge running north-east
   from it for more than 600m; 500m each way covers the crag, the escarpment and the first part of the ridge. The
-  way up to the castle is not sourced in this repository, so the size does not rest on it. Tiles are 500m, so a
+  path up the hill to the barbican is not sourced in this repository, so the size does not rest on it. Tiles are 500m, so a
   half-size of 400m would touch the same nine tiles; 350m would touch six, leaving out the column east of
   E 261500. 500m was chosen to cover the ridge end and to match the forts' area, not measured against a need.
 - **Source tiles: none new.** The region did not change, so all 25 of the 1km GeoTIFFs were already on disk;
@@ -243,8 +244,8 @@ python3 tools/terrain/build-lidar.py  # needs GDAL's command-line tools and nump
 python3 tools/terrain/build-lidar.py --verify   # checks the raw tiles against the manifest; builds nothing
 ```
 
-- **A new area** (the issue's "expand later without rebuilding the initial terrain"; done once, for the castle, on
-  2026-10-16, with no change to the code): add an entry to
+- **A new area** (issue 2 asks to "Document how the model can be expanded later without rebuilding the initial terrain."; done once, for the castle, on
+  2026-10-16, with no change to the renderer or the reader): add an entry to
   `areas` in `lidar-areas.json`, and widen `region` if it falls outside it (edges are multiples of
   500). Run both scripts. Tiles already built are rewritten byte for byte from the same sources; the
   renderer, the manifest reader and the tests need no change. Keep every area 300m (the blend margin)

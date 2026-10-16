@@ -1560,3 +1560,37 @@ now names the castle among the LiDAR places, and the castle e2e also checks ever
 drawn there (it cannot be seen red: it passes on the old data too, so it is a guard, not a proof).
 
 Lesson: **a quote of a source needs the source open**; a paraphrase and a link cannot misquote.
+
+**Second review, and Dewi's word on the castle point, 2026-10-16.** Dewi: "Move the place to Coflein's". The review had
+found the castle point held in two places, the `dinefwr` place's `at` (flights, labels) and `DINEFWR_CASTLE` in
+`features.ts` (the model), so the todo item and the ADR, which spoke only of the place, described the wrong
+mechanism. It is now one exported constant, `DINEFWR_CASTLE_AT` in `places.ts` (E 261150 N 221731), read by the place and
+the four castle features, with the LiDAR area's centre the same numbers in `lidar-areas.json` (Python reads it, so it
+cannot import the constant) and `tests/lidar.test.ts` asserting all of them equal it (seen red with one feature put
+back on the old numbers: "dinefwr-rhys is at the castle point"). The ADR amendment, the data note, the todo item, the
+decision log and the research notes (which called the app's point 5m off) are corrected. This branch merged main (the textured models)
+first; the three docs conflicts were all appends or one-line edits, resolved keeping both sides (a word-level three-way merge for the two very long lines
+in `CLAUDE.md` and the tests map).
+
+**The castle ribbon check was labelled "4m near" and met no road.** The ribbon check in the castle e2e ran at the
+castle point, where no road or railway lies; it was a guard in the wrong place. Counting segments in `roads.json` and
+`railways.json` by midpoint: of the nine tiles the castle area touches, only E 261500 N 221000 carries a road (four
+segments, 101 ribbon legs at 4m), and no tile carries a railway. The check moved to its own test aimed at E 261850 N 221070
+from 40m: it waits for that tile at the 4m step and no pending tiles, asserts at least one leg on the tile, then runs the
+ribbons-on-the-mesh check. Seen red with `ribbonGroundAt` returning the smooth ground: 877 samples under the mesh drawn (the
+region-wide ribbon check also fails on that change, so the red proves the check works; the leg count on the tile proves it met a road).
+Run both ways: all nine terrain specs under CI settings (`CI=1 E2E_QUALITY=low E2E_GPU=0 E2E_WORKERS=1`, after a build with
+`PAGES_BASE` set) and on the GPU.
+
+**Results.** `npm run check` green (608 tests; branches 89.23%). The whole e2e suite under CI settings: 92 passed, 45.5 minutes
+(the laptop was at load average 28 to 39 from other agents). On the GPU (`npm run e2e:gpu`, Windows Chrome, WebGPU, High): 8 of 8 GPU
+tests and 90 of 91 e2e specs passed, twice, including all nine terrain specs. The one failure, `a part whose texture failed is
+drawn as the photograph draws it` (smoke.spec.ts:2590, "only 0 timber-coloured pixels: the forts are not in the clip"), is not this
+branch's: the same test fails the same way on main's code (a clean archive of main at v0.9.0, built and run the same way: one failure, that
+test), and it passes under CI settings. Looked at (GPU through WSL, High, 2020, the castle at 120m, 600m and 2km):
+the model stands on the hill at the moved point, the 4m crag and ridge are as before, nothing floats or is missing
+(`docs/images/lidar/castle-point-2020-r12.jpg`, `-r60.jpg`, `-r200.jpg`).
+
+Lesson: **a check labelled for a place has to count what it found there**, or it passes in the wrong place for ever.
+The "544,938 bytes" main chunk is now tied to its commit (af27075, built alone on 2026-10-16 to confirm it); after merging main
+the chunk is 555,611 bytes with the textured models.
