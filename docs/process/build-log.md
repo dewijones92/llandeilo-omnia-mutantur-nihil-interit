@@ -1511,3 +1511,22 @@ three: CI settings (`CI=1 E2E_QUALITY=low E2E_GPU=0`), the WSL GPU on WebGL, and
 (89 e2e and 8 GPU tests). Still red at fallback grey 102 on WebGPU (104.8 against 111.6, 6.1%) and 154 (121.6
 against 111.6, 9.0%), run as the only e2e test with the grey changed and then restored. Lesson: **a read that works
 on one backend proves nothing about the other; the GPU job is a second renderer, so run a rendering test there too.**
+
+**The compass click was undone by the turn's glide, 2026-10-16** (CI run 38964194442, shard 2, "the compass shows
+the heading and turns the view to face north": `data-bearing` read 46 after 60s, having passed on the ten runs before).
+A real app bug, not a test race alone. A right-drag turns on Babylon's inertia (`camera.inertia = 0.88`,
+a decay per rendered frame, not per second). The compass flight writes `alpha` each frame but never cleared
+`inertialAlphaOffset`, so the glide went on adding to `alpha` after the camera had landed on north and carried it
+away. At 60fps the glide is gone in under a second, well inside the 1.6s flight, so it never showed; at CI's 1 to 2fps
+a flight is two or three frames and the glide needs about forty. Evidence from an instrumented run on CI settings
+(`dewidebug` lines): drag end `inertialAlpha=-0.27`, compass click `-0.18` with the view at bearing 93,
+`flight end alpha=-1.571` (north) with `inertialAlpha=-0.16` still set, then `alpha` -1.712, -1.836, -1.946 ... settling
+at -2.74 over the next 20s (about 70 degrees off north, the same plateau the failing CI run showed as 46). The
+test's poll only passed when it happened to read the one frame in which `data-bearing` was 0, because
+`compass.update` runs before `scene.render`; a poll that missed it read the drift. `Flight` now clears every inertial
+offset when a flight, a turn or a fly-home starts and on each tick while flying (a drag or key interrupts the flight
+first, so the viewer can still take the camera). Seen red first as a unit test (`src/world/flight.test.ts`, which
+models Babylon's per-frame inertia and reproduces the -2.748 plateau) and as the e2e, which now clicks while the glide
+is non-zero and requires north to hold for four more rendered frames (it read 52 and 59 on the old code).
+Lesson: **anything that sets a pose each frame must also own the camera's inertia, or the old motion outlives it on a
+slow renderer; and a poll for a value that a later frame overwrites passes by luck.**

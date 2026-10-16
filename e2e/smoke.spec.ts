@@ -257,7 +257,7 @@ test('Next straight after a minor marker click steps on from that marker', async
 });
 
 test('the compass shows the heading and turns the view to face north', async ({ page }) => {
-  await page.goto('./?year=1282');
+  await page.goto('./?debug&year=1282');
   await ready(page);
   const compass = page.locator('.compass');
   const box = await page.locator('#scene').boundingBox();
@@ -274,9 +274,22 @@ test('the compass shows the heading and turns the view to face north', async ({ 
   await page.mouse.move(box.x + box.width * 0.75, box.y + box.height * 0.3, { steps: 6 });
   await page.mouse.up({ button: 'right' });
   await expect.poll(turned).toBeGreaterThan(10);
+  // The click comes while the turn is still gliding, which is when it used to be undone.
+  expect(await turnGlide(page)).not.toBe(0);
   await compass.click();
   await expect(compass).toHaveAttribute('data-bearing', '0', { timeout: 60_000 });
+  await framesRendered(page, 4);
+  await expect(compass).toHaveAttribute('data-bearing', '0');
 });
+
+const turnGlide = (page: Page): Promise<number> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const cam: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+    if (!cam || typeof cam !== 'object') throw new Error('no camera');
+    return Number(Reflect.get(cam, 'inertialAlphaOffset'));
+  });
 
 interface CameraState {
   readonly x: number;

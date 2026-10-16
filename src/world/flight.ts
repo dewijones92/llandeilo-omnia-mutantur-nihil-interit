@@ -1,5 +1,18 @@
 import { Vector3, type AbstractMesh, type ArcRotateCamera } from './babylon.ts';
 
+export type FlightCamera = Pick<
+  ArcRotateCamera,
+  | 'target'
+  | 'radius'
+  | 'alpha'
+  | 'beta'
+  | 'inertialAlphaOffset'
+  | 'inertialBetaOffset'
+  | 'inertialRadiusOffset'
+  | 'inertialPanningX'
+  | 'inertialPanningY'
+>;
+
 interface Pose {
   readonly target: Vector3;
   readonly radius: number;
@@ -15,8 +28,21 @@ export class Flight {
   private followed: { mesh: AbstractMesh; radius: number; onEnd: () => void } | undefined;
   readonly home: Pose;
 
-  constructor(private readonly camera: ArcRotateCamera) {
+  constructor(private readonly camera: FlightCamera) {
     this.home = this.pose();
+  }
+
+  private stopInertia(): void {
+    const c = this.camera;
+    if (c.inertialAlphaOffset !== 0 || c.inertialBetaOffset !== 0)
+      console.info(
+        `dewidebug camera flight takes over from turn inertia alpha=${c.inertialAlphaOffset.toFixed(4)} beta=${c.inertialBetaOffset.toFixed(4)}`,
+      );
+    c.inertialAlphaOffset = 0;
+    c.inertialBetaOffset = 0;
+    c.inertialRadiusOffset = 0;
+    c.inertialPanningX = 0;
+    c.inertialPanningY = 0;
   }
 
   private pose(): Pose {
@@ -62,6 +88,7 @@ export class Flight {
 
   flyTo(target: Vector3, radius: number, beta = 1.0): void {
     this.stopFollowing('fly');
+    this.stopInertia();
     this.from = this.pose();
     const alpha = this.camera.alpha;
     this.to = { target, radius, alpha, beta };
@@ -71,6 +98,7 @@ export class Flight {
 
   flyHome(): void {
     this.stopFollowing('home');
+    this.stopInertia();
     this.from = this.pose();
     const turns = Math.round((this.from.alpha - this.home.alpha) / (Math.PI * 2));
     this.to = { ...this.home, alpha: this.home.alpha + turns * Math.PI * 2 };
@@ -78,6 +106,7 @@ export class Flight {
   }
 
   turnTo(alpha: number): void {
+    this.stopInertia();
     this.from = this.pose();
     this.to = { ...this.from, target: this.from.target.clone(), alpha };
     this.elapsed = 0;
@@ -89,12 +118,8 @@ export class Flight {
     this.stopFollowing('held');
     this.from = undefined;
     this.to = undefined;
+    this.stopInertia();
     const c = this.camera;
-    c.inertialAlphaOffset = 0;
-    c.inertialBetaOffset = 0;
-    c.inertialRadiusOffset = 0;
-    c.inertialPanningX = 0;
-    c.inertialPanningY = 0;
     c.target = target;
     c.radius = radius;
     c.alpha = alpha;
@@ -109,6 +134,7 @@ export class Flight {
     this.track(dt);
     const { from, to } = this;
     if (!from || !to) return;
+    this.stopInertia();
     this.elapsed += dt;
     const f = Math.min(1, this.elapsed / this.duration);
     const e = f < 0.5 ? 4 * f * f * f : 1 - Math.pow(-2 * f + 2, 3) / 2;
@@ -122,6 +148,9 @@ export class Flight {
     c.alpha = from.alpha + (to.alpha - from.alpha) * e;
     c.beta = from.beta + (to.beta - from.beta) * e;
     if (f >= 1) {
+      console.info(
+        `dewidebug camera flight end alpha=${c.alpha.toFixed(3)} beta=${c.beta.toFixed(3)} radius=${c.radius.toFixed(0)}`,
+      );
       this.from = undefined;
       this.to = undefined;
     }
