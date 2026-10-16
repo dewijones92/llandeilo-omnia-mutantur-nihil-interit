@@ -2625,7 +2625,9 @@ test('switching to Low mid-session brings the procedural forts back and takes th
   await expect(tower.locator('[data-kit]')).toHaveCount(0);
   await expect(tower.locator('.moment-kits-off')).toContainText('simplified model is on screen');
   await graphics.getByRole('button', { name: 'High' }).click();
-  await expect(debug).toContainText('roman-fort-b=glb:near');
+  await expect(debug).toContainText('quality high');
+  // Coming back to High loads the models and their textures again, which at CI's ~1fps takes as long as the first load.
+  await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
   await expect(tower).toHaveJSProperty('open', true);
   await expect(tower.locator('[data-kit="post-tower-six"]')).toBeVisible();
 });

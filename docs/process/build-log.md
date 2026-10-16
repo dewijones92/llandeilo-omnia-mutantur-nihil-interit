@@ -1469,3 +1469,11 @@ turf steps' striping, with the normal map's level as the lever if it shimmers in
 Also: the turf-face ⓘ calls the 1899 work "the report", not a survey, and ADR 0055 no longer says mipmaps cannot
 help the steps' striping and then offers a texture lever; the normal map adds to it, and only antialiasing or
 coarser steps at distance act on the shape.
+
+**The debug overlay went stale on a graphics switch, 2026-10-16** (CI shard 8 on c93542d: "switching to Low
+mid-session" timed out waiting for `roman-fort-b=glb:near` after the switch back to High, while the overlay
+still read `quality low`). The overlay refreshed only when a year was applied, so a quality change or a model
+loading in left it showing the old state, and the test passed those steps only when something else happened to
+refresh it. It now also refreshes on a quality change and whenever a model loads; the test checks `quality high`
+first and gives the reload the same 90s as the first load. Seen red without the refresh (the step after Low,
+line 2620), green with it, under CI settings (`CI=1 E2E_QUALITY=low E2E_GPU=0`).

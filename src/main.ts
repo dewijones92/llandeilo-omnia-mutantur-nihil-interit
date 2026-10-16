@@ -258,6 +258,8 @@ async function start(): Promise<void> {
   );
   features.onModelsChanged(() => {
     moment.refresh();
+    // The overlay otherwise refreshes only when a year is applied, so a model loading in would leave it stale.
+    debug?.update(snap);
   });
   const flight = new Flight(world.camera);
   let dust: SmokeSource[] = [];
@@ -623,6 +625,7 @@ async function start(): Promise<void> {
     world.setQuality(QUALITY[q]);
     landmarkMaterials.setSize(textureSizeFor(q));
     features.setModels(modelsFor(q));
+    debug?.update(snap);
   });
   brand.append(row2, skyControls.el, quality.el);
   brand.querySelector('.brand-row')?.append(home);
