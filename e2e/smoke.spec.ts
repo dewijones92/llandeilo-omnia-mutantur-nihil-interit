@@ -2472,105 +2472,149 @@ test('if one texture fails to load, the parts that use it are drawn from a flat 
   expect(warnings.some((w) => w.includes('timber') && w.includes('without its color map'))).toBe(true);
 });
 
-// Timber colour, read from the scene's own canvas. page.screenshot has to ask the compositor for a fresh frame, which
-// cost 20-40s each on one slow core and put this test past its time; here the canvas is read inside the render
-// observer straight after a frame is drawn (the only moment a WebGL canvas can be read without preserveDrawingBuffer),
-// so each read costs the frame and no more, and a UI panel can never be mistaken for timber.
+// Timber colour, read from frames of the scene.
 //   hue: the mean colour of the timber-coloured pixels (orange-brown: red well over green, green over blue), so a part
 //        drawn too bright, too dark or black shows as a number.
 //   surface: the mean colour of exactly the timber material's pixels, found by drawing the view with the timber
 //        meshes shown and hidden and taking the pixels that differ. A hue filter would take in the shingle and other
 //        browns, and a failed texture is judged against the photograph on the same geometry.
+// How a frame is read depends on the backend. page.screenshot asks the compositor for a fresh frame, which cost 20-40s
+// each on one slow core under WebGL on SwiftShader (ten of them put this test past its time), so there the canvas is
+// read inside the render observer straight after a frame is drawn, the only moment a WebGL canvas can be read without
+// preserveDrawingBuffer. On WebGPU that read comes back blank (the frame is not presented until the render ends), and
+// the GPU makes a screenshot cheap, so there the frame is a clip screenshot.
 const FORT_CLIP = { x: 520, y: 320, width: 390, height: 220 };
 const SURFACE_CLIP = { x: 300, y: 180, width: 840, height: 520 };
+type Clip = typeof FORT_CLIP;
 interface TimberRead {
   readonly n: number;
   readonly mean: [number, number, number];
   readonly png: string;
 }
-const readTimber = (
-  page: Page,
-  clip: { x: number; y: number; width: number; height: number },
-  mode: 'hue' | 'surface',
-): Promise<TimberRead> =>
-  page.evaluate(
-    async ({ clip: area, mode: how }) => {
-      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
-      const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
-      if (!scene || typeof scene !== 'object') throw new Error('no scene');
-      const after: unknown = Reflect.get(scene, 'onAfterRenderObservable');
-      const addOnce: unknown = after && typeof after === 'object' ? Reflect.get(after, 'addOnce') : undefined;
-      if (typeof addOnce !== 'function') throw new Error('no onAfterRenderObservable');
-      const canvas = document.getElementById('scene');
-      if (!(canvas instanceof HTMLCanvasElement)) throw new Error('no scene canvas');
-      const scratch = document.createElement('canvas');
-      scratch.width = area.width;
-      scratch.height = area.height;
-      const ctx = scratch.getContext('2d', { willReadFrequently: true });
-      if (!ctx) throw new Error('no 2d context');
-      const box = canvas.getBoundingClientRect();
-      const kx = canvas.width / box.width;
-      const ky = canvas.height / box.height;
-      const frame = (): Promise<Uint8ClampedArray> =>
-        new Promise((resolve) => {
-          addOnce.call(after, () => {
-            ctx.drawImage(
-              canvas,
-              (area.x - box.left) * kx,
-              (area.y - box.top) * ky,
-              area.width * kx,
-              area.height * ky,
-              0,
-              0,
-              area.width,
-              area.height,
-            );
-            resolve(ctx.getImageData(0, 0, area.width, area.height).data);
-          });
-        });
-      const shown = await frame();
-      const png = scratch.toDataURL('image/png').split(',')[1] ?? '';
+
+const backendOf = (page: Page): Promise<string> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const backend: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'backend') : undefined;
+    return typeof backend === 'string' ? backend : '';
+  });
+
+// The next frame drawn, as a base64 PNG of the clip, read from the canvas inside the render observer.
+const canvasFrame = (page: Page, clip: Clip): Promise<string> =>
+  page.evaluate(async (area) => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const after: unknown =
+      scene && typeof scene === 'object' ? Reflect.get(scene, 'onAfterRenderObservable') : undefined;
+    const addOnce: unknown = after && typeof after === 'object' ? Reflect.get(after, 'addOnce') : undefined;
+    if (typeof addOnce !== 'function') throw new Error('no onAfterRenderObservable');
+    const canvas = document.getElementById('scene');
+    if (!(canvas instanceof HTMLCanvasElement)) throw new Error('no scene canvas');
+    const scratch = document.createElement('canvas');
+    scratch.width = area.width;
+    scratch.height = area.height;
+    const ctx = scratch.getContext('2d');
+    if (!ctx) throw new Error('no 2d context');
+    const box = canvas.getBoundingClientRect();
+    const kx = canvas.width / box.width;
+    const ky = canvas.height / box.height;
+    return new Promise<string>((resolve) => {
+      addOnce.call(after, () => {
+        ctx.drawImage(
+          canvas,
+          (area.x - box.left) * kx,
+          (area.y - box.top) * ky,
+          area.width * kx,
+          area.height * ky,
+          0,
+          0,
+          area.width,
+          area.height,
+        );
+        resolve(scratch.toDataURL('image/png').split(',')[1] ?? '');
+      });
+    });
+  }, clip);
+
+const timberVisible = (page: Page, visible: boolean): Promise<void> =>
+  page.evaluate((on) => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const find: unknown =
+      scene && typeof scene === 'object' ? Reflect.get(scene, 'getMaterialByName') : undefined;
+    const mat: unknown = typeof find === 'function' ? find.call(scene, 'landmark-timber-mat') : undefined;
+    const meshes: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'meshes') : undefined;
+    if (!mat || !Array.isArray(meshes)) throw new Error('no timber material or scene meshes');
+    for (const mesh of meshes)
+      if (mesh && typeof mesh === 'object' && Reflect.get(mesh, 'material') === mat)
+        Reflect.set(mesh, 'isVisible', on);
+  }, visible);
+
+const readTimber = async (page: Page, clip: Clip, mode: 'hue' | 'surface'): Promise<TimberRead> => {
+  const webgpu = (await backendOf(page)) === 'webgpu';
+  let frame: () => Promise<string>;
+  if (webgpu) {
+    if (mode === 'surface')
+      await page.addStyleTag({
+        content: '* { visibility: hidden !important } canvas { visibility: visible !important }',
+      });
+    frame = async () => {
+      await framesRendered(page, 2);
+      return (await page.screenshot({ clip })).toString('base64');
+    };
+  } else frame = () => canvasFrame(page, clip);
+  const shown = await frame();
+  let hidden: string | undefined;
+  if (mode === 'surface') {
+    await timberVisible(page, false);
+    // The first frame after the change is the one that draws it; the second is the one read, in case an effect lags.
+    if (!webgpu) await frame();
+    hidden = await frame();
+    await timberVisible(page, true);
+  }
+  const mean = await page.evaluate(
+    async ([a, b]) => {
+      const load = async (b64: string): Promise<Uint8ClampedArray> => {
+        const img = new Image();
+        img.src = `data:image/png;base64,${b64}`;
+        await img.decode();
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('no 2d context');
+        ctx.drawImage(img, 0, 0);
+        return ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      };
+      const x = await load(a);
+      const y = b ? await load(b) : undefined;
       const sum = [0, 0, 0];
       let n = 0;
-      const add = (d: Uint8ClampedArray, i: number): void => {
+      for (let i = 0; i < x.length; i += 4) {
+        const r = x[i] ?? 0;
+        const g = x[i + 1] ?? 0;
+        const bl = x[i + 2] ?? 0;
+        const hit = y
+          ? Math.abs(r - (y[i] ?? 0)) + Math.abs(g - (y[i + 1] ?? 0)) + Math.abs(bl - (y[i + 2] ?? 0)) > 10
+          : r > g * 1.3 && r > bl * 2;
+        if (!hit) continue;
         n++;
-        for (const k of [0, 1, 2]) sum[k] = (sum[k] ?? 0) + (d[i + k] ?? 0);
-      };
-      if (how === 'hue') {
-        for (let i = 0; i < shown.length; i += 4) {
-          const r = shown[i] ?? 0;
-          const g = shown[i + 1] ?? 0;
-          const b = shown[i + 2] ?? 0;
-          if (r > g * 1.3 && r > b * 2) add(shown, i);
-        }
-      } else {
-        const find: unknown = Reflect.get(scene, 'getMaterialByName');
-        const mat: unknown = typeof find === 'function' ? find.call(scene, 'landmark-timber-mat') : undefined;
-        const meshes: unknown = Reflect.get(scene, 'meshes');
-        if (!mat || !Array.isArray(meshes)) throw new Error('no timber material or scene meshes');
-        const setTimber = (on: boolean): void => {
-          for (const mesh of meshes)
-            if (mesh && typeof mesh === 'object' && Reflect.get(mesh, 'material') === mat)
-              Reflect.set(mesh, 'isVisible', on);
-        };
-        setTimber(false);
-        // The first frame after the change is the one that draws it; the second is the one read, in case an effect lags.
-        await frame();
-        const hidden = await frame();
-        setTimber(true);
-        for (let i = 0; i < shown.length; i += 4) {
-          const diff =
-            Math.abs((shown[i] ?? 0) - (hidden[i] ?? 0)) +
-            Math.abs((shown[i + 1] ?? 0) - (hidden[i + 1] ?? 0)) +
-            Math.abs((shown[i + 2] ?? 0) - (hidden[i + 2] ?? 0));
-          if (diff > 10) add(shown, i);
-        }
+        sum[0] = (sum[0] ?? 0) + r;
+        sum[1] = (sum[1] ?? 0) + g;
+        sum[2] = (sum[2] ?? 0) + bl;
       }
-      const mean: [number, number, number] = [(sum[0] ?? 0) / n, (sum[1] ?? 0) / n, (sum[2] ?? 0) / n];
-      return { n, mean, png };
+      const m: [number, number, number] = [(sum[0] ?? 0) / n, (sum[1] ?? 0) / n, (sum[2] ?? 0) / n];
+      return { n, mean: m };
     },
-    { clip, mode },
+    [shown, hidden] as const,
   );
+  return { ...mean, png: shown };
+};
+
+const keepShot = (name: string, png: string): void => {
+  mkdirSync('test-results', { recursive: true });
+  writeFileSync(`test-results/${name}`, Buffer.from(png, 'base64'));
+};
 
 const timberMean = async (page: Page, shotName: string): Promise<[number, number, number]> => {
   const got = await readTimber(page, FORT_CLIP, 'hue');
@@ -2578,11 +2622,6 @@ const timberMean = async (page: Page, shotName: string): Promise<[number, number
   if (got.n < 2000)
     throw new Error(`only ${String(got.n)} timber-coloured pixels: the forts are not in the clip`);
   return got.mean;
-};
-
-const keepShot = (name: string, png: string): void => {
-  mkdirSync('test-results', { recursive: true });
-  writeFileSync(`test-results/${name}`, Buffer.from(png, 'base64'));
 };
 
 const timberSurfaceMean = (page: Page): Promise<TimberRead> => readTimber(page, SURFACE_CLIP, 'surface');

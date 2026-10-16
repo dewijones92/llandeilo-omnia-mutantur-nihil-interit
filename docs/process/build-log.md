@@ -1501,3 +1501,13 @@ and failed from fixed waits and per-read costs that only a slow renderer shows: 
    forts' clip. One core: 3.7 minutes against more than 7 before. It still fails if the fallback grey is 20% off:
    102 gives 104.6 against 111.6 (6.3%) and 154 gives 121.5 against 111.5 (9.0%), and 128 passes.
    Lesson: **a screenshot is not a free read on a slow renderer; read the pixels the frame just drew.**
+
+**The failed-texture colour read was blank on WebGPU, 2026-10-16** (the self-hosted GPU job, run on 5c29017: "only 0
+timber-coloured pixels"). The in-page canvas read inside `scene.onAfterRenderObservable` that made the test
+affordable on SwiftShader returns nothing on the WebGPU backend, because the frame is not presented until the render
+ends. The read now depends on `llandeiloDebug.backend`: WebGL keeps the canvas read, WebGPU takes a clip screenshot
+(cheap on a GPU) after two rendered frames, with the UI hidden for the shown-versus-hidden timber diff. Green on all
+three: CI settings (`CI=1 E2E_QUALITY=low E2E_GPU=0`), the WSL GPU on WebGL, and the full `npm run e2e:gpu` on WebGPU
+(89 e2e and 8 GPU tests). Still red at fallback grey 102 on WebGPU (104.8 against 111.6, 6.1%) and 154 (121.6
+against 111.6, 9.0%), run as the only e2e test with the grey changed and then restored. Lesson: **a read that works
+on one backend proves nothing about the other; the GPU job is a second renderer, so run a rendering test there too.**
