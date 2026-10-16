@@ -99,7 +99,7 @@ because of it. The detail and sources are in each note; this is the summary a ne
 
 From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agent the same day
 ([check 1](reviews/dinefwr-castle-check-1.md)) and then independently by a second Opus
-([check 2](reviews/dinefwr-castle-check-2.md), whose six important findings were each verified against the sources and fixed), and a third time on 2026-10-16 ([check 3](reviews/dinefwr-castle-check-3.md): five important findings and a set of suggestions, each verified or re-measured, and fixed). Written by Claude for the Blender model Dewi chose next (decision log, 2026-10-10).
+([check 2](reviews/dinefwr-castle-check-2.md), whose six important findings were each verified against the sources and fixed), and a third time on 2026-10-16 ([check 3](reviews/dinefwr-castle-check-3.md): five important findings and a set of suggestions, each verified or re-measured, and fixed), and a fourth time the same day ([check 4](reviews/dinefwr-castle-check-4.md): two important findings, one of them check 3's own fix, and a set of suggestions). Written by Claude for the Blender model Dewi chose next (decision log, 2026-10-10).
 
 - **The Cadw plan fits the 2020-22 LiDAR to about a metre**, once its scale is taken from the ground: fitted to five
   points it is 8.58 pixels a metre against its own bar's 8.15, so the plan as reproduced is drawn about 5% larger than its
@@ -123,13 +123,13 @@ From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agen
   Ages", and the DWB's gatehouse and windows by Sir Rhys are at Carew.
 - **A Cadw-plan feature was missing, and the siege of 1213 was misread.** Cadw's 1280 phase plan draws the inner
   gate flanked by two hollow square towers inside the south curtain (gone by 1750, under the grand stair); the note now
-  has them as `dinefwr/gatehouse-inner`, reconstructed (one source, hedged "perhaps" by medievalheritage), about 5.1m square each, fitted to the survey to about 2m on that panel's own scale; Cadw draws them about 1m apart, too close for a gate, so the model sets them 3.0m apart (a departure). And in 1213 the Brut has the walls scaled and the castle taken "save one
-  tower", which surrendered before the afternoon, "unless they should receive support by the evening of next day" (a conditional surrender, with three hostages): it was not "held against engines and ladders", and "strong tower" is Cadw's gloss, not the Brut's.
+  has them as `dinefwr/gatehouse-inner`, reconstructed (one source, hedged "perhaps" by medievalheritage), about 4.9-5.1m square each, placed by fitting that panel to the survey (about ±2m, on its own scale); Cadw draws a gap of 8-9 clear pixels between them, about 1.2-1.4m, and its other plan draws the inner gate as a break in the curtain of the same width, so both plans show a gate of about 1.3-1.5m and the model follows them (an earlier "departure" setting the towers 3.0m apart rested on reading one plan as a hairline and is withdrawn: [check 4](reviews/dinefwr-castle-check-4.md)). And in 1213 the Brut has the walls scaled and the castle taken "save one
+  tower", whose garrison agreed before the afternoon to surrender, unless relieved by the next evening ("unless they should receive support by the evening of next day": a conditional surrender, with three hostages): it was not "held against engines and ladders", and "strong tower" is Cadw's gloss, not the Brut's.
 - **Plan rows marked documented now say when they rest on Cadw alone** ("documented (one source: Cadw)"), because
   Coflein, castlewales.com and medievalheritage.eu are one source in three forms; and no source read says the outer
   bailey has any standing wall (medievalheritage: "without any significant visible stonework fragments"), so the ruin phase
   draws none.
-- **The ten kits are all Roman evidence or analogy**: seven cite the Llandeilo fort survey (`fort:S1`), three only Jay Lane in Herefordshire (`fort:S16`), and two also Trawscoed (not the vicus). An earlier line saying all ten cite `fort:S1` was wrong.
+- **The ten kits are all Roman evidence or analogy**: seven cite the Llandeilo fort survey (`fort:S1`), three only Jay Lane in Herefordshire (`fort:S16`), and two also Trawscoed and Llanio (a Wikipedia page, a lead, for the turf courses; the geophysical survey round both forts, which is the vicus evidence, for the thatch roof). An earlier line saying all ten cite `fort:S1` was wrong.
 - **No source read names the stone, mortar, render or any roof covering.** The keep is "courses of flat stones" (Ray
   Caple, via Moore) on the Llandeilo Flags Formation (BGS); render is an analogy from Renn's Brecon keeps only.
 - **What the app's model gets wrong today** (for the build, not changed here): the outline (`DINEFWR_INNER_CORNERS`, a
