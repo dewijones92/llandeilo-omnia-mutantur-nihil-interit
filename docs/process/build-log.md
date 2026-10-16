@@ -1470,6 +1470,38 @@ Also: the turf-face ⓘ calls the 1899 work "the report", not a survey, and ADR 
 help the steps' striping and then offers a texture lever; the normal map adds to it, and only antialiasing or
 coarser steps at distance act on the shape.
 
+**The debug overlay went stale on a graphics switch, 2026-10-16** (CI shard 8 on c93542d: "switching to Low
+mid-session" timed out waiting for `roman-fort-b=glb:near` after the switch back to High, while the overlay
+still read `quality low`). The overlay refreshed only when a year was applied, so a quality change or a model
+loading in left it showing the old state, and the test passed those steps only when something else happened to
+refresh it. It now also refreshes on a quality change and whenever a model loads; the test checks `quality high`
+first and gives the reload the same 90s as the first load. Seen red without the refresh (the step after Low,
+line 2620), green with it, under CI settings (`CI=1 E2E_QUALITY=low E2E_GPU=0`).
+
+**Four e2e tests red on CI's 1fps renderer, 2026-10-16** (main on c93542d, deploy skipped). All four passed on a GPU
+and failed from fixed waits and per-read costs that only a slow renderer shows: the pattern of 2026-10-10 again,
+**on a 1fps renderer a fixed wait is a guess; wait for the state**.
+
+1. **`partPoint` ("no screen point over ...", two tests).** It moved the camera, waited 400ms and asked for the
+   part's screen point. The projection only follows the camera once frames have drawn with it: a probe on CI
+   settings read the point as `null` for the frame after the move and correct from the second frame on, so 400ms
+   was before any frame. It now waits for three frames (`scene.getFrameId()`) and then polls for the point. Seen
+   red on the old helper under CI settings, green on the new.
+2. **The AD 74 round test (`expect.poll` still true after 30s).** Scrubbing to the present (End) draws the
+   heaviest scene, and the panel closes in the first `apply` after it. Measured on CI settings with the run pinned
+   to cores: 6 to 9s on 28 cores, 19s on two, 27s on one, and CI is slower than all three, so the 30s default was
+   the failing part and not the app. The poll now waits up to 120s and names what it waits for. The three "nothing
+   happens" checks (a drag opens nothing, parts stay inert in a round) waited a fixed 500-600ms, which at 1fps can
+   end before the app has had a frame in which to act, so each now waits for three rendered frames before it
+   asserts the absence.
+3. **The failed-texture colour test (420s timeout inside `page.screenshot`).** Each screenshot asks the compositor
+   for a new frame and cost 20-40s on one slow core; the test took ten. It now reads the scene canvas inside
+   `scene.onAfterRenderObservable` straight after a frame is drawn, which costs the frame and no more, takes the
+   timber pixels from the canvas alone (a UI panel can no longer be counted), and keeps the two look-at PNGs as the
+   forts' clip. One core: 3.7 minutes against more than 7 before. It still fails if the fallback grey is 20% off:
+   102 gives 104.6 against 111.6 (6.3%) and 154 gives 121.5 against 111.5 (9.0%), and 128 passes.
+   Lesson: **a screenshot is not a free read on a slow renderer; read the pixels the frame just drew.**
+
 ## Downloads: the world's assets as .glb, 2026-10-16
 
 Built for issue #4 on Dewi's decision ([ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md)).

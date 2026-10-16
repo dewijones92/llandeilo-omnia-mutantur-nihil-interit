@@ -310,6 +310,8 @@ each run). A self-hosted CI runner job only calls `tools/gpu/run.sh` and uploads
 `npm ci` runs only when `node_modules` is missing (`GPU_NPM_CI=1` allows it on a drifted one), each pass has
 a time limit that kills its Windows process tree (`GPU_PASS_TIMEOUT`), and `run.json` names the commit. One run holds the GPU at a time (`~/.cache/llandeilo-gpu.lock`); a second fails at once unless `GPU_LOCK_WAIT` (seconds) lets it queue, which CI sets to 1800 so it waits behind a local run.
 
+**Before merging anything that renders, run its e2e under CI's settings too:** `CI=1 E2E_QUALITY=low E2E_GPU=0 E2E_WORKERS=1 npx playwright test -g '<area>'` (SwiftShader, about 1fps). A run on the laptop GPU hides every fixed wait that assumes a frame has drawn: on 2026-10-16 four picking and texture tests that passed on the GPU failed on CI and blocked the deploy. In a test, wait for state, never for time.
+
 Run `git config core.hooksPath .githooks` once per clone. Local Playwright uses Chromium 136 because
 newer Chromium cannot navigate on this WSL machine; CI uses the bundled browser. Every
 CI run renders with WebGL2 through SwiftShader at about 1fps; WebGPU and real frame rates are measured
