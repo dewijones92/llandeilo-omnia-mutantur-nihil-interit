@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Build log
@@ -1210,6 +1210,41 @@ Checks: `npm run check` green (572 tests, branches 90.6%); full e2e on a fresh b
 passed, 1 skipped (the stored-quality test), 14.3 minutes, no hang and no "never ready" failure with fis-worker
 stopped. Looked at on the GPU (`tools/shot.mjs`, WebGL, High) at AD 80, 84 and 110, radius 60, and a close-up at AD 84:
 Fort 1's turf bank, breastwork and thatched halls at 80; Fort 2 with shingled towers and the settlement at 84 and 110.
+
+6. **Dinefwr Castle researched for its Blender model** (Claude, for Dewi's pick of the next model;
+   [`research/dinefwr-castle.md`](../research/dinefwr-castle.md)). Docs only. Three things worth keeping:
+   (1) **a 1m LiDAR surface model (DSM) measures a ruin's standing heights and checks a published plan**: the tile's
+   DSM, which the app had not downloaded (it uses the DTM), shows the keep, the curtains and the north-west tower as
+   clean flat wall-tops in a January flight, and fitting the Cadw plan to five of its points showed the plan as
+   reproduced drawn about 5% larger than its scale bar says (cause not known); earlier measurements taken from that bar
+   (`building-models.md`) are about 5% too big. (2) **A chronicle
+   date in a secondary source may rest on a manuscript variant**: the HER's "1151 ... built" is the Brut's "repaired the
+   castle of Dinweileir", Dinevwr in two manuscripts only. (3) **One source can reach a note by three routes**: Coflein,
+   castlewales.com and medievalheritage.eu all carry the Cadw guidebook, so agreeing with each other is not
+   cross-checking; the note marks those claims. No `src` change: a draft plan module would fail `knip` and duplicate the
+   one in `buildings.ts`. A review of the note the same day (second Opus) found five things worth keeping: the proposed
+   phases left 1600-1660 empty and drew the castle intact to 1600 against the "abandoned" reading (now a contested end
+   about 1450 and a decay phase to the 1660s); the scale-bar fault was stated backwards (the bar is drawn short, not
+   long); a roof is a plan value (`top: 'cone'`, `'pyramid'`, `roof: 'gable'`), not a kit, so the proposed kit list had
+   split one capability across two seams; one painted roofed tower was tiered "documented" as the south turret when
+   the identification is an inference; and a summary had misquoted the Cadw guide as finding no work after the 14th
+   century, when it records post-1403 repairs and a rebuilt south wall. Each was a thing the note's own text, read
+   against its own sources or code, already contradicted.
+
+   **The independent check (a second Opus, the same day, [check 2](../research/reviews/dinefwr-castle-check-2.md))**
+   found six more, each verified by fetching the source again: a **1525 end date** for Sir Rhys ap Thomas's residence
+   that none of the three cited sources gives (the listing and the HER say the end of the 15th century and "soon
+   abandoned"; 1525 is his death year); the **1213 siege** reported as walls and a tower held against engines, where the
+   Brut has the walls scaled and the castle taken "save one tower"; an **inner gatehouse of two square towers** on Cadw's
+   1280 plan that the note had left out (measured here, and added as a reconstructed part); a **kit that claimed
+   nothing**; a **quotation ("survive only in short lengths") in no source**, which had reached a second note; and parts
+   marked documented on **one source reaching the note by three routes**. Two things worth keeping: (1) a hedge is
+   easily dropped in a quotation ("may have been an extensive remodelling" had become "an extensive remodelling"), so a
+   quotation check should compare the whole clause; (2) the same agent's own review had called the 1213 reading
+   "confirmed (independent)" while Phase 2 still said the opposite, so a correction made in the Summary has to be
+   searched for in every place the claim recurs (`grep 1213`), not only where it was first noticed. Fitting the second Cadw plan's 1280 panel the same way as the first showed that panel needs **no** scale correction (6.52 px/m against its bar's 6.63); check 3 (below) found that was that panel's alone, the plan's panels being drawn at different scales. All ten of today's kits are Roman-period evidence or analogy (seven cite the Llandeilo fort survey, three only Jay Lane), so a medieval part reusing one shows Roman evidence under a medieval label.
+
+   **A third independent read (2026-10-16, [check 3](../research/reviews/dinefwr-castle-check-3.md))** found five important points, each verified against the source or re-measured before fixing: (1) the "needs no scale correction" claim held for the 1280 panel only: the keep to north-west tower distance (survey 40.36m) is 274, 261, 296 and 292 pixels on the 1250-70, 1280, 1330 and 1750 panels, 6.78, 6.48, 7.33 and 7.24 px/m, so the panels are drawn up to 13% apart and each needs its own fit (re-measured here from the image, with an independent two-point refit of the gatehouse towers); (2) the inner gatehouse's drawn gap of 1m cannot hold the 3m passage estimated for the gate, so the model now sets the towers 3.0m apart, recorded as a departure from the plan; (3) the Tudor works are dated to the end of the 15th century by the listing and medievalheritage only, the HER saying "in Tudor times", so the range is c. 1485-1525 with c. 1500 as the estimate, and the 1531 confiscation (medievalheritage) is a holder, not a resident; (4) a turret's latrine-or-watch contest had been written onto the south turret when it belongs to the chamber block's turret; (5) the tier rule was uneven: the listing's "gatehouse added on S" was not cited, "nothing stands to measure" ignored S9's remaining loop holes and bar hole, and the outer wards' stone walls had been given the banks' second strand. Also corrected: the kit claim ("all ten cite `fort:S1`" was wrong: seven do), and "a strong tower" in 1213 is Cadw's gloss on a Brut that records a conditional surrender. Two things worth keeping: (1) **a fit to one panel of a multi-panel figure is a fit to that panel**: the check that justified a general claim ("Cadw's two plans") had measured one of five panels; (2) when a note says an assertion about a set of sources is true "of all" of them (all ten kits, both plans, all three documents), count them rather than trust the earlier count.
 
 ## 2026-10-10 (the "flaky" e2e hang)
 

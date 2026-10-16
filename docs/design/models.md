@@ -107,7 +107,11 @@ chose the in-app build on 2026-10-09; on 2026-10-10 he chose scripted Blender mo
 
 ## Research gaps hit while modelling
 
-- No plan dimensions for **Dinefwr's** enclosures, or which side the great tower stands on.
+- ~~No plan dimensions for **Dinefwr's** enclosures, or which side the great tower stands on.~~ Closed by
+  `research/building-models.md` (2026-10-02, the side) and `research/dinefwr-castle.md` (2026-10-10: the Cadw plan
+  fitted to the LiDAR, measured sizes and standing heights, and a part-by-part plan per phase). *Corrected 2026-10-10:
+  this line had stayed open after the 2026-10-02 note answered half of it.* Still open there: any medieval height, the
+  materials and roofs.
 - ~~No ward sizes for **Dryslwyn**, nor when the middle and outer wards were added.~~ Closed by
   `research/building-models.md` (2026-10-02).
 - **Carreg Cennen**: which wall holds the gatehouse, and the barbican's route.
