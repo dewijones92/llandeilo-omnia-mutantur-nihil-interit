@@ -223,6 +223,31 @@ export function partPoints(part: Part): readonly Pt[] {
   }
 }
 
+/**
+ * A tower's outline, plan-local metres: the corners the renderer draws, so the ground it stands on is read at
+ * them. A hexagon and an octagon are drawn with their sides tangent to the circle of the tower's size, so their
+ * corners lie further out than its radius; a square is turned by the tower's angle about its middle.
+ */
+export function towerRing(t: Extract<Part, { type: 'tower' }>): readonly Pt[] {
+  const r = t.size / 2;
+  const turn = t.angle ?? 0;
+  const round = (sides: number, reach: number, offset: number): Pt[] =>
+    Array.from({ length: sides }, (_, i): Pt => {
+      const [x, y] = rotate([reach, 0], turn + offset + (i / sides) * 360);
+      return [t.at[0] + x, t.at[1] + y];
+    });
+  switch (t.shape) {
+    case 'round':
+      return round(t.size >= 8 ? 14 : 10, r, 0);
+    case 'hexagonal':
+      return round(6, r / Math.cos(Math.PI / 6), 0);
+    case 'octagonal':
+      return round(8, r / Math.cos(Math.PI / 8), 22.5);
+    case 'square':
+      return hallCorners({ at: t.at, length: t.size, width: t.size, angle: turn });
+  }
+}
+
 export function hallCorners(h: {
   readonly at: Pt;
   readonly length: number;

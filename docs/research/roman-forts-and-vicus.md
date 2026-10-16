@@ -571,6 +571,9 @@ real, though: 3.6m along a 50m timber building is not something a builder could 
 | Birdoswald (Hadrianic) | "The area South of the via principalis to the Southern gate was a lower area, meaning all buildings in this section needed to be terraced up" | S26 (Wikipedia, citing T. Wilmott's English Heritage guidebook, 2nd ed. 2025) | **one source**, an encyclopedia's summary: a lead |
 | Cardiff (late Roman fort) | "It is possible that in the 2nd or 3rd century that this slope may have been terraced along the line of the north-south road" (Webster 1981b) | S31 | one source, "possible" |
 
+(Review 2026-10-16: the terrace ⓘ cites only S1, S27 and S28; S26 and S29 are encyclopedia summaries, leads and not
+sources, and are named so in the ⓘ.)
+
 So the general practice, **levelling and building up the ground for barracks and other works**, is supported
 by independent sources (S27; S28 with S29; S26). **A terrace cut under each barrack of an early timber fort on a
 slope is not demonstrated by any source read**, at Dinefwr or elsewhere. It is drawn as analogy, each plot
@@ -583,7 +586,7 @@ least 90 feet long were traced. Fendoch (Richmond and McIntyre 1939, read in ful
 above the Fendoch Burn", not terraced buildings. Housesteads and Whitley Castle are on slopes, but the pages
 reached (English Heritage; Historic England's were blocked) say nothing of terracing inside them.
 
-**Outcome.** No direct evidence for terraced plots at Dinefwr; levelling evidenced once, for Fort 2; the Roman
+**Outcome.** No direct evidence for terraced plots at Dinefwr; levelling possibly evidenced once, for Fort 2; the Roman
 surface differs from today's; a levelled plot under each building is a labelled analogy. Built: every
 building in either fort stands on a reconstructed level terrace, a period ground edit drawn while its fort is
 drawn, and every building in the app stands at the highest ground under its footprint, so no corner is

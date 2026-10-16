@@ -10,7 +10,9 @@ updated: 2026-10-16
 - **Status:** Accepted; extends [ADR 0049](0049-lidar-terrain-tiles-blended-into-terrain-50.md) (its ground edits
   are now fed from the timeline) and amends [ADR 0053](0053-the-blender-pipeline-sheet-script-fitted-gltf.md)
   (a rigid part no longer stands at its own point)
-- **Date:** 2026-10-16
+- **Date:** 2026-10-16 (amended the same day after the independent review: the e2e reads the drawn floors and roads,
+  roads lie on the mesh, the terrace ⓘ keeps its hedge, towers' footprints and terraces' scale are read from one
+  place, and a feature is built only on the terraces that reach it)
 - **Decided by:** Claude, under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
   so Dewi can overrule it. Dewi agreed the work on 2026-10-16 (the todo file's "Agreed 2026-10-16", from issue 3's
   comment: research levelling, then draw terraced platforms as a reconstruction or seat each building so nothing is
@@ -42,7 +44,10 @@ elsewhere (Vindolanda, Hardknott, Birdoswald). So a levelled plot under each for
 A hall, tower or prism stands level at the highest ground under its footprint (its corners, the middle of each
 side and its centre: `footprintSamples`, `seatOf`), so no corner is buried; its walls carry down to the lowest
 ground as before. The procedural builder (`buildPlan`, via `seatIn`) and the Blender models (`loadLandmark`, via the
-frame's `seat`, filled by `planSeats` from the same function) read it, so a model stands where its fallback does.
+frame's `seat`, filled from the floors the procedural draw recorded) read it, so a model stands where its fallback does.
+A tower's footprint is `towerRing` (`src/domain/plan.ts`), the one outline the renderer draws and the seat reads, hexagons
+and octagons included: they are drawn with their sides tangent to the circle of the tower's size, so their corners lie
+up to 15% further out than its radius, and the seat once sampled a round ring that missed them.
 `SEAT_TOLERANCE` (0.15m, a sill beam) is how far under the ground a floor may lie and still stand on it.
 
 **2. Terraces are plan parts, drawn by the ground.** A new part, `terrace` (`at`, `length`, `width`, `angle`,
@@ -59,12 +64,21 @@ set of features.
 
 **4. A feature is built once, on the ground of its first year.** Meshes are built at start, but a fort is drawn only
 while its own terraces are; so each building feature is built on the base ground with the terraces of every feature
-drawn in full in its first year (`editsBuiltOn`, `Terrain.surfaceWith`), its own among them. Fort 1's backfilled
-ditches are built on Fort 2's terraces, which are drawn with them.
+drawn in full in its first year, its own among them, and only those that reach the ground it clears (`editsBuiltOn`,
+`Terrain.surfaceWith`, with `clearingMetres`, moved from the renderer to the domain so the tests read the same number).
+Fort 1's backfilled ditches are built on Fort 2's terraces, which are drawn with them; a feature elsewhere in the valley
+that starts in a fort's years is built on none (the review found Garn Goch's ruin built on all 19 of Fort 1's).
 
 **5. Tiles under a drawn edit take a finer step.** A 4m mesh draws a terrace a few metres across; a 10m or 20m mesh
 smears it, and walls sink again into the smeared slope. A tile under an edit drawn now is treated as `EDITED_NEARER`
 (320/850) of its distance when its step is chosen, so it is 4m out to 850m instead of 320m.
+
+**5a. Roads and ditches lie on the mesh that will be drawn.** A plan's road and ditch ribbons were laid on the smooth
+ground, but a 4m mesh cannot follow a terrace's batter as the smooth ground does, so the ribbons floated and sank by
+up to 2.06m (Fort 1) where they crossed one. `Terrain.meshWith` computes the 4m tile a feature's edits would draw
+(`DetailTerrain.drawnWith`, cached per tile and set of edits), `buildPlan` lays ribbons on it (`Frame.ribbon`), and a
+road is sampled every 2m, twice as often as the mesh is cut. Map roads and rails already followed the drawn mesh
+(`ribbonGroundAt`, with `onDrawnChange`); a plan is built once, so this reads the mesh its own terraces make.
 
 **6. The content.** One terrace under each headquarters, commander's house and barrack of both forts, and one shared
 by each fort's two granaries (1 to 2m apart, closer than two plots' margins): 19 in Fort 1, 9 in Fort 2, each
@@ -72,7 +86,10 @@ reconstructed with the note's sources. A plot runs 3m level beyond the walls and
 so beside a barrack it ends halfway across the street to the next. The 3m was tuned on the drawn 4m mesh at the
 issue's framing: 3m left a wall at most 0.25m under the mesh, 1.5m left 0.95m, 2.5m 1.07m, and a 1m end margin
 1.56m. The vicus houses, imagined, get no terrace (the analogies are military); they stand by the rule alone, and
-their ⓘ says so. No stone is drawn (ADR 0046 holds).
+their ⓘ says so. No stone is drawn (ADR 0046 holds). The terrace's ⓘ keeps the excavator's hedge (the Trench 2 layer
+"possibly" represents levelling), cites only sources it can carry (Vindolanda, Hardknott from English Heritage, the
+project's note) and names the Birdoswald encyclopedia summary as a lead and not a source. `terraceEdits` places a
+terrace at its plan's setting scale, like the buildings; every terrace today is on a true-scale plan.
 
 ## Consequences
 
@@ -80,17 +97,23 @@ their ⓘ says so. No stone is drawn (ADR 0046 holds).
   stands under the mesh drawn is 0.25m in Fort 1 at AD 74, 0.12m in Fort 2 and 0.10m in the vicus at AD 110. With the
   seating rule put back to one point (terraces kept) it read 0.57, 0.63 and 1.64; with neither, as on main, 5.84
   (barrack 15), 1.71 and 1.57. Plot footings, the most a floor stands above the lowest ground under it, are now at most
-  0.53m in Fort 1 (1.87m under its headquarters with no terraces).
+  0.53m in Fort 1 (1.87m under its headquarters with no terraces). The e2e reads the floors the builders **used** (the
+  procedural draw's and the model's, recorded as they were set), not the plan's seat, and the heights each road's
+  edges were laid at, so putting back the one-point seat in either draw, or leaving the ribbons on the smooth ground,
+  fails it (the review found the first version read only the precomputed seat and passed with the renderer reverted).
 - **Every landmark changes where it stood on a slope.** Buildings rise to their highest corner, with taller walls
   downhill: Dryslwyn's hall block and Carreg Cennen's towers stand visibly taller, Aberglasney's house shows its full
   walls instead of sinking into the bank. Looked at before and after (the build log, 2026-10-16). The rule makes no
   claim about how those sites met their slopes; they have no terraces because nothing has been researched for them.
-- **Roads beside a terrace are uneven close up.** A fort road laid by the plan follows the build ground, which a
-  terrace's batter reaches at the road's edge, and the 4m mesh rises over it there in patches. Seen at 200m; not
-  visible at the issue's framing. Plan roads are not re-laid on the drawn mesh (ADR 0049, decision 8), and a 2m mesh
-  (its decision 5) would fix both this and the last 0.25m.
-- **Cost.** Up to two more 4m tiles while a fort is drawn and near (byStep 4m: 5 against 3 at the issue's framing),
-  and a rebuild of the fort's tiles when the slider crosses a fort's first or last year. Not timed.
+- **Roads cross terrace steps.** With the ribbons on the mesh (5a) a fort road meets each barrack's plot as a short
+  ramp, not as the patches the first version drew; the step is the reconstruction's own (adjacent plots differ by up to
+  about a metre across a street), drawn with its batter, and a 2m mesh would round it further (ADR 0049, decision 5).
+- **Cost, measured 2026-10-16** (GPU through WSL, High, 1920x1080, vsync off, the fort at AD 76, machine at load 12 to
+  17, two runs each, this branch against main at 1435e2a): idle 144 to 160fps against 151 to 156, orbit 54 to 112
+  against 71 to 73, scrub 18 to 40 against 17 to 19; no cost measurable through the noise. Start-up: the features build
+  took 227 to 240ms against 189 to 193 (the two forts' 4m tiles with their edits are computed once, cached). The main
+  chunk grew by 4,194 bytes gzipped (559,939 against 555,745). Up to two more 4m tiles while a fort is drawn and near
+  (byStep 4m: 5 against 3 at the issue's framing).
 - Things placed once at start still do not follow an edit (ADR 0049, decision 8): people, labels and trees near a
   terrace stand on the base ground. None was seen inside a fort.
 

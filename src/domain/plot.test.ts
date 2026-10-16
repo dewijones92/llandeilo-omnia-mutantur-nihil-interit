@@ -1,12 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { mint } from './brand.ts';
 import { applyEdits } from './groundedit.ts';
+import { SETTING_SCALE } from './materials.ts';
 import type { Part, Plan } from './plan.ts';
 import { footprint, footprintSamples, seatOf, seats, terraceEdits } from './plot.ts';
 import type { SourceId } from './provenance.ts';
 import { ad, range } from './time.ts';
 
-const tower = (shape: 'square' | 'round', angle?: number): Extract<Part, { type: 'tower' }> => ({
+const tower = (
+  shape: Extract<Part, { type: 'tower' }>['shape'],
+  angle?: number,
+): Extract<Part, { type: 'tower' }> => ({
   type: 'tower',
   at: [10, 0],
   shape,
@@ -30,8 +34,20 @@ describe('where a building stands (ADR 0056)', () => {
     for (const [x, y] of square) expect(Math.hypot(x - 10, y)).toBeCloseTo(Math.SQRT2 * 2);
     expect(Math.max(...square.map(([x]) => x))).toBeCloseTo(10 + Math.SQRT2 * 2);
     const round = footprint(tower('round'));
-    expect(round).toHaveLength(8);
+    expect(round).toHaveLength(10);
     for (const [x, y] of round) expect(Math.hypot(x - 10, y)).toBeCloseTo(2);
+  });
+
+  it('reads a hexagonal and an octagonal tower at the corners the renderer draws, further out than its radius', () => {
+    const hex = footprint({ ...tower('square'), shape: 'hexagonal' });
+    expect(hex).toHaveLength(6);
+    for (const [x, y] of hex) expect(Math.hypot(x - 10, y)).toBeCloseTo(2 / Math.cos(Math.PI / 6));
+    const oct = footprint({ ...tower('square'), shape: 'octagonal', angle: 10 });
+    expect(oct).toHaveLength(8);
+    for (const [x, y] of oct) expect(Math.hypot(x - 10, y)).toBeCloseTo(2 / Math.cos(Math.PI / 8));
+    const first = oct[0] ?? [0, 0];
+    expect(Math.atan2(first[1], first[0] - 10)).toBeCloseTo(((22.5 + 10) * Math.PI) / 180);
+    expect(Math.max(...hex.map(([x]) => x))).toBeCloseTo(10 + 2 / Math.cos(Math.PI / 6));
   });
 
   it('reads a prism’s own outline, and samples corners, side middles and the centre', () => {
@@ -64,7 +80,7 @@ describe('where a building stands (ADR 0056)', () => {
 });
 
 describe('terraces as ground edits', () => {
-  const terrace = (provenance?: typeof basis): Part => ({
+  const terrace = (provenance?: typeof basis): Extract<Part, { type: 'terrace' }> => ({
     type: 'terrace',
     at: [0, 0],
     length: 20,
@@ -92,6 +108,24 @@ describe('terraces as ground edits', () => {
     expect(applyEdits(51, { e: 1000, n: 510 }, [edit])).toBeCloseTo(50);
     expect(edit.area.eMin).toBeLessThan(1000 - 5);
     expect(edit.area.nMax).toBeGreaterThan(500 + 5);
+  });
+
+  it('puts a terrace on a landscape-scale plan where the plan draws its buildings, at the setting’s scale', () => {
+    const across = SETTING_SCALE.landscape.across;
+    const input = {
+      feature: 'f',
+      at: { e: 1000, n: 500 },
+      when: range(ad(74), ad(78)),
+      baseMetres: () => 50,
+    };
+    const edit = (setting: Plan['setting']) =>
+      terraceEdits({ ...input, plan: { setting, parts: [{ ...terrace(basis), at: [30, 10] }] } })[0];
+    const true_ = edit('true');
+    const scaled = edit('landscape');
+    if (true_?.shape.kind !== 'terrace' || scaled?.shape.kind !== 'terrace') throw new Error('no terrace');
+    expect(scaled.shape.halfLength).toBeCloseTo(true_.shape.halfLength * across);
+    expect(scaled.shape.centre.e - 1000).toBeCloseTo((true_.shape.centre.e - 1000) * across);
+    expect(scaled.shape.centre.n - 500).toBeCloseTo((true_.shape.centre.n - 500) * across);
   });
 
   it('refuse a terrace that does not say what it rests on', () => {

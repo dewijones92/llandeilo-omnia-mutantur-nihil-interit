@@ -24,6 +24,7 @@ const browser = await chromium.launch({
 // The framing of the commenter's screenshot: looking north-west across Fort 1, about 35 degrees down.
 const FRAMING = {
   target: process.env.TARGET,
+  targetPart: process.env.TARGET_PART,
   alpha: Number(process.env.ALPHA ?? -Math.PI / 4),
   beta: Number(process.env.BETA ?? 0.95),
   radius: Number(process.env.RADIUS ?? 55),
@@ -56,6 +57,15 @@ for (const year of years) {
       cam.target.z = z;
       cam.target.y = debug.terrain.surfaceAt(x, z);
     }
+    // TARGET_PART=<feature>:<part id> aims at the middle of that standing part, e.g. roman-fort-a:fort1/barrack-7.
+    if (f.targetPart) {
+      const [feature, partId] = f.targetPart.split(':');
+      const found = debug.standing(feature).find((s) => s.id === partId);
+      if (!found) throw new Error(`no standing part ${f.targetPart}`);
+      cam.target.x = found.at.reduce((a, p) => a + p[0], 0) / found.at.length;
+      cam.target.z = found.at.reduce((a, p) => a + p[1], 0) / found.at.length;
+      cam.target.y = debug.terrain.surfaceAt(cam.target.x, cam.target.z);
+    }
     const settle = () => new Promise((r) => setTimeout(r, 400));
     // Tiles change step only as frames run after the camera moves: wait for that, then for the builds.
     for (let i = 0; i < 6; i++) await settle();
@@ -70,8 +80,8 @@ for (const year of years) {
         for (const [x, z] of s.at) {
           const drawn = debug.terrain.drawnAt(x, z);
           if (drawn === undefined) continue;
-          if (drawn - s.floor > max) {
-            max = drawn - s.floor;
+          if (s.procedural !== undefined && drawn - s.procedural > max) {
+            max = drawn - s.procedural;
             part = s.id;
           }
         }
@@ -79,7 +89,9 @@ for (const year of years) {
       // World units to metres at the forts' true height (10m a unit), so 0.3 means a wall 0.3m under.
       worst[id] = { buriedMetres: Number((max * 10).toFixed(2)), part };
     }
-    return { worst, steps: debug.detail().byStep };
+    // The camera's target as a grid reference, so a build with no `standing` hook can be shot at the same place (TARGET=e,n).
+    const target = { e: Math.round(cam.target.x * 10 + 262900), n: Math.round(cam.target.z * 10 + 222500) };
+    return { worst, steps: debug.detail().byStep, target };
   }, FRAMING);
   await page.waitForTimeout(Number(process.env.SETTLE ?? 1500));
   const file = join(out, `fort-ad${year}.jpg`);

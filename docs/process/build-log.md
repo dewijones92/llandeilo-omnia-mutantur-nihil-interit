@@ -1502,8 +1502,9 @@ Claude, under the proactive mandate, carrying out the work Dewi agreed.
    level margin was tuned on the drawn mesh: 3m gives 0.25m, 2.5m gave 1.07m, a 1m end margin 1.56m, a 0.5m batter
    0.90m (a sharp step between two neighbours' levels pulls the mesh up). Lesson: **a ground edit is only as fine
    as the mesh that draws it**; measure what is drawn, not what is asked.
-4. **Known cost.** A fort road beside a terrace is uneven close up (seen at 200m), and steep batters make a few dark
-   facets; both would go with a 2m mesh. Two more 4m tiles while a fort is near.
+4. **Known cost.** Steep batters make a few dark facets, which a 2m mesh would round. Two more 4m tiles while a fort is
+   near. (This item first also listed uneven roads close up and called them invisible at the issue's framing; the
+   review found them there, and the review fixes below laid the roads on the mesh.)
 5. **Seen red, at the named assertions.** Unit (`tests/terraces.test.ts`): the seating rule put back to one point
    failed "bury no corner ... deeper than a sill beam" at 0.165m (Fort 1's south-west gate tower, terraces kept);
    terraces taken out failed "downhill footing ... a few tenths of a metre" at 1.87m (Fort 1's headquarters). E2E
@@ -1516,4 +1517,49 @@ Claude, under the proactive mandate, carrying out the work Dewi agreed.
 
 ![Fort 1's south-west barracks at AD 74, before: the near row sunk into the slope](../images/roman-forts/terraces/fort1-south-west-barracks-ad74-before.jpg)
 ![The same, after: each barrack on its levelled terrace](../images/roman-forts/terraces/fort1-south-west-barracks-ad74-after.jpg)
+
+**The independent review of this track and its fixes, 2026-10-16** (a second Opus read it against the issue and the
+brief; findings treated as hypotheses and checked first; all confirmed). Claude, under the proactive mandate.
+
+1. **The tests did not read what is drawn** (IMPORTANT). The e2e compared the plan's precomputed seat with the mesh, so
+   putting the one-point seat back in either renderer left every test green (587 of 587, 0.255/0.121/0.103m). The
+   builders now record the floor each used as it is set (`Drawn.floors` in the procedural draw; `LoadedLandmark.floors`
+   from `appendFitted`), the model's seat is the procedural draw's recorded floor, and the e2e reads both, plus the
+   ground each road's edges were laid on (`Drawn.roads`). Seen red at the named assertions: seating one-point inside the
+   builder (0.57, 0.63, 1.64m), at the call sites (no floor recorded: 0 of 35 parts), in the model only (0.57 to
+   1.64m for the model, 0.25 for the procedural draw), ribbons left on the smooth ground (road edges 2.06, 1.00,
+   0.21m off), the 4m emulation replaced by the smooth ground (0.25 to 0.61m). The unit test the review called close to
+   a tautology (the seat is the maximum of its own samples) now also reads a 1m grid across every footprint; seen red
+   with the one-point seat (0.151m at an interior point).
+2. **The terrace ⓘ dropped "possibly"** (IMPORTANT). Hughes 2007 says the Trench 2 deposits "possibly represent
+   levelling deposits"; the ⓘ said the excavator "reads a layer as levelling deposits". Both languages now keep the
+   hedge ("may be evidenced", "possibly levelling"), and so do CLAUDE.md, the findings and the research note
+   ("levelling possibly evidenced once").
+3. **Roads were uneven at the issue's framing, and the ADR said they were not** (IMPORTANT). A fort road laid on the
+   smooth ground crossed a batter that the 4m mesh cannot follow, so the ribbon floated and sank, by up to 2.06m
+   in Fort 1 (measured by the new road check with the wiring taken out). Plan roads and ditches are now laid on the 4m
+   mesh the fort's terraces make (`Terrain.meshWith`) and a road is sampled every 2m. The patches are gone; a road now
+   crosses each plot's step as a short ramp (a neighbour plot differs by up to a metre), which is the reconstruction's
+   own shape. Before and after crops of the road at the issue's framing were compared in the scratchpad.
+4. **The branch did not merge with main** (IMPORTANT, eight conflicts). Main (textured models, part picking, ADR 0055)
+   was merged in: the seat is re-applied in the new `appendFitted`, the terrace type joins `partSurfaces`, the feature
+   layer's frame and debug hook kept both sides, and the docs were reconciled (0055 before 0056). Unit and e2e were
+   re-run on the merged tree.
+5. **Towers' footprints had drifted from their drawn outlines** (SUGGESTION, done). Hexagonal and octagonal towers are
+   drawn with corners up to 15% further out than the ring the seat sampled. `towerRing` is now the one outline; the
+   renderer and the seat both read it, and terraces' corners reuse `hallCorners`.
+6. **`terraceEdits` ignored the plan's setting scale** (SUGGESTION, done): a terrace on a landscape-scale plan would
+   have sat off its buildings. It now scales by the setting, with a test (seen red at 30 against 78).
+7. **A feature was built on terraces by year alone** (SUGGESTION, done): Garn Goch's ruin, 6km away, was built on all
+   19 of Fort 1's. `editsBuiltOn` now keeps only the edits that reach the feature's clearing (`clearingMetres`, moved
+   from the renderer to the domain); seen red at 19 edits.
+8. **A doc comment on the wrong member** (SUGGESTION, done); the lookup no longer loops by hand.
+9. **The ⓘ cited Wikipedia and a non-building** (SUGGESTION, done): only the Vindolanda, Hardknott (English Heritage)
+   and project sources are cited, Birdoswald is named as an encyclopedia lead, and the wording is "barracks and works".
+10. **Costs unmeasured** (SUGGESTION, done, in the ADR): no cost measurable through the noise on the GPU; start-up
+    features build 227 to 240ms against 189 to 193; the main chunk grew 4,194 bytes gzipped.
+11. **Result.** `npm run check` green (625 unit tests); the full e2e on the merged tree, one worker: 92 passed, 1
+    skipped (15.5 minutes). Screenshots re-taken on the GPU and looked at: the issue's framing at AD 74, 84 and 110
+    and Fort 1's barracks at AD 74 before (main) and after, both replaced in `docs/images/roman-forts/terraces/`.
+12. **The reviewer's housekeeping note** (it deleted three of another agent's scratch files) needs no code change.
 

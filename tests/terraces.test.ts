@@ -5,17 +5,18 @@ import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { applyEdits, checkEdit, type GroundEdit } from '../src/domain/groundedit.ts';
 import { DetailGround, parseManifest, tileData } from '../src/domain/lidar.ts';
 import type { Feature, GridRef } from '../src/domain/model.ts';
-import { rotate, type Part, type Pt } from '../src/domain/plan.ts';
+import { insideConvex, rotate, type Part, type Pt } from '../src/domain/plan.ts';
 import {
   editsBuiltOn,
   editsDrawn,
+  footprint,
   footprintSamples,
   SEAT_TOLERANCE,
   seats,
   standsOnGround,
   terracesByFeature,
 } from '../src/domain/plot.ts';
-import { snapshotAt } from '../src/domain/state.ts';
+import { presenceAt, snapshotAt } from '../src/domain/state.ts';
 import { ad } from '../src/domain/time.ts';
 import { tAt } from '../src/domain/timeline.ts';
 
@@ -65,6 +66,32 @@ describe('the Roman forts’ buildings on their ground (issue 3, ADR 0056)', () 
       const all = seats(f.kind.plan, ground);
       expect(all.length, id).toBeGreaterThan(10);
       for (const s of all) expect(s.highest - s.floor, `${id} ${s.id}`).toBeLessThanOrEqual(SEAT_TOLERANCE);
+    }
+  });
+
+  it('bury no point of any standing part’s floor, read on a 1m grid across its whole footprint', () => {
+    for (const id of FORTS) {
+      const f = feature(id);
+      if (f.kind.type !== 'building') throw new Error(id);
+      const ground = groundOf(f, editsBuiltOn(f, W.features, W.timeline, terraces));
+      let checked = 0;
+      for (const s of seats(f.kind.plan, ground)) {
+        const part = f.kind.plan.parts.find((p) => p.id === s.id);
+        if (!part || !standsOnGround(part)) throw new Error(`${id} ${s.id}`);
+        const ring = footprint(part);
+        const xs = ring.map((p) => p[0]);
+        const ys = ring.map((p) => p[1]);
+        for (let x = Math.min(...xs); x <= Math.max(...xs); x += 1)
+          for (let y = Math.min(...ys); y <= Math.max(...ys); y += 1) {
+            if (!insideConvex([x, y], ring)) continue;
+            checked++;
+            expect(
+              ground([x, y]) - s.floor,
+              `${id} ${s.id} at ${x.toFixed(0)},${y.toFixed(0)}`,
+            ).toBeLessThanOrEqual(SEAT_TOLERANCE);
+          }
+      }
+      expect(checked, id).toBeGreaterThan(500);
     }
   });
 
@@ -120,6 +147,14 @@ describe('the Roman forts’ buildings on their ground (issue 3, ADR 0056)', () 
     expect(at(110).some((id) => id.startsWith('roman-fort-b:'))).toBe(true);
     expect(at(110).some((id) => id.startsWith('roman-fort-a:'))).toBe(false);
     expect(at(2020)).toEqual([]);
+  });
+
+  it('builds a feature that starts in a fort’s years elsewhere in the valley on none of the forts’ terraces', () => {
+    const far = feature('garn-goch-fawr-ruin');
+    expect(presenceAt(W.timeline, feature('roman-fort-a'), tAt(W.timeline, far.when.from))).toBeGreaterThan(
+      0.5,
+    );
+    expect(editsBuiltOn(far, W.features, W.timeline, terraces)).toEqual([]);
   });
 
   it('builds Fort 1’s backfilled ditches on Fort 2’s terraces, which are drawn with them, and never on Fort 1’s own', () => {

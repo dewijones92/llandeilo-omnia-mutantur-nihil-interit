@@ -358,7 +358,7 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
 
 - **No terrace is evidenced at Dinefwr**, and the report never uses the word; the survey describes none, for or
   against (a magnetometer would show little of a plot cut into shale and made up with shale: Claude's reading).
-- **Levelling is evidenced once**: a layer in Trench 2 "possibly" laid to prepare the site for Fort 2, over a
+- **Levelling is possibly evidenced once**: a layer in Trench 2 "possibly" laid to prepare the site for Fort 2, over a
   backfilled Fort 1 ditch (Hughes 2007).
 - **Today's surface is not the Roman one**: ploughing has cut into the bedrock, floors are gone, post-pits at Fort 1's
   gate were cut from a higher level than survives, the ramparts are gone and the park was landscaped.

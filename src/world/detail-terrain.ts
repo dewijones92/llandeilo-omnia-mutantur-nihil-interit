@@ -106,6 +106,7 @@ export class DetailTerrain {
   private readonly resident = new Map<string, Resident>();
   private readonly blocks = new Map<string, Blocks>();
   private readonly heightsAt = new Map<string, Float32Array>();
+  private readonly heightsWith = new Map<string, Float32Array>();
   private paintContext: PaintContext | undefined;
   private builds = 0;
   private pending = 0;
@@ -146,6 +147,30 @@ export class DetailTerrain {
     return info && step >= info.step
       ? this.surfaceIn(info, step, this.tileHeights(info, step), x, z)
       : undefined;
+  }
+
+  // The height a tile drawn at `step` would have with the ground edits behind `shape` (named by `key`) laid over
+  // it, whatever is drawn now: what a ribbon built at start must lie on to meet the mesh once its edits are drawn.
+  drawnWith(
+    x: number,
+    z: number,
+    step: number,
+    key: string,
+    shape: (g: GridRef, metres: number) => number,
+  ): number | undefined {
+    const info = this.tileAt(x, z);
+    if (!info || step < info.step) return undefined;
+    const cacheKey = `${heightsKey(info, step)}#${key}`;
+    let heights = this.heightsWith.get(cacheKey);
+    if (!heights) {
+      const { ground, baseMetres, rim } = this.deps;
+      const metres = ground.tileHeights(info, step, baseMetres, rim, shape);
+      heights = new Float32Array(metres.length);
+      for (let i = 0; i < heights.length; i++) heights[i] = heightToWorld(metres[i] ?? 0);
+      this.heightsWith.set(cacheKey, heights);
+      console.info(`dewidebug detail heights with edits [${key}] tile ${heightsKey(info, step)} built`);
+    }
+    return this.surfaceIn(info, step, heights, x, z);
   }
 
   get built(): number {

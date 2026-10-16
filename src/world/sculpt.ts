@@ -143,13 +143,6 @@ export class Sculpt {
   }
 }
 
-export function ring(cx: number, cz: number, radius: number, sides: number, turn = 0): V2[] {
-  return Array.from({ length: sides }, (_, i): V2 => {
-    const a = turn + (i / sides) * Math.PI * 2;
-    return [cx + Math.cos(a) * radius, cz + Math.sin(a) * radius];
-  });
-}
-
 export function rect(cx: number, cz: number, length: number, width: number, angle: number): V2[] {
   const c = Math.cos(angle);
   const s = Math.sin(angle);

@@ -1,7 +1,8 @@
 import { mint } from './brand.ts';
 import type { GroundEdit, GroundEditId } from './groundedit.ts';
-import type { Feature, FeatureId, GridRef } from './model.ts';
-import { hallCorners, rotate, type Part, type Plan, type Pt } from './plan.ts';
+import { SETTING_SCALE } from './materials.ts';
+import type { Feature, FeatureId, FeatureKind, GridRef } from './model.ts';
+import { hallCorners, planExtent, rotate, towerRing, type Part, type Plan, type Pt } from './plan.ts';
 import { presenceAt, type FeaturePresence } from './state.ts';
 import type { TimeRange } from './time.ts';
 import { tAt, type Timeline } from './timeline.ts';
@@ -33,26 +34,8 @@ export function footprint(part: Standing): readonly Pt[] {
       return hallCorners(part);
     case 'prism':
       return part.outline;
-    case 'tower': {
-      const r = part.size / 2;
-      const turn = part.angle ?? 0;
-      const ring: readonly Pt[] =
-        part.shape === 'square'
-          ? [
-              [-r, -r],
-              [r, -r],
-              [r, r],
-              [-r, r],
-            ]
-          : Array.from({ length: 8 }, (_, i): Pt => {
-              const a = (i / 8) * Math.PI * 2;
-              return [r * Math.cos(a), r * Math.sin(a)];
-            });
-      return ring.map((p): Pt => {
-        const [x, y] = rotate(p, turn);
-        return [x + part.at[0], y + part.at[1]];
-      });
-    }
+    case 'tower':
+      return towerRing(part);
   }
 }
 
@@ -116,9 +99,10 @@ export interface TerraceInput {
 export function terraceEdits(input: TerraceInput): GroundEdit[] {
   const { plan, at } = input;
   const turn = plan.angle ?? 0;
+  const scale = SETTING_SCALE[plan.setting].across;
   const toGrid = (p: Pt): GridRef => {
     const [x, y] = rotate(p, turn);
-    return { e: at.e + x, n: at.n + y };
+    return { e: at.e + x * scale, n: at.n + y * scale };
   };
   return plan.parts.flatMap((part): GroundEdit[] => {
     if (part.type !== 'terrace') return [];
@@ -149,8 +133,8 @@ export function terraceEdits(input: TerraceInput): GroundEdit[] {
         shape: {
           kind: 'terrace',
           centre,
-          halfLength: part.length / 2,
-          halfWidth: part.width / 2,
+          halfLength: (part.length * scale) / 2,
+          halfWidth: (part.width * scale) / 2,
           angle: part.angle + turn,
           metres,
           slope: part.batter,
@@ -183,10 +167,36 @@ export function editsDrawn(
   return present.flatMap((p) => terraces.get(p.feature.id) ?? []);
 }
 
+const CLEARING_METRES: Readonly<Record<Exclude<FeatureKind['type'], 'building'>, number>> = {
+  roundhouses: 400,
+  hillfort: 850,
+  'hall-houses': 450,
+  town: 1100,
+  countryside: 0,
+  railway: 0,
+  train: 0,
+  roads: 0,
+  burning: 0,
+};
+
+/** How far from its anchor a feature clears the ground and stands on it, metres: the trees stay out of it, and the edits that reach it are drawn under it. */
+export function clearingMetres(kind: FeatureKind): number {
+  if (kind.type !== 'building') return CLEARING_METRES[kind.type];
+  const standing = kind.plan.parts.filter((p) => p.type !== 'bridge');
+  if (standing.length === 0) return 0;
+  const { setting } = kind.plan;
+  return (
+    planExtent({ ...kind.plan, parts: standing }) * SETTING_SCALE[setting].across +
+    (setting === 'landscape' ? 300 : 60)
+  );
+}
+
 /**
  * The ground edits a feature is built on, once, at start: those of the features drawn in full in its
- * first year, its own among them. Fort 1's backfilled ditches are built on Fort 2's terraces, which are
- * drawn with them; neither is built on Fort 1's, which are gone by then.
+ * first year, its own among them, and  only those that reach the ground it clears (within its
+ * anchor, `clearingMetres`): a feature that starts in a fort's years elsewhere in the valley is not built on its terraces.
+ * Fort 1's backfilled ditches are built on Fort 2's terraces, which are drawn with them; neither is built
+ * on Fort 1's, which are gone by then.
  */
 export function editsBuiltOn(
   feature: Feature,
@@ -194,6 +204,15 @@ export function editsBuiltOn(
   timeline: Timeline,
   terraces: ReadonlyMap<FeatureId, readonly GroundEdit[]>,
 ): GroundEdit[] {
+  const reachMetres = clearingMetres(feature.kind);
   const t = tAt(timeline, feature.when.from);
-  return features.flatMap((f) => (presenceAt(timeline, f, t) > 0.5 ? (terraces.get(f.id) ?? []) : []));
+  const { e, n } = feature.at;
+  const reaches = (a: GroundEdit['area']): boolean =>
+    a.eMin < e + reachMetres &&
+    a.eMax > e - reachMetres &&
+    a.nMin < n + reachMetres &&
+    a.nMax > n - reachMetres;
+  return features
+    .flatMap((f) => (presenceAt(timeline, f, t) > 0.5 ? (terraces.get(f.id) ?? []) : []))
+    .filter((edit) => reaches(edit.area));
 }

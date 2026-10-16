@@ -2,6 +2,7 @@ import { smoothstep } from './assert.ts';
 import type { Brand } from './brand.ts';
 import { insideBounds, rimDistance, type Bounds } from './lidar.ts';
 import type { GridRef } from './model.ts';
+import { hallCorners } from './plan.ts';
 import { distanceToSegment } from './polyline.ts';
 import type { Provenance } from './provenance.ts';
 import { contains, type TimeRange, type Year } from './time.ts';
@@ -70,18 +71,12 @@ function distanceToLine(line: readonly GridRef[], g: GridRef): number {
 }
 
 function terraceCorners(s: TerraceShape): GridRef[] {
-  const a = (s.angle * Math.PI) / 180;
-  const [c, n] = [Math.cos(a), Math.sin(a)];
-  const signs: readonly (readonly [number, number])[] = [
-    [1, 1],
-    [1, -1],
-    [-1, -1],
-    [-1, 1],
-  ];
-  return signs.map(([u, v]) => ({
-    e: s.centre.e + u * s.halfLength * c - v * s.halfWidth * n,
-    n: s.centre.n + u * s.halfLength * n + v * s.halfWidth * c,
-  }));
+  return hallCorners({
+    at: [s.centre.e, s.centre.n],
+    length: s.halfLength * 2,
+    width: s.halfWidth * 2,
+    angle: s.angle,
+  }).map(([e, n]) => ({ e, n }));
 }
 
 function distanceOutside(s: TerraceShape, g: GridRef): number {

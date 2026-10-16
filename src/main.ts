@@ -912,6 +912,7 @@ async function start(): Promise<void> {
         placeTrainNear: (x: number, z: number) => features.placeTrainNear(x, z),
         modelParts: (id: string) => features.modelParts(id),
         standing: (id: string) => features.standing(id),
+        drawnRoads: (id: string) => features.drawnRoads(id),
         partScreenPoint: (feature: string, part: string) => picker.screenPointOf(feature, part),
         hoveredPart: () => picker.hovered,
         partCentre: (feature: string, part: string) => picker.centreOf(feature, part),

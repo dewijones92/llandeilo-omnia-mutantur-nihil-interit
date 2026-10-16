@@ -170,6 +170,17 @@ export class Terrain {
       : this.surfaceAt(x, z);
   }
 
+  // The mesh a tile at `step` would draw with `edits` laid over it, whatever is drawn now: where a road or ditch
+  // built for those edits must lie to meet the mesh drawn once they are (a 4m mesh cannot follow a terrace's
+  // batter as the smooth ground does). Outside the LiDAR region it is `surfaceAt`.
+  meshWith(x: number, z: number, edits: readonly GroundEdit[], step: number): number {
+    if (!this.inDetail(x, z)) return this.surfaceAt(x, z);
+    return (
+      this.detail.drawnWith(x, z, step, editsKey(edits), (g, metres) => this.shape(g, metres, edits)) ??
+      this.surfaceWith(x, z, edits)
+    );
+  }
+
   setGroundEdits(edits: readonly GroundEdit[]): void {
     if (editsKey(edits) === editsKey(this.edits)) return;
     for (const e of edits) checkEdit(e, this.ground.manifest.region, this.ground.manifest.blendMetres);
