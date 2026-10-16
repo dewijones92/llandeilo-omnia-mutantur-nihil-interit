@@ -3,8 +3,9 @@ import type { Bilingual, Lang } from '../domain/i18n.ts';
 import type { Feature } from '../domain/model.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import type { TimeRange } from '../domain/time.ts';
-import { assetFor, type AssetRecord } from './assets.ts';
-import { LANDMARK_TIERS, TERRAIN_TILES, TRAIN_MODEL } from './generated/downloads.ts';
+import { assetFor, RELEASE_DOWNLOAD_URL, type AssetRecord } from './assets.ts';
+import { LANDMARK_TIERS, TRAIN_MODEL } from './generated/downloads.ts';
+import { TERRAIN_TILES } from './generated/terrain-tiles.ts';
 import { LANDMARK_MODELS } from './generated/models.ts';
 
 /** A published .glb with its size, as `tools/downloads/build.ts` found it; the Downloads list is built from these and the asset manifest. */
@@ -17,7 +18,9 @@ export interface ModelFile {
 /** How many of a model's parts are documented, reconstructed or imagined, counted from the parts' own tiers in the glb. */
 export type PartTiers = Readonly<Record<Provenance['kind'], number>>;
 
+/** A terrain tile as `tools/terrain/export-glb.ts` made it: a release asset, so `file` is its asset name and the hash is of those bytes. */
 export interface TerrainTileFile extends ModelFile {
+  readonly sha256: string;
   readonly e: number;
   readonly n: number;
   readonly size: number;
@@ -32,7 +35,10 @@ export type Period =
   | { readonly kind: 'text'; readonly text: Bilingual };
 
 export interface Download {
+  /** The file's path under public/ for a model; a terrain tile's name as a release asset. */
   readonly file: string;
+  /** Set where the file is not served by the app: the whole URL, on the latest GitHub release. */
+  readonly releaseUrl?: string;
   readonly bytes: number;
   readonly group: 'models' | 'terrain';
   readonly name: Bilingual;
@@ -167,6 +173,7 @@ export function buildDownloads(features: readonly Feature[]): Download[] {
     const areas = areaNames(t.areas);
     out.push({
       file: t.file,
+      releaseUrl: `${RELEASE_DOWNLOAD_URL}/${t.file}`,
       bytes: t.bytes,
       group: 'terrain',
       name: {

@@ -1,6 +1,9 @@
-// node tools/terrain/export-glb.ts [--step <metres>] [--out <dir>]: writes each detailed LiDAR tile of public/data/lidar
-// as a .glb (ADR 0058), from the same tiles and the same cut of each cell into triangles that the app draws. Heights are
-// the LiDAR's own: no blending into the coarser terrain, no river channels, no period earthworks. `npm run downloads` runs it.
+// npm run terrain-glb -- <outdir> [--step <metres>] [--no-manifest]: writes each detailed LiDAR tile of public/data/lidar as a
+// .glb into <outdir> (ADR 0058), from the same tiles and the same cut of each cell into triangles that the app draws, at the
+// tiles' own 2m. Heights are the LiDAR's own: no blending into the coarser terrain, no river channels, no period earthworks.
+// The files are attached to each GitHub release, not committed; the tool also writes the manifest the app's list is built from
+// (src/content/generated/terrain-tiles.ts: names, sizes, hashes), so the same sources always give the same files.
+import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { assetFor } from '../../src/content/assets.ts';
@@ -11,9 +14,7 @@ import { writeGlb, type Glb } from '../models/glb.ts';
 
 const ROOT = join(import.meta.dirname, '../..');
 const LIDAR_DIR = join(ROOT, 'public/data/lidar');
-export const TERRAIN_DIR = 'models/terrain';
-/** The step each tile is exported at: the app's own near mesh, which keeps the whole set small enough to commit. */
-export const EXPORT_STEP_M = 4;
+const MANIFEST = join(ROOT, 'src/content/generated/terrain-tiles.ts');
 
 export interface TerrainExport {
   readonly file: string;
@@ -23,13 +24,14 @@ export interface TerrainExport {
   readonly step: number;
   readonly areas: readonly string[];
   readonly bytes: number;
+  readonly sha256: string;
   readonly triangles: number;
   readonly minHeight: number;
   readonly maxHeight: number;
 }
 
-export const terrainFile = (e: number, n: number): string =>
-  `${TERRAIN_DIR}/lidar-${String(e)}-${String(n)}.glb`;
+/** The name a tile has as a release asset. */
+export const tileFile = (e: number, n: number): string => `lidar-${String(e)}-${String(n)}.glb`;
 
 const ARRAY_BUFFER = 34962;
 const ELEMENT_ARRAY_BUFFER = 34963;
@@ -72,6 +74,40 @@ export function tileHeightsAt(
     for (let j = 0; j < side; j++)
       out[i * side + j] = (samples[i * stride * stored + j * stride] ?? 0) * manifest.heightScale;
   return out;
+}
+
+/** The step the detailed tiles are held at, which is the step they are exported at unless one is asked for. */
+export function detailStep(manifest: LidarManifest): number {
+  return Math.min(...manifest.tiles.map((t) => t.step));
+}
+
+/** The LiDAR's own ground height at a grid point (bilinear between the stored samples), from the finest tile that holds it. */
+export function groundHeightAt(
+  manifest: LidarManifest,
+  data: ReadonlyMap<string, Uint16Array>,
+  e: number,
+  n: number,
+): number {
+  const size = manifest.tileSize;
+  const holding = manifest.tiles
+    .filter((t) => e >= t.e && e <= t.e + size && n >= t.n && n <= t.n + size)
+    .sort((a, b) => a.step - b.step)[0];
+  const samples = holding && data.get(`${String(holding.e)}_${String(holding.n)}`);
+  if (!holding || !samples) throw new Error(`no LiDAR tile holds E ${String(e)} N ${String(n)}`);
+  const stored = size / holding.step + 1;
+  const col = (e - holding.e) / holding.step;
+  const row = (holding.n + size - n) / holding.step;
+  const j0 = Math.min(Math.floor(col), stored - 2);
+  const i0 = Math.min(Math.floor(row), stored - 2);
+  const fj = col - j0;
+  const fi = row - i0;
+  const at = (i: number, j: number): number => (samples[i * stored + j] ?? 0) * manifest.heightScale;
+  const metres =
+    at(i0, j0) * (1 - fi) * (1 - fj) +
+    at(i0, j0 + 1) * (1 - fi) * fj +
+    at(i0 + 1, j0) * fi * (1 - fj) +
+    at(i0 + 1, j0 + 1) * fi * fj;
+  return Math.round(metres * 100) / 100;
 }
 
 /** Which of the stored samples an export keeps, in words: every one, every second, every fourth. */
@@ -144,7 +180,7 @@ export function tileGlb(
           minHeightMetres: minHeight,
           maxHeightMetres: maxHeight,
           areas: tile.areas,
-          heights: `the LiDAR’s own bare-earth heights (the 1m DTM averaged to 2m, here ${samplesKept(step / tile.step)}) in metres; the source does not state a vertical datum, and it agrees with OS Terrain 50 (Ordnance Datum Newlyn) to about 0.2m on average`,
+          heights: `the LiDAR’s own bare-earth heights (the 1m DTM averaged to ${String(tile.step)}m, here ${samplesKept(step / tile.step)}) in metres; the source does not state a vertical datum, and it agrees with OS Terrain 50 (Ordnance Datum Newlyn) to about 0.2m on average`,
           edges: 'edge vertices are shared exactly with the neighbouring tile, so tiles meet without a gap',
         },
       },
@@ -183,45 +219,60 @@ export function tileGlb(
   return { glb: { json, bin }, minHeight, maxHeight };
 }
 
-export function exportTerrain(outRoot: string, step: number = EXPORT_STEP_M): TerrainExport[] {
+export function exportTerrain(outDir: string, step?: number): TerrainExport[] {
   const { manifest, data } = loadLidar();
-  const stamp = assetFor(terrainFile(0, 0));
+  const at = step ?? detailStep(manifest);
+  const stamp = assetFor(tileFile(0, 0));
   if (!stamp) throw new Error('assets.ts has no record for the terrain glbs');
-  mkdirSync(join(outRoot, TERRAIN_DIR), { recursive: true });
-  return detailedTiles(manifest).map((tile) => {
-    const samples = data.get(`${String(tile.e)}_${String(tile.n)}`);
-    if (!samples) throw new Error(`no data for tile ${String(tile.e)} ${String(tile.n)}`);
-    const built = tileGlb(manifest, tile, samples, step);
-    const bytes = writeGlb(stampAsset(built.glb, stamp));
-    const file = terrainFile(tile.e, tile.n);
-    writeFileSync(join(outRoot, file), bytes);
-    const triangles = (manifest.tileSize / step) ** 2 * 2;
-    console.log(
-      `dewidebug terrain glb ${file} step=${String(step)}m triangles=${String(triangles)} bytes=${String(bytes.byteLength)}`,
-    );
-    return {
-      file,
-      e: tile.e,
-      n: tile.n,
-      size: manifest.tileSize,
-      step,
-      areas: tile.areas,
-      bytes: bytes.byteLength,
-      triangles,
-      minHeight: built.minHeight,
-      maxHeight: built.maxHeight,
-    };
-  });
+  mkdirSync(outDir, { recursive: true });
+  return detailedTiles(manifest)
+    .sort((a, b) => a.n - b.n || a.e - b.e)
+    .map((tile) => {
+      const samples = data.get(`${String(tile.e)}_${String(tile.n)}`);
+      if (!samples) throw new Error(`no data for tile ${String(tile.e)} ${String(tile.n)}`);
+      const built = tileGlb(manifest, tile, samples, at);
+      const bytes = writeGlb(stampAsset(built.glb, stamp));
+      const file = tileFile(tile.e, tile.n);
+      writeFileSync(join(outDir, file), bytes);
+      const triangles = (manifest.tileSize / at) ** 2 * 2;
+      const sha256 = createHash('sha256').update(bytes).digest('hex');
+      console.log(
+        `dewidebug terrain glb ${file} step=${String(at)}m triangles=${String(triangles)} bytes=${String(bytes.byteLength)} sha256=${sha256.slice(0, 12)}`,
+      );
+      return {
+        file,
+        e: tile.e,
+        n: tile.n,
+        size: manifest.tileSize,
+        step: at,
+        areas: tile.areas,
+        bytes: bytes.byteLength,
+        sha256,
+        triangles,
+        minHeight: built.minHeight,
+        maxHeight: built.maxHeight,
+      };
+    });
+}
+
+/** The generated module the Downloads list reads the tiles from: what the release carries, so its sizes are the files'. */
+export function manifestSource(list: readonly TerrainExport[]): string {
+  return `// Generated by tools/terrain/export-glb.ts (npm run terrain-glb -- <outdir>): do not edit. The tiles are attached to each GitHub release.\nimport type { TerrainTileFile } from '../downloads.ts';\n\nexport const TERRAIN_TILES: readonly TerrainTileFile[] = ${JSON.stringify(list, null, 2)};\n`;
 }
 
 if (import.meta.main) {
   const args = process.argv.slice(2);
   const flag = (name: string): string | undefined => args[args.indexOf(name) + 1];
-  const step = args.includes('--step') ? Number(flag('--step')) : EXPORT_STEP_M;
-  if (!Number.isInteger(step) || step < 1) throw new Error('--step needs a whole number of metres');
-  const out = args.includes('--out') ? (flag('--out') ?? '') : join(ROOT, 'public');
+  const out = args.find((a, i) => !a.startsWith('--') && args[i - 1] !== '--step');
+  if (!out) throw new Error('usage: npm run terrain-glb -- <outdir> [--step <metres>] [--no-manifest]');
+  const step = args.includes('--step') ? Number(flag('--step')) : undefined;
+  if (step !== undefined && (!Number.isInteger(step) || step < 1))
+    throw new Error('--step needs a whole number of metres');
   const list = exportTerrain(out, step);
-  console.log(
-    `dewidebug terrain glb wrote ${String(list.length)} tiles at ${String(step)}m into ${out}: ${String(list.reduce((s, t) => s + t.bytes, 0))} bytes`,
-  );
+  const total = list.reduce((sum, t) => sum + t.bytes, 0);
+  if (!args.includes('--no-manifest')) {
+    writeFileSync(MANIFEST, manifestSource(list));
+    console.log(`dewidebug terrain glb wrote the manifest ${MANIFEST}`);
+  }
+  console.log(`dewidebug terrain glb wrote ${String(list.length)} tiles into ${out}: ${String(total)} bytes`);
 }

@@ -1183,6 +1183,15 @@ button {
   font-size: 12px;
 }
 
+.dl-source {
+  margin-left: 10px;
+}
+
+.dl-error {
+  margin: 8px 0;
+  color: var(--ink-soft);
+}
+
 .dl-link {
   display: inline-block;
   text-decoration: none;

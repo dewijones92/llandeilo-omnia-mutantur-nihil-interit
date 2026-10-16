@@ -6,7 +6,7 @@ import type { Source } from '../domain/provenance.ts';
 import { formatSliderYear } from '../domain/time.ts';
 import type { Snapshot } from '../domain/state.ts';
 import { h } from './dom.ts';
-import { downloadsBody } from './downloads.ts';
+import { downloadsBody, downloadsFailedBody } from './downloads.ts';
 import { provenanceBadge } from './provenance.ts';
 import type { LangStore } from './store.ts';
 
@@ -18,6 +18,7 @@ export class InfoPanel {
   private tab: InfoTab = 'almanac';
   private snapshot: Snapshot | undefined;
   private key = '';
+  private downloadsList: readonly Download[] | undefined;
   private readonly whenEl = h('p', { class: 'info-when' });
 
   constructor(
@@ -28,7 +29,7 @@ export class InfoPanel {
       readonly events: number;
       readonly features: number;
       readonly photographs: readonly Photograph[];
-      readonly downloads: readonly Download[];
+      readonly downloads: () => readonly Download[];
     },
   ) {
     store.onChange(() => {
@@ -119,7 +120,7 @@ export class InfoPanel {
     let body: HTMLElement;
     if (this.tab === 'almanac') body = this.almanac(s?.almanac ?? []);
     else if (this.tab === 'language') body = this.language(s?.language);
-    else if (this.tab === 'downloads') body = downloadsBody(this.counts.downloads, this.store, this.sources);
+    else if (this.tab === 'downloads') body = this.downloads();
     else body = this.about();
     this.el.replaceChildren(
       h('div', { class: 'info-head' }, h('div', { class: 'seg', role: 'tablist' }, ...tabs), close),
@@ -161,6 +162,17 @@ export class InfoPanel {
       ),
       provenanceBadge(snap.provenance, this.store, this.sources),
     );
+  }
+
+  /** Built when the tab is first shown, so a gap in the downloads' data costs this tab and not the whole app (ADR 0058). */
+  private downloads(): HTMLElement {
+    try {
+      this.downloadsList ??= this.counts.downloads();
+      return downloadsBody(this.downloadsList, this.store, this.sources);
+    } catch (error) {
+      console.error('dewidebug downloads list failed', error);
+      return downloadsFailedBody(this.store);
+    }
   }
 
   private downloadsLink(): HTMLElement {

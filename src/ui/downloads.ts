@@ -75,13 +75,20 @@ function row(d: Download, store: LangStore, sources: ReadonlyMap<string, Source>
       { class: 'dl-credit' },
       h('summary', {}, store.t('downloadCreditLicence')),
       h('p', {}, /[.!?]$/.test(d.asset.source) ? d.asset.source : `${d.asset.source}.`),
-      h('a', { href: d.asset.url, target: '_blank', rel: 'noopener' }, d.asset.licence),
+      h('a', { href: d.asset.licenceUrl ?? d.asset.url, target: '_blank', rel: 'noopener' }, d.asset.licence),
+      d.asset.licenceUrl
+        ? h(
+            'a',
+            { class: 'dl-source', href: d.asset.url, target: '_blank', rel: 'noopener' },
+            store.t('downloadSourcePage'),
+          )
+        : null,
     ),
     h(
       'a',
       {
         class: 'tool dl-link',
-        href: `${import.meta.env.BASE_URL}${d.file}`,
+        href: d.releaseUrl ?? `${import.meta.env.BASE_URL}${d.file}`,
         download: true,
       },
       store.t('downloadLink'),
@@ -106,6 +113,15 @@ function section(
     h('p', { class: 'dl-note' }, note),
     shared ? h('p', { class: 'dl-note dl-attribution' }, first) : null,
     h('ul', { class: 'info-list dl-list' }, ...rows.map((d) => row(d, store, sources))),
+  );
+}
+
+/** What the tab shows when the list could not be built: the rest of the app carries on. */
+export function downloadsFailedBody(store: LangStore): HTMLElement {
+  return h(
+    'div',
+    { class: 'info-about info-downloads' },
+    h('p', { class: 'dl-error', role: 'alert' }, store.t('downloadsFailed')),
   );
 }
 

@@ -313,7 +313,11 @@ async function start(): Promise<void> {
     events: content.events.length,
     features: content.features.length,
     photographs: content.photographs,
-    downloads: buildDownloads(content.features),
+    downloads: () => {
+      const list = buildDownloads(content.features);
+      console.info(`dewidebug downloads list built rows=${String(list.length)}`);
+      return list;
+    },
   });
   const photoPanel = new PhotoPanel(store, sourceMap);
   const pins = new PhotoPins(world.scene, content.photographs, features.ground, store, (photo) => {
