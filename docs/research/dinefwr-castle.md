@@ -166,9 +166,11 @@ centres straight from the survey, every other point from the period plan [S10] f
 about **±1m** at the five control points and **±3m** elsewhere (the outer ward and the lower
 ward's wall agree with the terrain model's banks to about 5m).
 
-The castle lies **outside** the app's LiDAR detail areas (Llandeilo town and the Roman forts,
-`tools/terrain/lidar-areas.json`), so today it stands on the region's 10m LiDAR context grid (ADR 0049), too coarse for
-ditches 20-30m wide. A Dinefwr detail area would bring the ditches and the ridge in at 2m from the same data.
+The castle was **outside** the app's LiDAR detail areas when this note was written, so it stood on the region's 10m
+LiDAR context grid (ADR 0049), too coarse for ditches 20-30m wide. **Since 2026-10-16 it has its own 2m area**,
+`dinefwr-castle` in `tools/terrain/lidar-areas.json` (1km square, centred on Coflein's point, E 261150 N 221731, which
+the Cadw listing [S2] and the HER [S3] put within 1.5m); see [`../data/lidar.md`](../data/lidar.md#the-castle-area-2026-10-16)
+and ADR 0049's amendment. The ditches and the ridge are in the app's terrain at 2m from the same data.
 
 ## The site
 

@@ -84,14 +84,42 @@ describe('the LiDAR tiles on disk', () => {
 });
 
 describe('the detail region', () => {
-  it('holds the town and the Roman forts, at the places the content names', () => {
-    for (const id of ['llandeilo', 'roman-forts']) {
-      const place = W.places.find((p) => p.id === id);
-      expect(place, id).toBeDefined();
-      const area = manifest.areas.find((a) => a.id === id);
-      expect(area, id).toBeDefined();
-      if (place && area) expect(insideBounds(area, place.at), id).toBe(true);
+  it('holds the town, the Roman forts and Dinefwr Castle, at the places the content names', () => {
+    const pairs = [
+      ['llandeilo', 'llandeilo'],
+      ['roman-forts', 'roman-forts'],
+      ['dinefwr', 'dinefwr-castle'],
+    ] as const;
+    for (const [placeId, areaId] of pairs) {
+      const place = W.places.find((p) => p.id === placeId);
+      expect(place, placeId).toBeDefined();
+      const area = manifest.areas.find((a) => a.id === areaId);
+      expect(area, areaId).toBeDefined();
+      if (place && area) expect(insideBounds(area, place.at), areaId).toBe(true);
     }
+  });
+
+  it('centres the castle area on its declared centre, within 10m of the dinefwr place, and holds the keep and 300m round it', () => {
+    const keep = { e: 261168.5, n: 221724 };
+    const area = manifest.areas.find((a) => a.id === 'dinefwr-castle');
+    const place = W.places.find((p) => p.id === 'dinefwr');
+    expect(area).toBeDefined();
+    expect(place).toBeDefined();
+    if (!area || !place) return;
+    const { centre } = area;
+    expect((area.eMin + area.eMax) / 2, 'east midpoint is the centre').toBe(centre.e);
+    expect((area.nMin + area.nMax) / 2, 'north midpoint is the centre').toBe(centre.n);
+    expect(Math.hypot(centre.e - place.at.e, centre.n - place.at.n), 'centre to place').toBeLessThan(10);
+    expect(insideBounds(area, keep), 'keep').toBe(true);
+    for (const [de, dn] of [
+      [-300, 0],
+      [300, 0],
+      [0, -300],
+      [0, 300],
+    ] as const)
+      expect(insideBounds(area, { e: centre.e + de, n: centre.n + dn }), `${String(de)},${String(dn)}`).toBe(
+        true,
+      );
   });
 
   it('lies inside the disc and leaves room for the blend inside every area', () => {
