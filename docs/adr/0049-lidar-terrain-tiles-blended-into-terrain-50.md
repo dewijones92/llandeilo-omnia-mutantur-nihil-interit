@@ -222,19 +222,25 @@ at the rim.
 
 ## Amendment, 2026-10-16: a third area, Dinefwr Castle
 
-- **Decided by.** Dewi agreed the work (GitHub issue 4: "Detailed terrain for the Dinefwr Castle area like the fort
-  area's"; agreed 2026-10-16, decision log: "post both", after reviewing the drafts, and the todo item
-  "Dinefwr Castle at 2m LiDAR"). The area's centre and size are Claude's, under the proactive mandate
+- **Decided by.** Dewi agreed the work (GitHub [issue 4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4)
+  asked for the castle area at the same detail as the forts; agreed 2026-10-16, decision log: "post both", after
+  reviewing the drafts, and the todo item "Dinefwr Castle at 2m LiDAR"). The area's centre and size are Claude's, under the proactive mandate
   ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), so Dewi can overrule them.
 - **What changed.** One entry in `tools/terrain/lidar-areas.json`: `dinefwr-castle`, centred on Coflein's grid
   reference for Dinefwr Castle (NPRN 425, SN 61150 21731 = E 261150 N 221731), half-size 500m (E 260650 to 261650,
   N 221231 to 222231), and a rerun of `build-lidar.py`. No code changed: this is the "a new area is a line and a
   rerun" this ADR was written to allow. The region is unchanged (the area is 650m or more inside its edges, the
   blend margin being 300m), so no tile had to be downloaded: all 25 source rasters were already on disk.
-- **Why Coflein's reference, and why 500m.** Reasons and the 18.5m gap to the keep's centre in the Dinefwr research
-  on another branch are in [`docs/data/lidar.md`](../data/lidar.md#the-castle-area-2026-10-16). In short: Coflein's is
-  the place reference in this repository (the `dinefwr` place is 5.4m from it), and 500m is the forts' size and
-  covers the crag, the escarpment and the first part of the ridge. The size is a judgement, not a measured need.
+- **Why Coflein's reference, and why 500m.** Reasons and the 18.5m gap to the keep's centre in the
+  [Dinefwr research](../research/dinefwr-castle.md) are in [`docs/data/lidar.md`](../data/lidar.md#the-castle-area-2026-10-16).
+  In short: Coflein's point is the documented reference (the Cadw listing and the HER put it within 1.5m, and the
+  research recommends it as the feature's `at`), and 500m is the forts' size and covers the crag, the escarpment
+  and the first part of the ridge. The size is a judgement, not a measured need.
+- **The area's centre and the place's `at` are two different points, on purpose for now.** The other two areas are
+  centred exactly on their place's `at` (decision 1); the `dinefwr` place is at E 261155 N 221729, 5.4m from the
+  castle area's centre, and is inside it. Moving the place's `at` to Coflein's point would change where the
+  castle's camera flights and its model stand, so it is left for Dewi (todo item "Dinefwr Castle at 2m LiDAR").
+  `tests/lidar.test.ts` keeps the two within 10m.
 - **Result.** 29 tiles at 2m instead of 21 (8 new, each 126,002 bytes against 5,202 at 10m); `lidar.bin` 2,952,960
   to 3,919,360 bytes (+966,400; gzipped +565,155), fetched at start with the other map data. The other 72 tiles are
   byte for byte the same. `Terrain.seam()` at the castle view: 450 base and 3,221 detail vertices, largest gap
@@ -251,9 +257,14 @@ at the rim.
 - **What the finer ground showed.** Looked at on the GPU at 120m, 250m, 600m and 2km: the crag and its slopes are
   4m facets instead of 10m ones near the camera, and the difference is slight from far off (almost every tile is
   drawn at 20m beyond a kilometre and a half). It also exposed that the castle model stands on one flat floor while
-  the ground in its yard rises into a knoll that comes up through it. That was already true at 10m, and is
-  more irregular at 4m. It is about how the model is seated (the same family as the buildings sinking on the
-  forts' slope, issue 3), not the terrain, and is not changed here; it is on the todo list.
+  the ground under its yard is not flat: the ward is flat at about 99.7 to 100.2m OD, and the ground rises to about
+  101.0 to 101.6m some 18 to 24m east of Coflein's point and 12m south to 6m north of it (sampled from the 2m tiles on
+  2026-10-16), which is where the research fits the keep's centre (E 261168.5 N 221724, [S24]). So it is probably the
+  real keep's ground, coming up through a model that is drawn at landmark scale (2.6 times larger than life, so its
+  yard is far bigger than the real ward). It was already true at 10m, and is more irregular at 4m. It is about how
+  the model is seated (the same family as the buildings sinking on the forts' slope, issue 3), not the terrain, and is
+  not changed here; it is on the todo list. That the model's yard really covers the keep ground has not been
+  measured against the model's own plan.
 - **Tests.** `tests/lidar.test.ts` now checks the castle area exists, holds the `dinefwr` place, is centred on
   Coflein's reference, and holds the keep's centre and 300m each way (seen failing first at "dinefwr-castle:
   expected undefined to be defined"). The existing tests check the new tiles against Terrain 50, the shared edges,

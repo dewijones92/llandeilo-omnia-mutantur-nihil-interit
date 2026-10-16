@@ -127,8 +127,8 @@ The areas overlap (the town and the forts share 4 tiles, the forts and the castl
 so the 29 tiles of 500m that touch any of them are kept at 2m (3.65MB; 8 of them are the castle's, new on
 2026-10-16). The **region** round them, E 260000 to 265000 and N 220500 to 224500 (5km by 4km, 80 tiles
 of 500m), is kept at 10m for the other 51 tiles (0.27MB). A test (`tests/lidar.test.ts`) fails if a
-place's reference is not inside its area, if the castle area is not centred on Coflein's reference with
-the keep and 300m each way inside it, or if an area comes within the 300m blend margin of the region's
+place's reference is not inside its area, if the castle area's centre is not its own midpoint and within
+10m of the `dinefwr` place, or does not hold the keep and 300m each way round it, or if an area comes within the 300m blend margin of the region's
 edge.
 
 ### The castle area (2026-10-16)
@@ -137,12 +137,16 @@ Agreed with Dewi on 2026-10-16 (issue 4, decision log); the placing and size bel
 under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)).
 
 - **Centre: Coflein's grid reference**, SN 61150 21731 (NPRN 425, [S21] in
-  [`building-models.md`](../research/building-models.md)) = E 261150 N 221731. The `dinefwr` place the
-  content registry holds is at E 261155 N 221729, 5.4m from it (`building-models.md` records that offset as 5m),
-  so it is inside the area whichever is used. The Dinefwr research on another branch (not merged when this was
-  written) puts the keep's centre at E 261168.5 N 221724, 18.5m east and 7m south of Coflein's reference; the
-  area is centred on Coflein's, which is the place reference in this repository, and the keep is inside it by a
-  wide margin. Which of the two is the better centre for the keep has not been settled here.
+  [`building-models.md`](../research/building-models.md)) = E 261150 N 221731. The Cadw listing (E 261149 N 221730)
+  and the HER (SN 61149 21730) put it within 1.5m, so three records agree ([S1] to [S3] in the
+  [Dinefwr research](../research/dinefwr-castle.md#placement), which recommends it as the feature's `at`). The
+  `dinefwr` place the content registry holds is at E 261155 N 221729, 5.4m from it (`building-models.md` records that
+  offset as 5m), so it is inside the area whichever is used. The other two areas are centred exactly on their place's
+  `at`; this one is not, and the 5.4m split is left in place until Dewi says whether to move the place's `at` to
+  Coflein's point (it would move the castle's flights and its model; todo item "Dinefwr Castle at 2m LiDAR"). The
+  same research puts the keep's centre at E 261168.5 N 221724, 18.5m east and 7m south of Coflein's reference, fitted
+  on the LiDAR surface model [S24]; the keep is inside the area by a wide margin. Which of the two is the better
+  centre for the keep has not been settled here.
 - **Half-size 500m (a 1km square).** What it has to hold: the castle on its crag, its rock-cut ditches
   (Coflein: two enclosures and rock-hewn ditches) and the ground round it. A hillshade of the 1m data made for
   this note (not committed) shows (read by eye) the crag's foot 100 to 130m south of the castle and a ridge running north-east
@@ -222,10 +226,14 @@ and the rest at 10m. It shows at 250m and 120m.
 **What the finer ground shows, and one thing it exposes.** The facets on the crag and the slopes round it are
 4m instead of 10m, so the escarpment reads as a broken rock face rather than a few
 large planes. It also shows that the castle's model stands on a flat floor at one height while the ground
-inside its yard is not flat: a knoll of the real ground comes up through the courtyard floor. It did before
-(a single pyramid at 10m); at 4m its shape is more irregular. That is how the model is seated on the ground
-(the issue 3 comment about buildings sinking on a slope is the same family), not a fault of the terrain, and
-it has been left as it is; it is on the todo list.
+under its yard is not flat. Sampled from the 2m tiles (2026-10-16), the ward is flat at about 99.7 to 100.2m OD,
+and the ground rises to about 101.0 to 101.6m from 18 to 24m east of Coflein's point (12m south to 6m north of it),
+which is where the Dinefwr research fits the keep's centre (18.5m east, 7m south [S24]). So the "knoll" is
+probably the real keep's ground, seen through a model drawn at landmark scale (2.6 times larger than life): the
+model's yard is far bigger than the real ward, so the keep's ground ends up inside it. It showed before as a single
+pyramid at 10m; at 4m its shape is more irregular. That it lies under the model's yard has not been measured against
+the model's own plan. It is how the model is seated on the ground (the issue 3 comment about buildings sinking on a
+slope is the same family), not a fault of the terrain, and it has been left as it is; it is on the todo list.
 
 ## Rebuilding and expanding
 

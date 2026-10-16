@@ -1380,11 +1380,27 @@ Issue 4, agreed 2026-10-16 (Claude, under the proactive mandate for the area's c
    nearly every tile is drawn at 20m there. Saved as `docs/images/lidar/{before,after}-castle-*`. Cost at the
    castle is about a quarter fewer idle and orbiting frames per second on a shared laptop (three runs each,
    figures in the ADR); scrubbing within the noise.
-7. **A finding, not fixed.** The finer ground shows a knoll of real ground coming up through the courtyard
-   floor of the castle model, which stands on one flat floor. It was there at 10m too, as a single
+7. **A finding, not fixed.** The finer ground shows ground coming up through the courtyard
+   floor of the castle model, which stands on one flat floor (reread after review, see the next entry: probably the real keep's ground). It was there at 10m too, as a single
    pyramid. It is a model-seating question, the same family as the Roman forts' barracks sinking on their
    slope (issue 3); recorded on the todo list.
 
 Lesson: **swapping the data file under one build is the cleanest before and after** for a data-only change
 (same code, same hash for the script chunk, only the tiles differ), and it makes a failing test on the old
 data a proof of the change rather than of the build.
+
+**Review of the castle LiDAR area, 2026-10-16** (first pass, no CRITICAL; three IMPORTANT, four SUGGESTIONs, each checked
+before it was fixed). The ADR amendment had put a sentence in quotes as the title of issue 4 that is neither its title
+nor in its body: now a paraphrase and the issue's link (the triage rule is our own words). The docs still said only the
+town and forts were at 2m (data README, tests index, the Dinefwr research note's "outside the detail areas" paragraph,
+two "on another branch" pointers), now corrected after merging main. The castle test's name claimed "ditches and
+approach" it never checked and copied Coflein's coordinates into the test; it now reads the area's own centre, checks
+it against the `dinefwr` place (within 10m) and keeps the keep and 300m checks, seen red three ways (centre off its
+midpoint, area moved 50m, half-size 200m). The "knoll in the yard" was reread against the 2m tiles: the ward is flat at
+99.7 to 100.2m OD and the ground rises to 101.0 to 101.6m where the research fits the keep, so it is probably the real
+keep's ground under a model drawn 2.6 times larger than life, not a natural knoll (not measured against the model's
+own plan). The area's centre and the place's `at` are 5.4m apart, recorded in the ADR as left for Dewi. The About text
+now names the castle among the LiDAR places, and the castle e2e also checks every road and rail ribbon against the mesh
+drawn there (it cannot be seen red: it passes on the old data too, so it is a guard, not a proof).
+
+Lesson: **a quote of a source needs the source open**; a paraphrase and a link cannot misquote.
