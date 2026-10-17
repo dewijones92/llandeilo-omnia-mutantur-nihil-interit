@@ -269,3 +269,18 @@ can overrule it; the narrator in the UI language and captions always on are Dewi
 | The CC BY 4.0 grant covers this project's own modelling (the scripts' geometry and arrangement); the sources the plans draw on keep their own terms (among them Hughes's 2007 excavation report, the plans' main source, its terms not confirmed; Coflein: Non-commercial Government Licence; Heneb HER records and their fixed acknowledgement; the credited reconstruction drawings), said in the Models note in English and Welsh and listed in their own row of the About credits ([ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md), amended) | Claude's decision while Dewi is away, from the review of 2026-10-17, keeping his CC BY 4.0 choice. **Flagged for Dewi to confirm on his return**: keep CC BY 4.0, or CC BY-NC 4.0 given the non-commercial inputs (the todo file has the question) |
 | The vicus houses' ⓘ says the hills are drawn 2.4 times as high but the houses are not, so a wall carried down the slope shows taller than it would have been | Claude, under the proactive mandate: a true-size plan has no landmark scale to blame, only the hills' exaggeration |
 | The About credits and the Downloads list build their licence and source links with one function (`src/ui/credit.ts`); the Ordnance Survey rows link the Open Government Licence's own text | Claude, from the review of 2026-10-17: the two lists disagreed about which links to show |
+
+## 2026-10-17
+
+Dewi went away for a few days and answered these ahead of time, choosing from options Claude put to him (the quoted
+words are the options he chose).
+
+| Decision | Why |
+|---|---|
+| The Blender castles (Dinefwr, Carreg Cennen, Dryslwyn) are drawn true size and true height, like the Roman forts ([ADR 0046](../adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)), on 2m LiDAR, not at the old 2.6 times landmark scale | Dewi, 2026-10-17: "True size" |
+| After Dinefwr Castle's model, the order of work is: more landmark models (Carreg Cennen, Dryslwyn, St Teilo's, Talley Abbey, the bridge, the trains), then conversations by class, then music and the hunter-gatherers, then a GPU terrain shader | Dewi, 2026-10-17: chose all four, in that order |
+| While Dewi is away, a new GitHub issue or comment may get a short thank-you, signed "Sent by Claude"; anything substantive (agreeing work, a decision, closing, labelling) waits for him | Dewi, 2026-10-17: "Post simple thank-yous" |
+| Releases go on at each visible milestone while he is away ([ADR 0025](../adr/0025-releases-at-visible-milestones.md)) | Dewi, 2026-10-17: "At each milestone" |
+| Each landmark built in Blender gets its own 2m LiDAR area ([ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md)) | Dewi, 2026-10-17: "Yes, per landmark" |
+| An era's music is a real, openly licensed recording of music known from or suited to the period, credited in the asset manifest; an era with no known music gets labelled ambient sound, never an invented tune | Dewi, 2026-10-17: "Open-licensed recordings" |
+| Carreg Cennen and Dryslwyn lie outside the one LiDAR region; the terrain will support several separate regions rather than one region grown to cover them (about 208 tiles) | Claude, under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), carrying out "Yes, per landmark": a region that size fetches and blends far more ground than any landmark needs |
