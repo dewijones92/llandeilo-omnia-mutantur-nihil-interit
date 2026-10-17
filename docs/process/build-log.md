@@ -1690,6 +1690,151 @@ castles: "One rule for all", so the seating rule stays for every building, no ex
     re-taken on the GPU and looked at: the issue's framing at AD 74, 84 and 110, Fort 1's south-west barracks at AD 74
     before (main) and after at the same camera, and Dryslwyn at 1290 before and after, all in
     `docs/images/roman-forts/terraces/`.
+## Downloads: the world's assets as .glb, 2026-10-16
+
+Built for issue #4 on Dewi's decision ([ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md)).
+What was built: a Downloads tab (`src/ui/downloads.ts`), the list (`src/content/downloads.ts`, from the asset
+manifest, the features and two generated indexes), `tools/terrain/export-glb.ts` (21 LiDAR tiles to .glb, 4m,
+7,990,828 bytes in all), `tools/downloads/stamp.ts` and `build.ts` (`npm run downloads`), and `gridMesh` in
+`src/domain/tilemesh.ts`.
+
+Numbers, measured 2026-10-16: a tile is 380,536 bytes at 4m (31,250 triangles) and 1,508,540 at 2m
+(125,000); the 21 tiles are 7.99MB at 4m (3.8MB as a gzipped tar) and 31.7MB at 2m (16MB gzipped). `public/`
+was 19MB before. The credit block adds 488 bytes to each landmark glb and the train.
+
+Things that cost time or would surprise a fresh session:
+
+1. **`node tools/terrain/export-glb.ts` fails without `--experimental-transform-types`.** Node's default type
+   stripping refuses TypeScript parameter properties, and `src/domain/lidar.ts` (`RimProfile`) uses them; the
+   error ("TypeScript parameter property is not supported in strip-only mode") names a line in `lidar.ts`, not
+   in the tool. `npm run downloads` passes the flag. `tools/models/build.ts` runs without it only because its
+   imports happen to have none.
+2. **Editing the models' finishing step would have forced a Blender rebuild of everything.** `inputHash`
+   covers `tools/models/build.ts`, `glb.ts` and `sheets.ts`, so the credit stamp lives in `tools/downloads/`
+   and runs afterwards. Check before touching those three files.
+3. **The stamp changes the models' byte sizes**, which `generated/models.ts` records and `tests/models.test.ts`
+   checks; `npm run downloads` ends by running the models build once more, which rewrites the index without
+   rebuilding anything.
+4. **The vicus's far model is an empty glb** (528 bytes, no geometry). It is not listed.
+5. **A first Welsh draft joined two area names with "a" ("Tref Llandeilo a Caerau Rhufeinig Dinefwr").** After
+   "a" Welsh softens the next word (a Chaerau), so a mechanical join is wrong; names are joined with " / "
+   instead. No Welsh speaker has checked the new strings (the human Welsh check is parked); "teilsen" for a
+   tile and "Lawrlwythiadau" for Downloads are Claude's.
+6. **The side panel was rebuilt whenever the year changed**, because its render key included the almanac and the
+   era even for About. That does not reset the scroll (tried: `scrollTop` survived, since the rebuild is one
+   synchronous swap; an earlier draft of this entry said it jumped, and it did not), but it closes an open
+   credit disclosure and drops focus. Only the Almanac and Language tabs depend on time now. The e2e opens a
+   tile's credit, moves the year to 2026 and checks it is still open (red with the old key, at the last
+   assertion); it also checks `scrollTop` is unchanged, which never failed.
+
+Checked in Blender 4.0.2 (headless import of `lidar-262000-222500.glb`, 2026-10-16): 15,876 vertices and 31,250
+faces, every face up, x and y from 2000 to 2500 (the tile's offset from the region corner), heights 52.65 to
+81.31, the vertex nearest E 262188 N 222532 at 76.81m, where GDAL reads 76.83m from the 1m source (the 2m average
+accounts for the 2cm). The Blender importer is the only third-party reader tried: no glTF validator or SketchUp
+was run.
+
+Tests seen red, each at the assertion it names: the exported mesh's winding (a swapped index order: "winds every
+triangle so that it faces up", `-16`) and the cut (the inverted diagonal rule: "cuts every cell as the app
+does"); the train restored unstamped ("lists a file that exists" at `size`: 232048 against 232500, and
+"carries every download's credit and licence": `isStamped` false); a tile origin one metre out in the
+extras (`tileOriginBng` 262001 against 262000) and a tile's heights 0.5m high (`height 0,0` 25.88 against
+25.38), each after regenerating the files with the fault; a stray glb in `public/models/landmarks` ("offers
+every glb the app ships"); the terrain source without the LiDAR sentence (the attribution test); a Download
+link pointing at `…glb.missing` (the href pattern, and the downloaded file's name in the second e2e) and the
+shared attribution line removed (`#dl-terrain .dl-attribution` not found), and the panel rebuilt on a year change (the open credit closed).
+
+## Downloads: the independent review's findings, 2026-10-16
+
+An independent Opus pass read the Downloads branch against CLAUDE.md and the issue. Each finding was checked
+before it was fixed; none was wrong. What changed:
+
+1. **A model row carried its site's tier, not its parts'.** Fort 1 and Fort 2 were badged "Documented" and the
+   vicus "Reconstructed", while the parts inside are 41 reconstructed / 4 imagined / 2 documented (Fort 1 near),
+   42 / 8 / 0 (Fort 2 near) and 16 of 16 imagined (the vicus near). A downloader would have read an invented
+   building as attested. Landmark rows now show their parts' counts by tier (`LANDMARK_TIERS`, counted from the glb
+   by `npm run downloads`), no site badge; the train, one reconstructed model, keeps its ⓘ. A test compares each
+   row's counts with the file's own part extras.
+2. **The terrain note said the app "lays earlier ground on top of it".** `setGroundEdits` exists and nothing calls
+   it (CLAUDE.md says period edits are not used yet), so the note described a feature that does not exist. It now
+   says the tiles are only today's ground, with nothing blended and no earthworks added, and that the files are
+   coarser than the survey.
+3. **The terrain period said "surveyed from the air in 2020 to 2022"**, which is the national survey's span.
+   These tiles' file names run from December 2021 to February 2022 (`lidar.md`: the flight date is not known), so
+   it now says winter 2021 to 2022 and gives the file dates.
+4. **The glb extras said "every 2th sample"** (and a 2m export would have said "every 1th"). They now say "every
+   second sample", or "every sample".
+5. **A double full stop** in an open terrain credit, because the manifest's source already ends with one.
+6. **The Welsh grid origin used English E and N.** It reads D and G in Welsh (Dwyrain, Gogledd; the compass already
+   shows G).
+7. **A downloaded model and the terrain do not share a frame**, and nothing said how to put one on the other
+   (issue #4's whole use). Each landmark glb's asset extras now carry `placement`: the anchor on the grid, its place in
+   the terrain tiles' scene, and a sentence saying that each part must be dropped onto the ground in use.
+8. **The Models note overclaimed**: the parts carry source ids, not citations, and the glbs carry no colours
+   (since ADR 0055 the app supplies the materials). It says both.
+9. **The e2e now asserts the `download` attribute**: Chromium downloads a glb without it, so the download test alone
+   would have passed with it gone.
+10. **Merging main** (the textured forts, ADR 0055) conflicted in the six landmark glbs, `generated/models.ts`, the
+    build log, the ADR index, `package.json` and CLAUDE.md. The glbs and the index were taken from main and
+    `npm run downloads` stamped them again (the credit and the placement note), which is the procedure ADR 0058
+    gives. The merged main chunk is 560,380 bytes gzipped (552,593 on the textures branch).
+
+**Open for Dewi, not decided here:** (a) the Dinefwr Castle 2m area on the castle LiDAR branch takes the detailed
+tiles from 21 to 29, so the 4m set is about 11.0MB and the 10MB test fails when that branch merges (on purpose):
+raise the cap, or move the terrain to a release asset, or also publish the 2m set; (b) 4m is half the resolution
+of what issue #4's reply promised, and loses the 2 to 3m Roman ditches; (c) our own models' licence. The castle
+area's name ("Dinefwr Castle hill", "Bryn Castell Dinefwr", the Welsh unchecked) is already in
+`TERRAIN_AREA_NAMES`, so the only merge-time steps are the decision, `npm run downloads`, and the size figures in
+CLAUDE.md, ADR 0058 and the decision log.
+
+Tests seen red first, each at the assertion it names: the castle area's name, "is badged by its feature, not its
+parts", the glb's `placement` (`anchorBng` undefined), "every second sample", the tiles' dates, the Terrain and Models
+notes; in e2e, with the old UI, the Welsh origin ("262000 D, 222000 G"), the tier counts ("41") and the double stop
+(`..`), and with `download: true` removed, `toHaveAttribute('download', '')`.
+
+## Downloads: the terrain as 2m release assets, and the second review's fixes, 2026-10-16
+
+Dewi decided the open question above: terrain downloads are "2m, as a release asset" ([ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md),
+decisions 4 and 5, amended). What changed:
+
+1. **The terrain is no longer in the repo.** `public/models/terrain/` (21 tiles at 4m, 7,990,828 bytes) and the
+   10MB test are gone. `npm run terrain-glb -- <outdir>` (`tools/terrain/export-glb.ts`) builds the 29 detailed tiles
+   (town, forts, castle) at the stored 2m: 1,509,268 to 1,509,304 bytes each, 125,000 triangles, 43,769,296 bytes in
+   all (22,029,510 as a gzipped tar), in 0.9s, deterministically (a test builds twice and compares hashes). It also
+   writes `src/content/generated/terrain-tiles.ts`, the committed manifest (asset name, size, triangles, heights,
+   areas, sha256) the list is built from, so the list shows each tile's size and credit with no file in the repo. The
+   links are `releases/latest/download/lidar-<e>-<n>.glb`; the procedure (build, commit the manifest, `gh release
+   create ... build/terrain-glb/*.glb`, check a URL answers 200) is in CLAUDE.md and `releases.md`. **Until a release
+   carries the files the links 404.** `tests/downloads.test.ts` rebuilds the tiles in a temp folder and checks every
+   byte count and hash against the manifest, since there is no committed file to compare.
+2. **IMPORTANT, placement y.** `modelPlacement` left y at 0, 76m under the tiles' ground, and Blender's importer drops
+   the asset block's extras. Seen red at `expected 0 to be greater than 50`. The y is now the LiDAR's bilinear ground
+   height at the anchor from the same data the export uses (`groundHeightAt`: Fort 1 76.1m, Fort 2 76.77m, the vicus
+   72.32m), in `atInTerrainScene[1]` and as `groundAtAnchorMetres`; the note says parts over sloping ground still need
+   dropping; and the credit, licence and placement are repeated in the first scene's extras. A test compares the y with
+   the exported tile's own vertex heights at the anchor to 0.5m.
+3. **IMPORTANT, a gap took down the app.** `buildDownloads` ran at start-up and threw. It is now built when the tab is
+   first shown, inside a `try`; a failure shows an error line and logs `dewidebug downloads list failed`. Two e2e tests,
+   each seen red against the eager version: nothing is built before the tab is opened (`nothing is built while the list
+   is not shown`), and with a terrain area's name rewritten out of the served bundle (the test asserts the rewrite
+   matched once, so a changed bundle fails it rather than passing silently) the app reaches `data-ready=true`, the tab
+   shows the error and the other tabs work (red against eager: `the app failed to start (data-ready=error)`, `terrain
+   area dinefwr-castle has no name`).
+4. **IMPORTANT, the Models note said "no colours"; the glbs carry `COLOR_0` vertex colours** (every primitive of every
+   model, one palette colour per face, with the grain code in the alpha). The note now says vertex colours, no textures,
+   none of the app's materials, and the alpha code (EN and CY); a test reads every model glb for `COLOR_0` and for no
+   textures, images or materials. The same wrong claim is fixed in ADR 0058 section 10.
+5. **Suggestions taken:** the Terrain note says the files are at 2m, the grid the app stores, and the survey itself is
+   1m; the LiDAR records have a `licenceUrl` (the Open Government Licence v3.0's own page), stamped into the glbs and
+   linked beside the source page; ADR 0058's stale figures ("528 bytes of nothing", the 4m and 21-tile numbers) and
+   CLAUDE.md's "ⓘ or its parts' tier counts" row are corrected.
+
+Merging the castle branch (twice: it moved while this was being written) conflicted only in docs; the lidar data and
+areas were untouched by the second merge, and `npm run downloads` after it changed nothing.
+
+Lessons: **a note that describes a file must be checked against the file** (the second wrong claim about the glbs in
+one day, caught by reading `COLOR_0` off them), and **a lazy build needs a test that proves it is lazy**, not only one
+that proves it is correct: the first version of the "built once" log lived in the panel and would have passed an eager
+build, so it moved into the provider in `main.ts`.
 
 ## 2026-10-16 (Dinefwr Castle at 2m LiDAR)
 

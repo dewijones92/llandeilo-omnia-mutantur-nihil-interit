@@ -16,6 +16,7 @@ terrain is Welsh Government LiDAR, credited as "Contains Welsh Government data" 
 |---|---|---|
 | `terrain.bin`, `terrain.json` | OS Terrain 50 (ASCII grid, tiles SN40–SN73), clipped to a 34km square at 50m | `tools/terrain/build-terrain.sh` |
 | `lidar/lidar.bin`, `lidar/lidar.json` | Welsh Government 1m LiDAR DTM (DataMapWales), resampled to 500m tiles of vertex heights, 2m for the town, the Roman forts and Dinefwr Castle and 10m for the 5km by 4km region round them. Described in [`lidar.md`](lidar.md) | `tools/terrain/fetch-lidar.sh`, `tools/terrain/build-lidar.py` |
+| `lidar-<e>-<n>.glb` (a GitHub release asset, **not in the repo**) and `generated/terrain-tiles.ts` | The 2m LiDAR tiles above, exported at the full 2m as glTF for download (the app's Downloads tab links to the latest release), in real metres with each tile's British National Grid origin and the LiDAR credit inside; the manifest (sizes, hashes) is committed. Described in [`lidar.md`](lidar.md) | `npm run terrain-glb -- <outdir>` (`tools/terrain/export-glb.ts`) |
 | `rivers.json` | OS Open Rivers, clipped and simplified | `tools/terrain/build-terrain.sh` |
 | `buildings.bin` | OS Open Map Local tile SN, building footprints as minimum rectangles (33,316) | `tools/geo/build-osdata.py` |
 | `railways.json` | OS Open Map Local railway track, chained into continuous lines | `tools/geo/build-osdata.py` |

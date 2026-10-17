@@ -270,3 +270,44 @@ and the datum note. Tile edges share vertices. The Roman forts at 2m are 9 objec
 a 39MB `.blend` (not committed). Checked by reopening the file: the vertex nearest E 262186 N 222534 is
 76.83m, and GDAL reads 76.81m at that point of the 1m source. The original 1m elevation data is the
 downloaded GeoTIFFs, kept outside the repository and checksummed in the manifest.
+
+## Downloadable glb tiles
+
+```bash
+npm run terrain-glb -- <outdir>   # all 29 detailed tiles at the full 2m, as lidar-<easting>-<northing>.glb in <outdir>; rewrites the manifest
+npm run downloads                  # stamps the models (not the terrain): see ADR 0058
+```
+
+`tools/terrain/export-glb.ts` writes each 2m tile (29 of the 80: the town, the Roman forts and Dinefwr
+Castle) to `<outdir>/lidar-<easting>-<northing>.glb`. They are **release assets, not repo files**: attach
+them to each GitHub release (`gh release create ... <outdir>/*.glb`, see
+[`releases.md`](../process/releases.md)), and the app's Downloads tab links to
+`https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/releases/latest/download/lidar-<e>-<n>.glb`
+([ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md), Dewi: "2m, as a
+release asset"). It reads `lidar.json` and `lidar.bin` through the app's own `parseManifest` and `tileData`,
+keeps every stored sample (2m; `--step 4` would keep every second one), and cuts each cell into the two
+triangles the app cuts it into. The heights are the stored ones, unblended: none of the app's easing into
+Terrain 50 at the region's rim, river channels or period ground edits. The build is deterministic.
+
+- **The manifest:** the tool also writes `src/content/generated/terrain-tiles.ts` (commit it): each tile's
+  asset name, grid origin, areas, size in bytes, triangles, heights and **sha256**. The app's list shows the
+  sizes from it, a test rebuilds the tiles and checks every byte count and hash, and a downloaded asset can
+  be checked against it. Pass `--no-manifest` to build files without rewriting it.
+- **Axes and units:** glTF's, in metres: x east, y up (height as the LiDAR gives it), z minus the northing. A
+  tile's vertices run from x = 0 to 500 and z = -500 to 0, so its south-west corner is its own origin.
+- **Where each tile sits:** the node's translation is the tile's offset from the region's south-west corner
+  (E 260000 N 220500), so all the tiles opened together land in place; neighbours share their edge vertices
+  exactly. The tile's own British National Grid origin is in the node's extras (`tileOriginBng`, EPSG:27700,
+  with `tileOriginMeaning`), the region's in the scene's (`sceneOriginBng`, `crs`, `axes`), and the list
+  shows it as "262000 E, 222000 N".
+- **Credit and licence:** in the file's `asset.copyright` (the exact LiDAR credit above, then a line on the
+  export) and `asset.extras` (`licence`, `licenceUrl` for the Open Government Licence v3.0's own page,
+  `sourceUrl`, the project and its URL), and repeated in the first scene's extras (`credit`, `licence`,
+  `licenceUrl`, `sourceUrl`), all taken from `src/content/assets.ts`.
+- **Size:** 1,509,268 to 1,509,304 bytes a tile at 2m (125,000 triangles, uint16 indices, no normals), 43,769,296 for the
+  29 (22.0MB as a gzipped tar). The first version committed 21 tiles at 4m (380,536 bytes each, 8.0MB); it was
+  replaced by the release assets on Dewi's decision.
+- **Where a model stands:** each landmark glb's `placement` gives its anchor's grid reference and its
+  place in this scene, with y the ground at the anchor read from the same stored samples (bilinear, from
+  the finest tile that holds it): 76.1m (Fort 1), 76.77m (Fort 2), 72.32m (the vicus).
+- **Only today's ground.** The tiles say nothing of earlier periods.

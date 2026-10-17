@@ -11,6 +11,19 @@ What changed in the app, for family and visitors, newest first. Each section is 
 GitHub release, tagged with the version in `package.json` ([ADR 0025](../adr/0025-releases-at-visible-milestones.md)).
 Corrections to history are called out: when we get something wrong, we say so.
 
+**Publishing a release** (CLAUDE.md, "Release at each visible milestone"; the terrain files are
+[ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md)'s):
+
+```bash
+npm run terrain-glb -- build/terrain-glb   # the 29 full 2m terrain tiles (43.8MB) as .glb; rewrites src/content/generated/terrain-tiles.ts
+git add src/content/generated/terrain-tiles.ts   # only changes if the LiDAR changed; commit it before tagging
+gh release create v<version> --notes-file <this section> build/terrain-glb/*.glb docs/images/releases/v<version>/*
+curl -sIL -o /dev/null -w '%{http_code}\n' https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/releases/latest/download/lidar-262000-222000.glb   # 200
+```
+
+The app's Terrain downloads link to `releases/latest/download/<file>`, so every release must carry the tiles
+(a file's sha256 is in the manifest). Until the first release that carries them, those links answer 404.
+
 ## v0.9.0 (2026-10-16): the Roman forts rebuilt in Blender, with textured parts you can click
 
 **Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/

@@ -40,3 +40,11 @@ export interface WorldBox {
 export function inWorldBox(box: WorldBox, x: number, z: number): boolean {
   return x >= box.xMin && x <= box.xMax && z >= box.zMin && z <= box.zMax;
 }
+
+// A grid reference in the 100km square SN (eastings and northings 200 to 299km), which holds every tile this app has.
+export function snGridRef(g: GridRef): string {
+  if (g.e < 200000 || g.e >= 300000 || g.n < 200000 || g.n >= 300000)
+    throw new Error(`${String(g.e)},${String(g.n)} is not in the grid square SN`);
+  const digits = (v: number): string => String(Math.floor(v % 100000)).padStart(5, '0');
+  return `SN ${digits(g.e)} ${digits(g.n)}`;
+}

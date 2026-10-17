@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  gridMesh,
   groundTriangleCount,
   tileGeometry,
   tileSurfaceAt,
@@ -183,5 +184,76 @@ describe('the height of the surface a tile draws', () => {
 
   it('refuses heights that do not fit the cells', () => {
     expect(() => tileSurfaceAt(new Float32Array(5), 2, 1, 0, 0, 0, 0)).toThrow(/expected 9/);
+  });
+});
+
+describe('the tile as an exportable mesh', () => {
+  const bumpy = (cells: number): Float32Array => {
+    const next = rng(11);
+    return Float32Array.from({ length: (cells + 1) ** 2 }, () => next() * 20);
+  };
+  const vertex = (m: ReturnType<typeof gridMesh>, v: number): V3 => [
+    m.positions[v * 3] ?? 0,
+    m.positions[v * 3 + 1] ?? 0,
+    m.positions[v * 3 + 2] ?? 0,
+  ];
+  const triangle = (m: ReturnType<typeof gridMesh>, t: number): [V3, V3, V3] => [
+    vertex(m, m.indices[t * 3] ?? 0),
+    vertex(m, m.indices[t * 3 + 1] ?? 0),
+    vertex(m, m.indices[t * 3 + 2] ?? 0),
+  ];
+
+  it('shares its vertices: (cells + 1) squared of them and two triangles a cell', () => {
+    const m = gridMesh(flat(3), 3, 2);
+    expect(m.positions).toHaveLength(16 * 3);
+    expect(m.indices).toHaveLength(18 * 3);
+    expect(m.triangles).toBe(groundTriangleCount(3));
+  });
+
+  it('uses 16-bit indices while the vertices fit them and 32-bit ones beyond', () => {
+    expect(gridMesh(flat(250), 250, 2).indices).toBeInstanceOf(Uint16Array);
+    expect(gridMesh(flat(256), 256, 2).indices).toBeInstanceOf(Uint32Array);
+  });
+
+  it('puts the north-west corner at the far west and far north, in glTF axes', () => {
+    const m = gridMesh(bumpy(4), 4, 10);
+    expect(vertex(m, 0)).toEqual([0, bumpy(4)[0] ?? 0, -40]);
+    expect(vertex(m, 24)).toEqual([40, bumpy(4)[24] ?? 0, 0]);
+  });
+
+  it('winds every triangle so that it faces up', () => {
+    const m = gridMesh(bumpy(6), 6, 4);
+    for (let t = 0; t < m.triangles; t++)
+      expect(cross(triangle(m, t))[1], `triangle ${String(t)}`).toBeGreaterThan(0);
+  });
+
+  it('cuts every cell as the app does, so it draws the same ground', () => {
+    const cells = 6;
+    const heights = bumpy(cells);
+    const m = gridMesh(heights, cells, 4);
+    const app = tileGeometry(heights, cells, 4, 0, cells * 4, 1);
+    const key = (v: V3, flipZ: boolean): string =>
+      `${String(v[0])},${String(v[1])},${String(flipZ ? -v[2] : v[2])}`;
+    const mine = new Set<string>();
+    for (let t = 0; t < m.triangles; t++)
+      mine.add(
+        triangle(m, t)
+          .map((v) => key(v, true))
+          .sort()
+          .join('|'),
+      );
+    const theirs = new Set<string>();
+    for (let t = 0; t < app.groundTriangles; t++)
+      theirs.add(
+        corners(app, t)
+          .map((v) => key(v, false))
+          .sort()
+          .join('|'),
+      );
+    expect(mine).toEqual(theirs);
+  });
+
+  it('refuses heights that do not fit the cells', () => {
+    expect(() => gridMesh(new Float32Array(5), 2, 1)).toThrow(/expected 9/);
   });
 });

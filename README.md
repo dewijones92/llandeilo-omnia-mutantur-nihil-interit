@@ -35,6 +35,8 @@ forts) the app says so rather than picking one. Where nothing is known, it says 
 - An imagined family that recurs through the centuries, with voiced conversations in the language
   of their time (translated), including one real line of medieval Welsh poetry.
 - Ambient sound generated in the browser for each era. English and Welsh throughout.
+- A Downloads tab (About, then Downloads) with the Blender models and the full 2m LiDAR terrain tiles (attached to
+  each GitHub release) as `.glb` files, each with its credit and licence inside it ([ADR 0058](docs/adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md)).
 
 ## The research
 
