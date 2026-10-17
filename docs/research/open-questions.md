@@ -84,7 +84,7 @@ for the next pass. Each note's own "Open questions" section has the full list an
   2026-10-09 rule is to credit the material in the issues rather than licence-check it**; that rule is about
   issue content, and has not been extended to HER data. Decide before more HER-derived content goes in:
   ask Heneb for written permission, or add the fixed acknowledgement line to the credits page and treat the
-  existing citations as facts only (not decided).
+  existing citations as facts only (not decided). *2026-10-17*: the fixed acknowledgement line ("Derived from information held by the Heneb HER Charitable Trust copyright") is now in the About credits, in the row for the sources the model plans draw on; written permission has not been sought, and the "multimedia publication needs prior written permission" clause is still Dewi's call.
 - **Waun Fignen Felen's BP scale** (2026-10-09): the app now dates the burning at about 7000 BC on the
   inference that "ca. 8000 years BP" is radiocarbon. The lab dates in Smith and Cloutman (1988, full text
   not obtained: the Royal Society page returns 403) or in Barton and others (1995) would settle it.

@@ -51,8 +51,9 @@ export const EXTERNAL_CREDITS: readonly {
       cy: 'Ffynonellau y mae cynlluniau’r modelau’n tynnu arnynt',
     },
     source:
-      'Coflein (RCAHMW) records; Heneb HER records (derived from information held by the Heneb HER Charitable Trust copyright); the reconstruction drawings and surveys credited at issue 3 (for example Neil Ludlow’s drawing for Cambria Archaeology), used with credit. The plans cite them and do not reproduce them. They keep their own terms, which the CC BY 4.0 on the models does not change: it covers this project’s own modelling only, the scripts’ geometry and arrangement',
-    licence: 'Their own terms: Non-commercial Government Licence (Coflein) and the Heneb HER terms of use',
+      'Among them: Gwilym Hughes’s 2007 excavation report for Cambria Archaeology (a PDF on Heneb’s site; its terms not confirmed), the plans’ main source; Coflein (RCAHMW) records; Heneb HER records (Derived from information held by the Heneb HER Charitable Trust copyright); and the reconstruction drawings and surveys suggested in the project’s GitHub issue 3 (for example Neil Ludlow’s drawing for Cambria Archaeology), used with credit. The research notes list every source. The plans do not copy their text or images; outlines, sizes and bearings are read from them. They keep their own terms, which the CC BY 4.0 on the models does not change: it covers this project’s own modelling only, the scripts’ geometry and arrangement',
+    licence:
+      'Their own terms: Non-commercial Government Licence (Coflein), the Heneb HER terms of use, the excavation report’s terms (not confirmed), and for the issue 3 drawings: Not checked: used with credit at Dewi’s request (2026-10-09)',
     url: 'https://coflein.gov.uk/',
   },
 ];

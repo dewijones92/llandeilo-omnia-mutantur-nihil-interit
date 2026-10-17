@@ -21,7 +21,7 @@ build/terrain-glb`, which checks every file's name, size and sha256 against the 
 changed on purpose, run step 2 again without `--no-manifest`, commit the manifest it rewrites, and verify again);
 (4) make the notes file from this version's section of `releases.md`, without its heading: `awk -v v=v<version>
 'index($0, "## " v " ") == 1 { f = 1; next } /^## v/ { f = 0 } f' docs/process/releases.md >
-build/release-notes.md`; (5) commit, tag `v<version>` and push the tag; (6) `gh release create v<version>
+build/release-notes.md`; (5) commit, tag `v<version>` and push main and the tag together (`git push origin main v<version>`), once main's CI and deploy are green; (6) `gh release create v<version>
 --verify-tag --notes-file build/release-notes.md build/terrain-glb/*.glb <screenshots>`; (7) check that
 `https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/releases/latest/download/lidar-262000-222000.glb`
 answers 200. **Any change that rewrites `terrain-tiles.ts` must be released in the same pass** (or its tiles

@@ -162,7 +162,8 @@ Models note (English and Welsh) say the same, and a test pins the licence, the l
 stamp. The About credits now link each record's own licence text (`licenceUrl`) where it has one, as the
 Downloads list did: a licence name that linked a Board of Trade PDF would have been wrong. **Scope (Claude's decision while Dewi was away, 2026-10-17, keeping his choice and
 flagged for him to confirm):** the CC BY 4.0 grant covers this project's own modelling, the scripts' geometry and
-arrangement. The sources the plans draw on keep their own terms: Coflein's records (Non-commercial Government
+arrangement. The sources the plans draw on keep their own terms, among them Hughes's 2007 excavation report for Cambria
+Archaeology (the plans' main source; its terms not confirmed), Coflein's records (Non-commercial Government
 Licence), the Heneb HER's records (its terms of use and fixed acknowledgement line), and the credited reconstruction
 drawings (used with credit). The Models note (English and Welsh) says so, and the About credits list those sources
 in their own row. The question for Dewi is whether to keep CC BY, or move to CC BY-NC 4.0 given the non-commercial
