@@ -1971,3 +1971,17 @@ Seven model glbs were re-stamped.
 **Corrections found while checking:** the research note and ADR 0056 said Hardknott levelling had "two sources"; it is
 English Heritage, with Wikipedia's summary an encyclopedia lead, so it is one source and a lead.
 The todo's open question about centring the castle area on the keep is closed as superseded by the one-castle-point decision.
+
+**Results, 2026-10-17, at the final commit.** `npm run check` green (677 tests; branches 88.86%, floor 87). The whole e2e suite
+under CI settings (`CI=1 E2E_QUALITY=low E2E_GPU=0 E2E_WORKERS=1`, after `npx vite build` with `PAGES_BASE`): 104 passed, 27.2
+minutes. The GPU kit (`npm run e2e:gpu`, Windows Chrome, WebGPU, High, `GPU_LOCK_WAIT=1800`, commit 9d59ca7): 8 GPU tests and 103 e2e
+specs passed, 1 skipped (the stored-quality test); 6m29s; idle 60fps, orbit 60fps, scrub 52fps (p90 33ms), including the
+texture-colour test that failed on the GPU on 2026-10-16. `npm run terrain-glb -- build/terrain-glb` rewrote
+`terrain-tiles.ts` byte for byte as committed (no diff: the tiles are reproducible from the merged LiDAR), and
+`verify-release.mjs` passed on the 29 tiles (43,769,296 bytes). Looked at (GPU through WSL, High where it would start; the
+Downloads tab on SwiftShader at Low): Fort 1 at the issue's framing at AD 74 (barracks stand on their plots, none sunk),
+Dryslwyn at 1290 (the castle on its hill, the downhill walls carried down), the castle hill at radius 60 in 2020 (the model on the
+hill at the moved point; the loose wall fragments beside it are the ruin's imagined breakage, reseeded by the move), and the Downloads
+tab in English and Welsh (the licence sentence in the Models note and the credit leading with the project's name). Lesson:
+**`vite preview` reads `PAGES_BASE` when it starts**; a preview begun without it serves the page (the SPA fallback) and 404s every asset,
+which looks like a broken build.
