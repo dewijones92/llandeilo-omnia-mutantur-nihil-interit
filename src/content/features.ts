@@ -41,6 +41,7 @@ import {
   ROMAN_VICUS,
   VICUS_AT,
 } from './forts.ts';
+import { DINEFWR_CASTLE_AT } from './places.ts';
 import { documented, imagined, reconstructed, withNote } from './provenance.ts';
 
 type Spec = {
@@ -82,7 +83,6 @@ export const END_OF_STEAM = onDay(1964, 6, 14);
 const GWR_TAKES_OVER = ad(1873);
 const GARN_GOCH = { e: 269120, n: 224320 };
 const LLANDEILO_CHURCH = { e: 262930, n: 222236 };
-const DINEFWR_CASTLE = { e: 261155, n: 221729 };
 const CARREG_CENNEN_CASTLE = { e: 266801, n: 219083 };
 const DRYSLWYN_CASTLE = { e: 255390, n: 220294 };
 // Coflein NPRN 92750's grid reference, on the surviving tower, which is the plan's origin.
@@ -358,7 +358,7 @@ export const FEATURES: readonly Feature[] = [
   feature({
     id: 'dinefwr-rhys',
     kind: { type: 'building', plan: DINEFWR_RHYS, condition: 'standing' },
-    at: DINEFWR_CASTLE,
+    at: DINEFWR_CASTLE_AT,
     from: ad(1151),
     to: ad(1220),
     label: { en: 'Dinefwr, the Lord Rhys’s castle', cy: 'Dinefwr, castell yr Arglwydd Rhys' },
@@ -372,7 +372,7 @@ export const FEATURES: readonly Feature[] = [
   feature({
     id: 'dinefwr-castle',
     kind: { type: 'building', plan: DINEFWR, condition: 'standing' },
-    at: DINEFWR_CASTLE,
+    at: DINEFWR_CASTLE_AT,
     from: ad(1220),
     to: ad(1600),
     label: { en: 'Dinefwr Castle', cy: 'Castell Dinefwr' },
@@ -386,7 +386,7 @@ export const FEATURES: readonly Feature[] = [
   feature({
     id: 'dinefwr-ruin',
     kind: { type: 'building', plan: DINEFWR, condition: 'ruin' },
-    at: DINEFWR_CASTLE,
+    at: DINEFWR_CASTLE_AT,
     from: ad(1600),
     to: NOW,
     label: { en: 'Dinefwr Castle, a ruin', cy: 'Castell Dinefwr, yn adfail' },
@@ -400,7 +400,7 @@ export const FEATURES: readonly Feature[] = [
   feature({
     id: 'dinefwr-summerhouse',
     kind: { type: 'building', plan: DINEFWR_SUMMERHOUSE, condition: 'standing' },
-    at: DINEFWR_CASTLE,
+    at: DINEFWR_CASTLE_AT,
     from: ad(1660),
     to: NOW,
     label: {

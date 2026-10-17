@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { DINEFWR_CASTLE_AT } from '../src/content/places.ts';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
 import { WORLD } from '../src/domain/geo.ts';
 import { createHeightfield, sampleHeight } from '../src/domain/heightfield.ts';
@@ -84,14 +85,49 @@ describe('the LiDAR tiles on disk', () => {
 });
 
 describe('the detail region', () => {
-  it('holds the town and the Roman forts, at the places the content names', () => {
-    for (const id of ['llandeilo', 'roman-forts']) {
-      const place = W.places.find((p) => p.id === id);
-      expect(place, id).toBeDefined();
-      const area = manifest.areas.find((a) => a.id === id);
-      expect(area, id).toBeDefined();
-      if (place && area) expect(insideBounds(area, place.at), id).toBe(true);
+  it('holds the town, the Roman forts and Dinefwr Castle, at the places the content names', () => {
+    const pairs = [
+      ['llandeilo', 'llandeilo'],
+      ['roman-forts', 'roman-forts'],
+      ['dinefwr', 'dinefwr-castle'],
+    ] as const;
+    for (const [placeId, areaId] of pairs) {
+      const place = W.places.find((p) => p.id === placeId);
+      expect(place, placeId).toBeDefined();
+      const area = manifest.areas.find((a) => a.id === areaId);
+      expect(area, areaId).toBeDefined();
+      if (place && area) expect(insideBounds(area, place.at), areaId).toBe(true);
     }
+  });
+
+  it('centres the castle area on the one castle point, which the place and every castle feature use', () => {
+    const keep = { e: 261168.5, n: 221724 };
+    const area = manifest.areas.find((a) => a.id === 'dinefwr-castle');
+    const place = W.places.find((p) => p.id === 'dinefwr');
+    expect(area).toBeDefined();
+    expect(place).toBeDefined();
+    if (!area || !place) return;
+    const { centre } = area;
+    expect((area.eMin + area.eMax) / 2, 'east midpoint is the centre').toBe(centre.e);
+    expect((area.nMin + area.nMax) / 2, 'north midpoint is the centre').toBe(centre.n);
+    expect(centre, 'area centre is the castle point').toEqual(DINEFWR_CASTLE_AT);
+    expect(place.at, 'place is the castle point').toEqual(DINEFWR_CASTLE_AT);
+    expect(DINEFWR_CASTLE_AT, "Coflein's SN 61150 21731").toEqual({ e: 261150, n: 221731 });
+    const castleFeatures = W.features.filter((f) => f.place === place.id && f.id.startsWith('dinefwr-'));
+    expect(castleFeatures.map((f) => f.id).sort()).toEqual(
+      ['dinefwr-castle', 'dinefwr-ruin', 'dinefwr-rhys', 'dinefwr-summerhouse'].sort(),
+    );
+    for (const f of castleFeatures) expect(f.at, `${f.id} is at the castle point`).toEqual(DINEFWR_CASTLE_AT);
+    expect(insideBounds(area, keep), 'keep').toBe(true);
+    for (const [de, dn] of [
+      [-300, 0],
+      [300, 0],
+      [0, -300],
+      [0, 300],
+    ] as const)
+      expect(insideBounds(area, { e: centre.e + de, n: centre.n + dn }), `${String(de)},${String(dn)}`).toBe(
+        true,
+      );
   });
 
   it('lies inside the disc and leaves room for the blend inside every area', () => {

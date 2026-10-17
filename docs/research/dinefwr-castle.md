@@ -66,7 +66,7 @@ one-source label.
 - **Placement.** Coflein gives SN 61150 21731 [S1]; the Cadw listing E 261149 N 221730 [S2]; the HER SN 61149 21730
   [S3]. The keep's centre, fitted on the LiDAR surface model, is at **E 261168.5 N 221724.0** (to about half a metre),
   so Coflein's point lies inside the inner ward, about 20m west-north-west of the keep (19.8m: the keep is 18.5m east and
-  7.0m south of it) [S24]. The app's point (261155, 221729) is 5m from Coflein's.
+  7.0m south of it) [S24]. The app's point was (261155, 221729), 5m from Coflein's; since 2026-10-16 it is Coflein's own, E 261150 N 221731 (Dewi's decision, decision log).
 - **The Cadw plan fits the ground.** The period plan after Rees and Caple [S10], fitted to five points on the LiDAR
   (keep, north-west tower, west angle, south-west turret, south-east angle), fits to within 1.1m at every point with a
   rotation of 1.8 degrees, but at **8.58 pixels a metre, not the 8.15 its scale bar gives**: the plan as reproduced is
@@ -166,9 +166,11 @@ centres straight from the survey, every other point from the period plan [S10] f
 about **±1m** at the five control points and **±3m** elsewhere (the outer ward and the lower
 ward's wall agree with the terrain model's banks to about 5m).
 
-The castle lies **outside** the app's LiDAR detail areas (Llandeilo town and the Roman forts,
-`tools/terrain/lidar-areas.json`), so today it stands on the region's 10m LiDAR context grid (ADR 0049), too coarse for
-ditches 20-30m wide. A Dinefwr detail area would bring the ditches and the ridge in at 2m from the same data.
+The castle was **outside** the app's LiDAR detail areas when this note was written, so it stood on the region's 10m
+LiDAR context grid (ADR 0049), too coarse for ditches 20-30m wide. **Since 2026-10-16 it has its own 2m area**,
+`dinefwr-castle` in `tools/terrain/lidar-areas.json` (1km square, centred on Coflein's point, E 261150 N 221731, which
+the Cadw listing [S2] and the HER [S3] put within 1.5m); see [`../data/lidar.md`](../data/lidar.md#the-castle-area-2026-10-16)
+and ADR 0049's amendment. The ditches and the ridge are in the terrain data at 2m, drawn at 4m near the camera; the ditches nearest the inner ward lie under the model, which is drawn at landmark scale.
 
 ## The site
 

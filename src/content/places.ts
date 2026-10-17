@@ -1,4 +1,4 @@
-import type { Place } from '../domain/model.ts';
+import type { GridRef, Place } from '../domain/model.ts';
 import type { Provenance } from '../domain/provenance.ts';
 import { ad } from '../domain/time.ts';
 import { placeId, src } from './ids.ts';
@@ -8,6 +8,10 @@ const cite = (...keys: Parameters<typeof src>[0][]): Provenance => {
   if (!first) throw new Error('A documented place needs a source');
   return { kind: 'documented', sources: [src(first), ...rest.map(src)] };
 };
+
+// Coflein NPRN 425's grid reference (SN 61150 21731): the one castle point the place, the castle features
+// and the LiDAR area's centre (tools/terrain/lidar-areas.json, checked by tests/lidar.test.ts) all share.
+export const DINEFWR_CASTLE_AT: GridRef = { e: 261150, n: 221731 };
 
 export const PLACES: readonly Place[] = [
   {
@@ -28,7 +32,7 @@ export const PLACES: readonly Place[] = [
     namedFrom: ad(1151),
     name: 'Dinefwr',
     other: 'Dynevor',
-    at: { e: 261155, n: 221729 },
+    at: DINEFWR_CASTLE_AT,
     description: {
       en: 'Castle and park on a ridge above the Tywi: seat of the princes of Deheubarth, later of the Rice family at Newton House.',
       cy: 'Castell a pharc ar grib uwchben y Tywi: sedd tywysogion Deheubarth, ac yn ddiweddarach teulu Rice ym Mhlas Dinefwr.',

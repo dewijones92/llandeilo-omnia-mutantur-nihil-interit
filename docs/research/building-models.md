@@ -155,7 +155,7 @@ plain west front closes the fourth bay [S13][S14].
 
 ## Dinefwr Castle
 
-Coflein NPRN 425, **SN 61150 21731** [S21]; the app point is within 5m.
+Coflein NPRN 425, **SN 61150 21731** [S21]; the app point was within 5m, and since 2026-10-16 is that reference exactly.
 
 ### What a modeller needs
 
@@ -246,7 +246,7 @@ Cadw listing 11040: **E 262759, N 222009** [S34]; the app point (262757, 222001)
 |---|---|---|---|---|
 | Dryslwyn Castle | Coflein 100682 [S1] | SN 55387 20288 | (255390, 220294) | 7m |
 | Talley Abbey | Coflein 92750 [S10] | SN 63281 32772 | (263199, 232800) | about 85m |
-| Dinefwr Castle | Coflein 425 [S21] | SN 61150 21731 | (261155, 221729) | 5m |
+| Dinefwr Castle | Coflein 425 [S21] | SN 61150 21731 | (261150, 221731) since 2026-10-16 (was (261155, 221729), 5m off) | 0m |
 | Carreg Cennen | Coflein 103970 [S25] | SN 66789 19075 | (266801, 219083) | 14m |
 | St Teilo's | Coflein 100867, Cadw 11097 [S28][S29] | SN 62930 22236 | (262930, 222236) | 0m |
 | Newton House | Coflein 17603, Cadw 11098 [S32][S33] | SN 61432 22531 | (261432, 222534) | 3m |
