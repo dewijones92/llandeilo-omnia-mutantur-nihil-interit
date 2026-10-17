@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Open questions
@@ -41,6 +41,11 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | Cadw's Dinefwr plans' scale | The period plan as reproduced is about 5% larger than its bars say when fitted to the LiDAR; the 1280 panel of the phase plans fits within 2% of its bar, but that plan's five panels are drawn at different scales (keep to north-west tower 6.78, 6.48, 7.33 and 7.24 px/m on the 1250-70, 1280, 1330 and 1750 panels; one 20m bar of about 6.5-6.65), so each panel needs its own fit and only the 1280 has had one; cause unknown (added 2026-10-10; panel point added 2026-10-16) | [dinefwr](dinefwr-castle.md) |
 | Dinefwr keep's ground-floor door | Possibly original (Renn 1961) vs pierced in the 14th century (medievalheritage.eu; Cadw guide "may" 1326) (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
 | Cost of Llandeilo Bridge | £22,000 (Cadw) vs "over £12,000" (Coflein) | [victorian](era-victorian.md) |
+| Llandeilo's bridge from about 1800 to 1848 | The seven arches restored (Hughes, from Wood's 1812 etching; Cadw listing 20900; the 1948-49 plaque) vs a new bridge of three arches with two flood arches (*The Buildings of Wales* via Wikipedia; Nicholson 1814; the NLW prints of c. 1824; a drawing captioned Delamotte 1816; Rees's "of modern erection", which Hughes's quotation of him leaves out). The app draws seven arches (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| What the floods of 1795-98 took from the old bridge | Two spans (1795) and three (1796-97), then the timber repair (10 February 1798) (Hughes, from Turner and Rooker) vs "collapsed in 1795" (*The Buildings of Wales*, via Wikipedia) vs the whole bridge "swept away" in 1798 (llandeilo.org gallery) (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| The 1848 arch's rise and curve | 38 ft, 11.58m (Jenkins's full-size elliptic line, 1846) vs 12.65m (Cadw 20900) vs 35 ft above the river (Cragg 1986, via Wikipedia); elliptic (Jenkins, Coflein) vs depressed (Cadw 11040) vs segmental (Jervoise). The LiDAR deck and Cadw's 14.3m total height fit 11.58m better than 12.65m (an inference) (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| The 1848 arch's stone | Freestone, "possibly sandstone" voussoirs (Cadw, both listings) vs Cilyrychen Carboniferous limestone for the arch (Hughes, quoted by Coflein); the main parapet "rounded grey limestone" (Cadw 20900) vs "freestone ... with domed capstones" (Cadw 11040) (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| The bridge's foundation stone and first flood | 3 December 1844 and 22 October 1846 (Jenkins's diary; Jervoise; Cadw's "first stone laid in 1844") vs 3 December 1845 and 22 October 1845 (Hughes); the bridge note uses the diary's (added 2026-10-17; the foundation stone was already open in event-effects) | [bridge](llandeilo-bridge.md), [effects](event-effects.md) |
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
 | St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02) | [buildings](building-models.md), [victorian](era-victorian.md) |
 | Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
@@ -265,6 +270,17 @@ the app. They are recorded here so the notes and the app do not silently disagre
   not fit at all: the event-effects note (S6, a single secondary source) says the flood of
   10 February 1798 "carried away the temporary wooden bridge", which suggests a wooden bridge, not
   the seven-arched one, around 1798. When the seven-arched bridge was built is now the open question.
+  *Updated 2026-10-17 by [`llandeilo-bridge.md`](llandeilo-bridge.md):* the stone bridge stood by 1577 (one chain:
+  Lambarde via Jervoise via Hughes) and had seven arches before 1730; the 1798 "temporary wooden bridge" was the timber
+  repair in the gap left when two, then three, of its spans fell in 1795-97 (Turner, Rooker, as Hughes reads them), so it
+  does not contradict the seven arches. What stood from about 1800 to 1848 is now the open question (the row "Llandeilo's
+  bridge from about 1800 to 1848" above). Still not known: who built it, whether a ford or ferry came before it, and its
+  old line (a candidate north abutment is at about E 262683 N 222019 on the LiDAR, unconfirmed).
+- **Pont Llandeilo, for the Blender model** (2026-10-17, [`llandeilo-bridge.md`](llandeilo-bridge.md)): the old bridge's
+  arches, piers, width and line; the 1848 arch's springing level and ring depth, the flood arch's size, and where Cadw's
+  110.64m begins and ends. Williams's and Haycock's drawings and the quarter sessions papers (Carmarthenshire Archives),
+  the Llandeilo Fawr tithe map, *The Buildings of Wales* (2006) p. 250, Cragg (1986) pp. 77-78 and Samuel (1888) were
+  not read; they are where the answers are likely to be. The note has not had its independent check.
 - **When were Llandeilo's streets first lit with gas?** The works and street mains were begun in 1864
   (completion not found) and the town lamps were lit "as heretofore" in 1876; no report of the first lighting was found in
   several searches of Welsh Newspapers Online (2026-10-03). The app draws gas street lamps from 1876,

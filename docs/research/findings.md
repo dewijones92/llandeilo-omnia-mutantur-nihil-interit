@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Research findings and decisions
@@ -146,6 +146,44 @@ From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agen
   Rhys ap Thomas (d. 1525)", which states one side of a contested point (the Cadw guide has the site abandoned from the 15th
   century; the DWB's works by Sir Rhys are at Carew) as fact, together with a castle that runs to 1600 and a ruin from
   1600, where the note proposes a contested end in the 15th century and a decay phase to the 1660s.
+
+## Pont Llandeilo for a Blender model (2026-10-17)
+
+From [`llandeilo-bridge.md`](llandeilo-bridge.md), a draft, **not yet checked** by anyone but its writer. Written by
+Claude for a workflow whose brief ([`briefs/llandeilo-bridge.md`](briefs/llandeilo-bridge.md)) asks for true-size
+scripted Blender models with their own 2m LiDAR areas.
+
+- **The 1848 arch is measured on the 2020-22 LiDAR** (the 1m surface model, tiles SN6221 and SN6222): its centre is at
+  E 262757.1 N 222001.0 (±2m), on Coflein's reference to within a metre; the axis runs 16.3 degrees east of grid north;
+  the parapet crests are 9.6m apart, which fits Coflein's 26 ft between them; the road climbs from 35.7m OD at the south
+  springing to 36.3m at the north and falls to 33.2m along the Ffairfach causeway; the parapets stand 1.1m above it. The
+  springing piers show as 1m bulges 25.5m either side of the centre, the flood arch's at about 61.5m south.
+  ([bridge:S15])
+- **The app draws the main arch 26m too far south**: `LLANDEILO_BRIDGE` centres it at 55.3m along a plan that starts
+  81.3m south of the anchor, which by `rotate()` puts it 26m south-south-west of where the survey finds it, over the south bank; its flood arch is near the
+  survey's. Read from the code, not yet seen on screen; for the build, not changed here.
+- **The span is cross-checked (145 ft, 44.2m: Jenkins's full-size line of 1846, Cadw, Coflein); the rise is not.**
+  Jenkins drew 38 ft (11.58m), Cadw gives 12.65m with a 14.3m total height, Cragg (via Wikipedia) 35 ft above the river.
+  The surveyed deck and Cadw's total height fit Jenkins's rise and not Cadw's (an inference); kept contested.
+- **The old bridge is older and better attested than the app's 1700**: standing by 1577 (one chain: Lambarde via
+  Jervoise via Hughes), "a handsome stone Bridge" in the early 1700s, seven arches before 1730 (Hughes; Cadw). Who built
+  it is not known (Sir Rhys ap Thomas is Hughes's "fair assumption").
+- **The 1798 "wooden bridge" was the timber in the gap**: Turner (c. 1796, Museum Wales) and Rooker (1796-97) show spans
+  fallen and bridged with timber, and the flood of 10 February 1798 took the timber; a ferry followed. This settles the
+  doubt raised in the open questions on 2026-10-02.
+- **What carried the road from about 1800 to 1848 is contested**: the seven arches restored (Hughes, Wood's 1812 etching,
+  Cadw, the 1948-49 plaque) or a new bridge of three arches with two flood arches (*The Buildings of Wales*; Nicholson 1814;
+  two National Library of Wales prints of about 1824; a drawing captioned Delamotte 1816; and Rees's "of modern
+  erection", words Hughes's quotation of him omits). The note recommends three arches, for Dewi to decide; the app draws
+  seven.
+- **The old bridge's line**: downstream (Cadw), and "about 250 feet further down" in a gloss on Jenkins's diary; the north
+  bank on the LiDAR changes 76m downstream, at about E 262683 N 222019, a candidate for the surviving abutment, not
+  confirmed.
+- **The building is dated month by month** by Thomas Jenkins's diary (pumps, piling, the south abutment on oak planking,
+  the elliptic line, the centring, a temporary railway over the river, the crane, the floods), so it can be its own phase.
+  Hughes's years for the foundation stone and the first flood (both 1845) are each a year off the diary's (1844, 1846).
+- **Proposed LiDAR area** `llandeilo-bridge`: centre E 262757 N 222001, half-size 240m, two 500m tiles already at 2m inside
+  the town's area; nothing new to download.
 
 ## Conversations by class (2026-09-28)
 
