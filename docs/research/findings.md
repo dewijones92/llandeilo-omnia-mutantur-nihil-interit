@@ -256,6 +256,51 @@ were re-measured). Written by Claude for the true-size Blender landmarks Dewi ch
   source gives (the only date read is c. 1400, one unreferenced source); Scott's church from 1848 rather than 1850; the
   clas church labelled reconstructed where its form is imagined.
 
+## Talley Abbey for a Blender model (2026-10-17)
+
+From [`talley-abbey.md`](talley-abbey.md), a draft, checked the same day by the same agent and then by an independent
+reader whose ten findings were verified and applied ([check 1](reviews/talley-abbey-check-1.md)); the fixes have not yet
+been read by another reader. Written by Claude for the true-size
+Blender landmarks (Dewi's decisions of 2026-10-16/17, as given in the brief).
+
+- **The excavation report of 1941 has a measured plan, and it fits the ground.** B. H. St J. O'Neil's report on the Office
+  of Works clearance of 1933-38 (*Archaeologia Cambrensis* 96) has the official plan with feet and metre bars; fitted to the
+  2022 LiDAR it is within 1% of its own scale and needs a rotation of 4.0 degrees, so the church's axis runs at a bearing of
+  about 94 degrees, not due east as the app draws it; the plan's own north arrow, drawn 3 degrees off the page's vertical,
+  gives about 93. Positions carry about ±1m. ([talley:S14], [talley:S15], [talley:S21])
+- **The church was planned about 72m long outside and finished about 49.6m**, four bays of nave and south aisle with a
+  closed north side and one bay of the north aisle; Williams's independent measurements of the 1890s (226.3ft inside,
+  62.6ft wide) match the plan's inside figures for the church as planned (he did not conclude the western bays were never
+  built: see below). The regular bay is 5.65m, the crossing piers 9.9m apart, the transepts 36.9m end to
+  end: these replace the smaller drawings' figures in `building-models.md`.
+- **The tower stands to 23.8-24.5m today** over the crossing floor (the listing's 24m), not Coflein's 26m, and today's crest
+  is about the corbel course Williams gives at 78ft (23.8m). His 95ft (29m) is the apex of a saddle-back roof with an
+  east-west ridge, not a rival wall height; his own plates draw the east wall's gable head, as it stood in 1893-4, at
+  87-88ft (26.5-26.9m), so the apex stays contested between his text and his plates. The floor's 0.7m fall from the west
+  end to the crossing and the western south aisle's 0.34m step, both measured, agree with O'Neil's 2ft and 12-14in.
+- **Williams's plan and plates are legible and carry heights** (read from the Internet Archive page images at their
+  50ft bars): the original presbytery roof's ridge at about 63ft (19.2m) and a pitch of about 48 degrees, a later flatter
+  roof, the crossing arch's crown at about 11.8m, and his "Chancel of Parish Church" about 7.4 x 6m inside the presbytery.
+  The first draft called them illegible; that was wrong.
+- **The western bays are one source, not two.** "Four bays built, the western four at footing level" is O'Neil's (and
+  Long Price's, quoted by Williams); Williams himself wrote that it is "quite impossible to say" whether the church
+  extended beyond the cross-wall and thought it probable the canons completed it, bar part of the north aisle, and that it
+  was later shortened or decayed. The first draft cited his "abandoned the work when but a very small portion of it was
+  completed" for the opposite; that sentence is about the first builders. He and O'Neil also differ on when the
+  cross-wall and the north blocking walls were built (after the Dissolution, "probably", against the early 13th century).
+- **The parish church after 1536 was probably the whole shortened church, not the east end alone**: Coflein's St Michael's
+  record has it 150ft long in 1710, which is close to the shortened church's inside length on the plan (46.7m, 153ft), the HER cites
+  early 18th-century visitations for it being "more-or-less entire", and O'Neil found post-Suppression rebuilding in the
+  nave's doors, and Williams thought the first parish church ran from the cross-wall through the tower to the presbytery's
+  east wall (later a nave ending at the tower's east arch with a small chancel inside the presbytery); Coflein, the listing
+  and Monastic Wales say "choir and presbytery". Kept contested; the app today draws the
+  east end only.
+- **What the app's model gets wrong today** (for the build, not changed here): the axis (due east), the landscape scale,
+  the tower's 29m with 26m standing, the parish phase's extent, a ruin phase from 1773 that ignores the 1933-38 clearance
+  (the tombs, the post-Suppression walls and 6-8ft of debris before it), and no first-works phase.
+- **Talley has no LiDAR in the app**: it is about 8km north of the present region. Four 1km tiles (SN6232, SN6233, SN6332,
+  SN6333) cover the abbey, the lakes and the motte between them; a 2m area needs the build to take a second region.
+
 ## Conversations by class (2026-09-28)
 
 From [`conversations-by-class.md`](conversations-by-class.md), a draft. An independent verification

@@ -31,6 +31,7 @@ const PREFIX = {
   'carreg-cennen': 'cennen',
   dryslwyn: 'dryslwyn',
   'st-teilo': 'teilo',
+  'talley-abbey': 'talley',
 };
 
 const entries = [];
