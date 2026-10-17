@@ -149,7 +149,8 @@ From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agen
 
 ## Pont Llandeilo for a Blender model (2026-10-17)
 
-From [`llandeilo-bridge.md`](llandeilo-bridge.md), a draft, **not yet checked** by anyone but its writer. Written by
+From [`llandeilo-bridge.md`](llandeilo-bridge.md), a draft, **checked once** ([check 1](reviews/llandeilo-bridge-check-1.md),
+2026-10-17, independent; its findings applied). Written by
 Claude for a workflow whose brief ([`briefs/llandeilo-bridge.md`](briefs/llandeilo-bridge.md)) asks for true-size
 scripted Blender models with their own 2m LiDAR areas.
 
@@ -159,6 +160,10 @@ scripted Blender models with their own 2m LiDAR areas.
   springing to 36.3m at the north and falls to 33.2m along the Ffairfach causeway; the parapets stand 1.1m above it. The
   springing piers show as 1m bulges 25.5m either side of the centre, the flood arch's at about 61.5m south.
   ([bridge:S15])
+- **The south causeway is straight only to about 76m south of the arch, then bends about 30 degrees east** (found by check
+  1): the road's centre is at E 262736 N 221910, E 262747 N 221850 and E 262757 N 221814, about 31m east of the straight axis
+  at N 221850, falling to 28.35m OD, and a causeway drawn straight on past s = -80 would run over the floodplain 31m west of
+  the road at N 221850. Its width on the bend is not resolved. ([bridge:S15])
 - **The app draws the main arch 26m too far south**: `LLANDEILO_BRIDGE` centres it at 55.3m along a plan that starts
   81.3m south of the anchor, which by `rotate()` puts it 26m south-south-west of where the survey finds it, over the south bank; its flood arch is near the
   survey's. Read from the code, not yet seen on screen; for the build, not changed here.
@@ -167,21 +172,30 @@ scripted Blender models with their own 2m LiDAR areas.
   The surveyed deck and Cadw's total height fit Jenkins's rise and not Cadw's (an inference); kept contested.
 - **The old bridge is older and better attested than the app's 1700**: standing by 1577 (one chain: Lambarde via
   Jervoise via Hughes), "a handsome stone Bridge" in the early 1700s, seven arches before 1730 (Hughes; Cadw). Who built
-  it is not known (Sir Rhys ap Thomas is Hughes's "fair assumption").
+  it is not known (Sir Rhys ap Thomas is Hughes's "fair assumption", resting on a complaint of about 1470 about the lack of
+  a bridge on the Towy that does not name Llandeilo). The "four narrow stone arches" of 1750 are Gwilym Teilo's, from
+  *Llandeilo Past and Present* (1858), quoted by Bryn Thomas, as `victorian:S66` had it: check 1 corrected the bridge
+  note, which had given them to Bryn Thomas ([bridge:S16]).
 - **The 1798 "wooden bridge" was the timber in the gap**: Turner (c. 1796, Museum Wales) and Rooker (1796-97) show spans
   fallen and bridged with timber, and the flood of 10 February 1798 took the timber; a ferry followed. This settles the
   doubt raised in the open questions on 2026-10-02.
 - **What carried the road from about 1800 to 1848 is contested**: the seven arches restored (Hughes, Wood's 1812 etching,
-  Cadw, the 1948-49 plaque) or a new bridge of three arches with two flood arches (*The Buildings of Wales*; Nicholson 1814;
-  two National Library of Wales prints of about 1824; a drawing captioned Delamotte 1816; and Rees's "of modern
-  erection", words Hughes's quotation of him omits). The note recommends three arches, for Dewi to decide; the app draws
-  seven.
+  Cadw, the 1948-49 plaque) or a new bridge of three arches with two flood arches (*The Buildings of Wales*; George
+  Nicholson's *Cambrian Traveller's Guide*, 2nd edition, 1813; two National Library of Wales prints of about 1824; a drawing
+  captioned Delamotte 1816; and Rees's "of modern erection", words Hughes's quotation of him omits). Check 1 read
+  Nicholson and Rees directly (the *Beauties of England and Wales* volume is dated 1815, not Hughes's 1813 or Jervoise's
+  "c. 1819"; Hughes's "Emilius Nicholson ... *Tourist's Guide* ... 1814" is George Nicholson's *Traveller's Guide*); Rees
+  adds that "the access to the bridge has been widened, and its steepness much reduced" by 1815. The note recommends three
+  arches, for Dewi to decide; the app draws seven. ([bridge:S22], [bridge:S23])
 - **The old bridge's line**: downstream (Cadw), and "about 250 feet further down" in a gloss on Jenkins's diary; the north
   bank on the LiDAR changes 76m downstream, at about E 262683 N 222019, a candidate for the surviving abutment, not
   confirmed.
 - **The building is dated month by month** by Thomas Jenkins's diary (pumps, piling, the south abutment on oak planking,
   the elliptic line, the centring, a temporary railway over the river, the crane, the floods), so it can be its own phase.
-  Hughes's years for the foundation stone and the first flood (both 1845) are each a year off the diary's (1844, 1846).
+  Hughes's years for the foundation stone and the first flood (both 1845) are each a year off the diary's (1844, 1846). The
+  start of work (4 July 1843), the keystone (25 November 1847), the flood of 10 February 1798, the old bridge's demolition
+  from April 1848 and the approaches finished by 19 October 1848 are in Hughes alone, so the note marks them "documented
+  (one source: Hughes)".
 - **Proposed LiDAR area** `llandeilo-bridge`: centre E 262757 N 222001, half-size 240m, two 500m tiles already at 2m inside
   the town's area; nothing new to download.
 

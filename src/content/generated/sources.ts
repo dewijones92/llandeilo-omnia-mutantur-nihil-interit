@@ -3500,7 +3500,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "bridge:S16",
-    "title": "Bryn Thomas, *The Good Old Days*, extracts on llandeilo.org.",
+    "title": "Gwilym Teilo, *Llandeilo Past and Present* (1858), as quoted in Bryn Thomas, *The Good Old Days* (1973), extracts on llandeilo.org.",
     "url": "https://llandeilo.org/good_old_days.html",
     "doc": "docs/research/llandeilo-bridge.md"
   },
@@ -3532,6 +3532,18 @@ export const SOURCE_SEEDS = [
     "id": "bridge:S21",
     "title": "\"Pont Llandeilo\", photograph by Alan Bowring, 20 June 2007, Geograph 472194, via Wikimedia Commons, CC BY-SA 2.0.",
     "url": "https://commons.wikimedia.org/wiki/File:Pont_Llandeilo_-_geograph.org.uk_-_472194.jpg",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S22",
+    "title": "George Nicholson, *The Cambrian Traveller's Guide, in Every Direction; containing Remarks made during many Excursions in the Principality of Wales and Bordering Districts*, second edition, corrected and considerably e…",
+    "url": "https://archive.org/details/cambriantravelle01nich",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S23",
+    "title": "Thomas Rees, *The Beauties of England and Wales*, vol. XVIII, *South Wales* (London: Harris, Longman and others, 1815), Internet Archive `beautiesofenglan18brit`.",
+    "url": "https://archive.org/details/beautiesofenglan18brit",
     "doc": "docs/research/llandeilo-bridge.md"
   },
   {
