@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Open questions
@@ -43,7 +43,14 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | Cost of Llandeilo Bridge | £22,000 (Cadw) vs "over £12,000" (Coflein) | [victorian](era-victorian.md) |
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
 | St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02) | [buildings](building-models.md), [victorian](era-victorian.md) |
-| Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
+| Talley Abbey's founding year | 1184, 1185 or 1189 (Coflein, the listing and Monastic Wales 1184-89; Cadw "the 1180s"; UK Southwest "around 1185") | [timeline](timeline-and-earliest-occupation.md), [talley](talley-abbey.md) |
+| What served Talley's parish, 1536-1772 | "The choir and presbytery" (Coflein, the listing, the HER, Monastic Wales); the presbytery, later "a smaller chancel ... within it" (O'Neil 1941); the whole shortened church: "150ft in length in 1710" (Coflein, St Michael's), "more-or-less entire" (the HER citing Griffiths 1976), "half a ruin" and "too large" (Lewis 1833); O'Neil's post-Suppression work in the nave's doors (added 2026-10-17) | [talley](talley-abbey.md) |
+| Talley tower's height | 24.2-24.5m measured on the 2022 LiDAR; 24m (listing); 26m (Coflein, medievalheritage.eu); over 25m (Monastic Wales); 85ft (UK Southwest); 95ft (Williams, as O'Neil reports); "originally approximately 29 meters" (medievalheritage.eu) (added 2026-10-17) | [talley](talley-abbey.md) |
+| How much of Talley's north aisle was built | One bay (O'Neil 1941) vs to "nearly opposite the second pier" (Williams 1897) (added 2026-10-17) | [talley](talley-abbey.md) |
+| Western towers at Talley | "at least one western tower" (O'Neil, from one unbonded wall) vs "probably two western towers" (the HER, from Cadw's 1986 text) (added 2026-10-17) | [talley](talley-abbey.md) |
+| A west range at Talley | A plain wall, no buildings (HER, DAT 2012); not known (medievalheritage.eu); "a small fragment" (UK Southwest); a back wall that "may never have been completed" (O'Neil) (added 2026-10-17) | [talley](talley-abbey.md) |
+| Talley's 15th-century burning | 1410, "despoiled, burned and almost destroyed" by English and Welsh armies (Monastic Wales); by the English army in Glyndŵr's rising (medievalheritage.eu); "an English-led attack in 1427" (UK Southwest) (added 2026-10-17) | [talley](talley-abbey.md) |
+| Talley's tower in 1879 | "the one surviving wall" (Long Price 1879) vs the north and east walls standing in 1933 (O'Neil) (added 2026-10-17) | [talley](talley-abbey.md) |
 | When Llandeilo's gas works were built | c. 1860 (Wikipedia, "Ffairfach", single-source) vs being built in 1864 (two 1864 newspapers); the app uses the newspapers (added 2026-10-03; the c. 1860 copies in era-victorian.md and soundscapes.md now carry the correction) | [light](light-after-dark.md), [victorian](era-victorian.md), [soundscapes](soundscapes.md) |
 | The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
 | Where Llandeilo station stood, for the model | `LLANDEILO_STATION` (263266, 222361) is on the track, about 240m south-west of Coflein's station reference (263340, 222580) and OS Open Map Local's station symbol (263357, 222603); the 1905-revised map has the station buildings at the Coflein position (found 2026-10-09; not changed) | [dc-harries-photographs](dc-harries-photographs.md) |
@@ -64,6 +71,13 @@ for the next pass. Each note's own "Open questions" section has the full list an
   accounts), Kenyon 2010, *The Buildings of Wales* (2006), RCAHMW's 1917 inventory (no. 317) and the Cambria
   Archaeology reports on the south curtain (2001), south turret (2002) and north-west tower (2003) were not read; they
   are where the answers are likely to be. ([dinefwr](dinefwr-castle.md))
+- **Talley Abbey's fabric** (2026-10-17, for the Blender model): no source read gives any height of the standing abbey
+  except the tower's (today's), the tower's roof or parapet, the ranges' form or size, the cloister's south side, the
+  post-Suppression church's form, or any roof covering. The presbytery's and transepts' roof-creasings survive on the tower
+  (O'Neil) and could be measured from photographs or a survey. Not read: the Cadw guide (Robinson and Platt), Burton and
+  Stöber 2015, *The Buildings of Wales* (2006), Owen's history (*Arch. Camb.* 1893-94), Smith and O'Neil's guide (1967),
+  Griffiths 1976 on the visitations, Williams's plan, RCAHMW's 1917 inventory and the OS 1:2500 sheets of 1888 and 1906.
+  ([talley](talley-abbey.md))
 - **Heneb HER terms of use** (found by the hunter-gatherers check, 2026-10-09; for Dewi). Every Heneb HER
   (Archwilio) page says: "All output resulting from the use of the data must acknowledge the source as
   follows: Derived from information held by the Heneb HER Charitable Trust copyright", and "If you wish to

@@ -4963,6 +4963,138 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/soundscapes.md"
   },
   {
+    "id": "talley:S1",
+    "title": "Coflein (RCAHMW), \"Talley Abbey; Abbey of The Blessed Virgin and St John The Baptist, Talley\", NPRN 92750, SN 63281 32772 (sources: Cadw guide, revised 3rd edition 2007; Suggett 2021; RCAHMW 2022).",
+    "url": "https://coflein.gov.uk/en/site/92750/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S2",
+    "title": "Coflein (RCAHMW), \"St Michael's Church, Talley\", NPRN 101870 (N. Vousden, 2013).",
+    "url": "https://coflein.gov.uk/en/site/101870/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S3",
+    "title": "Coflein (RCAHMW), \"Talley Mound - Castle Earthworks\", NPRN 303898, SN 63130 33373 (John Wiles, 2008).",
+    "url": "https://coflein.gov.uk/en/site/303898/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S4",
+    "title": "Cadw, Listed Buildings Full Report 15767, \"Ruin of Talley Abbey\", Grade II, designated 8 July 1966, E 263267 N 232772 (source: Robinson and Platt, Cadw 1992).",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=15767",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S5",
+    "title": "Heneb Historic Environment Record (Archwilio), PRN 1897, \"St Mary and St John the Baptist; Talley Abbey; Tal-y-llychan\", SN63273277 (F. Murphy 2012, \"based upon CADW descriptive text 1986\").",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT1897&dbname=dat&tbname=core",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S6",
+    "title": "F. Murphy and M. Page, *Later Medieval and Early Post-Medieval Threat Related Assessment Work 2012: Monasteries*, Dyfed Archaeological Trust report 2012/12 for Cadw (project 102639), via Coflein.",
+    "url": "https://coflein.gov.uk/media/85/443/dat21_05.pdf",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S7",
+    "title": "Cadw, \"Talley Abbey\" and \"Abaty Talyllychau\" (visitor pages, English and Welsh).",
+    "url": "https://cadw.gov.wales/visit/places-to-visit/talley-abbey",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S8",
+    "title": "Monastic Wales, \"Talley (Abbey)\", site 51.",
+    "url": "https://monasticwales.org/site/51",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S9",
+    "title": "medievalheritage.eu, \"Talley – Premonstratensian Abbey\" (bibliography: Burton and Stöber 2015; Lloyd, Orbach and Scourfield 2006; Platt and Robinson 1998; Salter 2012).",
+    "url": "https://medievalheritage.eu/en/main-page/heritage/wales/talley-abbey/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S10",
+    "title": "medievalheritage.eu, plan of Talley Abbey church \"according to J. Burton and K. Stöber based on Cadw\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2018/06/Talley-Abbey-plan-02.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S11",
+    "title": "medievalheritage.eu, plan of Talley Abbey church \"according to C. Platt, D. Robinson and Cadw\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Talley-Abbey-plan-11.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S12",
+    "title": "T. Ball, cutaway reconstruction of the abbey church from the east, as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Talley-Abbey-rekonstrukcja-11.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S13",
+    "title": "C. Jones-Jenkins, \"reconstruction of the monastery with an outline of the part of the church planned but not built\", as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/07/Talley-Abbey-rekonstrukcja-22.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S14",
+    "title": "B. H. St J. O'Neil, \"Talley Abbey, Carmarthenshire\", *Archaeologia Cambrensis* 96 (1941), pp. 69-91, with Plates I-VIII, Welsh Journals (National Library of Wales).",
+    "url": "https://journals.library.wales/view/4718179/4739323/114/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S15",
+    "title": "O'Neil 1941 [S14], Fig. 1, \"Talley Abbey, Carmarthenshire\", the official plan (Ministry of Works and Buildings; \"Crown property, the copyright being reserved\", reproduced by permission), fold-out before p. 69, IIIF im…",
+    "url": "https://iiif.llyfrgell.cymru/iiif/4739437/full/1200,/0/default.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S16",
+    "title": "Stephen W. Williams, \"Excavations at Talley Abbey\", *Archaeologia Cambrensis*, 5th series, 14 (1897), pp. 229-247, Internet Archive full text (sim_archaeologia-cambrensis_1897-07_14_55).",
+    "url": "https://archive.org/details/sim_archaeologia-cambrensis_1897-07_14_55",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S17",
+    "title": "D. Long Price, \"Talley Abbey\", *Archaeologia Cambrensis*, 4th series, 10 (1879), pp. 161-187, Internet Archive full text (sim_archaeologia-cambrensis_1879-07_10_39).",
+    "url": "https://archive.org/details/sim_archaeologia-cambrensis_1879-07_10_39",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S18",
+    "title": "John Thomas, \"[The church and ruined abbey, Talyllychau]\", glass negative, c. 1885, National Library of Wales (NLW3363347), via Wikimedia Commons, public domain.",
+    "url": "https://commons.wikimedia.org/wiki/File:The_church_and_ruined_abbey,_Talyllychau_NLW3363347.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S19",
+    "title": "castlewales.com (Jeffrey L. Thomas), \"Talley Abbey\", photographs 2002.",
+    "url": "http://www.castlewales.com/talley.html",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S20",
+    "title": "UK Southwest, \"Talley Abbey, Carmarthenshire, Wales\".",
+    "url": "https://www.uksouthwest.net/carmarthenshire/talley-abbey/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S21",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tiles SN6332, SN6232, SN6233 and SN6333 (`wg_del_28_263232_20220315dsm.tif`, `...dtm.tif` and the others), dated 15 March 2022, DataMapWales; Open Gover…",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_28_263232_20220315dsm.tif",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S22",
+    "title": "British Geological Survey, DiGMapGB-50 (v9.25, released 31 March 2025), bedrock and superficial deposits, GetFeatureInfo at the abbey.",
+    "url": "https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
     "id": "timeline:S1",
     "title": "Amgueddfa Cymru (National Museum Wales), \"The Cave Men of Ice Age Wales\" (2007)",
     "url": "https://museum.wales/articles/2007-05-11/The-Cave-Men-of-Ice-Age-Wales/",

@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Research findings and decisions
@@ -146,6 +146,34 @@ From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agen
   Rhys ap Thomas (d. 1525)", which states one side of a contested point (the Cadw guide has the site abandoned from the 15th
   century; the DWB's works by Sir Rhys are at Carew) as fact, together with a castle that runs to 1600 and a ruin from
   1600, where the note proposes a contested end in the 15th century and a decay phase to the 1660s.
+
+## Talley Abbey for a Blender model (2026-10-17)
+
+From [`talley-abbey.md`](talley-abbey.md), a draft, checked once by the same agent the same day
+([check 1](reviews/talley-abbey-check-1.md)); the independent check is still owed. Written by Claude for the true-size
+Blender landmarks (Dewi's decisions of 2026-10-16/17, as given in the brief).
+
+- **The excavation report of 1941 has a measured plan, and it fits the ground.** B. H. St J. O'Neil's report on the Office
+  of Works clearance of 1933-38 (*Archaeologia Cambrensis* 96) has the official plan with feet and metre bars; fitted to the
+  2022 LiDAR it is within 1% of its own scale and needs a rotation of 4.0 degrees, so the church's axis runs at a bearing of
+  about 94 degrees, not due east as the app draws it. Positions carry about ±1m. ([talley:S14], [talley:S15], [talley:S21])
+- **The church was planned about 72m long outside and finished about 49.6m**, four bays of nave and south aisle with a
+  closed north side and one bay of the north aisle; Williams's independent measurements of the 1890s (226.3ft inside,
+  62.6ft wide) match the plan's inside figures. The bay is 5.68m, the crossing piers 9.9m apart, the transepts 36.9m end to
+  end: these replace the smaller drawings' figures in `building-models.md`.
+- **The tower stands to 24.2-24.5m today** over the crossing floor (the listing's 24m), not Coflein's 26m; Williams's 95ft
+  (29m), as O'Neil reports it, stays contested. The floor's 0.7m fall from the west end to the crossing and the western
+  south aisle's 0.34m step, both measured, agree with O'Neil's 2ft and 12-14in.
+- **The parish church after 1536 was probably the whole shortened church, not the east end alone**: Coflein's St Michael's
+  record has it 150ft long in 1710, which is the shortened church's inside length on the plan (46.7m), the HER cites
+  early 18th-century visitations for it being "more-or-less entire", and O'Neil found post-Suppression rebuilding in the
+  nave's doors; Coflein, the listing and Monastic Wales say "choir and presbytery". Kept contested; the app today draws the
+  east end only.
+- **What the app's model gets wrong today** (for the build, not changed here): the axis (due east), the landscape scale,
+  the tower's 29m with 26m standing, the parish phase's extent, a ruin phase from 1773 that ignores the 1933-38 clearance
+  (the tombs, the post-Suppression walls and 6-8ft of debris before it), and no first-works phase.
+- **Talley has no LiDAR in the app**: it is about 8km north of the present region. Four 1km tiles (SN6232, SN6233, SN6332,
+  SN6333) cover the abbey, the lakes and the motte between them; a 2m area needs the build to take a second region.
 
 ## Conversations by class (2026-09-28)
 
