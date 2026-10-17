@@ -2,7 +2,7 @@
 title: Research index
 kind: index
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Research
@@ -40,6 +40,7 @@ the research drove.
 | [fort-surfaces](fort-surfaces.md) | What the Roman forts' surfaces were made of, for the textured Blender models: turf courses and which way up, earth, timber, shingle, daub, thatch, and what each photograph stands in for ([ADR 0055](../adr/0055-textured-landmark-models-and-clicking-their-parts.md)) | draft | not yet checked | none (written inline, 2026-10-10) |
 | [dc-harries-photographs](dc-harries-photographs.md) | D. C. Harries's photographs of Llandeilo's streets and station, c. 1900 to c. 1928: who he was, where the collection is, 31 photographs found and downloaded, each placed on the OS grid with its accuracy | draft | not yet checked | none (written inline, 2026-10-09) |
 | [dinefwr-castle](dinefwr-castle.md) | Dinefwr Castle phase by phase for a Blender model: placement on Coflein's reference, the Cadw plans fitted to the 2020-22 LiDAR, measured diameters and standing heights, the summerhouse on the keep (17th-century paintings, the Bucks' 1740 engraving), materials, contested points, and a part-by-part plan per phase; public-domain and LiDAR reference images in [`refs/dinefwr-castle/`](refs/dinefwr-castle/) | draft | [check 1, 2026-10-10](reviews/dinefwr-castle-check-1.md), by the same agent; [check 2, 2026-10-10](reviews/dinefwr-castle-check-2.md), independent (a second Opus), its findings fixed; [check 3, 2026-10-16](reviews/dinefwr-castle-check-3.md), a third independent read, its findings fixed; [check 4, 2026-10-16](reviews/dinefwr-castle-check-4.md), a fourth, which withdrew check 3's gate fix | [brief](briefs/dinefwr-castle.md) |
+| [st-teilo](st-teilo.md) | St Teilo's church, Llandeilo, phase by phase for a true-size Blender model: placement on Coflein's reference, the tower and today's church measured on the 2020-22 LiDAR, the pre-1848 plan (Ludlow, from the 1837 maps), the tower's contested date, parapet and turret, the 1848-50 rebuild, the 1903/1905 organ chamber, materials, and a part-by-part plan per phase with a proposed LiDAR area; the LiDAR picture in [`refs/st-teilo/`](refs/st-teilo/) | draft | [check 1, 2026-10-17](reviews/st-teilo-check-1.md), by the same agent; the independent check is owed | [brief](briefs/st-teilo.md) |
 
 The first six were produced in one pass on 2026-09-26, with WebSearch quota exhausted part way
 through (see [`process.md`](process.md)); `conversations-by-class` was added on 2026-09-28 and the rest

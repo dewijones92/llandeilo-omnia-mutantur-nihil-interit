@@ -2,7 +2,7 @@
 title: Realistic models of important buildings
 kind: design
 status: partly built
-updated: 2026-10-10
+updated: 2026-10-17
 ---
 
 # Realistic models for the important buildings, through time
@@ -116,7 +116,9 @@ chose the in-app build on 2026-10-09; on 2026-10-10 he chose scripted Blender mo
   `research/building-models.md` (2026-10-02).
 - **Carreg Cennen**: which wall holds the gatehouse, and the barbican's route.
 - ~~**Talley**: its widths, and whether any nave bays were built.~~ Closed by `research/building-models.md`.
-- **St Teilo's**: the tower's height and the medieval naves' size.
+- ~~**St Teilo's**: the tower's height and the medieval naves' size.~~ Closed by `research/st-teilo.md` (2026-10-17):
+  the tower and today's church measured on the LiDAR, and the pre-1848 plan the same as today's (two secondary sources).
+  Still open there: any medieval height, the tower's and its parapet's dates, and the materials of the medieval body.
 - **Newton House**: its size, storeys and the 1660 and 1770s forms.
 - **Llandeilo Bridge**: its width. The old bridge's arch sizes and line.
 - Coflein plans (Dinefwr NPRN 425 and the others) and Cadw guidebooks would close most of these.

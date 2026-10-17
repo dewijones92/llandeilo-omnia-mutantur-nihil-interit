@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Open questions
@@ -43,6 +43,10 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | Cost of Llandeilo Bridge | £22,000 (Cadw) vs "over £12,000" (Coflein) | [victorian](era-victorian.md) |
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
 | St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02) | [buildings](building-models.md), [victorian](era-victorian.md) |
+| St Teilo's tower: date, parapet, turret, west door | Date C15 (Cadw listing) vs later 16th century (Ludlow; Coflein's and the HER's "c. 1600" are his); parapet "C19 crenellated battlements" (listing) vs later 16th century with its gargoyles (Ludlow); stair turret at the north-east angle (listing, borne out by the LiDAR) vs "the western half of the north wall" (Ludlow); west door cut in the 19th century (listing) vs a 16th-century cut-out rebuilt 1848-51 (Ludlow) (added 2026-10-17) | [st-teilo](st-teilo.md) |
+| Who designed St Teilo's of 1848-51, and when it was finished | Scott after a competition (listing, Coflein); Scott "called in" after the 1844 competition "collapsed" (the Scott gazetteer); Edward Davies of Bath, built under Scott's supervision (llandeilo.org); reopened 10 October 1850 (The Welshman), completed 1850 or 1851; 920 seats and about £4,000 (The Welshman) vs about 700 seats and £4,723 (gazetteer) (added 2026-10-17) | [st-teilo](st-teilo.md) |
+| St Teilo's organ chamber and undercroft | Organ chamber 1903 (Ludlow, the faculty) vs 1905 (listing, llandeilo.org); a medieval undercroft under the Dynevor Chapel (Cadw 1991; the listing's "said to survive") vs an 18th-century burial vault (Ludlow) (added 2026-10-17) | [st-teilo](st-teilo.md) |
+| The 1848 churchyard quarry collapse | One worker killed (Coflein, Ludlow) vs five men buried (event-effects' source, effects:S6) (added 2026-10-17) | [st-teilo](st-teilo.md), [effects](event-effects.md) |
 | Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
 | When Llandeilo's gas works were built | c. 1860 (Wikipedia, "Ffairfach", single-source) vs being built in 1864 (two 1864 newspapers); the app uses the newspapers (added 2026-10-03; the c. 1860 copies in era-victorian.md and soundscapes.md now carry the correction) | [light](light-after-dark.md), [victorian](era-victorian.md), [soundscapes](soundscapes.md) |
 | The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
@@ -58,6 +62,13 @@ for the next pass. Each note's own "Open questions" section has the full list an
   timbers were hewn or sawn; how long a turf face stayed bare and whether faces were grassed on purpose; any Roman-period
   find of shingle or thatch in Wales (a search found none); the Laurieston paper's survey of grass-down laying read
   against the 1899 Antonine Wall report directly. The new note has not had its independent check.
+- **St Teilo's church before 1848** (2026-10-17, for the Blender model): the 1837 tithe map and the undated town plan
+  (Ludlow's evidence that the old church had today's plan) were not viewed; the Incorporated Church Building Society's
+  file ICBS 3533 at Lambeth Palace Library (plans, 1844-51) needs a login; the competition drawings "survive in the
+  church". Any of them may show the old church's outline; none read gives any medieval height, window, roof covering or
+  finish, when the church was first built in stone (c. 1400 is one unreferenced source), when its south transept was
+  built, or anything of the clas church's form. RCAHMW's 1917 inventory (p. 91), Samuel 1868, Davies 1858, Evans 1910,
+  Ludlow's 2004 early medieval sites gazetteer and Edwards's *Corpus* vol. 2 were not read. ([st-teilo](st-teilo.md))
 - **Dinefwr Castle's fabric** (2026-10-10, for the Blender model): no source read gives any medieval height, the
   building stone, mortar, render or a roof covering, or the forms of the Lord Rhys's castle and the 1280s bailey
   buildings. The Cadw guidebook (Rees and Caple, 1999 and 2007), Colvin's *King's Works* (1963, pp. 641-4, the repair
