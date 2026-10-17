@@ -83,5 +83,5 @@ todo path's step 3 asks for. That pass is still owed before the castle is built.
 
 ## Still owed
 
-- The independent check by a second reader (the todo path's step 3).
+- The independent check by a second reader (the todo path's step 3): done, as [check 2](carreg-cennen-check-2.md), 2026-10-17.
 - A source for any medieval height other than the south curtain's, and for any roof or render.

@@ -422,7 +422,7 @@ export const SOURCE_SEEDS = [
   },
   {
     "id": "cennen:S14",
-    "title": "John Williams, Archdeacon of Cardigan, \"On Castell Carreg Cennen (Read at Llandeilo.)\", *Archaeologia Cambrensis* third series, vol. 3, no. 12 (October 1857), pp. 335-49 (pp. 342-8 misprinted 442-8); Welsh Journals.",
+    "title": "John Williams, Archdeacon of Cardigan, \"On Castell Carreg Cennen (Read at Llandeilo.)\", *Archaeologia Cambrensis* third series, vol. 3, no. 12 (October 1857), pp. 335-49 (pp. 341-8 misprinted 441-8, per check 2); Wels…",
     "url": "https://journals.library.wales/view/2919943/3013965/12",
     "doc": "docs/research/carreg-cennen.md"
   },

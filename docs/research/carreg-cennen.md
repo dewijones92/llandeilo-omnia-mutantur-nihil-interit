@@ -18,8 +18,10 @@ Claude on 2026-10-17 from sources fetched that day; the brief is in [`briefs/car
 The choices in "Plan for the Blender model" are Claude's, under the proactive mandate
 ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), and none is Dewi's. A re-reading of
 every documented claim against the downloaded sources, by the same agent, is
-[check 1](reviews/carreg-cennen-check-1.md); it is **not** the independent check the todo path asks for, which is
-still owed.
+[check 1](reviews/carreg-cennen-check-1.md); it is **not** the independent check. The independent check (a second
+reader, fresh downloads) is [check 2](reviews/carreg-cennen-check-2.md); its three important findings and four
+suggestions were verified against the sources and fixed on 2026-10-17, so the fixes themselves still want a reader who
+did not make them.
 
 It extends the Carreg Cennen sections of [`era-medieval-to-1282.md`](era-medieval-to-1282.md) (history to 1287),
 [`building-models.md`](building-models.md) (the first measured outline, 2026-10-02: `models:S25`-`S27`),
@@ -51,6 +53,13 @@ Works note of 1950 [S15]; King's 1985 description [S16]; the Brut [S17]; Morris'
 engraving of 1740 [S19]; and the geological map [S21]. A part that rests on the Cadw family alone is marked
 **documented (one source: Cadw)**; a part is plain **documented** only where an independent strand agrees.
 
+**Reading the Cadw plan's key.** The plan's "Uncertain" is an outline with no fill [S8]. Checked on the image
+(check 2): it draws as uncertain the outer ward's south-east corner tower (a dashed outline beyond the red Period 3
+wall, where the north-west and north-east corner towers are solid red), the oven by the gatehouse (an outlined room
+and circle), the lime kiln (line and outline, no period colour) and the building against the south curtain. A part drawn
+that way is not given the documented tier for its form or date here, even where the Cadw texts name it. The plan also
+colours some masonry blue, "Modern" (see Phase 3).
+
 ## Summary
 
 - **Placement.** Coflein gives SN 66789 19075 [S1]; the listing E 266814 N 219093 [S2]; the schedule E 266813 N 219100
@@ -61,7 +70,7 @@ engraving of 1740 [S19]; and the geological map [S21]. A part that rests on the 
   model's walls by a search over position, rotation and scale (every third dark pixel of the plan's inner ward, 14,688,
   scored against the surface model's local relief), sits at a rotation of **10.5 degrees** (the drawing's "up" points 10.5 degrees west of
   grid north, and its north arrow a further 4.5 degrees west) and at **9.22 pixels a metre, against the 8.88-8.93 of its
-  metre bar and the 9.05 of its foot bar** (30m = 266 pixels; 100ft = 276 pixels): the plan as reproduced is drawn
+  metre bar and the 9.02-9.05 of its foot bar** (30m = 266 pixels; 100ft = 275-276 pixels): the plan as reproduced is drawn
   about 3-4% larger than its metre bar says, as Dinefwr's plan was about 5% larger. Residuals at four survey control
   points are 0.1-1.5m, and 2.9m at the rounded south-west corner [S8][S20]. The outer ward, the barbican and the
   inner ward all land on banks and walls in the survey (see Placement). Sizes below use the ground's scale and say so.
@@ -78,10 +87,14 @@ engraving of 1740 [S19]; and the geological map [S21]. A part that rests on the 
   tower at an angle, also an extra ward" added by "English hands" [S18]; Wikipedia, citing Lewis 2006, says "The south
   curtain wall may have retained masonry from the earlier Welsh castle" [S12]. **Kept contested**; the plan below
   follows Cadw for the standing castle and shows the Welsh castle as form unknown.
-- **The Welsh castle had walls and was burnt in 1282.** The Brut's 1248 entry is the first record [S17]. In 1277 £285 was
-  "issued for the repair of the fortifications of both Dynevor and Caercynan"; in April 1282 the castle was "seized and
-  destroyed, at least partially, by David", and in June "Caercynan, or the ruins of the castle, was occupied by fifty
-  foot and some workmen, as if the intention were to rebuild" (Morris, from the Exchequer pay-rolls) [S18]. Its form is
+- **The Welsh castle had walls and was burnt in spring 1282 (date and captor contested).** The Brut's 1248 entry is the
+  first record [S17]. In 1277 £285 was "issued for the repair of the fortifications of both Dynevor and Caercynan"; in
+  1282 Morris has Dafydd ap Gruffudd, with Gruffudd and Llywelyn ap Rhys Fychan, lords of Is Cennen, capture
+  "Llandovery and Caercynan on March 26" (p. 154) and, on p. 165, has the castle "seized and destroyed, at least
+  partially, by David early in April" (his name for Dafydd). Cadw's listing has it "captured by the forces of Llywelyn
+  ap Gruffudd in 1282" [S2] and the schedule "recovered briefly in 1282 by Prince Llywelyn ap Gruffudd" [S3];
+  medievalheritage.eu "temporarily taken over by Gruffudd and Llywelyn, the sons of Rhys Fychan" [S7]. In June
+  "Caercynan, or the ruins of the castle, was occupied by fifty foot and some workmen, as if the intention were to rebuild" (Morris, from the Exchequer pay-rolls) [S18]. Its form is
   not known. The Ministry of Works thought the rock-cut ditch north of the inner ward "may well have been the main
   defence of the original native stronghold" [S15].
 - **Measured today** (surface model, metres above Ordnance Datum) [S20]: the inner ward floor is **264.8-265.0m**; the
@@ -89,7 +102,7 @@ engraving of 1740 [S19]; and the geological map [S21]. A part that rests on the 
   274.6m; the south curtain to 272.0-274.1m (7-9m above the floor inside, 10-15m above the cliff edge outside); the north
   curtain to 273-274m; the east range to 272-274m; the north-east tower to 272-274m; the north-west tower's rim to about
   270m (5m above the floor, 10-11m above the ground outside); the west curtain to 272.8m at its south end and 268.6m in
-  the middle; the middle gate tower to 268.8m. The rock-cut ditch bottoms at 257.5-257.9m OD (about 7m below the ward
+  the middle; the middle gate tower to 268.8m. The rock-cut ditch bottoms at 257.4-257.9m OD (about 7m below the ward
   floor); the outer ward's walls are reduced to footings and banks under 2m high on ground falling from about 258m to
   247.5m. These are **today's** heights, after the slighting of 1462, the Earls Cawdor's restoration and the 1950s
   clearance. The south curtain is said to stand to its full height [S2][S11].
@@ -162,7 +175,8 @@ See "A 2m LiDAR area" below.
   ft., which may well have been the main defence of the original native stronghold" (Ministry of Works, 1950) [S15].
   medievalheritage.eu: "a ditch was carved in the rock, closed from the east by a transverse wall"; it was lined with
   clay and held rainwater [S7]; castlewales.com calls it "The castle's primary water container" [S11]. **Measured
-  today** [S20]: the ditch bottoms at 257.5-257.9m OD from E 266792 to E 266810 (frame x 3 to 21), about 2-3m wide at
+  today** [S20]: the ditch bottoms at 257.4-257.9m OD from about E 266791 to E 266815 (frame x 2 to 26, y 24-31; the
+  floor is 258.4-258.7m west of x 0 and 258.9-259.0m beyond x 28; re-sampled in check 2), about 2-3m wide at
   the base on the terrain model, 7m below the ward floor and about 6m below the barbican's top. "More than 20 ft" (6.1m)
   agrees.
 - **The cave.** A vaulted passage runs from the inner ward's south-east corner down along the cliff to a natural cave;
@@ -189,24 +203,31 @@ See "A 2m LiDAR area" below.
   llys "appears to have been fortified prior to the construction of the present castle later in that century, possibly
   under the Prince of Deheubarth Rhys ap Gruffydd" [S5]. **The start date is an estimate.**
 - **1277 and 1282.** In 1277 Payn de Chaworth "occupied the castle of Caercynan" and £285 was "immediately issued for
-  the repair of the fortifications of both Dynevor and Caercynan" [S18]. In 1282 it was "seized and destroyed, at least
-  partially, by David early in April", and on the June expedition "Caercynan, or the ruins of the castle, was occupied
+  the repair of the fortifications of both Dynevor and Caercynan" [S18]. In 1282 Morris gives two dates for the same loss: Dafydd ap
+  Gruffudd, with Gruffudd and Llywelyn, sons of Rhys Fychan and lords of Is Cennen, "captured Llan- dovery and Caercynan
+  on March 26" (p. 154), and the castle "had been seized and destroyed, at least partially, by David early in April"
+  (p. 165; "David" is Morris's name for Dafydd). **The captor differs by source**: Cadw's listing, "captured by the
+  forces of Llywelyn ap Gruffudd in 1282" [S2]; the schedule, "recovered briefly in 1282 by Prince Llywelyn ap
+  Gruffudd" [S3]; medievalheritage.eu, "temporarily taken over by Gruffudd and Llywelyn, the sons of Rhys Fychan" [S7].
+  The two readings of who (the prince or the sons of Rhys Fychan, who held Is Cennen) may be one event told two ways,
+  but no source read says so. On the June expedition "Caercynan, or the ruins of the castle, was occupied
   by fifty foot and some workmen, as if the intention were to rebuild for permanent occupation" [S18]; the medieval
   note has Clare occupying "the bare walls of Carreg Cennen and Llandovery, recently burnt out by the Welsh"
-  (`medieval:S28`). So the Welsh castle had walls worth repairing in 1277 and was a burnt ruin by June 1282.
+  (`medieval:S28`). So the Welsh castle had walls worth repairing in 1277 and was a burnt ruin by June 1282; the
+  **loss itself is dated spring 1282 (26 March or early April), and who took it is contested** (point 15).
 - **Form.** Not known. The readings that would put Welsh masonry in the standing castle are listed in the Summary
   (Longueville Jones, Morris, Lewis via Wikipedia) and are contested by Cadw's "obliterating any traces of earlier
   works" [S3]. The one feature any source ties to the native castle is the rock-cut ditch, "may well have been" [S15].
   Longueville Jones read the east curtain behind the hall, "doubled in thickness on the outer side", as the place where
   "if anywhere, we may find traces of the earliest work of the castle" [S13].
 - **For the model**: the crag, the ditch (reconstructed) and an imagined wall on the inner ward's line with an imagined
-  hall; then, from April 1282, the same burnt and roofless. See the plan.
+  hall; then, from spring 1282, the same burnt and roofless. See the plan.
 
 ## Phase 2: Giffard's castle (c. 1287 to the early 14th century, three periods)
 
 ### Who built it, and when (contested)
 
-- **The grant.** Edward I granted the castle to John Giffard in 1283 [S2][S12]; Cadw: "Carreg Cennen was Giffard's
+- **The grant.** Edward I granted the castle to John Giffard in 1283 [S2][S3][S12] (the schedule: "granted to the king’s supporter John Giffard ... in 1283"; the listing says only "rebuilt after 1283"); Cadw: "Carreg Cennen was Giffard's
   reward from a grateful English king", and the builder was "most likely John Giffard" [S6]. The listing: "rebuilt after
   1283 by John Giffard of Brimpsfield, Glos., and his son John. The elder Giffard held it until 1299, except that the
   crown took it over 1287-9 during the rising of Rhys ap Maredudd" and "It seems likely that most of the building
@@ -254,7 +275,8 @@ See "A 2m LiDAR area" below.
   prevented the need to build a tower there" [S7]; the Cadw plan draws a rounded corner [S8]. Longueville Jones (1858):
   "At the south-west corner of the castle is the more perfect of the two round towers that strengthened the south and
   west fronts; but the entrance to it is blocked up with rubbish", and his plan draws a round tower there as at the
-  north-west [S13]. The survey shows a solid corner about 3-4m across standing to 274.1m OD, the highest point of the
+  north-west [S13]. The schedule has the south-west and south-east corners "lightly defended, by a
+  curving projection and a corner turret respectively" [S3]. The survey shows a solid corner about 3-4m across standing to 274.1m OD, the highest point of the
   south curtain, with **no round tower projecting** beyond the two wall faces [S20]. Kept contested; the model follows
   the plan and the survey.
 - **The gatehouse.** "A great twin towered gatehouse on the north side" [S1]; "double-towered with spurred bases to
@@ -298,7 +320,10 @@ See "A 2m LiDAR area" below.
   character", and "a doorway, with a pointed arch for its head, plainly chamfered" [S13]; Wikipedia (Lewis 2006): a
   fireplace and "traceried windows, one facing into the courtyard, the other outwards" [S12]. medievalheritage.eu: "the
   buttress passed into a small watchtower, which existence is confirmed by the records of 1369 ('the tower above the
-  king's chamber')" [S7] (one source; the 1369 record itself not read).
+  king's chamber')" [S7] (one source; the 1369 record itself not read). The schedule's "corner turret" at the south-east [S3]
+  and medievalheritage.eu's architecture section, "the south-east corner with a small four-sided tower" [S7], name the
+  same corner block, which the 1858 account calls "the south-east tower" (the engraving of its doorway head) [S13]: all
+  Cadw-family or 1858, none giving a size or a height.
 - **The barbican and middle gate tower** (Period 2). "The Barbican approach is by a series of steps with drawbridges to
   the square tower with drawbridge over the ditch to the gatehouse" [S2]. King (1985): "a long stepped ramp with pits for
   a drawbridge and its counterpoise between solid round turrets, a second pair of pits in front of a gate in the flank of
@@ -419,8 +444,16 @@ See "A 2m LiDAR area" below.
 14. **The RCAHMW inventory number**: no. 256 (Gatehouse) [S5] or "Carms. Inv., No. 156" (King) [S16]. The inventory was
     not read.
 
+15. **The capture of 1282**: 26 March (Morris p. 154) or "early in April" (Morris p. 165) [S18]; by Dafydd ap Gruffudd
+    with the sons of Rhys Fychan (Morris, medievalheritage.eu) [S18][S7] or by "the forces of Llywelyn ap Gruffudd"
+    (the listing and the schedule) [S2][S3].
+16. **The translation behind the 1248 reading**: Gatehouse calls Williams ab Ithel's Rolls Series Brut "a flawed
+    translation" and names T. Jones, 1952 (Peniarth 20 version) as the best [S5]; the "obtained ... back again" reading
+    [S17] and its "drachefyn" (Welsh text, p. 335) rest on the flawed one. Jones 1952 was not read.
+
 ## Gaps
 
+- **T. Jones, *Brut y Twysogion* (1952, Peniarth 20)**, the translation Gatehouse recommends over the Rolls Series [S5].
 - **The Cadw guidebook** (J. M. Lewis, 1960, 1990, 2006) was not obtained; most of the phasing reaches this note through
   it at second hand.
 - **Not read**: Colvin and others, *The History of the King's Works* vol. 2 (1963) p. 602; the 1369 repair accounts and
@@ -437,6 +470,8 @@ See "A 2m LiDAR area" below.
 - **The outer ward's buildings**: form, number and place; the rectangular building outside the north-east wall.
 - **The pre-restoration ruin's heights** (1462 to the 1850s): only the 1740 engraving and the 1858 account describe it.
 - **The barbican's turrets** (one or two) and the place of its transverse wall.
+- **Which masonry the plan's "Modern" blue means in the field**: the plan marks a few stretches (Phase 3), but the
+  Cadw guide's own caveat that no one is quite sure where the earl's work begins and ends [S6] still holds for the rest.
 
 ## For the owner's decision
 
@@ -470,21 +505,21 @@ ids unique across features, the phase goes in front, as the forts' `fort1/` and 
 
 | Feature id (proposed) | Years | Basis |
 |---|---|---|
-| `carreg-cennen-welsh` | c. 1175 to April 1282 | A Welsh castle, probably the Lord Rhys's (Cadw, hedged) [S6][S7]; first record 1248 [S17]; repaired 1277 [S18]. **The start is an estimate** (the app's 1175 is kept) |
-| `carreg-cennen-burnt` | April 1282 to c. 1287 | "seized and destroyed, at least partially" early in April 1282; "the ruins of the castle" occupied in June [S18]. Can fold into the Welsh phase (owner's decision) |
+| `carreg-cennen-welsh` | c. 1175 to spring 1282 (26 March or early April: Morris gives both) | A Welsh castle, probably the Lord Rhys's (Cadw, hedged) [S6][S7]; first record 1248 [S17]; repaired 1277 [S18]. **The start is an estimate** (the app's 1175 is kept); **the end date and the captor are contested** (point 15) |
+| `carreg-cennen-burnt` | spring 1282 to c. 1287 | Captured 26 March (p. 154) and "seized and destroyed, at least partially" "early in April" (p. 165) [S18]; "the ruins of the castle" occupied in June [S18]. Can fold into the Welsh phase (owner's decision) |
 | `carreg-cennen-inner` | c. 1287 to c. 1300 | Period 1: the inner ward and gatehouse [S8][S2]; the window 1283/1287-1321 [S1][S2][S7]; **both ends estimates** |
 | `carreg-cennen-barbican` | c. 1300 to c. 1310 | Period 2: the middle gate tower and barbican, "shortly after" [S2][S8]; **dates estimates** |
 | `carreg-cennen-castle` | c. 1310 to 1462 | Period 3: the outer ward, "probably at the beginning of the 14th century" [S7][S8]; the gunport from c. 1455 [S7]; slighted 1462 (or 1461) [S6][S1] |
 | `carreg-cennen-ruin` | 1462 to now | Slighted; today's surveyed heights, which include the 19th-century restoration and the 1950 clearance [S2][S6][S15][S20] |
 
 The dates join with no gap: c. 1175, 1282, c. 1287, c. 1300, c. 1310, 1462, now. The app has 1175, 1287, 1300, 1462; the
-new boundaries are April 1282 and c. 1310. Every boundary but 1282 and 1462 is an estimate, and the ⓘ says so.
+new boundaries are spring 1282 and c. 1310. Every boundary but 1282 and 1462 is an estimate, and the ⓘ says so; the 1282 boundary carries its uncertainty (26 March or early April, and the captor) in the ⓘ.
 
 **Phase `carreg-cennen-welsh` (form unknown throughout).**
 
 | id | Shape | Dimensions | Tier | Sources | Kits needed | Textures needed |
 |---|---|---|---|---|---|---|
-| `cennen/ditch-north` | ditch (ground edit) | Today's: base 257.5-257.9m OD from about frame x -5 to 21 at y 27-30, 2-3m wide at the base, 7m below the ward (measured); closed at the east by a transverse wall (see `barbican-crosswall`) | reconstructed ("may well have been the main defence of the original native stronghold" [S15]) | S15, S7, S20 | none | limestone rock (procedural) |
+| `cennen/ditch-north` | ditch (ground edit) | Today's: base 257.4-257.9m OD from about frame x 2 to 26 at y 24-31 (the floor is 258.4-258.7m west of x 0; re-sampled in check 2), 2-3m wide at the base, 7m below the ward (measured); closed at the east by a transverse wall (see `barbican-crosswall`) | reconstructed ("may well have been the main defence of the original native stronghold" [S15]) | S15, S7, S20 | none | limestone rock (procedural) |
 | `cennen/wall-welsh` | wall, closed, on the later inner ward's curtain line (`curtain-*` below) | Height **unknown** (estimate 5m), thickness **unknown** (estimate 1.5m) | imagined (form); that there were walls is documented (1277 repairs, 1282 "bare walls") | S18, `medieval:S28`, S13 | `limestone-rubble` (new) | limestone rubble (inference) |
 | `cennen/gate-welsh` | gap in the north wall at the later gate's place, frame (0, 19) | **Unknown** (estimate 3m) | imagined (the north is the one side not on a cliff [S13]) | S13 | `ledged-leaf` (existing, Roman: analogy) | timber |
 | `cennen/hall-welsh` | hall along the east wall | **Unknown** (estimate 16 x 7m, 5m to the eaves) | imagined (Longueville Jones's "earliest work" behind the later hall [S13] places it, no more) | S13 | `thatch-roof` or `shingle-roof` (existing, Roman: analogy) | timber, roof |
@@ -494,7 +529,7 @@ evidence or analogy. Reused on a medieval castle each would show Roman evidence 
 needs a medieval kit with its own basis, or an analogy text saying the numbers are a Roman guess borrowed for want of a
 medieval one.
 
-**Phase `carreg-cennen-burnt`** (April 1282 to c. 1287): the same parts as `carreg-cennen-welsh` with `condition:
+**Phase `carreg-cennen-burnt`** (spring 1282 to c. 1287): the same parts as `carreg-cennen-welsh` with `condition:
 'ruin'` and no roofs; "the ruins of the castle" with "fifty foot and some workmen" [S18]. Tier: documented (the state);
 the form imagined, as above. Optional (owner's decision).
 
@@ -503,7 +538,7 @@ the form imagined, as above. Optional (owner's decision).
 | id | Shape | Dimensions | Tier | Sources | Kits needed | Textures needed |
 |---|---|---|---|---|---|---|
 | `cennen/curtain-west` | wall, (-16.7, 11.3) to (-12.6, -11.1) | 1.8m as drawn (1.9m measured in `building-models.md`); height: today 7.8m above the ward at its south end, 3.6m in the middle (ruined) (measured); medieval **unknown** (estimate 8m, as the south curtain); wall-walk on a timber gallery ("Probably") | documented (line: the plan fits the survey; date one source: Cadw); height imagined | S8, S20, S2, S7, S13 | `limestone-rubble`; `corbelled-parapet` (new kit: corbels inside and out [S13][S7]); `cross-loop` (new kit) | limestone rubble |
-| `cennen/corner-sw` | rounded corner mass, about (-11.5, -12.2) | 3-4m across, today to 274.1m OD, 9.1m above the ward (measured) | documented (survey; "Curved SW corner" [S2]); a round tower here (1858 [S13]) is **contested** and not drawn | S2, S7, S8, S20, S13 | `limestone-rubble`, `corbelled-parapet` | limestone rubble |
+| `cennen/corner-sw` | rounded corner mass, about (-11.5, -12.2) | 3-4m across, today to 274.1m OD, 9.1m above the ward (measured) | documented (survey; "Curved SW corner" [S2], "a curving projection" [S3]); a round tower here (1858 [S13]) is **contested** and not drawn | S2, S3, S7, S8, S20, S13 | `limestone-rubble`, `corbelled-parapet` | limestone rubble |
 | `cennen/curtain-south` | wall, (-11.5, -12.2), (1.1, -11.4), (12.7, -11.4), (22.8, -12.9) | 1.7m as drawn; **today 7.0-7.4m above the ward inside, 10-15m above the cliff edge outside (measured), said to be full height** [S2][S11]; two latrines and two openings [S7][S11] | documented (line and height: survey, listing, castlewales; the wall-walk possibly restored [S2]) | S2, S11, S7, S8, S20 | `limestone-rubble`, `corbelled-parapet`, `latrine-chute` (new) | limestone rubble |
 | `cennen/curtain-east` | wall, (22.8, -12.9) to (17.1, 17.5) | 2.7-3.3m as drawn, "doubled in thickness on the outer side" behind the hall [S13]; today 7.4m above the ward (measured) | documented (survey and 1858) | S8, S13, S20, S7 | `limestone-rubble`, `corbelled-parapet` | limestone rubble |
 | `cennen/curtain-north` | wall, (-14.7, 17.0) to (-7.2, 18.3), and (6.1, 20.8) to (14.9, 22.4) | About 2.7m as drawn ("up to 2.8 meters" [S7]); today 8-9m above the ward (measured) | documented | S7, S8, S20 | `limestone-rubble`, `corbelled-parapet`, `cross-loop` | limestone rubble |
@@ -513,8 +548,8 @@ the form imagined, as above. Optional (owner's decision).
 | `cennen/tower-chapel` | tower, square, centre (22.7, 7.4) | About 5.4 x 5.7m as drawn, projecting 4.5m (survey) to 5.4m (plan); chapel at second-floor level, nothing below the hall's height inside [S2][S7][S13]; today 274.6m OD, 9.6m above the ward, 16m above the outer ward (measured); medieval height **unknown** (estimate 12m) | documented (survey, 1858, listing) | S2, S7, S13, S8, S20 | `limestone-rubble`, `corbelled-parapet`, `cross-loop` ("arrowslit in the Chapel Tower" [S7]) | limestone rubble |
 | `cennen/range-east` | hall range against the east curtain, ward-side wall from (8.5, 15.9) to (13.9, -13.4) | About 30m long, 7.8m wide inside (as drawn); basements below, kitchen, hall and solar above [S2][S3]; a central stone pillar in the hall's basement [S7]; today 7-9m above the ward (measured); roof **unknown** (estimate a gable behind the parapet) | documented (layout: 1858, listing, schedule, plan) | S2, S3, S7, S13, S8, S20 | `limestone-rubble`; `stone-stair` (new: the external stair to the hall [S3]); hall `roof: 'gable'` (existing plan value; covering unknown: analogy) | limestone rubble, roof (unknown) |
 | `cennen/kings-chamber` | the range's south end, centre about (17.1, -7.3) | Part of `range-east`; two two-light, square-headed windows with trefoiled heads, one to the ward, one south [S13][S12]; fireplace [S12] | documented (1858 and Lewis via Wikipedia) | S13, S12 | `trefoil-window` (new; documented, the 1858 engraving shows a doorway head) | limestone rubble, ashlar dressings |
-| `cennen/turret-se` | small tower over the King's Chamber's buttress | **Unknown** (estimate 3 x 3m, 3m above the parapet) | documented (existence; one source: medievalheritage.eu's reading of a 1369 record [S7]) | S7 | `limestone-rubble`, `corbelled-parapet` | limestone rubble |
-| `cennen/oven` | round oven at the gatehouse's west inner corner | About 2m as drawn | documented (plan, medievalheritage.eu, castlewales) | S8, S7, S11 | none | limestone rubble |
+| `cennen/turret-se` | small tower over the King's Chamber's buttress | **Unknown** (estimate 3 x 3m, 3m above the parapet) | documented (existence of a corner turret: one source, Cadw, by the schedule's "corner turret" [S3] and medievalheritage.eu's "small four-sided tower" [S7]; the 1858 "south-east tower" [S13] names the block, not a size); the small watchtower over it, one source: medievalheritage.eu's reading of a 1369 record [S7] | S3, S7, S13 | `limestone-rubble`, `corbelled-parapet` | limestone rubble |
+| `cennen/oven` | round oven at the gatehouse's west inner corner | About 2m as drawn; the plan draws it, with its chamber, as an outline ("Uncertain") | documented (existence; one source: Cadw, since the plan, medievalheritage.eu and castlewales are one family; the 1858 "kitchen oven" is another oven [S13]); its medieval date **reconstructed** (medievalheritage.eu's "originally" [S7]) | S8, S7, S11 | none | limestone rubble |
 | `cennen/cisterns` | two stone-lined tanks behind the gatehouse | **Unknown** (estimate 2 x 2m each, 1m deep) | documented (schedule, castlewales; one source: Cadw) | S3, S11, S7 | none | limestone rubble, water |
 | `cennen/cave-passage` | vaulted passage from the south-east postern east along the cliff to the cave, (22.8, -12.9) to about (48.2, -1.0) | About 28m long (as drawn, estimate); loops for light; dovecote holes at the cave mouth | documented (1858, Coflein, listing); its date **unknown** (drawn with Period 1, an estimate) | S13, S1, S2, S7 | `limestone-rubble`, `dovecote` (new; documented) | limestone rubble |
 | `cennen/building-south` | building against the south curtain (the plan's "uncertain" outline) | About 11 x 5m as drawn | **not drawn**: "of unknown purpose and uncertain date" [S7]; "purpose is unclear" [S11] | S7, S8, S11 | - | - |
@@ -526,17 +561,18 @@ the form imagined, as above. Optional (owner's decision).
 | `cennen/gate-middle` | tower, square, centre (-2.4, 31.4) | About 7.0 x 8.1m as drawn; a basement (the 1369 "prison") and at least two floors [S7][S3]; a gate in its flank [S16]; today 268.8m OD, 3.8m above the ward and 11m above the ditch (measured); height **unknown** (estimate 10m above the ditch) | documented (King, schedule, plan, survey) | S7, S3, S16, S8, S20 | `limestone-rubble`, `corbelled-parapet`, `portcullis` [S7], `drawbridge-pit` (the bridge over the ditch to the gatehouse [S2]) | limestone rubble, timber |
 | `cennen/barbican` | walled stepped ramp, north wall (-6.6, 34.3) to (34.0, 40.0), turning south to (35.0, 31.7), with steps down into the outer ward | Passage about 3.8m, walls about 1.1m (as drawn); the ramp falls from 265.1m OD to 260.6m (measured); wall height **unknown** (estimate 2.5m above the ramp); two pairs of drawbridge pits on the ramp [S15][S16][S7] | documented (1950, King, listing, plan, survey) | S15, S16, S2, S7, S8, S20 | `limestone-rubble`, `drawbridge-pit`, `stone-steps` (new) | limestone rubble, timber |
 | `cennen/barbican-turret` | round-fronted turret on the ramp, at (22.6, 37.1) | About 3.8m (as drawn) | documented (place: plan); form **contested** (one turret with a portcullis [S7] or a pair of solid round turrets [S16]) | S7, S16, S8 | `limestone-rubble`, `portcullis` | limestone rubble |
-| `cennen/barbican-crosswall` | wall across the ditch's east end | **Unknown** place (estimate at frame x 21, y 25 to 32) and size | documented (existence; one source: medievalheritage.eu [S7]) | S7 | `limestone-rubble` | limestone rubble |
+| `cennen/barbican-crosswall` | wall across the ditch's east end | **Unknown** place and size (estimate near frame x 27, y 24 to 31, where the survey's floor rises from 257.7m to 259.0m at x 28; the earlier estimate of x 21 was inside the ditch's flat base) | documented (existence; one source: medievalheritage.eu [S7]) | S7 | `limestone-rubble` | limestone rubble |
 
 **Phase `carreg-cennen-castle`** (as `carreg-cennen-barbican`, plus these).
 
 | id | Shape | Dimensions | Tier | Sources | Kits needed | Textures needed |
 |---|---|---|---|---|---|---|
 | `cennen/outer-wall` | wall, (-4.5, 24.6), (-9.8, 53.4), (50.0, 67.2), (54.5, 42.7); gate; (55.2, 38.7), (58.2, 5.9), (25.2, -10.5) | About 1.4m as drawn, "about 1.7 meters" [S7]; height **unknown** (estimate 5m); today banks under 2m (measured) | documented (line: plan and survey banks; one source, Cadw, for the stone wall and its date); height imagined | S8, S20, S7, S1, S3 | `limestone-rubble`; wall `top: 'battlements'` (existing plan value; crenellation not attested: analogy) | limestone rubble |
-| `cennen/outer-tower-nw`, `-ne`, `-se` | towers, round, at (-9.8, 53.4), (50.0, 67.2), (58.2, 5.9) | About 3.3-3.5m as drawn; height **unknown** (estimate 6m) | documented (one source: Cadw [S1][S3][S8]) | S1, S3, S8 | `limestone-rubble` | limestone rubble |
+| `cennen/outer-tower-nw`, `-ne` | towers, round, at (-9.8, 53.4), (50.0, 67.2) | About 3.3-3.5m as drawn; height **unknown** (estimate 6m) | documented (one source: Cadw [S1][S3][S8]; solid red on the plan) | S1, S3, S8 | `limestone-rubble` | limestone rubble |
+| `cennen/outer-tower-se` | tower, round, at (58.2, 5.9) | About 3.3-3.5m as drawn; height **unknown** (estimate 6m) | **reconstructed**: Coflein and the schedule give corner towers in general (one source: Cadw [S1][S3]) but the plan draws this one as a dashed outline beyond the red wall, "Uncertain" [S8] | S1, S3, S8 | `limestone-rubble` | limestone rubble |
 | `cennen/outer-gate` | gate between two small half-round towers in the east wall, at about (54.8, 40.7) | Gap about 2.2m as drawn; towers about 3m | documented (one source: Cadw [S7][S3][S8]; Coflein's "small gatehouse" [S1]) | S7, S3, S1, S8 | `ledged-leaf` (Roman: analogy) | limestone rubble, timber |
 | `cennen/outer-crosswalls` | walls, (36.9, 39.6) to (54.5, 40.7), and (20.0, 58.9) to (21.6, 50.6) | As the outer wall | documented (one source: medievalheritage.eu and the plan) | S7, S8 | `limestone-rubble` | limestone rubble |
-| `cennen/lime-kiln` | kiln with its quarry ditch, at about (43.4, 10.3) | About 5m across as drawn | documented (listing, schedule, plan; date **unknown**, drawn here) | S2, S3, S8, S7 | none (a new `lime-kiln` kit, or a ground edit) | limestone, lime |
+| `cennen/lime-kiln` | kiln with its quarry ditch, at about (43.4, 10.3) | About 5m across as drawn | existence documented (one source: Cadw, "a lime-kiln survives in the E part" [S2], the schedule, medievalheritage.eu's mortar reading [S7]); its form and place **reconstructed**, since the plan draws it as line and outline with no period colour ("Uncertain") [S8]; its medieval date is an **inference** (it supplied mortar [S7]), and no source dates it, so it is the first part to drop from the medieval phase if the owner prefers the ruin only | S2, S3, S8, S7 | none (a new `lime-kiln` kit, or a ground edit) | limestone, lime |
 | `cennen/outer-buildings` | stables, a forge, stores | **Unknown** number, size and place (estimate 3 halls of 12 x 6m in the north part) | imagined ("probably" [S7], "will have" [S3]) | S7, S3 | `timber-frame`, `thatch-roof` (existing, Roman: analogy) | timber, daub, thatch |
 | `cennen/gunport` | the north-west tower's ground-floor loop made round, from c. 1455 | Size **unknown** | documented (existence: castlewales, medievalheritage.eu; date one source [S7]) | S7, S11, S12 | `gunport` (new) | limestone rubble |
 
@@ -546,7 +582,12 @@ gatehouse 10.8-11.4m; chapel tower 9.6m; south curtain 7.0-7.4m (the south-west 
 range 7-9m; north-east tower 7-9m; east curtain 7.4m; the King's Chamber 8.7m; west curtain 7.8m at its south end and
 3.6m in the middle; north-west tower about 5m (rim 270m OD); middle gate tower 3.8m (268.8m OD); the barbican ramp at
 265.1-260.6m OD; the outer ward's walls under 2m above their own ground [S20]. Tier: documented (survey); which parts
-are medieval and which Victorian is not known [S6], and the ⓘ says so. The 1740 engraving [S19] and the 1858 account
+are medieval and which Victorian is not known [S6], and the ⓘ says so. **Not none, though**: the Cadw plan colours some
+masonry blue, "Modern" [S8], read on the image in check 2: a short stretch of the south curtain at its east end, beside
+the east range's south end (plan pixels about 715-745, 795-830); a piece of the range's west wall (about 730-745,
+730-745); and several lengths on the first- and second-floor insets (the kitchen's east wall, the King's Chamber's
+south-west corner, the second-floor stair block). The 1858 account puts the owner's "new walling ... to the east of the
+main gateway" [S13]. The medieval phases leave those stretches out; the ruin shows them, labelled modern. The 1740 engraving [S19] and the 1858 account
 [S13] are in the ⓘ for the years before the restoration.
 
 **Kits proposed (new).** `limestone-rubble` (a wall surface kit; Dinefwr proposes `coursed-rubble` for its flaggy
@@ -612,7 +653,7 @@ Observations against `src/content/`, not changes made.
 - [S2] Cadw, Listed Buildings Full Report 20923, "Carreg Cennen Castle", Grade I, designated 24 November 1998, Dyffryn
   Cennen, locality Trapp, E 266814 N 219093.
   https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=20923 — "rebuilt after 1283 by
-  John Giffard of Brimpsfield"; crown 1287-9; "most of the building happened after 1287 and before 1321, but documentary
+  John Giffard of Brimpsfield"; "captured by the forces of Llywelyn ap Gruffudd in 1282"; crown 1287-9; "most of the building happened after 1287 and before 1321, but documentary
   accounts are not available"; 1369 neglect; the 1248 record "obtained the castle back from the English"; 1403 walls
   "`completely destroyed'"; "Earl Cawdor (1817-98) ... restoring several of the wall walks"; "rubble stone with some
   ashlar dressings"; the building order; the gatehouse "double-towered with spurred bases to half-octagonal towers and of
@@ -621,7 +662,9 @@ Observations against `src/content/`, not changes made.
   Lewis 1990. Read directly.
 - [S3] Cadw, Scheduled Monuments Full Report CM001, "Castell Carreg Cennen", E 266813 N 219100.
   https://cadwpublic-api.azurewebsites.net/reports/sam/FullReport?lang=en&id=3300 — crag "90m above the valley";
-  Giffard and son until 1321, "nearly all the present stone structure was built, obliterating any traces of earlier
+  "recovered briefly in 1282 by Prince Llywelyn ap Gruffudd" and "granted to the king’s supporter John Giffard ... in
+  1283"; the south-west and south-east corners "lightly defended, by a curving projection and a corner turret
+  respectively"; Giffard and son until 1321, "nearly all the present stone structure was built, obliterating any traces of earlier
   works"; outer ward with "small drum towers at the angles and gate", the lime kiln and quarry ditch, a turf-covered
   rectangular building outside to the north-east; the barbican's ramp, two gates and pits; a basement "referred to as a
   prison in 1369"; "square north east corner" tower; the hall "entered by an external stone stair"; two cisterns; the
@@ -645,7 +688,8 @@ Observations against `src/content/`, not changes made.
 - [S7] medievalheritage.eu, "Carreg Cennen – castle" (bibliography: Davis 2021; Kenyon 2010; Lewis 1990; Lindsay 1998;
   Salter 1996). https://medievalheritage.eu/en/main-page/heritage/wales/carreg-cennen-castle/ — history (1248; Payn de
   Chaworth 1277; "Probably began after 1284"; Giffards "until 1322"; 1403 surrender and 1414-1421 repairs; 1454-1455
-  repairs and gunports; 1462 and 500 men); architecture (ward "approximately 32 x 28 meters"; walls "up to 2.8 meters"
+  repairs and gunports; 1462 and 500 men; 1282 "temporarily taken over by Gruffudd and Llywelyn, the sons of Rhys
+  Fychan"); architecture (ward "approximately 32 x 28 meters"; walls "up to 2.8 meters"
   east and north; the towers; the parapets on corbels, "Probably"; the south-west rounding; the east range and pillar;
   the King's Chamber and "the tower above the king's chamber" of 1369; the gatehouse; the barbican and "three
   drawbridges"; the ditch "carved in the rock"; the outer ward "about 60 x 60 meters", walls "about 1.7 meters"; the
@@ -695,7 +739,7 @@ Observations against `src/content/`, not changes made.
   the interior "much blocked up with rubbish"; the owner's recent repairs and "new walling ... to the east of the main
   gateway". Independent of the Cadw guide (written a century before it).
 - [S14] John Williams, Archdeacon of Cardigan, "On Castell Carreg Cennen (Read at Llandeilo.)", *Archaeologia
-  Cambrensis* third series, vol. 3, no. 12 (October 1857), pp. 335-49 (pp. 342-8 misprinted 442-8); Welsh Journals.
+  Cambrensis* third series, vol. 3, no. 12 (October 1857), pp. 335-49 (pp. 341-8 misprinted 441-8, per check 2); Welsh Journals.
   https://journals.library.wales/view/2919943/3013965/12 — read from the page images (OCR): the rock "a huge fragment of
   limestone, reposing on the surface of the red sandstone"; the chronicle "under the year A.D. 1254"; Skydmore and 1402-3;
   "After the accession of Henry VII., the castle was given to Sir Rice ap Thomas"; "It is not probable that Sir Rice used
@@ -717,11 +761,11 @@ Observations against `src/content/`, not changes made.
 - [S17] *Brut y Tywysogion, or the Chronicle of the Princes*, ed. and trans. John Williams ab Ithel (Rolls Series,
   London, 1860), Internet Archive. https://archive.org/details/brutytywysogiono00cara — 1248 (p. 335): "Rhys the Little,
   son of Rhys Mechyll, obtained the castle of Carreg Cennen back again, which his mother had deceitfully given into the
-  possession of the French, from hatred towards her son". Read as full text. Same edition as `dinefwr:S18`.
+  possession of the French, from hatred towards her son". Read as full text; the Welsh text's "drachefyn" (p. 335) is the "back again". Gatehouse [S5] calls this translation "flawed" and names T. Jones, 1952 (Peniarth 20) as the best; Jones was not read (contested point 16). Same edition as `dinefwr:S18`.
 - [S18] John E. Morris, *The Welsh Wars of Edward I* (Oxford, 1901), Internet Archive.
   https://archive.org/details/welshwarsofedwar00morr — 1277: Pain de Chaworth "occupied the castle of Caercynan"; £285
-  "for the repair of the fortifications of both Dynevor and Caercynan"; 1282: "seized and destroyed, at least partially,
-  by David early in April"; "Caercynan, or the ruins of the castle, was occupied by fifty foot and some workmen"; later
+  "for the repair of the fortifications of both Dynevor and Caercynan"; 1282: Dafydd ap Gruffudd with the sons of Rhys Fychan "captured Llan- dovery and Caercynan on March 26" (p. 154) and
+  the castle "seized and destroyed, at least partially, by David early in April" (p. 165); "Caercynan, or the ruins of the castle, was occupied by fifty foot and some workmen"; later
   "Caercynan is not mentioned at all" in the peace establishment; appendix III: "Compact and small, it sat four-square",
   "English hands have added one circular tower at an angle, also an extra ward", "a sheer fall of some 300 feet". Read
   as full text. Same book as `classes:S1`.

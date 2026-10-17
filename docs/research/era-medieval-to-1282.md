@@ -2,7 +2,7 @@
 title: Medieval Llandeilo and the Tywi valley, to 1282-83
 kind: research
 status: draft
-updated: 2026-10-02
+updated: 2026-10-17
 ---
 
 Independently checked 2026-10-02 (see [reviews/era-medieval-to-1282-check-2026-10-02.md](reviews/era-medieval-to-1282-check-2026-10-02.md)); corrections applied.
@@ -55,11 +55,11 @@ as the sources allow, with every genuinely open question flagged rather than smo
 | 28 April 1197 | Rhys ap Gruffudd dies; buried at St Davids Cathedral; Deheubarth fragments in the succession dispute between his sons | Cross-checked | [S14][S15] |
 | early 13th century | Llywelyn ap Iorwerth (Llywelyn the Great) forces Rhys Gryg (Rhys ap Gruffudd's son) to dismantle Dinefwr Castle; it is later rebuilt | Single clear source, worth independent confirmation | [S12] |
 | 1220s (second quarter of the 13th century) | Dryslwyn Castle built, probably by Rhys Gryg; S22 says possibly as legacies "for his two sons" (*Corrected 2026-10-02 (independent check)*: the note said "for his son Maredudd", which S22 does not say); the two outer courts were added in the later 13th century | Documented, "probably" in the source itself | [S22][S55] |
-| 1248 | Matilda de Braose (regent for her son Rhys Fychan) grants Carreg Cennen to the English "to spite her son"; Rhys Fychan seizes it first, before the English take possession (*Corrected 2026-10-02 (independent check)*: not a recapture) | Documented | [S25] |
+| 1248 | Matilda de Braose (regent for her son Rhys Fychan) grants Carreg Cennen to the English "to spite her son"; Rhys Fychan seizes it first, before the English take possession (*Corrected 2026-10-02 (independent check)*: not a recapture. *Noted 2026-10-17, [carreg-cennen](carreg-cennen.md) check 2*: this is **contested**, not settled: the Rolls Series Brut has Rhys "obtained the castle of Carreg Cennen back again" (Welsh "drachefyn") what his mother "had deceitfully given into the possession of the French", the listing has it "back from the English", and Wikipedia and medievalheritage.eu have him taking it before the English took possession; Gatehouse calls the Rolls Series translation "flawed" and Jones 1952 was not read) | Documented (the year; the reading contested) | [S25] |
 | 1276-77 | Edward I's first war; Deheubarth's princes submit and pay tribute/homage by 1278 | Cross-checked | [S35] |
 | 1277 | Local Welsh lords side with Edward against Llywelyn ap Gruffudd; Carreg Cennen passes to English control | Cross-checked | [S25] |
 | 1282, spring | Dafydd ap Gruffudd attacks English-held territory; Llywelyn ap Gruffudd joins; general revolt. *Corrected 2026-10-02 (independent check)*: S33 puts Rhys Wyndod, Rhys Ieuanc and the sons of Maredudd ab Owain with Dafydd in Snowdonia (Dolwyddelan) from January 1283, not in the south in spring 1282 | Cross-checked for the revolt; the princes' 1282 whereabouts are not established | [S33][S35] |
-| 1282, spring | Carreg Cennen's local Welsh lords rejoin the rebellion and seize the castle | Documented | [S25] |
+| 1282, spring | Carreg Cennen's local Welsh lords rejoin the rebellion and seize the castle. *Noted 2026-10-17, [carreg-cennen](carreg-cennen.md) check 2*: Morris (1901) dates the capture 26 March (p. 154) and, elsewhere, "early in April" (p. 165), by Dafydd ap Gruffudd with Gruffudd and Llywelyn, sons of Rhys Fychan; Cadw's listing and schedule say "the forces of" / "Prince" Llywelyn ap Gruffudd; the captor and date are contested | Documented (the loss); date and captor contested | [S25] |
 | 1282, 16 or 17 June | Gilbert de Clare's army, mostly Welsh levies, re-occupies Carreg Cennen, which the Welsh had recently burnt; a detachment returning from a plundering raid is ambushed near Llandeilo Fawr; William de Valence the younger and Richard de Argentein killed; heavy losses (*Corrected 2026-10-02 (independent check)*: S28 and S29 say Clare re-occupied the burnt-out castle; only S27 says he "captured" and "sacked" it, a contradiction) | Cross-checked across 4+ sources, but date and Welsh command disputed — see below | [S27][S28][S29][S52] |
 | 1282, 6 July | Edward I removes Gilbert de Clare from command in the south, replacing him with William de Valence the elder | Cross-checked | [S28][S52] |
 | 1282, 11 December | Llywelyn ap Gruffudd killed near Builth (Battle of Orewin Bridge) | Documented (general historiography) | [S35] |

@@ -2,7 +2,7 @@
 title: Measured models of the important buildings
 kind: research
 status: draft
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Measured models of the important buildings, phase by phase
@@ -180,20 +180,29 @@ Coflein NPRN 103970, **SN 66789 19075** [S25]; the app point is 14m off.
 
 | Element | Dimension or form | Source | Confidence |
 |---|---|---|---|
-| Inner ward | Clear about 33m east-west by 26m north-south; outside about 38 x 31m (measured) [S27]. "About 28-33m across" [S25]; "approximately 32 x 28 meters" [S26] | [S25][S26][S27] | High |
+| Inner ward | Clear about 33m east-west by 26m north-south; outside about 38 x 31m (measured) [S27]. "About 28-33m across" [S25]; "approximately 32 x 28 meters" [S26] | [S25][S26][S27] | Medium (sizes superseded) |
 | Curtains | North and east about 2.8m, west about 1.9m, south about 1.8m (measured) [S27]; "up to 2.8 meters" on the east and north, thinner on the west and south [S26] | [S26][S27] | High |
 | Gatehouse | **In the north curtain**, a little west of its middle [S27]; "a great twin towered gatehouse on the north side" [S25]; two three-storey towers shaped as elongated half-octagons, with spurred bases [S26] | [S25][S26][S27] | High |
-| North-west tower | Round, about 8m across [S26] (about 8.4m measured [S27]) | [S26][S27] | High |
-| North-east tower | Polygonal, the largest tower, almost wholly outside the curtain; "sides of approximately 9 meters" [S26]; about 10.8m east-west by 9.1m north-south overall (measured) [S27] | [S26][S27] | High |
+| North-west tower | Round, about 8m across [S26] (about 8.4m measured [S27]) | [S26][S27] | Medium (size superseded) |
+| North-east tower | Polygonal, the largest tower, almost wholly outside the curtain; "sides of approximately 9 meters" [S26]; about 10.8m east-west by 9.1m north-south overall (measured) [S27] | [S26][S27] | Medium (size superseded) |
 | Chapel tower | Small square tower in the **middle of the east curtain**, chapel at second-floor height [S26][S27] | [S26][S27] | High |
 | South-east corner | "A small four-sided tower" [S26]; the King's Chamber is at this corner, and a 1369 record names "the tower above the king's chamber" [S26] | [S26] | Medium |
 | East range | Two storeys along the east curtain: kitchen, hall with a central pillar, chambers, King's Chamber at the south [S25][S26][S27] | [S25][S26][S27] | High |
-| Barbican route | From the gatehouse the way runs north over a pit to the **Middle Gate Tower** (four-sided), at the north-west corner of the barbican; then a stepped ramp runs **east** about 40m along the north side of the inner ward, over two pits, past a round-fronted gate tower; at the east end it turns **south** and goes down steps into the eastern outer ward beside the north-east tower (measured route) [S27]. "Three drawbridges: two on the ramp and one in front of the main gatehouse" [S26]. A rock-cut ditch lies between the ramp and the inner ward [S26]. Built in the castle's second period [S27] | [S26][S27] | High (route); medium (lengths) |
-| Outer ward | North and east of the inner ward, about 63-65m east-west by about 62m north-south (measured) [S27]; "about 60 x 60 meters", walls about 1.7m [S26]. Round towers at the corners [S25][S26]. Gate in the **east** wall, flanked by two small half-round towers [S26][S27]. A cross wall from the gate splits the ward into north and south parts [S26][S27]. Lime kiln in the south part [S26][S27] | [S25][S26][S27] | High |
+| Barbican route | From the gatehouse the way runs north over a pit to the **Middle Gate Tower** (four-sided), at the north-west corner of the barbican; then a stepped ramp runs **east** about 40m along the north side of the inner ward, over two pits, past a round-fronted gate tower; at the east end it turns **south** and goes down steps into the eastern outer ward beside the north-east tower (measured route) [S27]. "Three drawbridges: two on the ramp and one in front of the main gatehouse" [S26]. A rock-cut ditch lies between the ramp and the inner ward [S26]. Built in the castle's second period [S27] | [S26][S27] | High (route); low (lengths, superseded) |
+| Outer ward | North and east of the inner ward, about 63-65m east-west by about 62m north-south (measured) [S27]; "about 60 x 60 meters", walls about 1.7m [S26]. Round towers at the corners [S25][S26]. Gate in the **east** wall, flanked by two small half-round towers [S26][S27]. A cross wall from the gate splits the ward into north and south parts [S26][S27]. Lime kiln in the south part [S26][S27] | [S25][S26][S27] | Medium (size superseded) |
 | Building dates | "Probable that construction of the castle took place between 1287 and 1321 ... built in one operation" [S25]; the Cadw plan shows three periods, all "late thirteenth to early fourteenth century", with the outer ward last [S27][S26] | [S25][S26][S27] | High (span); phases medium |
 
 This confirms the review's corrections (S26 there is S26 here): polygonal north-east tower, chapel
 tower mid east curtain, half-octagonal gatehouse towers, three drawbridges.
+
+**Corrected 2026-10-17** (the independent check of [`carreg-cennen.md`](carreg-cennen.md), [check 2](reviews/carreg-cennen-check-2.md)):
+the sizes in this table were read off the Cadw plan [S27] at its own scale bar or an earlier measurement, and
+`carreg-cennen.md` fitted that plan to the 2022 LiDAR, which shows the plan is drawn about 3-4% larger than its bar says.
+Superseded there, with the confidence column lowered above: the inner ward is clear about 24.7m east-west by 23-27m
+north-south (1858: 87 by 80 feet), not about 33 by 26m; the north-west tower is 7.5m on the plan and about 8m in the text
+(not 8.4m); the north-east tower is about 9.0 by 9.2m (not 10.8 by 9.1m); the outer ward is about 60 by 60m (not 63-65 by
+62m); the barbican ramp is about 34m long (not about 40m); the curtains are about 1.8m (west), 1.7m (south), 2.7m (north)
+and 2.7-3.3m (east). The forms (what is where, the shapes) stand. Use the new note's figures.
 
 ## St Teilo's Church
 
