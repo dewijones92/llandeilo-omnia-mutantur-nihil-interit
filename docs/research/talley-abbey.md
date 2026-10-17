@@ -14,9 +14,10 @@ pipeline of [ADR 0052](../adr/0052-landmarks-are-scripted-blender-models-built-f
 sourced or labelled-analogy textures (Dewi's decisions of 2026-10-16/17, as given in the brief). Written by Claude on
 2026-10-17 from sources fetched that day; the brief is in [`briefs/talley-abbey.md`](briefs/talley-abbey.md). The
 choices in "Plan for the Blender model" are Claude's, under the proactive mandate
-([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), and none is Dewi's. Checked once by
-the same agent ([check 1](reviews/talley-abbey-check-1.md)), which is **not** the independent check the todo path asks
-for; that is still owed.
+([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), and none is Dewi's. Checked twice on 2026-10-17 ([check 1](reviews/talley-abbey-check-1.md)):
+once by the same agent, then by an independent reader whose ten findings (five IMPORTANT, five SUGGESTION) were each
+verified against the sources and applied, with the verdicts in that file. The fixes themselves have not yet been read by
+another reader (the repo's rule: attack the fixes too), so the note stays a draft.
 
 It extends the Talley sections of [`era-medieval-to-1282.md`](era-medieval-to-1282.md) (history) and
 [`building-models.md`](building-models.md) (the first plan, measured on 2026-10-02 from two Cadw-derived drawings), and
@@ -62,29 +63,67 @@ Thomas's photograph of about 1885 [S18] for the ruin before excavation; **Monast
   86.6 (feet) and 87.1 (metres)); the two fits agree to within 0.8m everywhere on the church [S15][S21]. The fitted crossing
   piers fall on the standing tower: the plan's north-east and south-east piers at E 263283.6 and 263282.8, the surveyed
   east wall's crest at E 263282.5-263284.5. So the plan's dimensions can be read off its bar, and **the church axis runs
-  at a bearing of 94.0 degrees (±0.5)** on the grid, not due east as the app draws it; the plan draws the axis square to
-  its north arrow, and whether the arrow is true or magnetic north, and how much of the 4 degrees is the arrow's own
-  error, is not known (grid and true north differ by about 1.6 degrees here) [S15][S21].
+  at a bearing of 94.0 degrees (±0.5)** on the grid, not due east as the app draws it. The plan itself says nearly the
+  same: its north arrow is drawn 3.0 to 3.2 degrees off the page's vertical (measured on the full-resolution scan, the
+  top leaning west), while the south aisle wall's edge runs 0.15 to 0.19 degrees off the page's horizontal, so the
+  plan's own arrow puts the axis at about 93 degrees. That is a second strand for the turn, agreeing with the LiDAR's 94.0
+  within the arrow's drawing error; whether the arrow is true or magnetic north is not stated, and grid and true north
+  differ by about 1.6 degrees here [S15][S21].
 - **The church as planned was about 72m long outside; as finished, about 49.6m.** Off the 1941 plan: west front to the
   presbytery's east face **71.9m** outside (bar; 71.2-72.3m on the two fits); inside, **68.8m**, which is Williams's
   "226.3" ft (69.0m) inside [S16]; "240ft long" (73.2m) in the HER and DAT text [S5][S6]; "73m" in the listing and
   medievalheritage [S4][S9]; "235 feet" (71.6m) in UK Southwest [S20]. The finished church ran from the medieval cross-wall
   at the fourth pier west of the crossing to the east end: **49.6m** outside (bar), against "162 feet" (49.4m) in UK
   Southwest [S20] [S14][S15]. **Four bays of nave and south aisle were built; the four western bays stayed at footing
-  level**: O'Neil's conclusion from the 1933-38 excavation [S14], which the Cadw line follows [S4][S9]; Williams, forty years
-  earlier, had already concluded that "the original builders abandoned the work when but a very small portion of it was
-  completed" and wrote of "the uncompleted portions of the church" [S16]. How much of the north aisle was built is
-  contested between them (see Contested points).
-- **The bays are 5.68m** centre to centre (eight of them, 45.4m from the west respond to the crossing pier), the arcade
-  centre lines **9.95m** apart, the crossing piers **9.9m** apart both ways [S15]. These replace building-models.md's 5.6m,
-  9.7m and 9.6m, which were read off smaller Cadw-derived drawings (±5%).
-- **The tower stands to about 24.5m today, not 26m.** On the surface model the crest of the tower's east wall is at
-  **136.4-136.8m OD** over a crossing floor at **112.25m OD**: **24.2-24.5m** [S21]. The north wall steps down westward from
-  the same top at the north-east corner to about 127.7m (about 15.5m) [S21]. The texts: "24m" (Cadw listing) [S4]; "half of
-  a shattered 26m high tower" (Coflein) [S1]; "over 25m" (Monastic Wales) [S8]; "up to 85 feet" (25.9m, UK Southwest)
-  [S20]; "26-meter" today and "originally approximately 29 meters" (medievalheritage) [S9]; and O'Neil: "The eastern wall of
-  the tower still stands almost to its full height ... the measurement given by Stephen Williams is 95 ft" (29.0m) [S14].
-  The survey agrees with the listing. **Contested** (why Williams's figure is 4.5m more is not known).
+  level** is **O'Neil's** conclusion from the 1933-38 excavation [S14], which the Cadw line follows [S4][S9], and the view
+  of D. Long Price, whom Williams quotes: the north aisle "was never built further than the point (7) opposite the second
+  pier from the tower", and "the building of the west wall stopped short at the south corner of the intended west
+  entrance" [S16]. **Williams himself did not conclude it.** Of the church west of the cross-wall he wrote "It is quite
+  impossible to say whether or no the Premonstratensian church ever extended beyond the cross-wall at the fourth pier from
+  the tower, and what has been discovered westwards of that line may be merely the foundations and partially built walls of
+  the first builders"; "I think it is probable that they completed the church in the first instance, all except a portion
+  of the north aisle", and later it was shortened, as Strata Marcella was after Glyndŵr, or left "to fall into decay and
+  ruin long before the dissolution" [S16]. (His sentence that "the original builders abandoned the work when but a very
+  small portion of it was completed" is about the first builders, whom he took for Cistercians giving up an ornamental
+  freestone design; their successors "adopted a more economical, simple, and severe type of architecture" [S16].) So the
+  western bays at footing level are **one source (O'Neil/Cadw, with Long Price)** against Williams's "built, then shortened
+  or decayed" and UK Southwest's "removed soon after the Dissolution" [S20]; see Contested points. How much of the north
+  aisle was built is contested between O'Neil and Williams.
+- **The regular nave bays are 5.65m** centre to centre: the six intervals between the seven south-arcade pier centres on the
+  full-resolution plan average 490px (481 to 498) at 86.8px/m, and six of them span 33.9m. The bay between the crossing
+  pier and the first arcade pier is about 5.9m and the last, to the west respond, about 5.7m: eight bays, 45.5m from the
+  west respond to the crossing pier. The arcade centre lines are **9.95m** apart and the crossing piers **9.9m** apart both
+  ways [S15]. These replace building-models.md's 5.6m, 9.7m and 9.6m, which were read off smaller Cadw-derived drawings
+  (±5%), and the first draft's uniform 5.68m, a mean that took in the longer end bays.
+- **The tower stands to about 24m today (23.8-24.5m), not 26m.** On the surface model the crest of the tower's east wall
+  is at **136.0-136.8m OD** over a crossing floor at **112.25m OD**: **23.8-24.5m**, mostly 136.0-136.3 (23.8-24.0m) along
+  the wall, with 136.6-136.8 only at its north-east corner and a few cells beside it [S21]. The north wall steps down
+  westward from the same top at the north-east corner to about 127.7m (about 15.5m) [S21]. The texts: "24m" (Cadw listing)
+  [S4]; "half of a shattered 26m high tower" (Coflein) [S1]; "over 25m" (Monastic Wales) [S8]; "up to 85 feet" (25.9m, UK
+  Southwest) [S20]; "26-meter" today and "originally approximately 29 meters" (medievalheritage) [S9]; and O'Neil: "The
+  eastern wall of the tower still stands almost to its full height ... the measurement given by Stephen Williams is 95 ft"
+  (29.0m) [S14]. The survey agrees with the listing, and with **Williams's own corbel course**: "To the underside of the
+  corbel course is about 78 ft. from the floor line" (23.8m) [S16]; his Plate 4 draws that underside at 75-76ft against its
+  own bar. His 95ft is a different quantity: "The tower had what is called a saddle-back roof, and its ridge ran from east to
+  west; from floor line to apex was about 95 ft." (29m) [S16], the apex of the gabled top, not a rival height for the walls.
+  His Plates 1, 2 and 4 draw the east wall's stepped gable head, as it stood in 1893-4, at **87-88ft (26.5-26.9m)** (read at
+  their 50ft bars, ±1ft, three plates; a broken head), so the 95ft is his restored apex, some 7ft above the drawn remnant:
+  **contested between his text and his plates**. The head he drew has since gone: the 2022 crest is about 2m lower, and
+  when is not recorded (Williams: "a mass of the tower has recently fallen" in 1897; O'Neil found the walls "in a highly
+  dangerous condition" in 1933) [S16][S14]. Today's crest is at about the corbel course, the level of the walls' head.
+- **Williams's plan and plates are legible and carry heights.** The Internet Archive's page images show his plan of 14
+  October 1894 (a 0-50ft bar, dimension figures that match his text, a legend of excavated walls, later walls and the
+  probable outline, and a "Chancel of Parish Church" drawn inside the presbytery) and Plates 1, 2 and 4 (W. H. Ashford
+  del., 1894; sections of the tower and transepts, each with a 50ft bar and a figure of about 6ft standing in it, which
+  checks the scale) [S16]. Read at those bars (±1m; ivy covers much of Plate 4): the original presbytery roof's ridge meets
+  the tower's east wall at about **63ft (19.2m)** above the floor, its pitch about **48 degrees** (±3); a later, flatter roof
+  there peaks at about 50ft (15.4m) at about 34 degrees; the small chancel's roof at about 27ft (8m, the ridge hidden by
+  ivy); the pointed crossing arch drawn in Plate 2's section looking north has its crown at about 38.6ft (11.8m). With the
+  pitch and half-span the original presbytery's eaves come to about 12.6m (derived, not read). He also records "a passage,
+  also in the thickness of the wall, running all round the church above the nave arcades and below the clerestory
+  windows", "The nave was lighted by clerestory windows, probably one over every arch in the arcade" (an inference), and that
+  the tower's south wall "must at some time have fallen outwards, and a new south wall has been built, certainly from the
+  springing of the eastern arch of the tower upwards", perhaps in the earthquake of 1248 (his conjecture) [S16].
 - **The floor is measured and agrees with the excavator.** The turf, which O'Neil says "everywhere now indicates the
   original floor as accurately as it could be determined", falls on the LiDAR from 112.95m OD at the west end of the
   planned nave to 112.25m at the crossing, 0.7m; O'Neil: "the total drop from the bed of the threshold of the door to the
@@ -95,16 +134,21 @@ Thomas's photograph of about 1885 [S18] for the ruin before excavation; **Monast
   "only around five feet tall or less" (1.5m) [S20] fits. These are the walls as consolidated in 1933-38 [S14].
 - **Phases (proposed).** The large church laid out and its east end begun in the late 12th century (founded 1184-89,
   contested; building "may have begun shortly before 1200", O'Neil); interrupted by the dispute with Whitland and resumed
-  "by or before 1208"; **finished small** in the early 13th century; a parish church from 1536 to 1772; abandoned and
+  "by or before 1208"; **finished small** in the early 13th century (O'Neil; Williams thought the shortening later, see Contested points); a parish church from 1536 to 1772; abandoned and
   quarried for St Michael's church, with "a large fall occurring in 1845"; cleared and consolidated by the Office of Works
   from 1933. See "Phases" and the plan.
 - **How much of the church served the parish after 1536 is contested**, and the app today draws one side. The Cadw line
   says "the choir and presbytery" [S1][S4][S5][S8]; O'Neil says "at first the whole of the monastic presbytery was
   utilised. Subsequently a smaller chancel was built within it" [S14]; but Coflein's St Michael's record has the church
-  "150ft in length in 1710" [S2], which is the **whole shortened church** (its inside length is 46.7m, 153ft, on the 1941
-  plan [S15]), the HER cites Griffiths (1976) for early 18th-century visitations suggesting it "remained in use, and
+  "150ft in length in 1710" [S2], which is close to the **whole shortened church** (its inside length is 46.7m, 153ft, on the 1941
+  plan, and 49.6m, 163ft, outside [S15]; 150ft may be a round figure, and is far more than the crossing and presbytery
+  alone, about 26m) [S15], the HER cites Griffiths (1976) for early 18th-century visitations suggesting it "remained in use, and
   more-or-less entire, until 1772" [S5], Lewis (1833, via Long Price) has it "much out of repair, and half a ruin" and
-  given up as "too large" [S17], and O'Neil himself found post-Suppression rebuilding in the **nave's** doorways [S14].
+  given up as "too large" [S17], and O'Neil himself found post-Suppression rebuilding in the **nave's** doorways [S14]. Williams, independently, thought
+  the cross-wall "probably defines the west wall of the Parish Church after the Dissolution", so that "the first Parish Church
+  would extend eastwards of this wall, right through the tower to the original east wall of the presbytery" (an inference
+  he states with "probably"); a later stage had "the east wall of the nave of the parish church" blocking the tower's eastern
+  arch, with "the small chancel" built inside the presbytery, "probably of the seventeenth century" [S16].
 - **Materials, as recorded.** Walls of "the normal uncoursed or roughly coursed rubble"; the south wall's core "set in
   slatey clay which has little lime", lime mortar "only in the faces" [S14]; medieval mortar "hard and white with much
   small and whole river grit" [S14]; ashlar ("freestone") only for the quoins of one crossing pier, one nave pier, the
@@ -124,7 +168,7 @@ Thomas's photograph of about 1885 [S18] for the ruin before excavation; **Monast
 | Cadw listing 15767 | E 263267, N 232772 | [S4] | 14m west of Coflein, in the nave by the first pier west of the crossing |
 | HER PRN 1897 | SN63273277 | [S5][S6] | 10m precision |
 | Crossing centre | E 263278.3, N 232775.7 (±1m) | [S15][S21] | The mean of the four crossing piers on the fitted plan; floor 112.25m OD |
-| Tower east wall crest | E 263282.5-263284.5, N 232770.5-232781.5; top 136.4-136.8m OD | [S21] | Surface-model cells more than 15m above the ground |
+| Tower east wall crest | E 263282.5-263284.5, N 232770.5-232781.5; top 136.0-136.8m OD (mostly 136.0-136.3) | [S21] | Surface-model cells more than 15m above the ground |
 | Talley Mound (motte), for the setting | SN 63130 33373 | [S3] | "face across the Upper Lake to the ruins of Talley Abbey, 0.5km to the south" |
 
 **The fit** ([S15] to [S21]). The plan's wall pixels (the black and hatched walls, with the legend, bars, title and north
@@ -190,9 +234,12 @@ conjectural" [S16], and nothing later supports it.
   of the arch. Above this point the masonry is entirely of rubble" [S14]. Williams, independently, saw the same break: the
   north-east pier's "plain three-quarter round moulding" for "some 15 ft. or 20 ft. from the base" (4.6-6.1m), and above
   it "plain rubble masonry, which has been plastered"; his reading was that the first builders built "some portion of the
-  eastern end of the church, including part of the tower" [S16]. So by c. 1208 the crossing piers stood at least to their
+  eastern end of the church, including part of the tower" [S16]. He dates the moulded work "probably ... of the middle of the
+  twelfth century" (O'Neil: late in it). His text calls the moulded pier north-east (pp. 231 first mention, 233, 241) and
+  north-west (p. 231 second mention, p. 234), and his Plate 2 is titled "Sketch of N E Pier"; this note follows the plate. So by c. 1208 the crossing piers stood at least to their
   springing, and the east end was begun: **documented that a first campaign laid out the large plan; its standing extent
-  reconstructed** (one source for the foundation date: O'Neil/Cadw; the break in the pier: O'Neil and Williams).
+  reconstructed** (one source for the foundation date: O'Neil/Cadw; the break in the pier: O'Neil and Williams; that the piers belong to this campaign is O'Neil's
+  inference, "may well be reflected").
 
 ### Phase 2: the abbey finished small (c. 1208 to 1536)
 
@@ -202,14 +249,16 @@ conjectural" [S16], and nothing later supports it.
   13th century" (medievalheritage) [S9]. O'Neil's proof that the closing walls are medieval, not post-Suppression: the
   cross-wall across nave and aisle at the fourth pier west of the crossing and the blocking walls between the eastern piers
   of the north arcade share the church's mortar and its first plaster, and the lower threshold of the door through the
-  cross-wall "lies precisely on the line of this sloping floor of the nave" [S14]. "The wall across the nave is twice as
+  cross-wall "lies precisely on the line of this sloping floor of the nave" [S14]. Williams, before the clearance, thought the closing walls later: the cross-wall "probably" the parish church's west wall after 1536, or a shortening after some later misfortune, as at Strata Marcella, "whether some similar misfortune befell Talley is not known" [S16]. His is an inference from a partial excavation, O'Neil's rests on the mortar, plaster and floor evidence above, and the date stays contested. "The wall across the nave is twice as
   wide as the others (4ft. 6 in. and 2 ft. 3 in.) and has a pronounced batter" [S14].
 - **The plan of the finished church** (dimensions in the plan section): a square-ended presbytery without aisles, with a
   sacristy and an ante-room on its south; north and south transepts, each with three square-ended chapels on the east; a
   tower over the crossing on four piers; a nave of four bays with an aisle on the south only, its north side closed by a
   wall in the arcade; one bay of the north aisle, built as a room off the north transept; a west front formed by the
   cross-wall, with a door [S14][S15].
-- **Doors.** In the cross-wall a door whose "iron crooks, pieces of which remain" show two periods [S14]; the eastern door
+- **Doors.** In the cross-wall a door whose "iron crooks, pieces of which remain" show two periods [S14]; Williams: "a west doorway in
+  the centre of the nave, 6 ft. wide" (1.8m), its outer threshold "about 1 ft. 6 ins. below the present level of the
+  churchyard" with a paved footway to it, and inside "three descending steps" to a floor 2ft 8in lower [S16]; the eastern door
   from the south aisle to the cloister, "well preserved up to a height of over 3 ft., and has external jambs of ashlar,
   chamfered and stopped" [S14]; a middle door to the cloister (its first jambs replaced after 1536) [S14]; the north
   transept "entered from the north through a splayed doorway with chamfered jambs" [S14], Williams's "north door, with
@@ -225,7 +274,9 @@ conjectural" [S16], and nothing later supports it.
   conglomerate ... Below this opening the roof-creasing of the original presbytery roof is well preserved, and below that is a
   high and narrow opening with a flat head. Yet lower is the rectangular opening, which lights the mural stair over the
   eastern arch" [S14]. "The beam-holes for the ceiling of the roof are visible high up in this wall" [S14]. UK Southwest:
-  "three openings, two below the roof level of the presbytery and a window above" [S20].
+  "three openings, two below the roof level of the presbytery and a window above" [S20]. Williams's plates draw the same
+  openings (a lancet below the corbel course, a high narrow opening, a nearly square one), the "original sharp-pitched water
+  table", the later flatter one, and the corbel course with a stepped gable above it [S16].
 - **The presbytery's east end**: "three tall, pointed-arch windows set between external pilaster strips or buttresses"
   (medievalheritage) [S9]; Williams: "the jambs of the east window of the presbytery" had "a similar moulding carried round
   its external angles" [S16]; O'Neil found "no traces ... of an altar or altar steps, nor were there any signs even of the
@@ -273,6 +324,15 @@ conjectural" [S16], and nothing later supports it.
   more-or-less entire, until 1772 (Griffiths 1976, 321)" (HER) [S5]; "The ancient Abbey Church, though much out of repair,
   and half a ruin, was used for divine service till the year 1772. Being found too large ..." (Lewis 1833, quoted by Long
   Price) [S17]; Williams: "the Abbey church, or some part of it" [S16]. **Contested.**
+- **Williams's own evidence for the layout** (1897, his plan and p. 241) [S16]: "Blocking up the eastern arch of the tower
+  is seen the east wall of the nave of the parish church, with a segmental arched window, below which is the water table of
+  the small chancel shown upon the plan, and built inside the walls of the presbytery. This portion of the parish church
+  must be comparatively modern: probably of the seventeenth century." His plan draws the chancel as later (hatched) walls
+  inside the presbytery, starting at the tower's east arch, about 7.4m outside east-west and about 6m north-south (read
+  at the plan's bar, ±1m). A second, independent source for O'Neil's "smaller chancel", and evidence that at one stage the
+  parish nave ran through the crossing to the tower's eastern arch with the old presbytery outside, bar the chancel. He
+  also saw "a thinner wall" between the north arcade piers, "as far as the fourth pier westward of the tower", and
+  attributes it, with the cross-wall, to the curtailing of the church, probably after the Dissolution (p. 239) [S16].
 - **What the fabric shows of it** (O'Neil): post-Suppression walls "built with a distinctive fine, hard, grey mortar with
   quartz grit", removed in 1933-38 except the middle cloister door's later jambs [S14]; a later, higher threshold in the
   cross-wall door, with three steps down into the nave that Williams recorded and that "must be connected with ... the
@@ -300,8 +360,8 @@ conjectural" [S16], and nothing later supports it.
   Price) [S17]; about 1885, John Thomas's photograph shows the tower, ivy-covered, as a tall fragment with a stepped top,
   and St Michael's beyond [S18]; in 1897, "a mass of the tower has recently fallen" (Williams) [S16]; in 1933 "the only
   medieval walls still standing to any considerable height above the ground level ... were the northern and eastern walls
-  of the tower and part of the north transept", "in a highly dangerous condition" [S14]. How the tower stood between 1772
-  and 1879 is not known, and whether one wall or two stood in 1879 is **contested** (Long Price's "one surviving wall"
+  of the tower and part of the north transept", "in a highly dangerous condition" [S14]. Williams's Plates 1-4 "accurately delineate the central tower, from each point of view, as it appeared in 1893-4" [S16]
+  (heights above). How the tower stood between 1772 and 1879 is not known, and whether one wall or two stood in 1879 is **contested** (Long Price's "one surviving wall"
   against two in 1933; a second wall may simply have been the north wall's lower part, an inference).
 - **Buried and built over.** Williams: the ruins "generally are covered with from about 6 ft. to 8 ft. of débris" [S16];
   the north transept's walls stood "from 5 ft. to 8 ft. in height ... covered up with the fallen débris" [S16]. In the nave
@@ -330,7 +390,7 @@ conjectural" [S16], and nothing later supports it.
 |---|---|---|
 | O'Neil 1941, Fig. 1, the official plan (Office of Works; Crown copyright, reproduced in *Arch. Camb.*) [S15] | The church and the found part of the cloister, phased "Late 12th Century", "Early 13th Century", "Post Reformation"; bars in feet and metres | Measured and fitted; the basis of the plan below. Not copied |
 | O'Neil 1941, Plates I-VIII [S14] | The tower and nave before and after preservation, the cross-wall, the transept chapels, the cloister's west wall, the night stair, the west door | Viewed (contact sheet); for the ruin phases |
-| Williams 1897, plan and section [S16] | His excavation plan (which O'Neil corrects in places) | Not legible in the OCR'd text; not used |
+| Williams 1897, plan (14 October 1894) and Plates 1, 2 and 4 (W. H. Ashford del., 1894) [S16] | His excavation plan with a 50ft bar, dimension figures and a legend, its "Chancel of Parish Church" inside the presbytery; sections of the tower and transepts, each with a 50ft bar | Read from the Internet Archive page images (IIIF); measured at their own bars, with a figure of about 6ft in each plate as a check: heights and the chancel's size in the Summary. Not copied. Plates 3 and 5 to 7 were not measured |
 | John Thomas, "The church and ruined abbey, Talyllychau", glass negative, c. 1885, NLW, public domain [S18] | The tower before excavation, ivy-covered, with St Michael's | Viewed; for `talley-quarried` |
 | T. Ball, cutaway reconstruction from the east, as reproduced by medievalheritage.eu [S12] | Presbytery, crossing and transepts roofed, the tower with a low roof inside its walls | An artist's reconstruction, viewed. Not evidence |
 | C. Jones-Jenkins, reconstruction with the unbuilt church outlined, as reproduced by medievalheritage.eu [S13] | The shortened church and cloister, the tower one stage above the roofs with a hipped roof | An artist's reconstruction, viewed. Not evidence |
@@ -341,25 +401,32 @@ conjectural" [S16], and nothing later supports it.
 | Point | Readings | Sources |
 |---|---|---|
 | Founding year | 1184, 1185, 1189 (1184-9, "1180s", "around 1185") | [S1][S4][S7][S8][S20] |
-| What became of the western bays' masonry | Never built above footings (O'Neil: most of the north wall and half the west wall absent, the western south aisle never levelled, the walls nowhere more than 4ft 6in above the interior [S14]; Williams: work abandoned "when but a very small portion of it was completed" [S16]) vs UK Southwest's "the remainder having been removed soon after the Dissolution" [S20], which may mean the robbing of what stood. The model follows O'Neil and Williams | [S14][S16][S20] |
-| How much of the north aisle was built | One bay (O'Neil, from "a prolonged search") vs to "nearly opposite the second pier ... west of the tower" (Williams) | [S14][S16] |
-| What served the parish, 1536-1772 | Choir and presbytery (Cadw line); the presbytery, later a smaller chancel within it (O'Neil); the whole shortened church, "150ft in length in 1710" (Coflein St Michael's), "more-or-less entire" (Griffiths via the HER), "half a ruin" and "too large" (Lewis 1833) | [S1][S2][S4][S5][S14][S17] |
-| The tower's height | 24.2-24.5m measured today [S21]; 24m (listing); 26m (Coflein, medievalheritage); over 25m (Monastic Wales); 85ft (UK Southwest); 95ft, Williams's measurement as O'Neil reports it; "originally approximately 29 meters" (medievalheritage) | [S1][S4][S8][S9][S14][S20][S21] |
+| What became of the western bays' masonry | Never built above footings (O'Neil: most of the north wall and half the west wall absent, the western south aisle never levelled, the walls nowhere more than 4ft 6in above the interior [S14]; Long Price's letter in Williams: the north aisle never beyond the second pier, the west wall stopped at the south corner of the intended entrance [S16]) vs built, then shortened or left to decay (Williams: "quite impossible to say", "probable" that the canons "completed the church in the first instance, all except a portion of the north aisle", later shortened as at Strata Marcella or left to decay [S16]; UK Southwest's "the remainder having been removed soon after the Dissolution", which may mean the robbing of what stood [S20]). The model follows O'Neil, as one source (O'Neil/Cadw, with Long Price) | [S14][S16][S20] |
+| When the church was shortened | Early 13th century, the closing walls sharing the church's mortar and first plaster, the cross-wall door's lower threshold on the line of the sloping floor (O'Neil [S14]) vs after the Dissolution, the cross-wall "probably" the parish church's west wall (Williams), or later, as at Strata Marcella after Glyndŵr, "whether some similar misfortune befell Talley is not known" [S16]. The model follows O'Neil, as one source (O'Neil/Cadw) | [S14][S16] |
+| How much of the north aisle was built | One bay (O'Neil, from "a prolonged search") vs to "nearly opposite the second pier ... west of the tower" (Williams, who saw a set-off there and the aisle roof's water table on the transept wall; Long Price's letter agrees on the second pier) | [S14][S16] |
+| What served the parish, 1536-1772 | Choir and presbytery (Cadw line); the presbytery, later a smaller chancel within it (O'Neil); the whole shortened church, "150ft in length in 1710" (Coflein St Michael's), "more-or-less entire" (Griffiths via the HER), "half a ruin" and "too large" (Lewis 1833), the first parish church running from the cross-wall "right through the tower" (Williams, "probably"); a later stage with a nave ending at the tower's east arch and a small chancel inside the presbytery (Williams, "probably of the seventeenth century") | [S1][S2][S4][S5][S14][S16][S17] |
+| The tower's height | Today 23.8-24.5m measured [S21]; 24m (listing); 26m (Coflein, medievalheritage); over 25m (Monastic Wales); 85ft (UK Southwest); Williams 1897: about 78ft (23.8m) to the underside of the corbel course, which agrees with today's crest, and about 95ft (29m) to the apex of a saddle-back roof with an east-west ridge, while his plates draw the east wall's gable head as it stood in 1893-4 at 87-88ft (26.5-26.9m); "originally approximately 29 meters" (medievalheritage, which equals Williams's 95ft) | [S1][S4][S8][S9][S14][S16][S20][S21] |
 | Western towers | "an aisled nave of eight bays with at least one western tower" (O'Neil, from a thick unbonded wall in the south aisle "begun in anticipation of the erection of a western tower, but there is no other evidence") vs "probably two western towers" (HER and DAT, Cadw 1986 text) | [S14][S5][S6] |
 | A west range | Closed by a plain wall, no buildings (HER/DAT); not known whether finished (medievalheritage); "a small fragment" (UK Southwest); a short length of back wall that "may never have been completed" (O'Neil) | [S5][S6][S9][S14][S20] |
-| The burning of the 15th century | 1410, "despoiled, burned and almost destroyed" by English and Welsh armies (Monastic Wales); by the English army in Glyndŵr's rising (medievalheritage); "an English-led attack in 1427" (UK Southwest) | [S8][S9][S20] |
+| The burning of the 15th century | 1410, "despoiled, burned and almost destroyed" by English and Welsh armies (Monastic Wales); by the English army in Glyndŵr's rising (medievalheritage); "an English-led attack in 1427" (UK Southwest). The only other 1427 event in the sources read is medievalheritage's "in 1427, one of the canons from Talley, Mathew ap Llywelyn Ddu, was hunted for treason charges", so UK Southwest's date may be a conflation (an inference; its text has no references) | [S8][S9][S20] |
 | When the church was abandoned | 1772 (O'Neil, Long Price, Coflein St Michael's), 1772-3 (Coflein), 1773 (listing) | [S1][S2][S4][S14][S17] |
 | The tower in 1879 | "the one surviving wall" (Long Price) vs north and east walls standing in 1933 (O'Neil) | [S17][S14] |
 | What the church measured | Total 71.9m outside on the plan; "240ft" (73.2m, HER/DAT); 73m (listing, medievalheritage); 235ft (UK Southwest); 226.3ft inside (Williams), which the plan's 68.8m inside matches. Williams's tower "29 ft." inside "perfectly square" vs 7.4m (24.4ft) between the piers' faces on the plan, and 9.9m (32.6ft) between their centres: his figure is likely between the tower's walls above the arches, an inference | [S5][S4][S9][S15][S16][S20] |
 
 ## Gaps
 
-- **Every height of the standing abbey** except the tower's: no source read gives the walls' or the roofs' heights. The
+- **Heights other than the tower's and the presbytery's roof**: no source read gives wall heights for the nave, aisles,
+  transepts or presbytery. Williams's Plate 4 gives the presbytery roof's ridge and pitch (read at its bar), and his text
+  says the water table of the north transept's roof "corresponds in height with the original roof over the presbytery" and
+  "gives us the pitch and height of the roof over the nave, assuming that the Premonstratensians actually completed the
+  entire church" [S16]; the eaves, the nave's and aisles' heights, and the transepts' are derived or estimated. The
   presbytery roof's creasing survives on the tower's east wall [S14] and could be measured from photographs or a
   terrestrial survey; the transept roofs' creasing likewise ("the roof-creasing above the arch into the bay") [S14]. The
   north transept's west wall to about 14m [S21] is a lower bound for that wall.
-- **The tower's original height and roof.** It stands to about 24.5m, "almost to its full height" [S7][S14]; whether it had
-  a parapet, how it was roofed, and Williams's 95ft are open.
+- **The tower's original top.** It stands to about 24m, "almost to its full height" [S7][S14], which is the corbel course
+  [S16][S21]. Williams documents a saddle-back roof with an east-west ridge, a corbel course and a stepped gable (his text
+  and plates, one source); open are the gable's apex (his 95ft against his plates' 87-88ft), whether it had a parapet,
+  and any roof covering.
 - **The ranges** (east, south, west): form, size and height; under the farmyard [S14].
 - **The cloister's south side and its north-south length** (medievalheritage's "23×23 meters" [S9] gives a square; the
   found walls run at least 11m south of the front wall's north side [S15]).
@@ -368,7 +435,7 @@ conjectural" [S16], and nothing later supports it.
 - **Roof covering** in any phase: not recorded (analogy needed). **Glass, tiles and paint**: recorded as types only.
 - **Not read**: the Cadw guide (Robinson and Platt, 1992/1998/2007); Burton and Stöber 2015; *The Buildings of Wales*
   (2006); Owen's history (Arch. Camb. 1893-94); J. B. Smith and O'Neil's Ministry guide (1967); Griffiths 1976 (*NLW
-  Journal*) on the visitations; Williams's plan (an image in the 1897 volume); RCAHMW's 1917 Carmarthenshire inventory; the
+  Journal*) on the visitations; Williams's Plates 3 and 5 to 7 (the plan and Plates 1, 2 and 4 were read and measured); RCAHMW's 1917 Carmarthenshire inventory; the
   OS 1:2500 (1888, 1906) sheets XXV.4 and XXV.8.
 
 ## For the owner's decision
@@ -380,7 +447,9 @@ conjectural" [S16], and nothing later supports it.
 - **The parish church.** Draw the whole shortened church in use from 1536 to 1772 (Coflein's 150ft of 1710, the
   visitations, Lewis, O'Neil's post-Suppression nave doors), or only the presbytery and crossing as the app does today.
   Claude's recommendation: the whole shortened church, "half a ruin" (the transept chapels unroofed is an inference), with
-  the ⓘ giving both readings.
+  the ⓘ giving both readings; Williams's first parish church (cross-wall to the east wall, "probably") supports it, and
+  his later stage (a nave ending at the tower's eastern arch and a small chancel inside the presbytery) is a candidate
+  for a second stage within the phase.
 - **The axis.** Turn the church 4 degrees to its measured bearing (94 degrees), which the true-size model needs anyway.
 
 ## Plan for the Blender model
@@ -413,7 +482,7 @@ measurements [S16] where given and by the LiDAR's wall lines [S21]):
 |---|---|---|
 | Crossing piers (centres) | (-7.8, 8.5), (2.0, 8.5), (-8.0, -1.5), (2.0, -1.5); 9.9m apart; each cruciform, about 2.3-2.8m across | The tower's surveyed east and north walls stand on the east and north pier lines [S21]; Williams: tower "29 ft." (8.8m) inside, "perfectly square" [S16] |
 | Arcade centre lines | v 8.5 (north), v -1.5 (south): 9.95m apart; axis v 3.5 | Williams: nave and aisles "62.6" ft (19.1m) inside; the plan 19.0m between the aisle walls' inner faces |
-| Bays | 5.68m; south arcade pier centres at u -13.9, -19.5, -25.1, -30.8 (the four built bays, the last under the cross-wall), -36.4, -42.1, -47.8, and the west respond at -53.5; north arcade on the same u (±0.3m) | Williams: "eight" bays [S16]; O'Neil: "oblong piers of rubble masonry" [S14] |
+| Bays | 5.65m regular (crossing pier to first pier about 5.9m, last bay to the respond about 5.7m); south arcade pier centres at u -13.9, -19.5, -25.1, -30.8 (the four built bays, the last under the cross-wall), -36.4, -42.1, -47.8, and the west respond at -53.5; north arcade on the same u (±0.3m) | Williams: "eight" bays [S16]; O'Neil: "oblong piers of rubble masonry" [S14] |
 | West front of the planned church | outer face u -54.1, wall about 1.6m; south-west angle (-54.1, -7.4) | Williams found "the base of the massive buttress of the south-west angle of the west front" [S16] |
 | Finished west front (the cross-wall) | u -31.8 to -30.4 (1.35m; O'Neil 4ft 6in, 1.37m), from v 9.2 to -7.4 | O'Neil's measurement [S14]; the LiDAR's ridge at E 263249.5-263250.9 [S21] |
 | South aisle wall | outer face v -7.4, about 1.3m | LiDAR wall line [S21] |
@@ -435,35 +504,36 @@ measurements [S16] where given and by the LiDAR's wall lines [S21]):
 |---|---|---|---|---|---|---|
 | `talley/footings-nave` | walls, low | The planned nave's arcade pier bases and the outer walls' footings as on the plan's black: west front's south half, south aisle wall, the eight bays' piers; 0.5-1m high (estimate) | documented (layout: the plan; one source: O'Neil/Cadw for its date) | S14, S15 | `coursed-rubble` (new kit, shared with Dinefwr) | rubble (local stone, analogy) |
 | `talley/east-end-rising` | walls of the presbytery and transepts, unfinished | Footprint as the common table; height **unknown** (estimate 3-6m, a building site) | reconstructed (O'Neil: the east end's details "late in the twelfth century"; Williams: "some portion of the eastern end") | S14, S16 | `coursed-rubble`; `scaffold` (new kit, imagined: putlog holes are recorded on the tower [S14]) | rubble |
-| `talley/crossing-piers` | four cruciform piers | As the common table; to the springing, 4.6-6.1m (Williams's 15-20ft moulding, as an estimate of the springing) | documented (the break at the springers: O'Neil and Williams) | S14, S16 | `ashlar-quoins` (new kit: the north-east pier's angle shafts and chamfered plinth, documented) | rubble, freestone quoins |
+| `talley/crossing-piers` | four cruciform piers | As the common table; to the springing, 4.6-6.1m (Williams's 15-20ft moulding, as an estimate of the springing) | documented (the break at the springers: O'Neil and Williams); reconstructed (that the piers belong to this campaign: O'Neil's dating; Williams dated the moulding to the mid-12th century) | S14, S16 | `ashlar-quoins` (new kit: the north-east pier's angle shafts and chamfered plinth, documented; Williams's Plate 2 draws it) | rubble, freestone quoins |
 
 **Phase `talley-abbey`** (the shortened church, roofed; the western bays as footings).
 
 | id | Shape | Dimensions | Tier | Sources | Kits needed | Textures needed |
 |---|---|---|---|---|---|---|
-| `talley/nave` | hall | u -31.8 to -8.6, v 9.2 to -1.5 (the nave's span between the north blocking walls and the south arcade); height **unknown** (estimate 11m to the eaves) | documented (plan; the shortening: one source: O'Neil/Cadw); height imagined | S14, S15, S1 | `coursed-rubble`; hall `roof: 'gable'` (existing plan value) | rubble; interior lime plaster with colour (documented, S16) |
+| `talley/nave` | hall | u -31.8 to -8.6, v 9.2 to -1.5 (the nave's span between the north blocking walls and the south arcade); height: ridge as the presbytery's, about 19m, pitch about 48 degrees, eaves about 12-13m, on Williams's assumption that the nave roof followed the presbytery's [S16] | documented (plan; the shortening: one source: O'Neil/Cadw, contested by Williams); height reconstructed (Williams's assumption, one source) | S14, S15, S16, S1 | `coursed-rubble`; hall `roof: 'gable'` (existing plan value) | rubble; interior lime plaster with colour (documented, S16) |
 | `talley/south-aisle` | hall, lean-to | u -31.8 to -8.6, v -1.5 to -7.4; height **unknown** (estimate 6m) | documented (plan); height imagined | S14, S15, S16 | `coursed-rubble` | rubble |
-| `talley/arcade-south` | four arches on oblong rubble piers | Bays 5.68m; the east pier with "a chamfered plinth and moulded quoins of ashlar" | documented | S14, S15 | `pointed-arch` (new kit: "simple pointed arches of rough rubble masonry" [S16]) | rubble, plaster |
-| `talley/cross-wall` | wall, the west front | 1.37m, battered, with a door; height **unknown** (to the nave's gable, estimate) | documented (one source: O'Neil/Cadw) | S14, S15 | `coursed-rubble`; `door` (the crooks are documented) | rubble |
-| `talley/north-blocking` | wall in the north arcade | 0.69m; height to the arches (estimate) | documented (one source: O'Neil/Cadw) | S14 | `coursed-rubble` | rubble, plaster |
+| `talley/arcade-south` | four arches on oblong rubble piers | Bays 5.65m; the east pier with "a chamfered plinth and moulded quoins of ashlar" | documented | S14, S15 | `pointed-arch` (new kit: "simple pointed arches of rough rubble masonry" [S16]) | rubble, plaster |
+| `talley/cross-wall` | wall, the west front | 1.37m, battered, with a door 1.8m (6ft) wide and three steps down inside (Williams); height **unknown** (to the nave's gable, estimate) | documented (existence, place, width, door: O'Neil and Williams); its medieval date is one source (O'Neil/Cadw), Williams thought it "probably" the parish church's west wall after 1536 | S14, S15, S16 | `coursed-rubble`; `door` (the crooks are documented) | rubble |
+| `talley/north-blocking` | wall in the north arcade | 0.69m; height to the arches (estimate) | documented (existence and extent to the fourth pier: O'Neil and Williams "a thinner wall"); its medieval date one source (O'Neil/Cadw) | S14, S16 | `coursed-rubble` | rubble, plaster |
 | `talley/north-aisle-bay` | small hall off the north transept | As the common table; height **unknown** (estimate 6m) | documented (one bay, O'Neil); contested (Williams two) | S14, S16 | `coursed-rubble` | rubble |
-| `talley/tower` | tower, square, over the crossing | Over the piers about 12.3 x 12.6m; walls over the arches about 1.1m (Williams's 29ft inside, an inference); **today 24.2-24.5m** to the crest (measured); original height **unknown**, at least 24.5m ("almost to its full height"; estimate 25m to the wall-head) | documented (form, place, today's height); top imagined | S14, S16, S21, S1, S4 | `mural-stair` (new kit: the passages and stairs, documented); `pointed-arch` (the crossing arches "turned entirely in rubble"); tower `top` **unknown** (the reconstructions' low roof is an analogy: `top: 'pyramid'` or `'plain'`) | rubble; conglomerate for the uppermost opening (documented); roof covering unknown |
+| `talley/tower` | tower, square, over the crossing | Over the piers about 12.3 x 12.6m; walls over the arches about 1.1m (Williams's 29ft inside, an inference); **today 23.8-24.5m** to the crest (measured), which is the corbel course; wall-head about 23.8m (78ft, Williams; his Plate 4 draws 75-76ft); gable heads east and west to about 29m (Williams's text, 95ft) or 26.5-26.9m (his plates, a broken head) | documented (form, place, today's height; the saddle-back roof with an east-west ridge, the corbel course and a stepped gable: one source, Williams, text and plates); gable apex contested between his text and plates; roof covering unknown | S14, S16, S21, S1, S4 | `mural-stair` (new kit: the passages and stairs, documented); `pointed-arch` (the crossing arches "turned entirely in rubble"; crown of the north arch about 11.8m, Williams Plate 2); a saddle-back top, which the plan's `TowerTop` (`plain`, `battlements`, `machicolated`, `cone`, `pyramid`) lacks, so a hall with `roof: 'gable'` or a new value | rubble; conglomerate for the uppermost opening (documented); roof covering unknown |
 | `talley/transept-n`, `talley/transept-s` | halls, north-south | As the common table; height **unknown** (estimate as the nave) | documented (plan) | S14, S15, S16 | `coursed-rubble`; `door` (the north door, about 1.2m clear, documented [S16]) | rubble |
 | `talley/chapels-n`, `talley/chapels-s` | three vaulted chapels a side | As the common table; pointed barrel vaults (documented); the north transept's southern chapel longer, with an east window and a stair (documented); the dividing walls breached (documented, date reconstructed) | documented | S14, S9, S16, S4 | `barrel-vault` (new kit, documented); `altar` (the altars and the "wings" of one are documented) | rubble, tile floor (documented types) |
-| `talley/presbytery` | hall | As the common table; height **unknown** (estimate 10m to the eaves; the roof's creasing on the tower would measure it) | documented (plan); height imagined | S14, S15, S16 | `coursed-rubble`; `lancet-window` (new kit: three tall pointed east lancets, one source: O'Neil/Cadw, with Williams's moulded jambs); `pilaster-buttress` | rubble, freestone quoins at the east end (S16) |
+| `talley/presbytery` | hall | As the common table; original roof ridge about 19.2m above the floor at the tower's east wall, pitch about 48 degrees (read off Williams's Plate 4, ±1m and ±3 degrees; the creasing survives on the tower, O'Neil); eaves about 12.6m (derived) | documented (plan; ridge and pitch: one source, Williams's plate, with O'Neil's creasing); eaves reconstructed | S14, S15, S16 | `coursed-rubble`; `lancet-window` (new kit: three tall pointed east lancets, one source: O'Neil/Cadw, with Williams's moulded jambs); `pilaster-buttress` | rubble, freestone quoins at the east end (S16) |
 | `talley/sacristy` | small hall with an ante-room | As the common table; battered base with "a red plastered face" outside | documented | S14, S15 | `coursed-rubble` | rubble; red plaster on the base (documented) |
 | `talley/cloister` | the garth wall with open walks | Front wall about 0.6m; walks 2.5m; south side **unknown** (estimate square, "23×23 meters"); arcade form **unknown** | documented (north side and the sides found); the south side reconstructed | S14, S15, S9 | `cloister-arcade` (new kit, analogy) | rubble, timber (analogy) |
 | `talley/range-e` | range south of the south transept | Width and height **unknown** (estimate 8m wide, two storeys, chapter house below and dormitory above, by the order's usual plan) | reconstructed (traces, S14; use by analogy, S9) | S14, S5, S9 | `coursed-rubble`; hall `roof: 'gable'` | rubble |
 | `talley/range-s` | refectory range | **Unknown** (under the farm; estimate 8m wide) | imagined (form); its existence presumed (S5) | S5, S9 | as above | as above |
 | `talley/cloister-west` | plain wall on the west, no range | The west back wall (u -31.7) carried as a wall (estimate 3m) | documented (one source: O'Neil/Cadw); contested (a west range) | S14, S5, S6 | `coursed-rubble` | rubble |
-| `talley/footings-west` | the four unbuilt western bays | As `talley/footings-nave`, west of the cross-wall; pier bases, the south aisle wall to 3ft, the thick wall for a western tower to 20in | documented (O'Neil's excavation; Williams's "uncompleted portions") | S14, S15, S16 | `coursed-rubble` | rubble, turf |
+| `talley/footings-west` | the four unbuilt western bays | As `talley/footings-nave`, west of the cross-wall; pier bases, the south aisle wall to 3ft, the thick wall for a western tower to 20in | documented (one source: O'Neil/Cadw, with Long Price); contested (Williams: "quite impossible to say" whether the church extended beyond the cross-wall; he thought it probably did, then shortened) | S14, S15, S16 | `coursed-rubble` | rubble, turf |
 
 **Phase `talley-parish-church`** (the shortened church in use, "half a ruin").
 
 | id | Shape | Dimensions | Tier | Sources | Kits needed | Textures needed |
 |---|---|---|---|---|---|---|
 | `talley/nave`, `talley/presbytery`, `talley/tower` | as `talley-abbey`, roofed | The 1710 length, 150ft, is the shortened church inside (46.7m on the plan) | documented that the church was 150ft (S2) and in use; which parts were roofed **contested** | S2, S5, S14, S17 | as `talley-abbey` | as `talley-abbey`; later plaster, white (documented, S14) |
-| `talley/chancel-later` | a smaller chancel inside the presbytery | **Unknown** size | documented that it was built (one source: O'Neil) | S14 | `coursed-rubble` | rubble |
+| `talley/chancel-later` | a smaller chancel inside the presbytery | About 7.4m east-west outside by about 6m north-south, from the tower's east arch (Williams's plan, ±1m) | documented that it was built (O'Neil and Williams); "probably of the seventeenth century" (Williams, a date with its doubt) | S14, S16 | `coursed-rubble` | rubble |
+| `talley/parish-nave-east-wall` | wall closing the tower's eastern arch, with a segmental-headed window | Size **unknown** (the arch's opening, about 7.4m between the piers' faces) | documented (one source: Williams, a later stage); the date "probably of the seventeenth century" | S16 | `coursed-rubble` | rubble |
 | `talley/cloister`, `talley/range-e`, `talley/range-s` | ruin | Unroofed and robbed (estimate) | imagined (stages) | S14 | ruin support (pipeline) | rubble |
 | `talley/north-aisle-bay` | blocked off | A blocking wall across its arch | documented (one source: O'Neil) | S14 | `coursed-rubble` | rubble |
 
@@ -476,7 +546,7 @@ measurements [S16] where given and by the LiDAR's wall lines [S21]):
 | `talley/tombs` | the Drummond mausoleum, the older Drummond tomb and the Price Jones enclosure in the nave | **Unknown** size; above the old floor | documented (S14, S15's numbers 1-3) | S14, S15 | none | stone (analogy) |
 
 **Phase `talley-ruin`** (1933 to now): every wall at today's measured height [S21], from the fitted plan: the tower's east
-wall to 24.2-24.5m and its north wall from 24.5m at the north-east corner down to about 15.5m at its west end; the north
+wall to 23.8-24.5m (about 24.0m along most of it) and its north wall from 24.5m at the north-east corner down to about 15.5m at its west end; the north
 transept's west wall to about 14m at most; the presbytery's walls about 2.4-2.6m; the transepts' 1.7-2.2m; the nave's
 blocking wall and the cross-wall 1.5-1.7m; the south aisle wall 1.4m (0.7m in the western bays); the west front's south half
 1.4m; the sacristy 0.7m; the cloister's front wall 0.2-0.3m (heights above the lowest ground within 3m of the wall,
@@ -525,14 +595,14 @@ reach Talley would add a strip some 5km by 9km of 10m context tiles. That is for
 - [S6] F. Murphy and M. Page, *Later Medieval and Early Post-Medieval Threat Related Assessment Work 2012: Monasteries*, Dyfed Archaeological Trust report 2012/12 for Cadw (project 102639), via Coflein. https://coflein.gov.uk/media/85/443/dat21_05.pdf — Talley's entry (the HER's text), status: listed building 15767, guardianship, scheduled CM013, NGR SN63273277; inner precincts of sites "such as Talley Abbey" are "suggested by aerial photographs or old maps". Read (pdftotext).
 - [S7] Cadw, "Talley Abbey" and "Abaty Talyllychau" (visitor pages, English and Welsh). https://cadw.gov.wales/visit/places-to-visit/talley-abbey — "founded in the 1180s"; "The church tower, standing almost to its full height"; "never fully completed"; "beside Talley's twin lakes"; Welsh page https://cadw.llyw.cymru/ymweld/lleoedd-i-ymweld/abaty-talyllychau — "Tŵr yr eglwys, sy'n sefyll bron i'w lawn uchder"; "dau lyn Talyllychau". Same English page as `models:S20` and `medieval:S17`. Read directly.
 - [S8] Monastic Wales, "Talley (Abbey)", site 51. https://monasticwales.org/site/51 — "the north and east walls of the tower which extend over 25m in height"; dependency of Amiens, St Jean; events with sources: foundation 1184x1189, 1271 Rhys Fychan's burial, c. 1277 "targeted by Edward I", 1278 royal custody "on account of its poverty", c. 1380 custody, "By 1410 it had been 'despoiled, burned and almost destroyed' by the English and Welsh armies", 1430, the 1497 visitation, c. 1535 £136, 1536 dissolution; bibliography (O'Neil 1941, Williams 1897, Robinson and Platt 1998, Smith and O'Neil 1967). Same page as `models:S15`. Read directly.
-- [S9] medievalheritage.eu, "Talley – Premonstratensian Abbey" (bibliography: Burton and Stöber 2015; Lloyd, Orbach and Scourfield 2006; Platt and Robinson 1998; Salter 2012). https://medievalheritage.eu/en/main-page/heritage/wales/talley-abbey/ — the setting; the planned 73m eight-bay church; the shortened church "completed in the early 13th century"; plastered, polychrome walls, stained glass, tiles; the tower "originally approximately 29 meters high"; three tall pointed east windows; six barrel-vaulted chapels; the lengthened chapel; the "23×23 meters" cloister and the ranges by analogy; "large collapse of part of the walls ... in 1845"; today "two walls of 26-meter high tower". Secondary. Same page as `models:S12`. Read directly.
+- [S9] medievalheritage.eu, "Talley – Premonstratensian Abbey" (bibliography: Burton and Stöber 2015; Lloyd, Orbach and Scourfield 2006; Platt and Robinson 1998; Salter 2012). https://medievalheritage.eu/en/main-page/heritage/wales/talley-abbey/ — the setting; the planned 73m eight-bay church; the shortened church "completed in the early 13th century"; plastered, polychrome walls, stained glass, tiles; the tower "originally approximately 29 meters high"; three tall pointed east windows; six barrel-vaulted chapels; the lengthened chapel; the "23×23 meters" cloister and the ranges by analogy; "large collapse of part of the walls ... in 1845"; today "two walls of 26-meter high tower"; "in 1427, one of the canons from Talley, Mathew ap Llywelyn Ddu, was hunted for treason charges". Secondary. Same page as `models:S12`. Read directly.
 - [S10] medievalheritage.eu, plan of Talley Abbey church "according to J. Burton and K. Stöber based on Cadw". https://medievalheritage.eu/wp-content/uploads/2018/06/Talley-Abbey-plan-02.jpg — measured in building-models.md (`models:S13`); viewed again. Not copied.
 - [S11] medievalheritage.eu, plan of Talley Abbey church "according to C. Platt, D. Robinson and Cadw". https://medievalheritage.eu/wp-content/uploads/2019/10/Talley-Abbey-plan-11.jpg — `models:S14`; viewed again. Not copied.
 - [S12] T. Ball, cutaway reconstruction of the abbey church from the east, as reproduced by medievalheritage.eu. https://medievalheritage.eu/wp-content/uploads/2019/10/Talley-Abbey-rekonstrukcja-11.jpg — presbytery, crossing, transepts and chapels roofed, cloister arcades; an artist's reconstruction, viewed. Not copied.
 - [S13] C. Jones-Jenkins, "reconstruction of the monastery with an outline of the part of the church planned but not built", as reproduced by medievalheritage.eu. https://medievalheritage.eu/wp-content/uploads/2026/07/Talley-Abbey-rekonstrukcja-22.jpg — the shortened church and ranges, the tower one stage above the roofs; an artist's reconstruction, viewed. Not copied.
 - [S14] B. H. St J. O'Neil, "Talley Abbey, Carmarthenshire", *Archaeologia Cambrensis* 96 (1941), pp. 69-91, with Plates I-VIII, Welsh Journals (National Library of Wales). https://journals.library.wales/view/4718179/4739323/114/ (p. 69 is image 114 of the volume's IIIF manifest, https://iiif.llyfrgell.cymru/manifests/2.0/4739323/manifest.json) — the Office of Works report on the clearance and consolidation of 1933-38: history (Lord Rhys's foundation, the Whitland dispute, return by 1208, 1278, 1381, 1430, the Valor's £136 9s. 7d.; "at first the whole of the monastic presbytery was utilised. Subsequently a smaller chancel was built within it"; 1772; "a large fall occurring in 1845"; 1933); the plan "an aisled nave of eight bays with at least one western tower"; the cross-wall and blocking walls proved medieval; "It comprised only four bays of the nave and southern aisle"; the three doors to the cloister and the two cloisters; the floor's two-foot slope and the raised south aisle; one bay of the north aisle; the lengthened chapel and the breached chapel walls; the date argument; the description (tower, mural stairs, openings, conglomerate, beam-holes, presbytery, sacristy with "a red plastered face", transepts, night stair, cloister); the repairs; the cresset. Read from the page images (OCR checked against the images), 2026-10-17.
 - [S15] O'Neil 1941 [S14], Fig. 1, "Talley Abbey, Carmarthenshire", the official plan (Ministry of Works and Buildings; "Crown property, the copyright being reserved", reproduced by permission), fold-out before p. 69, IIIF image 4739437 (6642 x 4875 pixels). https://iiif.llyfrgell.cymru/iiif/4739437/full/1200,/0/default.jpg — phases "Late 12th Century", "Early 13th Century", "Post Reformation", post-Reformation vaults 1-3 in the nave; bars of 100ft and 20m (86.6 and 87.1 px/m measured). Stitched at full resolution from IIIF tiles, measured by pixel profiles, and fitted to S21 on 2026-10-17 by Claude (rotation -4.0 degrees, scale within 1% of the bars; two fits agree to 0.8m). Not copied.
-- [S16] Stephen W. Williams, "Excavations at Talley Abbey", *Archaeologia Cambrensis*, 5th series, 14 (1897), pp. 229-247, Internet Archive full text (sim_archaeologia-cambrensis_1897-07_14_55). https://archive.org/details/sim_archaeologia-cambrensis_1897-07_14_55 — the 1892-94 excavation: the north transept walls "from 5 ft. to 8 ft. in height" under debris, inside "36 ft. 9 ins." by "29 ft."; the north door "nearly 4 ft. wide"; the stair with "seven steps"; tiles "plain red, buff, and blue glazed"; the north-east pier's moulding "for a height of some 15 ft. or 20 ft."; above, "plain rubble masonry, which has been plastered"; presbytery "44 ft. 9 ins. long by 29 ft. wide"; tower "29 ft." inside, "perfectly square"; the north arcade traced 75ft, piers "about 6 ft." high; debris "6 ft. to 8 ft."; the table (Talley 226.3ft total, 62.6 breadth, 112.3 transepts); "a mass of the tower has recently fallen"; Williams's conjecture of an earlier Cistercian start, "purely conjectural"; the north aisle to "nearly opposite the second pier". Read as OCR text.
+- [S16] Stephen W. Williams, "Excavations at Talley Abbey", *Archaeologia Cambrensis*, 5th series, 14 (1897), pp. 229-247, Internet Archive full text (sim_archaeologia-cambrensis_1897-07_14_55). https://archive.org/details/sim_archaeologia-cambrensis_1897-07_14_55 — the 1892-94 excavation: the north transept walls "from 5 ft. to 8 ft. in height" under debris, inside "36 ft. 9 ins." by "29 ft."; the north door "nearly 4 ft. wide"; the stair with "seven steps"; tiles "plain red, buff, and blue glazed"; the north-east pier's moulding "for a height of some 15 ft. or 20 ft."; above, "plain rubble masonry, which has been plastered"; presbytery "44 ft. 9 ins. long by 29 ft. wide"; tower "29 ft." inside, "perfectly square"; the north arcade traced 75ft, piers "about 6 ft." high; debris "6 ft. to 8 ft."; the table (Talley 226.3ft total, 62.6 breadth, 112.3 transepts); "a mass of the tower has recently fallen"; Williams's conjecture of an earlier Cistercian start, "purely conjectural"; the north aisle to "nearly opposite the second pier". Read as OCR text, and, for the plan (14 October 1894) and Plates 1, 2 and 4 (W. H. Ashford del., 1894), as the Internet Archive's page images (IIIF manifest https://iiif.archive.org/iiif/3/sim_archaeologia-cambrensis_1897-07_14_55/manifest.json), measured at their 50ft bars on 2026-10-17: the tower's gable head 87-88ft, the presbytery roof's ridge about 63ft at about 48 degrees, the "Chancel of Parish Church" about 7.4 x 6m; also pp. 231-246: the tower's "saddle-back roof" and "about 95 ft.", "about 78 ft." to the corbel course, the cross-wall's 6ft door, the first parish church, "probably of the seventeenth century", the clerestory, the south wall of the tower rebuilt, and Long Price's letter on the north aisle and the west wall.
 - [S17] D. Long Price, "Talley Abbey", *Archaeologia Cambrensis*, 4th series, 10 (1879), pp. 161-187, Internet Archive full text (sim_archaeologia-cambrensis_1879-07_10_39). https://archive.org/details/sim_archaeologia-cambrensis_1879-07_10_39 — "the one surviving wall of the great central tower, still retaining its original height"; quoting Lewis's *Topographical Dictionary of Wales* (1833): "The ancient Abbey Church, though much out of repair, and half a ruin, was used for divine service till the year 1772. Being found too large ... it was then taken down, and some of the stones and timber employed to build the present church"; the great bell sold to Exeter. Read as OCR text.
 - [S18] John Thomas, "[The church and ruined abbey, Talyllychau]", glass negative, c. 1885, National Library of Wales (NLW3363347), via Wikimedia Commons, public domain. https://commons.wikimedia.org/wiki/File:The_church_and_ruined_abbey,_Talyllychau_NLW3363347.jpg — the tower before excavation, ivy-covered, with St Michael's. Viewed.
 - [S19] castlewales.com (Jeffrey L. Thomas), "Talley Abbey", photographs 2002. http://www.castlewales.com/talley.html — "only the eastern four bays of the nave and south aisle were actually built higher than foundation level, and of the planned north aisle, only the easternmost bay was built as a small room accessible from the north transept"; "Upper passages that ran through the walls can be seen near the top". Same page as `models:S17`. Read directly.
