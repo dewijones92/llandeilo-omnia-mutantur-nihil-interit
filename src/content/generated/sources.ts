@@ -5393,5 +5393,11 @@ export const SOURCE_SEEDS = [
     "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DTM, tile SN6322 (`wg_del_26_263222_20220222dtm.tif`), DataMapWales; Open Government Licence v3 (see [`../data/lidar.md`](../data/lidar.md))",
     "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dtm/wg_del_26_263222_20220222dtm.tif",
     "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S14",
+    "title": "railcar.co.uk, vehicle record 59260",
+    "url": "https://railcar.co.uk/data/vehicle/59260",
+    "doc": "docs/research/trains.md"
   }
 ] as const;

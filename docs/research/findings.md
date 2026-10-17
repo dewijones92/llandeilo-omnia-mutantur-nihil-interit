@@ -149,8 +149,8 @@ From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agen
 
 ## The trains through Llandeilo for Blender models (2026-10-17)
 
-From [`trains.md`](trains.md), a draft, checked by the same agent the same day ([check 1](reviews/trains-check-1.md), not
-independent). Written by Claude under the proactive mandate; it builds on `railway-locomotives.md` and `railway-later.md`.
+From [`trains.md`](trains.md), a draft, checked by the same agent and then by an independent reviewer the same day
+([check 1](reviews/trains-check-1.md), both parts; the reviewer's findings are applied). Written by Claude under the proactive mandate; it builds on `railway-locomotives.md` and `railway-later.md`.
 
 - **What ran at Llandeilo is documented by dated evidence only from 1958.** Black Five 45190 on the 12 noon
   Shrewsbury-Swansea at Llandilo on 29 August 1959 is the best-documented train; Class 120 units at Llandeilo in
@@ -169,11 +169,19 @@ independent). Written by Claude under the proactive mandate; it builds on `railw
 - **BR carriages turned maroon in 1956 or 1957** (Wikipedia against the HMRS): kept contested. The LMS painted
   non-express engines lined black from 1928 (HMRS), so a passenger tank was crimson lake in 1923-27 and black after,
   an inference for any one class. ([trains:S8], [trains:S9])
+- **Corrected by the independent check (2026-10-17).** Class 120 units at Llandeilo were normally two cars ("pairs of
+  class 120"; C603 on 7 January 1977), with a three-car set (C611) there in 1980; the first draft said three from a
+  Wikipedia lead on the class in general. The 1980 caption belongs to railcar.co.uk's record of car 59260
+  ([trains:S14]), not to its Heart of Wales feature ([trains:S6]). BR Standard 5s took the 1961-64 through trains
+  (Gittins and Spencer Davies), so the plan gives them their own phase after the Black Five's. Some LNWR trains may
+  have run at Llandeilo before 1873 (running powers from about 1868; the New Lines from 1871). The owner of the c. 1900
+  and 1914-18 trains is GWR or LNWR, not shown. Liveries that rest on Wikipedia alone (LMS carriage crimson lake, BR
+  unlined black tanks) are reconstructed, not documented. ([trains:S6], [trains:S14], [railwaylater:S1])
 - **The station, measured**: the loop runs N 14° E; today's platforms stand about 1.0-1.2m above a 29.9m OD track bed
   for about 100m, centred near E 263345 N 222555, inside the existing `llandeilo` 2m LiDAR area, so the trains need no
-  new area. The app's `LLANDEILO_STATION` is 240m from Coflein's reference and 28m off the track. ([trains:S13],
+  new area. The app's `LLANDEILO_STATION` is 231m from Coflein's reference and 28m off the track. ([trains:S13],
   [railwaylater:S21])
-- **The plan proposes eleven rolling-stock phases where the app has three**, each a consist of vehicles exported one
+- **The plan proposes twelve rolling-stock phases where the app has three**, each a consist of vehicles exported one
   object per vehicle so carriages can follow curves; the order of build follows the evidence (the 1959 train, the 108 and
   the TfW 153s first).
 
