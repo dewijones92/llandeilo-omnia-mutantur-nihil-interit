@@ -257,7 +257,7 @@ test('Next straight after a minor marker click steps on from that marker', async
 });
 
 test('the compass shows the heading and turns the view to face north', async ({ page }) => {
-  await page.goto('./?year=1282');
+  await page.goto('./?debug&year=1282');
   await ready(page);
   const compass = page.locator('.compass');
   const box = await page.locator('#scene').boundingBox();
@@ -274,9 +274,50 @@ test('the compass shows the heading and turns the view to face north', async ({ 
   await page.mouse.move(box.x + box.width * 0.75, box.y + box.height * 0.3, { steps: 6 });
   await page.mouse.up({ button: 'right' });
   await expect.poll(turned).toBeGreaterThan(10);
+  // The click comes while the turn is still gliding, which is when it used to be undone.
+  expect(await turnGlide(page)).not.toBe(0);
   await compass.click();
   await expect(compass).toHaveAttribute('data-bearing', '0', { timeout: 60_000 });
+  await framesRendered(page, 4);
+  await expect(compass).toHaveAttribute('data-bearing', '0');
 });
+
+test('a right-drag already turning when a flight starts takes the camera back from it', async ({ page }) => {
+  const seen: string[] = [];
+  page.on('console', (m) => seen.push(m.text()));
+  await page.goto('./?debug&year=1282');
+  await ready(page);
+  const compass = page.locator('.compass');
+  const box = await page.locator('#scene').boundingBox();
+  if (!box) throw new Error('no canvas');
+  await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.3);
+  await page.mouse.down({ button: 'right' });
+  await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.3, { steps: 4 });
+  await expect.poll(() => seen.some((t) => t.includes('dewidebug camera drag start kind=turn'))).toBe(true);
+  // A flight starts under the held drag, as stepping to a key date does (the compass is the nearest button).
+  await compass.evaluate((el) => {
+    if (el instanceof HTMLElement) el.click();
+  });
+  await expect.poll(() => seen.some((t) => t.includes('dewidebug camera turn from'))).toBe(true);
+  await page.mouse.move(box.x + box.width * 0.75, box.y + box.height * 0.3, { steps: 4 });
+  await page.mouse.up({ button: 'right' });
+  await expect
+    .poll(() => seen.some((t) => t.includes('dewidebug camera flight interrupted by=turn')), {
+      message: 'the held drag interrupted the flight',
+    })
+    .toBe(true);
+  await cameraSettled(page);
+  expect(await compass.getAttribute('data-bearing'), 'the flight to north did not finish').not.toBe('0');
+});
+
+const turnGlide = (page: Page): Promise<number> =>
+  page.evaluate(() => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
+    const cam: unknown = scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
+    if (!cam || typeof cam !== 'object') throw new Error('no camera');
+    return Number(Reflect.get(cam, 'inertialAlphaOffset'));
+  });
 
 interface CameraState {
   readonly x: number;
@@ -285,6 +326,8 @@ interface CameraState {
   readonly alpha: number;
   readonly beta: number;
   readonly radius: number;
+  /** The scene's frame id, read in the same evaluate as the pose, so the two belong together. */
+  readonly frame: number;
 }
 
 const cameraState = (page: Page): Promise<CameraState> =>
@@ -296,6 +339,10 @@ const cameraState = (page: Page): Promise<CameraState> =>
     const t: unknown = Reflect.get(cam, 'target');
     const n = (o: unknown, k: string): number =>
       Number(o && typeof o === 'object' ? Reflect.get(o, k) : Number.NaN);
+    const frameOf = (sc: unknown): number => {
+      const fn: unknown = sc && typeof sc === 'object' ? Reflect.get(sc, 'getFrameId') : undefined;
+      return typeof fn === 'function' ? Number(fn.call(sc)) : Number.NaN;
+    };
     return {
       x: n(t, 'x'),
       y: n(t, 'y'),
@@ -303,6 +350,7 @@ const cameraState = (page: Page): Promise<CameraState> =>
       alpha: n(cam, 'alpha'),
       beta: n(cam, 'beta'),
       radius: n(cam, 'radius'),
+      frame: frameOf(scene),
     };
   });
 
@@ -1593,14 +1641,16 @@ const sampleCamera = async (page: Page, ms: number): Promise<CameraState[]> => {
   return samples;
 };
 
-// Waits until the camera has not moved (a landing flight, a glide) for three reads in a row: one slow
-// frame can leave two reads the same while a flight is still under way.
+// Waits until the camera has not moved (a landing flight, a glide) across three samples, each of which has a new
+// rendered frame in it: one slow frame can leave two reads the same while a flight is still under way.
 const cameraSettled = async (page: Page): Promise<CameraState> => {
   let last = await cameraState(page);
   let stillFor = 0;
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < 240; i++) {
     await page.waitForTimeout(750);
     const now = await cameraState(page);
+    // A sample with no new frame in it says nothing: the camera cannot have moved without one.
+    if (now.frame <= last.frame) continue;
     const still =
       moved(last, now) < 0.01 &&
       Math.abs(now.alpha - last.alpha) < 1e-4 &&
@@ -2204,9 +2254,11 @@ const framesRendered = async (page: Page, count: number): Promise<void> => {
     .toBeGreaterThanOrEqual(before + count);
 };
 
+// Moves the camera onto a part and returns the screen point over it. The frame id is read in the same evaluate as the
+// move, so no frame can fall between them: the first frame drawn with the new camera has an id above it, and waiting
+// for it to rise by three means two frames have been drawn with the new camera and a third has begun.
 async function partPoint(page: Page, feature: string, part: string): Promise<{ x: number; y: number }> {
-  const before = await frameId(page);
-  await page.evaluate(
+  const moveFrame = await page.evaluate(
     ([f, p]) => {
       const debug: unknown = Reflect.get(window, 'llandeiloDebug');
       const fn: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'partCentre') : undefined;
@@ -2214,19 +2266,23 @@ async function partPoint(page: Page, feature: string, part: string): Promise<{ x
       const scene: unknown = debug && typeof debug === 'object' ? Reflect.get(debug, 'scene') : undefined;
       const camera: unknown =
         scene && typeof scene === 'object' ? Reflect.get(scene, 'activeCamera') : undefined;
-      if (!centre || typeof centre !== 'object' || !camera || typeof camera !== 'object') return;
+      if (!centre || typeof centre !== 'object' || !camera || typeof camera !== 'object') return Number.NaN;
       const target: unknown = Reflect.get(camera, 'target');
       const set: unknown = target && typeof target === 'object' ? Reflect.get(target, 'set') : undefined;
       if (typeof set === 'function')
         set.call(target, Reflect.get(centre, 'x'), Reflect.get(centre, 'y'), Reflect.get(centre, 'z'));
       Reflect.set(camera, 'radius', 10);
       Reflect.set(camera, 'beta', 1.1);
+      const frameOf: unknown =
+        scene && typeof scene === 'object' ? Reflect.get(scene, 'getFrameId') : undefined;
+      return typeof frameOf === 'function' ? Number(frameOf.call(scene)) : Number.NaN;
     },
     [feature, part],
   );
+  if (Number.isNaN(moveFrame)) throw new Error(`could not move the camera onto ${part}`);
   await expect
     .poll(() => frameId(page), { message: 'frames rendered after the camera moved', timeout: 90_000 })
-    .toBeGreaterThanOrEqual(before + 3);
+    .toBeGreaterThanOrEqual(moveFrame + 3);
   let at: { x: number; y: number } | undefined;
   await expect
     .poll(
@@ -2367,6 +2423,9 @@ test('a part of the AD 74 fort opens its ⓘ, and it closes when a "When are we?
   expect(await partInfoOpen(page)).toBe(false);
   await cameraSettled(page);
   const during = await partPoint(page, 'roman-fort-a', FORT1_TOWER);
+  // The point must be over the canvas, not under the round's panel, or the absences below would prove nothing.
+  const duringOver = await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.id ?? '', during);
+  expect(duringOver, 'the part is over the canvas during the round').toBe('scene');
   await page.mouse.move(during.x - 30, during.y - 30);
   await page.mouse.move(during.x, during.y, { steps: 3 });
   await framesRendered(page, 3);
@@ -2554,10 +2613,13 @@ const readTimber = async (page: Page, clip: Clip, mode: 'hue' | 'surface'): Prom
   const webgpu = (await backendOf(page)) === 'webgpu';
   let frame: () => Promise<string>;
   if (webgpu) {
-    if (mode === 'surface')
-      await page.addStyleTag({
-        content: '* { visibility: hidden !important } canvas { visibility: visible !important }',
-      });
+    // A WebGPU read is a screenshot, which takes whatever the DOM draws over the clip, so both modes hide the UI.
+    await page.evaluate(() => {
+      const style = document.createElement('style');
+      style.dataset['hideUi'] = '';
+      style.textContent = '* { visibility: hidden !important } canvas { visibility: visible !important }';
+      document.head.append(style);
+    });
     frame = async () => {
       await framesRendered(page, 2);
       return (await page.screenshot({ clip })).toString('base64');
@@ -2572,6 +2634,10 @@ const readTimber = async (page: Page, clip: Clip, mode: 'hue' | 'surface'): Prom
     hidden = await frame();
     await timberVisible(page, true);
   }
+  if (webgpu)
+    await page.evaluate(() => {
+      document.querySelector('style[data-hide-ui]')?.remove();
+    });
   const mean = await page.evaluate(
     async ([a, b]) => {
       const load = async (b64: string): Promise<Uint8ClampedArray> => {
@@ -2629,6 +2695,10 @@ const timberSurfaceMean = (page: Page): Promise<TimberRead> => readTimber(page, 
 test('a part whose texture failed is drawn as the photograph draws it, within 3% a channel, and near the palette', async ({
   page,
 }) => {
+  test.slow(
+    Boolean(process.env['CI']),
+    'five forts loads and ten reads on the CPU in CI take 4.5 to 4.9 minutes of the 7 allowed',
+  );
   const loadForts = async (query: string, ready_: string): Promise<void> => {
     await page.goto(`./?debug&quality=high&place=roman-forts&year=84&radius=45${query}`);
     await ready(page);

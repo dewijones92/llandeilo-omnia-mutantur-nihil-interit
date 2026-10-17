@@ -1486,18 +1486,25 @@ and failed from fixed waits and per-read costs that only a slow renderer shows: 
    part's screen point. The projection only follows the camera once frames have drawn with it: a probe on CI
    settings read the point as `null` for the frame after the move and correct from the second frame on, so 400ms
    was before any frame. It now waits for three frames (`scene.getFrameId()`) and then polls for the point. Seen
-   red on the old helper under CI settings, green on the new.
+   red on the old helper under CI settings, green on the new. (Corrected the same day: the frame id was read in a
+   separate call before the camera moved, so only two frames after the move were guaranteed, not three. It is now
+   read in the evaluate that moves the camera, so the first frame drawn with the new camera has a higher id, and
+   waiting for it to rise by three means two frames drawn with the new camera and a third begun.)
 2. **The AD 74 round test (`expect.poll` still true after 30s).** Scrubbing to the present (End) draws the
    heaviest scene, and the panel closes in the first `apply` after it. Measured on CI settings with the run pinned
    to cores: 6 to 9s on 28 cores, 19s on two, 27s on one, and CI is slower than all three, so the 30s default was
    the failing part and not the app. The poll now waits up to 120s and names what it waits for. The three "nothing
-   happens" checks (a drag opens nothing, parts stay inert in a round) waited a fixed 500-600ms, which at 1fps can
-   end before the app has had a frame in which to act, so each now waits for three rendered frames before it
-   asserts the absence.
+   happens" checks (a drag opens nothing, parts stay inert in a round) waited a fixed 500-600ms, so each now waits
+   for three rendered frames before it asserts the absence. (Corrected: the app decides those on `pointermove` and
+   `pointerup` synchronously and does not need a frame to act; a frame wait is still the right wait, since it
+   proves the page was alive and drawing, but it is not what the inert paths depend on. The round test also never
+   checked that its point was over the canvas, and not under the 420px `.guess` panel, which would make the
+   absences vacuous; it now asserts `elementFromPoint` is the scene, as the hover test does.)
 3. **The failed-texture colour test (420s timeout inside `page.screenshot`).** Each screenshot asks the compositor
    for a new frame and cost 20-40s on one slow core; the test took ten. It now reads the scene canvas inside
    `scene.onAfterRenderObservable` straight after a frame is drawn, which costs the frame and no more, takes the
-   timber pixels from the canvas alone (a UI panel can no longer be counted), and keeps the two look-at PNGs as the
+   timber pixels from the canvas alone (true on WebGL only: the WebGPU path took a clip screenshot, which includes any
+   DOM over the clip, until it hid the UI in both modes on 2026-10-16), and keeps the two look-at PNGs as the
    forts' clip. One core: 3.7 minutes against more than 7 before. It still fails if the fallback grey is 20% off:
    102 gives 104.6 against 111.6 (6.3%) and 154 gives 121.5 against 111.5 (9.0%), and 128 passes.
    Lesson: **a screenshot is not a free read on a slow renderer; read the pixels the frame just drew.**
@@ -1511,3 +1518,49 @@ three: CI settings (`CI=1 E2E_QUALITY=low E2E_GPU=0`), the WSL GPU on WebGL, and
 (89 e2e and 8 GPU tests). Still red at fallback grey 102 on WebGPU (104.8 against 111.6, 6.1%) and 154 (121.6
 against 111.6, 9.0%), run as the only e2e test with the grey changed and then restored. Lesson: **a read that works
 on one backend proves nothing about the other; the GPU job is a second renderer, so run a rendering test there too.**
+
+**The compass click was undone by the turn's glide, 2026-10-16** (CI run 38964194442, shard 2, "the compass shows
+the heading and turns the view to face north": `data-bearing` read 46 after 60s, having passed on the ten runs before).
+A real app bug, not a test race alone. A right-drag turns on Babylon's inertia (`camera.inertia = 0.88`,
+a decay per rendered frame, not per second). The compass flight writes `alpha` each frame but never cleared
+`inertialAlphaOffset`, so the glide went on adding to `alpha` after the camera had landed on north and carried it
+away. At 60fps the glide is gone in under a second, well inside the 1.6s flight, so it never showed; at CI's 1 to 2fps
+a flight is two or three frames and the glide needs about forty. Evidence from an instrumented run on CI settings
+(`dewidebug` lines): drag end `inertialAlpha=-0.27`, compass click `-0.18` with the view at bearing 93,
+`flight end alpha=-1.571` (north) with `inertialAlpha=-0.16` still set, then `alpha` -1.712, -1.836, -1.946 ... settling
+at -2.74 over the next 20s (about 70 degrees off north, the same plateau the failing CI run showed as 46). The
+test's poll only passed when it happened to read the one frame in which `data-bearing` was 0, because
+`compass.update` runs before `scene.render`; a poll that missed it read the drift. `Flight` now clears every inertial
+offset when a flight, a turn or a fly-home starts and on each tick while flying (a drag or key interrupts the flight
+first, so the viewer can still take the camera). Seen red first as a unit test (`src/world/flight.test.ts`, which
+models Babylon's per-frame inertia and reproduces the -2.748 plateau) and as the e2e, which now clicks while the glide
+is non-zero and requires north to hold for four more rendered frames (it read 52 and 59 on the old code).
+Lesson: **anything that sets a pose each frame must also own the camera's inertia, or the old motion outlives it on a
+slow renderer; and a poll for a value that a later frame overwrites passes by luck.**
+
+**Review follow-ups to the CI-renderer fixes, 2026-10-16** (a review of ec86387, all in `e2e/smoke.spec.ts`).
+`partPoint` reads the frame id in the same evaluate that moves the camera (see the correction under item 1 above).
+`readTimber` on WebGPU now hides the UI for both modes, not only `'surface'`, and removes the style tag when it has
+read, so `timberMean`'s clip screenshot cannot include DOM inside `FORT_CLIP`. `cameraSettled` was three unchanged
+samples 750ms apart, which is time; a sample now counts only if a new frame was rendered since the last, so a stalled
+renderer cannot read as a settled camera. The "When are we?" round test checks that its `during` point is over the
+canvas. The failed-texture colour test uses 4.5 to 4.9 minutes of CI's 7, so it is `test.slow` on CI with the reason
+beside it.
+Verified under CI settings (`CI=1 E2E_QUALITY=low E2E_GPU=0`, one worker): the compass test 10 of 10 (and 6 of 6 earlier,
+3 of 3 red on the old flight), and the eight tests that use `partPoint` or `cameraSettled`, 8 passed in 11.0 minutes, the
+texture test at 3.4. On the GPU, `npm run e2e:gpu` (WebGPU, Windows Chrome): 8 GPU and 89 e2e passed, 1 skipped.
+
+**Follow-ups to the compass fix, 2026-10-16** (review of c661bcb). (1) `cameraSettled` now takes the frame id in the
+same evaluate as the pose (`CameraState.frame`), as `partPoint` does. (2) The per-tick `stopInertia()` in
+`Flight.tick` is dropped: deleting it left all three unit tests green, and nothing can add inertia mid-flight without
+interrupting the flight first (keys call `interrupt`, the wheel zooms through `zoomLog`, a drag interrupts, see 3), so it
+could only do harm. The start-of-flight clear is what the compass fix needs and stays. (3) A right-drag already past the
+drag threshold when a flight starts (stepping to a key date calls `goToShot` while the button is held) was never
+interrupted, because `interrupt` fired only on the drag's first move; the per-tick clear then swallowed its turning
+silently, and without the clear the flight and the drag would have fought over `alpha`. `MapControls.move` now interrupts
+the flight on any move while one is flying (a `dewidebug` line says so). New e2e "a right-drag already turning when a
+flight starts takes the camera back from it": holds a right-drag, fires the compass click under it, moves on, and
+requires the interrupt line and that the view did not finish at north. Seen red on the old `controls.ts` at the
+interrupt assertion (2 of 2), green with the change. CI settings: that test and the compass test 5 of 5 each (3 of 3 on the
+final file), and the seven other camera and part tests 8 of 8; the GPU kit result is below.
+GPU kit (WebGPU, Windows Chrome) on the final files: 8 GPU and 90 e2e passed, 1 skipped.
