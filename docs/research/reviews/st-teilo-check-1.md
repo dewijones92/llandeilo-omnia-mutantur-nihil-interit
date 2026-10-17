@@ -73,4 +73,4 @@ the todo path asks for. That pass is still owed before the church is built.
   plan was today's, still rests on two secondary sources reading things neither this note nor its check has seen.
 - It did not confirm that the Welsh HER PDF is the report the HER's project record names; the identification is by the
   order of the links.
-- It did not re-read `effects:S6` (the quarry collapse's five men).
+- It did not re-read `effects:S6` (the quarry collapse's five men). **Correction (2026-10-17, from [check 2](st-teilo-check-2.md))**: that omission hid an error. The collapse is one event (Jenkins's diary: five buried, four saved, one dead), not two conflicting counts, and the diary says the quarry gave no usable stone.

@@ -5077,6 +5077,12 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/st-teilo.md"
   },
   {
+    "id": "teilo:S20",
+    "title": "Lynn Hughes, \"Pons Asinorum\" (Carmarthenshire Life, November 2004; from a work in progress, *Towy: The Biography of a River*), on llandeilo.org.",
+    "url": "https://llandeilo.org/bge_history.html",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
     "id": "timeline:S1",
     "title": "Amgueddfa Cymru (National Museum Wales), \"The Cave Men of Ice Age Wales\" (2007)",
     "url": "https://museum.wales/articles/2007-05-11/The-Cave-Men-of-Ice-Age-Wales/",

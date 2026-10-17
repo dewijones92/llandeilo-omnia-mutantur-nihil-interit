@@ -14,19 +14,23 @@ part, [ADR 0046](../adr/0046-the-roman-forts-are-true-size-typed-plans-with-part
 [`dinefwr-castle.md`](dinefwr-castle.md) in form. Written by Claude on 2026-10-17 from sources fetched that day; the brief
 is in [`briefs/st-teilo.md`](briefs/st-teilo.md). The choices in "Plan for the Blender model" are Claude's, under the
 proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)); none is Dewi's.
-Re-read against the downloaded sources by the same agent the same day ([check 1](reviews/st-teilo-check-1.md)); that is
-not the independent check the todo path asks for, which is still owed.
+Re-read against the downloaded sources by the same agent the same day ([check 1](reviews/st-teilo-check-1.md), not
+independent), then checked by an independent reader the same day ([check 2](reviews/st-teilo-check-2.md)), whose findings
+are applied below; where a point was changed it says so.
 
 It extends the church sections of [`era-medieval-to-1282.md`](era-medieval-to-1282.md) (the clas),
 [`era-victorian.md`](era-victorian.md) (the rebuild) and [`building-models.md`](building-models.md) (the first outline,
-2026-10-02), and does not repeat their history except where it bears on what was built. The Welsh name is **Eglwys
-Teilo Sant** (the app's labels already use "Eglwys Teilo Sant"); the parish is **Llandeilo Fawr**, "Llandilo-Vawr"
+2026-10-02), and does not repeat their history except where it bears on what was built. The Welsh form the app uses is **Eglwys
+Teilo Sant**; **no source for the church's own Welsh name was found** (neither Cadw's Welsh listing nor Coflein's Welsh page
+gives one, and `era-victorian.md` has "Eglwys San Teilo", while Welsh Wikipedia names the St Fagans church of the same saint
+"Eglwys Sant Teilo"), so the form is unverified and stays a human Welsh check ([open
+questions](open-questions.md)); the parish is **Llandeilo Fawr**, "Llandilo-Vawr"
 and "Llandilo" in the 19th-century sources.
 
 **How it was done.** Coflein, the Cadw listing and the Heneb HER (PRNs 888 and 912) were read directly. The fullest
 fabric description, Neil Ludlow's entry for the Cadw-funded Welsh Historic Churches Project (Cambria Archaeology,
 fieldwork 1998, report 2000), was found as a scanned PDF on the Welsh HER portal through the HER's project record and read
-from its text layer (PDF pages 123-129) [S5]. The 1850 newspaper report of the reopening [S7], Lewis's *Topographical
+from its text layer (PDF pages 123-128) [S5]. The 1850 newspaper report of the reopening [S7], Lewis's *Topographical
 Dictionary* (1849 edition, British History Online [S8]; the 1844 wording via GENUKI [S9]), the Dictionary of Welsh
 Biography on Teilo [S12] and the Scott family's gazetteer [S10] were read directly. The **Lambeth Palace Library ICBS file
 3533** (the Incorporated Church Building Society's plans, 1844-51) was found but **not read**: the image server asks for a
@@ -73,12 +77,18 @@ listing)** or **documented (one source: Ludlow)**, as the Dinefwr note does for 
   against "The crenellated parapet ... lies on a string-course, all from the later 16th century; rainwater chutes moulded
   as gargoyles ... similar to those at Llandybie" (Ludlow [S5]). The tower's top between c. 1600 and 1848 rests on which
   is right.
-- **The church that stood until 1848 had today's plan.** Ludlow, from the 1837 tithe map and an undated town plan: "the
+- **The church that stood until 1848 is said to have had today's plan** (a reconstruction, not a measurement: see below). Ludlow, from the 1837 tithe map and an undated town plan: "the
   pre-1848 church to have been of the same dimensions, and to possess the same ground plan, is its successor, comprising a
   nave, north aisle and west tower, with a large south transept (and vestry?) on the site of the present transept, vestry
   and organ/heating chamber" [S5]; the local-history page: "The rebuilders of 1848 chose to use the existing medieval
   foundations, so that the ground plan of the present church reproduces that of the medieval building" [S6]. Two
-  sources, neither giving a measurement and neither saying when each part was built. The medieval church was "of double
+  sources, neither giving a measurement and neither saying when each part was built; Ludlow's maps show the plan of
+  **1837**, after the tower and after a transept of unknown date, not the plan of c. 1400, nobody in this work has seen
+  them, and the local page states no sources (so its independence from Ludlow is unknown). Ludlow's own text also shows
+  the 1850 plan was not identical to the old one (one south gable, the organ chamber of 1903, a vestry he queries). A map
+  of that kind cannot fix a wall to half a metre. So the medieval and tower-phase outlines below are **reconstructed from
+  today's measured outline**, and only the statement that the 1837 plan matched is documented (two secondary sources).
+  The medieval church was "of double
   nave" (Cadw listing [S2]); "consisting only of 2 aisles" (Lewis 1833, via Ludlow [S5]); "a large heavy building" (Lewis
   1844 [S9]).
 - **Today's church is measured** [S14]: nave and chancel under one roof about 37.3m by 11.0m, ridge 69.2m OD (13.4m above
@@ -109,7 +119,7 @@ listing)** or **documented (one source: Ludlow)**, as the Dinefwr note does for 
 | Coflein NPRN 100867 | SN 62930 22236 = E 262930, N 222236 | [S1] | Use as the feature's `at` (the forts' and Dinefwr's rule) |
 | Cadw listing 11097 | E 262930, N 222236 | [S2] | The same point |
 | HER PRN 888 (the church) | SN 6293022236 | [S3] | The same point |
-| HER PRN 912 (churchyard, clas) | SN 6293022230 (the HER's map point) | [S4] | 6m south |
+| HER PRN 912 (churchyard, clas) | SN 6293 2223 (the HER prints NGR SN62932223, 10m) | [S4] | Agrees with Coflein's point within its 10m precision |
 | Ludlow 1998-2000 | SN 6293 2225 (10m) | [S5] | |
 | Tower centre (measured) | E 262911.8, N 222227.3 (about a metre) | [S14] | Plan frame (-20.0, -2.25) |
 | OS OpenMap Local footprint centroid | E 262927.4, N 222237.6 | [S15] | A generalised outline that leaves out the south gables |
@@ -222,10 +232,20 @@ under "Plan for the Blender model".
 
 ## Phase 4: the rebuilding (1848 to 10 October 1850)
 
-- "In 1848 the body of the church was demolished, and rebuilding began, with stone excavated from a quarry within the
-  churchyard. The quarry reportedly caved in, killing one of the workers" (Coflein [S1]); Ludlow says the same, citing
-  Jenkins's diary [S5]. The event-effects note has the collapse on 18 April 1848, burying five men (`effects:S6`, Lynn
-  Hughes, not re-read here): **the number killed differs**.
+- **The collapse is one event, with one witness.** "In 1848 the body of the church was demolished, and rebuilding began,
+  with stone excavated from a quarry within the churchyard. The quarry reportedly caved in, killing one of the workers"
+  (Coflein [S1]); Ludlow: "a quarry was apparently excavated within the churchyard itself, but caved in killing one of the
+  workers (ibid.)", the source being Thomas Jenkins's diary (Jenkins 1912, 31) [S5]. The diary entry for 18 April, as Lynn
+  Hughes quotes it, reads: "Quarry opened up in the churchyard, gave way and buried five men. Four saved, but one, after
+  remaining buried for two hours, taken out a corpse ... Now the quarry will have to be abandoned without procuring any
+  stones worth using from it" [S20]. So **five men buried, four saved and one dead is a single account, not two**: the
+  "one worker killed" of Coflein and Ludlow is the same death. (An earlier draft of this note, and the open-questions
+  list, set the two counts against each other; that was an error, corrected 2026-10-17 on the independent check.) Hughes
+  gives no year for the entry; it stands after January 1848 in his narrative, and `event-effects.md` dates it 18 April 1848.
+  **What is contested is the stone**: Coflein says the rebuilding began "with stone excavated from a quarry within the
+  churchyard"; Ludlow says only that a quarry "was apparently excavated"; Jenkins, the only primary witness, says the
+  quarry was to be abandoned without stone "worth using", and Hughes sets it among the bridge approaches' shortage of
+  in-fill [S20]. Whether any of the church's stone came from the churchyard is therefore **not established**.
 - The project "was only enunciated three years ago"; "The entirety of the work has been performed by admeasurement, in
   preference to contract"; "the Church Building Society granted a vote of £220"; a gift, whose sum the OCR garbles, from the Dynevor
   family (The Welshman [S7]). The ICBS grant is the file at Lambeth [S11].
@@ -246,9 +266,10 @@ under "Plan for the Blender model".
   [S1][S2]. Inside: octagonal arcade piers, plain arches [S1][S2][S5].
 - **Materials.** "Snecked rubble masonry ashlar dressings" (Cadw [S2]); "snecked local limestone and Old Red Sandstone
   rubble, with grey limestone ashlar quoins ... neo-gothic, with grey limestone dressings" (Ludlow [S5]); "constructed of
-  hard grey limestone" (the Scott gazetteer [S10]); stone from the churchyard quarry [S1][S5]. Under the churchyard is the
-  Llandeilo Flags Formation [S16], so the churchyard stone was probably Llandeilo Flags (an inference: no source names the
-  quarry's rock). The Old Red Sandstone does not outcrop under the church on the BGS map [S16]; where it came from is not
+  hard grey limestone" (the Scott gazetteer [S10]); **The stone's source** is not known: Coflein says it came from the
+  churchyard quarry [S1], which Jenkins's own entry does not support (see Phase 4).
+  The bedrock under the churchyard is the Llandeilo Flags Formation [S16], but no source names a rock for the church from it.
+  The Old Red Sandstone does not outcrop under the church on the BGS map [S16]; where it came from is not
   known.
 - **Size and seats.** room for 920 ("It wi)l accom- modate 920 individual,," in the OCR [S7]); "to seat around 700" [S10]; "seating some 700 people"
   [S6]. Cost "about four thousand pounds" [S7] or "£4,723" [S10]. **Both differ**; neither matters to the model.
@@ -300,7 +321,7 @@ changed here.
 - **Tiers and text.** `clas-church` is labelled reconstructed, but its form, size and material are imagined (only its
   existence is documented). `tower-church`'s ⓘ says the battlements are 19th-century, which is Cadw's reading only (Ludlow
   dates the parapet to the later 16th century [S5]); `medieval-church` says the naves' size "is not recorded", while two
-  sources say the plan was today's [S5][S6]; `scott-church`'s "the west tower of about 1600" gives one of two readings.
+  secondary sources say the plan was today's [S5][S6] (the outline is a reconstruction from today's, see the Summary); `scott-church`'s "the west tower of about 1600" gives one of two readings.
 - **The setting** is `map` (true in plan, heights exaggerated as the hills are, and the only setting that hides the modern OS buildings under it); the forts' rule would make it `true`, which then needs the town's modern church footprint hidden some other way.
 
 ## Contested points (kept contested)
@@ -314,16 +335,26 @@ changed here.
 5. **The undercroft**: a medieval undercroft (Cadw 1991, via [S5]; "said to survive" [S2]) or an 18th-century burial vault
    (Ludlow [S5]).
 6. **Who designed the 1848-51 church**: Scott after a competition [S1][S2], Scott called in after it collapsed [S10],
-   or Edward Davies of Bath under Scott's supervision [S6]; the ICBS record queries Scott [S11].
+   or Edward Davies of Bath under Scott's supervision [S6]; the ICBS record is said to query Scott ("G. G. Scott?"), known only from a search engine's summary of a record not read [S11].
 7. **When it was finished**: reopened 10 October 1850 [S7]; "completed in 1850" [S6]; "completed in 1851" [S5][S10];
    "rebuilt in 1848-9" [S8].
 8. **Seats and cost**: 920 seats and about £4,000 [S7] or about 700 seats and £4,723 [S10][S6].
 9. **The organ chamber**: 1903 [S5] or 1905 [S2][S6].
-10. **The quarry collapse**: one worker killed [S1][S5] or five men buried (`effects:S6`, not re-read).
+10. **Whether the church was built of the churchyard quarry's stone**: Coflein says the rebuilding began "with stone
+    excavated from a quarry within the churchyard" [S1]; Ludlow says only that a quarry "was apparently excavated" and caved
+    in [S5]; Jenkins's diary entry says the quarry was to be abandoned "without procuring any stones worth using from it"
+    and Hughes ties it to the bridge approaches' in-fill [S20]. (The collapse itself is not contested: one event, five
+    buried, four saved, one dead; see Phase 4.)
 11. **Stages or storeys**: four stages [S2] or three storeys [S5].
 12. **The earlier "rebuilt in the early eighteenth century"** (Wikipedia [S13]) has no source and no support in any record
     read; Ludlow's 1705 presentment ("in repair") argues against a rebuild then. Kept as a lead's error, not a reading.
 13. **The early stones' PRNs and dates** (see Phase 1).
+14. **When the Teilo community's lands went to Talley**: "in the twelfth century" (the local page [S6]) or appropriated
+    c. 1215 (Ludlow, citing Price 1879 [S5]; Coflein [S1]).
+15. **When Teilo settled here**: "in the course of" the sixth century, "probably towards its close" (the local page [S6],
+    which also quotes an encyclopedia entry with his death "probably in or before 560"); a "6th century entry in the Book
+    of Llandaff" (HER PRN 912 [S4]); c. 550 is the app's. Nothing read fixes it; the DWB's "the true story ... has long
+    since perished" [S12] is the caution.
 
 ## Gaps
 
@@ -338,6 +369,7 @@ changed here.
   Samuel 1868, Davies 1858 and Glynne's notes (if he visited before 1848) might settle the parapet.
 - **The tower's roof**: flat or pitched.
 - **The churchyard's outline** was not measured (the LiDAR and the OS map would give it).
+- **The church's Welsh name** has no source (see the opening); a human Welsh check is parked.
 - **The clas enclosure**: whether the oval churchyard is the early llan's line [S4][S6] is an inference in both.
 - **Seats, cost and architect** (the newspaper's figures against the gazetteer's), which the ICBS file would settle.
 - **Not read**: Ludlow's other reports (1997-8, Dinefwr churches; 2004, Early Medieval Ecclesiastical Sites gazetteer),
@@ -347,9 +379,17 @@ changed here.
 
 ## For the owner's decision
 
-- **Phase boundaries.** The app's clas church runs to 1300 and the medieval church from 1300, with no source for 1300;
-  the only dated reading is c. 1400 [S6]. Claude's recommendation: move the boundary to c. 1400, with the ⓘ saying the date
-  is one unreferenced source and the start of the stone church is not known.
+- **Phase boundaries.** The app's clas church runs to 1300 and the medieval church from 1300, with no source for 1300.
+  The only dated reading is c. 1400 [S6], and it dates **the building pulled down in 1848**, not the end of an earlier
+  church or of timber building. The church was a parish church by 1200 and appropriated to Talley c. 1215 (Ludlow [S5];
+  the local page [S6] says "in the twelfth century"), and the HER has it losing episcopal status by the 11th century
+  [S4], so "clas" does not fit it after c. 1215. Moving the boundary to c. 1400 would keep an imagined small thatched
+  timber church labelled "the clas church" on screen for another century of the app's v1 medieval slice. Three options:
+  (a) keep 1300, the ⓘ saying no source gives it; (b) move to c. 1400 and relabel the earlier phase "St Teilo's before the
+  double-naved church (form unknown)", dropping "clas" from it; (c) add a middle phase, "parish church, form unknown"
+  (c. 1215 or 1300 to c. 1400), imagined, between the clas church and the double nave. Claude's recommendation: (b), the
+  cheapest honest option, with the ⓘ saying the date is one unreferenced source for the last pre-1848 building and that
+  the start of stone building is not known; (c) is the more accurate map and costs a feature.
 - **The tower's start.** Keep c. 1600 (the HER's and Coflein's wording of Ludlow's "later 16th century") or show it from
   the 15th century (the listing). Claude's recommendation: keep c. 1600, the ⓘ giving both readings, because Ludlow's is
   the only reading made from a survey of the fabric. This is the decision the medieval check already left for Dewi.
@@ -374,7 +414,7 @@ fit to the terrain takes up. An id names one physical part for good, so the towe
 
 | Feature id | Years | Basis |
 |---|---|---|
-| `clas-church` (existing) | c. 550 (tradition) to c. 1400 (proposed; 1300 today) | Teilo's community by tradition; documented by the 9th century [S12][S6][S4]; form unknown |
+| `clas-church` (existing) | c. 550 (tradition) to c. 1400 if the owner takes option (b) (1300 today) | Teilo's community by tradition; documented by the 9th century [S12][S6][S4]; form unknown |
 | `medieval-church` (existing) | c. 1400 to c. 1600 | The double nave [S2][S5]; "c.1400" one source [S6]; ends at the tower's contested date |
 | `tower-church` (existing) | c. 1600 (15th century on the listing's reading) to 1848 | The tower [S2][S5][S1]; the transept by 1837 [S5] |
 | `church-rebuilding` (new) | 1848 to 10 October 1850 | Demolition 1848 [S5][S1]; reopening [S7] |
@@ -390,12 +430,12 @@ contested or approximate, and the ⓘ says so. (Today's `scott-church` runs from
 |---|---|---|---|---|---|---|
 | `teilo/clas-church` | hall, on the line of today's nave | **Unknown** (estimate 12 x 6m, 3.5m to the eaves, as the app draws it today); place **unknown** (estimate: the nave's centre, (0, -2.3)) | imagined (form, size, material and place); documented that a church of Teilo's stood here by the 9th century | S12, S6, S4 | `timber-frame`, `thatch-roof` (existing; Roman evidence, so a medieval analogy text is needed, as for Dinefwr) | timber, thatch (existing surfaces, analogy) |
 
-**Phase `medieval-church`.** The outlines are the measured ones of today's church, because the plan is the same [S5][S6];
-the heights are imagined.
+**Phase `medieval-church`.** The outlines are today's measured ones, **reconstructed** from two secondary sources that
+the plan was the same [S5][S6] (see the Summary); the heights are imagined.
 
 | id | Shape | Dimensions | Tier | Sources | Kits needed | Textures needed |
 |---|---|---|---|---|---|---|
-| `teilo/nave` | hall, x -17.3 to 20.0, y -7.8 to 3.2 (centre (1.35, -2.3), 37.3 x 11.0m) | Outline measured on today's church; height **unknown** (estimate: walls 6m, gable roof at today's pitch, about 50 degrees) | documented (outline: two sources for "the same ground plan" [S5][S6], measured on today's church [S14]); height and form imagined | S5, S6, S2, S14 | `coursed-rubble` (new; Dinefwr's note proposes the same kit, so one kit for both) | rubble (analogy: the tower's), roof covering **unknown** (analogy) |
+| `teilo/nave` | hall, x -17.3 to 20.0, y -7.8 to 3.2 (centre (1.35, -2.3), 37.3 x 11.0m) | Outline measured on today's church; height **unknown** (estimate: walls 6m, gable roof at today's pitch, about 50 degrees) | reconstructed (the outline is today's, measured [S14], on Ludlow's reading of the 1837 maps and the local page's reused foundations: two secondary sources, [S5][S6]; not a measurement of the medieval walls); height and form imagined | S5, S6, S2, S14 | `coursed-rubble` (new; Dinefwr's note proposes the same kit, so one kit for both) | rubble (analogy: the tower's), roof covering **unknown** (analogy) |
 | `teilo/aisle-n` | hall, x -17.5 to 14.0, y 3.2 to 11.3 (centre (-1.75, 7.25), 31.5 x 8.1m) | As the nave; height **unknown** (estimate: walls 5m) | as `teilo/nave` | S5, S6, S2, S14 | as above | as above |
 | `teilo/chancel-end` | none: the chancel is the nave's east end, which runs about 6m past the north aisle; whether it had its own roof or arch before 1848 is **unknown** | - | - | S5, S2 | - | - |
 
@@ -407,7 +447,8 @@ the heights are imagined.
 | `teilo/turret` | tower, square, at the tower's north-east angle, x -19.5 to -16.0, y 1.5 to 3.5 | About 3.5 x 2.0m projecting from the north face (measured; how much of it is inside the tower's wall is not known); top **20.5m** (measured), above the parapet by about 1.8m | documented (place: Cadw listing and the survey, against Ludlow's west half [S5]; height measured) | S2, S5, S14, S18 | tower `top: 'battlements'`; `loop-window` (new; shared with Dinefwr: the slit lights [S2][S5]) | as the tower |
 | `teilo/tower-door-w` | opening in the tower's west face | **Unknown** size | contested: a 16th-century cut-out [S5] or a 19th-century door [S2]; draw per the owner's decision | S2, S5 | `ledged-leaf` (existing; Roman analogy, needs medieval text) | timber |
 | `teilo/transept-s` | hall, the south gables' site, x 0.3 to 14.0, y -7.8 to -13.3 (estimate: one roof over both of today's gables' footprint, since Ludlow calls it "large") | Outline from today's (measured); whether it was one gable or two, and its height, **unknown** (estimate: walls 5m) | documented (existence by 1837 and site: one source: Ludlow, from the maps); form imagined | S5, S14 | `coursed-rubble` | as the nave |
-| `teilo/aisle-n` (late) | as the medieval phase, roof possibly off by 1837 | - | reconstructed (Ludlow's "may have been roofless", from map shading [S5]); an optional sub-phase c. 1830-1848 | S5 | - | - |
+| `teilo/vestry-old` (optional, queried) | lean-to or hall on the vestry's site, x 14.0 to 20.0, y -7.8 to -11.3 | Outline today's (measured); size and form **unknown** | reconstructed; documented (one source: Ludlow, queried "(and vestry?)") that something stood there by 1837 | S5, S14 | `coursed-rubble` | as the nave |
+| `teilo/aisle-n` (late) | as the medieval phase, roof possibly off by 1837 | - | reconstructed (Ludlow's "may have been roofless", from the aisle's lack of shading on the 1837 tithe map [S5]); an optional sub-phase "by 1837" to 1848 (no source gives c. 1830) | S5 | - | - |
 
 **Phase `church-rebuilding`.**
 
@@ -424,9 +465,10 @@ the heights are imagined.
 | `teilo/turret` | as above | as above | documented | S2, S14 | as above | as above |
 | `teilo/nave` | hall, x -17.3 to 20.0, y -7.8 to 3.2 | **37.3 x 11.0m** (measured); eaves about 6.9m (measured on the south: 62.7m OD), ridge **13.4m** (measured: 69.2m OD); seven bays [S5] | documented | S1, S2, S5, S14 | hall `roof: 'gable'` with gable parapets (a `gable-parapet` kit, new: "raking gable parapets on kneelers" [S2]); `buttress` (new: stepped, cross-buttressed at the corners [S5]); `tracery-window` (new: three-light on the sides; four-light at the west end and five-light at the east end of the north range, six-light in the chancel's east wall [S2][S5]); `base-offset` (the chamfered plinth [S5], a trim kit) | Victorian snecked rubble (sourced: S17, S19), grey limestone dressings (sourced: S5, S17), slate (sourced: S2, S5; photograph S18) |
 | `teilo/aisle-n` | hall, x -17.5 to 14.0, y 3.2 to 11.3 | **31.5 x 8.1m** (measured); eaves about 5.8m, ridge **11.0m** (measured: 66.8m OD); six bays [S5] | documented | S1, S2, S5, S14 | as the nave | as the nave |
-| `teilo/porch-n` | hall, gable to the north, x -12.0 to -7.3, y 11.3 to 13.5 | About **4.7 x 2.2m** (measured, low confidence: trees stand close); height **unknown** (estimate 5m to the ridge) | documented (place: second bay from the west [S1][S2], measured); size measured | S1, S2, S14 | `tracery-window` not needed; doorway with nookshafts [S2] (a `pointed-doorway` kit, new) | as the nave |
+| `teilo/porch-n` | hall, gable to the north, x about -12.3 to -7.2, y 11.2 to about 14.4 | About **5.0 x 3.1m** (measured, low confidence: trees stand close); eaves about **3.1-3.4m** and ridge about **5.0-5.3m** above the ground (measured on the surface model, low confidence, the ridge running north-south over x about -9.7; the first draft had 4.7 x 2.2m and "height unknown", corrected on the independent check) | documented (place: second bay from the west [S1][S2], measured); size measured | S1, S2, S14 | `tracery-window` not needed; doorway with nookshafts [S2] (a `pointed-doorway` kit, new) | as the nave |
 | `teilo/transept-s` | hall, gable to the south, x 0.3 to 7.2, y -7.8 to -12.3 | **6.9 x 4.5m** projecting (measured); ridge about **9.5-9.9m** (measured: 65.3-65.7m OD) | documented (one gable in 1850: one source: Ludlow, which gable is which; the gable measured) | S5, S2, S14 | as the nave | as the nave |
-| `teilo/vestry` | lean-to, x 14.0 to 20.0, y -7.8 to -11.3 | **6.0 x 3.5m** (measured); top about 4.7m (measured: about 60.5m OD) | documented | S2, S5, S14 | `roof: 'lean-to'` has **no plan value yet** (a hall with a gable will not do; the build adds one, or uses a prism) | as the nave |
+| `teilo/vestry` | lean-to, x 14.0 to 20.0, y -7.8 to -11.3 | **6.0 x 3.5m** (measured); the lean-to falls from about **61.4m OD (6.4m above the ground) at the nave's wall to about 58.7m OD (3.8m) at its outer side** (measured; the first draft gave a mid-slope median, "top about 4.7m", corrected on the independent check) | documented | S2, S5, S14 | `roof: 'lean-to'` has **no plan value yet** (a hall with a gable will not do; the build adds one, or uses a prism) | as the nave |
+| `teilo/vault-projection` | low coped lean-to against the aisle's east wall, x 14.0 to about 16.0, y about 4.5 to 10.5 | Rising about **1-2m** above the ground and falling eastward (measured, low confidence: 1m cells) | documented (one source: Ludlow: the vault "projects beyond the aisle east wall where it is coped back to form a lean-to up to the sill level of the wall"; the survey shows a low mass there); whether it is a medieval undercroft or an 18th-century vault is contested | S5, S14 | `coursed-rubble` | as the nave |
 
 **Phase `scott-church-organ`** (as `scott-church`, plus this).
 
@@ -472,7 +514,7 @@ needed as well [S14]; it is not in the repository and need not be.
 - [S2] Cadw, Listed Buildings Full Report 11097, "Parish Church of St Teilo", Grade II, designated 14 March 1966, E 262930 N 222236, "Information supplied by Mr P Howell". https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=11097 — "Set in a large raised churchyard"; "Medieval church on celtic site largely rebuilt in Decorated style 1848-51 by G G Scott following a competition. (Drawings survive in the church). Restored 1905 by David Jenkins of Llandeilo. Medieval church of double nave and C15 W tower; of which tower remains (vaulted undercroft said to survive)"; "6 bay double nave with chancel to that on S. Twin gabled S transept with outshot vestry. Defensive medieval W tower. 4 stage W tower; squared, coursed rubble dressed quoins. Splayed base below stringcourse. C19 pointed door cut to W side. 2 light cusped Perp window with returned label to N on 2nd stage. 3 large clock faces to 3rd stage. Two light cusped Perp windows to bell stage openings on each face. Stringcourse below C19 crenellated battlements with gargoyle waterspouts. Stair turret to NE angle rises above tower, slit like vice windows"; "Snecked rubble masonry ashlar dressings"; "Steeply pitched slate roofs, raking gable parapets on kneelers. Chancel advanced one bay"; octagonal arcade piers. Same report as `models:S29`. Read directly 2026-10-17.
 - [S3] Heneb Historic Environment Record (Archwilio), PRN 888, "St Teilo's Llandeilo Fawr", SN6293022236, Medieval and post-medieval church, Listed Building II. https://archwilio.org.uk/arch/query/page.php?watprn=DAT888&dbname=dat&tbname=core — "Medieval parish church, large, comprising a west tower from c.1600. The rest is later ... from 1848-51. The organ chamber over heating chamber, is from 1903" (NDL 2003); "The church retains 15% pre-19th century core fabric"; "The original church was of the double aisle plan. Restored 1848-50"; artefacts: two cross-heads "9th to 11th century?", PRNs 890 and 891; an inscribed stone "5th-6th century, PRN 889, lost"; sources include Ludlow 1998 "Llandeilo Fawr, St Teilo", the Cadw churches project archive, RCAHM 1917, Lewis 1833, Soulsby and Jones 1977, and the 1981-82 WI churchyard survey; the map search beside it lists the well (PRNs 27003, 11688) and the churchyard (912). Derived from information held by the Heneb HER Charitable Trust copyright. Read directly 2026-10-17.
 - [S4] Heneb HER (Archwilio), PRN 912, "St Teilo's Church Llandeilo Fawr", Early Medieval churchyard, clas, monastery. https://archwilio.org.uk/arch/query/page.php?watprn=DAT912&dbname=dat&tbname=core — "Early medieval A site"; "possibly a monastic clas church from the first. It was a bishopric by the 8th century"; may have superseded Cynwyl Gaeo as mother church in the 8th century; "By the 11th century it lost episcopal status, which may suggest a change of monastic site - to Talley Abbey?"; one Group I and two Group III early medieval stones, "+/- in situ"; "The large, suboval churchyard probably overlies the major Roman Road between Loughor and Llandovery, and lies 700m east of the Roman fort"; the holy well; "nuclear to a possible pre-/post-Conquest Welsh 'bond' settlement" (NDL 2003). Derived from information held by the Heneb HER Charitable Trust copyright. Read directly 2026-10-17.
-- [S5] N. Ludlow, Welsh Historic Churches Project, Carmarthenshire churches, entry "St Teilo, Llandeilo Fawr, Carmarthenshire (Dinefwr)" (Cambria Archaeology / Dyfed Archaeological Trust for Cadw; fieldwork 1998; Dyfed PRN 888, RB No. 3437, NGR SN 6293 2225), scanned PDF of 387 pages on the Welsh HER portal, the entry on PDF pages 123-129. http://www.walesher1974.org/her/app/php/herumd.php?group=DAT&level=3&docid=301363822 — reached from the HER's project record DAT57045 (https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT57045), whose sources list "Welsh Historic Churches Project Carmarthenshire Churches 1998 - 2000 (© DAT)"; the identification of this PDF with that title is by the order of the links, not by a title page (the scan has none). Text layer read 2026-10-17 (SHA-256 of the PDF e738a698...). Says: "Medieval church; 15% pre-19th century core fabric"; "Phase 1 - West tower, later C16. Phase 2 - Chancel, nave, north aisle, south transept, north porch, vestry, 1848-51. Phase 3 - Organ/heating chamber, 1903"; "Mainly snecked local limestone and ORS rubble construction"; "earthwork platform around/below 15% of church; burial vaults beneath 20% of church; 10% of church beneath ground level"; the present church "7-bayed chancel/nave, without structural division ... 6-bayed north aisle ... north porch ... single-bayed vestry south of the east bay ... transeptal organ chamber, over a heating chamber, between the vestry and the south transept"; the Dynevor Chapel "said to lie over a medieval undercroft (Cadw, 1991, 34) but the 'undercroft' is more likely to be an 18th century burial vault"; the tower "from the later 16th century, is of late Perpendicular character similar to the contemporary tower at Llandybie ... comprises 3 storeys ... roughly squared and coursed rubble, with Old Red Sandstone dressings and quoins ... the external batter up to a string-course ... roll-moulded Old Red Sandstone ... A square spiral stair turret projects from the western half of the north wall ... The west door occupies a later 16th century cut-out in the batter, but was rebuilt in 1848-51 ... The crenellated parapet, which occupies a higher level over the stair-turret, lies on a string-course, all from the later 16th century; rainwater chutes moulded as gargoyles"; "Two maps (NLW, Llandeilo Fawr, Tithe Map, 1837 and NLW, Plan of the Town of Llandeilo ..., n.d.) show the pre-1848 church to have been of the same dimensions, and to possess the same ground plan, is its successor, comprising a nave, north aisle and west tower, with a large south transept (and vestry?)"; the 1678, 1685 and 1705 presentments; Lewis 1833 "large heavy building, consisting only of 2 aisles"; the tithe map's unshaded aisle; 1845 "dilapidation" (RCAHM 1917, 91); demolition 1848 (Jenkins 1912), Scott, completed 1851 (Samuel 1868); the organ chamber 1903 (NLW SD/F/256); a clock by 1868, "decrepit with old age"; the bells cracked 1868; the chimney 1930; appropriation to Talley c. 1215 and 1239. Read from the text layer, checked against the page image of p. 123.
+- [S5] N. Ludlow, Welsh Historic Churches Project, Carmarthenshire churches, entry "St Teilo, Llandeilo Fawr, Carmarthenshire (Dinefwr)" (Cambria Archaeology / Dyfed Archaeological Trust for Cadw; fieldwork 1998; Dyfed PRN 888, RB No. 3437, NGR SN 6293 2225), scanned PDF of 387 pages on the Welsh HER portal, the entry on PDF pages 123-128 (the running head reads "St Teilo, Llandeilo Fawr" on them and "St Dingat, Llandingat" from p. 129). http://www.walesher1974.org/her/app/php/herumd.php?group=DAT&level=3&docid=301363822 — reached from the HER's project record DAT57045 (https://archwilio.org.uk/her/chi3/report/page.php?watprn=DAT57045), whose sources list "Welsh Historic Churches Project Carmarthenshire Churches 1998 - 2000 (© DAT)"; the identification of this PDF with that title is by the order of the links, not by a title page (the scan has none). Text layer read 2026-10-17 (SHA-256 of the PDF e738a698...). Says: "Medieval church; 15% pre-19th century core fabric"; "Phase 1 - West tower, later C16. Phase 2 - Chancel, nave, north aisle, south transept, north porch, vestry, 1848-51. Phase 3 - Organ/heating chamber, 1903"; "Mainly snecked local limestone and ORS rubble construction"; "earthwork platform around/below 15% of church; burial vaults beneath 20% of church; 10% of church beneath ground level"; the present church "7-bayed chancel/nave, without structural division ... 6-bayed north aisle ... north porch ... single-bayed vestry south of the east bay ... transeptal organ chamber, over a heating chamber, between the vestry and the south transept"; the Dynevor Chapel "said to lie over a medieval undercroft (Cadw, 1991, 34) but the 'undercroft' is more likely to be an 18th century burial vault"; the tower "from the later 16th century, is of late Perpendicular character similar to the contemporary tower at Llandybie ... comprises 3 storeys ... roughly squared and coursed rubble, with Old Red Sandstone dressings and quoins ... the external batter up to a string-course ... roll-moulded Old Red Sandstone ... A square spiral stair turret projects from the western half of the north wall ... The west door occupies a later 16th century cut-out in the batter, but was rebuilt in 1848-51 ... The crenellated parapet, which occupies a higher level over the stair-turret, lies on a string-course, all from the later 16th century; rainwater chutes moulded as gargoyles"; "Two maps (NLW, Llandeilo Fawr, Tithe Map, 1837 and NLW, Plan of the Town of Llandeilo ..., n.d.) show the pre-1848 church to have been of the same dimensions, and to possess the same ground plan, is its successor, comprising a nave, north aisle and west tower, with a large south transept (and vestry?)"; the 1678, 1685 and 1705 presentments; Lewis 1833 "large heavy building, consisting only of 2 aisles"; the tithe map's unshaded aisle; 1845 "dilapidation" (RCAHM 1917, 91); demolition 1848 (Jenkins 1912), Scott, completed 1851 (Samuel 1868); the organ chamber 1903 (NLW SD/F/256); a clock by 1868, "decrepit with old age"; the bells cracked 1868; the chimney 1930; appropriation to Talley c. 1215 and 1239. Read from the text layer, checked against the page image of p. 123.
 - [S6] Llandeilo History (llandeilo.org, Terry Norman and Andy Mabbutt), "St Teilo's Church" ("From: www.llandeilofawr.org.uk"). https://www.llandeilo.org/ch_st-teilos.html — "The church building which you see today was completed in 1850; the tower is late medieval"; Teilo's tomb shown to visitors "including King Edward I" in the 13th century; the gospel book given "to the altar of St.Teilo" c. 820; "there was a bishop at Llandeilo Fawr in the ninth century"; "The pre-1848 building was a late medieval structure of c.1400. The tower is the only surviving feature of that building above ground. The rebuilders of 1848 chose to use the existing medieval foundations, so that the ground plan of the present church reproduces that of the medieval building. The present building was designed by Edward Davies, an architect from Bath, and built under the supervision of George Gilbert Scott"; seating some 700 in 1850; the organ at the west end with a singing gallery before 1905 and "a new organ chamber was constructed in 1905"; the north aisle made a hall in 1979; the cross-heads "c.900AD"; the churchyard "about three and a half acres", oval, the turnpike through it "in the late eighteenth century"; the well near the east end, covered in the mid-19th century. Local history, unreferenced. Same page as `models:S30`. Read directly 2026-10-17.
 - [S7] *The Welshman*, 11 October 1850, "Re-opening of Llandilo Church", Welsh Newspapers Online (National Library of Wales). https://newspapers.library.wales/view/4347234/4347236/12/ — "the old steeple - one of the most antiquated structures in the Principality, was allowed to remain intact, while the entire body of the Church was rebuilt by public subscription, at an expense of about four thousand pounds. The Architect, Mr. Scott, of London, and the Clerk of the Works, Mr. John Harries"; "the project ... was only enunciated three years ago"; the Dynevor family's contribution (figure garbled in the OCR); "the Church Building Society granted a vote of £220"; "performed by admeasurement, in preference to contract"; "the style being that of ... decorated English"; seats for 920 (the OCR reads "It wi)l accom- modate 920 individual,,"); services from 11 o'clock. The quotations here are the OCR with its broken hyphenation and misread letters cleaned (for example "stee- Ide" as "steeple"). Primary. Same report as `effects:S10`. Read from the OCR text 2026-10-17.
 - [S8] Samuel Lewis, *A Topographical Dictionary of Wales* (London, 1849), "Llandilo-Vawr", British History Online. https://www.british-history.ac.uk/topographical-dict/wales/pp524-536 — "a new road has been constructed through the churchyard, instead of the old one, which was so steep ... as to be almost impassable for carriages"; "a pure spring in the churchyard, at which St. Teilo used to baptize Christian converts in ancient times"; "The church, dedicated to St. Teilo, and situated nearly in the centre of the town, was rebuilt in 1848-9, on the same site, from the designs of Mr. Scott". Contemporary gazetteer. Read directly 2026-10-17.
@@ -481,9 +523,10 @@ needed as well [S14]; it is not in the repository and need not be.
 - [S11] Lambeth Palace Library, Incorporated Church Building Society file ICBS 3533, Llandilo, Carmarthenshire, ground plan, 1844-1851, creators "G. G. Scott?" and John Harries, images LPLIBLPL~34~34~84367~113585 and ~123258~118079. https://images.lambethpalacelibrary.org.uk/luna/servlet/detail/LPLIBLPL~34~34~84367~113585 — **not read**: known only from a search engine's summary of the record; the image server returned a verification page and then a login page (2026-10-17).
 - [S12] Dictionary of Welsh Biography, "TEILO (sometimes called ELIUD), a Celtic saint of the 6th century" (E. G. Bowen). https://biography.wales/article/s-TEIL-SAN-0500.html — "the true story of his career and actions has long since perished"; the gospel book's margins show "that in the 9th century ... he was still venerated in South Wales as the founder of a monastery which was almost certainly Llan-deilo-fawr"; the *Liber Landavensis* Life about three hundred years later, transferring the monastery's tradition and property to Llandaff. Same entry as `timeline:S19`. Read directly 2026-10-17.
 - [S13] Wikipedia, "St Teilo's Church, Llandeilo". https://en.wikipedia.org/wiki/St_Teilo%27s_Church,_Llandeilo — lead only: "The fabric of the building has medieval origins but stands on a much older site and was rebuilt in the early eighteenth century" (no source for it; its references are a dead llandeilo.org page, britishlistedbuildings and Coflein); listed 14 March 1966. Read as raw wikitext 2026-10-17.
-- [S14] Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tile SN6222 (`wg_del_26_262222_20220222dsm.tif`, 1,680,133 bytes, SHA-256 7c162d1e...; `wg_del_26_262222_20220222dtm.tif`, the repository's manifest copy, SHA-256 974051ba...), DataMapWales; Open Government Licence v3 (see [`../data/lidar.md`](../data/lidar.md)). https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_26_262222_20220222dsm.tif — measured 2026-10-17 by Claude in the plan frame: outlines where the surface stands more than 2.5m above the terrain model, the tower shaft where it stands more than 15m above it and the turret more than 19.5m; ridge lines by the highest cell across each section; heights as medians of 11-112 cells. Tower parapet 74.42-74.59m OD (median, p90), tower roof 73.20-73.26, turret 76.13-76.39, nave ridge 69.1-69.4, aisle ridge 66.25-66.85, south gables 65.3-65.7, vestry about 60.5; ground 55.82 (W) and 55.83 (S) of the tower, 54.79 (E of the chancel).
+- [S14] Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tile SN6222 (`wg_del_26_262222_20220222dsm.tif`, 1,680,133 bytes, SHA-256 7c162d1e...; `wg_del_26_262222_20220222dtm.tif`, the repository's manifest copy, SHA-256 974051ba...), DataMapWales; Open Government Licence v3 (see [`../data/lidar.md`](../data/lidar.md)). https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_26_262222_20220222dsm.tif — measured 2026-10-17 by Claude in the plan frame: outlines where the surface stands more than 2.5m above the terrain model, the tower shaft where it stands more than 15m above it and the turret more than 19.5m; ridge lines by the highest cell across each section; heights as medians of 11-112 cells (the porch and vestry were re-measured on the independent check, 2026-10-17, from the same DSM, SHA-256 7c162d1e, and the repository's DTM). Tower parapet 74.42-74.59m OD (median, p90), tower roof 73.20-73.26, turret 76.13-76.39, nave ridge 69.1-69.4, aisle ridge 66.25-66.85, south gables 65.3-65.7, vestry 58.7 at its outer side to 61.4 at the wall, porch ridge about 61.1 (5.0-5.3m above ground 56.0); ground 55.82 (W) and 55.83 (S) of the tower, 54.79 (E of the chancel).
 - [S15] Ordnance Survey, OS OpenMap Local, tile SN, `Building` layer (Open Government Licence; local copy in ~/code/data/llandeilo/oml, downloaded 2026-09-26). https://api.os.uk/downloads/v1/products/OpenMapLocal/downloads?area=SN&format=ESRI%C2%AE+Shapefile&redirect — feature 128412: 831m², minimum rectangle 42.2 x 21.4m with a side at 19.3 degrees from grid east, centroid E 262927.4 N 222237.6; it leaves out the south gables and vestry and does not separate the tower. Same data as `models:S31`. Read locally with GDAL's Python bindings 2026-10-17.
 - [S16] British Geological Survey, DiGMapGB-50 bedrock (v9.25, released 31 March 2025), WMS GetFeatureInfo at E 262930 N 222236. https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer — "Llandeilo Flags Formation - Sandstone, limestone and argillaceous rocks", Ordovician (Abereiddian), "shallow seas". Read 2026-10-17.
 - [S17] Ken Day, "Llandeilo Parish Church, St Teilo's. Tower, south face", 7 August 2014, Wikimedia Commons, CC BY-SA 4.0. https://commons.wikimedia.org/wiki/File:Llandeilo_Parish_Church,_St_Teilo%27s._Tower,_south_face.jpg — viewed (1280px): battered base to a string course, purple-red sandstone quoins and dressings against grey-brown coursed rubble, a clock face, a two-light belfry opening, an upper string course with projecting spouts, crenellations; the nave's west gable with a tracery window and the aisle beyond.
 - [S18] Jaggery, "Tower, St Teilo's church, Llandeilo", 26 June 2011, geograph.org.uk 3270292 via Wikimedia Commons, CC BY-SA 2.0. https://commons.wikimedia.org/wiki/File:Tower,_St_Teilo%27s_church,_Llandeilo_-_geograph.org.uk_-_3270292.jpg — viewed: the stair turret rising above the tower's parapet with its own crenellations, a clock face, the nave's slate roof.
 - [S19] Darren Wyn Rees, "St Teilo's Church, Llandeilo", 21 August 2020, Wikimedia Commons, CC BY-SA 4.0. https://commons.wikimedia.org/wiki/File:St_Teilo%27s_Church,_Llandeilo.jpg — viewed: clock faces on two faces of the tower, the west gable's tracery window, the raised churchyard behind its wall.
+- [S20] Lynn Hughes, "Pons Asinorum" (Carmarthenshire Life, November 2004; from a work in progress, *Towy: The Biography of a River*), on llandeilo.org. https://llandeilo.org/bge_history.html — the building of the new Llandeilo bridge, 1845-48, quoting Thomas Jenkins's diary: "Quarry opened up in the churchyard, gave way and buried five men. Four saved, but one, after remaining buried for two hours, taken out a corpse. Great carelessness on someone's part. Now the quarry will have to be abandoned without procuring any stones worth using from it"; it introduces the entry (dated "April 18th", no year given; it follows the January 1848 events in his narrative) as an accident that did not help "the scarcity of in-fill material" for the bridge approaches. Same page as `effects:S6`. Read directly 2026-10-17 (re-read on the independent check). Secondary, quoting a primary diary (Jenkins's diary is in *Trans. Carmarthenshire Antiquarian Society* 8, 1912, which Ludlow cites).

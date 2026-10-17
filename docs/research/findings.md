@@ -150,7 +150,9 @@ From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agen
 ## St Teilo's church for a Blender model (2026-10-17)
 
 From [`st-teilo.md`](st-teilo.md), a draft, re-read the same day by the same agent ([check 1](reviews/st-teilo-check-1.md),
-not independent; the independent check is still owed). Written by Claude for the true-size Blender landmarks Dewi chose
+not independent) and then checked by an independent reader ([check 2](reviews/st-teilo-check-2.md), whose findings are
+applied: the quarry collapse is one event, the pre-1848 outline is reconstructed, not documented, the porch and vestry
+were re-measured). Written by Claude for the true-size Blender landmarks Dewi chose
 (2026-10-16/17).
 
 - **The tower is measured on the 2020-22 LiDAR**: about 8.0 by 7.5m above its batter, parapet top 74.5m OD, 18.7m above
@@ -163,10 +165,15 @@ not independent; the independent check is still owed). Written by Claude for the
   its "around 1600" is Ludlow's "later 16th century" (the HER's "c.1600" is Ludlow's too). So the tower's date is one
   source against one, and its **parapet** likewise: "C19 crenellated battlements" (listing) against a parapet and
   gargoyles "all from the later 16th century" (Ludlow). ([teilo:S1], [teilo:S2], [teilo:S3], [teilo:S5])
-- **The church pulled down in 1848 had today's plan** (Ludlow, from the 1837 tithe map and a town plan; the local-history
-  page on the reused medieval foundations): a nave with its chancel, a north aisle (the "double nave"), the west tower and
-  "a large south transept". So the medieval outline can be drawn from today's measured one; its heights cannot.
-  ([teilo:S5], [teilo:S6])
+- **The church pulled down in 1848 is said to have had today's plan** (Ludlow, from the 1837 tithe map and a town plan,
+  which nobody here has seen; the local-history page on the reused medieval foundations, which cites nothing): a nave
+  with its chancel, a north aisle (the "double nave"), the west tower and "a large south transept (and vestry?)". That is
+  the plan of 1837, not of c. 1400, so the medieval outline is **reconstructed** from today's measured one, to no better
+  than a metre or two; its heights are unknown. ([teilo:S5], [teilo:S6])
+- **The 1848 quarry collapse is one event, not two counts**: Thomas Jenkins's diary (via Lynn Hughes) has five men
+  buried, four saved and one dead, which is Coflein's and Ludlow's "killing one of the workers". What is contested is
+  whether the church was built of that quarry's stone: Coflein says so; Jenkins says the quarry was abandoned "without
+  procuring any stones worth using". ([teilo:S1], [teilo:S5], [teilo:S20])
 - **Today's church is measured**: nave and chancel 37.3 by 11.0m, ridge 13.4m; north aisle 31.5 by 8.1m, ridge 11.0m; two
   south gables, of which Ludlow dates the west (the transept) to 1848-51 and the east (the organ chamber) to 1903 (1905 in
   the listing and the local page); a lean-to vestry on the south. ([teilo:S5], [teilo:S14])
