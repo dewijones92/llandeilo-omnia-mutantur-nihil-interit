@@ -575,7 +575,7 @@ real, though: 3.6m along a 50m timber building is not something a builder could 
 sources; Birdoswald (S26) was named as a lead in the ⓘ and is now left out of it until its guidebook is read.)
 
 So the general practice, **levelling and building up the ground for barracks and other works**, is supported
-by independent sources (S27; S28 with S29). S26 (Birdoswald, an encyclopedia's summary of a guidebook) is a lead,
+by two independent sources (S27 Vindolanda; S28 Hardknott, English Heritage); S29 (Wikipedia on Hardknott) agrees with S28 but is an encyclopedia lead, not a second source. S26 (Birdoswald, an encyclopedia's summary of a guidebook) is a lead,
 not a source: no one has read the guidebook. **A terrace cut under each barrack of an early timber fort on a
 slope is not demonstrated by any source read**, at Dinefwr or elsewhere. It is drawn as analogy, each plot
 labelled reconstructed.

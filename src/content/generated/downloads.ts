@@ -31,6 +31,6 @@ export const LANDMARK_TIERS: Readonly<Record<string, PartTiers>> = {
 
 export const TRAIN_MODEL: ModelFile = {
   "file": "models/llanelly-train.glb",
-  "bytes": 232796,
+  "bytes": 233140,
   "triangles": 3092
 };

@@ -10,7 +10,7 @@ updated: 2026-10-16
 - **Status:** Accepted; extends [ADR 0049](0049-lidar-terrain-tiles-blended-into-terrain-50.md) (its ground edits
   are now fed from the timeline) and amends [ADR 0053](0053-the-blender-pipeline-sheet-script-fitted-gltf.md)
   (a rigid part no longer stands at its own point)
-- **Date:** 2026-10-16 (amended the same day after the independent review: the e2e reads the drawn floors and roads,
+- **Date:** 2026-10-16 (amended 2026-10-17: the slope note is carried by every landscape plan over 3m drawn, chosen by a test; the Hardknott sources are counted correctly; amended the same day after the independent review: the e2e reads the drawn floors and roads,
   roads lie on the mesh, the terrace ⓘ keeps its hedge, towers' footprints and terraces' scale are read from one
   place, and a feature is built only on the terraces that reach it; amended again after Dewi's decision, below: the e2e
   reads the walls off the drawn geometry, the plots' batter is two cells wide, the hedges are tightened and the
@@ -40,7 +40,7 @@ at one point everywhere there is a slope: Dryslwyn's by up to 17.17m of ground, 
 
 The research found no terrace at Dinefwr and no source for a terrace under each barrack of an early timber fort,
 but a layer in one trench that the excavator reads as *possibly* levelling laid for Fort 2, and Roman builders
-levelling and building up ground for barracks and works elsewhere (Vindolanda; Hardknott, from two sources). Birdoswald
+levelling and building up ground for barracks and works elsewhere (Vindolanda; Hardknott, from one source, English Heritage, and an encyclopedia lead). Birdoswald
 is an encyclopedia's summary of a guidebook nobody here has read: a lead, not counted. So a levelled plot under each
 fort building is a labelled analogy, and the analogy is general (levelling for barracks and works), not a terrace
 under each barrack of an early timber fort, which no source read shows.
@@ -124,8 +124,23 @@ terrace at its plan's setting scale, like the buildings; every terrace today is 
   A downhill wall can show about a storey taller than its plan (Dryslwyn's hall block), because the hills are drawn
   2.4 times as high and the castle larger than life; the ⓘ of every Dryslwyn plan says so, in both languages (the
   generic seating note, `SLOPE_SEATING` in `src/content/buildings.ts`): that height is the app's drawing of the slope,
-  not the sources'. Carreg Cennen, Talley and Aberglasney are lifted the same way (up to 4.56m, 3.98m and 6.05m of
-  ground) and do not yet carry the note.
+  not the sources'. **Which plans carry the note is decided by a test, not by hand (amended 2026-10-17, Claude under
+  the proactive mandate).** `tests/terraces.test.ts` measures every building feature's footing as the app draws it,
+  that is how far its floor stands above the lowest ground under its footprint (the footprint turned and spread by
+  the setting's scale across, platforms raising the ground as the builder does, the ground the LiDAR where there is
+  some and OS Terrain 50 elsewhere, heights exaggerated 2.4 times), and requires the note, in both languages, on
+  every landscape plan whose footing is over 3m drawn. 3m is about a storey of an ordinary house: below it a wall
+  reads as a plinth, above it as a taller building than the plan gives. It sits in a gap in the measured values
+  (the largest landscape footing below it is Paxton's Tower, 1.6m; the smallest above it is Newton House, 3.4m), and
+  the test fails if any plan comes within 0.3m of the line. That adds seventeen features: Dinefwr's castle,
+  ruin and summerhouse (13.0, 13.0 and 15.0m drawn), Carreg Cennen's four (7.1 to 145.3m), Talley's four (4.1 to
+  16.3m), Newton House's three (3.4m), Aberglasney (22.9m) and Golden Grove's two (18.3 and 13.2m). The note speaks of
+  a building drawn larger than life, so it belongs to the landscape setting only: **the map-scale plans (the three
+  churches, the old bridge and its abutment) do not carry it**, because their footprints are true size and their
+  walls are exaggerated with the hills, so the fall they show is the real fall; the old bridge's 18.9m drawn
+  (7.9m of real fall between its banks and the water) is therefore left to be what it is, and a test pins that no
+  map or true-size plan carries the note. Whether a bridge deck level at the highest bank, with its abutments
+  carried down, looks right has not been looked at.
 - **Roads cross terrace steps.** With the ribbons on the mesh (5a) a fort road meets each barrack's plot as a short
   ramp, not as the patches the first version drew; the step is the reconstruction's own (adjacent plots differ by up to
   about a metre across a street), drawn with its batter, and a 2m mesh would round it further (ADR 0049, decision 5).

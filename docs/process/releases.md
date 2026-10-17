@@ -11,18 +11,21 @@ What changed in the app, for family and visitors, newest first. Each section is 
 GitHub release, tagged with the version in `package.json` ([ADR 0025](../adr/0025-releases-at-visible-milestones.md)).
 Corrections to history are called out: when we get something wrong, we say so.
 
-**Publishing a release** (CLAUDE.md, "Release at each visible milestone"; the terrain files are
-[ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md)'s):
-
-```bash
-npm run terrain-glb -- build/terrain-glb   # the 29 full 2m terrain tiles (43.8MB) as .glb; rewrites src/content/generated/terrain-tiles.ts
-git add src/content/generated/terrain-tiles.ts   # only changes if the LiDAR changed; commit it before tagging
-gh release create v<version> --notes-file <this section> build/terrain-glb/*.glb docs/images/releases/v<version>/*
-curl -sIL -o /dev/null -w '%{http_code}\n' https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/releases/latest/download/lidar-262000-222000.glb   # 200
-```
-
-The app's Terrain downloads link to `releases/latest/download/<file>`, so every release must carry the tiles
-(a file's sha256 is in the manifest). Until the first release that carries them, those links answer 404.
+**Publishing a release** (the same steps as CLAUDE.md's "Release at each visible milestone"):
+**attach the terrain glbs to every release** ([ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md);
+the app's Terrain downloads link to `releases/latest/download/<file>`). Before tagging: (1) `rm -rf
+build/terrain-glb`, so no stale tile survives; (2) `npm run terrain-glb -- build/terrain-glb` (the 29 tiles,
+43.8MB; it rewrites `src/content/generated/terrain-tiles.ts`, which you commit if it changed); (3) `node
+tools/terrain/verify-release.mjs build/terrain-glb`, which checks every file's name, size and sha256 against
+that manifest and exits non-zero on a mismatch (never release on a failure); (4) make the notes file from this
+version's section of `releases.md`, without its heading: `awk -v v=v<version> 'index($0, "## " v " ") == 1 { f
+= 1; next } /^## v/ { f = 0 } f' docs/process/releases.md > build/release-notes.md`; (5) `gh release create
+v<version> --notes-file build/release-notes.md build/terrain-glb/*.glb <screenshots>`; (6) check that
+`https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/releases/latest/download/lidar-262000-222000.glb`
+answers 200. **Any change that rewrites `terrain-tiles.ts` must be released in the same pass** (or its tiles
+uploaded to the latest release with `gh release upload <latest tag> build/terrain-glb/*.glb --clobber`),
+because the app's `/releases/latest/download/` links go 404, or serve tiles that no longer match the
+manifest, until then. A release without the tiles leaves the app's terrain links dead.
 
 ## v0.9.0 (2026-10-16): the Roman forts rebuilt in Blender, with textured parts you can click
 

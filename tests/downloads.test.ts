@@ -181,7 +181,30 @@ describe('the Downloads list (ADR 0058)', () => {
       expect(d.asset.licenceUrl, d.file).toBe(OGL);
       expect(readAssetBlock(read(d.file)).extras, d.file).toMatchObject({ licenceUrl: OGL });
     }
-    expect(assetFor('models/llanelly-train.glb')?.licenceUrl).toBeUndefined();
+  });
+
+  it('licenses the project’s own models CC BY 4.0, asking for the project’s name and link, in the list and inside every model file', () => {
+    const CC = 'https://creativecommons.org/licenses/by/4.0/';
+    const CREDIT =
+      'Llandeilo Through Time (https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit)';
+    const models = downloads.filter((d) => d.group === 'models');
+    expect(models.length, 'model files listed').toBeGreaterThan(5);
+    for (const d of models) {
+      expect(d.asset.licence, d.file).toBe('Creative Commons Attribution 4.0 (CC BY 4.0)');
+      expect(d.asset.licenceUrl, d.file).toBe(CC);
+      expect(d.asset.source.startsWith(`${CREDIT}.`), d.file).toBe(true);
+      const glb = read(d.file);
+      expect(String(readAssetBlock(glb).copyright).startsWith(`${CREDIT}.`), d.file).toBe(true);
+      expect(readSceneBlock(glb)).toMatchObject({ licence: d.asset.licence, licenceUrl: CC });
+    }
+  });
+
+  it('says in English and Welsh, above the models, that they are CC BY 4.0 and what to credit', () => {
+    for (const lang of ['en', 'cy'] as const) {
+      const note = STRINGS.downloadsModelsNote[lang];
+      expect(note, lang).toContain('CC BY 4.0');
+      expect(note, lang).toContain('Llandeilo Through Time');
+    }
   });
 
   it('keeps the LiDAR’s attribution text exact, and its licence, in every terrain tile', () => {

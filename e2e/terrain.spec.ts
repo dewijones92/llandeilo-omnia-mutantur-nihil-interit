@@ -179,6 +179,14 @@ test('a road on the castle area’s own 4m tile is laid on the mesh drawn', asyn
   await expect.poll(async () => (await detail(page)).pending, { timeout: 60_000 }).toBe(0);
   const report = await ribbonsAgainstDrawn(page, tile);
   expect(report.inTile, 'road legs on the 4m castle tile').toBeGreaterThan(0);
+  console.info(`dewidebug ribbons castle tile alone: ${JSON.stringify(report.tile)}`);
+  expect(report.tile.under, 'castle tile: samples of its road legs under the mesh drawn').toBe(0);
+  expect(report.tile.lowest, 'castle tile: the lowest a road leg sits above the mesh drawn').toBeGreaterThan(
+    0,
+  );
+  expect(report.tile.highest, 'castle tile: the most a road leg floats above the mesh drawn').toBeLessThan(
+    0.8,
+  );
   expectRibbonsOnTheMesh('castle tile, 4m near', report);
 });
 
@@ -299,6 +307,8 @@ interface RibbonReport {
   readonly highest: number;
   readonly under: number;
   readonly inTile: number;
+  /** The same lowest, highest and under, taken over the samples of the legs inside `tile` alone. */
+  readonly tile: { readonly lowest: number; readonly highest: number; readonly under: number };
 }
 
 interface TileBox {
@@ -340,6 +350,7 @@ async function ribbonsAgainstDrawn(page: Page, tile?: TileBox): Promise<RibbonRe
       let highest = Number.NEGATIVE_INFINITY;
       let under = 0;
       let inTile = 0;
+      const tile = { lowest: Number.POSITIVE_INFINITY, highest: Number.NEGATIVE_INFINITY, under: 0 };
       const within = (x: number, z: number): boolean => {
         const e = cE + x * mpu;
         const n = cN + z * mpu;
@@ -369,7 +380,8 @@ async function ribbonsAgainstDrawn(page: Page, tile?: TileBox): Promise<RibbonRe
             ((p[i] ?? 0) + (q[i] ?? 0)) / 2;
           if (!inner(mid(a, b, 0), mid(a, b, 2)) || !inner(mid(c, d, 0), mid(c, d, 2))) continue;
           legs++;
-          if (within(mid(a, b, 0), mid(a, b, 2)) && within(mid(c, d, 0), mid(c, d, 2))) inTile++;
+          const here = within(mid(a, b, 0), mid(a, b, 2)) && within(mid(c, d, 0), mid(c, d, 2));
+          if (here) inTile++;
           longest = Math.max(
             longest,
             Math.hypot(mid(c, d, 0) - mid(a, b, 0), mid(c, d, 2) - mid(a, b, 2)) * mpu,
@@ -388,11 +400,16 @@ async function ribbonsAgainstDrawn(page: Page, tile?: TileBox): Promise<RibbonRe
               lowest = Math.min(lowest, ribbon - drawn);
               highest = Math.max(highest, ribbon - drawn);
               if (ribbon < drawn) under++;
+              if (here) {
+                tile.lowest = Math.min(tile.lowest, ribbon - drawn);
+                tile.highest = Math.max(tile.highest, ribbon - drawn);
+                if (ribbon < drawn) tile.under++;
+              }
             }
           }
         }
       }
-      return { legs, longest, lowest, highest, under, inTile };
+      return { legs, longest, lowest, highest, under, inTile, tile };
     },
     [
       eMin,
@@ -545,6 +562,9 @@ interface Buried {
   readonly part: string;
   readonly worstModel: number;
   readonly modelPart: string;
+  /** The most, in metres, that a floor stands above the highest mesh point drawn under its footprint, and which part and builder. */
+  readonly lift: number;
+  readonly liftPart: string;
   /** The most, in metres, that the 4m mesh a road is laid on and the mesh drawn differ under the footprints, and the smooth ground's gap. */
   readonly meshGap: number;
   readonly smoothGap: number;
@@ -605,6 +625,8 @@ async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
       part: '',
       worstModel: Number.NEGATIVE_INFINITY,
       modelPart: '',
+      lift: Number.NEGATIVE_INFINITY,
+      liftPart: '',
       proceduralMeasured: 0,
       modelMeasured: 0,
       recordGap: 0,
@@ -634,10 +656,12 @@ async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
           out.recordGap = Math.abs(floor - recorded);
           out.recordGapPart = String(Reflect.get(s, 'id'));
         }
+        let highest = Number.NEGATIVE_INFINITY;
         for (const p of at) {
           if (!Array.isArray(p)) continue;
           const drawn: unknown = Reflect.apply(drawnAt, terrain, [p[0], p[1]]);
           if (typeof drawn !== 'number') continue;
+          highest = Math.max(highest, drawn);
           if (kind === 'procedural') {
             const emulated: unknown = Reflect.apply(meshWith, terrain, [p[0], p[1], edits, 4]);
             const smooth: unknown = Reflect.apply(surfaceWith, terrain, [p[0], p[1], edits]);
@@ -654,6 +678,10 @@ async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
             out.modelPart = id;
           }
         }
+        if (Number.isFinite(highest) && floor - highest > out.lift) {
+          out.lift = floor - highest;
+          out.liftPart = `${String(Reflect.get(s, 'id'))} (${kind})`;
+        }
       }
     }
     const detailFn: unknown = Reflect.get(debug, 'detail');
@@ -665,6 +693,7 @@ async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
       ...out,
       worst: out.worst * 10,
       worstModel: out.worstModel * 10,
+      lift: out.lift * 10,
       recordGap: out.recordGap * 10,
       recordGaps,
       unmeasured,
@@ -752,6 +781,10 @@ for (const [year, id] of [
       b.worstModel,
       `${id}: the deepest any rigid part of the model stands under the mesh drawn (metres), at ${b.modelPart}`,
     ).toBeLessThan(0.4);
+    expect(
+      b.lift,
+      `${id}: the most any floor stands above the highest mesh point drawn under its footprint (metres), at ${b.liftPart}; a seat must not float a part off the ground`,
+    ).toBeLessThan(0.5);
     expect(
       b.recordGap,
       `${id}: a floor read off a drawn mesh against the one its builder recorded (metres), at ${b.recordGapPart}`,

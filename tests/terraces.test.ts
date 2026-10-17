@@ -2,8 +2,12 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { WORLD_CONTENT as W } from '../src/content/world.ts';
+import { SLOPE_SEATING } from '../src/content/buildings.ts';
+import { WORLD } from '../src/domain/geo.ts';
 import { applyEdits, checkEdit, type GroundEdit } from '../src/domain/groundedit.ts';
+import { createHeightfield, sampleHeight } from '../src/domain/heightfield.ts';
 import { DetailGround, parseManifest, tileData } from '../src/domain/lidar.ts';
+import { SETTING_SCALE } from '../src/domain/materials.ts';
 import type { Feature, GridRef } from '../src/domain/model.ts';
 import { insideConvex, rotate, type Part, type Pt } from '../src/domain/plan.ts';
 import {
@@ -225,6 +229,89 @@ describe('what the ⓘ says about the slope and the terraces (ADR 0056)', () => 
         expect(`${text?.en ?? ''} ${text?.cy ?? ''}`, t.id).not.toMatch(/Birdoswald/);
         expect(text?.en, t.id).toMatch(/Vindolanda/);
       }
+    }
+  });
+});
+
+const t50Meta: unknown = JSON.parse(readFileSync(join(dir, 'terrain.json'), 'utf8'));
+const t50Field = (k: string): number => {
+  const v: unknown = typeof t50Meta === 'object' && t50Meta !== null ? Reflect.get(t50Meta, k) : undefined;
+  if (typeof v !== 'number') throw new Error(`terrain.json: ${k} is not a number`);
+  return v;
+};
+const t50Raw = readFileSync(join(dir, 'terrain.bin'));
+const t50 = createHeightfield(
+  {
+    originEasting: t50Field('originEasting'),
+    originNorthing: t50Field('originNorthing'),
+    cellSize: t50Field('cellSize'),
+    width: t50Field('width'),
+    height: t50Field('height'),
+    heightScale: t50Field('heightScale'),
+  },
+  new Uint16Array(t50Raw.buffer, t50Raw.byteOffset, t50Raw.byteLength / 2),
+);
+
+function drawnFootingMetres(f: Feature): number {
+  if (f.kind.type !== 'building') return 0;
+  const plan = f.kind.plan;
+  const edits = editsBuiltOn(f, W.features, W.timeline, terraces);
+  const across = SETTING_SCALE[plan.setting].across;
+  const raw = (p: Pt): number => {
+    const [x, y] = rotate(p, plan.angle ?? 0);
+    const g = { e: f.at.e + x * across, n: f.at.n + y * across };
+    return applyEdits(lidar.lidarAt(g) ?? sampleHeight(t50, g), g, edits);
+  };
+  const anchor = raw([0, 0]);
+  const platforms = plan.parts.flatMap((p) => (p.type === 'platform' ? [p.outline] : []));
+  const ground = (p: Pt): number =>
+    platforms.some((o) => insideConvex(p, o)) ? Math.max(anchor, raw(p)) : raw(p);
+  const fall = Math.max(0, ...seats(plan, ground).map((s) => s.floor - s.lowest));
+  return fall * WORLD.verticalExaggeration;
+}
+
+// 3 drawn metres: the extra wall a viewer sees under the highest corner is then about a storey of an ordinary
+// house, enough to read as the building rising from a taller footing than its plan gives, where less passes as a
+// plinth. It sits in a gap in the landscape plans' measured footings (largest below it 1.6m, Paxton's Tower;
+// smallest above 3.4m, Newton House), so no plan is within 0.4m of the line.
+const SLOPE_NOTE_FROM = 3;
+
+const landscapeBuildings = W.features.filter(
+  (f) => f.kind.type === 'building' && f.kind.plan.setting === 'landscape',
+);
+
+describe('the slope note on a plan’s ⓘ (ADR 0056)', () => {
+  it('is carried by every landscape plan whose footing, as drawn, is over 3m, in both languages', () => {
+    const over = landscapeBuildings.filter((f) => drawnFootingMetres(f) > SLOPE_NOTE_FROM);
+    expect(over.length, 'landscape plans over the line').toBeGreaterThanOrEqual(21);
+    for (const f of over) {
+      const text = textOf(f.provenance);
+      expect(text?.en, `${f.id} (${drawnFootingMetres(f).toFixed(1)}m drawn)`).toContain(SLOPE_SEATING.en);
+      expect(text?.cy, `${f.id} (${drawnFootingMetres(f).toFixed(1)}m drawn)`).toContain(SLOPE_SEATING.cy);
+    }
+  });
+
+  it('has no landscape plan within 0.3m of the line, so a change of ground data cannot quietly flip one', () => {
+    for (const f of landscapeBuildings)
+      expect(Math.abs(drawnFootingMetres(f) - SLOPE_NOTE_FROM), f.id).toBeGreaterThan(0.3);
+  });
+
+  it('is carried by no plan under the line, where it would claim an extra height nobody can see', () => {
+    for (const f of W.features) {
+      if (f.kind.type !== 'building') continue;
+      const text = textOf(f.provenance);
+      if (!text?.en.includes(SLOPE_SEATING.en)) continue;
+      expect(f.kind.plan.setting, `${f.id}: the note speaks of a building drawn larger than life`).toBe(
+        'landscape',
+      );
+      expect(drawnFootingMetres(f), f.id).toBeGreaterThan(SLOPE_NOTE_FROM);
+    }
+  });
+
+  it('leaves the true-size and map-scale plans to their own notes: their walls are exaggerated with the hills, so the fall they show is the real one', () => {
+    for (const f of W.features) {
+      if (f.kind.type !== 'building' || f.kind.plan.setting === 'landscape') continue;
+      expect(textOf(f.provenance)?.en ?? '', f.id).not.toContain(SLOPE_SEATING.en);
     }
   });
 });

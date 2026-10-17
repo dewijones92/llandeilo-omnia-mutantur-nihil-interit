@@ -146,8 +146,10 @@ under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-u
   (the area's centre is the same numbers in `lidar-areas.json`, which Python reads, and a test holds them equal).
   The castle's flights and its model moved 5.4m with it. The other two areas are centred exactly on their place's
   `at`, and so is this one. The same research puts the keep's centre at E 261168.5 N 221724, 18.5m east and 7m south of Coflein's reference, fitted
-  on the LiDAR surface model [S24]; the keep is inside the area by a wide margin. Which of the two is the better
-  centre for the keep has not been settled here.
+  on the LiDAR surface model [S24]; the keep is inside the area by a wide margin. Centring the area on the keep instead was
+  considered and is **not** done: Dewi's one-castle-point decision above makes Coflein's reference the centre, and a
+  keep-centred area would split the area from the place and the model. The keep's fitted centre stays a research
+  figure, not a placement.
 - **Half-size 500m (a 1km square).** What it has to hold: the castle on its crag, its rock-cut ditches
   (Coflein: two enclosures and rock-hewn ditches) and the ground round it. A hillshade of the 1m data made for
   this note (not committed) shows (read by eye) the crag's foot 100 to 130m south of the castle and a ridge running north-east
@@ -274,8 +276,9 @@ downloaded GeoTIFFs, kept outside the repository and checksummed in the manifest
 ## Downloadable glb tiles
 
 ```bash
-npm run terrain-glb -- <outdir>   # all 29 detailed tiles at the full 2m, as lidar-<easting>-<northing>.glb in <outdir>; rewrites the manifest
-npm run downloads                  # stamps the models (not the terrain): see ADR 0058
+npm run terrain-glb -- build/terrain-glb       # after rebuilt LiDAR tiles or a changed area: the 29 2m release-asset tiles, lidar-<easting>-<northing>.glb; rewrites src/content/generated/terrain-tiles.ts (ADR 0058)
+node tools/terrain/verify-release.mjs build/terrain-glb   # before a release: every tile's name, size and sha256 against that manifest; exits non-zero on a mismatch
+npm run downloads                               # after npm run models, a rebuilt train or rebuilt LiDAR tiles: stamps credit, licence and placement (ground y from the LiDAR) into the model glbs
 ```
 
 `tools/terrain/export-glb.ts` writes each 2m tile (29 of the 80: the town, the Roman forts and Dinefwr
@@ -292,7 +295,10 @@ Terrain 50 at the region's rim, river channels or period ground edits. The build
 - **The manifest:** the tool also writes `src/content/generated/terrain-tiles.ts` (commit it): each tile's
   asset name, grid origin, areas, size in bytes, triangles, heights and **sha256**. The app's list shows the
   sizes from it, a test rebuilds the tiles and checks every byte count and hash, and a downloaded asset can
-  be checked against it. Pass `--no-manifest` to build files without rewriting it.
+  be checked against it (`node tools/terrain/verify-release.mjs <outdir>` does, and exits non-zero on a
+  mismatch, a missing tile or a stray one). Pass `--no-manifest` to build files without rewriting it. **A change
+  that rewrites the manifest must be released in the same pass** (`releases.md`), or the app's
+  `/releases/latest/download/` links go 404 or serve stale tiles.
 - **Axes and units:** glTF's, in metres: x east, y up (height as the LiDAR gives it), z minus the northing. A
   tile's vertices run from x = 0 to 500 and z = -500 to 0, so its south-west corner is its own origin.
 - **Where each tile sits:** the node's translation is the tile's offset from the region's south-west corner

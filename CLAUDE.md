@@ -287,7 +287,8 @@ npx vite build && npx playwright test   # production build and e2e (needs PAGES_
 node tools/research/extract-sources.mjs # after any change to docs/research/*.md
 node tools/voices/build-voices.ts    # after any change to conversation text (needs edge-tts)
 npm run models                       # after any change to a modelled plan or kit: sheets, headless Blender, glbs + index (-- --force, -- --preview; .blend in build/models/)
-npm run downloads                    # after `npm run models`, a rebuilt train or rebuilt LiDAR tiles: exports the terrain glbs, stamps credit and licence into every downloadable glb, refreshes the indexes (ADR 0058)
+npm run downloads                    # after `npm run models`, a rebuilt train or rebuilt LiDAR tiles: stamps credit, licence and placement (ground y from the LiDAR) into the model glbs
+npm run terrain-glb -- build/terrain-glb  # after rebuilt LiDAR tiles or a changed area: the 29 2m release-asset tiles; rewrites src/content/generated/terrain-tiles.ts (ADR 0058)
 npm run textures                     # after any change to src/content/surfaces.ts: downloads the pinned photographs, writes the WebP maps (-- --force)
 tools/terrain/build-terrain.sh && python3 tools/geo/build-osdata.py   # rebuild map data (see docs/data)
 node tools/shot.mjs '<url>' out.png  # screenshot, using the Chromium that works on this WSL box
@@ -372,11 +373,19 @@ CI prints the size on every run; re-measure with `gzip -9 -c dist/assets/index-*
     [`docs/process/releases.md`](docs/process/releases.md), commit, tag `v<version>`, push, and
     publish the GitHub release from that same section (`gh release create`), so the notes exist once.
     **Attach the terrain glbs to every release** ([ADR 0058](docs/adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md);
-    the app's Terrain downloads link to `releases/latest/download/<file>`): before tagging run
-    `npm run terrain-glb -- build/terrain-glb` (the 29 tiles, 43.8MB; commit the manifest it rewrites if it
-    changed, which only a LiDAR change causes), then `gh release create v<version> --notes-file <notes>
-    build/terrain-glb/*.glb <screenshots>`, and check that a tile URL answers 200 after the release is
-    published. A release without them leaves the app's terrain links dead.
+    the app's Terrain downloads link to `releases/latest/download/<file>`). Before tagging: (1) `rm -rf
+    build/terrain-glb`, so no stale tile survives; (2) `npm run terrain-glb -- build/terrain-glb` (the 29 tiles,
+    43.8MB; it rewrites `src/content/generated/terrain-tiles.ts`, which you commit if it changed); (3) `node
+    tools/terrain/verify-release.mjs build/terrain-glb`, which checks every file's name, size and sha256 against
+    that manifest and exits non-zero on a mismatch (never release on a failure); (4) make the notes file from this
+    version's section of `releases.md`, without its heading: `awk -v v=v<version> 'index($0, "## " v " ") == 1 { f
+    = 1; next } /^## v/ { f = 0 } f' docs/process/releases.md > build/release-notes.md`; (5) `gh release create
+    v<version> --notes-file build/release-notes.md build/terrain-glb/*.glb <screenshots>`; (6) check that
+    `https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/releases/latest/download/lidar-262000-222000.glb`
+    answers 200. **Any change that rewrites `terrain-tiles.ts` must be released in the same pass** (or its tiles
+    uploaded to the latest release with `gh release upload <latest tag> build/terrain-glb/*.glb --clobber`),
+    because the app's `/releases/latest/download/` links go 404, or serve tiles that no longer match the
+    manifest, until then. A release without the tiles leaves the app's terrain links dead.
     The notes are for family and visitors: what is new or corrected in the app, in plain words, with
     the corrections to history called out, not commit messages. **Include screenshots** (Dewi,
     2026-10-02) of what changed, at the years that show it, saved under

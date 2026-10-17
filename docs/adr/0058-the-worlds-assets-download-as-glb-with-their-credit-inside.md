@@ -130,18 +130,39 @@ itself, who made it or under what licence.
 - Adding a model to `MODELLED` (Dinefwr, say) rebuilds into the list after `npm run downloads`, and an area
   to `lidar-areas.json` after `npm run terrain-glb -- <outdir>` (and a release that attaches the new tiles); a model or area with no name fails a test rather than being
   skipped. `TERRAIN_AREA_NAMES` is the one table that needs a line (English and Welsh).
-- The licence column shows the manifest's text. For our own models that is "Original work of this
-  project", which is not a licence: the repository's `package.json` says MIT and nothing else states a
-  reuse licence for the models. That is Dewi's to settle; the code does not invent one.
+- The licence column shows the manifest's text. **Amended 2026-10-17: our own models are CC BY 4.0** (below).
 - The terrain is the 2m the app stores; the survey is 1m, so the Terrain note says the files are still
   coarser than the survey and that a Roman fort's 2 to 3m ditches are a sample or two across. The tiles
   are today's ground only; the page says so.
-- Run `npm run downloads` after `npm run models` and after rebuilding the train. Run `npm run terrain-glb --
-  <outdir>` after rebuilding the LiDAR tiles or changing an area, commit the manifest it writes, and attach
-  the files to the release (`gh release create v<version> ... <outdir>/*.glb`). The tools need `--experimental-transform-types` because the app's `lidar.ts` uses
+- Run `npm run downloads` after `npm run models`, after rebuilding the train or after rebuilding the LiDAR tiles:
+  it stamps credit, licence and placement (the ground y from the LiDAR) into the model glbs. Run `npm run
+  terrain-glb -- build/terrain-glb` after rebuilding the LiDAR tiles or changing an area: it writes the 29 2m
+  release-asset tiles and rewrites `src/content/generated/terrain-tiles.ts`, which you commit. The release then
+  starts with `rm -rf build/terrain-glb`, builds, and runs `node tools/terrain/verify-release.mjs build/terrain-glb`
+  (every tile's name, size and sha256 against the manifest; non-zero on a mismatch), and attaches the files
+  with `gh release create` (the steps are in CLAUDE.md and `releases.md`, in one wording). **Any change that
+  rewrites `terrain-tiles.ts` must be released in the same pass**, or its tiles uploaded to the latest release
+  with `gh release upload <latest tag> build/terrain-glb/*.glb --clobber`, because the app's
+  `/releases/latest/download/` links go 404, or serve tiles that no longer match the manifest, until then. The tools need `--experimental-transform-types` because the app's `lidar.ts` uses
   parameter properties, which Node's type stripping refuses; the npm script passes it.
 - Binary glbs change (a credit and placement block of about 1.7KB each), so a branch that rebuilds
   or edits them will conflict; resolve by taking its geometry and running `npm run downloads`.
+
+## Amendment 2026-10-17: our own models are licensed CC BY 4.0
+
+Dewi, 2026-10-16, asked what licence the app's own models should carry, chose **"CC BY 4.0 (Recommended)"**.
+So the two model records in `src/content/assets.ts` (the train and the landmarks) now read licence
+"Creative Commons Attribution 4.0 (CC BY 4.0)", `licenceUrl` https://creativecommons.org/licenses/by/4.0/, and a
+credit that opens with the one the licence asks for, "Llandeilo Through Time (https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit)",
+followed by how the file was built. `npm run downloads` re-stamped all seven model glbs (the credit and licence
+are in each asset block and first scene's extras, as before); the Downloads list, the About credits and the
+Models note (English and Welsh) say the same, and a test pins the licence, the leading credit and the file's own
+stamp. The About credits now link each record's own licence text (`licenceUrl`) where it has one, as the
+Downloads list did: a licence name that linked a Board of Trade PDF would have been wrong. **The code is not
+licensed by this decision**: `package.json` still says MIT, written before it, and nothing else has been decided.
+The Welsh sentence in the Models note is Claude's, not yet checked by a Welsh speaker (the project's parked human
+check). The textures are separate records (Poly Haven, CC0) and the terrain tiles stay under the Open Government
+Licence with their own attribution; neither changes.
 
 ## Alternatives considered
 

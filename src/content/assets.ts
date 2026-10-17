@@ -21,6 +21,11 @@ const OGL_URL = 'https://www.nationalarchives.gov.uk/doc/open-government-licence
 
 export const REPO_URL = 'https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit';
 
+/** The licence of the project's own models, and the credit it asks for (Dewi's decision, 2026-10-16; ADR 0058). */
+const MODEL_LICENCE = 'Creative Commons Attribution 4.0 (CC BY 4.0)';
+const MODEL_LICENCE_URL = 'https://creativecommons.org/licenses/by/4.0/';
+const MODEL_CREDIT = `Llandeilo Through Time (${REPO_URL})`;
+
 /** Where a file attached to the latest GitHub release can be fetched: the terrain tiles are published there, not in the repo (ADR 0058). */
 export const RELEASE_DOWNLOAD_URL = `${REPO_URL}/releases/latest/download`;
 
@@ -31,6 +36,7 @@ export const EXTERNAL_CREDITS: readonly {
   readonly what: Bilingual;
   readonly source: string;
   readonly licence: string;
+  readonly licenceUrl?: string;
   readonly url: string;
 }[] = [
   {
@@ -88,17 +94,17 @@ export const ASSETS: readonly AssetRecord[] = [
   {
     files: /^models\/llanelly-train\.glb$/,
     what: { en: 'The 1850s train', cy: 'Trên y 1850au' },
-    source:
-      'Built by this project’s Blender script tools/models/llanelly-train.py, from the Board of Trade report of 1858 (docs/research/railway-locomotives.md)',
-    licence: 'Original work of this project',
+    source: `${MODEL_CREDIT}. Built by this project’s Blender script tools/models/llanelly-train.py, from the Board of Trade report of 1858 (docs/research/railway-locomotives.md)`,
+    licence: MODEL_LICENCE,
+    licenceUrl: MODEL_LICENCE_URL,
     url: 'https://www.railwaysarchive.co.uk/documents/BoT_Pantyffynnon1858.pdf',
   },
   {
     files: /^models\/landmarks\/[a-z0-9-]+\.(near|far)\.glb$/,
     what: { en: 'The landmark models', cy: 'Modelau’r tirnodau' },
-    source:
-      'Built by this project’s Blender script tools/models/build_landmark.py from the typed plans in src/content (ADR 0053); each part’s sources are in its ⓘ',
-    licence: 'Original work of this project',
+    source: `${MODEL_CREDIT}. Built by this project’s Blender script tools/models/build_landmark.py from the typed plans in src/content (ADR 0053); each part’s sources are in its ⓘ`,
+    licence: MODEL_LICENCE,
+    licenceUrl: MODEL_LICENCE_URL,
     url: `${REPO_URL}/tree/main/tools/models`,
   },
   // One row per photograph a model's surfaces are textured with (ADR 0055); what each surface claims is in its ⓘ.

@@ -1928,3 +1928,46 @@ the model stands on the hill at the moved point, the 4m crag and ridge are as be
 Lesson: **a check labelled for a place has to count what it found there**, or it passes in the wrong place for ever.
 The "544,938 bytes" main chunk is now tied to its commit (af27075, built alone on 2026-10-16 to confirm it); after merging main
 the chunk is 555,611 bytes with the textured models.
+
+## 2026-10-17 (the four tracks merged, and the final review's fixes)
+
+Merged in this order into one branch from main at ec86387: the compass inertia fix, issue 3's seating rule and terraces
+(ADR 0056), the castle's 2m LiDAR area with its one castle point, and the downloads tab (ADR 0058). Conflicts were docs
+only (the build log, the tests map, the decision log, the ADR index, `releases.md`, two very long lines in `CLAUDE.md`,
+and one import line in `features.ts`), each resolved keeping both sides, with the ADR index in number order; no
+generated file conflicted. After the merges `npm run models`, `npm run downloads`, `npm run terrain-glb` and
+`node tools/research/extract-sources.mjs` each left the tree unchanged, so nothing generated had drifted.
+
+**The e2e now bounds how far a seat floats a part, not only how deep it buries one.** The seating test read only the
+depth under the mesh, so a rule that lifted every floor by half a metre passed (and recorded the lift, so the record
+check passed too). It now also reads, per part and per builder, the floor less the highest mesh point drawn under the
+footprint, and fails at 0.5m with the part's name (the baseline's largest is 0.40m at fort2/corner-tower-se). Seen red
+with `seatIn` returning its seat plus 0.05 and recording it: 0.60, 0.90 and 0.53m.
+
+**The castle-tile ribbon test now has its own numbers.** `ribbonsAgainstDrawn` returns the lowest, highest and under for the
+legs inside the tile apart from the region's, and the castle test asserts those first (0.09, 0.35, 0 on the 101 legs).
+Seen red with `ribbonGroundAt` lifting the ribbons half a unit on that tile alone: the tile's highest 0.85, failing at
+the tile's assertion.
+
+**The slope note is chosen by measurement.** See ADR 0056's amendment: 17 more features carry it, found by a unit test
+over every building feature, landscape plans only, over 3m drawn. Seen red with the plans unwrapped. Lesson: **a note that
+the code says belongs wherever a condition holds should be chosen by a test of the condition, not by whoever remembers
+which plans looked steep** (the first version named Dryslwyn only, and Carreg Cennen's 145m of drawn footing went
+unmarked for a day).
+
+**The 5.4m move reseeded the Dinefwr castle ruin's imagined breakage pattern.** The ruin's broken tops are drawn from a
+seed hashed from the feature's world position (`hash2(x, z, 7)` in `features.ts`), so moving the castle point from E 261155 N 221729 to Coflein's reference
+changed which walls are broken and by how much. Cosmetic: the pattern is imagined and labelled so.
+
+**Downloads: the release procedure was incomplete.** It now starts with `rm -rf build/terrain-glb`, verifies the files with
+`node tools/terrain/verify-release.mjs` (sha256, size and name against the manifest; seen to exit 1 on a changed file, a
+missing one and a stray one), says how the notes file is made, and says that a change that rewrites `terrain-tiles.ts`
+must be released in the same pass; CLAUDE.md and `releases.md` carry one wording. The Build and test block lists
+`npm run downloads` and `npm run terrain-glb` with what each is for. The downloads error row is now tested in Welsh too.
+
+**Our own models are CC BY 4.0** (Dewi's choice of "CC BY 4.0 (Recommended)", 2026-10-16): see ADR 0058's amendment.
+Seven model glbs were re-stamped.
+
+**Corrections found while checking:** the research note and ADR 0056 said Hardknott levelling had "two sources"; it is
+English Heritage, with Wikipedia's summary an encyclopedia lead, so it is one source and a lead.
+The todo's open question about centring the castle area on the keep is closed as superseded by the one-castle-point decision.

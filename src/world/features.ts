@@ -112,7 +112,10 @@ interface TownSet {
 
 const TOWN_CORE_RADIUS = 1300;
 
-/** How near a corner, in world units (0.1m), a vertex counts as part of its wall when the walls are read off the mesh. */
+/**
+ * How near a corner, in world units (0.1m), a vertex counts as part of its wall when the walls are read off the mesh.
+ * It must stay under the vicus thatch's eave offset from the corners (0.2m, `HALL_ROOF`), or read inside the corners.
+ */
 const TOP_RADIUS = 0.01;
 
 const vector = (v: {

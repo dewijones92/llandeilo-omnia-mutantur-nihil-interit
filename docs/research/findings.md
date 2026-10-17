@@ -362,8 +362,8 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   backfilled Fort 1 ditch (Hughes 2007).
 - **Today's surface is not the Roman one**: ploughing has cut into the bedrock, floors are gone, post-pits at Fort 1's
   gate were cut from a higher level than survives, the ramparts are gone and the park was landscaped.
-- **Roman builders levelled and built up ground for barracks and works** (Vindolanda; Hardknott's parade ground, two
-  sources). Birdoswald is one encyclopedia summary of a guidebook nobody here has read: a lead, not counted. A terrace under each barrack of an early timber fort is not demonstrated anywhere
+- **Roman builders levelled and built up ground for barracks and works** (Vindolanda; Hardknott's parade ground, from English
+  Heritage, with an encyclopedia lead). Birdoswald is one encyclopedia summary of a guidebook nobody here has read: a lead, not counted. A terrace under each barrack of an early timber fort is not demonstrated anywhere
   read, so it is drawn as analogy, labelled reconstructed.
 - **A search summary misreported Stracathro** as a barrack "built up from a lower level on sloping ground"; the 1969
   source says nothing of it. Read the source, not the summary.

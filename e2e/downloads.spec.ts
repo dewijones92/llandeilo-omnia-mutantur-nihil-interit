@@ -201,39 +201,42 @@ test('the downloads list is built when its tab is first opened, and once, not wh
   expect(built).toEqual([`dewidebug downloads list built rows=${String(downloads.length)}`]);
 });
 
-test('a gap in the downloads’ data costs the Downloads tab an error line and the rest of the app nothing', async ({
-  page,
-}) => {
-  const marker = '"dinefwr-castle":{en:`';
-  let patched = 0;
-  await page.route('**/assets/*.js', async (route) => {
-    const response = await route.fetch();
-    const body = await response.text();
-    if (body.split(marker).length === 2) {
-      patched++;
-      await route.fulfill({ response, body: body.replace(marker, '"dinefwr-castle-gone":{en:`') });
-    } else await route.fulfill({ response });
+for (const lang of ['en', 'cy'] as const) {
+  test(`a gap in the downloads’ data costs the Downloads tab an error line and the rest of the app nothing, in ${lang === 'en' ? 'English' : 'Welsh'}`, async ({
+    page,
+  }) => {
+    const w = WORDS[lang];
+    const marker = '"dinefwr-castle":{en:`';
+    let patched = 0;
+    await page.route('**/assets/*.js', async (route) => {
+      const response = await route.fetch();
+      const body = await response.text();
+      if (body.split(marker).length === 2) {
+        patched++;
+        await route.fulfill({ response, body: body.replace(marker, '"dinefwr-castle-gone":{en:`') });
+      } else await route.fulfill({ response });
+    });
+    const failed: string[] = [];
+    const pageErrors: string[] = [];
+    page.on('console', (m) => {
+      if (m.text().includes('dewidebug downloads list failed')) failed.push(m.text());
+    });
+    page.on('pageerror', (e) => pageErrors.push(e.message));
+    await openApp(page, lang);
+    expect(patched, 'the area’s name was taken out of the bundle once').toBe(1);
+    expect(failed, 'a gap does not touch start-up').toEqual([]);
+    await page.getByRole('button', { name: w.about, exact: true }).click();
+    await page.getByRole('button', { name: w.link }).click();
+    await expect(page.locator('.info .dl-error')).toHaveText(w.failed);
+    await expect(page.locator('.info .dl')).toHaveCount(0);
+    expect(failed.length, 'the failure is logged, with its cause').toBeGreaterThan(0);
+    await page.getByRole('tab', { name: 'Almanac' }).click();
+    await expect(page.getByRole('tab', { name: 'Almanac' })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('.info .dl-error')).toHaveCount(0);
+    await expect(page.locator('body')).toHaveAttribute('data-ready', 'true');
+    expect(pageErrors).toEqual([]);
   });
-  const failed: string[] = [];
-  const pageErrors: string[] = [];
-  page.on('console', (m) => {
-    if (m.text().includes('dewidebug downloads list failed')) failed.push(m.text());
-  });
-  page.on('pageerror', (e) => pageErrors.push(e.message));
-  await openApp(page, 'en');
-  expect(patched, 'the area’s name was taken out of the bundle once').toBe(1);
-  expect(failed, 'a gap does not touch start-up').toEqual([]);
-  await page.getByRole('button', { name: 'About', exact: true }).click();
-  await page.getByRole('button', { name: WORDS.en.link }).click();
-  await expect(page.locator('.info .dl-error')).toHaveText(WORDS.en.failed);
-  await expect(page.locator('.info .dl')).toHaveCount(0);
-  expect(failed.length, 'the failure is logged, with its cause').toBeGreaterThan(0);
-  await page.getByRole('tab', { name: 'Almanac' }).click();
-  await expect(page.getByRole('tab', { name: 'Almanac' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.locator('.info .dl-error')).toHaveCount(0);
-  await expect(page.locator('body')).toHaveAttribute('data-ready', 'true');
-  expect(pageErrors).toEqual([]);
-});
+}
 
 test('the Downloads tab is reached with the arrow keys, and moving through time leaves its scroll and its open credit as they were', async ({
   page,

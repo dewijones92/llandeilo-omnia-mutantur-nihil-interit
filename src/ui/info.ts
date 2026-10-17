@@ -204,7 +204,7 @@ export class InfoPanel {
             {},
             h('b', {}, `${a.what[this.store.lang]}: `),
             `${a.source}. `,
-            h('a', { href: a.url, target: '_blank', rel: 'noopener' }, a.licence),
+            h('a', { href: a.licenceUrl ?? a.url, target: '_blank', rel: 'noopener' }, a.licence),
           ),
         ),
       ),
