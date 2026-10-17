@@ -29,6 +29,58 @@ uploaded to the latest release with `gh release upload <latest tag> build/terrai
 because the app's `/releases/latest/download/` links go 404, or serve tiles that no longer match the
 manifest, until then. A release without the tiles leaves the app's terrain links dead.
 
+## v0.10.0 (2026-10-17): download the models and the ground, buildings that stand level, and Dinefwr's hill in detail
+
+**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
+
+**Download the models and the ground** (from a suggestion on GitHub). A new Downloads tab, reached from About, offers
+the Roman forts, their settlement and the Llanelly Railway train as .glb files, an open 3D format that Blender,
+SketchUp, game engines and most other 3D programs can open. It also offers the detailed ground around Llandeilo, the
+forts and Dinefwr Castle as 29 tiles, each 500m square, at 2m detail from the Welsh Government's LiDAR survey. Each
+file carries its own credit and licence inside it, and the list says what each one shows, its period and its size. Our
+own models carry a Creative Commons Attribution licence (CC BY 4.0): credit "Llandeilo Through Time" and link to the
+project. The sources the models are drawn from keep their own terms, and the tab says which.
+
+![The Downloads tab beside the Roman forts in AD 84](../images/releases/v0.10.0/downloads-tab.jpg)
+
+**Buildings drawn from a plan stand level on sloping ground** (from a suggestion on GitHub about the forts' ground). A
+building used to take its height from the ground under its middle, so on a slope its uphill end sank into the hill.
+Now every castle, church, house and fort building the app draws from a plan stands level at the highest ground under
+it, with its walls carried down the slope. (The town's ordinary houses, drawn from map outlines, do not follow this
+yet.) Inside the Roman forts, where the ground falls by up to about 3.6m across one barrack, the barracks, the
+headquarters and the commander's house each stand on a levelled plot, cut and filled with its edges eased into the
+hill, and the granaries share one. No such plot has been found at Dinefwr: they are a reconstruction, since Roman
+builders are known to have levelled ground for barracks and works elsewhere (at Vindolanda and Hardknott), and one
+trench at Dinefwr may show levelling for the second fort. Their ⓘ says all this.
+
+Castles on steep hills, such as Dryslwyn and Carreg Cennen, now stand on taller walls running down their slopes. Part
+of that height comes from how the app draws the scene (the hills are drawn 2.4 times their real height, and landmarks
+larger than life), not from the sources, and each such building's ⓘ now says so.
+
+![Before: the uphill ends of Fort 1's barracks sinking into the slope in AD 74](../images/releases/v0.10.0/terraces-before.jpg)
+
+![After: each barrack on its own levelled plot](../images/releases/v0.10.0/terraces-after.jpg)
+
+**Dinefwr Castle's hill in detail** (also from a suggestion on GitHub). The castle hill now has the same LiDAR ground as
+the town and the forts, so up close its crags and the slopes down to the Tywi have a much truer shape (drawn at 4m
+detail, with the height exaggerated as everywhere in the app). The castle itself is still the simple model it was,
+standing on tall walls down the cliff; its own detailed model is next.
+
+![Dinefwr Castle on its hill in 2020, on the detailed ground](../images/releases/v0.10.0/castle-hill-2m.jpg)
+
+**Corrections:**
+
+- Dinefwr Castle was drawn about 5m from its recorded position. It now stands at the grid reference that Coflein,
+  the national record of Welsh historic sites, gives for it, and the castle's label, its flight and its ground all use
+  that one point. The pattern of broken wall tops on today's ruin is our choice (its ⓘ says the wall heights are
+  approximate) and is worked out from the castle's position, so it changed with the move.
+
+**Smaller fixes:** facing north with the compass now holds even while the camera is still gliding from a turn. A drag
+you are already making when the camera starts flying to a date now takes the camera back. The selected tab in the
+information panel stays readable while the mouse is over it (it used to turn pale under its white text).
+
+Sent by Claude
+
 ## v0.9.0 (2026-10-16): the Roman forts rebuilt in Blender, with textured parts you can click
 
 **Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/

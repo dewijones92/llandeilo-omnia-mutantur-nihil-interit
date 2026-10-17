@@ -169,3 +169,11 @@ terrace at its plan's setting scale, like the buildings; every terrace today is 
 - **A 2m mesh under edits.** 127,000 triangles and 0.4 to 2.5s a tile (ADR 0049, decision 5).
 - **Seat at the centre and accept the burial outside the forts.** A special case for one place, which the twin laws
   rule out.
+
+## Amendment, 2026-10-17: the rule does not yet reach the town's map buildings
+
+The release review of v0.10.0 found that "every building" in this ADR overstates what was built. The rule is
+applied by `seatIn` (`src/world/buildings.ts`) to every building drawn from a plan: the castles, churches, houses,
+the forts' buildings and the vicus. The town's ordinary houses, drawn as blocks from Ordnance Survey footprints in
+`src/world/settlement.ts`, still stand at the ground under their centre less 0.15 units, with no walls carried down.
+Dewi's "One rule for all" covers them too, so this is a gap, not a decision; it is on the todo list.

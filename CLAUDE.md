@@ -119,8 +119,8 @@ The summary lives in [`docs/research/findings.md`](docs/research/findings.md), a
   ([ADR 0046](docs/adr/0046-the-roman-forts-are-true-size-typed-plans-with-parts-that-carry-their-tier.md)):
   never at the 2.6 times landmark scale, no stone, tile or limewash, no gate without evidence (Fort 2's rear
   gate is drawn as unproven), the second fort's "AD 90–100" probably from a painting's caption ("around 100AD"), a scene date and not a founding date; Fort 2 starts at AD 83 once Fort 1 is gone, since a Fort 1 ditch lies under Fort 2's levelling.
-- **Every building stands level at the highest ground under its footprint**, never buried, its walls carried down the
-  slope; the Roman forts' buildings stand on reconstructed terraces cut and filled into today's LiDAR ground, an analogy
+- **Every building drawn from a plan stands level at the highest ground under its footprint**, never buried, its walls carried down the
+  slope (the town's map blocks in `settlement.ts` do not yet: a known gap, ADR 0056 amended 2026-10-17); the Roman forts' buildings stand on reconstructed terraces cut and filled into today's LiDAR ground, an analogy
   (no terrace is evidenced at Dinefwr; levelling possibly once, for Fort 2) ([ADR 0056](docs/adr/0056-buildings-stand-level-and-the-roman-plots-are-terraced.md)).
   A ground edit is only as fine as the mesh that draws it: measure burial on the drawn mesh, not the asked ground. Plan roads and ditches are laid on the 4m mesh a fort's terraces make (`Terrain.meshWith`), and the e2e reads the floors and road heights the builders used, never the plan's own seat.
 - **Research is a draft until independently reviewed.** Each note is `status: draft`; a review pass
