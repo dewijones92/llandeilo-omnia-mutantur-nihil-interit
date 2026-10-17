@@ -199,12 +199,17 @@ describe('the Downloads list (ADR 0058)', () => {
     }
   });
 
-  it('says in English and Welsh, above the models, that they are CC BY 4.0 and what to credit', () => {
+  it('says in English and Welsh, above the models, that they are CC BY 4.0, what to credit, that it covers the project’s own modelling and that the plans’ sources keep their own terms', () => {
     for (const lang of ['en', 'cy'] as const) {
       const note = STRINGS.downloadsModelsNote[lang];
       expect(note, lang).toContain('CC BY 4.0');
       expect(note, lang).toContain('Llandeilo Through Time');
+      expect(note, lang).toContain('Coflein');
+      expect(note, lang).toContain('Heneb');
     }
+    expect(STRINGS.downloadsModelsNote.en).toContain('own modelling');
+    expect(STRINGS.downloadsModelsNote.en).toContain('Non-commercial Government Licence');
+    expect(STRINGS.downloadsModelsNote.cy).toContain('gwaith modelu’r prosiect ei hun');
   });
 
   it('keeps the LiDAR’s attribution text exact, and its licence, in every terrain tile', () => {

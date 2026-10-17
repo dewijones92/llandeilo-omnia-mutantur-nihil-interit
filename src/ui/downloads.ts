@@ -2,6 +2,7 @@ import { formatBytes, type Download, type Period } from '../content/downloads.ts
 import type { Lang } from '../domain/i18n.ts';
 import type { Source } from '../domain/provenance.ts';
 import { formatYear } from '../domain/time.ts';
+import { creditLinks } from './credit.ts';
 import { h } from './dom.ts';
 import { provenanceBadge, provenanceLabel } from './provenance.ts';
 import type { LangStore } from './store.ts';
@@ -75,14 +76,7 @@ function row(d: Download, store: LangStore, sources: ReadonlyMap<string, Source>
       { class: 'dl-credit' },
       h('summary', {}, store.t('downloadCreditLicence')),
       h('p', {}, /[.!?]$/.test(d.asset.source) ? d.asset.source : `${d.asset.source}.`),
-      h('a', { href: d.asset.licenceUrl ?? d.asset.url, target: '_blank', rel: 'noopener' }, d.asset.licence),
-      d.asset.licenceUrl
-        ? h(
-            'a',
-            { class: 'dl-source', href: d.asset.url, target: '_blank', rel: 'noopener' },
-            store.t('downloadSourcePage'),
-          )
-        : null,
+      ...creditLinks(d.asset, store),
     ),
     h(
       'a',

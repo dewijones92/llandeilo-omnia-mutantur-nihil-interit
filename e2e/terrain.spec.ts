@@ -179,6 +179,7 @@ test('a road on the castle area’s own 4m tile is laid on the mesh drawn', asyn
   await expect.poll(async () => (await detail(page)).pending, { timeout: 60_000 }).toBe(0);
   const report = await ribbonsAgainstDrawn(page, tile);
   expect(report.inTile, 'road legs on the 4m castle tile').toBeGreaterThan(0);
+  expect(Number.isFinite(report.tile.lowest), 'castle tile: its legs were sampled at all').toBe(true);
   console.info(`dewidebug ribbons castle tile alone: ${JSON.stringify(report.tile)}`);
   expect(report.tile.under, 'castle tile: samples of its road legs under the mesh drawn').toBe(0);
   expect(report.tile.lowest, 'castle tile: the lowest a road leg sits above the mesh drawn').toBeGreaterThan(

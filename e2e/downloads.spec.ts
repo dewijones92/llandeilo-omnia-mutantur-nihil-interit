@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import type { Page } from '@playwright/test';
 import { expect, ready, test } from './ready.ts';
-import { RELEASE_DOWNLOAD_URL } from '../src/content/assets.ts';
+import { RELEASE_DOWNLOAD_URL, REPO_URL } from '../src/content/assets.ts';
 import { buildDownloads, formatBytes } from '../src/content/downloads.ts';
 import { TERRAIN_TILES } from '../src/content/generated/terrain-tiles.ts';
 import { LIDAR_CREDIT } from '../src/content/generated/lidar-credit.ts';
@@ -263,3 +263,46 @@ test('the Downloads tab is reached with the arrow keys, and moving through time 
   expect(await panel.evaluate((el) => el.scrollTop)).toBe(before);
   await expect(panel.locator(`.dl[data-file="${TILE}"] .dl-credit`)).toHaveAttribute('open', '');
 });
+
+for (const lang of ['en', 'cy'] as const) {
+  test(`the About credits link each record's own licence text and its source page, as the Downloads list does, in ${lang === 'en' ? 'English' : 'Welsh'}`, async ({
+    page,
+  }) => {
+    await openApp(page, lang);
+    await page.getByRole('button', { name: WORDS[lang].about, exact: true }).click();
+    const credit = (what: string) => page.locator('.info-credits li').filter({ hasText: what });
+    const CC = 'https://creativecommons.org/licenses/by/4.0/';
+    const rows = [
+      [
+        'The 1850s train',
+        'Trên y 1850au',
+        CC,
+        'https://www.railwaysarchive.co.uk/documents/BoT_Pantyffynnon1858.pdf',
+      ],
+      ['The landmark models', 'Modelau’r tirnodau', CC, `${REPO_URL}/tree/main/tools/models`],
+      [
+        'Close-up terrain heights',
+        'Uchderau’r tir manwl',
+        OGL,
+        'https://datamap.gov.wales/maps/lidar-data-download/',
+      ],
+      ['Terrain heights', 'Uchderau’r tir', OGL, 'https://www.ordnancesurvey.co.uk/products/os-terrain-50'],
+      ['Rivers', 'Afonydd', OGL, 'https://www.ordnancesurvey.co.uk/products/os-open-rivers'],
+    ] as const;
+    for (const [en, cy, licenceUrl, sourceUrl] of rows) {
+      const row = credit(lang === 'en' ? en : cy).first();
+      await expect(row, en).toHaveCount(1);
+      await expect(row.locator(`a[href="${licenceUrl}"]`), `${en}: its licence's own text`).toHaveCount(1);
+      await expect(row.locator(`a.dl-source[href="${sourceUrl}"]`), `${en}: its source page`).toHaveText(
+        WORDS[lang].source,
+      );
+    }
+    const sources = credit(
+      lang === 'en'
+        ? 'Sources the model plans draw on'
+        : 'Ffynonellau y mae cynlluniau’r modelau’n tynnu arnynt',
+    );
+    await expect(sources).toContainText('Non-commercial Government Licence');
+    await expect(sources).toContainText('Heneb');
+  });
+}

@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Open questions
@@ -227,6 +227,13 @@ for the next pass. Each note's own "Open questions" section has the full list an
 The conversations-by-class note (2026-09-28) has its own open questions: which Rhys made the 1282
 complaint, Newton's burgesses, the Genesis 24:60 text, the soldiers of 1843, and more. See its "Open
 questions" section.
+- **Grey slabs on the Dinefwr castle hill: terrain, or today's ruin walls in the DTM?** (2026-10-17, from the review of the
+  integration branch). The hill shows grey slabs: slopes steeper than 0.62 are painted rock-grey by
+  `src/world/landcover.ts`, on main and in every year, larger now that the hill has 2m LiDAR. The LiDAR note records that
+  walls and bridges show as ridges in the DTM ([`../data/lidar.md`](../data/lidar.md)). So some slabs may be the standing
+  ruin's walls and keep baked into the ground, drawn as rock before the castle existed (AD 900, 1163) and under the model today.
+  Not checked: compare the slab positions with the ruin's plan ([`dinefwr-castle.md`](dinefwr-castle.md)) and the 1m DSM
+  against the DTM at those points (not decided; the same family as the todo on the castle's yard floor).
 
 ## Corrections from the first independent review (2026-09-26)
 

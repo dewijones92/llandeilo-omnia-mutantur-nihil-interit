@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Build log
@@ -1981,7 +1981,37 @@ texture-colour test that failed on the GPU on 2026-10-16. `npm run terrain-glb -
 `verify-release.mjs` passed on the 29 tiles (43,769,296 bytes). Looked at (GPU through WSL, High where it would start; the
 Downloads tab on SwiftShader at Low): Fort 1 at the issue's framing at AD 74 (barracks stand on their plots, none sunk),
 Dryslwyn at 1290 (the castle on its hill, the downhill walls carried down), the castle hill at radius 60 in 2020 (the model on the
-hill at the moved point; the loose wall fragments beside it are the ruin's imagined breakage, reseeded by the move), and the Downloads
+hill at the moved point; the grey slabs beside it are terrain, see the correction below), and the Downloads
 tab in English and Welsh (the licence sentence in the Models note and the credit leading with the project's name). Lesson:
 **`vite preview` reads `PAGES_BASE` when it starts**; a preview begun without it serves the page (the SPA fallback) and 404s every asset,
 which looks like a broken build.
+
+**Correction to the castle screenshot note above.** I called the grey slabs beside the castle at radius 60 "the ruin's imagined
+breakage". They are terrain. `classify` in `src/world/landcover.ts` paints any triangle steeper than 0.62 rock-grey (`#9c978d`),
+and the same slabs are on main and at AD 900 and 1290, when no ruin is drawn; this branch shows larger ones because the hill now has
+the 2m LiDAR, whose steeper slopes cross the threshold more often. Whether some slabs are today's ruin walls baked into the DTM,
+and so drawn as rock before the castle existed, is an open question (`docs/research/open-questions.md`). The reseeding of the ruin's
+breakage pattern by the 5.4m move (the entry above) stands, and is still cosmetic. Lesson: **name a thing in a screenshot only after
+finding what draws it** (here, one grep of `landcover.ts`).
+
+## 2026-10-17 (the review of the integration, and its fixes)
+
+- **The licence note had a hole.** The Models note said CC BY 4.0 and nothing about the inputs: Coflein's records are under the
+  Non-commercial Government Licence, the Heneb HER has its own terms and acknowledgement line, and the reconstruction drawings are
+  used with credit. The note (English and Welsh) now says the grant covers this project's own modelling, the About credits
+  have a row for those sources and their terms, and the decision log and the todo file flag the scope for Dewi to confirm (CC BY, or
+  CC BY-NC given those inputs). It is Claude's decision while he is away; his CC BY 4.0 choice is kept.
+- **The verify step could not fail.** Step 2 of the release rewrote the manifest from the same build that step 3 then checked, so
+  it compared the build with itself. The build now uses `--no-manifest`, so the committed manifest is what is checked; seen to pass on
+  a clean build and exit 1 on a tile with one byte added, with the manifest untouched. The release steps are also in the order tag,
+  push, then `gh release create --verify-tag`.
+- **The two credit lists disagreed.** The About credits showed a licence link only; the Downloads list showed the licence and the source
+  page. One function (`src/ui/credit.ts`) builds both now, the Ordnance Survey rows link the OGL's own text, and an e2e checks five
+  rows' links in English and Welsh.
+- **A test title overclaimed.** "Walls exaggerated with the hills" is true of map-scale plans (up = 2.4) and false of true-size ones
+  (up = 1); and "as drawn" read the LiDAR and OS Terrain 50 the way the app places things, not the blended mesh. Retitled, and the
+  vicus houses' ⓘ now says the hills are exaggerated and the houses are not (their footing, 2.9m drawn, is under the slope note's line
+  and the cause is the hills alone).
+- **CLAUDE.md's Downloads row still called the models' licence open.** Replaced by the decision. Also done: the unused ADR number
+  0057 is noted, the `updated:` dates are bumped, and the castle-tile ribbon test fails on an empty tile.
+

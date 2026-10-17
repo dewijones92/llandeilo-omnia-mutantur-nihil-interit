@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Backlog
@@ -285,7 +285,7 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
       second Opus pass, is still not done.
 - [ ] **The castle's yard floor and the ground under it** (Claude, under the proactive mandate, found 2026-10-16 while looking at the 2m castle area): the Dinefwr castle model stands on one flat floor, and ground that is probably the real keep's comes up through its courtyard (sampled: the ward is flat at 99.7 to 100.2m OD and rises to 101.0 to 101.6m where the research fits the keep, under a model drawn 2.6 times larger than life; it did at 10m, more irregularly at 4m). Seat the plan on its ground, or lay a `level` ground edit for the platform ([ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md), decision 8); the same family as the forts' buildings in the item above. Not built.
 - [ ] **Download the world's assets (built 2026-10-16, [ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md); not ticked until the second-Opus review has read it)** ([#4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4)): a Downloads section in the app listing our models and the detailed terrain tiles as .glb (Dewi, 2026-10-16: "just offer it as glb"), each with its credit and licence from the asset manifest; the terrain tiles exported to .glb once by a tool, in real metres with their British National Grid origin. Dewi decided the terrain is "2m, as a release asset" (2026-10-16): the 29 full 2m tiles are built by `npm run terrain-glb -- <outdir>` and attached to each GitHub release, linked from the app, the 4m committed set and its cap removed; the two reviews' fixes are in. **Still to do at the next release: build the tiles and attach them** (CLAUDE.md, "Release at each visible milestone"), or the terrain links 404.
-      *2026-10-17: the models' licence is settled (Dewi, 2026-10-16: "CC BY 4.0 (Recommended)", ADR 0058 amended); the release procedure now verifies the tiles against the manifest first.*
+      *2026-10-17: the models' licence is settled (Dewi, 2026-10-16: "CC BY 4.0 (Recommended)", ADR 0058 amended); the release procedure now verifies the tiles against the manifest first.* ❓ **For Dewi to confirm (Claude's scope decision while he was away):** the CC BY 4.0 grant is stated to cover this project's own modelling only, with the plans' sources (Coflein's Non-commercial Government Licence, the Heneb HER's terms, the credited reconstruction drawings) keeping their own terms, listed in the About credits. Keep CC BY 4.0, or move the models to CC BY-NC 4.0 given those non-commercial inputs? (The models cite them and do not reproduce them, but they are the plans' basis.)
 
 ## Agreed 2026-10-09 (Dewi, before the second weekend run)
 

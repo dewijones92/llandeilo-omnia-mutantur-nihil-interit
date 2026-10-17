@@ -2,7 +2,7 @@
 title: "ADR 0056: Every building stands level at the highest ground under it, and the Roman forts' plots are terraced"
 kind: adr
 status: accepted
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # ADR 0056: Every building stands level at the highest ground under it, and the Roman forts' plots are terraced

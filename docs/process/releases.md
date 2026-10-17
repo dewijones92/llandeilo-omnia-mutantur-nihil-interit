@@ -2,7 +2,7 @@
 title: Release notes
 kind: log
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Release notes
@@ -13,14 +13,16 @@ Corrections to history are called out: when we get something wrong, we say so.
 
 **Publishing a release** (the same steps as CLAUDE.md's "Release at each visible milestone"):
 **attach the terrain glbs to every release** ([ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md);
-the app's Terrain downloads link to `releases/latest/download/<file>`). Before tagging: (1) `rm -rf
-build/terrain-glb`, so no stale tile survives; (2) `npm run terrain-glb -- build/terrain-glb` (the 29 tiles,
-43.8MB; it rewrites `src/content/generated/terrain-tiles.ts`, which you commit if it changed); (3) `node
-tools/terrain/verify-release.mjs build/terrain-glb`, which checks every file's name, size and sha256 against
-that manifest and exits non-zero on a mismatch (never release on a failure); (4) make the notes file from this
-version's section of `releases.md`, without its heading: `awk -v v=v<version> 'index($0, "## " v " ") == 1 { f
-= 1; next } /^## v/ { f = 0 } f' docs/process/releases.md > build/release-notes.md`; (5) `gh release create
-v<version> --notes-file build/release-notes.md build/terrain-glb/*.glb <screenshots>`; (6) check that
+the app's Terrain downloads link to `releases/latest/download/<file>`). In order: (1) `rm -rf
+build/terrain-glb`, so no stale tile survives; (2) `npm run terrain-glb -- build/terrain-glb --no-manifest` (the 29
+tiles, 43.8MB, built without touching the committed manifest); (3) `node tools/terrain/verify-release.mjs
+build/terrain-glb`, which checks every file's name, size and sha256 against the committed
+`src/content/generated/terrain-tiles.ts` and exits non-zero on a mismatch (never release on a failure; if the LiDAR
+changed on purpose, run step 2 again without `--no-manifest`, commit the manifest it rewrites, and verify again);
+(4) make the notes file from this version's section of `releases.md`, without its heading: `awk -v v=v<version>
+'index($0, "## " v " ") == 1 { f = 1; next } /^## v/ { f = 0 } f' docs/process/releases.md >
+build/release-notes.md`; (5) commit, tag `v<version>` and push the tag; (6) `gh release create v<version>
+--verify-tag --notes-file build/release-notes.md build/terrain-glb/*.glb <screenshots>`; (7) check that
 `https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/releases/latest/download/lidar-262000-222000.glb`
 answers 200. **Any change that rewrites `terrain-tiles.ts` must be released in the same pass** (or its tiles
 uploaded to the latest release with `gh release upload <latest tag> build/terrain-glb/*.glb --clobber`),

@@ -252,6 +252,12 @@ const t50 = createHeightfield(
   new Uint16Array(t50Raw.buffer, t50Raw.byteOffset, t50Raw.byteLength / 2),
 );
 
+/**
+ * A building's footing, in metres exaggerated 2.4 times: how far its floor stands above the lowest ground under its
+ * footprint. The ground is read as the app reads it for placing things (the LiDAR where there is some, OS Terrain 50
+ * elsewhere, with the ground edits the building is built on), not from the blended mesh drawn, and platforms raise it as
+ * the builder does, so this is the footing to within the mesh's rounding, not to the centimetre.
+ */
 function drawnFootingMetres(f: Feature): number {
   if (f.kind.type !== 'building') return 0;
   const plan = f.kind.plan;
@@ -281,7 +287,7 @@ const landscapeBuildings = W.features.filter(
 );
 
 describe('the slope note on a plan’s ⓘ (ADR 0056)', () => {
-  it('is carried by every landscape plan whose footing, as drawn, is over 3m, in both languages', () => {
+  it('is carried by every landscape plan whose footing, read off the LiDAR and OS Terrain 50 and exaggerated 2.4 times, is over 3m, in both languages', () => {
     const over = landscapeBuildings.filter((f) => drawnFootingMetres(f) > SLOPE_NOTE_FROM);
     expect(over.length, 'landscape plans over the line').toBeGreaterThanOrEqual(21);
     for (const f of over) {
@@ -308,7 +314,21 @@ describe('the slope note on a plan’s ⓘ (ADR 0056)', () => {
     }
   });
 
-  it('leaves the true-size and map-scale plans to their own notes: their walls are exaggerated with the hills, so the fall they show is the real one', () => {
+  it('says on every vicus house, in both languages, that the hills are exaggerated and the house is not', () => {
+    const houses = planOf(feature('roman-vicus')).filter((p) => p.type === 'hall');
+    expect(houses.length).toBeGreaterThan(5);
+    for (const h of houses) {
+      const text = h.provenance && textOf(h.provenance);
+      expect(text?.en, h.id).toContain(
+        `${String(WORLD.verticalExaggeration)} times as high but these houses are not`,
+      );
+      expect(text?.cy, h.id).toContain(
+        `${String(WORLD.verticalExaggeration)} gwaith mor uchel ond nid y tai hyn`,
+      );
+    }
+  });
+
+  it('is carried by no map-scale or true-size plan: the note speaks of a building drawn larger than life, and a map-scale plan’s walls are exaggerated with the hills (so its fall is the real one) while a true-size plan’s are not (its note says so itself)', () => {
     for (const f of W.features) {
       if (f.kind.type !== 'building' || f.kind.plan.setting === 'landscape') continue;
       expect(textOf(f.provenance)?.en ?? '', f.id).not.toContain(SLOPE_SEATING.en);

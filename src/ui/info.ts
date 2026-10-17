@@ -5,6 +5,7 @@ import type { AlmanacEntry, LanguageSnapshot, Photograph } from '../domain/model
 import type { Source } from '../domain/provenance.ts';
 import { formatSliderYear } from '../domain/time.ts';
 import type { Snapshot } from '../domain/state.ts';
+import { creditLinks } from './credit.ts';
 import { h } from './dom.ts';
 import { downloadsBody, downloadsFailedBody } from './downloads.ts';
 import { provenanceBadge } from './provenance.ts';
@@ -204,7 +205,7 @@ export class InfoPanel {
             {},
             h('b', {}, `${a.what[this.store.lang]}: `),
             `${a.source}. `,
-            h('a', { href: a.licenceUrl ?? a.url, target: '_blank', rel: 'noopener' }, a.licence),
+            ...creditLinks(a, this.store),
           ),
         ),
       ),

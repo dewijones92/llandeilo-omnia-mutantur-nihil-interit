@@ -2,7 +2,7 @@
 title: "ADR 0058: The world's assets download as .glb, with their credit and licence inside the file"
 kind: adr
 status: accepted
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # ADR 0058: The world's assets download as .glb, with their credit and licence inside the file
@@ -138,9 +138,11 @@ itself, who made it or under what licence.
   it stamps credit, licence and placement (the ground y from the LiDAR) into the model glbs. Run `npm run
   terrain-glb -- build/terrain-glb` after rebuilding the LiDAR tiles or changing an area: it writes the 29 2m
   release-asset tiles and rewrites `src/content/generated/terrain-tiles.ts`, which you commit. The release then
-  starts with `rm -rf build/terrain-glb`, builds, and runs `node tools/terrain/verify-release.mjs build/terrain-glb`
-  (every tile's name, size and sha256 against the manifest; non-zero on a mismatch), and attaches the files
-  with `gh release create` (the steps are in CLAUDE.md and `releases.md`, in one wording). **Any change that
+  starts with `rm -rf build/terrain-glb`, builds with `--no-manifest` (so the committed manifest is what is checked,
+  not one just rewritten from the same build), runs `node tools/terrain/verify-release.mjs build/terrain-glb`
+  (every tile's name, size and sha256 against the manifest; non-zero on a mismatch, seen to fail on a tile with one
+  byte added), tags and pushes, and attaches the files with `gh release create --verify-tag` (the steps are in
+  CLAUDE.md and `releases.md`, in one wording). **Any change that
   rewrites `terrain-tiles.ts` must be released in the same pass**, or its tiles uploaded to the latest release
   with `gh release upload <latest tag> build/terrain-glb/*.glb --clobber`, because the app's
   `/releases/latest/download/` links go 404, or serve tiles that no longer match the manifest, until then. The tools need `--experimental-transform-types` because the app's `lidar.ts` uses
@@ -150,7 +152,7 @@ itself, who made it or under what licence.
 
 ## Amendment 2026-10-17: our own models are licensed CC BY 4.0
 
-Dewi, 2026-10-16, asked what licence the app's own models should carry, chose **"CC BY 4.0 (Recommended)"**.
+Dewi, 2026-10-16, was asked what licence the app's own models should carry (the options were put to him; Claude asked) and chose **"CC BY 4.0 (Recommended)"**.
 So the two model records in `src/content/assets.ts` (the train and the landmarks) now read licence
 "Creative Commons Attribution 4.0 (CC BY 4.0)", `licenceUrl` https://creativecommons.org/licenses/by/4.0/, and a
 credit that opens with the one the licence asks for, "Llandeilo Through Time (https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit)",
@@ -158,7 +160,13 @@ followed by how the file was built. `npm run downloads` re-stamped all seven mod
 are in each asset block and first scene's extras, as before); the Downloads list, the About credits and the
 Models note (English and Welsh) say the same, and a test pins the licence, the leading credit and the file's own
 stamp. The About credits now link each record's own licence text (`licenceUrl`) where it has one, as the
-Downloads list did: a licence name that linked a Board of Trade PDF would have been wrong. **The code is not
+Downloads list did: a licence name that linked a Board of Trade PDF would have been wrong. **Scope (Claude's decision while Dewi was away, 2026-10-17, keeping his choice and
+flagged for him to confirm):** the CC BY 4.0 grant covers this project's own modelling, the scripts' geometry and
+arrangement. The sources the plans draw on keep their own terms: Coflein's records (Non-commercial Government
+Licence), the Heneb HER's records (its terms of use and fixed acknowledgement line), and the credited reconstruction
+drawings (used with credit). The Models note (English and Welsh) says so, and the About credits list those sources
+in their own row. The question for Dewi is whether to keep CC BY, or move to CC BY-NC 4.0 given the non-commercial
+inputs (the todo file has it). **The code is not
 licensed by this decision**: `package.json` still says MIT, written before it, and nothing else has been decided.
 The Welsh sentence in the Models note is Claude's, not yet checked by a Welsh speaker (the project's parked human
 check). The textures are separate records (Poly Haven, CC0) and the terrain tiles stay under the Open Government

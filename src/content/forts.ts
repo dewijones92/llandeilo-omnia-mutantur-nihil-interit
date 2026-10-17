@@ -1,3 +1,4 @@
+import { WORLD } from '../domain/geo.ts';
 import type { Bilingual } from '../domain/i18n.ts';
 import {
   cornerAt,
@@ -935,8 +936,8 @@ function vicusParts(): Part[] {
       `${p}/house-${String(i + 1)}`,
       { en: `Timber house ${String(i + 1)}`, cy: `Tŷ pren ${String(i + 1)}` },
       imagined(
-        'The survey shows activity either side of the roads where they meet, and excavation found narrow gullies, pits, a hearth and daub from small timber buildings, but no building’s outline: how many there were, their shapes and where they stood are not known. These are drawn small, irregular and turned every way, which is how the plot reads (a tidy street plan has no support), with their short ends to the road as at Cefn Caer. The thatch is a choice. Each is drawn level at the highest ground under it, its walls carried down the slope; how these houses met the slope is not known.',
-        'Mae’r arolwg yn dangos gweithgarwch bob ochr i’r ffyrdd lle maent yn cwrdd, a chafwyd gwteri cul, pyllau, aelwyd a chlai o adeiladau pren bach wrth gloddio, ond dim amlinelliad adeilad: ni wyddys faint oedd, eu siapiau na lle y safent. Tynnir hwy’n fach, yn afreolaidd ac wedi’u troi bob ffordd, fel y darllenir y cynllun (nid oes cefnogaeth i gynllun stryd twt), â’u pennau byr at y ffordd fel yng Nghefn Caer. Dewis yw’r gwellt. Tynnir pob un yn wastad ar y tir uchaf oddi tano, a’i furiau’n disgyn gyda’r llethr; ni wyddys sut yr oedd y tai hyn yn cwrdd â’r llethr.',
+        `The survey shows activity either side of the roads where they meet, and excavation found narrow gullies, pits, a hearth and daub from small timber buildings, but no building’s outline: how many there were, their shapes and where they stood are not known. These are drawn small, irregular and turned every way, which is how the plot reads (a tidy street plan has no support), with their short ends to the road as at Cefn Caer. The thatch is a choice. Each is drawn level at the highest ground under it, its walls carried down the slope; how these houses met the slope is not known. The hills are drawn ${String(WORLD.verticalExaggeration)} times as high but these houses are not, so a wall carried down the slope shows taller than it would have been.`,
+        `Mae’r arolwg yn dangos gweithgarwch bob ochr i’r ffyrdd lle maent yn cwrdd, a chafwyd gwteri cul, pyllau, aelwyd a chlai o adeiladau pren bach wrth gloddio, ond dim amlinelliad adeilad: ni wyddys faint oedd, eu siapiau na lle y safent. Tynnir hwy’n fach, yn afreolaidd ac wedi’u troi bob ffordd, fel y darllenir y cynllun (nid oes cefnogaeth i gynllun stryd twt), â’u pennau byr at y ffordd fel yng Nghefn Caer. Dewis yw’r gwellt. Tynnir pob un yn wastad ar y tir uchaf oddi tano, a’i furiau’n disgyn gyda’r llethr; ni wyddys sut yr oedd y tai hyn yn cwrdd â’r llethr. Tynnir y bryniau ${String(WORLD.verticalExaggeration)} gwaith mor uchel ond nid y tai hyn, felly mae mur sy’n disgyn gyda’r llethr yn dangos yn dalach nag y buasai.`,
         ['fort:S1', 'fort:S14'],
       ),
       true,

@@ -2,7 +2,7 @@
 title: The Dinefwr Roman forts and their civilian settlement (vicus), for a detailed reconstruction
 kind: research
 status: draft
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # The Dinefwr Roman forts and their vicus, for a detailed reconstruction

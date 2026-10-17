@@ -45,6 +45,16 @@ export const EXTERNAL_CREDITS: readonly {
     licence: 'SIL Open Font License 1.1',
     url: 'https://openfontlicense.org',
   },
+  {
+    what: {
+      en: 'Sources the model plans draw on',
+      cy: 'Ffynonellau y mae cynlluniau’r modelau’n tynnu arnynt',
+    },
+    source:
+      'Coflein (RCAHMW) records; Heneb HER records (derived from information held by the Heneb HER Charitable Trust copyright); the reconstruction drawings and surveys credited at issue 3 (for example Neil Ludlow’s drawing for Cambria Archaeology), used with credit. The plans cite them and do not reproduce them. They keep their own terms, which the CC BY 4.0 on the models does not change: it covers this project’s own modelling only, the scripts’ geometry and arrangement',
+    licence: 'Their own terms: Non-commercial Government Licence (Coflein) and the Heneb HER terms of use',
+    url: 'https://coflein.gov.uk/',
+  },
 ];
 
 export const ASSETS: readonly AssetRecord[] = [
@@ -53,6 +63,7 @@ export const ASSETS: readonly AssetRecord[] = [
     what: { en: 'Terrain heights', cy: 'Uchderau’r tir' },
     source: `${OS} (OS Terrain 50)`,
     licence: OGL,
+    licenceUrl: OGL_URL,
     url: 'https://www.ordnancesurvey.co.uk/products/os-terrain-50',
   },
   {
@@ -79,6 +90,7 @@ export const ASSETS: readonly AssetRecord[] = [
     what: { en: 'Rivers', cy: 'Afonydd' },
     source: `${OS} (OS Open Rivers)`,
     licence: OGL,
+    licenceUrl: OGL_URL,
     url: 'https://www.ordnancesurvey.co.uk/products/os-open-rivers',
   },
   {
@@ -89,6 +101,7 @@ export const ASSETS: readonly AssetRecord[] = [
     },
     source: `${OS} (OS Open Map Local)`,
     licence: OGL,
+    licenceUrl: OGL_URL,
     url: 'https://www.ordnancesurvey.co.uk/products/os-open-map-local',
   },
   {
