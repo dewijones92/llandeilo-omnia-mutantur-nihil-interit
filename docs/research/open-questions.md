@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Open questions
@@ -40,6 +40,12 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | The 1280s inner gatehouse at Dinefwr | Two hollow square towers on Cadw's 1280 phase plan, "perhaps a gatehouse" and "a lost gatehouse" in medievalheritage.eu, a new gate that "may have been" a remodelling of the original gatehouse in the Cadw guide; one source (Cadw), nothing of the towers standing (S9 says only the inner gate's loop holes and bar hole remain); both Cadw plans draw the inner gate about 1.4m (1.2-1.5m) wide (S10 a break in the curtain, S11 the gap between the towers) and the model follows them, though S9's surviving loop holes and bar hole may give the real width (added 2026-10-10; gap added 2026-10-16; width corrected 2026-10-16, check 4) | [dinefwr](dinefwr-castle.md) |
 | Cadw's Dinefwr plans' scale | The period plan as reproduced is about 5% larger than its bars say when fitted to the LiDAR; the 1280 panel of the phase plans fits within 2% of its bar, but that plan's five panels are drawn at different scales (keep to north-west tower 6.78, 6.48, 7.33 and 7.24 px/m on the 1250-70, 1280, 1330 and 1750 panels; one 20m bar of about 6.5-6.65), so each panel needs its own fit and only the 1280 has had one; cause unknown (added 2026-10-10; panel point added 2026-10-16) | [dinefwr](dinefwr-castle.md) |
 | Dinefwr keep's ground-floor door | Possibly original (Renn 1961) vs pierced in the 14th century (medievalheritage.eu; Cadw guide "may" 1326) (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
+| When Dryslwyn was founded, and by whom | "the late 1220s by Rhys Gryg for his son Maredudd ap Rhys" (Caple's monograph) and "the 1220s" (listing) vs "the second quarter of the thirteenth century" (Coflein) and "possibly by his successors" (medievalheritage.eu); first recorded 1245 (Gatehouse's list) or 1246 (Cadw guide; one manuscript of the *Annales Cambriae*) (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| Dryslwyn's middle ward | Mid-13th century (monograph, Cadw plans, listing) vs "later thirteenth century" (Coflein); Maredudd ap Rhys (listing) vs Rhys ap Maredudd (medievalheritage.eu, against its own history); about 70 x 30m (text) vs about 52m long fitted to the LiDAR (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| When the 1287 siege of Dryslwyn began, and how long it lasted | About 1 August (*Annales Cambriae*, "circa gulam Augusti") vs on or just after 15 August (Cadw guide); two weeks (Cadw's visitor page) vs three (listing, guide); fallen by 5 September (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| Who walled Dryslwyn up, and when | The English after retaking it from Glyndŵr, after 1403 (Cadw guide) vs Glyndŵr's retreating forces about 1409 (medievalheritage.eu) vs "the early to mid 15th century" (monograph) vs "the early fifteenth century" (Coflein); the burning and demolition that followed are undated (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| What stood on Dryslwyn hill before the castle | An Iron Age hillfort (Cadw's scheduling report), a motte (an HER record with no description), Roman material (Coflein's borough record) vs "not borne out by any evidence" (Cadw guide) (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| Dryslwyn's keep and hall heights | The keep about 12m at the base in every source, but about 9m above a flared base and 16m high only on Caple's reconstruction section; the 1280s added one storey to the hall (monograph, Caple's section) or two (scheduling report) (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
 | Cost of Llandeilo Bridge | £22,000 (Cadw) vs "over £12,000" (Coflein) | [victorian](era-victorian.md) |
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
 | St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02) | [buildings](building-models.md), [victorian](era-victorian.md) |
@@ -64,6 +70,12 @@ for the next pass. Each note's own "Open questions" section has the full list an
   accounts), Kenyon 2010, *The Buildings of Wales* (2006), RCAHMW's 1917 inventory (no. 317) and the Cambria
   Archaeology reports on the south curtain (2001), south turret (2002) and north-west tower (2003) were not read; they
   are where the answers are likely to be. ([dinefwr](dinefwr-castle.md))
+- **Dryslwyn Castle's fabric** (2026-10-17, for the Blender model): Chris Caple's excavation report (*Excavations at
+  Dryslwyn Castle 1980-95*, 2007) was not read beyond its abstract; it holds the measured plans, every height, the roofs
+  and the evidence for the render. Also unread: the Cadw guide (Rees and Caple), Webster 1987, Caple 1990 and 2008, the
+  interim notes in *Archaeology in Wales* and *Medieval Archaeology* (the Archaeology Data Service refused automated
+  reads), Colvin's *King's Works* pp. 641-2 and RCAHMW's 1917 inventory no. 452. No medieval height of any wall is known
+  outside Caple's reconstruction drawings. The castle is outside the app's LiDAR region. ([dryslwyn](dryslwyn.md))
 - **Heneb HER terms of use** (found by the hunter-gatherers check, 2026-10-09; for Dewi). Every Heneb HER
   (Archwilio) page says: "All output resulting from the use of the data must acknowledge the source as
   follows: Derived from information held by the Heneb HER Charitable Trust copyright", and "If you wish to
@@ -112,8 +124,11 @@ for the next pass. Each note's own "Open questions" section has the full list an
 - **Local prices and food** for the Victorian period: no Carmarthenshire figures found. (Wages: the
   Times reporter's 1843 Llandilo dispatch gives 7s a week, or 8d–9d a day with food; found
   2026-10-02, era-victorian S7, not yet shown in the app.)
-- **Dryslwyn after 1287**: when the castle fell out of use is not researched (the app shows an
-  approximate date and says so).
+- ~~**Dryslwyn after 1287**: when the castle fell out of use is not researched (the app shows an
+  approximate date and says so).~~ Researched 2026-10-17 in [`dryslwyn.md`](dryslwyn.md): garrisoned by the Crown
+  through the 14th century, surrendered to Glyndŵr in 1403, walled up in "the early to mid 15th century" (Caple), then
+  looted, burnt and demolished at an undated later time. Who walled it up, and when, stays contested (table above). The
+  app's ruin from 1430 is not yet changed.
 - **The Begin card's Welsh** (the motto's meaning, "Ofydd", the Begin note and the Graphics menu's
   Graffeg / Uchel / Canolig / Isel) is Claude's and waits for the parked human Welsh check (added
   2026-10-03).
