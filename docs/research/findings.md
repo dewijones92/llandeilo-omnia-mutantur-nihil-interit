@@ -147,6 +147,43 @@ From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agen
   century; the DWB's works by Sir Rhys are at Carew) as fact, together with a castle that runs to 1600 and a ruin from
   1600, where the note proposes a contested end in the 15th century and a decay phase to the 1660s.
 
+## Carreg Cennen Castle for a Blender model (2026-10-17)
+
+From [`carreg-cennen.md`](carreg-cennen.md), a draft, checked by the same agent the same day
+([check 1](reviews/carreg-cennen-check-1.md)) and then independently ([check 2](reviews/carreg-cennen-check-2.md),
+2026-10-17): its three important findings (the 1282 capture, the plan's "Uncertain" parts, the superseded figures in
+`building-models.md`) and its cheap suggestions were verified and fixed; the fixes still want a reader who did not make them.
+
+- **The Cadw plan fits the 2022 LiDAR to about 1.5m** at a rotation of 10.5 degrees from grid north and 9.22 pixels a
+  metre, about 3-4% larger than its own metre bar says (Dinefwr's was about 5%). The outer ward, barbican and inner ward
+  all land on the survey's walls and banks. ([cennen:S8], [cennen:S20])
+- **Cadw's plan marks some parts "Uncertain" (an outline) and some masonry "Modern" (blue)**: the south-east outer-ward
+  tower, the oven, the lime kiln and the building against the south curtain are outlines, so they are not drawn as
+  documented medieval parts; a few stretches of the south curtain and east range are modern. (Check 2, read on the image.)
+- **Coflein's reference lies on the inner ward floor**; the app's point is 14m off, on the east range. Use Coflein's.
+- **Today's heights are measured**: ward floor 264.8-265.0m OD; gatehouse towers to about 11m above it (the highest
+  masonry), the chapel tower 9.6m, the south curtain 7-7.4m inside and 10-15m above the cliff edge (the listing says it
+  stands to full height), the north-west tower's rim about 5m; the rock-cut ditch bottoms about 7m below the ward. The
+  precipice is 30-40m and the Afon Cennen about 132m below the ward; the texts' "100 feet", "300 feet", "85 meters" and
+  "90m" are rough figures for different heights.
+- **An independent 1858 account and plan, made before the Victorian restoration**, agrees with the fitted plan on the
+  inner ward's clear size (87 by 80 feet) and dates every surviving detail to about 1300; but it also draws a round
+  tower at the south-west corner, which the listing, Cadw's plan and the survey (no projecting tower) contradict. Kept
+  contested.
+- **How much is Welsh is contested**: Cadw says the Giffards' work of about 1287-1321 obliterated the earlier castle;
+  Longueville Jones (1858), Morris (1901) and Lewis (2006, via Wikipedia) each allow some Welsh masonry. The Welsh castle
+  had walls (repaired in 1277) and was lost in spring 1282; its form is unknown. **The date and the captor are
+  contested**: Morris has Dafydd ap Gruffudd with the sons of Rhys Fychan capture it on 26 March (p. 154) and, on p. 165,
+  have it "seized and destroyed, at least partially" "early in April"; Cadw's listing and schedule say Llywelyn ap
+  Gruffudd's forces.
+- **The building stone is not named by any source read**: "rubble stone with some ashlar dressings" on Dowlais
+  Limestone (BGS); limestone rubble is an inference. No render or roof covering is recorded.
+- **A 2m LiDAR area is proposed** (Coflein's point, half-size 500m, nine 2m tiles from SN6618, SN6619, SN6718, SN6719);
+  it needs the LiDAR region widened to E 268000 and N 218000, which is a decision for the owner.
+- **What the app gets wrong today** (not changed here): the outer ward's "half-timbered stables, a forge, stores" stated
+  as fact where the sources say "probably"; one barbican-and-outer-ward phase from 1300 where Cadw has two periods; no
+  burnt state for 1282-87; the plan at 2.6 times.
+
 ## Conversations by class (2026-09-28)
 
 From [`conversations-by-class.md`](conversations-by-class.md), a draft. An independent verification

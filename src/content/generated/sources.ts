@@ -343,6 +343,132 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/building-models.md"
   },
   {
+    "id": "cennen:S1",
+    "title": "Coflein (RCAHMW), \"Carreg Cennen Castle\", NPRN 103970, SN6678919075 (RCAHMW, 11 March 2008, from Lewis, J.M. 2006, *Carreg Cennen Castle*, Cadw).",
+    "url": "https://coflein.gov.uk/en/site/103970/",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S2",
+    "title": "Cadw, Listed Buildings Full Report 20923, \"Carreg Cennen Castle\", Grade I, designated 24 November 1998, Dyffryn Cennen, locality Trapp, E 266814 N 219093.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=20923",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S3",
+    "title": "Cadw, Scheduled Monuments Full Report CM001, \"Castell Carreg Cennen\", E 266813 N 219100.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/sam/FullReport?lang=en&id=3300",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S4",
+    "title": "Heneb Historic Environment Record (Archwilio), PRN 3998, \"Carreg Cennen Castle\", SN6681419093.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT3998&dbname=dat&tbname=core",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S5",
+    "title": "Gatehouse Gazetteer, \"Carreg Cennen Castle\", record 192 (updated 2 July 2017).",
+    "url": "https://www.gatehouse-gazetteer.info/Welshsites/192.html",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S6",
+    "title": "Cadw, \"Carreg Cennen\" (More about Carreg Cennen).",
+    "url": "https://cadw.gov.wales/more-about-carreg-cennen",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S7",
+    "title": "medievalheritage.eu, \"Carreg Cennen – castle\" (bibliography: Davis 2021; Kenyon 2010; Lewis 1990; Lindsay 1998; Salter 1996).",
+    "url": "https://medievalheritage.eu/en/main-page/heritage/wales/carreg-cennen-castle/",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S8",
+    "title": "medievalheritage.eu, \"plan of the Carreg Cennen Castle according to J.M. Lewis and Cadw\" (Periods 1-3 \"Late Thirteenth - Early Fourteenth Century\", Modern, Uncertain; Gatehouse, Middle Gate Tower, Barbican, Pits, Nort…",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Carreg-Cennen-plan-11.jpg",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S9",
+    "title": "C. Jones-Jenkins, cutaway reconstructions of the gatehouse and foregate and of the east range, for Cadw, as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Carreg-Cennen-rekonstrukcja-23.jpg",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S10",
+    "title": "medievalheritage.eu, painting captioned \"reconstruction of the castle from the 14th century from the north-east according to A.Sorrell\" (uploaded June 2026).",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/06/Carreg-Cennen-rekonstrukcja-01.jpg",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S11",
+    "title": "castlewales.com, \"Carreg Cennen Castle\", text by Lise Hull (1995), photographs by Jeffrey L. Thomas (2002).",
+    "url": "https://www.castlewales.com/carreg.html",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S12",
+    "title": "Wikipedia, \"Carreg Cennen Castle\" (raw wikitext, read 2026-10-17; cites Lewis 2006, Davis 2021, Morgan 2008).",
+    "url": "https://en.wikipedia.org/wiki/Carreg_Cennen_Castle",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S13",
+    "title": "H. Longueville Jones, \"Castell Carreg Cennen. No. II. Architectural account\", *Archaeologia Cambrensis* third series, vol. 4, no. 13 (January 1858), pp. 10-15, with \"Plan of Castell Carreg Cennen\" (p. 12) and an engra…",
+    "url": "https://journals.library.wales/view/2919943/3014103/10",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S14",
+    "title": "John Williams, Archdeacon of Cardigan, \"On Castell Carreg Cennen (Read at Llandeilo.)\", *Archaeologia Cambrensis* third series, vol. 3, no. 12 (October 1857), pp. 335-49 (pp. 341-8 misprinted 441-8, per check 2); Wels…",
+    "url": "https://journals.library.wales/view/2919943/3013965/12",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S15",
+    "title": "Ministry of Works, Ancient Monuments Branch, notes on monuments in guardianship, *Archaeologia Cambrensis* 101 (1950-51), pp. 77-8; Welsh Journals.",
+    "url": "https://journals.library.wales/view/4718179/4741340/97",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S16",
+    "title": "\"Annual Summer Meeting, 1985\" (Thursday 22 August), *Archaeologia Cambrensis* 135 (1986), p. 229; Welsh Journals.",
+    "url": "https://journals.library.wales/view/4718179/4749469/256",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S17",
+    "title": "*Brut y Tywysogion, or the Chronicle of the Princes*, ed. and trans. John Williams ab Ithel (Rolls Series, London, 1860), Internet Archive.",
+    "url": "https://archive.org/details/brutytywysogiono00cara",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S18",
+    "title": "John E. Morris, *The Welsh Wars of Edward I* (Oxford, 1901), Internet Archive.",
+    "url": "https://archive.org/details/welshwarsofedwar00morr",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S19",
+    "title": "Samuel and Nathaniel Buck, \"The South-West View of Caerkenin-Castle, in The County of Caermarthen\", engraving, published 5 April 1740, National Library of Wales, via Wikimedia Commons.",
+    "url": "https://commons.wikimedia.org/wiki/File:The_south-west_view_of_Caerkenin-Castle,_in_The_county_of_Caermarthen.jpeg",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S20",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tiles SN6618, SN6619, SN6718, SN6719 (`wg_del_21_266218_20220113dsm.tif`, `..._266219_...`, `..._267218_...`, `..._267219_...`, with their `dtm` twins; …",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_21_266219_20220113dsm.tif",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S21",
+    "title": "British Geological Survey, DiGMapGB-50 bedrock (v9.25, released 31 March 2025; sheet 230, Ammanford), GetFeatureInfo at E 266789 N 219075.",
+    "url": "https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
     "id": "classes:S1",
     "title": "John E. Morris, *The Welsh Wars of Edward I* (Oxford, 1901), Internet Archive full text.",
     "url": "https://archive.org/details/welshwarsofedwar00morr",
