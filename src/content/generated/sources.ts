@@ -5489,5 +5489,89 @@ export const SOURCE_SEEDS = [
     "title": "Wikipedia, \"Red Lady of Paviland\"",
     "url": "https://en.wikipedia.org/wiki/Red_Lady_of_Paviland",
     "doc": "docs/research/timeline-and-earliest-occupation.md"
+  },
+  {
+    "id": "trains:S1",
+    "title": "Science Museum Group, \"London Midland & Scottish Railway steam locomotive 4-6-0 5MT class, No 5000, 1935\", object 1978-7040",
+    "url": "https://collection.sciencemuseumgroup.org.uk/objects/co205797/london-midland-scottish-railway-steam-locomotive-4-6-0-5mt-class-no-5000-1935-steam-locomotive",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S2",
+    "title": "Wikipedia, \"LMS Fowler 2-6-4T\"",
+    "url": "https://en.wikipedia.org/wiki/LMS_Fowler_2-6-4T",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S3",
+    "title": "Wikipedia, \"British Rail Classes 101 and 102\"",
+    "url": "https://en.wikipedia.org/wiki/British_Rail_Classes_101_and_102",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S4",
+    "title": "Wikipedia, \"British Rail Mark 1\"",
+    "url": "https://en.wikipedia.org/wiki/British_Rail_Mark_1",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S5",
+    "title": "Porterbrook Leasing Company, *Class 153 Diesel Multiple Unit* (brochure, edition 1A, January 2014), pp. 16-17, archived 23 November 2015",
+    "url": "https://web.archive.org/web/20151123143042/http://www.porterbrook.co.uk:80/downloads/brochures/153%20Brochure.pdf",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S6",
+    "title": "railcar.co.uk, \"Heart of Wales line\" (feature page of captioned photographs)",
+    "url": "https://railcar.co.uk/images/feature/heart-of-wales-line",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S7",
+    "title": "railcar.co.uk, vehicle record 52037",
+    "url": "https://railcar.co.uk/data/vehicle/52037",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S8",
+    "title": "Historical Model Railway Society, \"BR coach lining (up to & including blue/grey period)\"",
+    "url": "https://hmrs.org.uk/br-coach-lining-up-to-including-blue-grey-period.html",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S9",
+    "title": "Historical Model Railway Society, \"LMS locomotive lining transfer\"",
+    "url": "https://hmrs.org.uk/lms-locomotive-lining.html",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S10",
+    "title": "John Organ, *Country Railway Routes: Llandeilo to Swansea including the Llanelli and Carmarthen* (Middleton Press, 1 February 2009), ISBN 9781906008468, publisher's page",
+    "url": "https://www.middletonpress.co.uk/books/railways/country-railway-routes/llandeilo-to-swansea.html",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S11",
+    "title": "People's Collection Wales, \"Postcard image of Llandilo / Llandeilo Station, c. 1900\", by Williams, Llandeilo, item 2084711 (Creative Archive Licence)",
+    "url": "https://www.peoplescollection.wales/items/2084711",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S12",
+    "title": "People's Collection Wales, \"Postcard image of Llandilo / Llandeilo Station, c. 1900\", by A. W. Williams, Llandeilo, item 2084726 (Creative Archive Licence)",
+    "url": "https://www.peoplescollection.wales/items/2084726",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S13",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DTM, tile SN6322 (`wg_del_26_263222_20220222dtm.tif`), DataMapWales; Open Government Licence v3 (see [`../data/lidar.md`](../data/lidar.md))",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dtm/wg_del_26_263222_20220222dtm.tif",
+    "doc": "docs/research/trains.md"
+  },
+  {
+    "id": "trains:S14",
+    "title": "railcar.co.uk, vehicle record 59260",
+    "url": "https://railcar.co.uk/data/vehicle/59260",
+    "doc": "docs/research/trains.md"
   }
 ] as const;
