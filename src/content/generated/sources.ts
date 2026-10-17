@@ -343,6 +343,132 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/building-models.md"
   },
   {
+    "id": "cennen:S1",
+    "title": "Coflein (RCAHMW), \"Carreg Cennen Castle\", NPRN 103970, SN6678919075 (RCAHMW, 11 March 2008, from Lewis, J.M. 2006, *Carreg Cennen Castle*, Cadw).",
+    "url": "https://coflein.gov.uk/en/site/103970/",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S2",
+    "title": "Cadw, Listed Buildings Full Report 20923, \"Carreg Cennen Castle\", Grade I, designated 24 November 1998, Dyffryn Cennen, locality Trapp, E 266814 N 219093.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=20923",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S3",
+    "title": "Cadw, Scheduled Monuments Full Report CM001, \"Castell Carreg Cennen\", E 266813 N 219100.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/sam/FullReport?lang=en&id=3300",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S4",
+    "title": "Heneb Historic Environment Record (Archwilio), PRN 3998, \"Carreg Cennen Castle\", SN6681419093.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT3998&dbname=dat&tbname=core",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S5",
+    "title": "Gatehouse Gazetteer, \"Carreg Cennen Castle\", record 192 (updated 2 July 2017).",
+    "url": "https://www.gatehouse-gazetteer.info/Welshsites/192.html",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S6",
+    "title": "Cadw, \"Carreg Cennen\" (More about Carreg Cennen).",
+    "url": "https://cadw.gov.wales/more-about-carreg-cennen",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S7",
+    "title": "medievalheritage.eu, \"Carreg Cennen – castle\" (bibliography: Davis 2021; Kenyon 2010; Lewis 1990; Lindsay 1998; Salter 1996).",
+    "url": "https://medievalheritage.eu/en/main-page/heritage/wales/carreg-cennen-castle/",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S8",
+    "title": "medievalheritage.eu, \"plan of the Carreg Cennen Castle according to J.M. Lewis and Cadw\" (Periods 1-3 \"Late Thirteenth - Early Fourteenth Century\", Modern, Uncertain; Gatehouse, Middle Gate Tower, Barbican, Pits, Nort…",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Carreg-Cennen-plan-11.jpg",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S9",
+    "title": "C. Jones-Jenkins, cutaway reconstructions of the gatehouse and foregate and of the east range, for Cadw, as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Carreg-Cennen-rekonstrukcja-23.jpg",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S10",
+    "title": "medievalheritage.eu, painting captioned \"reconstruction of the castle from the 14th century from the north-east according to A.Sorrell\" (uploaded June 2026).",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/06/Carreg-Cennen-rekonstrukcja-01.jpg",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S11",
+    "title": "castlewales.com, \"Carreg Cennen Castle\", text by Lise Hull (1995), photographs by Jeffrey L. Thomas (2002).",
+    "url": "https://www.castlewales.com/carreg.html",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S12",
+    "title": "Wikipedia, \"Carreg Cennen Castle\" (raw wikitext, read 2026-10-17; cites Lewis 2006, Davis 2021, Morgan 2008).",
+    "url": "https://en.wikipedia.org/wiki/Carreg_Cennen_Castle",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S13",
+    "title": "H. Longueville Jones, \"Castell Carreg Cennen. No. II. Architectural account\", *Archaeologia Cambrensis* third series, vol. 4, no. 13 (January 1858), pp. 10-15, with \"Plan of Castell Carreg Cennen\" (p. 12) and an engra…",
+    "url": "https://journals.library.wales/view/2919943/3014103/10",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S14",
+    "title": "John Williams, Archdeacon of Cardigan, \"On Castell Carreg Cennen (Read at Llandeilo.)\", *Archaeologia Cambrensis* third series, vol. 3, no. 12 (October 1857), pp. 335-49 (pp. 341-8 misprinted 441-8, per check 2); Wels…",
+    "url": "https://journals.library.wales/view/2919943/3013965/12",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S15",
+    "title": "Ministry of Works, Ancient Monuments Branch, notes on monuments in guardianship, *Archaeologia Cambrensis* 101 (1950-51), pp. 77-8; Welsh Journals.",
+    "url": "https://journals.library.wales/view/4718179/4741340/97",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S16",
+    "title": "\"Annual Summer Meeting, 1985\" (Thursday 22 August), *Archaeologia Cambrensis* 135 (1986), p. 229; Welsh Journals.",
+    "url": "https://journals.library.wales/view/4718179/4749469/256",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S17",
+    "title": "*Brut y Tywysogion, or the Chronicle of the Princes*, ed. and trans. John Williams ab Ithel (Rolls Series, London, 1860), Internet Archive.",
+    "url": "https://archive.org/details/brutytywysogiono00cara",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S18",
+    "title": "John E. Morris, *The Welsh Wars of Edward I* (Oxford, 1901), Internet Archive.",
+    "url": "https://archive.org/details/welshwarsofedwar00morr",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S19",
+    "title": "Samuel and Nathaniel Buck, \"The South-West View of Caerkenin-Castle, in The County of Caermarthen\", engraving, published 5 April 1740, National Library of Wales, via Wikimedia Commons.",
+    "url": "https://commons.wikimedia.org/wiki/File:The_south-west_view_of_Caerkenin-Castle,_in_The_county_of_Caermarthen.jpeg",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S20",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tiles SN6618, SN6619, SN6718, SN6719 (`wg_del_21_266218_20220113dsm.tif`, `..._266219_...`, `..._267218_...`, `..._267219_...`, with their `dtm` twins; …",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_21_266219_20220113dsm.tif",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
+    "id": "cennen:S21",
+    "title": "British Geological Survey, DiGMapGB-50 bedrock (v9.25, released 31 March 2025; sheet 230, Ammanford), GetFeatureInfo at E 266789 N 219075.",
+    "url": "https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer",
+    "doc": "docs/research/carreg-cennen.md"
+  },
+  {
     "id": "classes:S1",
     "title": "John E. Morris, *The Welsh Wars of Edward I* (Oxford, 1901), Internet Archive full text.",
     "url": "https://archive.org/details/welshwarsofedwar00morr",
@@ -1223,6 +1349,174 @@ export const SOURCE_SEEDS = [
     "title": "Wikipedia, \"Dinefwr Castle\".",
     "url": "https://en.wikipedia.org/wiki/Dinefwr_Castle",
     "doc": "docs/research/dinefwr-castle.md"
+  },
+  {
+    "id": "dryslwyn:S1",
+    "title": "Coflein (RCAHMW), \"Dryslwyn Castle, Dryslwyn\", NPRN 100682, SN 55387 20288 (John Wiles, 6 December 2007, \"Source: Rees & Caple CADW Guide to Dinefwr Castle & Dryslwyn Castle, revised edition (2007)\").",
+    "url": "https://coflein.gov.uk/en/site/100682/",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S2",
+    "title": "Coflein (RCAHMW), \"Dryslwyn Medieval Borough\", NPRN 109584, given as SN 55420 30370 (John Wiles, 6 December 2007, from the same guide).",
+    "url": "https://coflein.gov.uk/en/site/109584/",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S3",
+    "title": "Cadw, Listed Buildings Full Report 10934, \"Dryslwyn Castle\", Grade I, designated 8 July 1966, E 255403 N 220365; sources Davies 1993, Pettifer 2000, Rees and Caple 1999.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=10934",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S4",
+    "title": "Cadw, Scheduled Monuments Full Report CM030, \"Castell Dryslwyn\", E 255436 N 220365.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/sam/FullReport?lang=en&id=445",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S5",
+    "title": "Heneb Historic Environment Record (Archwilio), PRN 699, \"Medieval - Castle\", SN55402035.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT699&dbname=dat&tbname=core",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S6",
+    "title": "Heneb HER (Archwilio), PRN 4319, \"Medieval - Motte\", SN55402035.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT4319&dbname=dat&tbname=core",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S7",
+    "title": "Gatehouse Gazetteer, \"Dryslwyn Castle\", record 217.",
+    "url": "https://gatehouse-gazetteer.info/Welshsites/217.html",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S8",
+    "title": "castlewales.com (Jeffrey L. Thomas), \"Dryslwyn Castle\", text by Sian E. Rees and Chris Caple, \"The Cadw guidebook for Dinefwr and Dryslwyn castles (1999)\", photographs 2002.",
+    "url": "https://www.castlewales.com/dryslwyn.html",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S9",
+    "title": "castlewales.com (Jeffrey L. Thomas), \"The 1287 Siege of Dryslwyn Castle\", \"From the official Cadw Guidebook for Dryslwyn Castle\".",
+    "url": "https://www.castlewales.com/dryslwn2.html",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S10",
+    "title": "medievalheritage.eu, \"Dryslwyn – castle\" (bibliography: Caple 2007; Caple and Rees 2007; Davis 2011, 2021; Kenyon 2010; Lindsay 1998; Lloyd, Orbach and Scourfield 2006; Salter 1996).",
+    "url": "https://medievalheritage.eu/en/main-page/heritage/wales/dryslwyn-castle/",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S11",
+    "title": "medievalheritage.eu, \"castle plan according to S.Rees, C.Caple and Cadw\" (period plan: \"Early/Mid-Thirteenth Century: Phase 1\", \"Mid-Thirteenth Century: Phase 2\", \"Late Thirteenth Century\"; Round Tower, Inner, Middle …",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dryslwyn-plan-12.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S12",
+    "title": "medievalheritage.eu, \"plan of the castle expansion according to S.Rees, C.Caple and Cadw\" (three phase panels; 15m and 50ft bars).",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dryslwyn-plan-11.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S13",
+    "title": "medievalheritage.eu, \"plan of the castle and town from the 14th century according to C. Caple\" (excavated and projected walls, ditch, roadways, bedrock, the settlement \"A\"; 80m bar).",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/06/Dryslwyn-plan-05.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S14",
+    "title": "medievalheritage.eu, \"reconstruction of the keep, the entrance to the tower and the cross-section according to C. Caple\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/06/Dryslwyn-rekonstrukcja-07.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S15",
+    "title": "medievalheritage.eu, \"cross-section of the buildings in the southern part of the inner ward from the beginning and from the end of the 13th century according to C. Caple\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/06/Dryslwyn-rekonstrukcja-08.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S16",
+    "title": "medievalheritage.eu, \"longitudinal section through the eastern wing and the tower with the chapel, northern elevation of the southern tower wall according to C. Caple\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/06/Dryslwyn-rekonstrukcja-09.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S17",
+    "title": "Paul R. Davis, reconstruction of the castle in the first half of the 13th century and the mid-13th century, from the north-east, as reproduced by medievalheritage.eu (\"reconstruction of the castle from the beginning o…",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2022/02/Dryslwyn-rekonstrukcja-33.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S18",
+    "title": "Chris Jones-Jenkins, reconstruction of the castle in the first half of the 13th century, for Cadw, as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dryslwyn-rekonstrukcja-22.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S19",
+    "title": "Chris Jones-Jenkins, cutaway of the buildings in the southern part of the inner ward at the beginning of the 14th century, for Cadw, as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dryslwyn-rekonstrukcja-25.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S20",
+    "title": "Chris Caple, *Excavations at Dryslwyn Castle 1980-95* (Society for Medieval Archaeology Monograph 26, 2007; Routledge, 370 pages), the publisher's abstract and table of contents.",
+    "url": "https://www.routledge.com/Excavations-at-Dryslwyn-Castle-1980-95/Caple/p/book/9781905981885",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S21",
+    "title": "*Annales Cambriæ*, ed. John Williams ab Ithel (Rolls Series 20, London, 1860), Internet Archive.",
+    "url": "https://archive.org/details/annalescambri20will",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S22",
+    "title": "Nicholas Trivet, *Annales sex regum Angliae*, ed. Thomas Hog (English Historical Society, London, 1845), p. 315, Internet Archive.",
+    "url": "https://archive.org/details/fnicholaitriveti00trivuoft",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S23",
+    "title": "\"Chronicon vulgo dictum Chronicon Thomae Wykes\", in *Annales Monastici* vol. 4, ed. H. R. Luard (Rolls Series 36, London, 1869), pp. 309-11, Internet Archive.",
+    "url": "https://archive.org/details/annalesmonastic00unkngoog",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S24",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tiles SN5520 and SN5519 (and DTM SN5419, SN5420, SN5521, SN5620) (`wg_del_26_<tile>_20220113dtm.tif`, `...dsm.tif`, catalogue date 13-01-2022, delivery …",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_26_255220_20220113dsm.tif",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S25",
+    "title": "British Geological Survey, DiGMapGB-50 bedrock (v9.25, released 31 March 2025; sheet 230, Ammanford), GetFeatureInfo at the castle.",
+    "url": "https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S26",
+    "title": "Cadw, \"Castell Dryslwyn\" (visitor page).",
+    "url": "https://cadw.gov.wales/visit/places-to-visit/castell-dryslwyn",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S27",
+    "title": "James Baker (drawer) and J. Bluck (engraver), \"Drysllwyn Castle with Gronger Hill\", aquatint, about 1795, National Library of Wales, via Wikimedia Commons.",
+    "url": "https://commons.wikimedia.org/wiki/File:Drysllwyn_Castle_with_Gronger_Hill.jpeg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S28",
+    "title": "Thomas Nicholas, *Annals and antiquities of the counties and county families of Wales* (London, 1872), p. 280, \"Dryslwyn Castle\", Internet Archive Book Images via Wikimedia Commons.",
+    "url": "https://commons.wikimedia.org/wiki/File:Image_from_page_280_of_%22Annals_and_antiquities_of_the_counties_and_county_families_of_Wales%22_(1872",
+    "doc": "docs/research/dryslwyn.md"
   },
   {
     "id": "ironage:S1",
@@ -5135,6 +5429,258 @@ export const SOURCE_SEEDS = [
     "title": "*Gazetteer of Markets and Fairs to 1516: Wales*, Centre for Metropolitan History (updates to the printed gazetteer of 2003; page last updated 16 March 2007)",
     "url": "https://archives.history.ac.uk/gazetteer/wales.html",
     "doc": "docs/research/soundscapes.md"
+  },
+  {
+    "id": "teilo:S1",
+    "title": "Coflein (RCAHMW), \"St Teilo's Church Llandeilo\", NPRN 100867, SN 6293022236, Type CHURCH (description \"RCAHMW, 10 February 2009\").",
+    "url": "https://coflein.gov.uk/en/site/100867/",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S2",
+    "title": "Cadw, Listed Buildings Full Report 11097, \"Parish Church of St Teilo\", Grade II, designated 14 March 1966, E 262930 N 222236, \"Information supplied by Mr P Howell\".",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=11097",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S3",
+    "title": "Heneb Historic Environment Record (Archwilio), PRN 888, \"St Teilo's Llandeilo Fawr\", SN6293022236, Medieval and post-medieval church, Listed Building II.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT888&dbname=dat&tbname=core",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S4",
+    "title": "Heneb HER (Archwilio), PRN 912, \"St Teilo's Church Llandeilo Fawr\", Early Medieval churchyard, clas, monastery.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT912&dbname=dat&tbname=core",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S5",
+    "title": "N. Ludlow, Welsh Historic Churches Project, Carmarthenshire churches, entry \"St Teilo, Llandeilo Fawr, Carmarthenshire (Dinefwr)\" (Cambria Archaeology / Dyfed Archaeological Trust for Cadw; fieldwork 1998; Dyfed PRN 8…",
+    "url": "http://www.walesher1974.org/her/app/php/herumd.php?group=DAT&level=3&docid=301363822",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S6",
+    "title": "Llandeilo History (llandeilo.org, Terry Norman and Andy Mabbutt), \"St Teilo's Church\" (\"From: www.llandeilofawr.org.uk\").",
+    "url": "https://www.llandeilo.org/ch_st-teilos.html",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S7",
+    "title": "*The Welshman*, 11 October 1850, \"Re-opening of Llandilo Church\", Welsh Newspapers Online (National Library of Wales).",
+    "url": "https://newspapers.library.wales/view/4347234/4347236/12/",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S8",
+    "title": "Samuel Lewis, *A Topographical Dictionary of Wales* (London, 1849), \"Llandilo-Vawr\", British History Online.",
+    "url": "https://www.british-history.ac.uk/topographical-dict/wales/pp524-536",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S9",
+    "title": "GENUKI, \"Llandilo Fawr, Carmarthenshire\", quoting Lewis's *Topographical Dictionary of Wales* (1844).",
+    "url": "https://www.genuki.org.uk/big/wal/CMN/LlandeiloFawr",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S10",
+    "title": "Robert Hoare (research by Ian Toplis), \"St Teilo's, Llandilo\", GilbertScott.org.",
+    "url": "https://gilbertscott.org/buildings/st-teilos-llandilo",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S11",
+    "title": "Lambeth Palace Library, Incorporated Church Building Society file ICBS 3533, Llandilo, Carmarthenshire, ground plan, 1844-1851, creators \"G. G. Scott?\" and John Harries, images LPLIBLPL~34~34~84367~113585 and ~123258~…",
+    "url": "https://images.lambethpalacelibrary.org.uk/luna/servlet/detail/LPLIBLPL~34~34~84367~113585",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S12",
+    "title": "Dictionary of Welsh Biography, \"TEILO (sometimes called ELIUD), a Celtic saint of the 6th century\" (E. G. Bowen).",
+    "url": "https://biography.wales/article/s-TEIL-SAN-0500.html",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S13",
+    "title": "Wikipedia, \"St Teilo's Church, Llandeilo\".",
+    "url": "https://en.wikipedia.org/wiki/St_Teilo%27s_Church,_Llandeilo",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S14",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tile SN6222 (`wg_del_26_262222_20220222dsm.tif`, 1,680,133 bytes, SHA-256 7c162d1e...; `wg_del_26_262222_20220222dtm.tif`, the repository's manifest cop…",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_26_262222_20220222dsm.tif",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S15",
+    "title": "Ordnance Survey, OS OpenMap Local, tile SN, `Building` layer (Open Government Licence; local copy in ~/code/data/llandeilo/oml, downloaded 2026-09-26).",
+    "url": "https://api.os.uk/downloads/v1/products/OpenMapLocal/downloads?area=SN&format=ESRI%C2%AE+Shapefile&redirect",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S16",
+    "title": "British Geological Survey, DiGMapGB-50 bedrock (v9.25, released 31 March 2025), WMS GetFeatureInfo at E 262930 N 222236.",
+    "url": "https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S17",
+    "title": "Ken Day, \"Llandeilo Parish Church, St Teilo's. Tower, south face\", 7 August 2014, Wikimedia Commons, CC BY-SA 4.0.",
+    "url": "https://commons.wikimedia.org/wiki/File:Llandeilo_Parish_Church,_St_Teilo%27s._Tower,_south_face.jpg",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S18",
+    "title": "Jaggery, \"Tower, St Teilo's church, Llandeilo\", 26 June 2011, geograph.org.uk 3270292 via Wikimedia Commons, CC BY-SA 2.0.",
+    "url": "https://commons.wikimedia.org/wiki/File:Tower,_St_Teilo%27s_church,_Llandeilo_-_geograph.org.uk_-_3270292.jpg",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S19",
+    "title": "Darren Wyn Rees, \"St Teilo's Church, Llandeilo\", 21 August 2020, Wikimedia Commons, CC BY-SA 4.0.",
+    "url": "https://commons.wikimedia.org/wiki/File:St_Teilo%27s_Church,_Llandeilo.jpg",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S20",
+    "title": "Lynn Hughes, \"Pons Asinorum\" (Carmarthenshire Life, November 2004; from a work in progress, *Towy: The Biography of a River*), on llandeilo.org.",
+    "url": "https://llandeilo.org/bge_history.html",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "talley:S1",
+    "title": "Coflein (RCAHMW), \"Talley Abbey; Abbey of The Blessed Virgin and St John The Baptist, Talley\", NPRN 92750, SN 63281 32772 (sources: Cadw guide, revised 3rd edition 2007; Suggett 2021; RCAHMW 2022).",
+    "url": "https://coflein.gov.uk/en/site/92750/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S2",
+    "title": "Coflein (RCAHMW), \"St Michael's Church, Talley\", NPRN 101870 (N. Vousden, 2013).",
+    "url": "https://coflein.gov.uk/en/site/101870/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S3",
+    "title": "Coflein (RCAHMW), \"Talley Mound - Castle Earthworks\", NPRN 303898, SN 63130 33373 (John Wiles, 2008).",
+    "url": "https://coflein.gov.uk/en/site/303898/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S4",
+    "title": "Cadw, Listed Buildings Full Report 15767, \"Ruin of Talley Abbey\", Grade II, designated 8 July 1966, E 263267 N 232772 (source: Robinson and Platt, Cadw 1992).",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=15767",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S5",
+    "title": "Heneb Historic Environment Record (Archwilio), PRN 1897, \"St Mary and St John the Baptist; Talley Abbey; Tal-y-llychan\", SN63273277 (F. Murphy 2012, \"based upon CADW descriptive text 1986\").",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT1897&dbname=dat&tbname=core",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S6",
+    "title": "F. Murphy and M. Page, *Later Medieval and Early Post-Medieval Threat Related Assessment Work 2012: Monasteries*, Dyfed Archaeological Trust report 2012/12 for Cadw (project 102639), via Coflein.",
+    "url": "https://coflein.gov.uk/media/85/443/dat21_05.pdf",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S7",
+    "title": "Cadw, \"Talley Abbey\" and \"Abaty Talyllychau\" (visitor pages, English and Welsh).",
+    "url": "https://cadw.gov.wales/visit/places-to-visit/talley-abbey",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S8",
+    "title": "Monastic Wales, \"Talley (Abbey)\", site 51.",
+    "url": "https://monasticwales.org/site/51",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S9",
+    "title": "medievalheritage.eu, \"Talley – Premonstratensian Abbey\" (bibliography: Burton and Stöber 2015; Lloyd, Orbach and Scourfield 2006; Platt and Robinson 1998; Salter 2012).",
+    "url": "https://medievalheritage.eu/en/main-page/heritage/wales/talley-abbey/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S10",
+    "title": "medievalheritage.eu, plan of Talley Abbey church \"according to J. Burton and K. Stöber based on Cadw\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2018/06/Talley-Abbey-plan-02.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S11",
+    "title": "medievalheritage.eu, plan of Talley Abbey church \"according to C. Platt, D. Robinson and Cadw\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Talley-Abbey-plan-11.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S12",
+    "title": "T. Ball, cutaway reconstruction of the abbey church from the east, as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Talley-Abbey-rekonstrukcja-11.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S13",
+    "title": "C. Jones-Jenkins, \"reconstruction of the monastery with an outline of the part of the church planned but not built\", as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/07/Talley-Abbey-rekonstrukcja-22.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S14",
+    "title": "B. H. St J. O'Neil, \"Talley Abbey, Carmarthenshire\", *Archaeologia Cambrensis* 96 (1941), pp. 69-91, with Plates I-VIII, Welsh Journals (National Library of Wales).",
+    "url": "https://journals.library.wales/view/4718179/4739323/114/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S15",
+    "title": "O'Neil 1941 [S14], Fig. 1, \"Talley Abbey, Carmarthenshire\", the official plan (Ministry of Works and Buildings; \"Crown property, the copyright being reserved\", reproduced by permission), fold-out before p. 69, IIIF im…",
+    "url": "https://iiif.llyfrgell.cymru/iiif/4739437/full/1200,/0/default.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S16",
+    "title": "Stephen W. Williams, \"Excavations at Talley Abbey\", *Archaeologia Cambrensis*, 5th series, 14 (1897), pp. 229-247, Internet Archive full text (sim_archaeologia-cambrensis_1897-07_14_55).",
+    "url": "https://archive.org/details/sim_archaeologia-cambrensis_1897-07_14_55",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S17",
+    "title": "D. Long Price, \"Talley Abbey\", *Archaeologia Cambrensis*, 4th series, 10 (1879), pp. 161-187, Internet Archive full text (sim_archaeologia-cambrensis_1879-07_10_39).",
+    "url": "https://archive.org/details/sim_archaeologia-cambrensis_1879-07_10_39",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S18",
+    "title": "John Thomas, \"[The church and ruined abbey, Talyllychau]\", glass negative, c. 1885, National Library of Wales (NLW3363347), via Wikimedia Commons, public domain.",
+    "url": "https://commons.wikimedia.org/wiki/File:The_church_and_ruined_abbey,_Talyllychau_NLW3363347.jpg",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S19",
+    "title": "castlewales.com (Jeffrey L. Thomas), \"Talley Abbey\", photographs 2002.",
+    "url": "http://www.castlewales.com/talley.html",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S20",
+    "title": "UK Southwest, \"Talley Abbey, Carmarthenshire, Wales\".",
+    "url": "https://www.uksouthwest.net/carmarthenshire/talley-abbey/",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S21",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tiles SN6332, SN6232, SN6233 and SN6333 (`wg_del_28_263232_20220315dsm.tif`, `...dtm.tif` and the others), dated 15 March 2022, DataMapWales; Open Gover…",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_28_263232_20220315dsm.tif",
+    "doc": "docs/research/talley-abbey.md"
+  },
+  {
+    "id": "talley:S22",
+    "title": "British Geological Survey, DiGMapGB-50 (v9.25, released 31 March 2025), bedrock and superficial deposits, GetFeatureInfo at the abbey.",
+    "url": "https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer",
+    "doc": "docs/research/talley-abbey.md"
   },
   {
     "id": "timeline:S1",
