@@ -2,12 +2,14 @@
 title: "ADR 0053: The Blender pipeline: a build sheet from the plan, a headless script, glTF fitted to the drawn ground"
 kind: adr
 status: accepted
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # ADR 0053: The Blender pipeline: a build sheet from the plan, a headless script, glTF fitted to the drawn ground
 
-- **Status:** Accepted. Phase 1, built for the Roman forts. It is the pipeline ADR that
+- **Status:** Accepted. Amended 2026-10-16 by [ADR 0056](0056-buildings-stand-level-and-the-roman-plots-are-terraced.md):
+  a rigid part stands at the seat the plan gives it (the highest ground under its footprint), not at the ground under
+  its own point. Phase 1, built for the Roman forts. It is the pipeline ADR that
   [ADR 0052](0052-landmarks-are-scripted-blender-models-built-from-their-plans.md) said would follow, and it
   amends [ADR 0047](0047-detailed-monuments-have-a-far-and-a-near-mesh.md): a modelled monument's far and near
   meshes come from Blender above Low graphics.

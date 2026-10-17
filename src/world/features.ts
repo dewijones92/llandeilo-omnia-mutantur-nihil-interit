@@ -1,16 +1,33 @@
-import { Vector3, type AbstractMesh, type Mesh } from './babylon.ts';
-import { toGrid, toWorld } from '../domain/geo.ts';
+import { Vector3, VertexBuffer, type AbstractMesh, type Mesh } from './babylon.ts';
+import { toGrid, toWorld, WORLD } from '../domain/geo.ts';
 import type { Feature, FeatureId, RollingStock } from '../domain/model.ts';
 import type { LampState } from '../domain/lamplight.ts';
 import type { FeaturePresence } from '../domain/state.ts';
 import { hash2 } from '../domain/noise.ts';
 import { hidesFootprint, rotate, type Plan, type Pt } from '../domain/plan.ts';
+import { LOD_STEPS } from '../domain/lidar.ts';
 import { smokingFeatures } from '../domain/smoke.ts';
 import { drawnRailway, longestLine, sectionLines } from '../domain/rail.ts';
 import type { BuildingFootprints, MapLine } from '../platform/assets.ts';
 import type { World } from './scene.ts';
 import { Buildings, lineRibbons, Train, type Ribbon } from './settlement.ts';
-import { buildPlan, planClearing, planWorldScale } from './buildings.ts';
+import { buildPlan, newDrawn, planGroundAt, planWorldScale, type Drawn } from './buildings.ts';
+import type { GroundEdit } from '../domain/groundedit.ts';
+import {
+  clearingMetres,
+  editsBuiltOn,
+  editsDrawn,
+  columnTops,
+  footprint,
+  floorFromTops,
+  footprintSamples,
+  SEAT_TOLERANCE,
+  seats,
+  standsOnGround,
+  terracesByFeature,
+} from '../domain/plot.ts';
+import type { Timeline } from '../domain/timeline.ts';
+import { heightToWorld } from '../domain/geo.ts';
 import { buildFeature, type Ground, type WorldPoint } from './structures.ts';
 import type { SmokeSource } from './smoke.ts';
 import type { Clearing } from './landcover.ts';
@@ -29,8 +46,33 @@ interface ModelSlot {
   far: readonly Mesh[];
   near: readonly Mesh[];
   parts: readonly string[];
+  /** Where the model set each rigid part's floor, world y (ADR 0056). */
+  floors: ReadonlyMap<string, number>;
+  /** What the plan's ground parts (roads, ditches) drew beside the model, for the debug hook. */
+  readonly modelDrawn: Drawn;
   /** The model's meshes at each level, with their part runs, for picking a part in 3D (ADR 0055). */
   pick: { far: readonly LandmarkMesh[]; near: readonly LandmarkMesh[] };
+}
+
+/** One standing part as drawn: the floors the builders set (undefined if that builder drew none), and its footprint points. */
+export interface StandingPart {
+  readonly id: string;
+  readonly procedural: number | undefined;
+  readonly model: number | undefined;
+  readonly at: [number, number][];
+  /** How many of `at` are the footprint's corners (they come first). */
+  readonly corners: number;
+  /** A wall's height above its floor, world units (base and height, at the plan's vertical scale). */
+  readonly rise: number;
+  /** The floor each builder drew the part standing on, read off its mesh (the lowest wall top less `rise`); undefined if that builder drew none of it. */
+  readonly drawn: { readonly procedural: number | undefined; readonly model: number | undefined };
+}
+
+/** The points a road's edges were laid on, from the procedural draw or from the ground parts drawn beside the model. */
+export interface DrawnRoad {
+  readonly id: string;
+  readonly source: 'procedural' | 'model';
+  readonly points: readonly [number, number, number][];
 }
 
 /** A mesh of a monument's model that is on screen now, for picking a part in 3D. */
@@ -41,12 +83,21 @@ export interface PickableModel {
 }
 
 interface Monument {
+  readonly feature: Feature;
   readonly mesh: Mesh;
   /** The full-detail mesh, drawn instead of `mesh` when the camera is near. */
   readonly near: Mesh | undefined;
   readonly at: { readonly x: number; readonly z: number };
   readonly hearths: readonly WorldPoint[];
   readonly seed: number;
+  /** The ground it was built on: the base ground with the terraces drawn in its first year (ADR 0056). */
+  readonly ground: Ground;
+  /** Where its roads and ditches lie: the mesh drawn once those terraces are; undefined if it has none. */
+  readonly ribbon: Ground | undefined;
+  /** What the procedural draw set, for the debug hook (ADR 0056). */
+  readonly drawn: Drawn | undefined;
+  /** Each standing part's floor as the procedural draw set it, world y: the model stands where its fallback does. */
+  readonly seats: ReadonlyMap<string, number>;
   readonly model: ModelSlot | undefined;
   level: Level;
   visible: boolean;
@@ -61,20 +112,68 @@ interface TownSet {
 
 const TOWN_CORE_RADIUS = 1300;
 
-const CLEARING: Readonly<Record<Exclude<Feature['kind']['type'], 'building'>, number>> = {
-  roundhouses: 40,
-  hillfort: 85,
-  'hall-houses': 45,
-  town: 110,
-  countryside: 0,
-  railway: 0,
-  train: 0,
-  roads: 0,
-  burning: 0,
-};
+/** How near a corner, in world units (0.1m), a vertex counts as part of its wall when the walls are read off the mesh. */
+const TOP_RADIUS = 0.01;
+
+const vector = (v: {
+  readonly x: number;
+  readonly y: number;
+  readonly z: number;
+}): [number, number, number] => [v.x, v.y, v.z];
+
+// The highest vertex of a part's near model at each corner point, over every mesh the part was merged into. A gate
+// leaf hangs from the model on its hinge and turns, so its corners are not where the plan's are: its top is its highest vertex.
+function modelTops(
+  m: Monument,
+  part: string,
+  points: readonly (readonly [number, number])[],
+): (number | undefined)[] | undefined {
+  const runs = (m.model?.pick.near ?? []).flatMap((l) =>
+    l.runs.filter((r) => r.id === part).map((run) => ({ l, run })),
+  );
+  if (runs.length === 0) return undefined;
+  const tops: (number | undefined)[] = points.map(() => undefined);
+  for (const { l, run } of runs) {
+    const positions = l.mesh.getVerticesData(VertexBuffer.PositionKind);
+    if (!positions) continue;
+    const hung = l.mesh.parent !== null;
+    const read = hung ? inWorld(l.mesh, positions) : positions;
+    const origin = hung ? [0, 0, 0] : vector(l.mesh.position);
+    const found = columnTops(
+      read,
+      run,
+      [origin[0] ?? 0, origin[1] ?? 0, origin[2] ?? 0],
+      points,
+      hung ? Number.POSITIVE_INFINITY : TOP_RADIUS,
+      hung ? 1 : l.mesh.scaling.y,
+    );
+    found.forEach((t, i) => {
+      const best = tops[i];
+      if (t !== undefined && (best === undefined || t > best)) tops[i] = t;
+    });
+  }
+  return tops;
+}
+
+function inWorld(mesh: Mesh, positions: ArrayLike<number>): number[] {
+  const matrix = mesh.computeWorldMatrix(true);
+  const out: number[] = [];
+  const v = new Vector3();
+  for (let i = 0; i < positions.length; i += 3) {
+    Vector3.TransformCoordinatesFromFloatsToRef(
+      positions[i] ?? 0,
+      positions[i + 1] ?? 0,
+      positions[i + 2] ?? 0,
+      matrix,
+      v,
+    );
+    out.push(v.x, v.y, v.z);
+  }
+  return out;
+}
 
 function clearingOf(kind: Feature['kind']): number {
-  return kind.type === 'building' ? planClearing(kind.plan) : CLEARING[kind.type];
+  return clearingMetres(kind) / WORLD.metresPerUnit;
 }
 
 function coveredFootprints(features: readonly Feature[], footprints: BuildingFootprints): Set<number> {
@@ -118,6 +217,7 @@ export class FeatureLayer {
   private readonly ribbons: Ribbon[] = [];
   private modelsOn: boolean;
   private readonly modelListeners: (() => void)[] = [];
+  private readonly terraces: ReadonlyMap<FeatureId, readonly GroundEdit[]>;
 
   constructor(
     private readonly world: World,
@@ -132,6 +232,7 @@ export class FeatureLayer {
       readonly on: boolean;
       readonly materials: LandmarkMaterials;
     },
+    timeline: Timeline,
   ) {
     this.modelsOn = landmarkModels.on;
     const scene = world.scene;
@@ -171,6 +272,10 @@ export class FeatureLayer {
     const [mainOnGround] = main ? onGround([main]) : [];
     this.train = mainOnGround ? new Train(scene, mainOnGround, onRibbon, trainModels) : undefined;
     const started = performance.now();
+    this.terraces = terracesByFeature(features, (g) => world.terrain.metresWith(g, []));
+    console.info(
+      `dewidebug terraces ${[...this.terraces].map(([id, e]) => `${id}=${String(e.length)}`).join(' ') || 'none'}`,
+    );
     const covered = coveredFootprints(features, footprints);
     const visible = (order: Int32Array): Int32Array => order.filter((i) => !covered.has(i));
     console.info(`dewidebug features hide ${covered.size} OS footprints that are drawn as landmark models`);
@@ -199,8 +304,17 @@ export class FeatureLayer {
         continue;
       }
       const seed = Math.floor(hash2(x, z, 7) * 1e6);
-      const built = buildFeature(scene, f.kind, seed, onSurface, x, z);
+      const builtOn = editsBuiltOn(f, features, timeline, this.terraces);
+      const ground: Ground =
+        builtOn.length > 0 ? (gx, gz) => world.terrain.surfaceWith(gx, gz, builtOn) : onSurface;
+      const ribbonGround: Ground | undefined =
+        builtOn.length > 0
+          ? (gx, gz) => world.terrain.meshWith(gx, gz, builtOn, LOD_STEPS[0] ?? 4)
+          : undefined;
+      const built = buildFeature(scene, f.kind, seed, ground, x, z, ribbonGround);
       if (!built) continue;
+      const seated = built.drawn?.floors ?? new Map<string, number>();
+      if (f.kind.type === 'building') this.logSeats(f, ground, x, z, builtOn.length);
       const mat = scene.getMaterialByName('building-mat');
       for (const mesh of built.near ? [built.mesh, built.near] : [built.mesh]) {
         mesh.setEnabled(false);
@@ -210,13 +324,28 @@ export class FeatureLayer {
       }
       const entry = landmarkModels.list.find((e) => e.feature === f.id);
       this.monuments.set(f.id, {
+        feature: f,
         mesh: built.mesh,
         near: built.near,
         at: { x, z },
         hearths: built.hearths,
         seed,
+        ground,
+        ribbon: ribbonGround,
+        drawn: built.drawn,
+        seats: seated,
         model: entry
-          ? { entry, feature: f, state: 'idle', far: [], near: [], parts: [], pick: { far: [], near: [] } }
+          ? {
+              entry,
+              feature: f,
+              state: 'idle',
+              far: [],
+              near: [],
+              parts: [],
+              floors: new Map(),
+              modelDrawn: newDrawn(),
+              pick: { far: [], near: [] },
+            }
           : undefined,
         level: 'far',
         visible: false,
@@ -274,6 +403,7 @@ export class FeatureLayer {
   }
 
   apply(present: readonly FeaturePresence[]): void {
+    this.world.terrain.setGroundEdits(editsDrawn(this.terraces, present));
     const active = new Map(present.map((p) => [p.feature.id, p]));
     for (const [id, m] of this.monuments) {
       const p = active.get(id)?.presence ?? 0;
@@ -345,10 +475,11 @@ export class FeatureLayer {
     const frame = {
       ox: m.at.x,
       oz: m.at.z,
-      baseY: this.surface(m.at.x, m.at.z),
+      baseY: m.ground(m.at.x, m.at.z),
       across: scale.across,
       up: scale.up,
-      ground: this.surface,
+      ground: m.ground,
+      seat: (part: string) => m.seats.get(part),
     };
     console.info(`dewidebug landmark ${id} loading ${slot.entry.near.file} and ${slot.entry.far.file}`);
     const load = (level: Level): Promise<LoadedLandmark | undefined> =>
@@ -383,10 +514,12 @@ export class FeatureLayer {
                 groundPlan,
                 kind.condition,
                 m.seed,
-                this.surface,
+                m.ground,
                 m.at.x,
                 m.at.z,
                 level,
+                slot.modelDrawn,
+                m.ribbon,
               ),
             ]
           : [];
@@ -410,6 +543,7 @@ export class FeatureLayer {
     slot.far = levelMeshes('far', far);
     slot.near = levelMeshes('near', near);
     slot.parts = near.parts;
+    slot.floors = near.floors;
     const pickable = (l: LoadedLandmark): LandmarkMesh[] => [
       ...l.meshes,
       ...l.hinged.flatMap((h) => h.meshes),
@@ -461,10 +595,100 @@ export class FeatureLayer {
     });
   }
 
+  /**
+   * Where each road of a monument's plan was laid: the ground its edges were set on, per draw, to read against
+   * the mesh drawn there. These are the heights the builder used.
+   */
+  drawnRoads(id: string): DrawnRoad[] {
+    const m = this.monumentNamed(id);
+    if (!m) return [];
+    const from = (source: DrawnRoad['source'], drawn: Drawn | undefined): DrawnRoad[] =>
+      [...(drawn?.roads ?? [])].map(([road, points]) => ({ id: road, source, points }));
+    return [...from('procedural', m.drawn), ...from('model', m.model?.modelDrawn)];
+  }
+
+  /**
+   * Where each standing part of a monument was drawn standing, for the debug hook and the e2e test: the floor
+   * the procedural draw set (world y), the floor its Blender model set once loaded, and the world points under
+   * its footprint, to read against the mesh drawn there. These are what the builders used, not what the plan says.
+   */
+  standing(id: string): StandingPart[] {
+    const m = this.monumentNamed(id);
+    const f = m?.feature;
+    if (!m || f?.kind.type !== 'building') return [];
+    const plan = f.kind.plan;
+    const { across } = planWorldScale(plan);
+    const { up } = planWorldScale(plan);
+    const drawnMesh = m.near ?? m.mesh;
+    const proceduralPositions = drawnMesh.getVerticesData(VertexBuffer.PositionKind);
+    return plan.parts.filter(standsOnGround).flatMap((part) => {
+      if (!part.id) return [];
+      const at = footprintSamples(part).map((p): [number, number] => {
+        const [x, z] = rotate(p, plan.angle ?? 0);
+        return [m.at.x + x * across, m.at.z + z * across];
+      });
+      const corners = footprint(part).length;
+      const cornerPoints = at.slice(0, corners);
+      const run = m.drawn?.runs.get(part.id);
+      const rise = ((part.base ?? 0) + part.height) * up;
+      const proceduralTops =
+        run && proceduralPositions
+          ? columnTops(
+              proceduralPositions,
+              run,
+              vector(drawnMesh.position),
+              cornerPoints,
+              TOP_RADIUS,
+              drawnMesh.scaling.y,
+            )
+          : undefined;
+      const modelled = modelTops(m, part.id, cornerPoints);
+      return [
+        {
+          id: part.id,
+          procedural: m.seats.get(part.id),
+          model: m.model?.floors.get(part.id),
+          at,
+          corners,
+          rise,
+          drawn: {
+            procedural: proceduralTops && floorFromTops(proceduralTops, rise),
+            model: modelled && floorFromTops(modelled, rise),
+          },
+        },
+      ];
+    });
+  }
+
+  // How deep each standing part's corners would be buried under the old rule (the floor at the part's own
+  // point) and under the seating rule now, against the ground the monument is built on: the numbers behind ADR 0056.
+  private logSeats(f: Feature, ground: Ground, x: number, z: number, terraces: number): void {
+    if (f.kind.type !== 'building') return;
+    const plan = f.kind.plan;
+    const all = seats(plan, planGroundAt(plan, ground, x, z));
+    if (all.length === 0) return;
+    const metres = (world: number): number => world / heightToWorld(1);
+    const before = Math.max(...all.map((s) => metres(s.highest - s.atPoint)));
+    const after = Math.max(...all.map((s) => metres(s.highest - s.floor)));
+    const step = Math.max(...all.map((s) => metres(s.floor - s.lowest)));
+    const over = all.filter((s) => metres(s.highest - s.atPoint) > SEAT_TOLERANCE);
+    console.info(
+      `dewidebug seats ${f.id} parts=${String(all.length)} terraces=${String(terraces)} buried-at-one-point max=${before.toFixed(2)}m (${String(over.length)} over ${String(SEAT_TOLERANCE)}m) buried-now max=${after.toFixed(2)}m tallest-footing=${step.toFixed(2)}m (ground metres)`,
+    );
+    for (const s of over)
+      console.info(
+        `dewidebug seat ${f.id} ${s.id} would-be-buried=${metres(s.highest - s.atPoint).toFixed(2)}m footing=${metres(s.floor - s.lowest).toFixed(2)}m`,
+      );
+  }
+
+  private monumentNamed(id: string): Monument | undefined {
+    for (const [key, m] of this.monuments) if (key === id) return m;
+    return undefined;
+  }
+
   /** The part ids a monument's near model holds, once loaded; empty before. */
   modelParts(id: string): readonly string[] {
-    for (const [key, m] of this.monuments) if (key === id) return m.model?.parts ?? [];
-    return [];
+    return this.monumentNamed(id)?.model?.parts ?? [];
   }
 
   /** Swaps each detailed monument between its levels by how far the camera is; true if any swapped, so the shadows can be redrawn. */

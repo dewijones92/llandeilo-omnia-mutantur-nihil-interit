@@ -156,12 +156,21 @@ async function start(): Promise<void> {
     import.meta.env.BASE_URL,
     textureSizeFor(chosen.quality),
   );
-  const features = new FeatureLayer(world, content.features, footprints, railways, roads, trainModels, {
-    list: LANDMARK_MODELS,
-    base: import.meta.env.BASE_URL,
-    on: modelsFor(chosen.quality),
-    materials: landmarkMaterials,
-  });
+  const features = new FeatureLayer(
+    world,
+    content.features,
+    footprints,
+    railways,
+    roads,
+    trainModels,
+    {
+      list: LANDMARK_MODELS,
+      base: import.meta.env.BASE_URL,
+      on: modelsFor(chosen.quality),
+      materials: landmarkMaterials,
+    },
+    content.timeline,
+  );
   const people = new People(world.scene, content.conversations, content.people, features.ground);
   for (const m of people.meshes) world.addCaster(m);
   const smoke = new Smoke(world.scene);
@@ -902,6 +911,8 @@ async function start(): Promise<void> {
         terrain: world.terrain,
         placeTrainNear: (x: number, z: number) => features.placeTrainNear(x, z),
         modelParts: (id: string) => features.modelParts(id),
+        standing: (id: string) => features.standing(id),
+        drawnRoads: (id: string) => features.drawnRoads(id),
         partScreenPoint: (feature: string, part: string) => picker.screenPointOf(feature, part),
         hoveredPart: () => picker.hovered,
         partCentre: (feature: string, part: string) => picker.centreOf(feature, part),

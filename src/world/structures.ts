@@ -4,7 +4,7 @@ import { hex, mix } from '../domain/colour.ts';
 import { WORLD } from '../domain/geo.ts';
 import type { FeatureKind } from '../domain/model.ts';
 import { rng } from '../domain/noise.ts';
-import { buildPlan, type Ground } from './buildings.ts';
+import { buildPlan, newDrawn, type Drawn, type Ground } from './buildings.ts';
 import { box, cone, cylinder, gable, merge, paint, place } from './meshkit.ts';
 
 export type { Ground };
@@ -29,6 +29,8 @@ export interface Built {
   readonly casts: boolean;
   /** Where each house's hearth glows through its door, in world space; empty for anything else. */
   readonly hearths: readonly WorldPoint[];
+  /** What the procedural draw of a plan set: each standing part's floor and the ground under each road (ADR 0056). */
+  readonly drawn?: Drawn;
 }
 
 export function buildFeature(
@@ -38,6 +40,7 @@ export function buildFeature(
   ground: Ground,
   ox: number,
   oz: number,
+  ribbonGround?: Ground,
 ): Built | undefined {
   const random = rng(seed);
   const s = WORLD.landmarkScale / WORLD.metresPerUnit;
@@ -71,6 +74,7 @@ export function buildFeature(
       return { mesh: rampart(scene, kind, ground, ox, oz), casts: true, hearths: [] };
     case 'building': {
       const detailed = kind.plan.parts.some((p) => p.detail);
+      const drawn = newDrawn();
       const mesh = buildPlan(
         scene,
         kind.plan,
@@ -80,15 +84,29 @@ export function buildFeature(
         ox,
         oz,
         detailed ? 'far' : 'near',
+        detailed ? undefined : drawn,
+        ribbonGround,
       );
       return detailed
         ? {
             mesh,
-            near: buildPlan(scene, kind.plan, kind.condition, seed, ground, ox, oz, 'near'),
+            near: buildPlan(
+              scene,
+              kind.plan,
+              kind.condition,
+              seed,
+              ground,
+              ox,
+              oz,
+              'near',
+              drawn,
+              ribbonGround,
+            ),
             casts: true,
             hearths: [],
+            drawn,
           }
-        : { mesh, casts: true, hearths: [] };
+        : { mesh, casts: true, hearths: [], drawn };
     }
     case 'hall-houses': {
       const parts: Mesh[] = [];

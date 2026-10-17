@@ -4843,6 +4843,42 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/roman-forts-and-vicus.md"
   },
   {
+    "id": "fort:S26",
+    "title": "Wikipedia, \"Banna (Birdoswald)\".",
+    "url": "https://en.wikipedia.org/wiki/Banna_%28Birdoswald%29",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S27",
+    "title": "Andrew Birley and Alexander Meyer, \"The Archaeological Context (Part 3, 2019)\", *Tabulae Vindolandenses* IV, Roman Inscriptions of Britain online.",
+    "url": "https://romaninscriptionsofbritain.org/tabvindol/vol-IV/arch-context-pt-3",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S28",
+    "title": "English Heritage, \"History of Hardknott Roman Fort\".",
+    "url": "https://www.english-heritage.org.uk/visit/places/hardknott-roman-fort/history/",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S29",
+    "title": "Wikipedia, \"Hardknott Roman Fort\".",
+    "url": "https://en.wikipedia.org/wiki/Hardknott_Roman_Fort",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S30",
+    "title": "Pseudo-Hyginus, *De munitionibus castrorum* 56, Latin text, IntraText edition.",
+    "url": "https://www.intratext.com/IXT/LAT0347/_PS.HTM",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
+    "id": "fort:S31",
+    "title": "Heneb Historic Environment Record GGAT00101s, Cardiff Roman fort.",
+    "url": "https://archwilio.org.uk/her/chi3/report/page.php?watprn=GGAT00101s",
+    "doc": "docs/research/roman-forts-and-vicus.md"
+  },
+  {
     "id": "sound:S1",
     "title": "Rhion Pritchard, \"The prehistoric and historic bird fauna of Wales: evidence from archaeology, literature and place names\", *Birds in Wales* 17:1 (2020), pp. 15 to 25",
     "url": "https://birdsin.wales/wp-content/uploads/2022/05/pg-15-25-The-prehistoric-and-historic-bird-fauna.pdf",

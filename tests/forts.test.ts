@@ -319,7 +319,9 @@ describe('what each part of the Roman forts rests on', () => {
       expect(inside.length, id).toBeGreaterThan(8);
       for (const p of inside) expect(p.provenance?.kind, p.id).toBe('reconstructed');
     }
-    expect(parts('roman-fort-b').filter((p) => p.id?.includes('/barrack-'))).toHaveLength(6);
+    expect(
+      parts('roman-fort-b').filter((p) => p.type === 'hall' && p.id?.includes('/barrack-')),
+    ).toHaveLength(6);
   });
 
   it('draws the ditches as the survey counts them: three and two on Fort 1’s measured sides, at least three on Fort 2’s', () => {
@@ -544,7 +546,7 @@ describe('the civilian settlement', () => {
 describe('levels of detail', () => {
   it('leaves the interiors, breastworks, corner towers and gate fittings to the near mesh, and the defences to both', () => {
     for (const id of ['roman-fort-a', 'roman-fort-b']) {
-      const all = parts(id);
+      const all = parts(id).filter((p) => p.type !== 'terrace');
       const far = all.filter((p) => !p.detail);
       const near = all.length;
       expect(far.length, id).toBeGreaterThan(20);

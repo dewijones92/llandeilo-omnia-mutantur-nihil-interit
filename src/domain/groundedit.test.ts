@@ -88,6 +88,30 @@ describe('ground edits', () => {
     expect(applyEdits(50, { e: 1000, n: 500 }, [fort])).toBeCloseTo(60);
   });
 
+  it('level a terrace: a turned rectangle cut and filled to a set height, easing into the slope round it', () => {
+    const plot = edit('plot', {
+      shape: {
+        kind: 'terrace',
+        centre: { e: 1000, n: 500 },
+        halfLength: 20,
+        halfWidth: 5,
+        angle: 90,
+        metres: 60,
+        slope: 2,
+      },
+    });
+    // Its length runs north (90 degrees from east), so 18m north is still on it and 18m east is not.
+    expect(applyEdits(63, { e: 1000, n: 518 }, [plot])).toBeCloseTo(60);
+    expect(applyEdits(57, { e: 1004.9, n: 480.1 }, [plot])).toBeCloseTo(60);
+    expect(editDelta(plot, { e: 1018, n: 500 }, 57)).toBeCloseTo(0);
+    expect(editDelta(plot, { e: 1006, n: 500 }, 64)).toBeCloseTo(-2);
+    expect(editDelta(plot, { e: 1007, n: 500 }, 64)).toBeCloseTo(0);
+    expect(editDelta(plot, { e: 1000, n: 521 }, 58)).toBeCloseTo(1);
+    // Past a corner the distance is to the corner, not to either side's line.
+    expect(editDelta(plot, { e: 1006, n: 521 }, 58)).toBeGreaterThan(0);
+    expect(editDelta(plot, { e: 1006.5, n: 521.5 }, 58)).toBeCloseTo(0);
+  });
+
   it('add together on the base ground, and leave it alone outside their area', () => {
     const a = edit('a');
     const b = edit('b', {

@@ -354,6 +354,22 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   "assumed" to have had six posts (four found), and no height or roof for any tower; the gate and interval
   towers' ⓘ now credit it with post layout and plan size only.
 
+## The forts' ground: levelling and terraces (2026-10-16)
+
+- **No terrace is evidenced at Dinefwr**, and the report never uses the word; the survey describes none, for or
+  against (a magnetometer would show little of a plot cut into shale and made up with shale: Claude's reading).
+- **Levelling is possibly evidenced once**: a layer in Trench 2 "possibly" laid to prepare the site for Fort 2, over a
+  backfilled Fort 1 ditch (Hughes 2007).
+- **Today's surface is not the Roman one**: ploughing has cut into the bedrock, floors are gone, post-pits at Fort 1's
+  gate were cut from a higher level than survives, the ramparts are gone and the park was landscaped.
+- **Roman builders levelled and built up ground for barracks and works** (Vindolanda; Hardknott's parade ground, two
+  sources). Birdoswald is one encyclopedia summary of a guidebook nobody here has read: a lead, not counted. A terrace under each barrack of an early timber fort is not demonstrated anywhere
+  read, so it is drawn as analogy, labelled reconstructed.
+- **A search summary misreported Stracathro** as a barrack "built up from a lower level on sloping ground"; the 1969
+  source says nothing of it. Read the source, not the summary.
+- **The fall is real and the app exaggerates it**: up to 3.6m across one of Fort 1's drawn barracks today, drawn
+  2.4 times as tall against true-height walls. Details: [`roman-forts-and-vicus.md`](roman-forts-and-vicus.md#the-ground-the-forts-stood-on-levelling-and-terraces-2026-10-16).
+
 ## Decisions the research drove
 
 | Decision | Based on |

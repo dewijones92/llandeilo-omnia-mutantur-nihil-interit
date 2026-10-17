@@ -2,6 +2,7 @@ import { smoothstep } from './assert.ts';
 import type { Brand } from './brand.ts';
 import { insideBounds, rimDistance, type Bounds } from './lidar.ts';
 import type { GridRef } from './model.ts';
+import { hallCorners } from './plan.ts';
 import { distanceToSegment } from './polyline.ts';
 import type { Provenance } from './provenance.ts';
 import { contains, type TimeRange, type Year } from './time.ts';
@@ -27,9 +28,21 @@ export interface LevelShape {
   readonly slope: number;
 }
 
+// A level plot cut and filled into a slope, for a building to stand on: a rectangle at a height above sea
+// level, `angle` degrees anticlockwise from east along its length, eased into the ground round it over `slope`.
+export interface TerraceShape {
+  readonly kind: 'terrace';
+  readonly centre: GridRef;
+  readonly halfLength: number;
+  readonly halfWidth: number;
+  readonly angle: number;
+  readonly metres: number;
+  readonly slope: number;
+}
+
 // More kinds join this union; each is laid over the ground by the one function below, so the
 // renderer never learns about them.
-export type EditShape = RidgeShape | LevelShape;
+export type EditShape = RidgeShape | LevelShape | TerraceShape;
 
 // A change to the ground that holds for some years: a rampart, a ditch, a lost road, an old river
 // course. The base ground (OS Terrain 50 with the LiDAR) is never altered; the edits are laid over
@@ -57,6 +70,24 @@ function distanceToLine(line: readonly GridRef[], g: GridRef): number {
   return best;
 }
 
+function terraceCorners(s: TerraceShape): GridRef[] {
+  return hallCorners({
+    at: [s.centre.e, s.centre.n],
+    length: s.halfLength * 2,
+    width: s.halfWidth * 2,
+    angle: s.angle,
+  }).map(([e, n]) => ({ e, n }));
+}
+
+function distanceOutside(s: TerraceShape, g: GridRef): number {
+  const a = (s.angle * Math.PI) / 180;
+  const dx = g.e - s.centre.e;
+  const dy = g.n - s.centre.n;
+  const along = Math.abs(dx * Math.cos(a) + dy * Math.sin(a)) - s.halfLength;
+  const across = Math.abs(-dx * Math.sin(a) + dy * Math.cos(a)) - s.halfWidth;
+  return Math.hypot(Math.max(0, along), Math.max(0, across));
+}
+
 // How much the edit raises (or lowers) the ground at `g`, where the ground already stands `metres` high.
 export function editDelta(edit: GroundEdit, g: GridRef, metres: number): number {
   const s = edit.shape;
@@ -68,6 +99,8 @@ export function editDelta(edit: GroundEdit, g: GridRef, metres: number): number 
         (s.metres - metres) *
         (1 - smoothstep(s.radius, s.radius + s.slope, Math.hypot(g.e - s.centre.e, g.n - s.centre.n)))
       );
+    case 'terrace':
+      return (s.metres - metres) * (1 - smoothstep(0, s.slope, distanceOutside(s, g)));
   }
 }
 
@@ -98,7 +131,11 @@ export function checkEdit(edit: GroundEdit, region: Bounds, margin: number): voi
     throw new Error(`ground edit ${edit.id}: its area is within ${String(margin)}m of the region's rim`);
   const s = edit.shape;
   const [points, reach] =
-    s.kind === 'ridge' ? [s.line, s.halfWidth + s.slope] : [[s.centre], s.radius + s.slope];
+    s.kind === 'ridge'
+      ? [s.line, s.halfWidth + s.slope]
+      : s.kind === 'level'
+        ? [[s.centre], s.radius + s.slope]
+        : [terraceCorners(s), s.slope];
   for (const p of points) {
     if (p.e - reach < a.eMin || p.e + reach > a.eMax || p.n - reach < a.nMin || p.n + reach > a.nMax)
       throw new Error(`ground edit ${edit.id}: its shape reaches outside its area`);

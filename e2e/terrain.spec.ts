@@ -470,3 +470,235 @@ test('the train stands on the mesh drawn under it, as its tiles change step', as
     ).toBeLessThan(0.05);
   }
 });
+
+interface Buried {
+  readonly parts: number;
+  /** Parts the procedural draw set a floor for, and parts the model did (0 until it loads). */
+  readonly proceduralFloors: number;
+  readonly modelFloors: number;
+  /** Parts whose walls were read off the mesh each builder drew (the procedural near mesh, the model's rigid-part run). */
+  readonly proceduralMeasured: number;
+  readonly modelMeasured: number;
+  /** The most, in metres, that a floor read off the mesh differs from the floor the builder recorded: the record must be what was drawn. */
+  readonly recordGap: number;
+  readonly recordGapPart: string;
+  readonly recordGaps: string[];
+  /** Parts a builder drew whose walls could not be read off its mesh. */
+  readonly unmeasured: string[];
+  readonly worst: number;
+  readonly part: string;
+  readonly worstModel: number;
+  readonly modelPart: string;
+  /** The most, in metres, that the 4m mesh a road is laid on and the mesh drawn differ under the footprints, and the smooth ground's gap. */
+  readonly meshGap: number;
+  readonly smoothGap: number;
+  /** Roads laid by the procedural draw and by the ground parts beside the model, and the most their edge points sit off the mesh drawn (metres). */
+  readonly roadPoints: { readonly procedural: number; readonly model: number };
+  readonly roadGap: number;
+  readonly fine: number;
+}
+
+// How deep, in metres at the forts' true height, the mesh drawn now rises over the floor each builder drew a
+// standing part at (the procedural draw's, and the Blender model's once loaded), at each point under its
+// footprint (ADR 0056), and how many of its tiles are drawn at 4m. The floors are read off the vertices each
+// builder drew (its lowest wall top at the footprint's corners, less the wall's height), not from what it recorded.
+async function buriedOnTheMesh(page: Page, id: string): Promise<Buried> {
+  return page.evaluate((featureId) => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    if (typeof debug !== 'object' || !debug) throw new Error('no llandeiloDebug');
+    const standing: unknown = Reflect.get(debug, 'standing');
+    const terrain: unknown = Reflect.get(debug, 'terrain');
+    if (typeof standing !== 'function' || typeof terrain !== 'object' || !terrain)
+      throw new Error('no standing hook or terrain');
+    const drawnAt: unknown = Reflect.get(terrain, 'drawnAt');
+    if (typeof drawnAt !== 'function') throw new Error('no drawnAt');
+    const list: unknown = Reflect.apply(standing, debug, [featureId]);
+    if (!Array.isArray(list)) throw new Error('standing did not answer a list');
+    const drawnRoads: unknown = Reflect.get(debug, 'drawnRoads');
+    if (typeof drawnRoads !== 'function') throw new Error('no drawnRoads hook');
+    const roadList: unknown = Reflect.apply(drawnRoads, debug, [featureId]);
+    if (!Array.isArray(roadList)) throw new Error('drawnRoads did not answer a list');
+    const roadPoints = { procedural: 0, model: 0 };
+    let roadGap = 0;
+    for (const r of roadList) {
+      const points: unknown = Reflect.get(r, 'points');
+      const source: unknown = Reflect.get(r, 'source');
+      if (!Array.isArray(points) || (source !== 'procedural' && source !== 'model'))
+        throw new Error('a road without points or source');
+      for (const p of points) {
+        if (!Array.isArray(p)) continue;
+        const drawn: unknown = Reflect.apply(drawnAt, terrain, [p[0], p[2]]);
+        if (typeof drawn !== 'number') continue;
+        roadPoints[source]++;
+        roadGap = Math.max(roadGap, Math.abs(Number(p[1]) - drawn));
+      }
+    }
+    const edits: unknown = Reflect.get(terrain, 'edits');
+    const meshWith: unknown = Reflect.get(terrain, 'meshWith');
+    const surfaceWith: unknown = Reflect.get(terrain, 'surfaceWith');
+    if (typeof meshWith !== 'function' || typeof surfaceWith !== 'function' || !Array.isArray(edits))
+      throw new Error('no meshWith or surfaceWith or edits');
+    let meshGap = 0;
+    let smoothGap = 0;
+    const recordGaps: string[] = [];
+    const unmeasured: string[] = [];
+    const out = {
+      proceduralFloors: 0,
+      modelFloors: 0,
+      worst: Number.NEGATIVE_INFINITY,
+      part: '',
+      worstModel: Number.NEGATIVE_INFINITY,
+      modelPart: '',
+      proceduralMeasured: 0,
+      modelMeasured: 0,
+      recordGap: 0,
+      recordGapPart: '',
+    };
+    for (const s of list) {
+      const at: unknown = Reflect.get(s, 'at');
+      if (!Array.isArray(at)) throw new Error('a standing part without footprint points');
+      const measured: unknown = Reflect.get(s, 'drawn');
+      if (typeof measured !== 'object' || !measured)
+        throw new Error('a standing part without measured floors');
+      for (const kind of ['procedural', 'model'] as const) {
+        const recorded: unknown = Reflect.get(s, kind);
+        if (typeof recorded !== 'number') continue;
+        if (kind === 'procedural') out.proceduralFloors++;
+        else out.modelFloors++;
+        const floor: unknown = Reflect.get(measured, kind);
+        if (typeof floor !== 'number') {
+          unmeasured.push(`${String(Reflect.get(s, 'id'))} ${kind}`);
+          continue;
+        }
+        if (kind === 'procedural') out.proceduralMeasured++;
+        else out.modelMeasured++;
+        if (Math.abs(floor - recorded) > 0.005)
+          recordGaps.push(`${String(Reflect.get(s, 'id'))} ${kind} ${((floor - recorded) * 10).toFixed(2)}m`);
+        if (Math.abs(floor - recorded) > out.recordGap) {
+          out.recordGap = Math.abs(floor - recorded);
+          out.recordGapPart = String(Reflect.get(s, 'id'));
+        }
+        for (const p of at) {
+          if (!Array.isArray(p)) continue;
+          const drawn: unknown = Reflect.apply(drawnAt, terrain, [p[0], p[1]]);
+          if (typeof drawn !== 'number') continue;
+          if (kind === 'procedural') {
+            const emulated: unknown = Reflect.apply(meshWith, terrain, [p[0], p[1], edits, 4]);
+            const smooth: unknown = Reflect.apply(surfaceWith, terrain, [p[0], p[1], edits]);
+            if (typeof emulated === 'number') meshGap = Math.max(meshGap, Math.abs(emulated - drawn));
+            if (typeof smooth === 'number') smoothGap = Math.max(smoothGap, Math.abs(smooth - drawn));
+          }
+          const id = String(Reflect.get(s, 'id'));
+          if (kind === 'procedural' && drawn - floor > out.worst) {
+            out.worst = drawn - floor;
+            out.part = id;
+          }
+          if (kind === 'model' && drawn - floor > out.worstModel) {
+            out.worstModel = drawn - floor;
+            out.modelPart = id;
+          }
+        }
+      }
+    }
+    const detailFn: unknown = Reflect.get(debug, 'detail');
+    const stats: unknown = typeof detailFn === 'function' ? Reflect.apply(detailFn, debug, []) : undefined;
+    const byStep: unknown = typeof stats === 'object' && stats ? Reflect.get(stats, 'byStep') : undefined;
+    const fine: unknown = typeof byStep === 'object' && byStep ? Reflect.get(byStep, '4') : 0;
+    return {
+      parts: list.length,
+      ...out,
+      worst: out.worst * 10,
+      worstModel: out.worstModel * 10,
+      recordGap: out.recordGap * 10,
+      recordGaps,
+      unmeasured,
+      meshGap: meshGap * 10,
+      smoothGap: smoothGap * 10,
+      roadPoints,
+      roadGap: roadGap * 10,
+      fine: typeof fine === 'number' ? fine : 0,
+    };
+  }, id);
+}
+
+async function modelPartCount(page: Page, id: string): Promise<number> {
+  return page.evaluate((featureId) => {
+    const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+    const fn: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'modelParts') : undefined;
+    const parts: unknown = typeof fn === 'function' ? Reflect.apply(fn, debug, [featureId]) : [];
+    return Array.isArray(parts) ? parts.length : 0;
+  }, id);
+}
+
+// Issue 3's comment: on the slope some of Fort 1's barracks sank below the ground. Looking north-west
+// across the forts as the commenter did, no wall of the fort drawn stands more than a few tenths of a
+// metre under the mesh drawn there, on its terrace (ADR 0056).
+for (const [year, id] of [
+  [74, 'roman-fort-a'],
+  [110, 'roman-fort-b'],
+  [110, 'roman-vicus'],
+] as const) {
+  test(`AD ${String(year)}: ${id}'s buildings stand on the mesh drawn, none sunk into the slope`, async ({
+    page,
+  }) => {
+    await ready(
+      page,
+      `./?debug&quality=high&year=${String(year)}&hour=12&season=summer&place=roman-forts&radius=55`,
+    );
+    await page.evaluate(() => {
+      const debug: unknown = Reflect.get(window, 'llandeiloDebug');
+      const scene: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'scene') : undefined;
+      const camera: unknown =
+        typeof scene === 'object' && scene ? Reflect.get(scene, 'activeCamera') : undefined;
+      if (typeof camera !== 'object' || !camera) throw new Error('no camera');
+      Reflect.set(camera, 'alpha', -Math.PI / 4);
+      Reflect.set(camera, 'beta', 0.95);
+    });
+    await expect
+      .poll(async () => (await detail(page)).byStep['4'] ?? 0, { timeout: 60_000 })
+      .toBeGreaterThanOrEqual(1);
+    await expect
+      .poll(
+        async () => {
+          const d = await detail(page);
+          return d.pending + d.stale;
+        },
+        { timeout: 60_000 },
+      )
+      .toBe(0);
+    await expect.poll(() => modelPartCount(page, id), { timeout: 90_000 }).toBeGreaterThan(0);
+    const b = await buriedOnTheMesh(page, id);
+    console.info(`dewidebug e2e fort seats AD ${String(year)} ${id} ${JSON.stringify(b)}`);
+    expect(b.parts, `${id}: standing parts`).toBeGreaterThan(10);
+    expect(b.proceduralFloors, `${id}: parts the procedural draw set a floor for`).toBe(b.parts);
+    expect(b.proceduralMeasured, `${id}: parts whose walls were read off the procedural mesh`).toBe(b.parts);
+    expect(
+      b.worst,
+      `${id}: the deepest any wall the plan draws stands under the mesh drawn (metres), at ${b.part}`,
+    ).toBeLessThan(0.4);
+    expect(
+      b.meshGap,
+      `${id}: roads and ditches lie on the 4m mesh built for this fort's terraces; it must be the mesh drawn (metres)`,
+    ).toBeLessThan(0.02);
+    expect(
+      b.smoothGap,
+      `${id}: the smooth ground differs from the mesh drawn, which is why ribbons follow the mesh (metres)`,
+    ).toBeGreaterThan(0.05);
+    expect(b.roadPoints.procedural, `${id}: road points the procedural draw laid`).toBeGreaterThan(0);
+    expect(b.roadPoints.model, `${id}: road points laid beside the model`).toBeGreaterThan(0);
+    expect(
+      b.roadGap,
+      `${id}: the most any road edge sits above or below the mesh drawn under it (metres)`,
+    ).toBeLessThan(0.05);
+    expect(b.modelFloors, `${id}: parts the Blender model stood`).toBeGreaterThan(0);
+    expect(b.modelMeasured, `${id}: parts whose walls were read off the model's mesh`).toBe(b.modelFloors);
+    expect(
+      b.worstModel,
+      `${id}: the deepest any rigid part of the model stands under the mesh drawn (metres), at ${b.modelPart}`,
+    ).toBeLessThan(0.4);
+    expect(
+      b.recordGap,
+      `${id}: a floor read off a drawn mesh against the one its builder recorded (metres), at ${b.recordGapPart}`,
+    ).toBeLessThan(0.1);
+  });
+}

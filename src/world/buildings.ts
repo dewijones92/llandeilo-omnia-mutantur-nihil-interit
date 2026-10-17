@@ -1,6 +1,7 @@
 import { Vector3, type Mesh, type Scene } from './babylon.ts';
 import { hex, mix, type Rgb } from '../domain/colour.ts';
 import { CUT_EARTH, MATERIAL_COLOUR, SETTING_SCALE } from '../domain/materials.ts';
+import { seatOf, standsOnGround } from '../domain/plot.ts';
 import { DEFAULT_ROOF, HALL_ROOF, hallRoofRise, RAISED_DROP, TOWER_ROOF } from '../domain/proportions.ts';
 import { WORLD } from '../domain/geo.ts';
 import { LOD_STEPS } from '../domain/lidar.ts';
@@ -13,11 +14,11 @@ import {
   FOOTING,
   hallCorners,
   insideConvex,
-  planExtent,
   remains,
   rotate,
   ruinHeights,
   sideRemains,
+  towerRing,
   type Condition,
   type Material,
   type Part,
@@ -25,7 +26,7 @@ import {
   type Pt,
   type Side,
 } from '../domain/plan.ts';
-import { rect, ring, Sculpt, type V2, type V3 } from './sculpt.ts';
+import { rect, Sculpt, type V2, type V3 } from './sculpt.ts';
 
 export type Ground = (x: number, z: number) => number;
 
@@ -38,6 +39,8 @@ const DITCH = CUT_EARTH.floor;
 const DITCH_SIDE = CUT_EARTH.side;
 const FLAT_LIFT = 0.05;
 const GROUND_STEP = LOD_STEPS[0] ?? 4;
+// A road is sampled twice as often as the mesh it lies on is cut, so its chords stay within a facet.
+const ROAD_STEP = GROUND_STEP / 2;
 const FOUNDATION = 0.5;
 const MERLON_SPACING = 2.4;
 const PARAPET_INSET = 0.8;
@@ -51,18 +54,29 @@ interface Frame {
   readonly angle: number;
   readonly ground: (x: number, z: number) => number;
   readonly terrain: (x: number, z: number) => number;
+  /** The ground a road or ditch ribbon lies on: the mesh drawn once the plan's terraces are, where `ground` is the smooth ground. */
+  readonly ribbon: (x: number, z: number) => number;
+  readonly baseY: number;
+  readonly ox: number;
+  readonly oz: number;
+  readonly drawn: Drawn | undefined;
 }
+
+/** What a plan's draw set, world y, for the debug hook and the e2e test to read against the mesh drawn (ADR 0056). */
+export interface Drawn {
+  /** Each standing part's floor. */
+  readonly floors: Map<string, number>;
+  /** The ground each road part's edges were laid on, as x, y, z points. */
+  readonly roads: Map<string, [number, number, number][]>;
+  /** The triangles each standing part drew in the mesh, so the e2e test can read its walls off the geometry. */
+  readonly runs: Map<string, { readonly from: number; readonly to: number }>;
+}
+
+export const newDrawn = (): Drawn => ({ floors: new Map(), roads: new Map(), runs: new Map() });
 
 export function planWorldScale(plan: Plan): { readonly across: number; readonly up: number } {
   const s = SCALE[plan.setting];
   return { across: s.across / WORLD.metresPerUnit, up: s.up / WORLD.metresPerUnit };
-}
-
-export function planClearing(plan: Plan): number {
-  const standing = { ...plan, parts: plan.parts.filter((p) => p.type !== 'bridge') };
-  if (standing.parts.length === 0) return 0;
-  const extent = planExtent(standing) * planWorldScale(plan).across;
-  return extent + (plan.setting === 'landscape' ? 30 : 6);
 }
 
 /** `near` draws every part; `far` leaves out the parts marked `detail`, which are too small to see from afar (ADR 0047). */
@@ -75,16 +89,13 @@ export function buildPlan(
   ox: number,
   oz: number,
   level: Level = 'near',
+  record?: Drawn,
+  ribbonGround?: Ground,
 ): Mesh {
   const baseY = ground(ox, oz);
   const scale = planWorldScale(plan);
-  const terrain = (x: number, z: number): number => ground(ox + x, oz + z) - baseY;
   const angle = plan.angle ?? 0;
-  const platforms = plan.parts.flatMap((p) =>
-    p.type === 'platform'
-      ? [{ face: p.face, outline: p.outline.map((q): V2 => placeAt(q, angle, scale.across)) }]
-      : [],
-  );
+  const { platforms, terrain, onPlan } = planGround(plan, ground, ox, oz);
   const f: Frame = {
     sculpt: new Sculpt(),
     condition,
@@ -92,19 +103,65 @@ export function buildPlan(
     across: scale.across,
     up: scale.up,
     angle,
-    ground: (x, z) =>
-      platforms.some((p) => insideConvex([x, z], p.outline)) ? Math.max(0, terrain(x, z)) : terrain(x, z),
+    ground: onPlan,
     terrain,
+    ribbon: ribbonGround ? planGround(plan, ground, ox, oz, ribbonGround).onPlan : onPlan,
+    baseY,
+    ox,
+    oz,
+    drawn: record,
   };
   const drawn = plan.parts.filter((p) => level === 'near' || !p.detail);
   for (const p of platforms) platform(f, p.face, p.outline);
-  for (const part of drawn) buildPart(f, part);
+  for (const part of drawn) {
+    const from = f.sculpt.triangles;
+    buildPart(f, part);
+    if (part.id && record && standsOnGround(part)) record.runs.set(part.id, { from, to: f.sculpt.triangles });
+  }
   const mesh = f.sculpt.toMesh(scene, `plan-${condition}-${level}`);
   mesh.position = new Vector3(ox, baseY, oz);
   console.info(
     `dewidebug plan built ${condition} ${level} parts=${drawn.length}/${plan.parts.length} tris=${f.sculpt.triangles}`,
   );
   return mesh;
+}
+
+// The ground a plan's parts read, relative to its anchor's: the terrain, raised to the anchor inside a platform.
+function planGround(
+  plan: Plan,
+  ground: Ground,
+  ox: number,
+  oz: number,
+  read: Ground = ground,
+): {
+  readonly platforms: readonly { readonly face: 'rock' | 'turf'; readonly outline: readonly V2[] }[];
+  readonly terrain: (x: number, z: number) => number;
+  readonly onPlan: (x: number, z: number) => number;
+} {
+  const baseY = ground(ox, oz);
+  const { across } = planWorldScale(plan);
+  const angle = plan.angle ?? 0;
+  const terrain = (x: number, z: number): number => read(ox + x, oz + z) - baseY;
+  const platforms = plan.parts.flatMap((p) =>
+    p.type === 'platform'
+      ? [{ face: p.face, outline: p.outline.map((q): V2 => placeAt(q, angle, across)) }]
+      : [],
+  );
+  const onPlan = (x: number, z: number): number =>
+    platforms.some((p) => insideConvex([x, z], p.outline)) ? Math.max(0, terrain(x, z)) : terrain(x, z);
+  return { platforms, terrain, onPlan };
+}
+
+/** The ground a plan's parts stand on, world y, at a plan-local point: what `buildPlan` reads, platforms and all. */
+export function planGroundAt(plan: Plan, ground: Ground, ox: number, oz: number): (p: Pt) => number {
+  const baseY = ground(ox, oz);
+  const { across } = planWorldScale(plan);
+  const angle = plan.angle ?? 0;
+  const { onPlan } = planGround(plan, ground, ox, oz);
+  return (p) => {
+    const [x, z] = placeAt(p, angle, across);
+    return baseY + onPlan(x, z);
+  };
 }
 
 function placeAt(p: Pt, angle: number, across: number): V2 {
@@ -158,6 +215,17 @@ function colourOf(f: Frame, m: Material): Rgb {
   return f.condition === 'ruin' ? mix(c, WEATHER, 0.22) : c;
 }
 
+// The one seating rule (ADR 0056): the floor at the highest ground under the footprint, never below it.
+// Every part is drawn from what this returns, and it records the floor it gave for the e2e test to read.
+function seatIn(f: Frame, part: Parameters<typeof seatOf>[0]): number {
+  const seat = seatOf(part, (p) => {
+    const [x, z] = world(f, p);
+    return f.ground(x, z);
+  });
+  if (part.id) f.drawn?.floors.set(part.id, f.baseY + seat);
+  return seat;
+}
+
 function lowest(f: Frame, pts: readonly V2[]): number {
   return Math.min(...pts.map(([x, z]) => f.terrain(x, z)));
 }
@@ -186,6 +254,7 @@ function buildPart(f: Frame, part: Part): void {
       bridge(f, part);
       return;
     case 'platform':
+    case 'terrace':
       return;
   }
 }
@@ -334,6 +403,7 @@ function turnOf(f: Frame, t: Extract<Part, { type: 'tower' }>): number {
   return (((t.angle ?? 0) + f.angle) * Math.PI) / 180;
 }
 
+// The tower's outline from `towerRing`, grown or shrunk about its middle to a radius of `r` (the roof lip and the flare are drawn wider).
 function towerOutline(
   f: Frame,
   t: Extract<Part, { type: 'tower' }>,
@@ -341,17 +411,11 @@ function towerOutline(
   cz: number,
   r: number,
 ): V2[] {
-  const turn = turnOf(f, t);
-  switch (t.shape) {
-    case 'round':
-      return ring(cx, cz, r, t.size >= 8 ? 14 : 10, turn);
-    case 'hexagonal':
-      return ring(cx, cz, r / Math.cos(Math.PI / 6), 6, turn);
-    case 'octagonal':
-      return ring(cx, cz, r / Math.cos(Math.PI / 8), 8, turn + Math.PI / 8);
-    case 'square':
-      return rect(cx, cz, r * 2, r * 2, turn);
-  }
+  const k = r / ((t.size / 2) * f.across);
+  return towerRing(t).map((p): V2 => {
+    const [x, z] = world(f, p);
+    return [cx + (x - cx) * k, cz + (z - cz) * k];
+  });
 }
 
 function tower(f: Frame, t: Extract<Part, { type: 'tower' }>): void {
@@ -361,7 +425,7 @@ function tower(f: Frame, t: Extract<Part, { type: 'tower' }>): void {
   const [cx, cz] = world(f, t.at);
   const r = (t.size / 2) * f.across;
   const outline = towerOutline(f, t, cx, cz, r);
-  const ground = f.ground(cx, cz) + (t.base ?? 0) * f.up;
+  const ground = seatIn(f, t) + (t.base ?? 0) * f.up;
   const floor = raisedFloor(f, t.base, ground) ?? lowest(f, outline) - FOUNDATION;
   const height = t.height * f.up;
   if (t.size >= 10)
@@ -511,7 +575,7 @@ function hall(f: Frame, h: Extract<Part, { type: 'hall' }>): void {
   const outline = hallCorners(h).map((p) => world(f, p));
   const [cx, cz] = world(f, h.at);
   const angle = ((h.angle + f.angle) * Math.PI) / 180;
-  const ground = f.ground(cx, cz) + (h.base ?? 0) * f.up;
+  const ground = seatIn(f, h) + (h.base ?? 0) * f.up;
   const floor = raisedFloor(f, h.base, ground) ?? lowest(f, outline) - FOUNDATION;
   const height = h.height * f.up;
   if (f.condition === 'ruin') {
@@ -653,7 +717,7 @@ function prism(f: Frame, p: Extract<Part, { type: 'prism' }>): void {
   const colour = colourOf(f, p.material);
   const outline = p.outline.map((q) => world(f, q));
   const floor = lowest(f, outline) - FOUNDATION;
-  const ground = Math.max(...outline.map(([x, z]) => f.ground(x, z))) + (p.base ?? 0) * f.up;
+  const ground = seatIn(f, p) + (p.base ?? 0) * f.up;
   const height = p.height * f.up;
   if (f.condition === 'ruin') {
     ruinShell(f, p, outline, floor, ground, height, 1 * f.across, colour);
@@ -687,7 +751,7 @@ function edges(f: Frame, pts: readonly V2[], half: number, lift: number, shares:
     shares.forEach((share, k) => {
       const x = p[0] + (-dz / len) * half * share;
       const z = p[1] + (dx / len) * half * share;
-      rows[k]?.push([x, f.ground(x, z) + lift, z]);
+      rows[k]?.push([x, f.ribbon(x, z) + lift, z]);
     });
   });
   return rows;
@@ -722,9 +786,18 @@ function ditch(f: Frame, d: Extract<Part, { type: 'ditch' }>): void {
 function road(f: Frame, r: Extract<Part, { type: 'road' }>): void {
   const pts = alongPath(
     r.path.map((p) => world(f, p)),
-    GROUND_STEP * f.across,
+    ROAD_STEP * f.across,
   );
-  ribbons(f, edges(f, pts, (r.width / 2) * f.across, FLAT_LIFT * 0.8, [1, -1]), [MATERIAL[r.material]]);
+  const lift = FLAT_LIFT * 0.8;
+  const rows = edges(f, pts, (r.width / 2) * f.across, lift, [1, -1]);
+  if (r.id)
+    f.drawn?.roads.set(
+      r.id,
+      rows.flatMap((row) =>
+        row.map((p): [number, number, number] => [f.ox + p[0], f.baseY + p[1] - lift, f.oz + p[2]]),
+      ),
+    );
+  ribbons(f, rows, [MATERIAL[r.material]]);
 }
 
 function bridge(f: Frame, b: Extract<Part, { type: 'bridge' }>): void {

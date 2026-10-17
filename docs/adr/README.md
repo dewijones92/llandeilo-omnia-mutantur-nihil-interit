@@ -2,7 +2,7 @@
 title: Architecture decision records
 kind: index
 status: current
-updated: 2026-10-10
+updated: 2026-10-16
 ---
 
 # Architecture decision records
@@ -87,6 +87,7 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0053](0053-the-blender-pipeline-sheet-script-fitted-gltf.md) | The Blender pipeline: a build sheet from the plan, a headless script, glTF fitted to the drawn ground | Accepted (carries out Dewi's 0052; the design Claude's, under the proactive mandate), amends 0047; amended by 0055 | 2026-10-10 |
 | [0054](0054-a-page-that-loses-a-script-reloads-once-and-says-where-start-up-stopped.md) | A page that loses a script to the network reloads, and start-up says where it stopped | Accepted | 2026-10-10 |
 | [0055](0055-textured-landmark-models-and-clicking-their-parts.md) | Textured landmark models: sourced surfaces, shared photographs, and clicking a part in 3D | Accepted (carries out Dewi's "Get proper textures" and "Yes, click parts in 3D"; the design Claude's, under the proactive mandate), amends 0053; numbered 0055 as another branch wants 0054 | 2026-10-10 |
+| [0056](0056-buildings-stand-level-and-the-roman-plots-are-terraced.md) | Every building stands level at the highest ground under it, and the Roman forts' plots are terraced | Accepted (Claude, under the proactive mandate; the work agreed by Dewi), extends 0049, amends 0053 | 2026-10-16 |
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

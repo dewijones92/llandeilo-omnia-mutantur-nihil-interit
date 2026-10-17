@@ -68,6 +68,7 @@ export function partSurfaces(p: Part): readonly SurfaceId[] {
     case 'ditch':
     case 'road':
     case 'platform':
+    case 'terrace':
       return [];
   }
 }

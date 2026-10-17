@@ -106,10 +106,13 @@ export class DetailTerrain {
   private readonly resident = new Map<string, Resident>();
   private readonly blocks = new Map<string, Blocks>();
   private readonly heightsAt = new Map<string, Float32Array>();
+  private readonly heightsWith = new Map<string, Float32Array>();
   private paintContext: PaintContext | undefined;
   private builds = 0;
   private pending = 0;
   private settledAt: Eye | undefined;
+  // The tiles under a period ground edit drawn now, which take a finer step (ADR 0056).
+  private edited: ReadonlySet<string> = new Set();
 
   private readonly infos = new Map<string, LidarTileInfo>();
 
@@ -146,6 +149,30 @@ export class DetailTerrain {
       : undefined;
   }
 
+  // The height a tile drawn at `step` would have with the ground edits behind `shape` (named by `key`) laid over
+  // it, whatever is drawn now: what a ribbon built at start must lie on to meet the mesh once its edits are drawn.
+  drawnWith(
+    x: number,
+    z: number,
+    step: number,
+    key: string,
+    shape: (g: GridRef, metres: number) => number,
+  ): number | undefined {
+    const info = this.tileAt(x, z);
+    if (!info || step < info.step) return undefined;
+    const cacheKey = `${heightsKey(info, step)}#${key}`;
+    let heights = this.heightsWith.get(cacheKey);
+    if (!heights) {
+      const { ground, baseMetres, rim } = this.deps;
+      const metres = ground.tileHeights(info, step, baseMetres, rim, shape);
+      heights = new Float32Array(metres.length);
+      for (let i = 0; i < heights.length; i++) heights[i] = heightToWorld(metres[i] ?? 0);
+      this.heightsWith.set(cacheKey, heights);
+      console.info(`dewidebug detail heights with edits [${key}] tile ${heightsKey(info, step)} built`);
+    }
+    return this.surfaceIn(info, step, heights, x, z);
+  }
+
   get built(): number {
     return this.builds;
   }
@@ -168,7 +195,7 @@ export class DetailTerrain {
     const started = performance.now();
     const { manifest } = this.deps.ground;
     const current = new Map([...this.resident].map(([k, r]) => [k, r.step]));
-    const plan = planSteps(manifest.tiles, manifest.tileSize, eye, current);
+    const plan = planSteps(manifest.tiles, manifest.tileSize, eye, current, this.edited);
     const todo: { info: LidarTileInfo; want: number; distance: number }[] = [];
     for (const info of manifest.tiles) {
       const key = tileKey(info.e, info.n);
@@ -219,9 +246,16 @@ export class DetailTerrain {
 
   // The ground changed under these areas: their tiles are rebuilt, at their present steps, as the
   // time budget allows.
-  invalidate(areas: readonly Bounds[]): void {
+  invalidate(areas: readonly Bounds[], edited: readonly Bounds[] = []): void {
     const size = this.deps.ground.manifest.tileSize;
     let marked = 0;
+    this.edited = new Set(
+      this.deps.ground.manifest.tiles
+        .filter((t) =>
+          edited.some((a) => t.e < a.eMax && t.e + size > a.eMin && t.n < a.nMax && t.n + size > a.nMin),
+        )
+        .map((t) => tileKey(t.e, t.n)),
+    );
     for (const info of this.deps.ground.manifest.tiles) {
       const hit = areas.some(
         (a) => info.e < a.eMax && info.e + size > a.eMin && info.n < a.nMax && info.n + size > a.nMin,
@@ -237,7 +271,7 @@ export class DetailTerrain {
       }
     }
     console.info(
-      `dewidebug detail invalidate areas=${String(areas.length)} tiles marked stale=${String(marked)}`,
+      `dewidebug detail invalidate areas=${String(areas.length)} tiles marked stale=${String(marked)} drawn finer for their edits=${String(this.edited.size)}`,
     );
   }
 

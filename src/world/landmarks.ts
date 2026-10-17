@@ -14,6 +14,8 @@ export interface LandmarkFrame {
   readonly across: number;
   readonly up: number;
   readonly ground: Ground;
+  /** Where a rigid part's floor stands, world y: the plan's seating rule for that part (ADR 0056). */
+  readonly seat: (part: string) => number | undefined;
 }
 
 /** What a mesh is drawn in: a textured surface's own material, or the shared flat building material (ADR 0055). */
@@ -33,6 +35,8 @@ export interface LoadedLandmark {
   readonly hinged: readonly { readonly id: string; readonly meshes: readonly LandmarkMesh[] }[];
   /** Part ids in the order they were merged. */
   readonly parts: readonly string[];
+  /** Where each rigid part's floor was set, world y: the seat the app gave it, else the ground at its own point (ADR 0056). */
+  readonly floors: ReadonlyMap<string, number>;
   readonly probeError: number;
 }
 
@@ -99,9 +103,10 @@ const buffers = (): Buffers => ({ positions: [], normals: [], colors: [], uvs: [
 
 /**
  * Loads one level of a landmark's model and fits it to the ground the app draws: a `follow` part (a bank)
- * puts each vertex on the ground below it, a `rigid` one (a tower) stands on the ground at its own point
- * and only its footings reach down to the ground. Near parts are split by surface, each with texture
- * coordinates in metres; the far level is drawn flat. Returns undefined, and logs why, if anything is off.
+ * puts each vertex on the ground below it, a `rigid` one (a tower) stands level at the seat the plan gives
+ * it, the highest ground under its footprint (ADR 0056), and only its footings reach down to the ground.
+ * Near parts are split by surface, each with texture coordinates in metres; the far level is drawn flat.
+ * Returns undefined, and logs why, if anything is off.
  */
 export async function loadLandmark(
   scene: Scene,
@@ -141,6 +146,7 @@ export async function loadLandmark(
     const merged = new Map<DrawKey, Buffers>();
     const hinged = new Map<string, { at: readonly [number, number]; groups: Map<DrawKey, Buffers> }>();
     const order: string[] = [];
+    const floors = new Map<string, number>();
     let skipped = 0;
     let unknownSurface = 0;
     for (const m of result.meshes) {
@@ -164,7 +170,7 @@ export async function loadLandmark(
       groups.set(key, into);
       if (!order.includes(extras.part)) order.push(extras.part);
       into.starts.push({ id: extras.part, from: into.positions.length / 9 });
-      appendFitted(m, extras, frame, into, extras.hinge?.at, key !== 'flat');
+      appendFitted(m, extras, frame, into, extras.hinge?.at, key !== 'flat', floors);
     }
     if (skipped)
       console.warn(
@@ -177,7 +183,7 @@ export async function loadLandmark(
     // An empty mesh has no bounds, and a shadow caster without bounds turns the whole frame black.
     if (merged.size === 0 && hinged.size === 0) {
       console.info(`dewidebug landmark ${feature} ${level} has no parts at this level: nothing to draw`);
-      return { meshes: [], hinged: [], parts: [], probeError };
+      return { meshes: [], hinged: [], parts: [], floors: new Map(), probeError };
     }
     const meshes = [...merged].map(([key, b]) => {
       const mesh = toMesh(scene, `landmark-${feature}-${level}-${key}`, b);
@@ -200,7 +206,7 @@ export async function loadLandmark(
     console.info(
       `dewidebug landmark ${feature} ${level} loaded parts=${String(order.length)} hinged=${String(leaves.length)} meshes=${all.map((l) => l.key).join(',')} triangles=${String(triangles)} in ${String(Math.round(performance.now() - started))}ms`,
     );
-    return { meshes, hinged: leaves, parts: order, probeError };
+    return { meshes, hinged: leaves, parts: order, floors, probeError };
   } finally {
     dispose();
   }
@@ -213,6 +219,7 @@ function appendFitted(
   into: Buffers,
   hinge: readonly [number, number] | undefined,
   textured: boolean,
+  floors: Map<string, number>,
 ): void {
   const positions = m.getVerticesData(VertexBuffer.PositionKind);
   const colors = m.getVerticesData(VertexBuffer.ColorKind);
@@ -221,7 +228,10 @@ function appendFitted(
   const world = m.getWorldMatrix().multiply(TO_EAST_UP_NORTH);
   const { across, up, ground, ox, oz, baseY } = frame;
   const rigid = extras.fit.kind === 'rigid' ? extras.fit.at : undefined;
-  const standOn = rigid ? ground(ox + rigid[0] * across, oz + rigid[1] * across) : 0;
+  const standOn = rigid
+    ? (frame.seat(extras.part) ?? ground(ox + rigid[0] * across, oz + rigid[1] * across))
+    : 0;
+  if (rigid) floors.set(extras.part, standOn);
   const hx = hinge ? hinge[0] * across : 0;
   const hz = hinge ? hinge[1] * across : 0;
   const placed: number[] = [];
