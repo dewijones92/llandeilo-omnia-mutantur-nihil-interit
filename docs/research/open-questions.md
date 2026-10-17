@@ -56,6 +56,11 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | Dryslwyn's keep and hall heights | The keep about 12m at the base in every source, but about 9m above a flared base and 16m high only on Caple's reconstruction section; the 1280s added one storey to the hall, which every source agrees on once the scheduling report's "two upper storeys" is read as the total (corrected by check 2, 2026-10-17) | [dryslwyn](dryslwyn.md) |
 | Whether Dryslwyn's first kitchen was stone or timber | "a small stone building, probably a kitchen" (Cadw guide) vs "a small, initially wooden, then stone kitchen" (medievalheritage.eu); both go back to Caple's excavation, whose report would settle it (added 2026-10-17, check 2) | [dryslwyn](dryslwyn.md) |
 | Cost of Llandeilo Bridge | £22,000 (Cadw) vs "over £12,000" (Coflein) | [victorian](era-victorian.md) |
+| Llandeilo's bridge from about 1800 to 1848 | The seven arches restored (Hughes, from Wood's 1812 etching; Cadw listing 20900; the 1948-49 plaque) vs a new bridge of three arches with two flood arches (*The Buildings of Wales* via Wikipedia; George Nicholson's *Cambrian Traveller's Guide*, 2nd edition, 1813; the NLW prints of c. 1824; a drawing captioned Delamotte 1816; Rees's "of modern erection" in the 1815 *Beauties of England and Wales*, which Hughes's quotation of him leaves out). Nicholson and Rees were read directly by check 1. The app draws seven arches (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| What the floods of 1795-98 took from the old bridge | Two spans (1795) and three (1796-97), then the timber repair (10 February 1798) (Hughes, from Turner and Rooker) vs "collapsed in 1795" (*The Buildings of Wales*, via Wikipedia) vs the whole bridge "swept away" in 1798 (llandeilo.org gallery); Hughes's own Turner caption and the gallery say one support, his text two, and his numbering (2 and 3, then 3, 4 and 5) is not consistent (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| The 1848 arch's rise and curve | 38 ft, 11.58m (Jenkins's full-size elliptic line, 1846) vs 12.65m (Cadw 20900) vs 35 ft above the river (Cragg 1986, via Wikipedia); elliptic (Jenkins, Coflein) vs depressed (Cadw 11040) vs segmental (Jervoise). The LiDAR deck and Cadw's 14.3m total height fit 11.58m better than 12.65m (an inference) (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| The 1848 arch's stone | Freestone, "possibly sandstone" voussoirs (Cadw, both listings) vs Cilyrychen Carboniferous limestone for the arch (Hughes, quoted by Coflein); the main parapet "rounded grey limestone" (Cadw 20900) vs "freestone ... with domed capstones" (Cadw 11040) (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| The bridge's foundation stone and first flood | 3 December 1844 and 22 October 1846 (Jenkins's diary; Jervoise; Cadw's "first stone laid in 1844") vs 3 December 1845 and 22 October 1845 (Hughes); the bridge note uses the diary's (added 2026-10-17; the foundation stone was already open in event-effects) | [bridge](llandeilo-bridge.md), [effects](event-effects.md) |
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
 | St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02). *Corrected 2026-10-17*: Coflein's two dates are its two parents, the listing's C15 and Ludlow's "later 16th century", so it is one source against one; the full row is the next one | [buildings](building-models.md), [victorian](era-victorian.md) |
 | St Teilo's tower: date, parapet, turret, west door | Date C15 (Cadw listing) vs later 16th century (Ludlow; Coflein's and the HER's "c. 1600" are his); parapet "C19 crenellated battlements" (listing) vs later 16th century with its gargoyles (Ludlow); stair turret at the north-east angle (listing, borne out by the LiDAR) vs "the western half of the north wall" (Ludlow); west door cut in the 19th century (listing) vs a 16th-century cut-out rebuilt 1848-51 (Ludlow) (added 2026-10-17) | [st-teilo](st-teilo.md) |
@@ -342,6 +347,21 @@ the app. They are recorded here so the notes and the app do not silently disagre
   not fit at all: the event-effects note (S6, a single secondary source) says the flood of
   10 February 1798 "carried away the temporary wooden bridge", which suggests a wooden bridge, not
   the seven-arched one, around 1798. When the seven-arched bridge was built is now the open question.
+  *Updated 2026-10-17 by [`llandeilo-bridge.md`](llandeilo-bridge.md):* the stone bridge stood by 1577 (one chain:
+  Lambarde via Jervoise via Hughes) and had seven arches before 1730; the 1798 "temporary wooden bridge" was the timber
+  repair in the gap left when two, then three, of its spans fell in 1795-97 (Turner, Rooker, as Hughes reads them), so it
+  does not contradict the seven arches. What stood from about 1800 to 1848 is now the open question (the row "Llandeilo's
+  bridge from about 1800 to 1848" above). Still not known: who built it, whether a ford or ferry came before it, and its
+  old line (a candidate north abutment is at about E 262683 N 222019 on the LiDAR, unconfirmed).
+- **Pont Llandeilo, for the Blender model** (2026-10-17, [`llandeilo-bridge.md`](llandeilo-bridge.md)): the old bridge's
+  arches, piers, width and line; the 1848 arch's springing level and ring depth, the flood arch's size, and where Cadw's
+  110.64m begins and ends. Williams's and Haycock's drawings and the quarter sessions papers (Carmarthenshire Archives),
+  the Llandeilo Fawr tithe map, *The Buildings of Wales* (2006) p. 250, Cragg (1986) pp. 77-78 and Samuel (1888) were
+  not read; they are where the answers are likely to be. The note had its first independent check on 2026-10-17
+  ([check 1](reviews/llandeilo-bridge-check-1.md)); also open from it: whether Gwilym Teilo's *Llandeilo Past and Present*
+  (1858) is the "W. Samuel, *Llandeilo Past and Present*, 1888" Cadw cites; the book Hughes calls "Emilius Nicholson's
+  *Cambrian Tourist's Guide*"; the width of the causeway on its bend east of 76m south of the arch; and the picture the
+  centenary plaque's relief copies.
 - **When were Llandeilo's streets first lit with gas?** The works and street mains were begun in 1864
   (completion not found) and the town lamps were lit "as heretofore" in 1876; no report of the first lighting was found in
   several searches of Welsh Newspapers Online (2026-10-03). The app draws gas street lamps from 1876,

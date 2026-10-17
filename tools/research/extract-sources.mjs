@@ -32,6 +32,7 @@ const PREFIX = {
   dryslwyn: 'dryslwyn',
   'st-teilo': 'teilo',
   'talley-abbey': 'talley',
+  'llandeilo-bridge': 'bridge',
 };
 
 const entries = [];

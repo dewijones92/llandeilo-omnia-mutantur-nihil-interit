@@ -3409,6 +3409,144 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/light-after-dark.md"
   },
   {
+    "id": "bridge:S1",
+    "title": "Coflein (RCAHMW), \"Llandeilo Bridge (New Bridge)\", NPRN 43102, SN6275722001.",
+    "url": "https://coflein.gov.uk/en/site/43102/",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S2",
+    "title": "Coflein (RCAHMW), \"Llandeilo Bridge (Old Bridge)\", NPRN 23978, SN6275722001, \"Post Medieval, Medieval\".",
+    "url": "https://coflein.gov.uk/en/site/23978/",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S3",
+    "title": "Cadw, Listed Buildings Full Report 20900, \"Llandeilo Bridge (including causeways) (partly in Llandeilo community)\", Grade II*, designated 14 March 1966, Dyffryn Cennen community, E 262754 N 221989.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=20900",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S4",
+    "title": "Cadw, Listed Buildings Full Report 11040, \"Llandeilo Bridge (including Causeway)\", Grade II*, designated 14 March 1966, Llandeilo community, E 262759 N 222009.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=11040",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S5",
+    "title": "Lynn Hughes, \"Llandeilo Bridge - History\" (*Carmarthenshire Life*, November 2004; from his work in progress *Towy: The Biography of a River*), on llandeilo.org.",
+    "url": "https://llandeilo.org/bge_history.html",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S6",
+    "title": "E. Jervoise, *The Ancient Bridges of Wales and Western England* (Architectural Press, 1936), pp. 74-75, transcribed on llandeilo.org.",
+    "url": "https://llandeilo.org/bge_jervoise.html",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S7",
+    "title": "Thomas Jenkins's diary, 1846-1850, transcribed on llandeilo.org (Terry Norman and Andy Mabbutt) from *The Diary of Thomas Jenkins of Llandeilo*, ed. D. C. Jenkins (1986), \"Crickets, Premonitions, Birth, Death and Roma…",
+    "url": "https://llandeilo.org/tj_crickets.html",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S8",
+    "title": "Thomas Jenkins's diary, 1840-1845, transcribed on llandeilo.org, \"Caves, Castles, Rebecca Riots, Leeches and Scarlet Fever\".",
+    "url": "https://llandeilo.org/tj_caves.html",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S9",
+    "title": "llandeilo.org, \"Building of Llandeilo Bridge\" (Jenkins's diary entries on the bridge, with commentary).",
+    "url": "https://llandeilo.org/bge_jenkins.html",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S10",
+    "title": "llandeilo.org, \"Llandeilo Bridge: Pictorial History, Gallery\".",
+    "url": "https://llandeilo.org/bge_gallery.html",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S11",
+    "title": "Amgueddfa Cymru – Museum Wales, J. M. W. Turner, \"Llandilo Bridge and Dynevor Castle\", NMW A 1738, \"1796 ca\", watercolour with scratching out on paper, purchased 1938.",
+    "url": "https://museum.wales/collections/online/object/1b1acb03-dd2d-3ac6-b2b9-29add1d26b51",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S12",
+    "title": "National Library of Wales, \"Llandilo Bridge, South Wales\", print, circa 1824, via Wikimedia Commons.",
+    "url": "https://commons.wikimedia.org/wiki/File:Landilo_Bridge,_South_Wales.jpeg",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S13",
+    "title": "National Library of Wales, \"Llandilo Bridge, Vale of Fowey [sic], Sh. Wales\", print, 1824, via Wikimedia Commons.",
+    "url": "https://commons.wikimedia.org/wiki/File:Llandilo_Bridge,_Vale_of_Fowey,.Sh.Wales.jpeg",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S14",
+    "title": "Wikipedia, \"Llandeilo Bridge\".",
+    "url": "https://en.wikipedia.org/wiki/Llandeilo_Bridge",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S15",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DSM tiles SN6221 (`wg_del_26_262221_20220113dsm.tif`, SHA-256 64fd30f16e3d16c6e9477b9578a16d904225e2865b3a28534a5fe6fba3fab740) and SN6222 (`wg_del_26_262222_2022022…",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_26_262222_20220222dsm.tif",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S16",
+    "title": "Gwilym Teilo, *Llandeilo Past and Present* (1858), as quoted in Bryn Thomas, *The Good Old Days* (1973), extracts on llandeilo.org.",
+    "url": "https://llandeilo.org/good_old_days.html",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S17",
+    "title": "Centenary plaque on Llandeilo Bridge, photographed by Jaggery, 26 June 2011, Geograph 2479213, via Wikimedia Commons, CC BY-SA 2.0.",
+    "url": "https://commons.wikimedia.org/wiki/File:Centenary_plaque,_Llandeilo_Bridge_-_geograph.org.uk_-_2479213.jpg",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S18",
+    "title": "Ordnance Survey 25-inch map, as tiled by the National Library of Scotland (edition not identified here).",
+    "url": "https://mapseries-tilesets.s3.amazonaws.com/25_inch/wales/18/128162/86732.png",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S19",
+    "title": "\"Single-span arch, Llandeilo Bridge\", photograph by Jaggery, 26 June 2011, Geograph 2479206, via Wikimedia Commons, CC BY-SA 2.0.",
+    "url": "https://commons.wikimedia.org/wiki/File:Single-span_arch,_Llandeilo_Bridge_-_geograph.org.uk_-_2479206.jpg",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S20",
+    "title": "\"Llandeilo, Carmarthenshire, bridge, the longest single span stone bridge in Wales\", photograph by Ken Day, 28 July 2014, via Wikimedia Commons, CC BY-SA 4.0.",
+    "url": "https://commons.wikimedia.org/wiki/File:Llandeilo,_Carmarthenshire,_bridge,_the_longest_single_span_stone_bridge_in_Wales.jpg",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S21",
+    "title": "\"Pont Llandeilo\", photograph by Alan Bowring, 20 June 2007, Geograph 472194, via Wikimedia Commons, CC BY-SA 2.0.",
+    "url": "https://commons.wikimedia.org/wiki/File:Pont_Llandeilo_-_geograph.org.uk_-_472194.jpg",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S22",
+    "title": "George Nicholson, *The Cambrian Traveller's Guide, in Every Direction; containing Remarks made during many Excursions in the Principality of Wales and Bordering Districts*, second edition, corrected and considerably e…",
+    "url": "https://archive.org/details/cambriantravelle01nich",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
+    "id": "bridge:S23",
+    "title": "Thomas Rees, *The Beauties of England and Wales*, vol. XVIII, *South Wales* (London: Harris, Longman and others, 1815), Internet Archive `beautiesofenglan18brit`.",
+    "url": "https://archive.org/details/beautiesofenglan18brit",
+    "doc": "docs/research/llandeilo-bridge.md"
+  },
+  {
     "id": "music:S1",
     "title": "*Brut y Tywysogion; or, The Chronicle of the Princes*, ed. John Williams ab Ithel (Rolls Series, 1860), Internet Archive text layer",
     "url": "https://archive.org/details/brutytywysogiono00cara",
