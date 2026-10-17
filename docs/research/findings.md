@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Research findings and decisions
@@ -146,6 +146,36 @@ From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agen
   Rhys ap Thomas (d. 1525)", which states one side of a contested point (the Cadw guide has the site abandoned from the 15th
   century; the DWB's works by Sir Rhys are at Carew) as fact, together with a castle that runs to 1600 and a ruin from
   1600, where the note proposes a contested end in the 15th century and a decay phase to the 1660s.
+
+## The trains through Llandeilo for Blender models (2026-10-17)
+
+From [`trains.md`](trains.md), a draft, checked by the same agent the same day ([check 1](reviews/trains-check-1.md), not
+independent). Written by Claude under the proactive mandate; it builds on `railway-locomotives.md` and `railway-later.md`.
+
+- **What ran at Llandeilo is documented by dated evidence only from 1958.** Black Five 45190 on the 12 noon
+  Shrewsbury-Swansea at Llandilo on 29 August 1959 is the best-documented train; Class 120 units at Llandeilo in
+  1977-80, Class 101s in 1982-84 and Class 108s in 1987-90 are dated by captioned photographs and, for the 108, the
+  Glanrhyd report; Class 153s from 1994. No engine class is named at Llandeilo for 1873-1909 or the LMS years; the
+  LNWR's Prince of Wales 4-6-2 tanks (from about 1910) and the Fowler 2-6-4Ts that replaced them (from 1935) rest on a
+  Wikipedia lead and shed lists. ([trains:S6], [railwaylater:S2], [railwaylater:S8])
+- **Two c. 1900 postcards of the station are one photograph coloured twice, with the engine black on one and green on
+  the other**: hand-colouring is no evidence of a livery. What the photograph does show is a side-tank engine at the
+  head of a passenger train. ([trains:S11], [trains:S12])
+- **True sizes are now sourced for the Black Five** (63 ft 8 in over buffers, 8 ft 8 in wide, 6 ft wheels: the Science
+  Museum Group's record of No. 5000), **the Class 108** (17.70m, 28.5 tonnes: the Glanrhyd report) **and the Class 153**
+  (23.21m by 2.70m by 3.77m: Porterbrook, its owner). The others (Fowler tank, pannier, Class 101 and 120, Mark 1
+  carriage) rest on Wikipedia leads and are labelled reconstructed. No source read gives the Black Five's height.
+  ([trains:S1], [trains:S5], [railwaylater:S8])
+- **BR carriages turned maroon in 1956 or 1957** (Wikipedia against the HMRS): kept contested. The LMS painted
+  non-express engines lined black from 1928 (HMRS), so a passenger tank was crimson lake in 1923-27 and black after,
+  an inference for any one class. ([trains:S8], [trains:S9])
+- **The station, measured**: the loop runs N 14° E; today's platforms stand about 1.0-1.2m above a 29.9m OD track bed
+  for about 100m, centred near E 263345 N 222555, inside the existing `llandeilo` 2m LiDAR area, so the trains need no
+  new area. The app's `LLANDEILO_STATION` is 240m from Coflein's reference and 28m off the track. ([trains:S13],
+  [railwaylater:S21])
+- **The plan proposes eleven rolling-stock phases where the app has three**, each a consist of vehicles exported one
+  object per vehicle so carriages can follow curves; the order of build follows the evidence (the 1959 train, the 108 and
+  the TfW 153s first).
 
 ## Conversations by class (2026-09-28)
 

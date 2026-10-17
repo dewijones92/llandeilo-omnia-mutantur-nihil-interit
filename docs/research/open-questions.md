@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Open questions
@@ -46,14 +46,23 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
 | When Llandeilo's gas works were built | c. 1860 (Wikipedia, "Ffairfach", single-source) vs being built in 1864 (two 1864 newspapers); the app uses the newspapers (added 2026-10-03; the c. 1860 copies in era-victorian.md and soundscapes.md now carry the correction) | [light](light-after-dark.md), [victorian](era-victorian.md), [soundscapes](soundscapes.md) |
 | The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
-| Where Llandeilo station stood, for the model | `LLANDEILO_STATION` (263266, 222361) is on the track, about 240m south-west of Coflein's station reference (263340, 222580) and OS Open Map Local's station symbol (263357, 222603); the 1905-revised map has the station buildings at the Coflein position (found 2026-10-09; not changed) | [dc-harries-photographs](dc-harries-photographs.md) |
+| Where Llandeilo station stood, for the model | `LLANDEILO_STATION` (263266, 222361) is about 240m south-west of Coflein's station reference (263340, 222580) and OS Open Map Local's station symbol (263357, 222603); the 1905-revised map has the station buildings at the Coflein position (found 2026-10-09; not changed). *Corrected 2026-10-17 (trains)*: this row said the point is on the track; it is 28m west of OS Open Map Local's track centre today (E 263294 at that northing) and, as the Harries note itself says, about 15m from the line on the 1905-revised map (E 263279), so off the track on both. The platforms measured on the LiDAR are centred near (263345, 222555) | [dc-harries-photographs](dc-harries-photographs.md), [trains](trains.md) |
 | The D. C. Harries collection's size and his start year | 2,500 negatives printed, 800 or 930+ negatives (NLW, Wikipedia); business from about 1888 vs "the early twentieth century" (NLW's two pages); and the studio's birth year, 1865 (NLW) or 1866 (Wikidata, unsourced) (added 2026-10-09; Corrected 2026-10-09 (independent check)) | [dc-harries-photographs](dc-harries-photographs.md) |
 | Where the 1257 battles were fought | Coed Llathen near Broad Oak (first OS map, 1888 or 1891; field names not attested before it) vs the wood of Llanarthne (Gough-Cooper's reading of the manuscript); Cymerau at the Tywi–Cothi confluence (Lloyd) vs near Talley (Phillimore). All inside the area, none proven; the app marks none, and whether to mark them is Dewi's choice (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 | Rhys Fychan in 1257, and the dead | He slipped away to Dinefwr (Annales Cambriae B) vs Dinefwr's garrison seized him (the Brut); "more than three thousand" (AC B) vs "upwards of two thousand" (the Brut), a modern estimate 1,000–3,000; the camp at Llandeilo is in AC B alone. The app gives both readings (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 | The date of the 1213 camp | 24 January (the Brut's reckoning) vs 25 January (Lloyd's *History of Carmarthenshire*); the app says late January and gives both (added 2026-10-03) | [invasions](invasions-and-raids.md) |
+| BR carriages turn maroon | 1956 (Wikipedia, British Rail corporate liveries) vs 1957 (HMRS transfer guide) (added 2026-10-17) | [trains](trains.md) |
+| Diesel units on the line after June 1964 | "Swindon cross-country sets" (Gittins), seen at Llandeilo as three-car Class 120s in 1977-80, vs "two-car diesel rail cars" (Llangammarch history) (added 2026-10-17) | [trains](trains.md), [railway-later](railway-later.md) |
+| Class 108 car 52037 at Glanrhyd | 17.70m and 28.5 tonnes (the 1990 report) vs "57 ft" (railcar.co.uk) and 29.5 t for a power car (Wikipedia) (added 2026-10-17) | [trains](trains.md) |
+| The engine on the c. 1900 station postcards | black on one card, green on the other: one photograph coloured twice, so neither is evidence (added 2026-10-17) | [trains](trains.md) |
 
 ## Gaps worth a dedicated pass
 
+- **The trains** (2026-10-17, for the Blender models): no engine class named at Llandeilo for 1873-1909 or 1923-1957;
+  no carriage type or train length before 1964; the Llanelly company's livery; the Black Five's height; the years each
+  diesel type gave way to the next (c. 1981, c. 1986, c. 1992 are estimates between dated sightings); liveries of
+  1990-2003. Leads: Denman (2012), "The Locomotive Fleet"; John Organ, *Llandeilo to Swansea* (Middleton Press, 2009);
+  the original of the c. 1900 photograph; railcar.co.uk's per-vehicle records. ([trains](trains.md))
 - **The forts' surfaces** (2026-10-10, [fort-surfaces](fort-surfaces.md)): the timber species at Dinefwr and whether its
   timbers were hewn or sawn; how long a turf face stayed bare and whether faces were grassed on purpose; any Roman-period
   find of shingle or thatch in Wales (a search found none); the Laurieston paper's survey of grass-down laying read
