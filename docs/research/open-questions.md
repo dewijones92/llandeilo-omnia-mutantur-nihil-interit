@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-16
+updated: 2026-10-17
 ---
 
 # Open questions
@@ -40,6 +40,13 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | The 1280s inner gatehouse at Dinefwr | Two hollow square towers on Cadw's 1280 phase plan, "perhaps a gatehouse" and "a lost gatehouse" in medievalheritage.eu, a new gate that "may have been" a remodelling of the original gatehouse in the Cadw guide; one source (Cadw), nothing of the towers standing (S9 says only the inner gate's loop holes and bar hole remain); both Cadw plans draw the inner gate about 1.4m (1.2-1.5m) wide (S10 a break in the curtain, S11 the gap between the towers) and the model follows them, though S9's surviving loop holes and bar hole may give the real width (added 2026-10-10; gap added 2026-10-16; width corrected 2026-10-16, check 4) | [dinefwr](dinefwr-castle.md) |
 | Cadw's Dinefwr plans' scale | The period plan as reproduced is about 5% larger than its bars say when fitted to the LiDAR; the 1280 panel of the phase plans fits within 2% of its bar, but that plan's five panels are drawn at different scales (keep to north-west tower 6.78, 6.48, 7.33 and 7.24 px/m on the 1250-70, 1280, 1330 and 1750 panels; one 20m bar of about 6.5-6.65), so each panel needs its own fit and only the 1280 has had one; cause unknown (added 2026-10-10; panel point added 2026-10-16) | [dinefwr](dinefwr-castle.md) |
 | Dinefwr keep's ground-floor door | Possibly original (Renn 1961) vs pierced in the 14th century (medievalheritage.eu; Cadw guide "may" 1326) (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
+| How much of Carreg Cennen's inner ward is Welsh | None, "obliterating any traces of earlier works" (Cadw schedule; Coflein "built in one operation") vs the south curtain "may have retained masonry" (Lewis 2006 via Wikipedia) vs the curtains and round towers possibly mid-13th century (Longueville Jones 1858) vs the whole "four-square" core (Morris 1901) (added 2026-10-17) | [carreg cennen](carreg-cennen.md) |
+| When Giffard's work at Carreg Cennen began | After 1283 (listing), after 1284 (medievalheritage.eu), 1287 (Coflein); the crown held it 1287-89; the three Cadw periods are undated (added 2026-10-17) | [carreg cennen](carreg-cennen.md) |
+| Carreg Cennen's first record | 1248 (Rolls Series Brut, listing) vs 1254 (the version quoted in 1857); Rhys "obtained ... back again" what had been given to "the French" (Brut) vs took it "before the English took possession" (Wikipedia, medievalheritage.eu) (added 2026-10-17) | [carreg cennen](carreg-cennen.md), [medieval](era-medieval-to-1282.md) |
+| Carreg Cennen's south-west corner | A round tower (Longueville Jones's 1858 text and plan) vs "Curved SW corner, not a proper tower" (listing; medievalheritage.eu; Cadw plan); the 2022 LiDAR shows no projecting tower today (added 2026-10-17) | [carreg cennen](carreg-cennen.md) |
+| Carreg Cennen's towers' shapes | North-east tower polygonal (plan, medievalheritage.eu) vs "rounded" (listing) vs "square" (schedule); gate towers half-octagonal (listing, plan) vs "octagonal" (1858); the barbican's "solid round turrets" (King 1985) vs one small eastern gate tower with a portcullis (medievalheritage.eu) (added 2026-10-17) | [carreg cennen](carreg-cennen.md) |
+| Carreg Cennen in 1461 or 1462 | Captured by Sir Roger Vaughan in 1462 (Cadw) vs surrendered after Mortimer's Cross, 1461 (Wikipedia) vs "finally destroyed ... in 1461" (Dyfed historic landscape text) vs "rendered unusable in 1462" (Coflein) (added 2026-10-17) | [carreg cennen](carreg-cennen.md), [effects](event-effects.md) |
+| Who restored Carreg Cennen | "Earl Cawdor (1817-98)" (listing), "The second Earl Cawdor" (Wikipedia) vs repairs already "lately ordered" by an unnamed owner in 1857-58 (Longueville Jones) (added 2026-10-17) | [carreg cennen](carreg-cennen.md) |
 | Cost of Llandeilo Bridge | £22,000 (Cadw) vs "over £12,000" (Coflein) | [victorian](era-victorian.md) |
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
 | St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02) | [buildings](building-models.md), [victorian](era-victorian.md) |
@@ -64,6 +71,12 @@ for the next pass. Each note's own "Open questions" section has the full list an
   accounts), Kenyon 2010, *The Buildings of Wales* (2006), RCAHMW's 1917 inventory (no. 317) and the Cambria
   Archaeology reports on the south curtain (2001), south turret (2002) and north-west tower (2003) were not read; they
   are where the answers are likely to be. ([dinefwr](dinefwr-castle.md))
+- **Carreg Cennen's fabric** (2026-10-17, for the Blender model): no source read gives any medieval height except the
+  south curtain's "full height", the stone of the ashlar dressings, render or any roof covering, the Welsh castle's form,
+  or the outer ward's buildings. The Cadw guidebook (J. M. Lewis, 1960, 1990, 2006), Colvin's *King's Works* vol. 2
+  (1963, p. 602), the 1369 and 1414-21 repair accounts, RCAHMW's 1917 inventory (no. 256, or 156 in King 1986), Remfry
+  and Ruckley 2010 and Remfry 2012 were not read; they are where the answers are likely to be. The LiDAR region would
+  need widening for its 2m area. ([carreg cennen](carreg-cennen.md))
 - **Heneb HER terms of use** (found by the hunter-gatherers check, 2026-10-09; for Dewi). Every Heneb HER
   (Archwilio) page says: "All output resulting from the use of the data must acknowledge the source as
   follows: Derived from information held by the Heneb HER Charitable Trust copyright", and "If you wish to

@@ -28,6 +28,7 @@ const PREFIX = {
   'dc-harries-photographs': 'harries',
   'fort-surfaces': 'surfaces',
   'dinefwr-castle': 'dinefwr',
+  'carreg-cennen': 'cennen',
 };
 
 const entries = [];
