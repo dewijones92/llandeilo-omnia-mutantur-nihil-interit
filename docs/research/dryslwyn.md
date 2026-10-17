@@ -16,8 +16,10 @@ with sourced or labelled-analogy surfaces. The note follows the shape of [`dinef
 Written by Claude on 2026-10-17 from sources fetched that day; the brief is in
 [`briefs/dryslwyn.md`](briefs/dryslwyn.md). The choices in "Plan for the Blender model" are Claude's, under the proactive
 mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), and none is Dewi's. A check
-by the same agent ([check 1](reviews/dryslwyn-check-1.md)) re-read every quotation against the downloaded texts; **the
-independent check the todo path asks for has not been done.**
+by the same agent ([check 1](reviews/dryslwyn-check-1.md)) re-read every quotation against the downloaded texts. An
+independent pass by another reader ([check 2](reviews/dryslwyn-check-2.md), 2026-10-17) re-fetched the sources and
+found two errors of reading and several overstated labels; all are corrected below and marked "check 2". It did not
+read Caple's monograph either, so the note stays a draft.
 
 It extends the Dryslwyn sections of [`era-medieval-to-1282.md`](era-medieval-to-1282.md) (the 1287 siege, the lords)
 and [`building-models.md`](building-models.md) (the first measured outline, 2026-10-02), and corrects the latter where
@@ -198,6 +200,10 @@ under "Plan for the Blender model".
   survives at basement level and has a segmental-headed doorway in the N wall, with former narrow window to its L, and in
   the centre the stone foundation of the hall fireplace" [S3]. Caple's section draws it about 9.8m wide outside, its
   undercroft about 2.5m high, the hall above about 3.5m to the eaves, and a steep roof about 4.8m high [S15].
+- **An internal cross wall.** "Even before the construction of the half-timbered house, a section of straight wall was
+  built southwest of the tower, likely separating the northern representative and residential section from the southern
+  economic part of the castle" [S10]. Its position is not given; it is in the parts table as unplaced (check 2 found
+  it missing from the first draft).
 - **The great chamber (timber).** "wood-framed, clay-floored" [S20]; "a quadrangular building with a clay floor and
   half-timbered walls" to the south-east of the hall [S10]. Rebuilt in stone in the mid-13th century [S20].
 
@@ -215,7 +221,9 @@ under "Plan for the Blender model".
   [S11][S24]. Its gate: "a regular portal opened in the eastern wall" [S10], the "Middle Gate" of the plan [S11]. Inside,
   "a large hall built up against the western defences of the ward itself" (excavated) [S4]; "an oblong building in the
   western part of the courtyard" [S10].
-- **The great chamber in stone**, east of the hall at right angles [S3][S20]: "Initially, it had one floor, then two in
+- **The great chamber in stone**, east of the hall at right angles [S3][S20]. Equating the listing's "second hall at right
+  angles to the original" [S3] with the monograph's great chamber is this note's identification (the listing also calls
+  it "Maredudd's mid C13 hall"; the Cadw guide calls it "a new hall" [S8]), not a statement of any source: "Initially, it had one floor, then two in
   the later 13th century" [S10].
 - **The inner gate's foregate (date contested).** "After the extension, an unroofed foregate with a portcullis and a
   door was added" [S10] (mid-13th century); the listing has the gatehouse "rebuilt" by Rhys ap Maredudd after 1271 [S3];
@@ -225,15 +233,22 @@ under "Plan for the Blender model".
 
 - **Date.** "This castle was greatly expanded in the period 1283-87 by Rhys ap Maredudd" [S20]; "perhaps after the war of
   1282-3" [S3]; "almost certainly Rhys ap Maredudd who further enlarged and improved
-  the castle in the 1280s" [S8]; "Late Thirteenth Century" [S11][S12]. The excavation's dates are the narrowest; the outer
-  ward is before the siege in every source read (Coflein's "twice expanded before, in 1287" [S1]).
+  the castle in the 1280s" [S8]; "Late Thirteenth Century" [S11][S12]. The excavation's dates are the narrowest. The outer
+  ward is before the siege in every source that dates it ([S20], [S8], [S3], the scheduling report's "added in later
+  phases of Welsh occupation" [S4] and Coflein's "twice expanded before, in 1287" [S1]); medievalheritage dates it only
+  "At the end of the 13th century" and also credits Alan Plucknet, after the siege, with "the necessary repairs and
+  expansion" [S10], so it does not settle the order (check 2). The monograph's "1283-87" is the only source for 1283
+  itself, and the listing says only "perhaps after the war of 1282-3" [S3]: **c. 1283**.
 - **What was built** [S20]: "an Outer Ward and gatehouse. He also rebuilt much of the Inner Ward, adding an extra storey
   to the great hall and great chamber, apartments and a chapel." The Cadw guide: "substantial walls were raised
   overlooking the Tywi; the hall (later described as ‘the King’s Hall’) was remodelled; a series of apartments was built
   adjoining the hall, with a projecting chapel tower at the eastern end; and there was a newly mortared courtyard at the
-  centre of the complex" [S8]. The scheduling report has the hall "remodelled in the 1280s to accommodate two upper
-  storeys" [S4], where the monograph says "an extra storey" [S20]: **one or two storeys added, contested**; Caple's later
-  section draws one (undercroft, hall, apartments) [S15].
+  centre of the complex" [S8]. **One storey was added to the hall, and the sources agree** (corrected by check 2): the scheduling report
+  says the hall was "Originally single storey with a basement" and "remodelled in the 1280s to accommodate two upper
+  storeys" [S4], that is, two upper storeys over the basement afterwards, the original one plus the new one; the
+  monograph says "an extra storey" [S20], medievalheritage "an additional floor with a flat ceiling was created" [S10],
+  and Caple's later section draws undercroft, hall and apartments [S15]. The first draft read the scheduling report as
+  two storeys added and listed a dispute.
 - **The apartment block**: "a former 2-storey apartment block, built outside the line of the original curtain wall",
   its battered wall with "2 pointed windows in the lower storey and the jamb and embrasure of a third, while in the upper
   storey a single similar opening survives" [S3]; "large windows pierced in the thickened southern wall and flanked by
@@ -294,8 +309,8 @@ Already in the app as `dryslwyn-siege` (`timeline:S35`, `medieval:S22`, `medieva
   stone treads removed from steps" [S8]; Coflein: "decommissioned in the early fifteenth century and decayed thereafter"
   [S1].
 - **By whom (contested).** "very probably carried out by the English forces that retook the castle following its
-  surrender to Owain Glyndwr in 1403" [S8]; "almost certainly fell into disuse at that time, perhaps as a result of
-  deliberate destruction by Glyndŵr’s retreating forces" [S10]; the listing: "probably largely demolished to prevent its
+  surrender to Owain Glyndwr in 1403" [S8]; medievalheritage says only that "almost certainly fell into disuse at that time, perhaps as a result of
+  deliberate destruction by Glyndŵr’s retreating forces" [S10], about 1409, and does not mention walling up; the listing: "probably largely demolished to prevent its
   future use by hostile forces" [S3].
 - **Burnt, then demolished (undated).** "At a later date, the castle was deliberately put to the torch, with very
   extensive archaeological evidence to show that all the major buildings were burnt to the ground. Demolition of the
@@ -332,9 +347,10 @@ fitted to the survey [S24]; "measured" means the survey itself.
 | Inner curtain (Phase 1) | Polygonal, battered, with a wall-walk "likely" [S10]; "no more than 1m high" today [S3] | Outer face: NW angle (-15.8, 14.8), north wall to the gate at (20.9, 23.1); from the keep's south-west side (11.2, 12.0) down the east side by (13.4, 3.9) to (9.6, -11.0); south wall from about (2.1, -13.3) (the postern lies between) to the SW angle (-19.9, -3.1). Drawn about 1.5m thick on the west, about 2m on the north [S11] | Outline documented (one source: Caple; the survey shows standing wall only on the east and south); height reconstructed (Caple's section, about 9.5m on the south) |
 | Inner gate | NE corner beside the keep; first a barred door, then a foregate with portcullis [S10]; "steps to a wall walk", "the portcullis slot remains visible and the passage is cobbled" [S3] | Between the north wall's end (20.9, 23.1) and the keep; the late works round it at (24.1, 23.9) and the stair building from (26.3, 20.6) to (27.2, 11.8) [S11] | Place documented (one source: Caple); the foregate's date contested |
 | Postern | South wall, steps cut in the courtyard floor [S10]; later under the chapel [S3][S10] | In the south wall between (2.1, -13.3) and (10.0, -11.0) [S11] | Documented (one source: Caple) |
-| Great hall | First floor over an undercroft with a central hearth pillar [S3][S10]; raised by one storey [S20] or two [S4] in the 1280s; slate roof, cinquefoil-cusped window in the north wall [S4] | Outer corners NW (-16.3, 10.6), NE (5.0, 3.0), SE (1.3, -5.1), SW (-17.1, 2.5): about 22.6 x 8.9m, the long axis 22 degrees south of east [S11]; a cross wall near the west end at (-13.1, 7.1)-(-15.7, 1.0) [S11]; undercroft floor 65.2m OD [S24]; Caple's sections: about 9.5-9.8m wide, eaves about 5.9m above the undercroft floor at first and 7.3m after the 1280s [S15] | Plan documented (one source: Caple); the floor is measured; heights reconstructed (one source: Caple's sections) |
+| Great hall | First floor over an undercroft with a central hearth pillar [S3][S10]; one storey added in the 1280s, giving two upper storeys over the undercroft [S20][S4][S10][S15]; slate roof, cinquefoil-cusped window in the north wall [S4] | Outer corners NW (-16.3, 10.6), NE (5.0, 3.0), SE (1.3, -5.1), SW (-17.1, 2.5): about 22.6 x 8.9m, the long axis 22 degrees south of east [S11]; a cross wall near the west end at (-13.1, 7.1)-(-15.7, 1.0) [S11]; undercroft floor 65.2m OD [S24]; Caple's sections: about 9.5-9.8m wide, eaves about 5.9m above the undercroft floor at first and 7.3m after the 1280s [S15] | Plan documented (one source: Caple); the floor is measured; heights reconstructed (one source: Caple's sections) |
 | Prison | "In the north-west corner, between the great hall and the curtain wall" [S8]; floor "sunk down below the courtyard level" [S4] | About (-18.1, 14.5) to (-14.3, 9.3) [S11] | Documented (one source: Caple) |
-| Kitchen | A small stone building south of the hall [S8]; "initially wooden, then stone" [S10] | About (-7.0, -4.8) to (0.3, -10.5) [S11] | Documented (one source: Caple) |
+| Kitchen | "a small stone building, probably a kitchen, with a hearth" [S8], against "a small, initially wooden, then stone kitchen" [S10]: **material contested** | About (-7.0, -4.8) to (0.3, -10.5) [S11] | Documented (one source: Caple); first material contested |
+| Inner cross wall | "a section of straight wall ... southwest of the tower, likely separating the northern representative and residential section from the southern economic part" [S10]; before the half-timbered house | **Position and length unknown** (not read off the plan; to be looked for on [S11] at build) | Documented (one source: Caple, through medievalheritage only [S10]); position imagined |
 | Great chamber | Timber, then stone (mid-13th c.), one storey, then two (later 13th c.) [S20][S10] | NW (4.1, 4.4), NE (12.5, 3.5), SE (9.5, -11.0), SW (2.4, -11.6): about 15 x 8.5m [S11] | Documented (one source: Caple); heights reconstructed |
 | Apartment block | Two storeys, outside the old curtain, battered façade with a return at its west end [S3]; windows with seats [S10] | South face from the west end (-22.9, -6.1) by (-12.0, -10.7) to (0.4, -15.9); west return to (-23.0, -2.9); north side about (-22.3, -2.3) to (0.8, -8.8); façade drawn about 2.5m thick [S11]; standing to 74.1m OD over 60-62m outside [S24] | Documented (stands: survey [S24] and the 1795 and 1872 views [S27][S28]); the 1280s date one source: Caple |
 | Chapel tower | Projecting at the SE, chapel at first floor, three lancets [S3][S10][S16] | SW (4.3, -17.3), SE (13.5, -15.0), NE (12.7, -10.1), NW (3.4, -13.2): about 9.5 x 4-6m [S11]; standing to 74.9m OD [S24] | Documented (stands, survey); form one source: Caple |
@@ -396,13 +412,15 @@ and his publisher's, and none is part of the GitHub issues for which Dewi waived
 4. **The middle ward's size**: about 70 x 30m (text [S10]) against about 52m long and up to 25m wide, fitted [S11][S24].
 5. **The inner gate's foregate**: mid-13th century [S10] or rebuilt after 1271 [S3] (the plan colours its works late 13th
    century [S11]).
-6. **How many storeys the 1280s added to the hall**: one [S20][S15] or two [S4].
+6. ~~How many storeys the 1280s added to the hall~~: **withdrawn by check 2, not contested.** One storey was added,
+   giving two upper storeys over the undercroft [S20][S4][S10][S15] (see Phase 3).
 7. **The keep's form above the base**: about 9m across above a flared base on Caple's section [S14], against plans and
    texts that give only the base (about 12m) [S10][S11]; its height is reconstructed only (16m [S14]).
 8. **The siege's start and length**: about 1 August [S21] or from 15 August [S9]; two weeks [S26] or three [S3][S8].
 9. **Where the mined wall fell**: by the chapel block, on "Tradition" only [S9].
 10. **Who walled the castle up, and when**: the English after retaking it, after 1403 (Cadw guide [S8]), Glyndŵr's
-    retreating forces, about 1409 (medievalheritage [S10]), "the early to mid 15th century" (excavation [S20]), "the
+    retreating forces, about 1409 (medievalheritage [S10], which says the castle "almost certainly fell into disuse" then
+    and says nothing of walling it up), "the early to mid 15th century" (excavation [S20]), "the
     early fifteenth century" (Coflein [S1]).
 11. **When it was burnt and demolished**: not dated by any source read [S8][S20].
 12. **What was on the hill before**: an Iron Age hillfort [S4], a motte [S6], a settlement with Roman material [S2], or no
@@ -410,6 +428,9 @@ and his publisher's, and none is part of the GitHub issues for which Dewi waived
 13. **The borough wall**: Welsh in the 1280s or English after 1287 ([S1], [S10]; already in `building-models.md`).
 14. **The early castle's outer enclosure**: Davis draws a timber palisade and gate round a large outer ward in the first
     phase [S17]; Jones-Jenkins draws the first castle with none [S18]; no text read mentions one.
+15. **The first kitchen's material** (added by check 2): "a small stone building, probably a kitchen, with a hearth"
+    (Cadw guide [S8]) or "a small, initially wooden, then stone kitchen" (medievalheritage [S10]). Both come from
+    Caple's excavation, whose report would settle it. The plan models it in stone with the other reading in the ⓘ.
 
 ## Gaps
 
@@ -422,7 +443,12 @@ and his publisher's, and none is part of the GitHub issues for which Dewi waived
   Wales* 20-23 and *Medieval Archaeology* 25-29 (the Archaeology Data Service refused automated reads); Colvin and others,
   *The History of the King's Works* (1963), pp. 641-2 (the Crown's repairs); RCAHMW's 1917 Carmarthenshire inventory,
   p. 155-6, no. 452 (the pre-excavation description, and the source of the HER's motte record); Kenyon 2010, pp. 71-3;
-  Davis 2007, 2011, 2021.
+  Davis 2007, 2011, 2021. Also listed by Gatehouse [S7] and not read (check 2): the **Survey of 1609** (TNA SP 14/49/82),
+  the only lead seen on the castle's state between the 15th-century demolition and the c. 1795 view, so the one that could
+  date the ruin; the Calendar of Close Rolls, Edward II, 1318-1323, vol. 3, p. 542; Ellis, *Original Letters*, 2nd series,
+  vol. 1, p. 20; and Rickard 2002, *The Castle Community*, pp. 126-7. Gatehouse links an online copy of RCAHMW 1917
+  (Google Books id 7gAABQpMpAYC, p. 155) and "download copy" links for the *Medieval Archaeology* notes, so the 1917
+  inventory is probably obtainable.
 - **Heights**: no source read gives a medieval height for any curtain, the middle or outer ward walls, the gatehouses or
   the chapel tower; the keep's and the hall's are Caple's reconstructions only.
 - **The outer gatehouse's plan** in detail (the passage's line through it) and the gate's place against the ditch.
@@ -467,14 +493,14 @@ An id names one physical part for good, so the same id appears in every phase th
 | Feature id (proposed) | Years | Basis |
 |---|---|---|
 | `dryslwyn-first` | c. 1225 to c. 1250 | "the late 1220s" [S20], "the 1220s" [S3], "the second quarter" [S1][S8]: c. 1225 is the app's existing date, an estimate inside the range; first recorded 1245-46 [S21]. Ends at the middle ward, "mid 13th century" [S20] |
-| `dryslwyn-two-wards` | c. 1250 to 1283 | The middle ward and the stone great chamber, "mid 13th century" [S20][S11]; contested against Coflein's "later thirteenth century" [S1]. Ends at the excavation's 1283 [S20] |
-| `dryslwyn-castle` | 1283 to 1287 | "the period 1283-87" [S20]; the listing's "perhaps after the war of 1282-3" [S3]. Ends at the siege (fallen by 5 September 1287 [S9]) |
+| `dryslwyn-two-wards` | c. 1250 to c. 1283 | The middle ward and the stone great chamber, "mid 13th century" [S20][S11]; contested against Coflein's "later thirteenth century" [S1]. Ends at the excavation's 1283 [S20], which is c.: its only source is the monograph's "1283-87" |
+| `dryslwyn-castle` | c. 1283 to 1287 | "the period 1283-87" [S20]; the listing's "perhaps after the war of 1282-3" [S3]. Ends at the siege (fallen by 5 September 1287 [S9]) |
 | `dryslwyn-crown` | 1287 to c. 1410 | The Crown's garrison castle with its post-siege parts [S20][S10]; surrendered 1403 [S20]; the end is the walling-up, contested between after 1403 [S8], about 1409 [S10] and "the early to mid 15th century" [S20]; c. 1410 is an estimate |
 | `dryslwyn-walled-up` | c. 1410 to c. 1455 | Gates and the keep's basement blocked, looted [S8][S20]; then burnt and demolished at an undated "later date" [S8]. **c. 1455 is an estimate**: the end of the monograph's garrison period [S20], not a date any source gives for the fire |
 | `dryslwyn-ruin` | c. 1455 to 1980 | Demolished but for "two prominent sections on the south side" [S8], as the 1795 and 1872 views show [S27][S28]; the rest buried under turf [S10] |
 | `dryslwyn-excavated` | 1980 to now | Excavated 1980-95 and consolidated [S20][S1]: today's footings and standing walls at their measured heights [S24] |
 
-The dates join with no gap: c. 1225, c. 1250, 1283, 1287, c. 1410, c. 1455, 1980, now. Every boundary except 1287 and
+The dates join with no gap: c. 1225, c. 1250, c. 1283, 1287, c. 1410, c. 1455, 1980, now. Every boundary except 1287 and
 1980 is contested or estimated, and the ⓘ says so. The existing events (`dryslwyn` at c. 1225 and `dryslwyn-siege` in
 1287) keep their dates.
 
@@ -482,13 +508,14 @@ The dates join with no gap: c. 1225, c. 1250, 1283, 1287, c. 1410, c. 1455, 1980
 
 | id | Shape | Dimensions | Tier | Sources | Kits needed | Textures needed |
 |---|---|---|---|---|---|---|
-| `dryslwyn/curtain-inner` | wall, outer-face path NW angle (-15.8, 14.8), north to the gate (20.9, 23.1); then from the keep's south-west (11.2, 12.0) by (13.4, 3.9) to (9.6, -11.0), along the south wall by (2.1, -13.3) (the postern a gap of about 2m, estimate) to the SW angle (-19.9, -3.1) and back to the NW angle | Thickness about 1.5-2m (fitted, drawn); battered; height **unknown** (Caple's section about 9.5m above the outside on the south [S15]; estimate 8m above the ward inside); the keep closes the east side between (11.2, 12.0) and the gate | outline documented (one source: Caple; standing only on the south and east today [S24]); height reconstructed (Caple's section) | S10, S11, S12, S15, S24 | `coursed-rubble` (new kit, as proposed for Dinefwr, limestone here); wall `top: 'battlements'` (existing plan value; merlons unknown: analogy; the reconstructions draw them [S18]) | limestone rubble (documented: listing [S3]; bedrock [S25]) |
+| `dryslwyn/curtain-inner` | wall, outer-face path NW angle (-15.8, 14.8), north to the gate (20.9, 23.1); then from the keep's south-west (11.2, 12.0) by (13.4, 3.9) to (9.6, -11.0), along the south wall by (2.1, -13.3) (the postern a gap of about 2m, estimate) to the SW angle (-19.9, -3.1) and back to the NW angle | Thickness about 1.5-2m (fitted, drawn); battered; height **unknown** (Caple's section about 9.5m above the outside on the south [S15]; estimate 8m above the ward inside); the keep closes the east side between (11.2, 12.0) and the gate | outline documented (one source: Caple; standing only on the south and east today [S24]); height reconstructed (Caple's section) | S10, S11, S12, S15, S24 | `coursed-rubble` (new kit, as proposed for Dinefwr, limestone here); wall `top: 'battlements'` (existing plan value; merlons unknown: analogy; the reconstructions draw them [S18]) | limestone rubble (documented: the listing's description of the standing walls [S3], whose sources include Caple; medievalheritage says the stone was quarried on the hill [S10]; the bedrock [S25] shows what the hill is made of, not what the walls are) |
 | `dryslwyn/keep` | tower, round, at (17.0, 9.5) | Base 12.0m across (measured and fitted), battered/flared to about 3m up, then about 9m across (Caple's section only); inside 5.1m; height 16m (Caple's section; basement 3.2, storeys 3.5, 3.5, 4.5m); first-floor door 2.5m high on the north-west | place and base documented (survey); upper diameter, height and storeys **reconstructed (one source: Caple)** | S3, S4, S10, S14, S24 | tower `batter: true` (existing); `top: 'battlements'` with a low cone inside (existing `cone`; Caple's sketch draws a conical roof [S14]: reconstructed); `timber-stair` (new kit: external stair on the NW buttress, documented [S3][S10]) | limestone rubble; roof covering **unknown** (slate is documented only for the hall: analogy) |
 | `dryslwyn/keep-buttress` | prism on the keep's north-west | **Unknown** size (estimate 3 x 3m, 3m high) | documented (existence: "a broad NW buttress" [S3]; one source: Caple); size imagined | S3, S10 | `coursed-rubble` | limestone rubble |
 | `dryslwyn/gate-inner` | gap in the NE corner between the north wall's end and the keep | Width **unknown** ("straight and narrow ... preventing entry on horseback" [S10]; estimate 1.5m); a barred door reached by steps | documented (one source: Caple) | S3, S8, S10, S11 | `ledged-leaf` (existing; Roman: needs a medieval kit or analogy text) | timber |
 | `dryslwyn/hall` | hall, corners NW (-16.3, 10.6), NE (5.0, 3.0), SE (1.3, -5.1), SW (-17.1, 2.5); long axis 22 degrees south of east | 22.6 x 8.9m (fitted); undercroft floor 65.2m OD (measured); undercroft 2.5m, hall 3.5m to the eaves, roof about 4.8m (Caple's section); central hearth pillar; segmental-headed door in the north wall | plan documented (one source: Caple; the floor measured); heights reconstructed (one source: Caple) | S3, S4, S10, S11, S15, S24 | hall `roof: 'gable'` (existing); `hearth-pillar` (new kit: documented [S3][S10]) | limestone rubble; slate (documented for the hall's roof [S4], one source: Caple, but whether from its first roof or the 1280s one is not stated) |
 | `dryslwyn/prison` | prism, (-18.1, 14.5) to (-14.3, 9.3) | Floor below the courtyard [S4]; height **unknown** (estimate 3m) | documented (one source: Caple) | S4, S8, S11 | `coursed-rubble` | limestone rubble |
-| `dryslwyn/kitchen` | hall, (-7.0, -4.8) to (0.3, -10.5) | About 7 x 5m (fitted, low); lean-to against the south curtain in Caple's section [S15]; "initially wooden" [S10] | documented (one source: Caple); form reconstructed | S8, S10, S11, S15 | `timber-frame` (existing: Roman, needs analogy text) | timber, roof **unknown** |
+| `dryslwyn/kitchen` | hall, (-7.0, -4.8) to (0.3, -10.5) | About 7 x 5m (fitted, low); lean-to against the south curtain in Caple's section [S15]; **material contested**: "a small stone building" [S8] or "initially wooden, then stone" [S10] | documented (one source: Caple); form reconstructed; material contested | S8, S10, S11, S15 | modelled in **stone** (`coursed-rubble`, the reading of the Cadw guide [S8]), with the ⓘ giving the timber-then-stone reading [S10] and saying the excavation report would settle it | limestone rubble; roof **unknown** |
+| `dryslwyn/cross-wall` | wall, a straight section south-west of the keep separating the northern residential part from the southern economic part | **Position, length and height unknown** (estimate: 0.8m thick, to the curtain's height; position to be read from [S11] at build, otherwise omitted) | documented (existence, one source: Caple via [S10] only); position imagined | S10, S11 | `coursed-rubble` | limestone rubble |
 | `dryslwyn/chamber-timber` | hall, about (4.1, 4.4), (12.5, 3.5), (9.5, -11.0), (2.4, -11.6) | About 15 x 8.5m (the later stone chamber's footprint, fitted; the timber one's own size is **unknown**); one storey; clay floor | documented (existence and materials: "wood-framed, clay-floored" [S20]; one source: Caple); size estimated | S10, S20 | `timber-frame` (as above) | timber, daub (existing surface; Roman source: analogy) |
 | `dryslwyn/buildings-east` | small timber buildings east of the hall | **Unknown** ("a small cluster of wooden buildings to the east" [S8]) | documented that they existed (one source: Caple); form imagined | S8 | `timber-frame`, `thatch-roof` or `shingle-roof` (existing, Roman: analogy) | timber, roof |
 
@@ -506,7 +533,7 @@ The dates join with no gap: c. 1225, c. 1250, 1283, 1287, c. 1410, c. 1455, 1980
 
 | id | Shape | Dimensions | Tier | Sources | Kits needed | Textures needed |
 |---|---|---|---|---|---|---|
-| `dryslwyn/hall` (raised) | as before | Eaves about 7.3m above the undercroft floor, ridge about 11.6m (Caple's later section); **one or two added storeys, contested** [S20][S4] | documented (that it was raised, one source: Caple); heights reconstructed | S4, S15, S20 | hall `roof: 'gable'`; `cinquefoil-window` (new kit: documented [S4]) | **white render and limewash** (documented, one source: Caple [S20]); slate |
+| `dryslwyn/hall` (raised) | as before | Eaves about 7.3m above the undercroft floor, ridge about 11.6m (Caple's later section); **one storey added** (two upper storeys over the undercroft): [S20][S4][S10]; not contested | documented (that it was raised, one source: Caple); heights reconstructed | S4, S15, S20 | hall `roof: 'gable'`; `cinquefoil-window` (new kit: documented [S4]) | **white render and limewash** (documented, one source: Caple [S20]); slate |
 | `dryslwyn/chamber` (raised) | as before | Two storeys [S10][S20]; height **unknown** (estimate 9m) | documented (one source: Caple) | S10, S20 | as before | white render; slate (analogy) |
 | `dryslwyn/apartments` | hall (or prism) between the hall and the south curtain: south face (-22.9, -6.1), (-12.0, -10.7), (0.4, -15.9); west return to (-23.0, -2.9); north side about (-22.3, -2.3) to (0.8, -8.8) | Two storeys [S3]; the south façade (the thickened south curtain) drawn about 2.5m thick; its top today 74.1m OD over 60-62m outside (measured: a façade of 12-14m on the slope), roofed in two parallel gables in Caple's section [S15]; medieval height **unknown** above today's (estimate: today's top plus a parapet of 1.5m) | documented (stands: survey and two views [S24][S27][S28]; form one source: Caple) | S3, S10, S11, S15, S24 | `coursed-rubble`; hall `roof: 'gable'`; `pointed-window` (new kit: "2 pointed windows in the lower storey" [S3]) | white render (one source: Caple); slate (analogy) |
 | `dryslwyn/chapel-tower` | prism, SW (4.3, -17.3), SE (13.5, -15.0), NE (12.7, -10.1), NW (3.4, -13.2) | About 9.5 x 4-6m (fitted); chapel floor about 70m OD (Caple's elevation [S16]); top today 74.9m OD (measured); three lancets at the upper floor; the postern below | documented (stands: survey; form one source: Caple) | S3, S10, S11, S16, S24 | `coursed-rubble`; prism `top: 'battlements'` (analogy: the reconstructions); `lancet` (new kit: three identical lancets, documented [S3][S16]) | white render (one source: Caple); red sandstone dressings (documented that red sandstone was used for details [S10]; on the lancets an inference) |
@@ -576,8 +603,7 @@ SN5420 `f1334c9f19372b5d`, SN5419 `8e1f6d33effa089e`, SN5521 `e9989ce0b58b1b9f`,
    photographs), `timber-stair` (the keep's), `hearth-pillar`, `portcullis`, `lancet`, `pointed-window`,
    `cinquefoil-window`, `garderobe`, `stone-stair`, `timber-bridge`. The existing ten kits are Roman (see
    `dinefwr-castle.md`); `ledged-leaf`, `timber-frame` and the roof kits reused here need medieval kits or analogy text.
-5. **Surfaces.** White render and limewash (documented, one source: Caple [S20]) from 1283; limestone rubble (documented
-   [S3][S25]); slate (documented for the hall [S4][S20], analogy elsewhere); red sandstone dressings (documented that it
+5. **Surfaces.** White render and limewash (documented, one source: Caple [S20]) from 1283; limestone rubble (documented: the listing [S3], one source: Caple's family; quarried on the hill [S10]; bedrock [S25] agrees); slate (documented for the hall [S4][S20], analogy elsewhere); red sandstone dressings (documented that it
    was used [S10]); timber; daub (analogy). Each an asset with its source, as ADR 0055 requires.
 6. **The one-source label.** As for Dinefwr, a content test should require a "one source: Caple" note on every part this
    note labels so (S1, S3, S4, S5, S8-S16 and S20 are one excavation in many forms).

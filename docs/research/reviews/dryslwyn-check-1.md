@@ -15,6 +15,11 @@ workflow that commissioned one agent. It is a second reading of each claim again
 quotation tested by a script, not the fresh pass by another reader that the todo path asks for. That pass is still
 owed before the castle is built.
 
+**Update, 2026-10-17:** the independent pass is [check 2](dryslwyn-check-2.md). It found that this check let two
+errors through (claim 12's neighbour, the hall's added storeys, which the note wrongly called contested, and the first
+kitchen's material, which it wrongly left uncontested), and that the note over-claimed on a few labels. The note is
+corrected.
+
 ## Method
 
 - Every web source was downloaded and read as text (HTML stripped of tags): Coflein's two records, the Cadw listing and

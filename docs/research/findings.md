@@ -150,7 +150,9 @@ From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agen
 ## Dryslwyn Castle for a Blender model (2026-10-17)
 
 From [`dryslwyn.md`](dryslwyn.md), a draft, re-read against its sources by the same agent the same day
-([check 1](reviews/dryslwyn-check-1.md)); **the independent check is still owed**. Written by Claude for the true-size
+([check 1](reviews/dryslwyn-check-1.md)) and then independently ([check 2](reviews/dryslwyn-check-2.md)), which corrected
+two readings: the 1280s added **one** storey to the hall (every source agrees; the draft had invented a dispute), and the
+first kitchen's material (stone or timber) **is** contested, which the draft had missed. Caple's monograph is still unread. Written by Claude for the true-size
 scripted model Dewi's decisions of 2026-10-16/17 call for.
 
 - **Almost everything known of the castle's form is one excavation's**: Chris Caple's of 1980-95, reaching us through his
