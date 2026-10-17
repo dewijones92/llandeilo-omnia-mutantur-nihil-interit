@@ -184,6 +184,39 @@ From [`carreg-cennen.md`](carreg-cennen.md), a draft, checked by the same agent 
   as fact where the sources say "probably"; one barbican-and-outer-ward phase from 1300 where Cadw has two periods; no
   burnt state for 1282-87; the plan at 2.6 times.
 
+## Dryslwyn Castle for a Blender model (2026-10-17)
+
+From [`dryslwyn.md`](dryslwyn.md), a draft, re-read against its sources by the same agent the same day
+([check 1](reviews/dryslwyn-check-1.md)) and then independently ([check 2](reviews/dryslwyn-check-2.md)), which corrected
+two readings: the 1280s added **one** storey to the hall (every source agrees; the draft had invented a dispute), and the
+first kitchen's material (stone or timber) **is** contested, which the draft had missed. Caple's monograph is still unread. Written by Claude for the true-size
+scripted model Dewi's decisions of 2026-10-16/17 call for.
+
+- **Almost everything known of the castle's form is one excavation's**: Chris Caple's of 1980-95, reaching us through his
+  monograph's abstract, the Cadw guide he co-wrote, Coflein's and the HER's summaries of it, the listing (which cites it),
+  medievalheritage.eu and every plan and section. Parts resting on that family alone are labelled "documented (one
+  source: Caple)". The independent strands are the LiDAR, three chronicles for 1245-46 and 1287, two views of the ruin
+  (c. 1795, 1872) and the BGS map. ([dryslwyn:S20], [dryslwyn:S3])
+- **The Cadw period plan fits the 2020-22 LiDAR** pinned at the surveyed keep (E 255404.0 N 220297.5), at 7.5 pixels a
+  metre and 3 degrees clockwise; the phase plans' bar gives 7.29, so the plan is about 3% larger on the ground than its
+  bar says (Dinefwr's was 5%). On the ground the castle is about 112 x 97m, not the 119 x 107m read off the bar in
+  `building-models.md`, and the ward sizes now add up. ([dryslwyn:S11], [dryslwyn:S24])
+- **The excavation dates the phases**: founded "in the late 1220s by Rhys Gryg for his son Maredudd ap Rhys", a second
+  ward in the mid-13th century, "greatly expanded in the period 1283-87 by Rhys ap Maredudd" (the outer ward and gatehouse,
+  a storey on the hall and chamber, apartments, a chapel), garrisoned by the Crown from 1287, and "During the early to mid
+  15th century ... deliberately walled up", then looted, burnt and demolished. The app's "three wards from 1280" and
+  "ruin from 1430" are near this; its middle ward's builder and the walling-up's date stay contested. ([dryslwyn:S20])
+- **It was white**: "By the late 13th century, the castle had a white rendered and lime-washed appearance"; the hall's
+  roof was slate; the walls are limestone rubble on the Mydrim Limestone, with imported red sandstone dressings. The first
+  landmark with a source for render; Dinefwr has none. ([dryslwyn:S20], [dryslwyn:S4], [dryslwyn:S3], [dryslwyn:S25])
+- **The keep is about 12m across at its base** (texts, plans and the survey agree), but Caple's reconstruction section
+  draws it about 9m above a flared base, 16m high in four levels; the height is reconstructed only. ([dryslwyn:S14])
+- **The 1287 mining is in three chronicles**, not only the Cadw guide: the *Annales Cambriae* (siege "circa gulam Augusti",
+  about 1 August, against the guide's 15 August), Trivet and Wykes; where the wall fell ("near the projecting chapel
+  block") is tradition only. ([dryslwyn:S21], [dryslwyn:S22], [dryslwyn:S23], [dryslwyn:S9])
+- **The castle is outside the app's one LiDAR region** (4.6km west of it); a 2m area of 500m centred on E 255450
+  N 220375 (all inside tile SN5520) is proposed, with a second region round it, a build decision.
+
 ## Conversations by class (2026-09-28)
 
 From [`conversations-by-class.md`](conversations-by-class.md), a draft. An independent verification

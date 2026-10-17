@@ -1351,6 +1351,174 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/dinefwr-castle.md"
   },
   {
+    "id": "dryslwyn:S1",
+    "title": "Coflein (RCAHMW), \"Dryslwyn Castle, Dryslwyn\", NPRN 100682, SN 55387 20288 (John Wiles, 6 December 2007, \"Source: Rees & Caple CADW Guide to Dinefwr Castle & Dryslwyn Castle, revised edition (2007)\").",
+    "url": "https://coflein.gov.uk/en/site/100682/",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S2",
+    "title": "Coflein (RCAHMW), \"Dryslwyn Medieval Borough\", NPRN 109584, given as SN 55420 30370 (John Wiles, 6 December 2007, from the same guide).",
+    "url": "https://coflein.gov.uk/en/site/109584/",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S3",
+    "title": "Cadw, Listed Buildings Full Report 10934, \"Dryslwyn Castle\", Grade I, designated 8 July 1966, E 255403 N 220365; sources Davies 1993, Pettifer 2000, Rees and Caple 1999.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=10934",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S4",
+    "title": "Cadw, Scheduled Monuments Full Report CM030, \"Castell Dryslwyn\", E 255436 N 220365.",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/sam/FullReport?lang=en&id=445",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S5",
+    "title": "Heneb Historic Environment Record (Archwilio), PRN 699, \"Medieval - Castle\", SN55402035.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT699&dbname=dat&tbname=core",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S6",
+    "title": "Heneb HER (Archwilio), PRN 4319, \"Medieval - Motte\", SN55402035.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT4319&dbname=dat&tbname=core",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S7",
+    "title": "Gatehouse Gazetteer, \"Dryslwyn Castle\", record 217.",
+    "url": "https://gatehouse-gazetteer.info/Welshsites/217.html",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S8",
+    "title": "castlewales.com (Jeffrey L. Thomas), \"Dryslwyn Castle\", text by Sian E. Rees and Chris Caple, \"The Cadw guidebook for Dinefwr and Dryslwyn castles (1999)\", photographs 2002.",
+    "url": "https://www.castlewales.com/dryslwyn.html",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S9",
+    "title": "castlewales.com (Jeffrey L. Thomas), \"The 1287 Siege of Dryslwyn Castle\", \"From the official Cadw Guidebook for Dryslwyn Castle\".",
+    "url": "https://www.castlewales.com/dryslwn2.html",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S10",
+    "title": "medievalheritage.eu, \"Dryslwyn – castle\" (bibliography: Caple 2007; Caple and Rees 2007; Davis 2011, 2021; Kenyon 2010; Lindsay 1998; Lloyd, Orbach and Scourfield 2006; Salter 1996).",
+    "url": "https://medievalheritage.eu/en/main-page/heritage/wales/dryslwyn-castle/",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S11",
+    "title": "medievalheritage.eu, \"castle plan according to S.Rees, C.Caple and Cadw\" (period plan: \"Early/Mid-Thirteenth Century: Phase 1\", \"Mid-Thirteenth Century: Phase 2\", \"Late Thirteenth Century\"; Round Tower, Inner, Middle …",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dryslwyn-plan-12.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S12",
+    "title": "medievalheritage.eu, \"plan of the castle expansion according to S.Rees, C.Caple and Cadw\" (three phase panels; 15m and 50ft bars).",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dryslwyn-plan-11.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S13",
+    "title": "medievalheritage.eu, \"plan of the castle and town from the 14th century according to C. Caple\" (excavated and projected walls, ditch, roadways, bedrock, the settlement \"A\"; 80m bar).",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/06/Dryslwyn-plan-05.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S14",
+    "title": "medievalheritage.eu, \"reconstruction of the keep, the entrance to the tower and the cross-section according to C. Caple\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/06/Dryslwyn-rekonstrukcja-07.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S15",
+    "title": "medievalheritage.eu, \"cross-section of the buildings in the southern part of the inner ward from the beginning and from the end of the 13th century according to C. Caple\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/06/Dryslwyn-rekonstrukcja-08.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S16",
+    "title": "medievalheritage.eu, \"longitudinal section through the eastern wing and the tower with the chapel, northern elevation of the southern tower wall according to C. Caple\".",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2026/06/Dryslwyn-rekonstrukcja-09.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S17",
+    "title": "Paul R. Davis, reconstruction of the castle in the first half of the 13th century and the mid-13th century, from the north-east, as reproduced by medievalheritage.eu (\"reconstruction of the castle from the beginning o…",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2022/02/Dryslwyn-rekonstrukcja-33.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S18",
+    "title": "Chris Jones-Jenkins, reconstruction of the castle in the first half of the 13th century, for Cadw, as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dryslwyn-rekonstrukcja-22.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S19",
+    "title": "Chris Jones-Jenkins, cutaway of the buildings in the southern part of the inner ward at the beginning of the 14th century, for Cadw, as reproduced by medievalheritage.eu.",
+    "url": "https://medievalheritage.eu/wp-content/uploads/2019/10/Dryslwyn-rekonstrukcja-25.jpg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S20",
+    "title": "Chris Caple, *Excavations at Dryslwyn Castle 1980-95* (Society for Medieval Archaeology Monograph 26, 2007; Routledge, 370 pages), the publisher's abstract and table of contents.",
+    "url": "https://www.routledge.com/Excavations-at-Dryslwyn-Castle-1980-95/Caple/p/book/9781905981885",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S21",
+    "title": "*Annales Cambriæ*, ed. John Williams ab Ithel (Rolls Series 20, London, 1860), Internet Archive.",
+    "url": "https://archive.org/details/annalescambri20will",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S22",
+    "title": "Nicholas Trivet, *Annales sex regum Angliae*, ed. Thomas Hog (English Historical Society, London, 1845), p. 315, Internet Archive.",
+    "url": "https://archive.org/details/fnicholaitriveti00trivuoft",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S23",
+    "title": "\"Chronicon vulgo dictum Chronicon Thomae Wykes\", in *Annales Monastici* vol. 4, ed. H. R. Luard (Rolls Series 36, London, 1869), pp. 309-11, Internet Archive.",
+    "url": "https://archive.org/details/annalesmonastic00unkngoog",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S24",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tiles SN5520 and SN5519 (and DTM SN5419, SN5420, SN5521, SN5620) (`wg_del_26_<tile>_20220113dtm.tif`, `...dsm.tif`, catalogue date 13-01-2022, delivery …",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_26_255220_20220113dsm.tif",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S25",
+    "title": "British Geological Survey, DiGMapGB-50 bedrock (v9.25, released 31 March 2025; sheet 230, Ammanford), GetFeatureInfo at the castle.",
+    "url": "https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S26",
+    "title": "Cadw, \"Castell Dryslwyn\" (visitor page).",
+    "url": "https://cadw.gov.wales/visit/places-to-visit/castell-dryslwyn",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S27",
+    "title": "James Baker (drawer) and J. Bluck (engraver), \"Drysllwyn Castle with Gronger Hill\", aquatint, about 1795, National Library of Wales, via Wikimedia Commons.",
+    "url": "https://commons.wikimedia.org/wiki/File:Drysllwyn_Castle_with_Gronger_Hill.jpeg",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
+    "id": "dryslwyn:S28",
+    "title": "Thomas Nicholas, *Annals and antiquities of the counties and county families of Wales* (London, 1872), p. 280, \"Dryslwyn Castle\", Internet Archive Book Images via Wikimedia Commons.",
+    "url": "https://commons.wikimedia.org/wiki/File:Image_from_page_280_of_%22Annals_and_antiquities_of_the_counties_and_county_families_of_Wales%22_(1872",
+    "doc": "docs/research/dryslwyn.md"
+  },
+  {
     "id": "ironage:S1",
     "title": "\"Y Gaer Fawr, Garn Goch\" (NPRN 100866), Coflein (RCAHMW).",
     "url": "https://coflein.gov.uk/en/site/100866",

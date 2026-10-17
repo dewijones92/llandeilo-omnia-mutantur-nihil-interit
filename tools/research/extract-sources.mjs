@@ -29,6 +29,7 @@ const PREFIX = {
   'fort-surfaces': 'surfaces',
   'dinefwr-castle': 'dinefwr',
   'carreg-cennen': 'cennen',
+  dryslwyn: 'dryslwyn',
 };
 
 const entries = [];
