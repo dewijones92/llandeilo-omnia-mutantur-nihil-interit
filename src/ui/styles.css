@@ -133,7 +133,7 @@ button {
 }
 
 .tool:hover,
-.seg button:hover:not([aria-pressed='true']) {
+.seg button:hover:not([aria-pressed='true'], [aria-selected='true']) {
   background: rgba(31, 35, 40, 0.06);
 }
 

@@ -87,6 +87,25 @@ test('the almanac, language and sound controls work for the chosen year', async 
   expect(errors).toEqual([]);
 });
 
+test('the chosen tab keeps its dark background while the mouse is still over it', async ({ page }) => {
+  await page.goto('./?year=1843');
+  await ready(page);
+  await page.getByRole('button', { name: 'Almanac' }).click();
+  const tab = page.locator('.info').getByRole('tab', { name: 'Language' });
+  await tab.click();
+  await expect(tab).toHaveAttribute('aria-selected', 'true');
+  const look = (): Promise<string> =>
+    tab.evaluate((el) => {
+      const s = getComputedStyle(el);
+      return `${s.backgroundColor} / ${s.color}`;
+    });
+  await page.mouse.move(5, 5);
+  const away = await look();
+  expect(away, 'a chosen tab has white text').toMatch(/ \/ rgb\(255, 255, 255\)$/);
+  await tab.hover();
+  expect(await look(), 'hovering the chosen tab must not wash out its background').toBe(away);
+});
+
 test('arrow keys move the slider without snapping back to a key date', async ({ page }) => {
   await page.goto('./');
   await ready(page);
