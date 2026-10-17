@@ -637,10 +637,15 @@ async function start(): Promise<void> {
     guess.button,
   );
   const quality = new QualityMenu(store, chosen.quality, (q) => {
+    const t0 = performance.now();
     world.setQuality(QUALITY[q]);
+    const t1 = performance.now();
     landmarkMaterials.setSize(textureSizeFor(q));
     features.setModels(modelsFor(q));
     debug?.update(snap);
+    console.info(
+      `dewidebug quality applied=${q} world=${(t1 - t0).toFixed(0)}ms rest=${(performance.now() - t1).toFixed(0)}ms`,
+    );
   });
   brand.append(row2, skyControls.el, quality.el);
   brand.querySelector('.brand-row')?.append(home);

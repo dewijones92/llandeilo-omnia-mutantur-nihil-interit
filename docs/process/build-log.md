@@ -2015,3 +2015,15 @@ finding what draws it** (here, one grep of `landcover.ts`).
 - **CLAUDE.md's Downloads row still called the models' licence open.** Replaced by the decision. Also done: the unused ADR number
   0057 is noted, the `updated:` dates are bumped, and the castle-tile ribbon test fails on an empty tile.
 
+
+## 2026-10-17 (a CI failure on the switch back to High)
+
+CI on 3b6c046 failed one test in shard 7: "switching to Low mid-session…" waited 30s after clicking High and the debug
+overlay still read `quality low` with Low's shadows, MSAA and bloom, so the world had not changed. The same test passed
+on ec86387's CI and in the full local run under CI's settings, and passes again locally (twice, 38s and 44s). New
+logging (`dewidebug quality applied=<q> world=<ms> rest=<ms>`) shows the switch itself takes about 60ms under SwiftShader
+(world 49ms, textures and models 14ms), so the first guess, a slow rebuild at 1fps, is wrong: the click most likely
+never reached the menu, for a reason the artefacts cannot show (the page snapshot has no pressed state for the buttons).
+Rather than lengthen a timeout on a guess, the test now records the menu's `chosen` and `applied` lines and fails with
+them, so a recurrence says whether the click was handled. **Lesson:** measure the slow step before blaming it; a
+failure message should name which of its causes happened.

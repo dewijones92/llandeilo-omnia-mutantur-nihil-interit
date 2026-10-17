@@ -2789,6 +2789,10 @@ test('with ?models=off, and at Low, the forts are drawn from their plans as befo
 test('switching to Low mid-session brings the procedural forts back and takes the model detail off an open card, leaving the open part open', async ({
   page,
 }) => {
+  const switches: string[] = [];
+  page.on('console', (m) => {
+    if (/dewidebug quality (chosen|applied)/.test(m.text())) switches.push(m.text());
+  });
   await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
   await ready(page);
   const debug = page.locator('.debug');
@@ -2808,6 +2812,14 @@ test('switching to Low mid-session brings the procedural forts back and takes th
   await expect(tower.locator('[data-kit]')).toHaveCount(0);
   await expect(tower.locator('.moment-kits-off')).toContainText('simplified model is on screen');
   await graphics.getByRole('button', { name: 'High' }).click();
+  // CI once saw "quality low" 30s after this click (2026-10-17); the switch itself takes about 60ms under
+  // SwiftShader, so the message says whether the click reached the menu (chosen=high) or the switch stalled.
+  await expect
+    .poll(() => switches.filter((l) => l.includes('applied=high')).length, {
+      message: `the High switch did not finish; quality lines so far: ${JSON.stringify(switches)}`,
+      timeout: 60_000,
+    })
+    .toBe(1);
   await expect(debug).toContainText('quality high');
   // Coming back to High loads the models and their textures again, which at CI's ~1fps takes as long as the first load.
   await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
