@@ -5293,6 +5293,126 @@ export const SOURCE_SEEDS = [
     "doc": "docs/research/soundscapes.md"
   },
   {
+    "id": "teilo:S1",
+    "title": "Coflein (RCAHMW), \"St Teilo's Church Llandeilo\", NPRN 100867, SN 6293022236, Type CHURCH (description \"RCAHMW, 10 February 2009\").",
+    "url": "https://coflein.gov.uk/en/site/100867/",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S2",
+    "title": "Cadw, Listed Buildings Full Report 11097, \"Parish Church of St Teilo\", Grade II, designated 14 March 1966, E 262930 N 222236, \"Information supplied by Mr P Howell\".",
+    "url": "https://cadwpublic-api.azurewebsites.net/reports/listedbuilding/FullReport?lang=en&id=11097",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S3",
+    "title": "Heneb Historic Environment Record (Archwilio), PRN 888, \"St Teilo's Llandeilo Fawr\", SN6293022236, Medieval and post-medieval church, Listed Building II.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT888&dbname=dat&tbname=core",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S4",
+    "title": "Heneb HER (Archwilio), PRN 912, \"St Teilo's Church Llandeilo Fawr\", Early Medieval churchyard, clas, monastery.",
+    "url": "https://archwilio.org.uk/arch/query/page.php?watprn=DAT912&dbname=dat&tbname=core",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S5",
+    "title": "N. Ludlow, Welsh Historic Churches Project, Carmarthenshire churches, entry \"St Teilo, Llandeilo Fawr, Carmarthenshire (Dinefwr)\" (Cambria Archaeology / Dyfed Archaeological Trust for Cadw; fieldwork 1998; Dyfed PRN 8…",
+    "url": "http://www.walesher1974.org/her/app/php/herumd.php?group=DAT&level=3&docid=301363822",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S6",
+    "title": "Llandeilo History (llandeilo.org, Terry Norman and Andy Mabbutt), \"St Teilo's Church\" (\"From: www.llandeilofawr.org.uk\").",
+    "url": "https://www.llandeilo.org/ch_st-teilos.html",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S7",
+    "title": "*The Welshman*, 11 October 1850, \"Re-opening of Llandilo Church\", Welsh Newspapers Online (National Library of Wales).",
+    "url": "https://newspapers.library.wales/view/4347234/4347236/12/",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S8",
+    "title": "Samuel Lewis, *A Topographical Dictionary of Wales* (London, 1849), \"Llandilo-Vawr\", British History Online.",
+    "url": "https://www.british-history.ac.uk/topographical-dict/wales/pp524-536",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S9",
+    "title": "GENUKI, \"Llandilo Fawr, Carmarthenshire\", quoting Lewis's *Topographical Dictionary of Wales* (1844).",
+    "url": "https://www.genuki.org.uk/big/wal/CMN/LlandeiloFawr",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S10",
+    "title": "Robert Hoare (research by Ian Toplis), \"St Teilo's, Llandilo\", GilbertScott.org.",
+    "url": "https://gilbertscott.org/buildings/st-teilos-llandilo",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S11",
+    "title": "Lambeth Palace Library, Incorporated Church Building Society file ICBS 3533, Llandilo, Carmarthenshire, ground plan, 1844-1851, creators \"G. G. Scott?\" and John Harries, images LPLIBLPL~34~34~84367~113585 and ~123258~…",
+    "url": "https://images.lambethpalacelibrary.org.uk/luna/servlet/detail/LPLIBLPL~34~34~84367~113585",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S12",
+    "title": "Dictionary of Welsh Biography, \"TEILO (sometimes called ELIUD), a Celtic saint of the 6th century\" (E. G. Bowen).",
+    "url": "https://biography.wales/article/s-TEIL-SAN-0500.html",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S13",
+    "title": "Wikipedia, \"St Teilo's Church, Llandeilo\".",
+    "url": "https://en.wikipedia.org/wiki/St_Teilo%27s_Church,_Llandeilo",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S14",
+    "title": "Welsh Government LiDAR, 2020-22 national survey, 1m DSM and DTM, tile SN6222 (`wg_del_26_262222_20220222dsm.tif`, 1,680,133 bytes, SHA-256 7c162d1e...; `wg_del_26_262222_20220222dtm.tif`, the repository's manifest cop…",
+    "url": "https://dmwproductionblob.blob.core.windows.net/lidar-zips/2020-22/dsm/wg_del_26_262222_20220222dsm.tif",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S15",
+    "title": "Ordnance Survey, OS OpenMap Local, tile SN, `Building` layer (Open Government Licence; local copy in ~/code/data/llandeilo/oml, downloaded 2026-09-26).",
+    "url": "https://api.os.uk/downloads/v1/products/OpenMapLocal/downloads?area=SN&format=ESRI%C2%AE+Shapefile&redirect",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S16",
+    "title": "British Geological Survey, DiGMapGB-50 bedrock (v9.25, released 31 March 2025), WMS GetFeatureInfo at E 262930 N 222236.",
+    "url": "https://map.bgs.ac.uk/arcgis/services/BGS_Detailed_Geology/MapServer/WMSServer",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S17",
+    "title": "Ken Day, \"Llandeilo Parish Church, St Teilo's. Tower, south face\", 7 August 2014, Wikimedia Commons, CC BY-SA 4.0.",
+    "url": "https://commons.wikimedia.org/wiki/File:Llandeilo_Parish_Church,_St_Teilo%27s._Tower,_south_face.jpg",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S18",
+    "title": "Jaggery, \"Tower, St Teilo's church, Llandeilo\", 26 June 2011, geograph.org.uk 3270292 via Wikimedia Commons, CC BY-SA 2.0.",
+    "url": "https://commons.wikimedia.org/wiki/File:Tower,_St_Teilo%27s_church,_Llandeilo_-_geograph.org.uk_-_3270292.jpg",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S19",
+    "title": "Darren Wyn Rees, \"St Teilo's Church, Llandeilo\", 21 August 2020, Wikimedia Commons, CC BY-SA 4.0.",
+    "url": "https://commons.wikimedia.org/wiki/File:St_Teilo%27s_Church,_Llandeilo.jpg",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
+    "id": "teilo:S20",
+    "title": "Lynn Hughes, \"Pons Asinorum\" (Carmarthenshire Life, November 2004; from a work in progress, *Towy: The Biography of a River*), on llandeilo.org.",
+    "url": "https://llandeilo.org/bge_history.html",
+    "doc": "docs/research/st-teilo.md"
+  },
+  {
     "id": "timeline:S1",
     "title": "Amgueddfa Cymru (National Museum Wales), \"The Cave Men of Ice Age Wales\" (2007)",
     "url": "https://museum.wales/articles/2007-05-11/The-Cave-Men-of-Ice-Age-Wales/",

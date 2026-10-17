@@ -217,6 +217,45 @@ scripted model Dewi's decisions of 2026-10-16/17 call for.
 - **The castle is outside the app's one LiDAR region** (4.6km west of it); a 2m area of 500m centred on E 255450
   N 220375 (all inside tile SN5520) is proposed, with a second region round it, a build decision.
 
+## St Teilo's church for a Blender model (2026-10-17)
+
+From [`st-teilo.md`](st-teilo.md), a draft, re-read the same day by the same agent ([check 1](reviews/st-teilo-check-1.md),
+not independent) and then checked by an independent reader ([check 2](reviews/st-teilo-check-2.md), whose findings are
+applied: the quarry collapse is one event, the pre-1848 outline is reconstructed, not documented, the porch and vestry
+were re-measured). Written by Claude for the true-size Blender landmarks Dewi chose
+(2026-10-16/17).
+
+- **The tower is measured on the 2020-22 LiDAR**: about 8.0 by 7.5m above its batter, parapet top 74.5m OD, 18.7m above
+  the churchyard, roof 17.4m, and the stair turret to 76.3m OD, about 20.5m, at the north-east angle. No source gives any
+  of these. ([teilo:S14])
+- **The turret is at the north-east angle**, as the Cadw listing says; Ludlow's fabric survey for Cadw's historic
+  churches project puts it in "the western half of the north wall", which the survey contradicts. ([teilo:S2],
+  [teilo:S5], [teilo:S14])
+- **Coflein's two dates for the tower are its two parents**: its "fifteenth century west tower" is the listing's "C15",
+  its "around 1600" is Ludlow's "later 16th century" (the HER's "c.1600" is Ludlow's too). So the tower's date is one
+  source against one, and its **parapet** likewise: "C19 crenellated battlements" (listing) against a parapet and
+  gargoyles "all from the later 16th century" (Ludlow). ([teilo:S1], [teilo:S2], [teilo:S3], [teilo:S5])
+- **The church pulled down in 1848 is said to have had today's plan** (Ludlow, from the 1837 tithe map and a town plan,
+  which nobody here has seen; the local-history page on the reused medieval foundations, which cites nothing): a nave
+  with its chancel, a north aisle (the "double nave"), the west tower and "a large south transept (and vestry?)". That is
+  the plan of 1837, not of c. 1400, so the medieval outline is **reconstructed** from today's measured one, to no better
+  than a metre or two; its heights are unknown. ([teilo:S5], [teilo:S6])
+- **The 1848 quarry collapse is one event, not two counts**: Thomas Jenkins's diary (via Lynn Hughes) has five men
+  buried, four saved and one dead, which is Coflein's and Ludlow's "killing one of the workers". What is contested is
+  whether the church was built of that quarry's stone: Coflein says so; Jenkins says the quarry was abandoned "without
+  procuring any stones worth using". ([teilo:S1], [teilo:S5], [teilo:S20])
+- **Today's church is measured**: nave and chancel 37.3 by 11.0m, ridge 13.4m; north aisle 31.5 by 8.1m, ridge 11.0m; two
+  south gables, of which Ludlow dates the west (the transept) to 1848-51 and the east (the organ chamber) to 1903 (1905 in
+  the listing and the local page); a lean-to vestry on the south. ([teilo:S5], [teilo:S14])
+- **The old steeple "was allowed to remain intact"** and the body was rebuilt by Scott, reopening on 10 October 1850 (The
+  Welshman); who designed it (Scott, or Edward Davies of Bath under Scott's supervision) and when it was finished (1850 or
+  1851) stay contested. ([teilo:S7], [teilo:S6], [teilo:S10])
+- **What the app gets wrong today** (for the build, not changed here): the 1850 church's vestry drawn north of the
+  chancel, where the survey shows open ground (it is on the south); the tower about 3.8m off its measured place and no
+  turret; two equal 8m naves where the surveyed nave is 11m and the aisle 8m; the medieval church from 1300, which no
+  source gives (the only date read is c. 1400, one unreferenced source); Scott's church from 1848 rather than 1850; the
+  clas church labelled reconstructed where its form is imagined.
+
 ## Conversations by class (2026-09-28)
 
 From [`conversations-by-class.md`](conversations-by-class.md), a draft. An independent verification
@@ -259,7 +298,8 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   at 12,500 BC and colder by 11,000 BC. (A review of 2026-09-28 first caught the coldest-point error in
   the climate keys.)
 - St Teilo's west tower is contested: 15th century (Cadw listing, models:S29; Coflein, models:S28) or about 1600 (Coflein, the same record); the app draws it from c. 1600, with the text giving both. *Corrected 2026-10-02*: this line said it dates from about 1600,
-  as if settled.
+  as if settled. *Corrected 2026-10-17*: Coflein's two readings are its two parents, the listing's C15 and Ludlow's "later 16th
+  century" (teilo:S5), so it is one source against one ([st-teilo](st-teilo.md)).
 - Longhouse evidence is later and from mid Wales; the medieval ones in the app are marked imagined.
 - **The app rang church bells no source records** (corrected 2026-10-03). The environment keys gave
   bells at AD 800, 1250, 1600 and 1850, but the first bells heard at Llandeilo in any source read are

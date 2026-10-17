@@ -120,7 +120,10 @@ chose the in-app build on 2026-10-09; on 2026-10-10 he chose scripted Blender mo
   2026-10-17: this line had stayed open after the 2026-10-02 note answered it.* Still open there: any medieval height
   but the south curtain's, the materials and roofs, and the Welsh castle's form.
 - ~~**Talley**: its widths, and whether any nave bays were built.~~ Closed by `research/building-models.md`.
-- **St Teilo's**: the tower's height and the medieval naves' size.
+- **St Teilo's**: the tower's height and the medieval naves' size. Part closed by `research/st-teilo.md` (2026-10-17):
+  the tower and today's church measured on the LiDAR; the medieval naves' size is **reconstructed from today's outline**
+  (Ludlow's reading of the 1837 maps and a local page, two secondary sources; the medieval walls were not measured).
+  Still open there: any medieval height, the tower's and its parapet's dates, and the materials of the medieval body.
 - **Newton House**: its size, storeys and the 1660 and 1770s forms.
 - **Llandeilo Bridge**: its width. The old bridge's arch sizes and line.
 - Coflein plans (Dinefwr NPRN 425 and the others) and Cadw guidebooks would close most of these.
