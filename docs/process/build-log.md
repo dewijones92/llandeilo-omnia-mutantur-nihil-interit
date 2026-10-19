@@ -2022,8 +2022,12 @@ CI on 3b6c046 failed one test in shard 7: "switching to Low mid-session…" wait
 overlay still read `quality low` with Low's shadows, MSAA and bloom, so the world had not changed. The same test passed
 on ec86387's CI and in the full local run under CI's settings, and passes again locally (twice, 38s and 44s). New
 logging (`dewidebug quality applied=<q> world=<ms> rest=<ms>`) shows the switch itself takes about 60ms under SwiftShader
-(world 49ms, textures and models 14ms), so the first guess, a slow rebuild at 1fps, is wrong: the click most likely
-never reached the menu, for a reason the artefacts cannot show (the page snapshot has no pressed state for the buttons).
+(world 49ms, and starting the textures and models 14ms; they then load asynchronously), so the first guess, a slow
+synchronous rebuild at 1fps, is wrong. What did happen is unknown: the click may not have reached the menu (though
+Playwright's hit check passed), the handler may have thrown, or the overlay's render may have failed and left stale
+text. The artefacts cannot tell these apart (the page snapshot has no pressed state for the buttons). *Corrected by the
+second review the same day, which also pointed out that a synchronous handler cannot "stall", so the poll now waits 5s
+and records page errors too.*
 Rather than lengthen a timeout on a guess, the test now records the menu's `chosen` and `applied` lines and fails with
 them, so a recurrence says whether the click was handled. **Lesson:** measure the slow step before blaming it; a
 failure message should name which of its causes happened.

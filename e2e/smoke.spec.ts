@@ -101,7 +101,7 @@ test('the chosen tab keeps its dark background while the mouse is still over it'
     });
   await page.mouse.move(5, 5);
   const away = await look();
-  expect(away, 'a chosen tab has white text').toMatch(/ \/ rgb\(255, 255, 255\)$/);
+  expect(away, 'a chosen tab is dark with white text').toBe('rgb(31, 35, 40) / rgb(255, 255, 255)');
   await tab.hover();
   expect(await look(), 'hovering the chosen tab must not wash out its background').toBe(away);
 });
@@ -2793,6 +2793,7 @@ test('switching to Low mid-session brings the procedural forts back and takes th
   page.on('console', (m) => {
     if (/dewidebug quality (chosen|applied)/.test(m.text())) switches.push(m.text());
   });
+  page.on('pageerror', (e) => switches.push(`pageerror ${e.message}`));
   await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
   await ready(page);
   const debug = page.locator('.debug');
@@ -2812,14 +2813,11 @@ test('switching to Low mid-session brings the procedural forts back and takes th
   await expect(tower.locator('[data-kit]')).toHaveCount(0);
   await expect(tower.locator('.moment-kits-off')).toContainText('simplified model is on screen');
   await graphics.getByRole('button', { name: 'High' }).click();
-  // CI once saw "quality low" 30s after this click (2026-10-17); the switch itself takes about 60ms under
-  // SwiftShader, so the message says whether the click reached the menu (chosen=high) or the switch stalled.
+  // CI once saw "quality low" 30s after this click (2026-10-17), cause unknown. The handler runs synchronously in
+  // the click, so a failure here prints whether the menu saw it (chosen=high) and any page error it threw.
   await expect
-    .poll(() => switches.filter((l) => l.includes('applied=high')).length, {
-      message: `the High switch did not finish; quality lines so far: ${JSON.stringify(switches)}`,
-      timeout: 60_000,
-    })
-    .toBe(1);
+    .poll(() => switches, { timeout: 5_000 })
+    .toContainEqual(expect.stringContaining('applied=high'));
   await expect(debug).toContainText('quality high');
   // Coming back to High loads the models and their textures again, which at CI's ~1fps takes as long as the first load.
   await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });

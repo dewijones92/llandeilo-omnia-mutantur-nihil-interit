@@ -170,10 +170,12 @@ terrace at its plan's setting scale, like the buildings; every terrace today is 
 - **Seat at the centre and accept the burial outside the forts.** A special case for one place, which the twin laws
   rule out.
 
-## Amendment, 2026-10-17: the rule does not yet reach the town's map buildings
+## Amendment, 2026-10-17: the rule does not yet reach the town's map buildings, the roundhouses or the hall-houses
 
 The release review of v0.10.0 found that "every building" in this ADR overstates what was built. The rule is
 applied by `seatIn` (`src/world/buildings.ts`) to every building drawn from a plan: the castles, churches, houses,
 the forts' buildings and the vicus. The town's ordinary houses, drawn as blocks from Ordnance Survey footprints in
-`src/world/settlement.ts`, still stand at the ground under their centre less 0.15 units, with no walls carried down.
-Dewi's "One rule for all" covers them too, so this is a gap, not a decision; it is on the todo list.
+`src/world/settlement.ts`, still stand at the ground under their centre less 0.15 units, with no walls carried down. A second review the same
+day found two more: the generated roundhouses and hall-houses (`src/world/structures.ts`, used by the Iron Age and
+medieval settlement features) seat each house at the ground under its own centre, not by `seatIn`. Dewi's "One rule
+for all" covers all three, so these are gaps, not decisions; they are on the todo list.
