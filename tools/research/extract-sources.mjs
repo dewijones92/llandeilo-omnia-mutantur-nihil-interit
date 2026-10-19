@@ -28,6 +28,11 @@ const PREFIX = {
   'dc-harries-photographs': 'harries',
   'fort-surfaces': 'surfaces',
   'dinefwr-castle': 'dinefwr',
+  'carreg-cennen': 'cennen',
+  dryslwyn: 'dryslwyn',
+  'st-teilo': 'teilo',
+  'talley-abbey': 'talley',
+  'llandeilo-bridge': 'bridge',
 };
 
 const entries = [];

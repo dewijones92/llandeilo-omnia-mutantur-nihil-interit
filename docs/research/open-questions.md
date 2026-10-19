@@ -40,24 +40,78 @@ for the next pass. Each note's own "Open questions" section has the full list an
 | The 1280s inner gatehouse at Dinefwr | Two hollow square towers on Cadw's 1280 phase plan, "perhaps a gatehouse" and "a lost gatehouse" in medievalheritage.eu, a new gate that "may have been" a remodelling of the original gatehouse in the Cadw guide; one source (Cadw), nothing of the towers standing (S9 says only the inner gate's loop holes and bar hole remain); both Cadw plans draw the inner gate about 1.4m (1.2-1.5m) wide (S10 a break in the curtain, S11 the gap between the towers) and the model follows them, though S9's surviving loop holes and bar hole may give the real width (added 2026-10-10; gap added 2026-10-16; width corrected 2026-10-16, check 4) | [dinefwr](dinefwr-castle.md) |
 | Cadw's Dinefwr plans' scale | The period plan as reproduced is about 5% larger than its bars say when fitted to the LiDAR; the 1280 panel of the phase plans fits within 2% of its bar, but that plan's five panels are drawn at different scales (keep to north-west tower 6.78, 6.48, 7.33 and 7.24 px/m on the 1250-70, 1280, 1330 and 1750 panels; one 20m bar of about 6.5-6.65), so each panel needs its own fit and only the 1280 has had one; cause unknown (added 2026-10-10; panel point added 2026-10-16) | [dinefwr](dinefwr-castle.md) |
 | Dinefwr keep's ground-floor door | Possibly original (Renn 1961) vs pierced in the 14th century (medievalheritage.eu; Cadw guide "may" 1326) (added 2026-10-10) | [dinefwr](dinefwr-castle.md) |
+| How much of Carreg Cennen's inner ward is Welsh | None, "obliterating any traces of earlier works" (Cadw schedule; Coflein "built in one operation") vs the south curtain "may have retained masonry" (Lewis 2006 via Wikipedia) vs the curtains and round towers possibly mid-13th century (Longueville Jones 1858) vs the whole "four-square" core (Morris 1901) (added 2026-10-17) | [carreg cennen](carreg-cennen.md) |
+| When Giffard's work at Carreg Cennen began | After 1283 (listing), after 1284 (medievalheritage.eu), 1287 (Coflein); the crown held it 1287-89; the three Cadw periods are undated (added 2026-10-17) | [carreg cennen](carreg-cennen.md) |
+| Carreg Cennen's capture in 1282 | 26 March (Morris p. 154) vs "early in April" (Morris p. 165); by Dafydd ap Gruffudd with the sons of Rhys Fychan (Morris; medievalheritage.eu) vs "the forces of" / "Prince" Llywelyn ap Gruffudd (Cadw listing and schedule) (added 2026-10-17, check 2) | [carreg cennen](carreg-cennen.md), [medieval](era-medieval-to-1282.md) |
+| Carreg Cennen's first record | 1248 (Rolls Series Brut, listing) vs 1254 (the version quoted in 1857); Rhys "obtained ... back again" what had been given to "the French" (Brut) vs took it "before the English took possession" (Wikipedia, medievalheritage.eu); Gatehouse calls the Rolls Series translation "flawed" and names Jones 1952 (Peniarth 20), not read (added 2026-10-17; Jones added in check 2) | [carreg cennen](carreg-cennen.md), [medieval](era-medieval-to-1282.md) |
+| Carreg Cennen's south-west corner | A round tower (Longueville Jones's 1858 text and plan) vs "Curved SW corner, not a proper tower" (listing; medievalheritage.eu; Cadw plan); the 2022 LiDAR shows no projecting tower today (added 2026-10-17) | [carreg cennen](carreg-cennen.md) |
+| Carreg Cennen's towers' shapes | North-east tower polygonal (plan, medievalheritage.eu) vs "rounded" (listing) vs "square" (schedule); gate towers half-octagonal (listing, plan) vs "octagonal" (1858); the barbican's "solid round turrets" (King 1985) vs one small eastern gate tower with a portcullis (medievalheritage.eu) (added 2026-10-17) | [carreg cennen](carreg-cennen.md) |
+| Carreg Cennen in 1461 or 1462 | Captured by Sir Roger Vaughan in 1462 (Cadw) vs surrendered after Mortimer's Cross, 1461 (Wikipedia) vs "finally destroyed ... in 1461" (Dyfed historic landscape text) vs "rendered unusable in 1462" (Coflein) (added 2026-10-17) | [carreg cennen](carreg-cennen.md), [effects](event-effects.md) |
+| Who restored Carreg Cennen | "Earl Cawdor (1817-98)" (listing), "The second Earl Cawdor" (Wikipedia) vs repairs already "lately ordered" by an unnamed owner in 1857-58 (Longueville Jones) (added 2026-10-17) | [carreg cennen](carreg-cennen.md) |
+| When Dryslwyn was founded, and by whom | "the late 1220s by Rhys Gryg for his son Maredudd ap Rhys" (Caple's monograph) and "the 1220s" (listing) vs "the second quarter of the thirteenth century" (Coflein) and "possibly by his successors" (medievalheritage.eu); first recorded 1245 (Gatehouse's list) or 1246 (Cadw guide; one manuscript of the *Annales Cambriae*) (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| Dryslwyn's middle ward | Mid-13th century (monograph, Cadw plans, listing) vs "later thirteenth century" (Coflein); Maredudd ap Rhys (listing) vs Rhys ap Maredudd (medievalheritage.eu, against its own history); about 70 x 30m (text) vs about 52m long fitted to the LiDAR (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| When the 1287 siege of Dryslwyn began, and how long it lasted | About 1 August (*Annales Cambriae*, "circa gulam Augusti") vs on or just after 15 August (Cadw guide); two weeks (Cadw's visitor page) vs three (listing, guide); fallen by 5 September (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| Who walled Dryslwyn up, and when | The English after retaking it from Glyndŵr, after 1403 (Cadw guide) vs Glyndŵr's retreating forces about 1409 (medievalheritage.eu, which says the castle fell into disuse then, not that it was walled up) vs "the early to mid 15th century" (monograph) vs "the early fifteenth century" (Coflein); the burning and demolition that followed are undated (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| What stood on Dryslwyn hill before the castle | An Iron Age hillfort (Cadw's scheduling report), a motte (an HER record with no description), Roman material (Coflein's borough record) vs "not borne out by any evidence" (Cadw guide) (added 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| Dryslwyn's keep and hall heights | The keep about 12m at the base in every source, but about 9m above a flared base and 16m high only on Caple's reconstruction section; the 1280s added one storey to the hall, which every source agrees on once the scheduling report's "two upper storeys" is read as the total (corrected by check 2, 2026-10-17) | [dryslwyn](dryslwyn.md) |
+| Whether Dryslwyn's first kitchen was stone or timber | "a small stone building, probably a kitchen" (Cadw guide) vs "a small, initially wooden, then stone kitchen" (medievalheritage.eu); both go back to Caple's excavation, whose report would settle it (added 2026-10-17, check 2) | [dryslwyn](dryslwyn.md) |
 | Cost of Llandeilo Bridge | £22,000 (Cadw) vs "over £12,000" (Coflein) | [victorian](era-victorian.md) |
+| Llandeilo's bridge from about 1800 to 1848 | The seven arches restored (Hughes, from Wood's 1812 etching; Cadw listing 20900; the 1948-49 plaque) vs a new bridge of three arches with two flood arches (*The Buildings of Wales* via Wikipedia; George Nicholson's *Cambrian Traveller's Guide*, 2nd edition, 1813; the NLW prints of c. 1824; a drawing captioned Delamotte 1816; Rees's "of modern erection" in the 1815 *Beauties of England and Wales*, which Hughes's quotation of him leaves out). Nicholson and Rees were read directly by check 1. The app draws seven arches (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| What the floods of 1795-98 took from the old bridge | Two spans (1795) and three (1796-97), then the timber repair (10 February 1798) (Hughes, from Turner and Rooker) vs "collapsed in 1795" (*The Buildings of Wales*, via Wikipedia) vs the whole bridge "swept away" in 1798 (llandeilo.org gallery); Hughes's own Turner caption and the gallery say one support, his text two, and his numbering (2 and 3, then 3, 4 and 5) is not consistent (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| The 1848 arch's rise and curve | 38 ft, 11.58m (Jenkins's full-size elliptic line, 1846) vs 12.65m (Cadw 20900) vs 35 ft above the river (Cragg 1986, via Wikipedia); elliptic (Jenkins, Coflein) vs depressed (Cadw 11040) vs segmental (Jervoise). The LiDAR deck and Cadw's 14.3m total height fit 11.58m better than 12.65m (an inference) (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| The 1848 arch's stone | Freestone, "possibly sandstone" voussoirs (Cadw, both listings) vs Cilyrychen Carboniferous limestone for the arch (Hughes, quoted by Coflein); the main parapet "rounded grey limestone" (Cadw 20900) vs "freestone ... with domed capstones" (Cadw 11040) (added 2026-10-17) | [bridge](llandeilo-bridge.md) |
+| The bridge's foundation stone and first flood | 3 December 1844 and 22 October 1846 (Jenkins's diary; Jervoise; Cadw's "first stone laid in 1844") vs 3 December 1845 and 22 October 1845 (Hughes); the bridge note uses the diary's (added 2026-10-17; the foundation stone was already open in event-effects) | [bridge](llandeilo-bridge.md), [effects](event-effects.md) |
 | When St Teilo's was rebuilt | Coflein: 1848–51 by George Gilbert Scott; Wikipedia: early 18th century | [victorian](era-victorian.md) |
-| St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02) | [buildings](building-models.md), [victorian](era-victorian.md) |
-| Talley Abbey's founding year | 1184, 1185 or 1189 | [timeline](timeline-and-earliest-occupation.md) |
+| St Teilo's west tower | 15th century (Cadw listing; Coflein) vs about 1600 (Coflein, the same record); drawn from c. 1600, the text gives both (added 2026-10-02). *Corrected 2026-10-17*: Coflein's two dates are its two parents, the listing's C15 and Ludlow's "later 16th century", so it is one source against one; the full row is the next one | [buildings](building-models.md), [victorian](era-victorian.md) |
+| St Teilo's tower: date, parapet, turret, west door | Date C15 (Cadw listing) vs later 16th century (Ludlow; Coflein's and the HER's "c. 1600" are his); parapet "C19 crenellated battlements" (listing) vs later 16th century with its gargoyles (Ludlow); stair turret at the north-east angle (listing, borne out by the LiDAR) vs "the western half of the north wall" (Ludlow); west door cut in the 19th century (listing) vs a 16th-century cut-out rebuilt 1848-51 (Ludlow) (added 2026-10-17) | [st-teilo](st-teilo.md) |
+| Who designed St Teilo's of 1848-51, and when it was finished | Scott after a competition (listing, Coflein); Scott "called in" after the 1844 competition "collapsed" (the Scott gazetteer); Edward Davies of Bath, built under Scott's supervision (llandeilo.org); reopened 10 October 1850 (The Welshman), completed 1850 or 1851; 920 seats and about £4,000 (The Welshman) vs about 700 seats and £4,723 (gazetteer) (added 2026-10-17) | [st-teilo](st-teilo.md) |
+| St Teilo's organ chamber and undercroft | Organ chamber 1903 (Ludlow, the faculty) vs 1905 (listing, llandeilo.org); a medieval undercroft under the Dynevor Chapel (Cadw 1991; the listing's "said to survive") vs an 18th-century burial vault (Ludlow) (added 2026-10-17) | [st-teilo](st-teilo.md) |
+| Whether St Teilo's of 1848-51 was built of the churchyard quarry's stone | Coflein: the rebuilding began "with stone excavated from a quarry within the churchyard"; Ludlow: a quarry "was apparently excavated" and caved in; Thomas Jenkins's diary (via Hughes): five men buried, four saved, one dead, and the quarry "abandoned without procuring any stones worth using from it". The collapse is one event (one worker killed is the same death as five buried); *corrected 2026-10-17*: an earlier row set the two counts against each other (added 2026-10-17) | [st-teilo](st-teilo.md), [effects](event-effects.md) |
+| St Teilo's Welsh name; when it was founded; when its lands went to Talley | No source found for the church's Welsh name (the app: "Eglwys Teilo Sant"; `era-victorian.md`: "Eglwys San Teilo"; Welsh Wikipedia calls the St Fagans church "Eglwys Sant Teilo"): a human Welsh check is parked. Teilo settled here "towards the close" of the 6th century (llandeilo.org) or "in or before 560" (the encyclopedia it quotes); the lands passed to Talley "in the twelfth century" (llandeilo.org) or c. 1215 (Ludlow) (added 2026-10-17) | [st-teilo](st-teilo.md) |
+| Talley Abbey's founding year | 1184, 1185 or 1189 (Coflein, the listing and Monastic Wales 1184-89; Cadw "the 1180s"; UK Southwest "around 1185") | [timeline](timeline-and-earliest-occupation.md), [talley](talley-abbey.md) |
+| What served Talley's parish, 1536-1772 | "The choir and presbytery" (Coflein, the listing, the HER, Monastic Wales); the presbytery, later "a smaller chancel ... within it" (O'Neil 1941); the whole shortened church: "150ft in length in 1710" (Coflein, St Michael's), "more-or-less entire" (the HER citing Griffiths 1976), "half a ruin" and "too large" (Lewis 1833), the first parish church from the cross-wall "right through the tower" (Williams 1897, "probably"); O'Neil's post-Suppression work in the nave's doors (added 2026-10-17) | [talley](talley-abbey.md) |
+| Talley tower's height | 23.8-24.5m measured on the 2022 LiDAR, about the corbel course (78ft, 23.8m, Williams); 24m (listing); 26m (Coflein, medievalheritage.eu); over 25m (Monastic Wales); 85ft (UK Southwest); the gable apex: 95ft (29m) in Williams's text against 87-88ft (26.5-26.9m) in his own plates; "originally approximately 29 meters" (medievalheritage.eu) (added 2026-10-17) | [talley](talley-abbey.md) |
+| How much of Talley's north aisle was built | One bay (O'Neil 1941) vs to "nearly opposite the second pier" (Williams 1897, whom Long Price's letter agrees with) (added 2026-10-17) | [talley](talley-abbey.md) |
+| Western towers at Talley | "at least one western tower" (O'Neil, from one unbonded wall) vs "probably two western towers" (the HER, from Cadw's 1986 text) (added 2026-10-17) | [talley](talley-abbey.md) |
+| A west range at Talley | A plain wall, no buildings (HER, DAT 2012); not known (medievalheritage.eu); "a small fragment" (UK Southwest); a back wall that "may never have been completed" (O'Neil) (added 2026-10-17) | [talley](talley-abbey.md) |
+| Talley's 15th-century burning | 1410, "despoiled, burned and almost destroyed" by English and Welsh armies (Monastic Wales); by the English army in Glyndŵr's rising (medievalheritage.eu); "an English-led attack in 1427" (UK Southwest), possibly a conflation with the treason hunt of a Talley canon in 1427 that medievalheritage.eu reports (an inference) (added 2026-10-17) | [talley](talley-abbey.md) |
+| What became of Talley's four western bays | Never built above footings (O'Neil 1941, with Long Price's letter) vs built, then shortened or left to decay (Williams 1897: "quite impossible to say", probably completed bar part of the north aisle; UK Southwest's "removed soon after the Dissolution") (added 2026-10-17) | [talley](talley-abbey.md) |
+| When Talley's church was shortened | The early 13th century, on mortar, plaster and floor evidence (O'Neil 1941) vs after the Dissolution, the cross-wall "probably" the parish church's west wall, or after a later misfortune (Williams 1897) (added 2026-10-17) | [talley](talley-abbey.md) |
+| Talley's tower in 1879 | "the one surviving wall" (Long Price 1879) vs the north and east walls standing in 1933 (O'Neil) (added 2026-10-17) | [talley](talley-abbey.md) |
 | When Llandeilo's gas works were built | c. 1860 (Wikipedia, "Ffairfach", single-source) vs being built in 1864 (two 1864 newspapers); the app uses the newspapers (added 2026-10-03; the c. 1860 copies in era-victorian.md and soundscapes.md now carry the correction) | [light](light-after-dark.md), [victorian](era-victorian.md), [soundscapes](soundscapes.md) |
 | The Garn Goch long cairn's period | Neolithic by appearance (Coflein) vs "probably ... Bronze Age" (Cadw's schedule); both typological, unexcavated (added 2026-10-02; the app text is being changed to give both) | [iron age](era-iron-age.md) (S7), [timeline](timeline-and-earliest-occupation.md) |
-| Where Llandeilo station stood, for the model | `LLANDEILO_STATION` (263266, 222361) is on the track, about 240m south-west of Coflein's station reference (263340, 222580) and OS Open Map Local's station symbol (263357, 222603); the 1905-revised map has the station buildings at the Coflein position (found 2026-10-09; not changed) | [dc-harries-photographs](dc-harries-photographs.md) |
+| Where Llandeilo station stood, for the model | `LLANDEILO_STATION` (263266, 222361) is about 231m south-west of Coflein's station reference (263340, 222580) and OS Open Map Local's station symbol (263357, 222603); the 1905-revised map has the station buildings at the Coflein position (found 2026-10-09; not changed). *Corrected 2026-10-17 (trains)*: this row said the point is on the track; it is 28m west of OS Open Map Local's track centre today (E 263294 at that northing) and, as the Harries note itself says, about 15m from the line on the 1905-revised map (E 263279), so off the track on both. The platforms measured on the LiDAR are centred near (263345, 222555). The row's earlier "240m" was inherited; the distance is 231m (checked 2026-10-17) | [dc-harries-photographs](dc-harries-photographs.md), [trains](trains.md) |
 | The D. C. Harries collection's size and his start year | 2,500 negatives printed, 800 or 930+ negatives (NLW, Wikipedia); business from about 1888 vs "the early twentieth century" (NLW's two pages); and the studio's birth year, 1865 (NLW) or 1866 (Wikidata, unsourced) (added 2026-10-09; Corrected 2026-10-09 (independent check)) | [dc-harries-photographs](dc-harries-photographs.md) |
 | Where the 1257 battles were fought | Coed Llathen near Broad Oak (first OS map, 1888 or 1891; field names not attested before it) vs the wood of Llanarthne (Gough-Cooper's reading of the manuscript); Cymerau at the Tywi–Cothi confluence (Lloyd) vs near Talley (Phillimore). All inside the area, none proven; the app marks none, and whether to mark them is Dewi's choice (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 | Rhys Fychan in 1257, and the dead | He slipped away to Dinefwr (Annales Cambriae B) vs Dinefwr's garrison seized him (the Brut); "more than three thousand" (AC B) vs "upwards of two thousand" (the Brut), a modern estimate 1,000–3,000; the camp at Llandeilo is in AC B alone. The app gives both readings (added 2026-10-03) | [invasions](invasions-and-raids.md) |
 | The date of the 1213 camp | 24 January (the Brut's reckoning) vs 25 January (Lloyd's *History of Carmarthenshire*); the app says late January and gives both (added 2026-10-03) | [invasions](invasions-and-raids.md) |
+| BR carriages turn maroon | 1956 (Wikipedia, British Rail corporate liveries) vs 1957 (HMRS transfer guide) (added 2026-10-17) | [trains](trains.md) |
+| Diesel units on the line after June 1964 | "Swindon cross-country sets" (Gittins), both two-car ("pairs of class 120", railcar.co.uk) and three-car (set C611 at Llandeilo in 1980) Class 120s ran, two cars being normal; the Wikipedia-only "three-car" for the class is general, not this line (added 2026-10-17, corrected the same day by the independent check) | [trains](trains.md), [railway-later](railway-later.md) |
+| Class 108 car 52037 at Glanrhyd | 17.70m and 28.5 tonnes (the 1990 report) vs "57 ft" (railcar.co.uk) and 29.5 t for a power car (Wikipedia) (added 2026-10-17) | [trains](trains.md) |
+| Who ran trains at Llandeilo before 1873 | the Llanelly company alone, vs some LNWR trains from about 1868 (running powers) or 1 July 1871 (the New Lines) (added 2026-10-17) | [trains](trains.md), [railway-locomotives](railway-locomotives.md) |
+| When BR Standard 5s took over the through trains | "from 1960 onwards" (Gittins) vs at Swansea Victoria by 1954 (shed lists) (added 2026-10-17) | [trains](trains.md) |
+| Owner of the c. 1900 train and the 1914-18 carriages at Llandeilo | LNWR (the through trains) vs GWR (the line south; "just a few trains" north): not shown by the photographs (added 2026-10-17) | [trains](trains.md) |
+| The engine on the c. 1900 station postcards | black on one card, green on the other: one photograph coloured twice, so neither is evidence (added 2026-10-17) | [trains](trains.md) |
 
 ## Gaps worth a dedicated pass
 
+- **The trains** (2026-10-17, for the Blender models): no engine class named at Llandeilo for 1873-1909 or 1923-1957; no
+  dimension found for the BR Standard Class 5;
+  no carriage type or train length before 1964; the Llanelly company's livery; the Black Five's height; the years each
+  diesel type gave way to the next (c. 1981, c. 1986, c. 1992 are estimates between dated sightings); liveries of
+  1990-2003. Leads: Denman (2012), "The Locomotive Fleet"; John Organ, *Llandeilo to Swansea* (Middleton Press, 2009);
+  the original of the c. 1900 photograph; railcar.co.uk's per-vehicle records. ([trains](trains.md))
 - **The forts' surfaces** (2026-10-10, [fort-surfaces](fort-surfaces.md)): the timber species at Dinefwr and whether its
   timbers were hewn or sawn; how long a turf face stayed bare and whether faces were grassed on purpose; any Roman-period
   find of shingle or thatch in Wales (a search found none); the Laurieston paper's survey of grass-down laying read
   against the 1899 Antonine Wall report directly. The new note has not had its independent check.
+- **St Teilo's church before 1848** (2026-10-17, for the Blender model): the 1837 tithe map and the undated town plan
+  (Ludlow's evidence that the old church had today's plan) were not viewed; the Incorporated Church Building Society's
+  file ICBS 3533 at Lambeth Palace Library (plans, 1844-51) needs a login; the competition drawings "survive in the
+  church". Any of them may show the old church's outline; none read gives any medieval height, window, roof covering or
+  finish, when the church was first built in stone (c. 1400 is one unreferenced source), when its south transept was
+  built, or anything of the clas church's form. RCAHMW's 1917 inventory (p. 91), Samuel 1868, Davies 1858, Evans 1910,
+  Ludlow's 2004 early medieval sites gazetteer and Edwards's *Corpus* vol. 2 were not read. ([st-teilo](st-teilo.md))
 - **Dinefwr Castle's fabric** (2026-10-10, for the Blender model): no source read gives any medieval height, the
   building stone, mortar, render or a roof covering, or the forms of the Lord Rhys's castle and the 1280s bailey
   buildings. The Cadw guidebook (Rees and Caple, 1999 and 2007), Colvin's *King's Works* (1963, pp. 641-4, the repair
@@ -72,7 +126,29 @@ for the next pass. Each note's own "Open questions" section has the full list an
   for Hardknott (1009349) and Whitley Castle (1006621) and its 2009 survey report could not be read (blocked). How the
   castles and houses elsewhere in the app met their slopes has not been researched at all; they stand by the seating
   rule alone.
-
+- **Carreg Cennen's fabric** (2026-10-17, for the Blender model): no source read gives any medieval height except the
+  south curtain's "full height", the stone of the ashlar dressings, render or any roof covering, the Welsh castle's form,
+  or the outer ward's buildings. The Cadw guidebook (J. M. Lewis, 1960, 1990, 2006), Colvin's *King's Works* vol. 2
+  (1963, p. 602), the 1369 and 1414-21 repair accounts, RCAHMW's 1917 inventory (no. 256, or 156 in King 1986), Remfry
+  and Ruckley 2010 and Remfry 2012 were not read; they are where the answers are likely to be. The LiDAR region would
+  need widening for its 2m area. ([carreg cennen](carreg-cennen.md))
+- **Dryslwyn Castle's fabric** (2026-10-17, for the Blender model): Chris Caple's excavation report (*Excavations at
+  Dryslwyn Castle 1980-95*, 2007) was not read beyond its abstract; it holds the measured plans, every height, the roofs
+  and the evidence for the render. Also unread: the Cadw guide (Rees and Caple), Webster 1987, Caple 1990 and 2008, the
+  interim notes in *Archaeology in Wales* and *Medieval Archaeology* (the Archaeology Data Service refused automated
+  reads), Colvin's *King's Works* pp. 641-2 and RCAHMW's 1917 inventory no. 452 (Gatehouse links an online copy, Google Books id 7gAABQpMpAYC). Also not read and
+  listed by Gatehouse: the Survey of 1609 (TNA SP 14/49/82), the only lead on the ruin's state before the c. 1795 view; the
+  Calendar of Close Rolls, Edward II, vol. 3, p. 542; Ellis, *Original Letters*, 2nd series, vol. 1, p. 20; Rickard 2002,
+  pp. 126-7. No medieval height of any wall is known
+  outside Caple's reconstruction drawings. The castle is outside the app's LiDAR region. ([dryslwyn](dryslwyn.md))
+- **Talley Abbey's fabric** (2026-10-17, for the Blender model): no source read gives wall heights for the nave, aisles,
+  transepts or presbytery, the ranges' form or size, the cloister's south side, the post-Suppression church's form, or any
+  roof covering. Williams's Plate 4 gives the presbytery roof's ridge and pitch and his text says the nave roof followed
+  it, "assuming" the church was completed; the presbytery roof's creasing survives on the tower (O'Neil) and could be
+  measured from photographs or a survey. The gable apex of the tower (95ft in his text, 87-88ft in his plates) is open.
+  Not read: the Cadw guide (Robinson and Platt), Burton and Stöber 2015, *The Buildings of Wales* (2006), Owen's history
+  (*Arch. Camb.* 1893-94), Smith and O'Neil's guide (1967), Griffiths 1976 on the visitations, Williams's Plates 3 and 5
+  to 7, RCAHMW's 1917 inventory and the OS 1:2500 sheets of 1888 and 1906. ([talley](talley-abbey.md))
 - **Heneb HER terms of use** (found by the hunter-gatherers check, 2026-10-09; for Dewi). Every Heneb HER
   (Archwilio) page says: "All output resulting from the use of the data must acknowledge the source as
   follows: Derived from information held by the Heneb HER Charitable Trust copyright", and "If you wish to
@@ -121,8 +197,11 @@ for the next pass. Each note's own "Open questions" section has the full list an
 - **Local prices and food** for the Victorian period: no Carmarthenshire figures found. (Wages: the
   Times reporter's 1843 Llandilo dispatch gives 7s a week, or 8d–9d a day with food; found
   2026-10-02, era-victorian S7, not yet shown in the app.)
-- **Dryslwyn after 1287**: when the castle fell out of use is not researched (the app shows an
-  approximate date and says so).
+- ~~**Dryslwyn after 1287**: when the castle fell out of use is not researched (the app shows an
+  approximate date and says so).~~ Researched 2026-10-17 in [`dryslwyn.md`](dryslwyn.md): garrisoned by the Crown
+  through the 14th century, surrendered to Glyndŵr in 1403, walled up in "the early to mid 15th century" (Caple), then
+  looted, burnt and demolished at an undated later time. Who walled it up, and when, stays contested (table above). The
+  app's ruin from 1430 is not yet changed.
 - **The Begin card's Welsh** (the motto's meaning, "Ofydd", the Begin note and the Graphics menu's
   Graffeg / Uchel / Canolig / Isel) is Claude's and waits for the parked human Welsh check (added
   2026-10-03).
@@ -281,6 +360,21 @@ the app. They are recorded here so the notes and the app do not silently disagre
   not fit at all: the event-effects note (S6, a single secondary source) says the flood of
   10 February 1798 "carried away the temporary wooden bridge", which suggests a wooden bridge, not
   the seven-arched one, around 1798. When the seven-arched bridge was built is now the open question.
+  *Updated 2026-10-17 by [`llandeilo-bridge.md`](llandeilo-bridge.md):* the stone bridge stood by 1577 (one chain:
+  Lambarde via Jervoise via Hughes) and had seven arches before 1730; the 1798 "temporary wooden bridge" was the timber
+  repair in the gap left when two, then three, of its spans fell in 1795-97 (Turner, Rooker, as Hughes reads them), so it
+  does not contradict the seven arches. What stood from about 1800 to 1848 is now the open question (the row "Llandeilo's
+  bridge from about 1800 to 1848" above). Still not known: who built it, whether a ford or ferry came before it, and its
+  old line (a candidate north abutment is at about E 262683 N 222019 on the LiDAR, unconfirmed).
+- **Pont Llandeilo, for the Blender model** (2026-10-17, [`llandeilo-bridge.md`](llandeilo-bridge.md)): the old bridge's
+  arches, piers, width and line; the 1848 arch's springing level and ring depth, the flood arch's size, and where Cadw's
+  110.64m begins and ends. Williams's and Haycock's drawings and the quarter sessions papers (Carmarthenshire Archives),
+  the Llandeilo Fawr tithe map, *The Buildings of Wales* (2006) p. 250, Cragg (1986) pp. 77-78 and Samuel (1888) were
+  not read; they are where the answers are likely to be. The note had its first independent check on 2026-10-17
+  ([check 1](reviews/llandeilo-bridge-check-1.md)); also open from it: whether Gwilym Teilo's *Llandeilo Past and Present*
+  (1858) is the "W. Samuel, *Llandeilo Past and Present*, 1888" Cadw cites; the book Hughes calls "Emilius Nicholson's
+  *Cambrian Tourist's Guide*"; the width of the causeway on its bend east of 76m south of the arch; and the picture the
+  centenary plaque's relief copies.
 - **When were Llandeilo's streets first lit with gas?** The works and street mains were begun in 1864
   (completion not found) and the town lamps were lit "as heretofore" in 1876; no report of the first lighting was found in
   several searches of Welsh Newspapers Online (2026-10-03). The app draws gas street lamps from 1876,

@@ -147,6 +147,250 @@ From [`dinefwr-castle.md`](dinefwr-castle.md), a draft, checked by the same agen
   century; the DWB's works by Sir Rhys are at Carew) as fact, together with a castle that runs to 1600 and a ruin from
   1600, where the note proposes a contested end in the 15th century and a decay phase to the 1660s.
 
+## Carreg Cennen Castle for a Blender model (2026-10-17)
+
+From [`carreg-cennen.md`](carreg-cennen.md), a draft, checked by the same agent the same day
+([check 1](reviews/carreg-cennen-check-1.md)) and then independently ([check 2](reviews/carreg-cennen-check-2.md),
+2026-10-17): its three important findings (the 1282 capture, the plan's "Uncertain" parts, the superseded figures in
+`building-models.md`) and its cheap suggestions were verified and fixed; the fixes still want a reader who did not make them.
+
+- **The Cadw plan fits the 2022 LiDAR to about 1.5m** at a rotation of 10.5 degrees from grid north and 9.22 pixels a
+  metre, about 3-4% larger than its own metre bar says (Dinefwr's was about 5%). The outer ward, barbican and inner ward
+  all land on the survey's walls and banks. ([cennen:S8], [cennen:S20])
+- **Cadw's plan marks some parts "Uncertain" (an outline) and some masonry "Modern" (blue)**: the south-east outer-ward
+  tower, the oven, the lime kiln and the building against the south curtain are outlines, so they are not drawn as
+  documented medieval parts; a few stretches of the south curtain and east range are modern. (Check 2, read on the image.)
+- **Coflein's reference lies on the inner ward floor**; the app's point is 14m off, on the east range. Use Coflein's.
+- **Today's heights are measured**: ward floor 264.8-265.0m OD; gatehouse towers to about 11m above it (the highest
+  masonry), the chapel tower 9.6m, the south curtain 7-7.4m inside and 10-15m above the cliff edge (the listing says it
+  stands to full height), the north-west tower's rim about 5m; the rock-cut ditch bottoms about 7m below the ward. The
+  precipice is 30-40m and the Afon Cennen about 132m below the ward; the texts' "100 feet", "300 feet", "85 meters" and
+  "90m" are rough figures for different heights.
+- **An independent 1858 account and plan, made before the Victorian restoration**, agrees with the fitted plan on the
+  inner ward's clear size (87 by 80 feet) and dates every surviving detail to about 1300; but it also draws a round
+  tower at the south-west corner, which the listing, Cadw's plan and the survey (no projecting tower) contradict. Kept
+  contested.
+- **How much is Welsh is contested**: Cadw says the Giffards' work of about 1287-1321 obliterated the earlier castle;
+  Longueville Jones (1858), Morris (1901) and Lewis (2006, via Wikipedia) each allow some Welsh masonry. The Welsh castle
+  had walls (repaired in 1277) and was lost in spring 1282; its form is unknown. **The date and the captor are
+  contested**: Morris has Dafydd ap Gruffudd with the sons of Rhys Fychan capture it on 26 March (p. 154) and, on p. 165,
+  have it "seized and destroyed, at least partially" "early in April"; Cadw's listing and schedule say Llywelyn ap
+  Gruffudd's forces.
+- **The building stone is not named by any source read**: "rubble stone with some ashlar dressings" on Dowlais
+  Limestone (BGS); limestone rubble is an inference. No render or roof covering is recorded.
+- **A 2m LiDAR area is proposed** (Coflein's point, half-size 500m, nine 2m tiles from SN6618, SN6619, SN6718, SN6719);
+  it needs the LiDAR region widened to E 268000 and N 218000, which is a decision for the owner.
+- **What the app gets wrong today** (not changed here): the outer ward's "half-timbered stables, a forge, stores" stated
+  as fact where the sources say "probably"; one barbican-and-outer-ward phase from 1300 where Cadw has two periods; no
+  burnt state for 1282-87; the plan at 2.6 times.
+
+## Dryslwyn Castle for a Blender model (2026-10-17)
+
+From [`dryslwyn.md`](dryslwyn.md), a draft, re-read against its sources by the same agent the same day
+([check 1](reviews/dryslwyn-check-1.md)) and then independently ([check 2](reviews/dryslwyn-check-2.md)), which corrected
+two readings: the 1280s added **one** storey to the hall (every source agrees; the draft had invented a dispute), and the
+first kitchen's material (stone or timber) **is** contested, which the draft had missed. Caple's monograph is still unread. Written by Claude for the true-size
+scripted model Dewi's decisions of 2026-10-16/17 call for.
+
+- **Almost everything known of the castle's form is one excavation's**: Chris Caple's of 1980-95, reaching us through his
+  monograph's abstract, the Cadw guide he co-wrote, Coflein's and the HER's summaries of it, the listing (which cites it),
+  medievalheritage.eu and every plan and section. Parts resting on that family alone are labelled "documented (one
+  source: Caple)". The independent strands are the LiDAR, three chronicles for 1245-46 and 1287, two views of the ruin
+  (c. 1795, 1872) and the BGS map. ([dryslwyn:S20], [dryslwyn:S3])
+- **The Cadw period plan fits the 2020-22 LiDAR** pinned at the surveyed keep (E 255404.0 N 220297.5), at 7.5 pixels a
+  metre and 3 degrees clockwise; the phase plans' bar gives 7.29, so the plan is about 3% larger on the ground than its
+  bar says (Dinefwr's was 5%). On the ground the castle is about 112 x 97m, not the 119 x 107m read off the bar in
+  `building-models.md`, and the ward sizes now add up. ([dryslwyn:S11], [dryslwyn:S24])
+- **The excavation dates the phases**: founded "in the late 1220s by Rhys Gryg for his son Maredudd ap Rhys", a second
+  ward in the mid-13th century, "greatly expanded in the period 1283-87 by Rhys ap Maredudd" (the outer ward and gatehouse,
+  a storey on the hall and chamber, apartments, a chapel), garrisoned by the Crown from 1287, and "During the early to mid
+  15th century ... deliberately walled up", then looted, burnt and demolished. The app's "three wards from 1280" and
+  "ruin from 1430" are near this; its middle ward's builder and the walling-up's date stay contested. ([dryslwyn:S20])
+- **It was white**: "By the late 13th century, the castle had a white rendered and lime-washed appearance"; the hall's
+  roof was slate; the walls are limestone rubble on the Mydrim Limestone, with imported red sandstone dressings. The first
+  landmark with a source for render; Dinefwr has none. ([dryslwyn:S20], [dryslwyn:S4], [dryslwyn:S3], [dryslwyn:S25])
+- **The keep is about 12m across at its base** (texts, plans and the survey agree), but Caple's reconstruction section
+  draws it about 9m above a flared base, 16m high in four levels; the height is reconstructed only. ([dryslwyn:S14])
+- **The 1287 mining is in three chronicles**, not only the Cadw guide: the *Annales Cambriae* (siege "circa gulam Augusti",
+  about 1 August, against the guide's 15 August), Trivet and Wykes; where the wall fell ("near the projecting chapel
+  block") is tradition only. ([dryslwyn:S21], [dryslwyn:S22], [dryslwyn:S23], [dryslwyn:S9])
+- **The castle is outside the app's one LiDAR region** (4.6km west of it); a 2m area of 500m centred on E 255450
+  N 220375 (all inside tile SN5520) is proposed, with a second region round it, a build decision.
+
+## St Teilo's church for a Blender model (2026-10-17)
+
+From [`st-teilo.md`](st-teilo.md), a draft, re-read the same day by the same agent ([check 1](reviews/st-teilo-check-1.md),
+not independent) and then checked by an independent reader ([check 2](reviews/st-teilo-check-2.md), whose findings are
+applied: the quarry collapse is one event, the pre-1848 outline is reconstructed, not documented, the porch and vestry
+were re-measured). Written by Claude for the true-size Blender landmarks Dewi chose
+(2026-10-16/17).
+
+- **The tower is measured on the 2020-22 LiDAR**: about 8.0 by 7.5m above its batter, parapet top 74.5m OD, 18.7m above
+  the churchyard, roof 17.4m, and the stair turret to 76.3m OD, about 20.5m, at the north-east angle. No source gives any
+  of these. ([teilo:S14])
+- **The turret is at the north-east angle**, as the Cadw listing says; Ludlow's fabric survey for Cadw's historic
+  churches project puts it in "the western half of the north wall", which the survey contradicts. ([teilo:S2],
+  [teilo:S5], [teilo:S14])
+- **Coflein's two dates for the tower are its two parents**: its "fifteenth century west tower" is the listing's "C15",
+  its "around 1600" is Ludlow's "later 16th century" (the HER's "c.1600" is Ludlow's too). So the tower's date is one
+  source against one, and its **parapet** likewise: "C19 crenellated battlements" (listing) against a parapet and
+  gargoyles "all from the later 16th century" (Ludlow). ([teilo:S1], [teilo:S2], [teilo:S3], [teilo:S5])
+- **The church pulled down in 1848 is said to have had today's plan** (Ludlow, from the 1837 tithe map and a town plan,
+  which nobody here has seen; the local-history page on the reused medieval foundations, which cites nothing): a nave
+  with its chancel, a north aisle (the "double nave"), the west tower and "a large south transept (and vestry?)". That is
+  the plan of 1837, not of c. 1400, so the medieval outline is **reconstructed** from today's measured one, to no better
+  than a metre or two; its heights are unknown. ([teilo:S5], [teilo:S6])
+- **The 1848 quarry collapse is one event, not two counts**: Thomas Jenkins's diary (via Lynn Hughes) has five men
+  buried, four saved and one dead, which is Coflein's and Ludlow's "killing one of the workers". What is contested is
+  whether the church was built of that quarry's stone: Coflein says so; Jenkins says the quarry was abandoned "without
+  procuring any stones worth using". ([teilo:S1], [teilo:S5], [teilo:S20])
+- **Today's church is measured**: nave and chancel 37.3 by 11.0m, ridge 13.4m; north aisle 31.5 by 8.1m, ridge 11.0m; two
+  south gables, of which Ludlow dates the west (the transept) to 1848-51 and the east (the organ chamber) to 1903 (1905 in
+  the listing and the local page); a lean-to vestry on the south. ([teilo:S5], [teilo:S14])
+- **The old steeple "was allowed to remain intact"** and the body was rebuilt by Scott, reopening on 10 October 1850 (The
+  Welshman); who designed it (Scott, or Edward Davies of Bath under Scott's supervision) and when it was finished (1850 or
+  1851) stay contested. ([teilo:S7], [teilo:S6], [teilo:S10])
+- **What the app gets wrong today** (for the build, not changed here): the 1850 church's vestry drawn north of the
+  chancel, where the survey shows open ground (it is on the south); the tower about 3.8m off its measured place and no
+  turret; two equal 8m naves where the surveyed nave is 11m and the aisle 8m; the medieval church from 1300, which no
+  source gives (the only date read is c. 1400, one unreferenced source); Scott's church from 1848 rather than 1850; the
+  clas church labelled reconstructed where its form is imagined.
+
+## Talley Abbey for a Blender model (2026-10-17)
+
+From [`talley-abbey.md`](talley-abbey.md), a draft, checked the same day by the same agent and then by an independent
+reader whose ten findings were verified and applied ([check 1](reviews/talley-abbey-check-1.md)); the fixes have not yet
+been read by another reader. Written by Claude for the true-size
+Blender landmarks (Dewi's decisions of 2026-10-16/17, as given in the brief).
+
+- **The excavation report of 1941 has a measured plan, and it fits the ground.** B. H. St J. O'Neil's report on the Office
+  of Works clearance of 1933-38 (*Archaeologia Cambrensis* 96) has the official plan with feet and metre bars; fitted to the
+  2022 LiDAR it is within 1% of its own scale and needs a rotation of 4.0 degrees, so the church's axis runs at a bearing of
+  about 94 degrees, not due east as the app draws it; the plan's own north arrow, drawn 3 degrees off the page's vertical,
+  gives about 93. Positions carry about ±1m. ([talley:S14], [talley:S15], [talley:S21])
+- **The church was planned about 72m long outside and finished about 49.6m**, four bays of nave and south aisle with a
+  closed north side and one bay of the north aisle; Williams's independent measurements of the 1890s (226.3ft inside,
+  62.6ft wide) match the plan's inside figures for the church as planned (he did not conclude the western bays were never
+  built: see below). The regular bay is 5.65m, the crossing piers 9.9m apart, the transepts 36.9m end to
+  end: these replace the smaller drawings' figures in `building-models.md`.
+- **The tower stands to 23.8-24.5m today** over the crossing floor (the listing's 24m), not Coflein's 26m, and today's crest
+  is about the corbel course Williams gives at 78ft (23.8m). His 95ft (29m) is the apex of a saddle-back roof with an
+  east-west ridge, not a rival wall height; his own plates draw the east wall's gable head, as it stood in 1893-4, at
+  87-88ft (26.5-26.9m), so the apex stays contested between his text and his plates. The floor's 0.7m fall from the west
+  end to the crossing and the western south aisle's 0.34m step, both measured, agree with O'Neil's 2ft and 12-14in.
+- **Williams's plan and plates are legible and carry heights** (read from the Internet Archive page images at their
+  50ft bars): the original presbytery roof's ridge at about 63ft (19.2m) and a pitch of about 48 degrees, a later flatter
+  roof, the crossing arch's crown at about 11.8m, and his "Chancel of Parish Church" about 7.4 x 6m inside the presbytery.
+  The first draft called them illegible; that was wrong.
+- **The western bays are one source, not two.** "Four bays built, the western four at footing level" is O'Neil's (and
+  Long Price's, quoted by Williams); Williams himself wrote that it is "quite impossible to say" whether the church
+  extended beyond the cross-wall and thought it probable the canons completed it, bar part of the north aisle, and that it
+  was later shortened or decayed. The first draft cited his "abandoned the work when but a very small portion of it was
+  completed" for the opposite; that sentence is about the first builders. He and O'Neil also differ on when the
+  cross-wall and the north blocking walls were built (after the Dissolution, "probably", against the early 13th century).
+- **The parish church after 1536 was probably the whole shortened church, not the east end alone**: Coflein's St Michael's
+  record has it 150ft long in 1710, which is close to the shortened church's inside length on the plan (46.7m, 153ft), the HER cites
+  early 18th-century visitations for it being "more-or-less entire", and O'Neil found post-Suppression rebuilding in the
+  nave's doors, and Williams thought the first parish church ran from the cross-wall through the tower to the presbytery's
+  east wall (later a nave ending at the tower's east arch with a small chancel inside the presbytery); Coflein, the listing
+  and Monastic Wales say "choir and presbytery". Kept contested; the app today draws the
+  east end only.
+- **What the app's model gets wrong today** (for the build, not changed here): the axis (due east), the landscape scale,
+  the tower's 29m with 26m standing, the parish phase's extent, a ruin phase from 1773 that ignores the 1933-38 clearance
+  (the tombs, the post-Suppression walls and 6-8ft of debris before it), and no first-works phase.
+- **Talley has no LiDAR in the app**: it is about 8km north of the present region. Four 1km tiles (SN6232, SN6233, SN6332,
+  SN6333) cover the abbey, the lakes and the motte between them; a 2m area needs the build to take a second region.
+
+## Pont Llandeilo for a Blender model (2026-10-17)
+
+From [`llandeilo-bridge.md`](llandeilo-bridge.md), a draft, **checked once** ([check 1](reviews/llandeilo-bridge-check-1.md),
+2026-10-17, independent; its findings applied). Written by
+Claude for a workflow whose brief ([`briefs/llandeilo-bridge.md`](briefs/llandeilo-bridge.md)) asks for true-size
+scripted Blender models with their own 2m LiDAR areas.
+
+- **The 1848 arch is measured on the 2020-22 LiDAR** (the 1m surface model, tiles SN6221 and SN6222): its centre is at
+  E 262757.1 N 222001.0 (±2m), on Coflein's reference to within a metre; the axis runs 16.3 degrees east of grid north;
+  the parapet crests are 9.6m apart, which fits Coflein's 26 ft between them; the road climbs from 35.7m OD at the south
+  springing to 36.3m at the north and falls to 33.2m along the Ffairfach causeway; the parapets stand 1.1m above it. The
+  springing piers show as 1m bulges 25.5m either side of the centre, the flood arch's at about 61.5m south.
+  ([bridge:S15])
+- **The south causeway is straight only to about 76m south of the arch, then bends about 30 degrees east** (found by check
+  1): the road's centre is at E 262736 N 221910, E 262747 N 221850 and E 262757 N 221814, about 31m east of the straight axis
+  at N 221850, falling to 28.35m OD, and a causeway drawn straight on past s = -80 would run over the floodplain 31m west of
+  the road at N 221850. Its width on the bend is not resolved. ([bridge:S15])
+- **The app draws the main arch 26m too far south**: `LLANDEILO_BRIDGE` centres it at 55.3m along a plan that starts
+  81.3m south of the anchor, which by `rotate()` puts it 26m south-south-west of where the survey finds it, over the south bank; its flood arch is near the
+  survey's. Read from the code, not yet seen on screen; for the build, not changed here.
+- **The span is cross-checked (145 ft, 44.2m: Jenkins's full-size line of 1846, Cadw, Coflein); the rise is not.**
+  Jenkins drew 38 ft (11.58m), Cadw gives 12.65m with a 14.3m total height, Cragg (via Wikipedia) 35 ft above the river.
+  The surveyed deck and Cadw's total height fit Jenkins's rise and not Cadw's (an inference); kept contested.
+- **The old bridge is older and better attested than the app's 1700**: standing by 1577 (one chain: Lambarde via
+  Jervoise via Hughes), "a handsome stone Bridge" in the early 1700s, seven arches before 1730 (Hughes; Cadw). Who built
+  it is not known (Sir Rhys ap Thomas is Hughes's "fair assumption", resting on a complaint of about 1470 about the lack of
+  a bridge on the Towy that does not name Llandeilo). The "four narrow stone arches" of 1750 are Gwilym Teilo's, from
+  *Llandeilo Past and Present* (1858), quoted by Bryn Thomas, as `victorian:S66` had it: check 1 corrected the bridge
+  note, which had given them to Bryn Thomas ([bridge:S16]).
+- **The 1798 "wooden bridge" was the timber in the gap**: Turner (c. 1796, Museum Wales) and Rooker (1796-97) show spans
+  fallen and bridged with timber, and the flood of 10 February 1798 took the timber; a ferry followed. This settles the
+  doubt raised in the open questions on 2026-10-02.
+- **What carried the road from about 1800 to 1848 is contested**: the seven arches restored (Hughes, Wood's 1812 etching,
+  Cadw, the 1948-49 plaque) or a new bridge of three arches with two flood arches (*The Buildings of Wales*; George
+  Nicholson's *Cambrian Traveller's Guide*, 2nd edition, 1813; two National Library of Wales prints of about 1824; a drawing
+  captioned Delamotte 1816; and Rees's "of modern erection", words Hughes's quotation of him omits). Check 1 read
+  Nicholson and Rees directly (the *Beauties of England and Wales* volume is dated 1815, not Hughes's 1813 or Jervoise's
+  "c. 1819"; Hughes's "Emilius Nicholson ... *Tourist's Guide* ... 1814" is George Nicholson's *Traveller's Guide*); Rees
+  adds that "the access to the bridge has been widened, and its steepness much reduced" by 1815. The note recommends three
+  arches, for Dewi to decide; the app draws seven. ([bridge:S22], [bridge:S23])
+- **The old bridge's line**: downstream (Cadw), and "about 250 feet further down" in a gloss on Jenkins's diary; the north
+  bank on the LiDAR changes 76m downstream, at about E 262683 N 222019, a candidate for the surviving abutment, not
+  confirmed.
+- **The building is dated month by month** by Thomas Jenkins's diary (pumps, piling, the south abutment on oak planking,
+  the elliptic line, the centring, a temporary railway over the river, the crane, the floods), so it can be its own phase.
+  Hughes's years for the foundation stone and the first flood (both 1845) are each a year off the diary's (1844, 1846). The
+  start of work (4 July 1843), the keystone (25 November 1847), the flood of 10 February 1798, the old bridge's demolition
+  from April 1848 and the approaches finished by 19 October 1848 are in Hughes alone, so the note marks them "documented
+  (one source: Hughes)".
+- **Proposed LiDAR area** `llandeilo-bridge`: centre E 262757 N 222001, half-size 240m, two 500m tiles already at 2m inside
+  the town's area; nothing new to download.
+
+## The trains through Llandeilo for Blender models (2026-10-17)
+
+From [`trains.md`](trains.md), a draft, checked by the same agent and then by an independent reviewer the same day
+([check 1](reviews/trains-check-1.md), both parts; the reviewer's findings are applied). Written by Claude under the proactive mandate; it builds on `railway-locomotives.md` and `railway-later.md`.
+
+- **What ran at Llandeilo is documented by dated evidence only from 1958.** Black Five 45190 on the 12 noon
+  Shrewsbury-Swansea at Llandilo on 29 August 1959 is the best-documented train; Class 120 units at Llandeilo in
+  1977-80, Class 101s in 1982-84 and Class 108s in 1987-90 are dated by captioned photographs and, for the 108, the
+  Glanrhyd report; Class 153s from 1994. No engine class is named at Llandeilo for 1873-1909 or the LMS years; the
+  LNWR's Prince of Wales 4-6-2 tanks (from about 1910) and the Fowler 2-6-4Ts that replaced them (from 1935) rest on a
+  Wikipedia lead and shed lists. ([trains:S6], [railwaylater:S2], [railwaylater:S8])
+- **Two c. 1900 postcards of the station are one photograph coloured twice, with the engine black on one and green on
+  the other**: hand-colouring is no evidence of a livery. What the photograph does show is a side-tank engine at the
+  head of a passenger train. ([trains:S11], [trains:S12])
+- **True sizes are now sourced for the Black Five** (63 ft 8 in over buffers, 8 ft 8 in wide, 6 ft wheels: the Science
+  Museum Group's record of No. 5000), **the Class 108** (17.70m, 28.5 tonnes: the Glanrhyd report) **and the Class 153**
+  (23.21m by 2.70m by 3.77m: Porterbrook, its owner). The others (Fowler tank, pannier, Class 101 and 120, Mark 1
+  carriage) rest on Wikipedia leads and are labelled reconstructed. No source read gives the Black Five's height.
+  ([trains:S1], [trains:S5], [railwaylater:S8])
+- **BR carriages turned maroon in 1956 or 1957** (Wikipedia against the HMRS): kept contested. The LMS painted
+  non-express engines lined black from 1928 (HMRS), so a passenger tank was crimson lake in 1923-27 and black after,
+  an inference for any one class. ([trains:S8], [trains:S9])
+- **Corrected by the independent check (2026-10-17).** Class 120 units at Llandeilo were normally two cars ("pairs of
+  class 120"; C603 on 7 January 1977), with a three-car set (C611) there in 1980; the first draft said three from a
+  Wikipedia lead on the class in general. The 1980 caption belongs to railcar.co.uk's record of car 59260
+  ([trains:S14]), not to its Heart of Wales feature ([trains:S6]). BR Standard 5s took the 1961-64 through trains
+  (Gittins and Spencer Davies), so the plan gives them their own phase after the Black Five's. Some LNWR trains may
+  have run at Llandeilo before 1873 (running powers from about 1868; the New Lines from 1871). The owner of the c. 1900
+  and 1914-18 trains is GWR or LNWR, not shown. Liveries that rest on Wikipedia alone (LMS carriage crimson lake, BR
+  unlined black tanks) are reconstructed, not documented. ([trains:S6], [trains:S14], [railwaylater:S1])
+- **The station, measured**: the loop runs N 14° E; today's platforms stand about 1.0-1.2m above a 29.9m OD track bed
+  for about 100m, centred near E 263345 N 222555, inside the existing `llandeilo` 2m LiDAR area, so the trains need no
+  new area. The app's `LLANDEILO_STATION` is 231m from Coflein's reference and 28m off the track. ([trains:S13],
+  [railwaylater:S21])
+- **The plan proposes twelve rolling-stock phases where the app has three**, each a consist of vehicles exported one
+  object per vehicle so carriages can follow curves; the order of build follows the evidence (the 1959 train, the 108 and
+  the TfW 153s first).
+
 ## Conversations by class (2026-09-28)
 
 From [`conversations-by-class.md`](conversations-by-class.md), a draft. An independent verification
@@ -189,7 +433,8 @@ See [`open-questions.md`](open-questions.md) for the full list. The most importa
   at 12,500 BC and colder by 11,000 BC. (A review of 2026-09-28 first caught the coldest-point error in
   the climate keys.)
 - St Teilo's west tower is contested: 15th century (Cadw listing, models:S29; Coflein, models:S28) or about 1600 (Coflein, the same record); the app draws it from c. 1600, with the text giving both. *Corrected 2026-10-02*: this line said it dates from about 1600,
-  as if settled.
+  as if settled. *Corrected 2026-10-17*: Coflein's two readings are its two parents, the listing's C15 and Ludlow's "later 16th
+  century" (teilo:S5), so it is one source against one ([st-teilo](st-teilo.md)).
 - Longhouse evidence is later and from mid Wales; the medieval ones in the app are marked imagined.
 - **The app rang church bells no source records** (corrected 2026-10-03). The environment keys gave
   bells at AD 800, 1250, 1600 and 1850, but the first bells heard at Llandeilo in any source read are
