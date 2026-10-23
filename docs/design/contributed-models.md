@@ -51,9 +51,11 @@ to replace one model without rebuilding the scene. Issue text is treated as data
   About credits and the Downloads tab are built from it. The Downloads test (`tests/downloads.test.ts`) scans
   `public/models/landmarks/` and the train only, and a landmark's tier counts come from the parts' extras
   (`partTiers` in `tools/downloads/stamp.ts`). Our own models are CC BY 4.0, covering only this project's modelling.
-- **The terrain tiles' frame** is today's LiDAR region's south-west corner, written into each tile as
-  `sceneOriginBng` by `tools/terrain/export-glb.ts` from `tools/terrain/lidar-areas.json` (E 260000 N 220500).
-  Separate LiDAR regions for Carreg Cennen and Dryslwyn are planned (decision log, 2026-10-17).
+- **The terrain tiles' scene origin** is E 260000 N 220500, written into each tile as `sceneOriginBng` by
+  `tools/terrain/export-glb.ts`; today it is read from the region's corner in `tools/terrain/lidar-areas.json`.
+  Separate LiDAR regions for Carreg Cennen and Dryslwyn are planned (decision log, 2026-10-17); the work on them
+  (branch `lidar-regions`, with nothing committed on it yet when this was written) is reported to keep one shared
+  scene origin, at the same point, for every region. Not verified from its code.
 - **The closest precedent is the Photos layer** (ADR 0044): dated, placed content read through the snapshot, a
   toggle in the brand row remembered in `localStorage` with `?photos=1|0`, an ⓘ built from the shared tier badge.
 
@@ -71,15 +73,18 @@ named node; a SketchUp `.dae` is accepted and converted by our script.**
   section 6 refuse a model that is turned, mirrored or scaled.
 - **The contribution frame: a named constant, not today's tiles.** `CONTRIBUTION_FRAME` in `src/domain/` is
   E 260000 N 220500 on the British National Grid, with heights in metres as the LiDAR gives them (absolute, as on
-  the tiles), and grid north. It equals today's tiles' `sceneOriginBng`, so a contributor who builds on the tiles
-  where they open is in it; a test holds the tiles' `sceneOriginBng` to it, so a change to `lidar-areas.json` cannot
-  silently move every contribution. A tile set from a separate region with another origin (Carreg Cennen,
-  Dryslwyn) either keeps this origin or names its own frame, which an entry then carries explicitly (`frame`).
+  the tiles), and grid north. It equals the tiles' scene origin, so a contributor who builds on the tiles where they
+  open is in it. A test holds the tiles' scene origin (the shared `sceneOrigin` once the regions work lands, the
+  region's corner until then) to it, so a change to the terrain config cannot silently move every contribution. Every
+  region's tiles share that origin, so an entry carries no frame of its own; a region with a different origin would
+  be a new decision.
   Grid north and true north differ by more than a degree here (about 1.6° by the standard convergence formula,
   not checked against a tool), so the model lines up with the tiles, not with a geo-located north.
 - **Parts and structural nodes.** Exporters add nodes the contributor never made (a scene root, unnamed holders,
   mesh nodes named after definitions or ids). So:
   - the contribution's **root** is the one node named with the contribution's id; anything above it is structural;
+  - a contributor starting from one of our glbs must rename its parts, since our names contain `/`, which the part
+    name rule forbids (and they would clash with ours);
   - below the root, a node is a **part** if its name is listed in the entry (exactly, or by a pattern such as
     `barrack-*`); a part's id is the path of part names from the root, joined by `/`, so a group `fort2-example`
     holding an instance `barrack-1` is `fort2-example/barrack-1`, like our `fort2/barrack-1`;
@@ -89,7 +94,8 @@ named node; a SketchUp `.dae` is accepted and converted by our script.**
     hyphens), or two parts with one id fails the build. The converter and the test print the tree they found, parts
     and structural nodes marked, so a lost or renamed component shows at once.
   - Which names an exporter writes (instance name or definition name, and what it does to repeated components) is
-    **not known yet**; milestone 1 settles it from a real export and the rule above is adjusted then.
+    **not known yet**; milestone 1 settles it from a real export and the rule above is adjusted then. Milestone 1
+    gates the converter and this part rule only; the rest of the design does not depend on it.
   - Repeated components stay repeated, but each instance needs its own name, because each is clickable and has its
     own ⓘ; the entry can give one provenance to a pattern.
 - **What SketchUp 2021 and 2023 can export** (searched 2026-10-23; nothing below was tried by us):
@@ -119,13 +125,14 @@ named node; a SketchUp `.dae` is accepted and converted by our script.**
 - **The route for the contributor: send a `.dae`, and we convert it.** From SketchUp 2021 or 2023: File > Export >
   3D Model > COLLADA, with Preserve Component Hierarchies, Export Texture Maps and Triangulate All Faces ticked, and
   Two-Sided Faces and Edges unticked. `npm run contributed -- <file.dae>` (`tools/contributed/`, headless Blender,
-  pinned to 4.0 as the landmark script is, refusing any other version unless told) imports the `.dae`, reads its
-  declared unit and up axis (SketchUp writes inches and Z-up, as we expect; to be confirmed by milestone 1) rather
-  than assuming them, checks the names, and exports the `.glb` that is committed and reviewed. A contributor with a
+  pinned to 4.0 as the landmark script is, refusing any other version unless told) imports the `.dae` with Blender's
+  COLLADA importer and its `import_units` option on, so the file's declared unit and up axis are used (SketchUp
+  writes inches and Z-up, as we expect; to be confirmed by milestone 1) rather than assumed, checks the names, and exports the `.glb` that is committed and reviewed. A contributor with a
   working glTF exporter may send the `.glb` directly.
-- **What is committed, and rebuilding.** The `.glb` is the contribution of record. The `.dae` is not committed (it
-  would double every contribution in the history); its sha256, the converter's version and the Blender version are
-  written into the entry and the glb's extras, and the `.dae` stays attached to the pull request. So, unlike our own
+- **What is committed, and rebuilding.** The `.glb` is the contribution of record and the only file committed. The
+  `.dae` and its textures arrive as a zip attached to the issue or to the pull request's conversation, never as files
+  in the pull request's commits (they would otherwise stay in the branch's history); the zip's sha256, the
+  converter's version and the Blender version are written into the entry and the glb's extras. So, unlike our own
   models (ADR 0052 point 6), **a contribution cannot be rebuilt from the repo**; this is accepted, because the
   contributor's file is the source, as a photograph is, and the glb is what is reviewed.
 - Rejected: requiring the contributor to run Blender (another tool to learn, and a step our script does the same
@@ -139,10 +146,10 @@ named node; a SketchUp `.dae` is accepted and converted by our script.**
 nobody can explain is refused, not defaulted; the ⓘ says first that this is a contributor's model, not ours.**
 
 - **Where it lives.** One entry per contribution in `src/content/contributed.ts`, typed by a new `ContributedModel`
-  in `src/domain/model.ts`: a branded `ContributionId`, the file, the frame, where and when it is drawn (section 4),
+  in `src/domain/model.ts`: a branded `ContributionId`, the file, where and when it is drawn (section 4),
   the features it depicts, its credit and licence (section 3), a provenance for the model as a whole, and a map from
-  each part id (or pattern) to its name in English and Welsh, its provenance, whether it stands (section 4) and how
-  it meets the ground. Nothing in the glb's extras is trusted: SketchUp cannot write them, and a file is not a
+  each part id (or pattern) to its name in English and Welsh, its provenance, whether it is seated on its own
+  (section 4) and how it meets the ground. Nothing in the glb's extras is trusted: SketchUp cannot write them, and a file is not a
   reviewed source.
 - **The three tiers, unchanged.** Documented needs at least one source (compile error otherwise), and, as for all
   our content, the claim is cross-checked against two independent sources in review; reconstructed says what it is
@@ -194,53 +201,69 @@ asks for and the licence they state; our CC BY 4.0 does not cover it.**
 
 ## 4. Placement and time
 
-**Recommendation: placed in the contribution frame, each standing part seated by ADR 0056's rule with its footings
-carried down, drawn for its own dated range, and drawn instead of our model of the same feature while the layer is
+**Recommendation: placed in the contribution frame, each seated part placed by ADR 0056's rule with its footings
+carried down as ours are, drawn for its own dated range, and drawn instead of our model of the same feature while the layer is
 on (open question 3).**
 
 - **Where.** The frame places it on the grid; the entry also gives `at`, a grid reference from Coflein or Cadw for the
   site it shows (CLAUDE.md's placement rule), for its label, a flight and the checks below.
-- **Standing parts.** Only a **standing** part is seated: by default each part directly under the root, or a part the
-  entry marks `stands` (a building inside a group of buildings). Everything nested in a standing part, roofs,
-  wall-walks, upper storeys, moves with it, so nothing is torn apart.
+- **Seated parts.** Only a **seated** part is moved on its own: by default each **top-level part** (directly under the
+  root, a bank or ditch included), and any part the entry marks `seated` (a building inside a group of buildings).
+  Everything else moves with its nearest seated ancestor, so roofs, wall-walks and upper storeys stay on their
+  buildings. A `seated` part nested in a seated group is placed on its own, and the group's move then applies only to
+  the group's geometry that is not under it (the innermost seated part wins). The words are chosen apart from
+  `standsOnGround` and `Standing` in `src/domain/plot.ts`, which mean our halls, towers and prisms only.
 - **On the ground.** The app's ground is not the tiles' ground: hills are drawn 2.4 times as high, and period ground
-  edits are laid over it. So each standing part moves from the real ground it was built on to the drawn one:
-  - **rigid** (the default: a building, a tower, a gate): the whole part moves by the difference between the highest
-    drawn ground and the highest real ground under its footprint (ADR 0056's one rule, on an outline read from the
-    part's mesh: its corners, the middles of its sides and its centre, one function shared with `footprintSamples`).
-    No corner is buried that the contributor had not buried on the real ground.
-  - **footings carried down**, as ours are (`loadLandmark` already sends a rigid part's footing vertices to the drawn
-    ground): any vertex of the part at or below the real ground under it is set the same depth below the drawn ground
-    under it. A wall the contributor took down to the real ground on the downhill side therefore reaches the drawn
-    ground too, stretched with its own geometry; nothing is invented. A part whose walls stop short of the real
-    ground (a building on posts, a raised floor) keeps its gap, which is then true to the model. (A vertex below
-    ground that is not a footing, a cellar floor, is moved the same way, which keeps its depth; the review looks.)
-  - **follow** (an earthwork the entry marks so: a bank, a ditch, a road): each vertex keeps its height above the
-    real ground and is set that far above the drawn ground.
-  - The loader logs each standing part's move and any remaining gap (`dewidebug contrib seat`). The ⓘ says the hills
-    are drawn higher than the buildings, as the vicus's does.
+  edits are laid over it. So each seated part moves from the real ground it was built on to the drawn one:
+  - **rigid** (the default: a building, a tower, a gate). Its **real seat** is the highest real ground under its
+    footprint, and its **drawn seat** the highest drawn ground there (ADR 0056's one rule, on the outline of the part's
+    mesh in plan: its convex hull's corners, the middles of its sides and its centre, one function shared with
+    `footprintSamples`). A vertex at height y at or above the real seat goes to drawn seat + (y − real seat).
+  - **Footings, by our own rule.** `loadLandmark` treats a vertex below a part's own floor as footing and sets it to
+    the lower of the seat and the drawn ground under it, plus its depth below the floor. The same rule, with the real
+    seat as the floor: a vertex below the real seat goes to min(drawn seat, drawn ground under it) + (y − real seat).
+    A wall the contributor took down the slope therefore reaches the drawn ground, stretched with its own geometry,
+    whether it ends on, below or a few centimetres above the real ground; nothing is invented. A part with nothing
+    below its floor (a building on posts that stop short) keeps its gap. No corner is buried that the contributor had
+    not buried on the real ground.
+  - **follow** (marked in the entry): each vertex keeps its height above the real ground under it and is set that far
+    above the drawn ground. Use it for anything long that runs with the ground rather than standing level on it:
+    ramparts, banks, ditches, roads, and field or curtain walls longer than a building, which as rigid parts would be
+    levelled to their highest point and hang far above the drawn ground at their low end.
+  - The loader logs each seated part's move and any remaining gap (`dewidebug contrib seat`). The ⓘ says the hills are
+    drawn higher than the buildings, as the vicus's does.
 - **When.** A `when` range and dating as a `Feature` has (`datesExact`, `notBefore`, `notAfter`), with a provenance
   for the dates. A contribution that depicts one of our features lies within that feature's years (it may cover one
   phase); one that depicts something we do not draw gives its own dates and their basis (open question 5).
 - **Beside our own model of the same place: one at a time.** The entry names the features it depicts (`depicts`).
   Layer off (the default): ours are drawn. Layer on: for the years the contribution is drawn, the depicted features'
   **meshes** are not drawn; their labels, places, flights and key dates stay.
-  - **Their ground edits and clearings stay drawn.** Dropping a hidden feature's terraces would also pull the ground
-    out from under features built on them at start (`editsBuiltOn`: Fort 1's backfilled ditches stand on Fort 2's
-    terraces), leaving those floating or buried. So the swap hides meshes only, and the contribution's standing parts
-    are seated on the drawn ground with the terraces in it. A test holds `editsDrawn` unchanged by the layer. If a
-    contribution models its own ground (its own platforms), that is a later choice, recorded then.
-  - **Depicting must match.** For each depicted feature drawn from a plan, the contribution's footprint (the outline of
-    its standing parts' meshes) must lie within 10m of the plan's standing parts' outline at its centroid and overlap
-    it by at least half of the smaller area; a model 200m off cannot hide a Coflein-placed fort.
-  - **Undeclared overlap fails.** Overlap is by footprints, not clearing radii (`clearingMetres` is 1100m for the
-    town): a contribution whose footprint meets the footprint of a plan feature drawn in overlapping years, without
-    naming it in `depicts`, fails the build. Generated kinds (the town's map blocks, roundhouses, hall-houses) draw
+  - **What happens to their ground edits.** A hidden feature's terraces (`terraceEdits`) are our reconstruction, laid
+    out for our barracks and labelled an analogy (ADR 0056), so they should not stand under someone else's buildings
+    unlabelled. But other features are built once, at start, on the terraces drawn in their first year
+    (`editsBuiltOn`: Fort 1's backfilled ditches stand on Fort 2's), and dropping those would leave them floating or
+    buried. So, while a feature is hidden, only those of its edits that another drawn feature was built on
+    (`editsBuiltOn` of the features drawn that year) stay drawn; the rest go, and its clearings stay (trees would
+    otherwise grow through the contribution). A test checks both halves. `editsBuiltOn` selects by a feature's
+    clearing reach, which is coarse, so for Fort 2 it may keep most of the terraces; the build counts them
+    (`dewidebug contrib edits kept`), and where a kept edit lies under the contribution, its ⓘ says it "stands partly
+    on this project's reconstructed terraces, an analogy". A finer reach (an edit kept only where it meets the
+    dependent feature's own parts) is the follow-up if the count is high.
+  - **Depicting must match.** For each depicted feature drawn from a plan, compare outlines in plan: the contribution's
+    outline is the convex hull of its rigid top-level parts' footprints, the feature's the convex hull of its plan's
+    `standsOnGround` parts. Their centroids must lie within 10m, and their intersection over union must be at least
+    one half. A lone principia at a fort's centre covers a small share of the union and is refused; a full fort laid
+    out differently but covering the same ground passes. **Partial models are refused today** (open question 4).
+  - **Undeclared overlap fails; neighbours may touch.** Overlap here is by parts, not hulls or clearing radii
+    (`clearingMetres` is 1100m for the town): no footprint of a contribution's part may cut more than 0.5m into the
+    footprint of a part of a plan feature drawn in overlapping years that it does not depict. An annexe built against a
+    vicus wall touches it and passes. Generated kinds (the town's map blocks, roundhouses, hall-houses) draw
     footprints only at run time, so a contribution inside one of those areas waits until an e2e check reads the drawn
     footprints (open question 4).
   - Rejected: both drawn at once (z-fighting, two ⓘ at one point); a ghost overlay (a second mode; perhaps a later
     "compare" toggle); ours always wins (the layer would show nothing where contributors work); hiding the depicted
-    feature's ground edits too (breaks `editsBuiltOn`); swapping individual parts of our merged models (later, if a
+    feature's ground edits too (breaks `editsBuiltOn`); keeping all of them (puts our labelled analogy under their
+    buildings unlabelled); swapping individual parts of our merged models (later, if a
     contribution covers part of a site).
 
 ## 5. The layer
@@ -262,13 +285,15 @@ nothing to show.**
   ("not at Low graphics") and our feature is drawn. `?models=off` hides it too.
 - **Loading.** A contributed adapter on `loadLandmark`, so there is one loader that seats, merges and keeps the
   triangle-to-part table. It differs from our landmarks in three places: it skips the `_probe` check (placement is
-  checked at build, section 6); it takes part ids, standing and fit from the entry, not from extras; and it **keeps
+  checked at build, section 6); it takes part ids, seating and fit from the entry, not from extras; and it **keeps
   the file's texture coordinates and base-colour textures** (our landmarks skip materials and compute their own
   coordinates), putting each texture on the app's building material (`solidMaterial`) so night dimming, fog, shadows
   and lamps treat a contributed part like ours. PBR metal and roughness are dropped, as our material has none.
 - **Budgets** (checked by the build test). A committed contribution: at most 150,000 triangles and 16 draw calls
   after merging by material (`MODEL_BUDGET.near`), and **1.5MB including its textures** (`MODEL_BUDGET.near.bytes`),
-  textures at most 1024 by 1024, so the repository grows no faster than for our own models. A larger file would be a
+  textures at most 1024 by 1024, so the repository grows no faster than for our own models. The 1.5MB binds long
+  before the triangles do once texture coordinates and textures count, and each textured material is a draw call, so
+  in practice a contribution has a handful of JPEG textures (at most eight). A larger file would be a
   release asset, as the terrain is (ADR 0058), which needs Dewi's word (open question 6). Fetched only when the layer
   is on and its years are first drawn, so start-up is unchanged. One level (no far model). Frame cost with the layer
   on and off is measured on the GPU and recorded in CLAUDE.md's numbers line.
@@ -280,18 +305,18 @@ nothing to show.**
 anything malformed; merged under the while-away rule only when CI is green and an independent review finds nothing
 CRITICAL or IMPORTANT, and otherwise when Dewi says.**
 
-- **What a pull request adds:** `public/models/contributed/<id>.glb` (or the `.dae` and its textures, which we convert),
-  an entry in `src/content/contributed.ts`, `docs/research/contributed-<id>.md`, and in the pull request text the
+- **What a pull request adds:** `public/models/contributed/<id>.glb` (we make it from the `.dae`, which with its
+  textures comes as a zip attached to the issue or the pull request's conversation, never committed), an entry in `src/content/contributed.ts`, `docs/research/contributed-<id>.md`, and in the pull request text the
   licence and each texture's origin. Our side takes the screenshots.
 - **The build test** (`tests/contributed.test.ts`, run by `npm run check` and CI), for every entry:
   - the glb parses as glTF 2.0, uses no extension outside a short allow-list, has no animations, cameras or lights;
   - the part tree of section 1: root found, every mesh under a part, names valid and unique, the parts in the file and
     the entry the same set (patterns expanded); the tree is printed;
-  - placement: within 500m of `at`, inside the ten-mile circle, inside a 2m LiDAR area; each **standing** part's lowest
-    point within 3m of the real ground under it (catches a model built at y = 0, in inches, or turned the wrong way;
-    nested parts are not tested, since roofs and wall-walks stand high by design); for `depicts`, the footprint match
-    of section 4; no undeclared footprint overlap;
-  - the tiles' `sceneOriginBng` equals `CONTRIBUTION_FRAME` (or the entry names the frame it uses);
+  - placement: within 500m of `at`, inside the ten-mile circle, inside a 2m LiDAR area; each seated part **touches**
+    the real ground, some vertex within 0.5m of it (catches a model built at y = 0, in inches, or turned the wrong way;
+    a cellar or a ditch of any depth still touches at its top, and nested parts are not tested, since roofs stand high
+    by design); for `depicts`, the outline match of section 4; no undeclared part overlap;
+  - the tiles' scene origin equals `CONTRIBUTION_FRAME`;
   - the budgets of section 5; an asset record with an allowed licence; `when` within every depicted feature's years.
   The compiler checks the provenance union, and `tests/content.test.ts` checks every source id exists.
 - **Fixtures.** `tests/fixtures/` holds two small fixtures made by our own script and never shown to visitors: a `.dae`
@@ -299,35 +324,40 @@ CRITICAL or IMPORTANT, and otherwise when Dewi says.**
   the `.glb` the converter makes of it. Each rule is seen to fail and pass on broken copies before any real
   contribution exists. Milestone 1 replaces the guessed `.dae` with a real SketchUp export.
 - **The e2e, before any contribution.** `?contrib-fixture` (with `?debug`) adds the fixture entry from a lazily loaded
-  module, and the e2e serves the fixture glb by route from `tests/fixtures/`, so nothing is published under `public/`.
+  module that exists only in a build made with `VITE_CONTRIB_FIXTURE=1` (removed as dead code otherwise), so the
+  deployed site carries neither the module nor the parameter; the e2e serves the fixture glb by route from
+  `tests/fixtures/`, so nothing is published under `public/`. If CI deploys the same build its e2e tested, the fixture
+  e2e gets its own build in the e2e job (to check in `ci.yml` when built).
   It checks: the toggle appears, on draws the fixture and hides the depicted feature's meshes but not its terraces,
   a click opens the ⓘ with the "Contributed model" header and credit, off restores ours, Low hides it.
 - **The review checklist** (the second Opus): the entry and note against the sources they cite; every documented part
   cross-checked against two independent sources; every imagined part says what it is grounded in; the licence and
   texture origins; the seating log; screenshots at the contribution's years, layer on and off, on the GPU.
 - **Merging.** While Dewi is away, a contributor's pull request may be merged when CI is green and the review finds
-  nothing CRITICAL or IMPORTANT (his option, "Merge if green and reviewed"); otherwise, and once he is back, he has
-  the final say. It ships in the next release, whose notes name it and its maker, so he can veto it there.
+  nothing CRITICAL or IMPORTANT (his option, "Merge if green and reviewed"); otherwise, and once he is back, it is
+  merged when Dewi approves it. It ships in the next release, whose notes name it and its maker, so he can veto it there.
 - **Updating or replacing a model** is a pull request that changes one glb and its entry; nothing else is rebuilt.
 
 ## 7. What gets built, and what the contributor does
 
 ### Our side, in order (each a commit with its tests, through the usual review)
 
-1. **A real test export first.** Ask the contributor for a tiny SketchUp 2021 export (two boxes, one inside a named
-   group, one a component instance used twice, one textured face) as `.dae`, and run it through Blender 4.0.2. That
-   settles which names survive, the unit and axes, and the structural nodes, before anything is built on guesses.
-   Asking is an outward message, so it goes through the usual approval. Until it arrives, work on the guessed fixture.
+1. **A real test export first.** A tiny SketchUp 2021 `.dae` (two named box components, one on the other), run
+   through Blender 4.0.2, settles which names survive, the unit and axes, and the structural nodes. **It gates the
+   converter and the part rule only**; milestones 2 and 4 to 8 do not wait for it, and use the guessed fixture until
+   it arrives. The request was posted on issue #5 on 2026-10-23, as Claude's call under the while-away rule for
+   factual answers (a request for a test file, not a decision), not as Dewi's decision.
 2. **Types and content.** `ContributionId`, `ContributedModel`, `CONTRIBUTION_FRAME`, `CONTRIBUTED` (empty) in
    `WorldContent`; `snapshotAt` lists the contributions drawn at the year. Unit tests for dating, `depicts` and the frame.
 3. **The converter**: `npm run contributed -- <file.dae>`, Blender pinned to 4.0, printing the part tree.
 4. **The build test and fixtures** of section 6, seen red for each rule; the outline seating function shared with
-   `footprintSamples`; asset records made from `CONTRIBUTED`.
+   `footprintSamples`, the outline match and the part overlap; asset records made from `CONTRIBUTED`.
 5. **The loader adapter** of section 5, with footings carried down.
 6. **The layer**: through `FeatureLayer`, hiding depicted meshes but not their ground edits, the toggle and
    `contrib-pref.ts`, `?contrib=`, the debug line, Low and Medium, lazy fetching; and the fixture e2e of section 6.
 7. **The ⓘ, picking, credits and downloads**: contributed meshes in `pickables()`, the header and tip, the About
-   credits, the Downloads group (the test scanning `models/contributed/`, tier counts from `CONTRIBUTED`, the stamp).
+   credits, the Downloads group (the test scanning `models/contributed/`, tier counts from `CONTRIBUTED` in
+   `tools/downloads/build.ts`, which writes `LANDMARK_TIERS` today, and the stamp).
 8. **Docs**: the authoring guide `docs/content/contributed-models.md` (the text below, made current), the ADR's status,
    CLAUDE.md's Decisions row, the build log. Steps 2 to 8 ship with the button hidden.
 9. **With the first real contribution**: its screenshots, a GPU frame measurement, and a release.
@@ -347,23 +377,28 @@ through the usual approval.
 >    for Fort 2 that is 2190 east, 2038 north and 76.77 up, so in SketchUp red +2190, green +2038, blue +76.77; please
 >    check against the tiles, as we have not tried it). Keep red east and green north, lined up with the tiles, and do
 >    not geo-locate the model to true north. Leave heights as the tiles give them.
-> 2. **Name the parts.** Put the whole model in one group with a short name (for example `fort2-yourname`). Make each
+> 2. **Name the parts.** Put the whole model in one group with a short name (for example `fort2-yourname`). If you
+>    started from one of our models, rename its parts: ours have `/` in their names, which yours cannot. Make each
 >    building its own group or component instance directly inside it, with its own name in lower-case letters, digits
 >    and hyphens (`barrack-1`, `barrack-2`, `gate-ne`); things inside a building (`tower-left`, a roof) can be named
->    parts too, and move with it. Repeated components are fine, but give each copy its own name.
+>    parts too, and move with it. Repeated components are fine, but give each copy its own name. Tell us which parts
+>    run with the ground (ramparts, banks, ditches, roads, long walls), so they follow the slope rather than standing
+>    level like a building.
 > 3. **On slopes**, take walls or a plinth down to the ground, as built: the app draws the hills higher than they are,
 >    and carries walls that reach the ground down to its own ground.
 > 4. **Export.** File > Export > 3D Model > COLLADA (.dae), with Preserve Component Hierarchies, Export Texture Maps and
->    Triangulate All Faces ticked, and Two-Sided Faces and Edges unticked. Send the .dae with its texture folder; we
->    convert it and send you the list of parts we found, so you can check nothing was lost.
+>    Triangulate All Faces ticked, and Two-Sided Faces and Edges unticked. Zip the .dae with its texture folder and
+>    attach the zip to the issue or pull request; we convert it and send you the list of parts we found, so you can
+>    check nothing was lost.
 > 5. **Say what it is based on**, for the model and each part or kind of part: what it shows, what it is based on (an
 >    excavation plan, a survey, a comparison with another site, or your own judgement and what informed it), and the
 >    reports, drawings or pages used. Where nothing records a detail, say what you based your guess on; it will be shown
 >    as imagined. Say what each material stands for, and where each texture image came from.
 > 6. **Say how to credit you and under what licence** others may reuse it (for example CC BY 4.0, as our models use, or
->    CC BY-NC 4.0). Only the name you give goes in the project. Keep the file small: about 1.5MB with its textures.
+>    CC BY-NC 4.0). Only the name you give goes in the project. Keep the file small, about 1.5MB with its textures:
+>    a few JPEG textures (at most eight), each no larger than 1024 pixels.
 > 7. **Open a pull request**, or attach the files to the issue and we will make one. Once its checks pass and an
->    independent review finds nothing serious it may be merged (Dewi has the final say), and it then appears in the
+>    independent review finds nothing serious it may be merged, or once Dewi approves it, and it then appears in the
 >    next release, credited to you, with the "Contributed" button.
 
 ## 8. Risks and open questions for Dewi
@@ -378,8 +413,8 @@ through the usual approval.
    own". The design draws a contribution instead of our model of the same feature while the layer is on (never both in
    one place), and ours when it is off. Is that what Dewi means, and is off by default right (Photos went on)?
 4. **Generated areas and partial models.** Should contributions inside the town or a roundhouse area wait for a
-   run-time footprint check, as designed; and should a model of part of a site (one gatehouse) replace the whole
-   feature, or wait for part-level swapping?
+   run-time footprint check, as designed? A model of part of a site (one gatehouse) is refused today by the outline
+   match: should it instead replace the whole feature, or wait for part-level swapping of our merged models?
 5. **Things we do not draw**: allowed with their own dates and provenance, as designed, or only reconstructions of what
    we show?
 6. **Size.** Committed contributions are capped at 1.5MB each, like our models. Should larger ones be release assets
@@ -389,8 +424,10 @@ through the usual approval.
 
 - **The route is unverified.** No step of the SketchUp export has been tried; milestone 1 exists for this, and the part
   rule, the frame and the guide may change after it.
-- **Seating.** A part whose walls stop short of the real ground keeps a gap on the drawn, steeper ground; the footing
-  rule fixes the rest.
+- **Seating.** A part with nothing below its floor keeps a gap on the drawn, steeper ground; the footing rule fixes the
+  rest.
+- **Our terraces under their buildings.** Where a hidden feature's terraces must stay because another feature was built
+  on them, a contribution may stand partly on our reconstruction; its ⓘ says so, and the build counts how often.
 - **Over-trust.** A textured contributed model may look more authoritative than our plain ones; the header, the tip,
   the tiers, default-off and the review are the defences.
 - **Repository size**, bounded by the cap (open question 6).
@@ -402,14 +439,14 @@ through the usual approval.
 The second-Opus review of the first version found 0 CRITICAL and 10 IMPORTANT findings. Each was checked against the
 code before acting on it; all ten were accepted, none rejected:
 
-1. Seating every rigid part tore nested parts apart, and the 3m test failed raised parts: now only standing parts are
-   seated and tested; nested parts move with them (sections 4, 6).
+1. Seating every rigid part tore nested parts apart, and the 3m test failed raised parts: now only seated
+   (top-level or marked) parts are placed and tested; nested parts move with them (sections 4, 6).
 2. ADR 0056's walls-carried-down half was dropped, though `loadLandmark` already carries our footings down
    (`src/world/landmarks.ts`, the `below` rule): footings now go the same depth below the drawn ground (section 4).
 3. A model 200m off could hide a Coflein-placed feature: `depicts` now needs a footprint match, and overlap is by
    footprints, not `clearingMetres` (section 4).
 4. Hiding a feature dropped its terraces, which `editsBuiltOn` built others on: the swap now hides meshes only, with a
-   test (section 4).
+   test (section 4; narrowed by the fix review below).
 5. The frame was today's region corner from `lidar-areas.json`: now a named constant with a test (section 1).
 6. The Downloads claims were wrong (the test scans landmarks and the train only; tier counts come from extras): now a
    milestone with both fixed (sections 3, 7).
@@ -422,7 +459,31 @@ code before acting on it; all ten were accepted, none rejected:
 10. The contributor guide overpromised: merging is conditional with Dewi's final say, the guide waits for milestones 3
     and 4, and it explains the tiles in SketchUp 2021 and moving onto them (section 7).
 
-Suggestions also taken: the probe reference is fixed and the adapter skips `_probe`; the adapter keeps the file's
+### Fix review 2026-10-23
+
+A second review of those fixes found four IMPORTANT problems in them, all checked against the code and accepted:
+
+1. The footing rule was not the code's: `loadLandmark` classes a vertex as footing when it is below the part's floor,
+   not below the real ground, so a wall ending a few centimetres above the tiles would have moved rigidly and opened
+   a gap. Now the code's rule, with the real seat as the floor (section 4).
+2. The footprint match measured against the smaller area, so a lone principia would hide a whole fort, and touching
+   neighbours could be neither left out nor named: now convex hulls, intersection over union, and a 0.5m part-overlap
+   tolerance; "standing" is renamed "seated" and "top-level", to keep clear of `standsOnGround`; partial models are
+   refused (section 4, open question 4).
+3. Keeping every hidden terrace put our labelled analogy under someone else's buildings: now only the edits other
+   features were built on stay, counted, and the contribution's ⓘ says when it stands on them (section 4, Risks).
+4. The `.dae` was "not committed" in one place and added by the pull request in another: it now always arrives as a
+   zip attachment, and only the glb is committed (sections 1, 6, 7).
+
+Suggestions taken in that round: milestone 1 gates the converter and part rule only; the test-file request on issue #5
+is recorded as Claude's call; nested `seated` parts are defined (innermost wins); `import_units` is named; the
+Downloads build script is in the milestone; the 1.5MB cap, JPEG and the texture count are in the guide; the ground
+test is "touches", so deep cellars and ditches pass; the fixture module is kept out of the deployed build; the guide
+says to rename our parts, when to use `follow`, and that Dewi approves; the terrain-origin lines no longer depend on
+`lidar-areas.json`. That the `lidar-regions` work keeps one shared `sceneOrigin` could not be checked: nothing is
+committed on that branch yet.
+
+Suggestions taken in the first round: the probe reference is fixed and the adapter skips `_probe`; the adapter keeps the file's
 texture coordinates and base colour; "instead of ours" is open question 3; the licence line cites ADR 0026's list
 without new reasoning; issue #4 is paraphrased; the converter's Blender version is pinned and the `.dae` unit read;
 "no corner buried" is qualified; and whether a contribution can be rebuilt from the repo is stated (it cannot, accepted).
