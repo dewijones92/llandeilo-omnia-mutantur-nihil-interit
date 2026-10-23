@@ -2791,9 +2791,10 @@ test('switching to Low mid-session brings the procedural forts back and takes th
 }) => {
   const switches: string[] = [];
   page.on('console', (m) => {
-    if (/dewidebug quality (chosen|applied)/.test(m.text())) switches.push(m.text());
+    if (/dewidebug (quality (chosen|applied|start)|world quality)/.test(m.text())) switches.push(m.text());
   });
   page.on('pageerror', (e) => switches.push(`pageerror ${e.message}`));
+  page.on('load', () => switches.push(`load ${page.url()}`));
   await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
   await ready(page);
   const debug = page.locator('.debug');
@@ -2818,7 +2819,10 @@ test('switching to Low mid-session brings the procedural forts back and takes th
   await expect
     .poll(() => switches, { timeout: 5_000 })
     .toContainEqual(expect.stringContaining('applied=high'));
-  await expect(debug).toContainText('quality high');
+  expect(switches.at(-1), `the last quality change should be to High: ${JSON.stringify(switches)}`).toContain(
+    'high',
+  );
+  await expect(debug, `quality lines: ${JSON.stringify(switches)}`).toContainText('quality high');
   // Coming back to High loads the models and their textures again, which at CI's ~1fps takes as long as the first load.
   await expect(debug).toContainText('roman-fort-b=glb:near', { timeout: 90_000 });
   await expect(tower).toHaveJSProperty('open', true);
