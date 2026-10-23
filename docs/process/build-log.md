@@ -2032,6 +2032,13 @@ Rather than lengthen a timeout on a guess, the test now records the menu's `chos
 them, so a recurrence says whether the click was handled. **Lesson:** measure the slow step before blaming it; a
 failure message should name which of its causes happened.
 
+**The same test failed again on e6ec2e8's CI (2026-10-19), with new evidence.** This time the poll passed, so the
+quality menu did apply High, yet the overlay read Low 30s later. `World.setQuality` is the only setter and assigns the
+settings first, and the start-up reload (ADR 0054) only fires before ready, so neither a slow switch nor a reload
+explains it; something chose Low again, or the overlay read another world. It did not reproduce in a local run of
+the whole shard under CI's settings (13 of 13, 16.7 minutes, 2026-10-23). The test now also records the world's own
+`dewidebug world quality=` lines, the start line and page loads, prints them with the overlay assertion, and fails
+first if the last change recorded is not to High.
 
 ## 2026-10-23 (LiDAR in several regions: Carreg Cennen and Dryslwyn)
 

@@ -2,7 +2,7 @@
 title: Architecture decision records
 kind: index
 status: current
-updated: 2026-10-17
+updated: 2026-10-23
 ---
 
 # Architecture decision records
@@ -89,8 +89,9 @@ product choices go in the [decision log](../process/decision-log.md) instead; re
 | [0055](0055-textured-landmark-models-and-clicking-their-parts.md) | Textured landmark models: sourced surfaces, shared photographs, and clicking a part in 3D | Accepted (carries out Dewi's "Get proper textures" and "Yes, click parts in 3D"; the design Claude's, under the proactive mandate), amends 0053; numbered 0055 as another branch wants 0054 | 2026-10-10 |
 | [0056](0056-buildings-stand-level-and-the-roman-plots-are-terraced.md) | Every building stands level at the highest ground under it, and the Roman forts' plots are terraced | Accepted (Claude, under the proactive mandate; the work agreed by Dewi), extends 0049, amends 0053 | 2026-10-16 |
 | [0058](0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md) | The world's assets download as .glb, with their credit and licence inside the file | Accepted (Dewi's decision and format; the design Claude's, under the proactive mandate) | 2026-10-16 |
+| [0060](0060-contributed-models-are-a-separate-credited-layer.md) | Contributed models are a separate, credited, switchable layer, with provenance part by part | Proposed (Dewi's decision; the design Claude's, under the proactive mandate); numbered 0060 as the castle branch expects 0059 | 2026-10-23 |
 
-Number 0057 is unused: no ADR carries it (the parallel tracks that wrote 0056 and 0058 were numbered separately). Do not reuse it for an unrelated decision without checking the other branches first.
+Number 0059 is left for the Dinefwr Castle ADR, which the `dinefwr-castle-model` branch's design expects. Number 0057 is unused: no ADR carries it (the parallel tracks that wrote 0056 and 0058 were numbered separately). Do not reuse it for an unrelated decision without checking the other branches first.
 
 ADRs 0002 to 0013 were written on 2026-09-28 from the decision and build logs, the code and
 CLAUDE.md, recording decisions already made; their dates are when each decision was made.

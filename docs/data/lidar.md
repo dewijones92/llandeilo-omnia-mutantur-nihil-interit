@@ -199,8 +199,8 @@ estimate for Carreg Cennen alone was 208), almost all of them context nobody fli
 
 - **Centres: Coflein's references, not the places'.** The places in `src/content/places.ts` (and the castle features
   in `features.ts`) are 14.4m from Coflein's point at Carreg Cennen (E 266801 N 219083) and 6.7m from it at Dryslwyn
-  (E 255390 N 220294); both notes say so. They are **not moved** here: for Dinefwr, moving the place was Dewi's
-  decision (2026-10-16), so this is left for him. A test holds each place within 20m of its area's centre. The Dryslwyn
+  (E 255390 N 220294); both notes say so. They are **not moved** here; they move to Coflein's points with those castles' true-size
+  models, by CLAUDE.md's standing rule (place sites from Coflein grid references; Claude, 2026-10-23). A test holds each place within 20m of its area's centre. The Dryslwyn
   note proposed centring its area on E 255450 N 220375, 107m north-east of Coflein's point, to take in the borough as
   well; centring on Coflein's point instead takes the same four 2m tiles, so nothing is lost.
 - **Half-sizes, from the notes and measured on the 1m DTM** (2026-10-23, a throwaway script, not committed). Carreg

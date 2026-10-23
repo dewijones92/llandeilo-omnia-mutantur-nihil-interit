@@ -322,7 +322,8 @@ at the rim.
   and the Afon Cennen's floor is 254m south; at Dryslwyn the hill above 30m OD runs 98m west to 218m east and 59m south
   to 231m north, with floodplain 250m out on every side. Reasons, the numbers and the raster list are in
   [`docs/data/lidar.md`](../data/lidar.md#several-regions-carreg-cennen-and-dryslwyn-2026-10-23). The places in
-  `places.ts` are 14.4m and 6.7m from those points and are not moved (Dinefwr's was moved by Dewi's own decision), so
+  `places.ts` are 14.4m and 6.7m from those points and are not moved yet (they move to Coflein's points with the castles' true-size models, by the standing rule to place
+  sites from Coflein grid references), so
   unlike the first region's areas these two are not centred on their place's `at`; a test holds each within 20m.
 - **The regions.** `carreg-cennen` E 265500 to 268500, N 218000 to 221000 (36 tiles, 27 at 10m); `dryslwyn` E 254500 to
   256500, N 219500 to 221500 (16 tiles, 12 at 10m): each area's 2m tiles with a ring of 10m tiles round them, rounded
