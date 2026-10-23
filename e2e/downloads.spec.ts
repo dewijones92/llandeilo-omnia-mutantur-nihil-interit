@@ -168,7 +168,7 @@ test('every terrain tile in the manifest is listed with a link to the latest rel
   await openDownloads(page, 'en');
   const rows = page.locator('#dl-terrain .dl');
   await expect(rows).toHaveCount(TERRAIN_TILES.length);
-  expect(TERRAIN_TILES.length, 'the three 2m areas’ tiles').toBeGreaterThanOrEqual(29);
+  expect(TERRAIN_TILES.length, 'the five 2m areas’ tiles').toBeGreaterThanOrEqual(42);
   for (const tile of TERRAIN_TILES) {
     const row = page.locator(`#dl-terrain .dl[data-file="${tile.file}"]`);
     await expect(row, tile.file).toHaveCount(1);

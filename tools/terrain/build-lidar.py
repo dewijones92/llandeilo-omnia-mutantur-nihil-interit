@@ -9,9 +9,12 @@ recorded in public/data/lidar/lidar.json, and that no other .tif sits in the raw
 
 Every tile is a square of `tileSize` metres on the OS grid, stored as a grid of VERTEX heights, so
 neighbouring tiles share their edge vertices exactly. Heights are uint16 centimetres, row-major from
-the north-west corner. Tiles in a priority area keep every `detailStep` metres; the rest of the
-region keeps every `contextStep` metres. The detail raster is the 1m DTM averaged to 2m, and the
-context vertices are taken from that same raster, so the two resolutions agree where they meet.
+the north-west corner. There are several regions, each a rectangle of tiles cut into the coarse terrain
+on its own (ADR 0049, amended 2026-10-23); the tiles go into the data file region by region, in the
+order lidar-areas.json lists them, so adding a region after the others leaves every earlier tile at the
+same offset with the same bytes. Tiles in a priority area keep every `detailStep` metres; the rest of a
+region keeps every `contextStep` metres. Each region's detail raster is the 1m DTM averaged to 2m, and
+the context vertices are taken from that same raster, so the two resolutions agree where they meet.
 """
 import hashlib, json, math, os, re, subprocess, sys
 from pathlib import Path
@@ -71,6 +74,26 @@ def verify():
     print(f'dewidebug lidar verify ok: {len(listed)} rasters match the manifest, none extra')
 
 
+def raster_square(path):
+    """The 1km square a raster covers, from its name (wg_del_<delivery>_<eee><nnn>_<date>dtm.tif, kilometres)."""
+    m = re.search(r'_(\d{3})(\d{3})_\d{8}dtm\.tif$', path.name)
+    if not m:
+        sys.exit(f'{path.name}: cannot read its grid square from the name')
+    return int(m.group(1)) * 1000, int(m.group(2)) * 1000
+
+
+def region_rasters(rasters, region):
+    """The rasters that reach inside a region, as fetch-lidar.sh chose them for it. A raster only touching the
+    region's edge is left out: it would change the averaged 2m cells on the rim, and with them tiles built before
+    a neighbouring region's rasters were downloaded."""
+    out = []
+    for path in rasters:
+        e, n = raster_square(path)
+        if e < region['eMax'] and e + 1000 > region['eMin'] and n < region['nMax'] and n + 1000 > region['nMin']:
+            out.append(path)
+    return out
+
+
 def run(*args):
     subprocess.run([str(a) for a in args], check=True)
 
@@ -91,78 +114,84 @@ def main():
         return
     cfg = json.loads((HERE / 'lidar-areas.json').read_text())
     size, fine, coarse = cfg['tileSize'], cfg['detailStep'], cfg['contextStep']
-    r = cfg['region']
-    for k in ('eMin', 'eMax', 'nMin', 'nMax'):
-        if r[k] % size:
-            sys.exit(f'region {k}={r[k]} is not a multiple of the tile size {size}')
     if coarse % fine or size % coarse:
         sys.exit('contextStep must be a multiple of detailStep and divide the tile size')
-
-    areas = []
-    for a in cfg['areas']:
-        h = a['halfSize']
-        areas.append(
-            {
-                'id': a['id'],
-                'name': a['name'],
-                'centre': a['centre'],
-                'eMin': a['centre']['e'] - h,
-                'eMax': a['centre']['e'] + h,
-                'nMin': a['centre']['n'] - h,
-                'nMax': a['centre']['n'] + h,
-            }
-        )
+    regions, areas = [], []
+    for r in cfg['regions']:
+        for k in ('eMin', 'eMax', 'nMin', 'nMax'):
+            if r[k] % size:
+                sys.exit(f'region {r["id"]} {k}={r[k]} is not a multiple of the tile size {size}')
+        regions.append({k: r[k] for k in ('id', 'name', 'eMin', 'eMax', 'nMin', 'nMax')})
+        for a in r['areas']:
+            h = a['halfSize']
+            areas.append(
+                {
+                    'id': a['id'],
+                    'name': a['name'],
+                    'region': r['id'],
+                    'centre': a['centre'],
+                    'eMin': a['centre']['e'] - h,
+                    'eMax': a['centre']['e'] + h,
+                    'nMin': a['centre']['n'] - h,
+                    'nMax': a['centre']['n'] + h,
+                }
+            )
 
     WORK.mkdir(parents=True, exist_ok=True)
     OUT.mkdir(parents=True, exist_ok=True)
     rasters = listed_rasters()
-    vrt = WORK / 'dtm.vrt'
-    run('gdalbuildvrt', '-q', '-a_srs', 'EPSG:27700', vrt, *rasters)
-
-    half = fine / 2
-    width = (r['eMax'] - r['eMin']) // fine + 1
-    height = (r['nMax'] - r['nMin']) // fine + 1
-    tif = WORK / 'dtm-detail.tif'
-    run(
-        'gdalwarp', '-q', '-overwrite', '-te', r['eMin'] - half, r['nMin'] - half, r['eMax'] + half,
-        r['nMax'] + half, '-tr', fine, fine, '-r', 'average', '-ot', 'Float32', '-dstnodata', '-9999', vrt, tif,
-    )
-    raw = WORK / 'dtm-detail.f32'
-    run('gdal_translate', '-q', '-of', 'ENVI', '-ot', 'Float32', tif, raw)
-    grid = np.fromfile(raw, dtype='<f4').reshape(height, width)
-    if (grid == -9999).any() or not np.isfinite(grid).all():
-        sys.exit('the DTM has holes inside the region')
-    print(f'dewidebug lidar detail raster {width}x{height} at {fine}m, heights {grid.min():.2f}-{grid.max():.2f} m')
 
     tiles = []
     blob = bytearray()
-    for tn in tile_range(r['nMin'], r['nMax'], size):
-        for te in tile_range(r['eMin'], r['eMax'], size):
-            priority = [a['id'] for a in areas if intersects(a, te, tn, size)]
-            step = fine if priority else coarse
-            stride = step // fine
-            n = size // step
-            r0 = (r['nMax'] - (tn + size)) // fine
-            c0 = (te - r['eMin']) // fine
-            block = grid[r0 : r0 + n * stride + 1 : stride, c0 : c0 + n * stride + 1 : stride]
-            cm = np.rint(block * 100)
-            if cm.min() < 0 or cm.max() > 65535:
-                sys.exit(f'tile {te},{tn} has heights outside the uint16 centimetre range')
-            data = cm.astype('<u2')
-            offset = len(blob)
-            blob += data.tobytes()
-            tiles.append(
-                {
-                    'e': te,
-                    'n': tn,
-                    'step': step,
-                    'offset': offset,
-                    'bytes': data.nbytes,
-                    'minHeight': float(data.min()) * HEIGHT_SCALE,
-                    'maxHeight': float(data.max()) * HEIGHT_SCALE,
-                    'areas': priority,
-                }
-            )
+    half = fine / 2
+    for r in regions:
+        width = (r['eMax'] - r['eMin']) // fine + 1
+        height = (r['nMax'] - r['nMin']) // fine + 1
+        own = region_rasters(rasters, r)
+        vrt = WORK / f'dtm-{r["id"]}.vrt'
+        run('gdalbuildvrt', '-q', '-overwrite', '-a_srs', 'EPSG:27700', vrt, *own)
+        tif = WORK / f'dtm-detail-{r["id"]}.tif'
+        run(
+            'gdalwarp', '-q', '-overwrite', '-te', r['eMin'] - half, r['nMin'] - half, r['eMax'] + half,
+            r['nMax'] + half, '-tr', fine, fine, '-r', 'average', '-ot', 'Float32', '-dstnodata', '-9999', vrt, tif,
+        )
+        raw = WORK / f'dtm-detail-{r["id"]}.f32'
+        run('gdal_translate', '-q', '-of', 'ENVI', '-ot', 'Float32', tif, raw)
+        grid = np.fromfile(raw, dtype='<f4').reshape(height, width)
+        if (grid == -9999).any() or not np.isfinite(grid).all():
+            sys.exit(f'the DTM has holes inside the region {r["id"]}')
+        print(
+            f'dewidebug lidar region {r["id"]} from {len(own)} rasters, detail raster {width}x{height} at {fine}m, '
+            f'heights {grid.min():.2f}-{grid.max():.2f} m'
+        )
+        mine = [a for a in areas if a['region'] == r['id']]
+        for tn in tile_range(r['nMin'], r['nMax'], size):
+            for te in tile_range(r['eMin'], r['eMax'], size):
+                priority = [a['id'] for a in mine if intersects(a, te, tn, size)]
+                step = fine if priority else coarse
+                stride = step // fine
+                n = size // step
+                r0 = (r['nMax'] - (tn + size)) // fine
+                c0 = (te - r['eMin']) // fine
+                block = grid[r0 : r0 + n * stride + 1 : stride, c0 : c0 + n * stride + 1 : stride]
+                cm = np.rint(block * 100)
+                if cm.min() < 0 or cm.max() > 65535:
+                    sys.exit(f'tile {te},{tn} has heights outside the uint16 centimetre range')
+                data = cm.astype('<u2')
+                offset = len(blob)
+                blob += data.tobytes()
+                tiles.append(
+                    {
+                        'e': te,
+                        'n': tn,
+                        'step': step,
+                        'offset': offset,
+                        'bytes': data.nbytes,
+                        'minHeight': float(data.min()) * HEIGHT_SCALE,
+                        'maxHeight': float(data.max()) * HEIGHT_SCALE,
+                        'areas': priority,
+                    }
+                )
     (OUT / DATA_FILE).write_bytes(bytes(blob))
     for stale in OUT.glob('*.bin'):
         if stale.name != DATA_FILE:
@@ -195,7 +224,8 @@ def main():
         'tileSize': size,
         'heightScale': HEIGHT_SCALE,
         'blendMetres': cfg['blendMetres'],
-        'region': r,
+        'sceneOrigin': cfg['sceneOrigin'],
+        'regions': regions,
         'areas': areas,
         'encoding': 'one file of every tile one after another (each tile at its offset, in bytes): uint16 little-endian, centimetres, row-major from the north-west corner; (tileSize/step + 1) vertices per side, edge vertices shared with the neighbouring tile',
         'tiles': tiles,
@@ -214,7 +244,7 @@ def main():
     fine_tiles = sum(1 for t in tiles if t['step'] == fine)
     print(
         f'dewidebug lidar wrote {len(tiles)} tiles ({fine_tiles} at {fine}m, {len(tiles) - fine_tiles} at {coarse}m) '
-        f'into {DATA_FILE}, {len(blob)} bytes of heights, {len(sources)} source rasters'
+        f'in {len(regions)} regions into {DATA_FILE}, {len(blob)} bytes of heights, {len(sources)} source rasters'
     )
 
 

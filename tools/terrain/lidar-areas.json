@@ -4,25 +4,67 @@
   "detailStep": 2,
   "contextStep": 10,
   "blendMetres": 300,
-  "region": { "eMin": 260000, "eMax": 265000, "nMin": 220500, "nMax": 224500 },
-  "areas": [
+  "sceneOrigin": { "e": 260000, "n": 220500 },
+  "regions": [
     {
-      "id": "llandeilo",
-      "name": "Llandeilo town",
-      "centre": { "e": 262930, "n": 222236 },
-      "halfSize": 750
+      "id": "llandeilo-dinefwr",
+      "name": "Llandeilo and Dinefwr",
+      "eMin": 260000,
+      "eMax": 265000,
+      "nMin": 220500,
+      "nMax": 224500,
+      "areas": [
+        {
+          "id": "llandeilo",
+          "name": "Llandeilo town",
+          "centre": { "e": 262930, "n": 222236 },
+          "halfSize": 750
+        },
+        {
+          "id": "roman-forts",
+          "name": "Dinefwr Roman forts",
+          "centre": { "e": 262187, "n": 222534 },
+          "halfSize": 500
+        },
+        {
+          "id": "dinefwr-castle",
+          "name": "Dinefwr Castle hill",
+          "centre": { "e": 261150, "n": 221731 },
+          "halfSize": 500
+        }
+      ]
     },
     {
-      "id": "roman-forts",
-      "name": "Dinefwr Roman forts",
-      "centre": { "e": 262187, "n": 222534 },
-      "halfSize": 500
+      "id": "carreg-cennen",
+      "name": "Carreg Cennen",
+      "eMin": 265500,
+      "eMax": 268500,
+      "nMin": 218000,
+      "nMax": 221000,
+      "areas": [
+        {
+          "id": "carreg-cennen-castle",
+          "name": "Carreg Cennen Castle crag",
+          "centre": { "e": 266789, "n": 219075 },
+          "halfSize": 500
+        }
+      ]
     },
     {
-      "id": "dinefwr-castle",
-      "name": "Dinefwr Castle hill",
-      "centre": { "e": 261150, "n": 221731 },
-      "halfSize": 500
+      "id": "dryslwyn",
+      "name": "Dryslwyn",
+      "eMin": 254500,
+      "eMax": 256500,
+      "nMin": 219500,
+      "nMax": 221500,
+      "areas": [
+        {
+          "id": "dryslwyn-castle",
+          "name": "Dryslwyn Castle hill",
+          "centre": { "e": 255387, "n": 220288 },
+          "halfSize": 250
+        }
+      ]
     }
   ]
 }

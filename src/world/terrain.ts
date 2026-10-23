@@ -5,11 +5,10 @@ import type { SeasonLook } from '../domain/daylight.ts';
 import { heightToWorld, toGrid, toWorld, WORLD, type WorldBox } from '../domain/geo.ts';
 import { sampleHeight, type Heightfield } from '../domain/heightfield.ts';
 import {
-  insideBounds,
   LOD_STEPS,
   RIM_SPACING,
-  nearRim,
-  RimProfile,
+  nearAnyRim,
+  RimProfiles,
   type DetailGround,
   type Eye,
 } from '../domain/lidar.ts';
@@ -19,6 +18,11 @@ import { densify, densifyWhere } from '../domain/polyline.ts';
 import { carveChannel, RiverIndex } from '../domain/rivers.ts';
 import { applyEdits, checkEdit, editsKey, type GroundEdit } from '../domain/groundedit.ts';
 import { onRim, rimGap, rimTopology, type RimBox, type SeamReport } from '../domain/seam.ts';
+
+// The seam of every region together (counts summed, the largest gap), and of each region by id.
+export interface SeamReports extends SeamReport {
+  readonly regions: Readonly<Record<string, SeamReport>>;
+}
 import type { Environment } from '../domain/state.ts';
 import { Surface } from '../domain/surface.ts';
 import { DetailTerrain, type DetailStats } from './detail-terrain.ts';
@@ -99,7 +103,7 @@ export class Terrain {
       rivers: new RiverIndex(this.rivers),
     };
     this.land = land;
-    const rim = new RimProfile(ground.manifest.region, RIM_SPACING, (g) => sampleHeight(heightfield, g));
+    const rim = new RimProfiles(ground.manifest.regions, RIM_SPACING, (g) => sampleHeight(heightfield, g));
     const { positions, tris, visible, ranks } = triangulate(land, this.rivers, ground, rim);
     this.tris = tris;
     this.cover = new Uint8Array(tris.count);
@@ -183,7 +187,7 @@ export class Terrain {
 
   setGroundEdits(edits: readonly GroundEdit[]): void {
     if (editsKey(edits) === editsKey(this.edits)) return;
-    for (const e of edits) checkEdit(e, this.ground.manifest.region, this.ground.manifest.blendMetres);
+    for (const e of edits) checkEdit(e, this.ground.manifest.regions, this.ground.manifest.blendMetres);
     const touched = [...this.edits, ...edits].map((e) => e.area);
     this.edits = edits;
     this.detail.invalidate(
@@ -248,47 +252,60 @@ export class Terrain {
   // The line with a point every mesh step inside the LiDAR region, so a ribbon laid along it follows the
   // ground between its vertices rather than cutting a straight chord through the bumps.
   lineOnGround(points: readonly GridRef[]): GridRef[] {
-    const region = this.ground.manifest.region;
-    return densifyWhere(points, LOD_STEPS[0] ?? 4, (g) => insideBounds(region, g));
+    return densifyWhere(points, LOD_STEPS[0] ?? 4, (g) => this.ground.contains(g));
   }
 
   inDetail(x: number, z: number): boolean {
-    return insideBounds(this.ground.manifest.region, toGrid({ x, z }));
+    return this.ground.contains(toGrid({ x, z }));
   }
 
-  // How well the drawn LiDAR tiles meet the coarse terrain along the rim of the detail region.
-  seam(): SeamReport {
-    const region = this.ground.manifest.region;
+  // How well the drawn LiDAR tiles meet the coarse terrain along the rim of each detail region.
+  seam(): SeamReports {
     const mpu = WORLD.metresPerUnit;
-    const box: RimBox = {
-      xMin: (region.eMin - WORLD.centre.e) / mpu,
-      xMax: (region.eMax - WORLD.centre.e) / mpu,
-      zMin: (region.nMin - WORLD.centre.n) / mpu,
-      zMax: (region.nMax - WORLD.centre.n) / mpu,
-    };
     const positions = this.mesh.getVerticesData(VertexBuffer.PositionKind);
     const indices = this.mesh.getIndices();
-    const base: number[] = [];
     const corners: number[] = [];
     if (positions && indices) {
-      for (const v of indices) {
-        const x = positions[v * 3] ?? 0;
-        const y = positions[v * 3 + 1] ?? 0;
-        const z = positions[v * 3 + 2] ?? 0;
-        corners.push(x, y, z);
-        if (onRim(box, x, z)) base.push(x, y, z);
-      }
+      for (const v of indices)
+        corners.push(positions[v * 3] ?? 0, positions[v * 3 + 1] ?? 0, positions[v * 3 + 2] ?? 0);
     }
-    const topology = rimTopology(box, corners);
-    const report: SeamReport = {
-      ...rimGap(box, base, this.detail.rimVertices(box)),
-      baseInside: topology.inside,
-      rimEdges: topology.rimEdges,
+    const regions: Record<string, SeamReport> = {};
+    for (const region of this.ground.manifest.regions) {
+      const box: RimBox = {
+        xMin: (region.eMin - WORLD.centre.e) / mpu,
+        xMax: (region.eMax - WORLD.centre.e) / mpu,
+        zMin: (region.nMin - WORLD.centre.n) / mpu,
+        zMax: (region.nMax - WORLD.centre.n) / mpu,
+      };
+      const base: number[] = [];
+      for (let i = 0; i + 2 < corners.length; i += 3) {
+        const x = corners[i] ?? 0;
+        const z = corners[i + 2] ?? 0;
+        if (onRim(box, x, z)) base.push(x, corners[i + 1] ?? 0, z);
+      }
+      const topology = rimTopology(box, corners);
+      const report: SeamReport = {
+        ...rimGap(box, base, this.detail.rimVertices(box)),
+        baseInside: topology.inside,
+        rimEdges: topology.rimEdges,
+      };
+      regions[region.id] = report;
+      console.info(
+        `dewidebug terrain seam region=${region.id} base=${String(report.baseVertices)} detail=${String(report.detailVertices)} maxGap=${report.maxGap.toFixed(7)} unmatched=${String(report.unmatched)} baseInside=${String(report.baseInside)} rimEdges=${String(report.rimEdges)}`,
+      );
+    }
+    const all = Object.values(regions);
+    const sum = (k: 'baseVertices' | 'detailVertices' | 'unmatched' | 'baseInside' | 'rimEdges'): number =>
+      all.reduce((n, r) => n + r[k], 0);
+    return {
+      baseVertices: sum('baseVertices'),
+      detailVertices: sum('detailVertices'),
+      maxGap: Math.max(0, ...all.map((r) => r.maxGap)),
+      unmatched: sum('unmatched'),
+      baseInside: sum('baseInside'),
+      rimEdges: sum('rimEdges'),
+      regions,
     };
-    console.info(
-      `dewidebug terrain seam base=${String(report.baseVertices)} detail=${String(report.detailVertices)} maxGap=${report.maxGap.toFixed(4)} unmatched=${String(report.unmatched)} baseInside=${String(report.baseInside)} rimEdges=${String(report.rimEdges)}`,
-    );
-    return report;
   }
 
   updateDetail(eye: Eye, budgetMs: number): void {
@@ -388,10 +405,10 @@ function triangulate(
   land: LandSurface,
   rivers: readonly RiverPath[],
   ground: DetailGround,
-  rim: RimProfile,
+  rim: RimProfiles,
 ): { positions: Float32Array; tris: TerrainTriangles; visible: Uint32Array; ranks: RankTables } {
   const hf = land.heightfield;
-  const region = ground.manifest.region;
+  const regions = ground.manifest.regions;
   const R = WORLD.radiusMetres;
   const pts: Pt[] = [];
   const random = rng(1282);
@@ -414,7 +431,7 @@ function triangulate(
         for (const side of [-1, 1]) {
           const e = p.e + nx * half * side;
           const n = p.n + nn * half * side;
-          if (nearRim(region, { e, n })) continue;
+          if (nearAnyRim(regions, { e, n })) continue;
           pts.push({ x: e, z: n, hM: level + 0.4, river: true });
         }
       }
@@ -429,7 +446,7 @@ function triangulate(
       const e = WORLD.centre.e + x;
       const n = WORLD.centre.n + z;
       if (land.rivers.near(e, n) && land.rivers.distance(e, n, 200) < cell * 0.55) continue;
-      if (nearRim(region, { e, n })) continue;
+      if (nearAnyRim(regions, { e, n })) continue;
       pts.push({ x: e, z: n, hM: sampleHeight(hf, { e, n }), river: false });
     }
   }
@@ -483,7 +500,7 @@ function triangulate(
     const ex = (A.x + B.x + C.x) / 3;
     const ez = (A.z + B.z + C.z) / 3;
     const hM = (A.hM + B.hM + C.hM) / 3;
-    if (!insideBounds(region, { e: ex, n: ez })) drawn.push(t * 3, t * 3 + 1, t * 3 + 2);
+    if (!ground.contains({ e: ex, n: ez })) drawn.push(t * 3, t * 3 + 1, t * 3 + 2);
     tris.cx[t] = (ex - WORLD.centre.e) / WORLD.metresPerUnit;
     tris.cz[t] = (ez - WORLD.centre.n) / WORLD.metresPerUnit;
     tris.cy[t] = sy / 3;

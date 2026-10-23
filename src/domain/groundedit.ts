@@ -1,6 +1,6 @@
 import { smoothstep } from './assert.ts';
 import type { Brand } from './brand.ts';
-import { insideBounds, rimDistance, type Bounds } from './lidar.ts';
+import { insideBounds, regionAt, rimDistance, type Bounds } from './lidar.ts';
 import type { GridRef } from './model.ts';
 import { hallCorners } from './plan.ts';
 import { distanceToSegment } from './polyline.ts';
@@ -117,9 +117,9 @@ export function editsKey(edits: readonly GroundEdit[]): string {
     .join(',');
 }
 
-// An edit must sit inside the detail region and clear of its blended rim, where the base ground is
+// An edit must sit wholly inside one detail region and clear of its blended rim, where the base ground is
 // not the LiDAR; and its area must hold the whole of its shape.
-export function checkEdit(edit: GroundEdit, region: Bounds, margin: number): void {
+export function checkEdit(edit: GroundEdit, regions: readonly Bounds[], margin: number): void {
   const a = edit.area;
   const corners: GridRef[] = [
     { e: a.eMin, n: a.nMin },
@@ -127,7 +127,8 @@ export function checkEdit(edit: GroundEdit, region: Bounds, margin: number): voi
     { e: a.eMax, n: a.nMin },
     { e: a.eMax, n: a.nMax },
   ];
-  if (corners.some((c) => rimDistance(region, c) < margin || !insideBounds(region, c)))
+  const region = regionAt(regions, { e: (a.eMin + a.eMax) / 2, n: (a.nMin + a.nMax) / 2 });
+  if (!region || corners.some((c) => rimDistance(region, c) < margin || !insideBounds(region, c)))
     throw new Error(`ground edit ${edit.id}: its area is within ${String(margin)}m of the region's rim`);
   const s = edit.shape;
   const [points, reach] =

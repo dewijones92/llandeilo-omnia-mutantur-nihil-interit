@@ -138,7 +138,7 @@ describe('the Roman forts’ buildings on their ground (issue 3, ADR 0056)', () 
     for (const edits of terraces.values())
       for (const e of edits) {
         expect(() => {
-          checkEdit(e, manifest.region, manifest.blendMetres);
+          checkEdit(e, manifest.regions, manifest.blendMetres);
         }).not.toThrow();
       }
   });
@@ -289,7 +289,8 @@ const landscapeBuildings = W.features.filter(
 describe('the slope note on a plan’s ⓘ (ADR 0056)', () => {
   it('is carried by every landscape plan whose footing, read off the LiDAR and OS Terrain 50 and exaggerated 2.4 times, is over 3m, in both languages', () => {
     const over = landscapeBuildings.filter((f) => drawnFootingMetres(f) > SLOPE_NOTE_FROM);
-    expect(over.length, 'landscape plans over the line').toBeGreaterThanOrEqual(21);
+    // 20 since 2026-10-23: on Carreg Cennen's 2m LiDAR the first Welsh castle's footing fell from 7.1m to 1.2m.
+    expect(over.length, 'landscape plans over the line').toBeGreaterThanOrEqual(20);
     for (const f of over) {
       const text = textOf(f.provenance);
       expect(text?.en, `${f.id} (${drawnFootingMetres(f).toFixed(1)}m drawn)`).toContain(SLOPE_SEATING.en);

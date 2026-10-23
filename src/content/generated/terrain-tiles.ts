@@ -3,6 +3,201 @@ import type { TerrainTileFile } from '../downloads.ts';
 
 export const TERRAIN_TILES: readonly TerrainTileFile[] = [
   {
+    "file": "lidar-266000-218500.glb",
+    "e": 266000,
+    "n": 218500,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "carreg-cennen-castle"
+    ],
+    "bytes": 1509296,
+    "sha256": "397d3cc8646dea507d7120754606be298fac2bee620590ad791ad7970816193c",
+    "triangles": 125000,
+    "minHeight": 117.18,
+    "maxHeight": 188.31
+  },
+  {
+    "file": "lidar-266500-218500.glb",
+    "e": 266500,
+    "n": 218500,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "carreg-cennen-castle"
+    ],
+    "bytes": 1509296,
+    "sha256": "80d7b91fa752c0352dcc54d3bddf6b6b2c82ad08d941d05b69670daf89ca6bda",
+    "triangles": 125000,
+    "minHeight": 127.04,
+    "maxHeight": 232.15
+  },
+  {
+    "file": "lidar-267000-218500.glb",
+    "e": 267000,
+    "n": 218500,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "carreg-cennen-castle"
+    ],
+    "bytes": 1509296,
+    "sha256": "c982a9f1616cceff1cfce87e0502077fe14210f4eda77ef1d1fa386ebf00db0f",
+    "triangles": 125000,
+    "minHeight": 134.73,
+    "maxHeight": 277.86
+  },
+  {
+    "file": "lidar-266000-219000.glb",
+    "e": 266000,
+    "n": 219000,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "carreg-cennen-castle"
+    ],
+    "bytes": 1509296,
+    "sha256": "10d2ea0299d3d398cb06fadb7d47eb58ca4c583dc956c4402fd6f82214156cd2",
+    "triangles": 125000,
+    "minHeight": 133.87,
+    "maxHeight": 216.63
+  },
+  {
+    "file": "lidar-266500-219000.glb",
+    "e": 266500,
+    "n": 219000,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "carreg-cennen-castle"
+    ],
+    "bytes": 1509296,
+    "sha256": "12237ee8dc6f490def9cf89cd5903ba43a74794ea9aba0b51e11c81e074bf92b",
+    "triangles": 125000,
+    "minHeight": 150.89,
+    "maxHeight": 266.03
+  },
+  {
+    "file": "lidar-267000-219000.glb",
+    "e": 267000,
+    "n": 219000,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "carreg-cennen-castle"
+    ],
+    "bytes": 1509296,
+    "sha256": "9f26667c32405c259c579816670eb46cb5765216afed335127a99e9c3970d088",
+    "triangles": 125000,
+    "minHeight": 136.65,
+    "maxHeight": 261.13
+  },
+  {
+    "file": "lidar-266000-219500.glb",
+    "e": 266000,
+    "n": 219500,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "carreg-cennen-castle"
+    ],
+    "bytes": 1509296,
+    "sha256": "0351a85b7df125a375e1b0300dad3d53400948e433a89621afe98f8450be9637",
+    "triangles": 125000,
+    "minHeight": 180.16,
+    "maxHeight": 234.17
+  },
+  {
+    "file": "lidar-266500-219500.glb",
+    "e": 266500,
+    "n": 219500,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "carreg-cennen-castle"
+    ],
+    "bytes": 1509296,
+    "sha256": "7268c0cf366bdb3d48278a92695c26ec4ce82b6865eb83e213bc2d688e5788a3",
+    "triangles": 125000,
+    "minHeight": 216.63,
+    "maxHeight": 244.39
+  },
+  {
+    "file": "lidar-267000-219500.glb",
+    "e": 267000,
+    "n": 219500,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "carreg-cennen-castle"
+    ],
+    "bytes": 1509296,
+    "sha256": "a7f850e876e62a8883b8decde898854309bc640e88da5cbf1e64aeae37821c51",
+    "triangles": 125000,
+    "minHeight": 184.33,
+    "maxHeight": 229.12
+  },
+  {
+    "file": "lidar-255000-220000.glb",
+    "e": 255000,
+    "n": 220000,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "dryslwyn-castle"
+    ],
+    "bytes": 1509288,
+    "sha256": "1c8c3fc1f7ed65aa4ada2911ca02c6801cf2c886e3f092187550cbcceeb0baa4",
+    "triangles": 125000,
+    "minHeight": 15.81,
+    "maxHeight": 72.47
+  },
+  {
+    "file": "lidar-255500-220000.glb",
+    "e": 255500,
+    "n": 220000,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "dryslwyn-castle"
+    ],
+    "bytes": 1509288,
+    "sha256": "53a3275e1a8924ebbc55ff3c44c115e3dc7343803ad18bd1ed75eee6d7c9fc3c",
+    "triangles": 125000,
+    "minHeight": 16.3,
+    "maxHeight": 69.52
+  },
+  {
+    "file": "lidar-255000-220500.glb",
+    "e": 255000,
+    "n": 220500,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "dryslwyn-castle"
+    ],
+    "bytes": 1509288,
+    "sha256": "26c88f11e76d97176ab281155287f3e87ff0006767ebd9f6f86693e595a4a108",
+    "triangles": 125000,
+    "minHeight": 15.48,
+    "maxHeight": 29.28
+  },
+  {
+    "file": "lidar-255500-220500.glb",
+    "e": 255500,
+    "n": 220500,
+    "size": 500,
+    "step": 2,
+    "areas": [
+      "dryslwyn-castle"
+    ],
+    "bytes": 1509288,
+    "sha256": "aa1831271ce2711c8296d3fe7ecd5ca57f6be26c163e0f41a3bc6a02b750999e",
+    "triangles": 125000,
+    "minHeight": 17.27,
+    "maxHeight": 37.34
+  },
+  {
     "file": "lidar-260500-221000.glb",
     "e": 260500,
     "n": 221000,

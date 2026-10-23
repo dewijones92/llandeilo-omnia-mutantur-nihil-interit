@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import Delaunator from 'delaunator';
 import { describe, expect, it } from 'vitest';
 import { WORLD } from '../src/domain/geo.ts';
-import { nearRim, parseManifest, RIM_SPACING, RimProfile } from '../src/domain/lidar.ts';
+import { nearAnyRim, parseManifest, RIM_SPACING, rimDistance, RimProfiles } from '../src/domain/lidar.ts';
 import type { GridRef } from '../src/domain/model.ts';
 import { rng } from '../src/domain/noise.ts';
 import { treeSites, type TreeSite } from '../src/domain/tree.ts';
@@ -11,7 +11,14 @@ import { treeSites, type TreeSite } from '../src/domain/tree.ts';
 const manifest = parseManifest(
   JSON.parse(readFileSync(join(import.meta.dirname, '..', 'public', 'data', 'lidar', 'lidar.json'), 'utf8')),
 );
-const region = manifest.region;
+const { regions } = manifest;
+// One box round every region, so the scatter holds all of them and the ground between.
+const region = {
+  eMin: Math.min(...regions.map((r) => r.eMin)),
+  eMax: Math.max(...regions.map((r) => r.eMax)),
+  nMin: Math.min(...regions.map((r) => r.nMin)),
+  nMax: Math.max(...regions.map((r) => r.nMax)),
+};
 const FAR_M = 500;
 const SPACING_M = 105;
 
@@ -60,16 +67,18 @@ function triangulate(points: readonly GridRef[]): Triangulation {
 const withoutIndex = (s: TreeSite | undefined): unknown =>
   s && { seed: s.seed, traits: s.traits, x: s.x, z: s.z, conifer: s.conifer, heightM: s.heightM };
 
-describe('a tree keeps its identity when the LiDAR rim renumbers the coarse mesh', () => {
+describe('a tree keeps its identity when the LiDAR rims renumber the coarse mesh', () => {
   const plain = scatter();
-  const rim = new RimProfile(region, RIM_SPACING, () => 0);
-  const withRim = [...plain.filter((p) => !nearRim(region, p)), ...rim.points];
+  const rim = new RimProfiles(regions, RIM_SPACING, () => 0);
+  const withRim = [...plain.filter((p) => !nearAnyRim(regions, p)), ...rim.points];
   const before = triangulate(plain);
   const after = triangulate(withRim);
+  // More than 500m outside every region (a point inside one is never far).
   function far(g: GridRef): boolean {
-    const dx = Math.max(region.eMin - g.e, 0, g.e - region.eMax);
-    const dn = Math.max(region.nMin - g.n, 0, g.n - region.nMax);
-    return Math.hypot(dx, dn) > FAR_M;
+    return regions.every((r) => {
+      const outside = g.e < r.eMin || g.e > r.eMax || g.n < r.nMin || g.n > r.nMax;
+      return outside && rimDistance(r, g) > FAR_M;
+    });
   }
 
   const shared = [...before.centres].filter(([key, t]) => far(t.at) && after.centres.has(key));

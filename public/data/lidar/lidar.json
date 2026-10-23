@@ -4,16 +4,41 @@
  "tileSize": 500,
  "heightScale": 0.01,
  "blendMetres": 300,
- "region": {
-  "eMin": 260000,
-  "eMax": 265000,
-  "nMin": 220500,
-  "nMax": 224500
+ "sceneOrigin": {
+  "e": 260000,
+  "n": 220500
  },
+ "regions": [
+  {
+   "id": "llandeilo-dinefwr",
+   "name": "Llandeilo and Dinefwr",
+   "eMin": 260000,
+   "eMax": 265000,
+   "nMin": 220500,
+   "nMax": 224500
+  },
+  {
+   "id": "carreg-cennen",
+   "name": "Carreg Cennen",
+   "eMin": 265500,
+   "eMax": 268500,
+   "nMin": 218000,
+   "nMax": 221000
+  },
+  {
+   "id": "dryslwyn",
+   "name": "Dryslwyn",
+   "eMin": 254500,
+   "eMax": 256500,
+   "nMin": 219500,
+   "nMax": 221500
+  }
+ ],
  "areas": [
   {
    "id": "llandeilo",
    "name": "Llandeilo town",
+   "region": "llandeilo-dinefwr",
    "centre": {
     "e": 262930,
     "n": 222236
@@ -26,6 +51,7 @@
   {
    "id": "roman-forts",
    "name": "Dinefwr Roman forts",
+   "region": "llandeilo-dinefwr",
    "centre": {
     "e": 262187,
     "n": 222534
@@ -38,6 +64,7 @@
   {
    "id": "dinefwr-castle",
    "name": "Dinefwr Castle hill",
+   "region": "llandeilo-dinefwr",
    "centre": {
     "e": 261150,
     "n": 221731
@@ -46,6 +73,32 @@
    "eMax": 261650,
    "nMin": 221231,
    "nMax": 222231
+  },
+  {
+   "id": "carreg-cennen-castle",
+   "name": "Carreg Cennen Castle crag",
+   "region": "carreg-cennen",
+   "centre": {
+    "e": 266789,
+    "n": 219075
+   },
+   "eMin": 266289,
+   "eMax": 267289,
+   "nMin": 218575,
+   "nMax": 219575
+  },
+  {
+   "id": "dryslwyn-castle",
+   "name": "Dryslwyn Castle hill",
+   "region": "dryslwyn",
+   "centre": {
+    "e": 255387,
+    "n": 220288
+   },
+   "eMin": 255137,
+   "eMax": 255637,
+   "nMin": 220038,
+   "nMax": 220538
   }
  ],
  "encoding": "one file of every tile one after another (each tile at its offset, in bytes): uint16 little-endian, centimetres, row-major from the north-west corner; (tileSize/step + 1) vertices per side, edge vertices shared with the neighbouring tile",
@@ -912,6 +965,552 @@
    "minHeight": 28.54,
    "maxHeight": 32.83,
    "areas": []
+  },
+  {
+   "e": 265500,
+   "n": 218000,
+   "step": 10,
+   "offset": 3919360,
+   "bytes": 5202,
+   "minHeight": 158.31,
+   "maxHeight": 214.77,
+   "areas": []
+  },
+  {
+   "e": 266000,
+   "n": 218000,
+   "step": 10,
+   "offset": 3924562,
+   "bytes": 5202,
+   "minHeight": 149.36,
+   "maxHeight": 229.64000000000001,
+   "areas": []
+  },
+  {
+   "e": 266500,
+   "n": 218000,
+   "step": 10,
+   "offset": 3929764,
+   "bytes": 5202,
+   "minHeight": 156.55,
+   "maxHeight": 246.8,
+   "areas": []
+  },
+  {
+   "e": 267000,
+   "n": 218000,
+   "step": 10,
+   "offset": 3934966,
+   "bytes": 5202,
+   "minHeight": 231.75,
+   "maxHeight": 290.22,
+   "areas": []
+  },
+  {
+   "e": 267500,
+   "n": 218000,
+   "step": 10,
+   "offset": 3940168,
+   "bytes": 5202,
+   "minHeight": 272.0,
+   "maxHeight": 344.90000000000003,
+   "areas": []
+  },
+  {
+   "e": 268000,
+   "n": 218000,
+   "step": 10,
+   "offset": 3945370,
+   "bytes": 5202,
+   "minHeight": 303.91,
+   "maxHeight": 371.43,
+   "areas": []
+  },
+  {
+   "e": 265500,
+   "n": 218500,
+   "step": 10,
+   "offset": 3950572,
+   "bytes": 5202,
+   "minHeight": 109.42,
+   "maxHeight": 168.46,
+   "areas": []
+  },
+  {
+   "e": 266000,
+   "n": 218500,
+   "step": 2,
+   "offset": 3955774,
+   "bytes": 126002,
+   "minHeight": 117.18,
+   "maxHeight": 188.31,
+   "areas": [
+    "carreg-cennen-castle"
+   ]
+  },
+  {
+   "e": 266500,
+   "n": 218500,
+   "step": 2,
+   "offset": 4081776,
+   "bytes": 126002,
+   "minHeight": 127.04,
+   "maxHeight": 232.15,
+   "areas": [
+    "carreg-cennen-castle"
+   ]
+  },
+  {
+   "e": 267000,
+   "n": 218500,
+   "step": 2,
+   "offset": 4207778,
+   "bytes": 126002,
+   "minHeight": 134.73,
+   "maxHeight": 277.86,
+   "areas": [
+    "carreg-cennen-castle"
+   ]
+  },
+  {
+   "e": 267500,
+   "n": 218500,
+   "step": 10,
+   "offset": 4333780,
+   "bytes": 5202,
+   "minHeight": 174.0,
+   "maxHeight": 303.91,
+   "areas": []
+  },
+  {
+   "e": 268000,
+   "n": 218500,
+   "step": 10,
+   "offset": 4338982,
+   "bytes": 5202,
+   "minHeight": 207.8,
+   "maxHeight": 337.02,
+   "areas": []
+  },
+  {
+   "e": 265500,
+   "n": 219000,
+   "step": 10,
+   "offset": 4344184,
+   "bytes": 5202,
+   "minHeight": 112.89,
+   "maxHeight": 187.16,
+   "areas": []
+  },
+  {
+   "e": 266000,
+   "n": 219000,
+   "step": 2,
+   "offset": 4349386,
+   "bytes": 126002,
+   "minHeight": 133.87,
+   "maxHeight": 216.63,
+   "areas": [
+    "carreg-cennen-castle"
+   ]
+  },
+  {
+   "e": 266500,
+   "n": 219000,
+   "step": 2,
+   "offset": 4475388,
+   "bytes": 126002,
+   "minHeight": 150.89000000000001,
+   "maxHeight": 266.03000000000003,
+   "areas": [
+    "carreg-cennen-castle"
+   ]
+  },
+  {
+   "e": 267000,
+   "n": 219000,
+   "step": 2,
+   "offset": 4601390,
+   "bytes": 126002,
+   "minHeight": 136.65,
+   "maxHeight": 261.13,
+   "areas": [
+    "carreg-cennen-castle"
+   ]
+  },
+  {
+   "e": 267500,
+   "n": 219000,
+   "step": 10,
+   "offset": 4727392,
+   "bytes": 5202,
+   "minHeight": 144.17000000000002,
+   "maxHeight": 216.41,
+   "areas": []
+  },
+  {
+   "e": 268000,
+   "n": 219000,
+   "step": 10,
+   "offset": 4732594,
+   "bytes": 5202,
+   "minHeight": 173.96,
+   "maxHeight": 274.85,
+   "areas": []
+  },
+  {
+   "e": 265500,
+   "n": 219500,
+   "step": 10,
+   "offset": 4737796,
+   "bytes": 5202,
+   "minHeight": 156.4,
+   "maxHeight": 219.9,
+   "areas": []
+  },
+  {
+   "e": 266000,
+   "n": 219500,
+   "step": 2,
+   "offset": 4742998,
+   "bytes": 126002,
+   "minHeight": 180.16,
+   "maxHeight": 234.17000000000002,
+   "areas": [
+    "carreg-cennen-castle"
+   ]
+  },
+  {
+   "e": 266500,
+   "n": 219500,
+   "step": 2,
+   "offset": 4869000,
+   "bytes": 126002,
+   "minHeight": 216.63,
+   "maxHeight": 244.39000000000001,
+   "areas": [
+    "carreg-cennen-castle"
+   ]
+  },
+  {
+   "e": 267000,
+   "n": 219500,
+   "step": 2,
+   "offset": 4995002,
+   "bytes": 126002,
+   "minHeight": 184.33,
+   "maxHeight": 229.12,
+   "areas": [
+    "carreg-cennen-castle"
+   ]
+  },
+  {
+   "e": 267500,
+   "n": 219500,
+   "step": 10,
+   "offset": 5121004,
+   "bytes": 5202,
+   "minHeight": 148.85,
+   "maxHeight": 213.73000000000002,
+   "areas": []
+  },
+  {
+   "e": 268000,
+   "n": 219500,
+   "step": 10,
+   "offset": 5126206,
+   "bytes": 5202,
+   "minHeight": 161.29,
+   "maxHeight": 237.21,
+   "areas": []
+  },
+  {
+   "e": 265500,
+   "n": 220000,
+   "step": 10,
+   "offset": 5131408,
+   "bytes": 5202,
+   "minHeight": 210.3,
+   "maxHeight": 254.23000000000002,
+   "areas": []
+  },
+  {
+   "e": 266000,
+   "n": 220000,
+   "step": 10,
+   "offset": 5136610,
+   "bytes": 5202,
+   "minHeight": 206.58,
+   "maxHeight": 253.34,
+   "areas": []
+  },
+  {
+   "e": 266500,
+   "n": 220000,
+   "step": 10,
+   "offset": 5141812,
+   "bytes": 5202,
+   "minHeight": 204.73000000000002,
+   "maxHeight": 243.20000000000002,
+   "areas": []
+  },
+  {
+   "e": 267000,
+   "n": 220000,
+   "step": 10,
+   "offset": 5147014,
+   "bytes": 5202,
+   "minHeight": 185.9,
+   "maxHeight": 220.54,
+   "areas": []
+  },
+  {
+   "e": 267500,
+   "n": 220000,
+   "step": 10,
+   "offset": 5152216,
+   "bytes": 5202,
+   "minHeight": 173.1,
+   "maxHeight": 227.63,
+   "areas": []
+  },
+  {
+   "e": 268000,
+   "n": 220000,
+   "step": 10,
+   "offset": 5157418,
+   "bytes": 5202,
+   "minHeight": 192.49,
+   "maxHeight": 241.55,
+   "areas": []
+  },
+  {
+   "e": 265500,
+   "n": 220500,
+   "step": 10,
+   "offset": 5162620,
+   "bytes": 5202,
+   "minHeight": 195.0,
+   "maxHeight": 256.16,
+   "areas": []
+  },
+  {
+   "e": 266000,
+   "n": 220500,
+   "step": 10,
+   "offset": 5167822,
+   "bytes": 5202,
+   "minHeight": 216.32,
+   "maxHeight": 268.78000000000003,
+   "areas": []
+  },
+  {
+   "e": 266500,
+   "n": 220500,
+   "step": 10,
+   "offset": 5173024,
+   "bytes": 5202,
+   "minHeight": 214.65,
+   "maxHeight": 259.33,
+   "areas": []
+  },
+  {
+   "e": 267000,
+   "n": 220500,
+   "step": 10,
+   "offset": 5178226,
+   "bytes": 5202,
+   "minHeight": 203.67000000000002,
+   "maxHeight": 239.11,
+   "areas": []
+  },
+  {
+   "e": 267500,
+   "n": 220500,
+   "step": 10,
+   "offset": 5183428,
+   "bytes": 5202,
+   "minHeight": 206.5,
+   "maxHeight": 239.32,
+   "areas": []
+  },
+  {
+   "e": 268000,
+   "n": 220500,
+   "step": 10,
+   "offset": 5188630,
+   "bytes": 5202,
+   "minHeight": 226.82,
+   "maxHeight": 262.17,
+   "areas": []
+  },
+  {
+   "e": 254500,
+   "n": 219500,
+   "step": 10,
+   "offset": 5193832,
+   "bytes": 5202,
+   "minHeight": 16.04,
+   "maxHeight": 23.69,
+   "areas": []
+  },
+  {
+   "e": 255000,
+   "n": 219500,
+   "step": 10,
+   "offset": 5199034,
+   "bytes": 5202,
+   "minHeight": 16.07,
+   "maxHeight": 19.34,
+   "areas": []
+  },
+  {
+   "e": 255500,
+   "n": 219500,
+   "step": 10,
+   "offset": 5204236,
+   "bytes": 5202,
+   "minHeight": 16.27,
+   "maxHeight": 18.59,
+   "areas": []
+  },
+  {
+   "e": 256000,
+   "n": 219500,
+   "step": 10,
+   "offset": 5209438,
+   "bytes": 5202,
+   "minHeight": 16.62,
+   "maxHeight": 34.410000000000004,
+   "areas": []
+  },
+  {
+   "e": 254500,
+   "n": 220000,
+   "step": 10,
+   "offset": 5214640,
+   "bytes": 5202,
+   "minHeight": 15.4,
+   "maxHeight": 17.77,
+   "areas": []
+  },
+  {
+   "e": 255000,
+   "n": 220000,
+   "step": 2,
+   "offset": 5219842,
+   "bytes": 126002,
+   "minHeight": 15.81,
+   "maxHeight": 72.47,
+   "areas": [
+    "dryslwyn-castle"
+   ]
+  },
+  {
+   "e": 255500,
+   "n": 220000,
+   "step": 2,
+   "offset": 5345844,
+   "bytes": 126002,
+   "minHeight": 16.3,
+   "maxHeight": 69.52,
+   "areas": [
+    "dryslwyn-castle"
+   ]
+  },
+  {
+   "e": 256000,
+   "n": 220000,
+   "step": 10,
+   "offset": 5471846,
+   "bytes": 5202,
+   "minHeight": 16.330000000000002,
+   "maxHeight": 19.23,
+   "areas": []
+  },
+  {
+   "e": 254500,
+   "n": 220500,
+   "step": 10,
+   "offset": 5477048,
+   "bytes": 5202,
+   "minHeight": 15.14,
+   "maxHeight": 22.73,
+   "areas": []
+  },
+  {
+   "e": 255000,
+   "n": 220500,
+   "step": 2,
+   "offset": 5482250,
+   "bytes": 126002,
+   "minHeight": 15.48,
+   "maxHeight": 29.28,
+   "areas": [
+    "dryslwyn-castle"
+   ]
+  },
+  {
+   "e": 255500,
+   "n": 220500,
+   "step": 2,
+   "offset": 5608252,
+   "bytes": 126002,
+   "minHeight": 17.27,
+   "maxHeight": 37.34,
+   "areas": [
+    "dryslwyn-castle"
+   ]
+  },
+  {
+   "e": 256000,
+   "n": 220500,
+   "step": 10,
+   "offset": 5734254,
+   "bytes": 5202,
+   "minHeight": 16.47,
+   "maxHeight": 45.95,
+   "areas": []
+  },
+  {
+   "e": 254500,
+   "n": 221000,
+   "step": 10,
+   "offset": 5739456,
+   "bytes": 5202,
+   "minHeight": 15.74,
+   "maxHeight": 30.18,
+   "areas": []
+  },
+  {
+   "e": 255000,
+   "n": 221000,
+   "step": 10,
+   "offset": 5744658,
+   "bytes": 5202,
+   "minHeight": 17.04,
+   "maxHeight": 41.57,
+   "areas": []
+  },
+  {
+   "e": 255500,
+   "n": 221000,
+   "step": 10,
+   "offset": 5749860,
+   "bytes": 5202,
+   "minHeight": 19.84,
+   "maxHeight": 64.58,
+   "areas": []
+  },
+  {
+   "e": 256000,
+   "n": 221000,
+   "step": 10,
+   "offset": 5755062,
+   "bytes": 5202,
+   "minHeight": 23.52,
+   "maxHeight": 69.16,
+   "areas": []
   }
  ],
  "source": {
@@ -1030,6 +1629,174 @@
     "fileDate": "20220113",
     "bytes": 2346608,
     "sha256": "a7e15b127cb3d7c80a296dcebe968db53d807566f3a688f86d495b304068ceb3"
+   },
+   {
+    "grid": "SN6518",
+    "file": "wg_del_21_265218_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2185686,
+    "sha256": "c7567611a7d6d3acc3bdb8563c6c2ac62d93bb002ba27ed199ebde059f1fa9db"
+   },
+   {
+    "grid": "SN6519",
+    "file": "wg_del_21_265219_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2118581,
+    "sha256": "3d7ed1a1ef078ff5e7c5927b82482d955a3b6dcea938985419f816907b70fa42"
+   },
+   {
+    "grid": "SN6520",
+    "file": "wg_del_21_265220_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2279060,
+    "sha256": "d6f25b524b89c3274210147217ee5e8eaeaecafe1f208543343003428fdd9948"
+   },
+   {
+    "grid": "SN6618",
+    "file": "wg_del_21_266218_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2381431,
+    "sha256": "9ab4a69b9185d5253f4e26816789e4537c78242ccdd63be2dc0adc60dd83703b"
+   },
+   {
+    "grid": "SN6619",
+    "file": "wg_del_21_266219_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2395015,
+    "sha256": "39efd72ef2b2efdb9b852076f9f6270520a486dcd95843dc13a61fe2f41032e8"
+   },
+   {
+    "grid": "SN6620",
+    "file": "wg_del_21_266220_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2208590,
+    "sha256": "bff60b0f5d4e4513ba694f28e6e524d98c00415bd1891b59f1efa4dd365c0d5c"
+   },
+   {
+    "grid": "SN6718",
+    "file": "wg_del_21_267218_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2491021,
+    "sha256": "c8ddba2938713034a78771919937cda29440806175fa74272c4e022284a2212e"
+   },
+   {
+    "grid": "SN6719",
+    "file": "wg_del_21_267219_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2445955,
+    "sha256": "659ac7d4f3389807bebf5bc2ba13cff2b31959bb9ef4726e26fa26bebd7158dc"
+   },
+   {
+    "grid": "SN6720",
+    "file": "wg_del_21_267220_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2082050,
+    "sha256": "40055c81b0c8e3dd1a51a1fc061a3fd3c009776b923d40f41a8b291cffa52b2a"
+   },
+   {
+    "grid": "SN6818",
+    "file": "wg_del_21_268218_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2403139,
+    "sha256": "42de92e4e10d5a5c7067e188387042f00e1bb004ac0620b9a996a4ae390fc77f"
+   },
+   {
+    "grid": "SN6819",
+    "file": "wg_del_21_268219_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2364910,
+    "sha256": "4fe08e10a4ab3b008d2d100142f2df62d754e9358717fdbd692bddb0f006653f"
+   },
+   {
+    "grid": "SN6820",
+    "file": "wg_del_21_268220_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2316303,
+    "sha256": "8c5abc7d6843cbc738485bbd08f219fdc76c703b1a24569a75351c3177caf9e5"
+   },
+   {
+    "grid": "SN5419",
+    "file": "wg_del_26_254219_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 1890188,
+    "sha256": "8e1f6d33effa089e7c2908be95caca9418aa2eb5b8a8019db527e5fcfa317575"
+   },
+   {
+    "grid": "SN5420",
+    "file": "wg_del_26_254220_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 1303174,
+    "sha256": "f1334c9f19372b5d17e1f28a3223196e23a87e8be11bb9db7207a29c30cc0ef5"
+   },
+   {
+    "grid": "SN5421",
+    "file": "wg_del_26_254221_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 1824924,
+    "sha256": "4976e41ca2cab656335b54b4636350cf78064ff91b1ba4fdb624084d3d54738b"
+   },
+   {
+    "grid": "SN5519",
+    "file": "wg_del_26_255219_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 1656050,
+    "sha256": "95d082c63516465b3e0bc22d203ae1c1991c2317e7a3da7877e89b6428726dbb"
+   },
+   {
+    "grid": "SN5520",
+    "file": "wg_del_26_255220_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 1570888,
+    "sha256": "493a0423ce8561c5c6c4993c1f8c6592ed6037f2b7f7358aea0c1b05340e32fa"
+   },
+   {
+    "grid": "SN5521",
+    "file": "wg_del_26_255221_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2035407,
+    "sha256": "e9989ce0b58b1b9fa502acefb079d166ca5f4ee88a480f617dcb5b80c451073c"
+   },
+   {
+    "grid": "SN5619",
+    "file": "wg_del_26_256219_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 1839828,
+    "sha256": "a17340452be63c84e3417af7872f294dacc213407d6ba21cf1484533772098bb"
+   },
+   {
+    "grid": "SN5620",
+    "file": "wg_del_26_256220_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 1531026,
+    "sha256": "cb803cc76a046a13ecc1a0d462c402034ec1f3f840a5261516ef1f13ebc213c7"
+   },
+   {
+    "grid": "SN5621",
+    "file": "wg_del_26_256221_20220113dtm.tif",
+    "surveyDate": "13-01-2022",
+    "fileDate": "20220113",
+    "bytes": 2032316,
+    "sha256": "e9d6fe636a0b5fe8819b1253dabefcc3baa470810676d39b2693d463131a0c7a"
    },
    {
     "grid": "SN6020",

@@ -143,7 +143,7 @@ describe('the Downloads list (ADR 0058)', () => {
         ? {
             placement: modelPlacement(
               glb,
-              manifest.region,
+              manifest.sceneOrigin,
               groundHeightAt(manifest, data, anchor.e, anchor.n),
             ),
           }
@@ -290,8 +290,8 @@ describe('the Downloads list (ADR 0058)', () => {
       const extras = readAssetBlock(glb).extras;
       const placement = placementOf(glb);
       expect(placement.anchorBng, d.file).toEqual(anchor);
-      expect(placement.atInTerrainScene[0], d.file).toBe(anchor.e - manifest.region.eMin);
-      expect(placement.atInTerrainScene[2], d.file).toBe(-(anchor.n - manifest.region.nMin));
+      expect(placement.atInTerrainScene[0], d.file).toBe(anchor.e - manifest.sceneOrigin.e);
+      expect(placement.atInTerrainScene[2], d.file).toBe(-(anchor.n - manifest.sceneOrigin.n));
       const text = JSON.stringify(extras);
       expect(text, d.file).toContain('onto the ground you use');
       expect(text, d.file).toContain('Over sloping ground the parts do not all stand on the tiles');
@@ -331,7 +331,7 @@ describe('the Downloads list (ADR 0058)', () => {
         `${d.file} y against the tile`,
       ).toBeLessThan(0.5);
       expect(placement.groundAtAnchorMetres, d.file).toBe(placement.atInTerrainScene[1]);
-      expect(placement.atInTerrainScene[0], d.file).toBe(anchor.e - manifest.region.eMin);
+      expect(placement.atInTerrainScene[0], d.file).toBe(anchor.e - manifest.sceneOrigin.e);
     }
   });
 });
@@ -360,11 +360,11 @@ describe('the terrain tiles', () => {
       expect(node?.extras?.['stepMetres'], d.file).toBe(tileOf(d).step);
       expect(json.scenes?.[0]?.extras?.['crs'], d.file).toBe('EPSG:27700');
       const sceneOrigin = json.scenes?.[0]?.extras?.['sceneOriginBng'];
-      expect(sceneOrigin, d.file).toEqual({ e: manifest.region.eMin, n: manifest.region.nMin });
+      expect(sceneOrigin, d.file).toEqual(manifest.sceneOrigin);
       expect(node?.translation, d.file).toEqual([
-        tileOf(d).e - manifest.region.eMin,
+        tileOf(d).e - manifest.sceneOrigin.e,
         0,
-        -(tileOf(d).n - manifest.region.nMin),
+        manifest.sceneOrigin.n - tileOf(d).n,
       ]);
       const position = json.accessors?.[0];
       expect(position?.min?.[0], d.file).toBe(0);

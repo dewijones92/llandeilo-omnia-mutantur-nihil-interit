@@ -4,9 +4,12 @@ import {
   DetailGround,
   drawnSteps,
   insideBounds,
+  nearAnyRim,
   parseManifest,
   planSteps,
+  regionAt,
   RimProfile,
+  RimProfiles,
   rimDistance,
   rimWeight,
   stepForDistance,
@@ -39,8 +42,20 @@ function rawManifest(): Record<string, unknown> {
     tileSize: 100,
     heightScale: 0.1,
     blendMetres: 20,
-    region: REGION,
-    areas: [{ id: 'town', name: 'Town', centre: { e: 100, n: 50 }, eMin: 0, eMax: 200, nMin: 0, nMax: 100 }],
+    sceneOrigin: { e: 0, n: 0 },
+    regions: [{ id: 'valley', name: 'Valley', ...REGION }],
+    areas: [
+      {
+        id: 'town',
+        name: 'Town',
+        region: 'valley',
+        centre: { e: 100, n: 50 },
+        eMin: 0,
+        eMax: 200,
+        nMin: 0,
+        nMax: 100,
+      },
+    ],
     tiles: [rawTile(0), rawTile(100)],
     source: { credit: 'Contains test data' },
   };
@@ -232,7 +247,8 @@ describe('the manifest', () => {
     expect(m.tiles).toHaveLength(2);
     expect(m.areas[0]?.id).toBe('town');
     expect(m.credit).toBe('Contains test data');
-    expect(m.region).toEqual(REGION);
+    expect(m.regions).toEqual([{ id: 'valley', name: 'Valley', ...REGION }]);
+    expect(m.sceneOrigin).toEqual({ e: 0, n: 0 });
   });
 
   it('refuses a missing or malformed field', () => {
@@ -268,7 +284,9 @@ describe('the manifest', () => {
   });
 
   it('refuses a region that is not a whole number of tiles', () => {
-    expect(() => parseManifest({ ...rawManifest(), region: { ...REGION, eMax: 250 } })).toThrow(/region/);
+    expect(() =>
+      parseManifest({ ...rawManifest(), regions: [{ id: 'valley', name: 'Valley', ...REGION, eMax: 250 }] }),
+    ).toThrow(/region/);
   });
 });
 
@@ -291,7 +309,7 @@ describe('a tile of vertex heights', () => {
     const wide = { eMin: -300, eMax: 500, nMin: -300, nMax: 400 };
     const manifest = parseManifest({
       ...rawManifest(),
-      region: wide,
+      regions: [{ id: 'valley', name: 'Valley', ...wide }],
       blendMetres: 20,
       tiles: Array.from({ length: 56 }, (_, i) =>
         rawTile(-300 + (i % 8) * 100, { n: -300 + Math.floor(i / 8) * 100 }),
@@ -375,5 +393,187 @@ describe('slicing the data file into tiles', () => {
   it('refuses a file of the wrong length', () => {
     const manifest = parseManifest(rawManifest());
     expect(() => tileData(manifest, new ArrayBuffer(30))).toThrow(/36 bytes/);
+  });
+});
+
+// Two regions a tile and more apart: the valley (two tiles) and, 200m east of it, the crag (one tile).
+const CRAG = { eMin: 400, eMax: 500, nMin: 0, nMax: 100 };
+
+function twoRegions(over: Record<string, unknown> = {}): Record<string, unknown> {
+  return {
+    ...rawManifest(),
+    regions: [
+      { id: 'valley', name: 'Valley', ...REGION },
+      { id: 'crag', name: 'Crag', ...CRAG },
+    ],
+    areas: [
+      { id: 'town', name: 'Town', region: 'valley', centre: { e: 100, n: 50 }, ...REGION },
+      { id: 'castle', name: 'Castle', region: 'crag', centre: { e: 450, n: 50 }, ...CRAG },
+    ],
+    tiles: [rawTile(0), rawTile(100), rawTile(400, { offset: 36, areas: ['castle'] })],
+    ...over,
+  };
+}
+
+function twoGrounds(): DetailGround {
+  const manifest = parseManifest(twoRegions());
+  const west = Uint16Array.from([10, 20, 30, 40, 50, 60, 70, 80, 90]);
+  const east = Uint16Array.from([30, 31, 32, 60, 61, 62, 90, 91, 92]);
+  const crag = Uint16Array.from([500, 510, 520, 530, 540, 550, 560, 570, 580]);
+  return new DetailGround(
+    manifest,
+    new Map([
+      [tileKey(0, 0), west],
+      [tileKey(100, 0), east],
+      [tileKey(400, 0), crag],
+    ]),
+  );
+}
+
+describe('several detail regions', () => {
+  it('reads every region, its areas and its tiles from the manifest', () => {
+    const m = parseManifest(twoRegions());
+    expect(m.regions.map((r) => r.id)).toEqual(['valley', 'crag']);
+    expect(m.areas.map((a) => [a.id, a.region])).toEqual([
+      ['town', 'valley'],
+      ['castle', 'crag'],
+    ]);
+    expect(m.tiles).toHaveLength(3);
+  });
+
+  it('keys every tile by its grid origin, so no two tiles in any region share an id', () => {
+    const m = parseManifest(twoRegions());
+    const keys = m.tiles.map((t) => tileKey(t.e, t.n));
+    expect(new Set(keys).size).toBe(keys.length);
+    expect(keys).toEqual(['0_0', '100_0', '400_0']);
+  });
+
+  it('finds the region a point is in, and none between them', () => {
+    const regions = parseManifest(twoRegions()).regions;
+    expect(regionAt(regions, { e: 50, n: 50 })?.id).toBe('valley');
+    expect(regionAt(regions, { e: 450, n: 50 })?.id).toBe('crag');
+    expect(regionAt(regions, { e: 500, n: 100 })?.id).toBe('crag');
+    expect(regionAt(regions, { e: 300, n: 50 })).toBeUndefined();
+    expect(regionAt(regions, { e: 450, n: 150 })).toBeUndefined();
+  });
+
+  it('has no ground of its own at a point in no region', () => {
+    const g = twoGrounds();
+    const between = { e: 300, n: 50 };
+    expect(g.contains(between)).toBe(false);
+    expect(g.weightAt(between)).toBe(0);
+    expect(g.lidarAt(between)).toBeUndefined();
+    expect(g.metresAt(between, 77)).toBe(77);
+  });
+
+  it('reads a point in the second region from that region’s own tile, far rim included', () => {
+    const g = twoGrounds();
+    expect(g.contains({ e: 450, n: 50 })).toBe(true);
+    expect(g.lidarAt({ e: 450, n: 50 })).toBeCloseTo(54);
+    expect(g.lidarAt({ e: 500, n: 50 })).toBeCloseTo(55);
+    expect(g.lidarAt({ e: 500, n: 100 })).toBeCloseTo(52);
+    expect(g.lidarAt({ e: 400, n: 0 })).toBeCloseTo(56);
+  });
+
+  it('eases each region into the base from its own rim', () => {
+    const g = twoGrounds();
+    // 10m inside the crag's west rim: half way, though the valley's rim is 210m off.
+    expect(g.weightAt({ e: 410, n: 50 })).toBeCloseTo(0.5);
+    expect(g.weightAt({ e: 400, n: 50 })).toBe(0);
+    expect(g.weightAt({ e: 450, n: 50 })).toBe(1);
+    expect(g.metresAt({ e: 400, n: 50 }, 100)).toBeCloseTo(100);
+    expect(g.metresAt({ e: 450, n: 50 }, 100)).toBeCloseTo(54);
+    // The valley's own rim still blends as before.
+    expect(g.weightAt({ e: 10, n: 50 })).toBeCloseTo(0.5);
+    expect(g.weightAt({ e: 195, n: 50 })).toBeCloseTo(0.15625);
+  });
+
+  it('gives a tile’s edge vertices on any region’s rim that region’s rim profile', () => {
+    const base = (p: { e: number; n: number }): number => 100 + p.e / 10;
+    const g = twoGrounds();
+    const rims = new RimProfiles(g.manifest.regions, 50, base);
+    const crag = g.manifest.tiles.find((t) => t.e === 400);
+    if (!crag) throw new Error('fixture');
+    const h = g.tileHeights(crag, 50, base, rims);
+    expect(h[0]).toBeCloseTo(base({ e: 400, n: 100 }));
+    expect(h[3]).toBeCloseTo(base({ e: 400, n: 50 }));
+    expect(h[5]).toBeCloseTo(base({ e: 500, n: 50 }));
+    expect(h[4]).toBeCloseTo(54);
+  });
+
+  it('has a rim profile point on every region’s rim, and no height on a rim line beyond its region', () => {
+    const base = (p: { e: number; n: number }): number => p.e;
+    const rims = new RimProfiles(parseManifest(twoRegions()).regions, 50, base);
+    expect(rims.points).toHaveLength(12 + 8);
+    expect(rims.points).toContainEqual({ e: 450, n: 100 });
+    expect(rims.heightAt({ e: 425, n: 0 })).toBeCloseTo(425);
+    expect(rims.heightAt({ e: 100, n: 100 })).toBeCloseTo(100);
+    // On the valley's south line, extended, but in neither region.
+    expect(rims.heightAt({ e: 300, n: 0 })).toBeUndefined();
+    expect(rims.heightAt({ e: 450, n: 50 })).toBeUndefined();
+  });
+
+  it('drops base points near any region’s rim, and only those', () => {
+    const regions = parseManifest(twoRegions()).regions;
+    expect(nearAnyRim(regions, { e: 405, n: 50 })).toBe(true);
+    expect(nearAnyRim(regions, { e: 5, n: 50 })).toBe(true);
+    expect(nearAnyRim(regions, { e: 300, n: 50 })).toBe(false);
+    expect(nearAnyRim(regions, { e: 450, n: 50 })).toBe(false);
+  });
+
+  it('refuses regions that overlap or come within a tile of each other', () => {
+    const regions = (crag: Record<string, number>): Record<string, unknown> =>
+      twoRegions({
+        regions: [
+          { id: 'valley', name: 'Valley', ...REGION },
+          { id: 'crag', name: 'Crag', ...crag },
+        ],
+      });
+    expect(() => parseManifest(regions({ eMin: 100, eMax: 200, nMin: 0, nMax: 100 }))).toThrow(/apart/);
+    expect(() => parseManifest(regions({ eMin: 200, eMax: 300, nMin: 0, nMax: 100 }))).toThrow(/apart/);
+    expect(() => parseManifest(regions({ eMin: 200, eMax: 300, nMin: 100, nMax: 200 }))).toThrow(/apart/);
+    const tileApart = twoRegions({
+      regions: [
+        { id: 'valley', name: 'Valley', ...REGION },
+        { id: 'crag', name: 'Crag', eMin: 300, eMax: 400, nMin: 0, nMax: 100 },
+      ],
+      areas: [],
+      tiles: [rawTile(0), rawTile(100), rawTile(300, { offset: 36 })],
+    });
+    expect(parseManifest(tileApart).regions).toHaveLength(2);
+  });
+
+  it('refuses a repeated region id, a tile in no region and a region not wholly tiled', () => {
+    expect(() =>
+      parseManifest(
+        twoRegions({
+          regions: [
+            { id: 'valley', name: 'Valley', ...REGION },
+            { id: 'valley', name: 'Crag', ...CRAG },
+          ],
+        }),
+      ),
+    ).toThrow(/twice/);
+    expect(() =>
+      parseManifest(twoRegions({ tiles: [rawTile(0), rawTile(100), rawTile(300, { offset: 36 })] })),
+    ).toThrow(/outside every region/);
+    expect(() => parseManifest(twoRegions({ tiles: [rawTile(0), rawTile(100)] }))).toThrow(/crag covers 1/);
+  });
+
+  it('refuses an area outside its own region', () => {
+    expect(() =>
+      parseManifest(
+        twoRegions({
+          areas: [{ id: 'castle', name: 'Castle', region: 'valley', centre: { e: 450, n: 50 }, ...CRAG }],
+        }),
+      ),
+    ).toThrow(/castle is not inside its region valley/);
+    expect(() =>
+      parseManifest(
+        twoRegions({
+          areas: [{ id: 'castle', name: 'Castle', region: 'moor', centre: { e: 450, n: 50 }, ...CRAG }],
+        }),
+      ),
+    ).toThrow(/no region moor/);
   });
 });

@@ -137,8 +137,33 @@ describe('ground edits', () => {
     expect(editsKey([])).toBe('');
   });
 
+  it('must lie wholly inside one detail region of several, clear of that region’s rim', () => {
+    const regions = [
+      { eMin: 0, eMax: 2000, nMin: 0, nMax: 1000 },
+      { eMin: 3000, eMax: 4000, nMin: 0, nMax: 1000 },
+    ];
+    const at = (eMin: number, eMax: number) => edit('a', { area: { eMin, eMax, nMin: 400, nMax: 600 } });
+    const line = [
+      { e: 3450, n: 500 },
+      { e: 3550, n: 500 },
+    ];
+    const crag = {
+      ...at(3400, 3600),
+      shape: { kind: 'ridge', line, halfWidth: 4, metres: 2, slope: 6 },
+    } as const;
+    expect(() => {
+      checkEdit(crag, regions, 300);
+    }).not.toThrow();
+    expect(() => {
+      checkEdit(at(1600, 3400), regions, 300);
+    }).toThrow(/rim/);
+    expect(() => {
+      checkEdit(at(2200, 2800), regions, 300);
+    }).toThrow(/rim/);
+  });
+
   it('must lie wholly inside the detail region, clear of its blended rim', () => {
-    const region = { eMin: 0, eMax: 2000, nMin: 0, nMax: 1000 };
+    const region = [{ eMin: 0, eMax: 2000, nMin: 0, nMax: 1000 }];
     expect(() => {
       checkEdit(edit('a'), region, 300);
     }).not.toThrow();

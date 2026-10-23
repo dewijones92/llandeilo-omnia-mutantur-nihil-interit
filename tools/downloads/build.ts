@@ -38,7 +38,7 @@ function stampFile(file: string, extra?: (glb: Glb) => Record<string, unknown>):
 
 refreshModelsIndex();
 const lidar = loadLidar();
-const { region } = lidar.manifest;
+const { sceneOrigin } = lidar.manifest;
 const landmarkFiles = readdirSync(join(PUBLIC, LANDMARKS))
   .filter((f) => f.endsWith('.glb'))
   .map((f) => `${LANDMARKS}/${f}`);
@@ -49,7 +49,7 @@ for (const file of landmarkFiles)
     console.log(
       `dewidebug downloads ${file} anchor E ${String(anchor.e)} N ${String(anchor.n)} stands at ${String(ground)}m`,
     );
-    return { placement: modelPlacement(glb, region, ground) };
+    return { placement: modelPlacement(glb, sceneOrigin, ground) };
   });
 stampFile(TRAIN);
 const landmarkTiers: Record<string, ReturnType<typeof partTiers>> = {};

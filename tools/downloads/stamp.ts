@@ -62,14 +62,14 @@ export function anchorOf(glb: Glb): { readonly e: number; readonly n: number } {
  */
 export function modelPlacement(
   glb: Glb,
-  region: { readonly eMin: number; readonly nMin: number },
+  sceneOrigin: { readonly e: number; readonly n: number },
   groundAtAnchorMetres: number,
 ): Record<string, unknown> {
   const anchor = anchorOf(glb);
   return {
     anchorBng: anchor,
     groundAtAnchorMetres,
-    atInTerrainScene: [anchor.e - region.eMin, groundAtAnchorMetres, -(anchor.n - region.nMin)],
+    atInTerrainScene: [anchor.e - sceneOrigin.e, groundAtAnchorMetres, -(anchor.n - sceneOrigin.n)],
     how: 'x is metres east, y is metres up and z is minus the metres north of the model’s anchor, which is at anchorBng on the British National Grid. Put the anchor at atInTerrainScene to place the model among the terrain tiles, which share that scene origin (the region’s south-west corner); its y is the LiDAR’s ground height at the anchor, so the model’s origin stands on the tiles’ ground there. Over sloping ground the parts do not all stand on the tiles: the app drops each part onto the ground it draws when the model loads (ADR 0053), so lower or raise each part onto the ground you use.',
   };
 }
