@@ -2786,6 +2786,23 @@ test('with ?models=off, and at Low, the forts are drawn from their plans as befo
   await expectNoKitsOnCard(page);
 });
 
+test('the debug overlay shows a new graphics quality as soon as it is chosen, without waiting for a frame', async ({
+  page,
+}) => {
+  await page.goto('./?debug&quality=high&place=roman-forts&year=84&radius=45');
+  await ready(page);
+  await expect(page.locator('.debug')).toContainText('quality high');
+  // Click and read in one task, so no timer or frame can run between them.
+  const shown = await page.evaluate(() => {
+    const low = [...document.querySelectorAll<HTMLButtonElement>('.quality button')].find(
+      (b) => b.textContent === 'Low',
+    );
+    low?.click();
+    return document.querySelector('.debug')?.textContent ?? '';
+  });
+  expect(shown).toContain('quality low');
+});
+
 test('switching to Low mid-session brings the procedural forts back and takes the model detail off an open card, leaving the open part open', async ({
   page,
 }) => {
