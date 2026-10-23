@@ -286,3 +286,14 @@ words are the options he chose).
 | Carreg Cennen and Dryslwyn lie outside the one LiDAR region; the terrain will support several separate regions rather than one region grown to cover them (about 208 tiles) | Claude, under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), carrying out "Yes, per landmark": a region that size fetches and blends far more ground than any landmark needs |
 | Correction: the 2026-10-16 row "Every building in the app stands level at the highest ground under its footprint" holds for buildings drawn from a plan only; the town's map blocks (`settlement.ts`) still sit at their centre's ground, and so do the generated roundhouses and hall-houses (`structures.ts`), found by a second review the same day. Recorded as gaps and a todo item, not a new decision ([ADR 0056](../adr/0056-buildings-stand-level-and-the-roman-plots-are-terraced.md), amended) | Found by the v0.10.0 release review, 2026-10-17 |
 | The v0.10.0 notes name the models' licence (CC BY 4.0) without advertising commercial reuse, while Dewi's confirmation of the licence's scope is still open | Claude, from the release review: a CC BY grant cannot be taken back from copies already downloaded |
+
+## 2026-10-23
+
+Dewi, back from his days away, answered these (the quoted words are the options he chose, or his own words).
+
+| Decision | Why |
+|---|---|
+| Replies to the contributor's issues (#2 to #6) are drafted by Claude and posted only once Dewi approves the batch | Dewi, 2026-10-23: "Claude drafts, I approve" |
+| Models made outside the project (for example in SketchUp) may appear in the app as a separate, credited, switchable layer of contributed models, each carrying its own provenance; the app's own landmarks stay scripted in Blender from our sourced plans. This reverses the 2026-10-16 row "Models from outside … are not brought into the app" for a labelled layer only. The design (format, provenance, placement, review) is Claude's to propose before building | Dewi, 2026-10-23: "Allow as a labelled layer" |
+| Our own models stay CC BY 4.0, covering this project's own modelling, with the sources keeping their own terms; the open question of 2026-10-17 is closed | Dewi, 2026-10-23: "Keep CC BY 4.0" |
+| The geofenced "time portals" (issue #6) are for the contributors to build and offer as a pull request; we answer their questions and review what they send, and do not build it ourselves | Dewi, 2026-10-23: "i think they will build it and submit PR" |

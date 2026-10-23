@@ -267,6 +267,10 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 - [x] Tap the train to follow it with the camera; Stop, a flight or Whole valley ends it (Dewi, 2026-09-28)
 - [ ] More things to follow: animals, carts, drovers, boats, once they exist
 
+## Agreed 2026-10-23 (Dewi, on his return)
+
+- [ ] **A layer of contributed models** ([#4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4), [#5](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/5)): models made outside the project (e.g. in SketchUp) shown as a separate, credited, switchable layer, each with its own provenance (Dewi: "Allow as a labelled layer"). First a design for Dewi in `docs/design/` (the file format and how its parts are named, how a contribution states its provenance and sources, placement on the terrain, review before it is shown, the credit, and how it sits beside our own model of the same place), then an ADR and the build.
+
 ## Agreed 2026-10-16 (Dewi, from issues #3 and #4)
 
 - [ ] **The fort's buildings sit on their ground, not under it** ([#3](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/3)): research whether the barracks stood on levelled terraces (the excavator's levelling for Fort 2; the outer ditch "cut from a higher level"; what the magnetometry shows), then draw terraced platforms as period ground edits (reconstructed, ADR 0049) or seat each building on the ground, with an e2e that no building's footprint is buried by more than its footing.
