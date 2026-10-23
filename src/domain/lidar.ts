@@ -126,6 +126,15 @@ export function regionAt<R extends Bounds>(regions: readonly R[], g: GridRef): R
   return regions.find((r) => insideBounds(r, g));
 }
 
+// The region a tile belongs to: the one holding its centre.
+export function regionOfTile<R extends Bounds>(
+  regions: readonly R[],
+  tile: { readonly e: number; readonly n: number },
+  size: number,
+): R | undefined {
+  return regionAt(regions, { e: tile.e + size / 2, n: tile.n + size / 2 });
+}
+
 // 0 on the rim of the region, easing to 1 a margin inside it.
 export function rimWeight(g: GridRef, region: Bounds, margin: number): number {
   const inside = Math.min(g.e - region.eMin, region.eMax - g.e, g.n - region.nMin, region.nMax - g.n);
@@ -304,7 +313,7 @@ export class DetailGround {
     shape?: (g: GridRef, metres: number) => number,
   ): Float32Array {
     const { tileSize: size, heightScale, blendMetres } = this.manifest;
-    const region = regionAt(this.manifest.regions, { e: tile.e + size / 2, n: tile.n + size / 2 });
+    const region = regionOfTile(this.manifest.regions, tile, size);
     if (!region) throw new Error(`tile ${tileKey(tile.e, tile.n)} is in no region`);
     const stride = step / tile.step;
     if (!Number.isInteger(stride) || stride < 1 || size % step !== 0)
@@ -452,7 +461,7 @@ export function parseManifest(raw: unknown): LidarManifest {
     const key = tileKey(e, n);
     if (e % tileSize !== 0 || n % tileSize !== 0)
       throw new Error(`lidar.json: tile ${key} is not on the ${String(tileSize)}m grid`);
-    if (!regionAt(regions, { e: e + tileSize / 2, n: n + tileSize / 2 }))
+    if (!regionOfTile(regions, { e, n }, tileSize))
       throw new Error(`lidar.json: tile ${key} is outside every region`);
     if (tileSize % step !== 0)
       throw new Error(`lidar.json: tile ${key} step ${String(step)} does not divide ${String(tileSize)}`);
@@ -480,9 +489,7 @@ export function parseManifest(raw: unknown): LidarManifest {
   });
   for (const r of regions) {
     const expected = ((r.eMax - r.eMin) / tileSize) * ((r.nMax - r.nMin) / tileSize);
-    const held = tiles.filter((t) =>
-      insideBounds(r, { e: t.e + tileSize / 2, n: t.n + tileSize / 2 }),
-    ).length;
+    const held = tiles.filter((t) => regionOfTile([r], t, tileSize)).length;
     if (held !== expected)
       throw new Error(
         `lidar.json: ${String(held)} tiles in region ${r.id}, but ${r.id} covers ${String(expected)}`,

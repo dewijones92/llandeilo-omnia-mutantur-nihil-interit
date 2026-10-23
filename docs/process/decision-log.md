@@ -301,3 +301,9 @@ Dewi, back from his days away, answered these (the quoted words are the options 
 | While Dewi is away (from 2026-10-23): the contributed-models layer may be designed, built and released without his sign-off on the design, through the usual path (ADR, second-Opus review, screenshots), and he can veto it in the release notes | Dewi, 2026-10-23: "Design, then build and release" |
 | While he is away, new issues and comments may get signed factual answers (how the app and its files work, what is already in it); anything needing a decision (scope, accepting work) waits for him | Dewi, 2026-10-23: "Factual answers, no decisions" |
 | While he is away, a pull request from a contributor may be merged once CI is green and an independent review finds nothing CRITICAL or IMPORTANT; it is held to the same laws as our own work (provenance, sources, licences, tests) | Dewi, 2026-10-23: "Merge if green and reviewed" |
+
+Claude's own calls the same day, under the proactive mandate, for Dewi to overrule:
+
+| Decision | Why |
+|---|---|
+| Carreg Cennen's and Dryslwyn's 2m areas are centred on Coflein's grid references (SN 66789 19075, SN 55387 20288), as Dinefwr's is; the two places and their castle features stay where `places.ts` and `features.ts` have them (14.4m and 6.7m from those points) until Dewi says, since moving Dinefwr's place was his decision. The terrain takes several regions; each castle's is its own ([ADR 0049, amended](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md#amendment-2026-10-23-several-regions-carreg-cennen-and-dryslwyn)) | Claude, under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), carrying out "Yes, per landmark" (Dewi, 2026-10-17); open for Dewi |

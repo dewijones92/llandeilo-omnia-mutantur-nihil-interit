@@ -19,10 +19,6 @@ import { carveChannel, RiverIndex } from '../domain/rivers.ts';
 import { applyEdits, checkEdit, editsKey, type GroundEdit } from '../domain/groundedit.ts';
 import { onRim, rimGap, rimTopology, type RimBox, type SeamReport } from '../domain/seam.ts';
 
-// The seam of every region together (counts summed, the largest gap), and of each region by id.
-export interface SeamReports extends SeamReport {
-  readonly regions: Readonly<Record<string, SeamReport>>;
-}
 import type { Environment } from '../domain/state.ts';
 import { Surface } from '../domain/surface.ts';
 import { DetailTerrain, type DetailStats } from './detail-terrain.ts';
@@ -42,6 +38,11 @@ import {
   type TerrainTriangles,
 } from './landcover.ts';
 import type { RiverLine } from '../platform/assets.ts';
+
+// The seam of every region together (counts summed, the largest gap), and of each region by id.
+export interface SeamReports extends SeamReport {
+  readonly regions: Readonly<Record<string, SeamReport>>;
+}
 
 const SPACING_M = 105;
 const PLINTH_BOTTOM = -70;

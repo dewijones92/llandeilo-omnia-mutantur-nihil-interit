@@ -2,7 +2,7 @@
 title: Build log
 kind: log
 status: current
-updated: 2026-10-17
+updated: 2026-10-23
 ---
 
 # Build log
@@ -2031,3 +2031,41 @@ and records page errors too.*
 Rather than lengthen a timeout on a guess, the test now records the menu's `chosen` and `applied` lines and fails with
 them, so a recurrence says whether the click was handled. **Lesson:** measure the slow step before blaming it; a
 failure message should name which of its causes happened.
+
+
+## 2026-10-23 (LiDAR in several regions: Carreg Cennen and Dryslwyn)
+
+Dewi's "Yes, per landmark" (2026-10-17) built for the two castles outside the first LiDAR region, as two regions of their
+own (Claude's design, under the proactive mandate; [ADR 0049, amended](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md#amendment-2026-10-23-several-regions-carreg-cennen-and-dryslwyn),
+[data note](../data/lidar.md#several-regions-carreg-cennen-and-dryslwyn-2026-10-23)). 132 tiles, 42 at 2m; `lidar.bin` 3.92MB to
+5.76MB; 21 new source rasters, all of 13 January 2022. **`terrain-tiles.ts` now lists 42 tiles, so this must be released in the same
+pass** (the release procedure in CLAUDE.md), or the 13 new tiles' download links 404.
+
+- **The first build changed two tiles nobody had touched.** Byte-identity of the first region's 80 tiles was checked by
+  comparing the old `lidar.bin` with the new one's first 3,919,360 bytes, and it failed: 51 samples on the east rim column of two
+  10m tiles, up to 40cm. The build warped each region from one mosaic of every raster, and a Carreg Cennen raster across E 265000
+  now filled the half of each rim cell (a 2m cell is centred on the rim, so half of it lies outside) that had been nodata and
+  averaged out before. Each region now takes only the rasters that reach inside it, as the fetch chooses them, and the bytes match.
+  **Lesson:** "independent regions" has to be true of the inputs too, not only of the outputs.
+- **A negative zero failed a test.** A Dryslwyn tile on the scene origin's northing got a translation of `-(0)`, which a glb's JSON
+  writes as `0` and `toEqual` tells apart from `-0`. The exporter and the test now subtract the other way round.
+- **The seam check counted another region's vertices.** `onRim` took any vertex on a side's line, wherever along it; Carreg
+  Cennen's tiles have vertices on N 220500, the first region's south side carried on. Bounded to the box (unit test seen red).
+- **A slope note came off.** On the 2m crag the first Welsh castle at Carreg Cennen stands 1.2 drawn metres proud on its downhill
+  side, not 7.1m, so the slope-note test failed on it; its note was taken off (20 plans carry it now). The other castle plans there
+  and at Dryslwyn now stand on deeper plinths (on the todo list; the true-size models replace them).
+- **A `git checkout` of one file to undo a test mutation threw away that file's uncommitted edits.** Re-applied from the script
+  that made them. Mutate with a reversible edit, or commit first.
+- **The shared data folder.** `~/code/data/llandeilo/lidar/links.txt` and `catalogue.json` now list all 46 rasters (the old ones
+  kept as `links-before-regions.txt` and `catalogue-before-regions.json`); a clone without this change fails its
+  `build-lidar.py --verify` until it takes it.
+- Tests: unit and e2e seen red first (the numbers are in the ADR amendment); the terrain e2e passed under CI's settings, 15 tests in
+  9.1 minutes. Screenshots before and after in `docs/images/lidar/`. Measured on the laptop GPU at load average 18 to 24: no cost that can
+  be told from the noise at the overview or Dryslwyn, perhaps a fifth less at Carreg Cennen; start-up within the noise; `lidar.bin`
+  +1.84MB fetched at start; the main chunk +1.6KB gzipped (numbers in the ADR amendment and CLAUDE.md).
+- **The second-Opus review** (2026-10-23) found no CRITICAL issue and four IMPORTANT ones: the castles' deep plinths on the 2m
+  crags (surfaced for Dewi, todo list), the About text still naming only three LiDAR places (fixed, both languages), stale
+  claims in `findings.md`, `open-questions.md`, the data note's recipe and CLAUDE.md's Downloads row (fixed, dated), and that the
+  branch must be merged with main and released in the same pass (left to the release). Its suggestions taken: one
+  `regionOfTile`, a message of its own for an edit in no region, the `updated` dates, a measured `lidar.json` size.
+

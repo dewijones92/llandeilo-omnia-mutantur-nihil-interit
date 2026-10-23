@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-17
+updated: 2026-10-23
 ---
 
 # Backlog
@@ -272,6 +272,19 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 ## Agreed 2026-10-23 (Dewi, on his return)
 
 - [ ] **A layer of contributed models** ([#4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4), [#5](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/5)): models made outside the project (e.g. in SketchUp) shown as a separate, credited, switchable layer, each with its own provenance (Dewi: "Allow as a labelled layer"). First a design for Dewi in `docs/design/` (the file format and how its parts are named, how a contribution states its provenance and sources, placement on the terrain, review before it is shown, the credit, and how it sits beside our own model of the same place), then an ADR and the build.
+
+## Agreed 2026-10-17 (Dewi, ahead of his days away), and what building it found (Claude)
+
+- [ ] **Each Blender landmark on its own 2m LiDAR area** (Dewi, 2026-10-17: "Yes, per landmark"; several separate regions rather than one grown to hold them, Claude's call under the proactive mandate, [decision log](../process/decision-log.md)).
+      **Built 2026-10-23 for Carreg Cennen and Dryslwyn, not ticked** ([ADR 0049](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md#amendment-2026-10-23-several-regions-carreg-cennen-and-dryslwyn)
+      amended, [`data/lidar.md`](../data/lidar.md#several-regions-carreg-cennen-and-dryslwyn-2026-10-23)): three regions, 132 tiles (42 at 2m),
+      `lidar.bin` 5.76MB; the first region's 80 tiles and the 29 released glbs byte for byte unchanged; unit and e2e tests seen red first; looked at
+      on the GPU before and after at 250m and 600m in 1000 (no castle) and at 250m and 2km in 2020 (`docs/images/lidar/*carreg-cennen*`,
+      `*dryslwyn*`). Not done: step 5, the second-Opus review; **the release**: `terrain-tiles.ts` is rewritten (42 tiles), so this must be
+      released in the same pass or the 13 new tiles' download links 404. ❓ **For Dewi:** the two castles' places (`places.ts`) and features
+      are 14.4m and 6.7m from Coflein's points, on which the areas are centred; for Dinefwr he chose to move the place to Coflein's. Next
+      candidates for a region of their own: Talley Abbey and St Teilo's (their notes name the tiles).
+- [ ] **The landscape-scale castles on the 2m crags** (Claude, under the proactive mandate, found 2026-10-23 while looking at the new areas): the seating rule stands each building level at the highest ground under its footprint, and Carreg Cennen's and Dryslwyn's castles are drawn 2.6 times larger than life, so on the sharper ground their walls are carried down a deep plinth (their footings by the slope-note test: Carreg Cennen 145 to 171 drawn metres, Dryslwyn 88 to 119 and 68 to 96; on the old ground they were already large). The true-size Blender models agreed on 2026-10-17 replace them; until then it shows, at 250m (`docs/images/lidar/after-*-2020-r25.jpg`). The first Welsh castle at Carreg Cennen went the other way: 7.1m to 1.2m, so its slope note was taken off.
 
 ## Agreed 2026-10-16 (Dewi, from issues #3 and #4)
 

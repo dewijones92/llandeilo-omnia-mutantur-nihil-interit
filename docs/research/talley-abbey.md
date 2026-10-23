@@ -2,7 +2,7 @@
 title: Talley Abbey (Abaty Talyllychau), phase by phase, for a Blender model
 kind: research
 status: draft
-updated: 2026-10-17
+updated: 2026-10-23
 ---
 
 # Talley Abbey (Abaty Talyllychau), phase by phase, for a Blender model
@@ -582,7 +582,8 @@ for this note to measure the site [S21]. Two options:
 | B, the abbey and its lakes (recommended) | E 263200, N 233050 | 700 | 12 (E 262500-264000 x N 232000-234000) | Also both lakes and the motte on the isthmus between them (Coflein's "pairing of castle and Abbey across the Upper Lake") [S3] |
 
 Both use the same four source tiles. Either needs the build to take a second region (or a region per landmark), because
-the build keeps one region box with a 300m blend margin round every area (`docs/data/lidar.md`); widening the one box to
+the build keeps one region box with a 300m blend margin round every area (`docs/data/lidar.md`; *since 2026-10-23
+the build takes several regions, so Talley can have one of its own*); widening the one box to
 reach Talley would add a strip some 5km by 9km of 10m context tiles. That is for the build to decide.
 
 ## Sources

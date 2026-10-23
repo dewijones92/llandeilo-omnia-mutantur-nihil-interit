@@ -156,10 +156,13 @@ describe('ground edits', () => {
     }).not.toThrow();
     expect(() => {
       checkEdit(at(1600, 3400), regions, 300);
+    }).toThrow(/no detail region/);
+    expect(() => {
+      checkEdit(at(1600, 2100), regions, 300);
     }).toThrow(/rim/);
     expect(() => {
       checkEdit(at(2200, 2800), regions, 300);
-    }).toThrow(/rim/);
+    }).toThrow(/no detail region/);
   });
 
   it('must lie wholly inside the detail region, clear of its blended rim', () => {

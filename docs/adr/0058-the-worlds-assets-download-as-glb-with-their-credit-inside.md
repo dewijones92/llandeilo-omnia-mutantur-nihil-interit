@@ -2,7 +2,7 @@
 title: "ADR 0058: The world's assets download as .glb, with their credit and licence inside the file"
 kind: adr
 status: accepted
-updated: 2026-10-17
+updated: 2026-10-23
 ---
 
 # ADR 0058: The world's assets download as .glb, with their credit and licence inside the file
@@ -196,3 +196,11 @@ Licence with their own attribution; neither changes.
   as the app does.
 - **A toolbar button for Downloads.** The row of buttons is already full; the tab is reached from About and
   from the tab strip.
+
+## Note, 2026-10-23: more tiles, and a fixed scene origin
+
+The LiDAR now has several regions ([ADR 0049, amended 2026-10-23](0049-lidar-terrain-tiles-blended-into-terrain-50.md#amendment-2026-10-23-several-regions-carreg-cennen-and-dryslwyn)),
+so decision 4's "the 29 held at 2m" is 42 (Carreg Cennen's 9 and Dryslwyn's 4 added, 63.4MB the set), and "the region's
+south-west corner" is now `sceneOrigin` in `tools/terrain/lidar-areas.json`, fixed at the same point (E 260000 N 220500)
+so that a region added later moves no tile already released. The 29 tiles released before are byte for byte the same.
+Claude, under the proactive mandate; nothing else in this ADR changes.

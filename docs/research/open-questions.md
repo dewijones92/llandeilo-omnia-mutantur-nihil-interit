@@ -2,7 +2,7 @@
 title: Open questions and contradictions
 kind: research
 status: current
-updated: 2026-10-17
+updated: 2026-10-23
 ---
 
 # Open questions
@@ -131,7 +131,8 @@ for the next pass. Each note's own "Open questions" section has the full list an
   or the outer ward's buildings. The Cadw guidebook (J. M. Lewis, 1960, 1990, 2006), Colvin's *King's Works* vol. 2
   (1963, p. 602), the 1369 and 1414-21 repair accounts, RCAHMW's 1917 inventory (no. 256, or 156 in King 1986), Remfry
   and Ruckley 2010 and Remfry 2012 were not read; they are where the answers are likely to be. The LiDAR region would
-  need widening for its 2m area. ([carreg cennen](carreg-cennen.md))
+  need widening for its 2m area (*answered 2026-10-23: it has a region of its own,
+  [`../data/lidar.md`](../data/lidar.md#several-regions-carreg-cennen-and-dryslwyn-2026-10-23)*). ([carreg cennen](carreg-cennen.md))
 - **Dryslwyn Castle's fabric** (2026-10-17, for the Blender model): Chris Caple's excavation report (*Excavations at
   Dryslwyn Castle 1980-95*, 2007) was not read beyond its abstract; it holds the measured plans, every height, the roofs
   and the evidence for the render. Also unread: the Cadw guide (Rees and Caple), Webster 1987, Caple 1990 and 2008, the
@@ -140,7 +141,7 @@ for the next pass. Each note's own "Open questions" section has the full list an
   listed by Gatehouse: the Survey of 1609 (TNA SP 14/49/82), the only lead on the ruin's state before the c. 1795 view; the
   Calendar of Close Rolls, Edward II, vol. 3, p. 542; Ellis, *Original Letters*, 2nd series, vol. 1, p. 20; Rickard 2002,
   pp. 126-7. No medieval height of any wall is known
-  outside Caple's reconstruction drawings. The castle is outside the app's LiDAR region. ([dryslwyn](dryslwyn.md))
+  outside Caple's reconstruction drawings. The castle is outside the app's LiDAR region (*answered 2026-10-23: it has a region of its own*). ([dryslwyn](dryslwyn.md))
 - **Talley Abbey's fabric** (2026-10-17, for the Blender model): no source read gives wall heights for the nave, aisles,
   transepts or presbytery, the ranges' form or size, the cloister's south side, the post-Suppression church's form, or any
   roof covering. Williams's Plate 4 gives the presbytery roof's ridge and pitch and his text says the nave roof followed

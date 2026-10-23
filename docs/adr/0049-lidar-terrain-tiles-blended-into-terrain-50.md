@@ -2,7 +2,7 @@
 title: "ADR 0049: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart"
 kind: adr
 status: accepted
-updated: 2026-10-16
+updated: 2026-10-23
 ---
 
 # ADR 0049: LiDAR terrain in tiles, blended into Terrain 50, with period changes kept apart
@@ -14,7 +14,8 @@ updated: 2026-10-16
   0041 to 0048: this was 0041 on its branch, became 0048 at the first merge, and 0049 when the GPU kit took 0048;
   the second review's two findings, ribbons buried by the coarse mesh and the tree identity untested; and the
   third's, ribbon corners under the mesh and the train's re-laying untested); amended 2026-10-16 (a third
-  area, Dinefwr Castle: see "Amendment" below; no new ADR, since nothing in the design changed)
+  area, Dinefwr Castle: see "Amendment" below; no new ADR, since nothing in the design changed); amended 2026-10-23 (several
+  regions, for Carreg Cennen and Dryslwyn: see "Amendment, 2026-10-23" below)
 - **Decided by:** Claude, under the proactive mandate ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)),
   so Dewi can overrule it. Dewi agreed the work itself (GitHub issue 2, 2026-10-09) and said to credit
   the source and not chase licence problems; every design choice below is Claude's.
@@ -287,6 +288,84 @@ at the rim.
   ribbon leg lies on it, then checks every ribbon against the mesh drawn (seen failing, 877 samples under the mesh,
   with ribbons laid on the smooth ground instead of the mesh drawn).
 
+## Amendment, 2026-10-23: several regions, Carreg Cennen and Dryslwyn
+
+- **Decided by.** Dewi decided on 2026-10-17 that each landmark built in Blender gets its own 2m LiDAR area ("Yes, per
+  landmark", decision log). Everything else here is Claude's, under the proactive mandate
+  ([ADR 0027](0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), so Dewi can overrule it: that the terrain
+  takes several separate regions rather than one region grown to hold the castles (recorded in the decision log on
+  2026-10-17), the two areas' centres and sizes, the regions' bounds, and the code below.
+- **Why several regions.** Carreg Cennen lies south-east of the region and Dryslwyn 4.6km west of it. One region round
+  all three castles would be E 254500 to 268500 by N 218000 to 224500, 364 tiles of 500m, nearly all of them ground
+  nobody flies into, every one fetched at start and drawn (decision 7). Two small regions add 52 tiles.
+- **What a region is.** `tools/terrain/lidar-areas.json` lists `regions`, each with an id, a name, its bounds and its
+  areas; the manifest copies them, each area naming its region. A region is everything decision 1 and decision 3 say of
+  "the region": a rectangle of whole 500m tiles, its 2m tiles where its areas are and 10m elsewhere, its own 300m blend
+  from its own rim (`rimWeight` against the region holding the point, `DetailGround.regionAt`), its own rim profile
+  (`RimProfiles`, one `RimProfile` a region) and its own Gabriel hole in the coarse mesh (`nearAnyRim`). The manifest
+  reader refuses regions that overlap, touch or come within a tile (500m) of each other, so a point lies in one region
+  at most and no two rims meet; a tile outside every region; a region not wholly tiled; an area outside its own region.
+  Tiles are keyed by their grid origin as before, so keys stay unique across regions. A region's sides must also be
+  whole multiples of the 40m rim spacing, so in practice whole kilometres.
+- **The first region is untouched.** Its 80 tiles come first in `lidar.bin`, so the old file is the new one's first
+  3,919,360 bytes, byte for byte, and its 80 manifest rows are unchanged. Two things had to be right for that: the build
+  writes the regions in the order the file lists them, and it averages each region from **the rasters that reach
+  inside it** only. A first build from one mosaic of all 46 rasters changed 51 samples on the first region's east rim
+  (two 10m tiles, by up to 40cm), because a raster across E 265000 now filled the half of each rim cell that had had no
+  data. The downloadable glbs' scene origin was "the region's south-west corner"; it is now a fixed `sceneOrigin`
+  (E 260000 N 220500, the same point), so the 29 tiles released before are byte for byte the same (every name, size and
+  sha256 in `terrain-tiles.ts`), and a region added later moves none of them
+  ([ADR 0058](0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md), note of the same date).
+- **The two areas.** Each is centred on Coflein's grid reference, as Dinefwr's is: Carreg Cennen SN 66789 19075
+  (half-size 500, 9 tiles at 2m), Dryslwyn SN 55387 20288 (half-size 250, 4 tiles at 2m). The sizes are the research
+  notes' proposals, checked on the 1m DTM: at Carreg Cennen the cliff joined to the crag reaches 322m east and 140m south
+  and the Afon Cennen's floor is 254m south; at Dryslwyn the hill above 30m OD runs 98m west to 218m east and 59m south
+  to 231m north, with floodplain 250m out on every side. Reasons, the numbers and the raster list are in
+  [`docs/data/lidar.md`](../data/lidar.md#several-regions-carreg-cennen-and-dryslwyn-2026-10-23). The places in
+  `places.ts` are 14.4m and 6.7m from those points and are not moved (Dinefwr's was moved by Dewi's own decision), so
+  unlike the first region's areas these two are not centred on their place's `at`; a test holds each within 20m.
+- **The regions.** `carreg-cennen` E 265500 to 268500, N 218000 to 221000 (36 tiles, 27 at 10m); `dryslwyn` E 254500 to
+  256500, N 219500 to 221500 (16 tiles, 12 at 10m): each area's 2m tiles with a ring of 10m tiles round them, rounded
+  to a whole kilometre (Carreg Cennen's rounded east and north, since rounding west would touch the first region).
+- **Seam check bounded.** `onRim` and the side test in `rimTopology` and `rimGap` used to take a vertex on a side's
+  line anywhere along it; with several regions, another region's vertices lie on those lines carried on (Carreg
+  Cennen's tiles have vertices on N 220500, the first region's south side). They now take only the box's own rim.
+  `Terrain.seam()` answers per region (`regions`, by id) and in sum.
+- **Ground edits** must lie wholly in one region, clear of its rim (`checkEdit` takes the regions).
+- **Result.** 132 tiles (42 at 2m, 90 at 10m); `lidar.bin` 3,919,360 to 5,760,264 bytes (+1,840,904; `gzip -9`
+  2,480,664 to 3,797,430), fetched at start as before. 21 new source rasters (43.4MB, outside the repository), all dated
+  13 January 2022, so the credit is unchanged. 13 more release assets (42 in all, 63.4MB). `Terrain.seam()` at the
+  overview: 450 base and 2,696 detail vertices for the first region, 300 and 1,794 for Carreg Cennen, 200 and 1,196 for
+  Dryslwyn, largest gap 0.0000076 world units (a 13th of a millimetre), none unmatched, no coarse corner inside any
+  region, every rim segment an edge.
+- **Cost, measured.** With `node tools/frames.mjs <url> <dir> --perf --uncapped` (WebGL on the RTX 2000 Ada laptop GPU through WSL, 1920x1080, High, 2020, summer noon), main's build and this branch's served side by side and measured alternately, three runs each, at the overview and at each castle from 400m (`?place=<castle>&radius=40`), the laptop shared with other agents' runs (load average 18 to 24, so a figure moves by half between runs). Overview: idle 70 to 112fps before against 64 to 103 after, orbiting 23 to 51 against 25 to 44, scrubbing 23 to 49 against 29 to 34. Carreg Cennen: idle 127 to 152 against 83 to 129, orbiting 28 to 101 against 33 to 72, scrubbing 42 to 77 against 27 to 64. Dryslwyn: idle 77 to 163 against 98 to 124, orbiting 54 to 91 against 62 to 87, scrubbing 41 to 91 against 37 to 69. Read as no difference that can be told from the noise at the overview and at Dryslwyn, and perhaps a fifth less at Carreg Cennen, whose 9 tiles near the camera are drawn at 4m (about 32,000 triangles each). Start-up (`tools/shot.mjs`, page load to ready, the overview): 12.3, 18.0 and 13.0s before, 15.2, 23.5 and 13.0s after, within the noise. 52 more tiles are built at start at 20m, about 75,000 triangles; the overview's e2e budget of 200,000 now has about 8,600 to spare (132 tiles of 1,450). The main script chunk grew 1,633 bytes gzipped (577,376 to 579,009, `gzip -9`, both built 2026-10-23 at 111f594 and 7e0147e): the 13 new rows of the terrain manifest, the two area names and the code.
+- **What the finer ground showed.** Looked at on the GPU (WebGL through WSL, High, 1600x900, before on main's build and
+  after on this one): in 1000, before either castle, Carreg Cennen's crag shows as a rock face (the steep cover) above a
+  sharp break of slope where Terrain 50 had a smooth hill, and Dryslwyn as a rounded, abrupt hill out of the flat
+  floodplain where Terrain 50 had a few large facets (`docs/images/lidar/*-1000-r25.jpg`, `*-1000-r60.jpg`). At 2km the
+  difference is slight; the 10m cover blocks make the fields inside each region stair-stepped where outside they are
+  triangles, as in the first region (consequences, "Block colours are 10m squares"). In 2020 the castles, which are
+  still the landscape-scale plans (2.6 times larger than life), stand on deep plinths: the seating rule
+  ([ADR 0056](0056-buildings-stand-level-and-the-roman-plots-are-terraced.md)) stands each building level at the highest
+  ground under its footprint, and on the sharper crag that is higher (the slope-note test's footings: Carreg Cennen 145
+  to 171 drawn metres, Dryslwyn 88 to 119 and 68 to 96). The true-size models agreed on 2026-10-17 replace them; it is on
+  the todo list. The first Welsh castle at Carreg Cennen went the other way, 7.1m to 1.2m, below the slope note's line,
+  so its note was taken off.
+- **Tests.** Unit (`src/domain/lidar.test.ts`): a point in no region, in the second region (its own tile, its far rim),
+  the blend from each region's own rim, rim vertices from their own region's profile, base points dropped near any rim,
+  unique tile keys, and every refusal above; seen red first (12 new tests on the missing API, 18 old ones on the old
+  manifest). `seam.test.ts` (the bounded rim) and `groundedit.test.ts` (one region of several), both seen red at their
+  assertions. `tests/lidar.test.ts`: three regions a tile apart, each area in its region with the blend to spare, the two
+  castle areas on Coflein's points holding the measured cliff, river floor and hill, the first region's 80 tiles first and
+  3,919,360 bytes, the Terrain 50 and rim checks in every region. `tests/tree-identity.test.ts` with every region's rim.
+  E2E (`e2e/terrain.spec.ts`): every region's seam on its own at the overview, the town and each castle (under 0.0001
+  world units, a millimetre) and a flight to each castle swapping its tile from 20m to 4m and back, seen red on main's
+  build ("Expected: 20, Received: undefined") and on a build with the first region's rim profile only ("carreg-cennen:
+  coarse vertices on the rim, Expected: >= 300, Received: 0"); the ribbon checks now cover the roads in every region.
+  The whole spec passed under CI's settings (SwiftShader, Low, one worker): 15 tests in 9.1 minutes.
+- **Release.** `src/content/generated/terrain-tiles.ts` now lists 42 tiles, so this change must be released in the same
+  pass (CLAUDE.md, the release procedure), or the 13 new tiles' links 404.
+
 ## Alternatives considered
 
 - **LiDAR everywhere.** 48MB for a 5km by 4km region alone; the circle is 32km across.
@@ -303,3 +382,5 @@ at the rim.
 - **A 2m mesh.** See decision 5.
 - **Writing a period's earthworks into the tiles.** Loses the base; every later edit would rebuild the
   tiles, and "what is the ground without the Roman fort" could no longer be answered.
+- **One region grown round every landmark** (2026-10-23). 364 tiles of 500m for three castles, nearly all of them
+  ground nobody flies into, fetched at start and drawn; rejected for several regions (amendment of 2026-10-23).

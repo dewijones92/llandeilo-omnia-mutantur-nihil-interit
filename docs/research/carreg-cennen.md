@@ -2,7 +2,7 @@
 title: Carreg Cennen Castle (Castell Carreg Cennen), phase by phase, for a Blender model
 kind: research
 status: draft
-updated: 2026-10-17
+updated: 2026-10-23
 ---
 
 # Carreg Cennen Castle, phase by phase, for a Blender model
@@ -154,8 +154,10 @@ plan's line, rising to its north-west and north-east corners, its east wall as a
 and its south wall as a bank running east-north-east from the inner ward's south-east corner to the cliff. A modern
 fence or track has not been mistaken for these: they follow the plan's breaks, corners and the cross wall [S8][S20].
 
-The castle lies **outside** the app's LiDAR region (E 260000-265000, `tools/terrain/lidar-areas.json`): today it
-stands on OS Terrain 50 alone, far too coarse for a 7m-deep ditch 3m wide at its base or a 35m precipice 16m across.
+*Corrected 2026-10-23: the castle now has 2m LiDAR, in a detail region of its own (`carreg-cennen`, E 265500 to
+268500, N 218000 to 221000), the area below built as proposed; [`../data/lidar.md`](../data/lidar.md#several-regions-carreg-cennen-and-dryslwyn-2026-10-23).
+The rest of this paragraph is what was true when the note was written.* The castle lies **outside** the app's LiDAR
+region (E 260000-265000, `tools/terrain/lidar-areas.json`): today it stands on OS Terrain 50 alone, far too coarse for a 7m-deep ditch 3m wide at its base or a 35m precipice 16m across.
 See "A 2m LiDAR area" below.
 
 ## The site
@@ -604,7 +606,10 @@ bridges, galleries); roofs (covering **unknown**: labelled analogy); the outer w
 
 ## A 2m LiDAR area
 
-Proposed area for `tools/terrain/lidar-areas.json` (not changed here; docs only):
+Proposed area for `tools/terrain/lidar-areas.json` (not changed here; docs only). *Built 2026-10-23 as proposed
+(centre, half-size, the 9 tiles), but not by growing the region: the terrain now takes several regions, and this one
+is E 265500 to 268500 by N 218000 to 221000 (36 tiles); its 12 source rasters were downloaded into `raw/` by
+`fetch-lidar.sh` ([`../data/lidar.md`](../data/lidar.md#several-regions-carreg-cennen-and-dryslwyn-2026-10-23)).*
 
 ```json
 { "id": "carreg-cennen", "name": "Castell Carreg Cennen", "centre": { "e": 266789, "n": 219075 }, "halfSize": 500 }

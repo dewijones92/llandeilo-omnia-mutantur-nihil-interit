@@ -128,7 +128,8 @@ export function checkEdit(edit: GroundEdit, regions: readonly Bounds[], margin: 
     { e: a.eMax, n: a.nMax },
   ];
   const region = regionAt(regions, { e: (a.eMin + a.eMax) / 2, n: (a.nMin + a.nMax) / 2 });
-  if (!region || corners.some((c) => rimDistance(region, c) < margin || !insideBounds(region, c)))
+  if (!region) throw new Error(`ground edit ${edit.id}: its area is in no detail region`);
+  if (corners.some((c) => rimDistance(region, c) < margin || !insideBounds(region, c)))
     throw new Error(`ground edit ${edit.id}: its area is within ${String(margin)}m of the region's rim`);
   const s = edit.shape;
   const [points, reach] =

@@ -2,7 +2,8 @@
 
     blender -b -P tools/terrain/export-blender.py -- <area id> <out.blend> [step metres]
 
-The area ids are those in tools/terrain/lidar-areas.json ("llandeilo", "roman-forts"). The terrain is
+The area ids are those in tools/terrain/lidar-areas.json ("llandeilo", "roman-forts", "dinefwr-castle",
+"carreg-cennen-castle", "dryslwyn-castle"), whichever region holds them. The terrain is
 one mesh object per 500m tile, named terrain_<easting>_<northing>_<step>m, under an empty named for
 the area. Blender's axes are the OS grid's: X east, Y north, Z up, all in metres, with the empty at the
 grid reference stored in its custom properties (os_origin_e, os_origin_n), so a model built in the
