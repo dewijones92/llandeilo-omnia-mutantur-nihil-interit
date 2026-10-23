@@ -2,7 +2,7 @@
 title: Ideas board
 kind: design
 status: living
-updated: 2026-10-03
+updated: 2026-10-23
 ---
 
 # Ideas board
@@ -28,6 +28,12 @@ Add freely; nothing here is a commitment.
 | Animals through time, from before there were any: roaming, grazing, hunted, farmed, dying out | ✅ agreed 2026-09-28 (Dewi's), in the backlog | Needs the deep-time arrivals/extinctions table turned into content; one animal model per kind, not per era |
 | People travelling in from afar (Romans, armies, canons, drovers, navvies, evacuees) | ✅ agreed 2026-09-28 (Dewi's), in the backlog | Journeys along the real roads and river; each group only where a source puts them here. 2026-10-03: the cutscene engine's routes (grid references) and crowd of thin-instanced figures can carry these; the Roman column is the first ([ADR 0041](../adr/0041-cutscenes-as-data-on-one-clock.md)) |
 | A donation link in the app and on the README | ✅ agreed 2026-09-28 (Dewi's), in the backlog | Dewi to choose the platform; no tracking |
+
+## From the GitHub issues
+
+| Idea | Status | Notes |
+|---|---|---|
+| Contributed models: reconstructions made outside the project (e.g. in SketchUp) shown in the app ([#4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4), [#5](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/5)) | ✅ agreed by Dewi 2026-10-23 as a labelled layer; design proposed by Claude, under the proactive mandate | See [`contributed-models.md`](contributed-models.md) and [ADR 0060](../adr/0060-contributed-models-are-a-separate-credited-layer.md); not built |
 
 ## From Claude (for discussion)
 

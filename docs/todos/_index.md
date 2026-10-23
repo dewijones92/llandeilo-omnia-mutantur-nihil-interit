@@ -2,7 +2,7 @@
 title: Backlog
 kind: index
 status: current
-updated: 2026-10-17
+updated: 2026-10-23
 ---
 
 # Backlog
@@ -272,6 +272,7 @@ engine, and time of day and seasons. Agreed as a goal; the items below serve it.
 ## Agreed 2026-10-23 (Dewi, on his return)
 
 - [ ] **A layer of contributed models** ([#4](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/4), [#5](https://github.com/dewijones92/llandeilo-omnia-mutantur-nihil-interit/issues/5)): models made outside the project (e.g. in SketchUp) shown as a separate, credited, switchable layer, each with its own provenance (Dewi: "Allow as a labelled layer"). First a design for Dewi in `docs/design/` (the file format and how its parts are named, how a contribution states its provenance and sources, placement on the terrain, review before it is shown, the credit, and how it sits beside our own model of the same place), then an ADR and the build.
+      *2026-10-23: designed (proposed), [`design/contributed-models.md`](../design/contributed-models.md) and [ADR 0060](../adr/0060-contributed-models-are-a-separate-credited-layer.md), Claude's under the proactive mandate; awaiting the second-Opus review, then the build. Not ticked: nothing is built.*
 
 ## Agreed 2026-10-16 (Dewi, from issues #3 and #4)
 
