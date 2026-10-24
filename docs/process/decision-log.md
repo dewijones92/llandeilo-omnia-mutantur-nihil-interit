@@ -307,3 +307,13 @@ Claude's own calls the same day, under the proactive mandate, for Dewi to overru
 | Decision | Why |
 |---|---|
 | Carreg Cennen's and Dryslwyn's 2m areas are centred on Coflein's grid references (SN 66789 19075, SN 55387 20288), as Dinefwr's is; the two places and their castle features stay where `places.ts` and `features.ts` have them (14.4m and 6.7m from those points) for now and move to Coflein's points with those castles' true-size models, by CLAUDE.md's standing rule to place sites from Coflein grid references. The regions ship as they are; the castles' deeper plinths on the 2m crags are fixed by the true-size models, next in the queue, and the release notes say so. The terrain takes several regions; each castle's is its own ([ADR 0049, amended](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md#amendment-2026-10-23-several-regions-carreg-cennen-and-dryslwyn)) | Claude, under the proactive mandate ([ADR 0027](../adr/0027-claude-proposes-and-builds-under-a-proactive-mandate.md)), carrying out "Yes, per landmark" (Dewi, 2026-10-17) |
+
+## 2026-10-24
+
+| Decision | Why |
+|---|---|
+| The contributor's own models (issues #4, #5) are credited, not licence-checked, like the #1 and #3 material: the manifest's licence reads "Not checked: used with credit at Dewi's request" | Dewi, 2026-10-24: "Yes, credit only" |
+| While the contributed layer is on, a contribution replaces our model of the same feature; off, ours is back; never both at once | Dewi, 2026-10-24: "Replace ours while on" |
+| The contributed layer is off by default for visitors, switched on with one click and remembered, like Photos | Dewi, 2026-10-24: "Off by default" |
+| A contributed model over the 1.5MB committed cap is shipped as a release asset, like the terrain tiles, not committed to git history | Dewi, 2026-10-24: "Release assets" |
+| An official Blender 4.0.2 build (with the COLLADA importer that Ubuntu's package lacks) is installed in `~/code/tools/blender-4.0.2-linux-x64/` for the contributed-models converter | Dewi, 2026-10-24: "Yeah, fine", answering whether to download it |
