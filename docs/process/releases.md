@@ -2,7 +2,7 @@
 title: Release notes
 kind: log
 status: current
-updated: 2026-10-17
+updated: 2026-10-24
 ---
 
 # Release notes
@@ -14,8 +14,7 @@ Corrections to history are called out: when we get something wrong, we say so.
 **Publishing a release** (the same steps as CLAUDE.md's "Release at each visible milestone"):
 **attach the terrain glbs to every release** ([ADR 0058](../adr/0058-the-worlds-assets-download-as-glb-with-their-credit-inside.md);
 the app's Terrain downloads link to `releases/latest/download/<file>`). In order: (1) `rm -rf
-build/terrain-glb`, so no stale tile survives; (2) `npm run terrain-glb -- build/terrain-glb --no-manifest` (the 29
-tiles, 43.8MB, built without touching the committed manifest); (3) `node tools/terrain/verify-release.mjs
+build/terrain-glb`, so no stale tile survives; (2) `npm run terrain-glb -- build/terrain-glb --no-manifest` (the 42 tiles, 63.4MB since 2026-10-23, built without touching the committed manifest); (3) `node tools/terrain/verify-release.mjs
 build/terrain-glb`, which checks every file's name, size and sha256 against the committed
 `src/content/generated/terrain-tiles.ts` and exits non-zero on a mismatch (never release on a failure; if the LiDAR
 changed on purpose, run step 2 again without `--no-manifest`, commit the manifest it rewrites, and verify again);
@@ -28,6 +27,42 @@ answers 200. **Any change that rewrites `terrain-tiles.ts` must be released in t
 uploaded to the latest release with `gh release upload <latest tag> build/terrain-glb/*.glb --clobber`),
 because the app's `/releases/latest/download/` links go 404, or serve tiles that no longer match the
 manifest, until then. A release without the tiles leaves the app's terrain links dead.
+
+## v0.11.0 (2026-10-24): the real ground under Carreg Cennen and Dryslwyn
+
+**Open the app:** https://dewijones92.github.io/llandeilo-omnia-mutantur-nihil-interit/
+
+**Carreg Cennen and Dryslwyn on their real ground.** The hills of both castles are now drawn from the Welsh
+Government's LiDAR survey, at the same detail as the town, the Roman forts and Dinefwr. Before, both sat on the coarse
+map of the whole valley, which smoothed Carreg Cennen's crag into a gentle hill. Now, when you fly in, you see its
+limestone cliff dropping away from the top, and Dryslwyn rising sharply out of the flat floodplain of the Tywi. The
+hills are still drawn 2.4 times their real height, as everywhere in the app.
+
+![Before: Carreg Cennen's hill in AD 1000, on the coarse map](../images/releases/v0.11.0/carreg-cennen-before.jpg)
+
+![After: the crag and its cliff, from the LiDAR survey](../images/releases/v0.11.0/carreg-cennen-after.jpg)
+
+![Before: Dryslwyn's hill in AD 1000, on the coarse map](../images/releases/v0.11.0/dryslwyn-before.jpg)
+
+![After: the hill rising out of the Tywi's floodplain, from the LiDAR survey](../images/releases/v0.11.0/dryslwyn-after.jpg)
+
+**The castles themselves have not changed yet, and look worse for it.** Both are still the simple models drawn larger
+than life, and on the steeper ground they now stand on even taller walls running down the crags. Detailed models of
+both castles, at their true size and height, are on the way: Dinefwr's first, then these two.
+
+![Carreg Cennen in 2020: the simple model on the new ground](../images/releases/v0.11.0/carreg-cennen-2020-plinth.jpg)
+
+**More to download.** The Downloads tab (under About) now offers 13 more terrain tiles, covering the two castles: 42
+in all, each a .glb file with its credit and licence inside.
+
+**Smaller fixes:** the About page names all five places drawn from the survey, in English and Welsh. The first, Welsh
+castle at Carreg Cennen (probably built in the later 12th century) no longer carries the note about walls standing taller downhill: on the
+detailed ground its downhill wall is barely taller, where on the coarse map it stood several metres taller.
+
+**Behind the scenes:** six more landmarks have been researched for their coming models (Carreg Cennen, Dryslwyn, St
+Teilo's church, Talley Abbey, the bridge and the trains), each checked independently against its sources.
+
+Sent by Claude
 
 ## v0.10.0 (2026-10-17): download the models and the ground, buildings that stand level, and Dinefwr's hill in detail
 
