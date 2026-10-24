@@ -56,6 +56,24 @@ describe('the rim of a box', () => {
     expect(onRim(box, 100.01, 30)).toBe(false);
     expect(onRim(box, 50, 30, 100)).toBe(true);
   });
+
+  it('holds only the points on the rim itself, not on its sides carried on beyond the box', () => {
+    expect(onRim(box, 150, 0)).toBe(false);
+    expect(onRim(box, -40, 60)).toBe(false);
+    expect(onRim(box, 0, 90)).toBe(false);
+    expect(onRim(box, 100, -0.5)).toBe(false);
+    expect(onRim(box, 100.0005, 60.0005)).toBe(true);
+  });
+
+  it('leaves out of the gap and the edge count what lies on a side carried on beyond the box', () => {
+    // A second region's rim vertex on this box's south line, 50 units east of it.
+    const r = rimGap(box, verts([0, 1, 0], [100, 1, 0]), verts([150, 9, 0], [50, 1, 0]));
+    expect(r.detailVertices).toBe(1);
+    expect(r.unmatched).toBe(0);
+    expect(r.maxGap).toBeCloseTo(0);
+    const beyond = verts([120, 0, 0], [160, 0, 0], [140, 0, 20]);
+    expect(rimTopology(box, beyond).rimEdges).toBe(0);
+  });
 });
 
 describe('the topology of the coarse terrain at the rim', () => {

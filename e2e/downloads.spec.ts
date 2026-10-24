@@ -168,7 +168,7 @@ test('every terrain tile in the manifest is listed with a link to the latest rel
   await openDownloads(page, 'en');
   const rows = page.locator('#dl-terrain .dl');
   await expect(rows).toHaveCount(TERRAIN_TILES.length);
-  expect(TERRAIN_TILES.length, 'the three 2m areas’ tiles').toBeGreaterThanOrEqual(29);
+  expect(TERRAIN_TILES.length, 'the five 2m areas’ tiles').toBeGreaterThanOrEqual(42);
   for (const tile of TERRAIN_TILES) {
     const row = page.locator(`#dl-terrain .dl[data-file="${tile.file}"]`);
     await expect(row, tile.file).toHaveCount(1);
@@ -179,7 +179,9 @@ test('every terrain tile in the manifest is listed with a link to the latest rel
     await expect(row.locator('.dl-facts'), tile.file).toContainText(formatBytes(tile.bytes, 'en'));
     await expect(row.locator('.dl-credit'), tile.file).toContainText(LIDAR_CREDIT);
   }
-  await expect(page.locator('#dl-terrain .dl[data-file^="lidar-26"]')).toHaveCount(TERRAIN_TILES.length);
+  await expect(page.locator('#dl-terrain .dl[data-file^="lidar-"][data-file$=".glb"]')).toHaveCount(
+    TERRAIN_TILES.length,
+  );
 });
 
 test('the downloads list is built when its tab is first opened, and once, not when the app starts', async ({

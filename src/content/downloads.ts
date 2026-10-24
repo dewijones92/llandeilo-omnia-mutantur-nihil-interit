@@ -66,6 +66,8 @@ export const TERRAIN_AREA_NAMES: Readonly<Record<string, Bilingual>> = {
   llandeilo: { en: 'Llandeilo town', cy: 'Tref Llandeilo' },
   'roman-forts': { en: 'Dinefwr Roman forts', cy: 'Caerau Rhufeinig Dinefwr' },
   'dinefwr-castle': { en: 'Dinefwr Castle hill', cy: 'Bryn Castell Dinefwr' },
+  'carreg-cennen-castle': { en: 'Carreg Cennen Castle crag', cy: 'Craig Castell Carreg Cennen' },
+  'dryslwyn-castle': { en: 'Dryslwyn Castle hill', cy: 'Bryn Castell Dryslwyn' },
 };
 
 const NEAR_WHAT: Bilingual = {

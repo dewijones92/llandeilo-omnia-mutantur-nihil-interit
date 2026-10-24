@@ -9,7 +9,7 @@ import {
   type DetailGround,
   type Eye,
   type LidarTileInfo,
-  type RimProfile,
+  type Rim,
 } from '../domain/lidar.ts';
 import type { GridRef } from '../domain/model.ts';
 import { hash2 } from '../domain/noise.ts';
@@ -59,7 +59,7 @@ export interface DetailDeps {
   readonly baseMetres: (g: GridRef) => number;
   readonly metresAt: (g: GridRef) => number;
   readonly shape: (g: GridRef, metres: number) => number;
-  readonly rim: RimProfile;
+  readonly rim: Rim;
   readonly land: LandSurface;
   readonly ranks: RankTables;
   readonly onMesh: (mesh: Mesh, added: boolean) => void;

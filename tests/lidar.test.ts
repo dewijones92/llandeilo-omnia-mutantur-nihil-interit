@@ -84,12 +84,14 @@ describe('the LiDAR tiles on disk', () => {
   });
 });
 
-describe('the detail region', () => {
-  it('holds the town, the Roman forts and Dinefwr Castle, at the places the content names', () => {
+describe('the detail regions', () => {
+  it('holds the town, the Roman forts and the three castles, at the places the content names', () => {
     const pairs = [
       ['llandeilo', 'llandeilo'],
       ['roman-forts', 'roman-forts'],
       ['dinefwr', 'dinefwr-castle'],
+      ['carreg-cennen', 'carreg-cennen-castle'],
+      ['dryslwyn', 'dryslwyn-castle'],
     ] as const;
     for (const [placeId, areaId] of pairs) {
       const place = W.places.find((p) => p.id === placeId);
@@ -130,23 +132,94 @@ describe('the detail region', () => {
       );
   });
 
-  it('lies inside the disc and leaves room for the blend inside every area', () => {
-    const r = manifest.region;
-    for (const e of [r.eMin, r.eMax])
-      for (const n of [r.nMin, r.nMax])
-        expect(Math.hypot(e - WORLD.centre.e, n - WORLD.centre.n)).toBeLessThan(WORLD.radiusMetres - 100);
+  // Coflein's grid references (research notes carreg-cennen.md and dryslwyn.md, [S1] in each): each castle's area
+  // is centred on its own. The places in places.ts are 14.4m and 6.7m from them, and are not moved here.
+  it('centres each new castle area on Coflein’s grid reference, with the castle’s ground inside it', () => {
+    const cases = [
+      { area: 'carreg-cennen-castle', place: 'carreg-cennen', coflein: { e: 266789, n: 219075 }, half: 500 },
+      { area: 'dryslwyn-castle', place: 'dryslwyn', coflein: { e: 255387, n: 220288 }, half: 250 },
+    ];
+    for (const c of cases) {
+      const area = manifest.areas.find((a) => a.id === c.area);
+      const place = W.places.find((p) => p.id === c.place);
+      expect(area, c.area).toBeDefined();
+      expect(place, c.place).toBeDefined();
+      if (!area || !place) continue;
+      expect(area.centre, `${c.area} centre`).toEqual(c.coflein);
+      expect([area.eMax - area.eMin, area.nMax - area.nMin], c.area).toEqual([2 * c.half, 2 * c.half]);
+      expect((area.eMin + area.eMax) / 2, `${c.area} east midpoint`).toBe(c.coflein.e);
+      expect((area.nMin + area.nMax) / 2, `${c.area} north midpoint`).toBe(c.coflein.n);
+      expect(Math.hypot(place.at.e - c.coflein.e, place.at.n - c.coflein.n), c.place).toBeLessThan(20);
+    }
+    // Carreg Cennen: the cliff (slope over 30 degrees, joined to the crag) reaches 322m east and 140m south of
+    // Coflein's point, and the Afon Cennen's floor lies 254m south (measured from the 1m DTM, 2026-10-23).
+    const cc = manifest.areas.find((a) => a.id === 'carreg-cennen-castle');
+    if (cc) {
+      expect(insideBounds(cc, { e: 266789 + 322, n: 219075 - 140 }), 'the cliff').toBe(true);
+      expect(insideBounds(cc, { e: 266789, n: 219075 - 254 }), 'the river floor').toBe(true);
+    }
+    // Dryslwyn: the hill above 30m OD joined to the castle runs 98m west to 218m east and 59m south to 231m north.
+    const dr = manifest.areas.find((a) => a.id === 'dryslwyn-castle');
+    if (dr)
+      for (const [de, dn] of [
+        [-98, -59],
+        [218, 231],
+      ] as const)
+        expect(insideBounds(dr, { e: 255387 + de, n: 220288 + dn }), `hill ${String(de)},${String(dn)}`).toBe(
+          true,
+        );
+  });
+
+  it('puts every area in its own region, inside the disc, with room for the blend inside each', () => {
+    for (const r of manifest.regions) {
+      for (const e of [r.eMin, r.eMax])
+        for (const n of [r.nMin, r.nMax])
+          expect(Math.hypot(e - WORLD.centre.e, n - WORLD.centre.n), r.id).toBeLessThan(
+            WORLD.radiusMetres - 100,
+          );
+    }
     for (const a of manifest.areas) {
-      expect(a.eMin - r.eMin).toBeGreaterThanOrEqual(manifest.blendMetres);
-      expect(r.eMax - a.eMax).toBeGreaterThanOrEqual(manifest.blendMetres);
-      expect(a.nMin - r.nMin).toBeGreaterThanOrEqual(manifest.blendMetres);
-      expect(r.nMax - a.nMax).toBeGreaterThanOrEqual(manifest.blendMetres);
+      const r = manifest.regions.find((x) => x.id === a.region);
+      expect(r, a.id).toBeDefined();
+      if (!r) continue;
+      expect(a.eMin - r.eMin, a.id).toBeGreaterThanOrEqual(manifest.blendMetres);
+      expect(r.eMax - a.eMax, a.id).toBeGreaterThanOrEqual(manifest.blendMetres);
+      expect(a.nMin - r.nMin, a.id).toBeGreaterThanOrEqual(manifest.blendMetres);
+      expect(r.nMax - a.nMax, a.id).toBeGreaterThanOrEqual(manifest.blendMetres);
     }
   });
 
-  it('has a rim spacing that divides every edge', () => {
-    const r = manifest.region;
-    expect((r.eMax - r.eMin) % RIM_SPACING).toBe(0);
-    expect((r.nMax - r.nMin) % RIM_SPACING).toBe(0);
+  it('has three regions, a tile apart, each with a rim spacing that divides its edges', () => {
+    expect(manifest.regions.map((r) => r.id)).toEqual(['llandeilo-dinefwr', 'carreg-cennen', 'dryslwyn']);
+    for (const r of manifest.regions) {
+      expect((r.eMax - r.eMin) % RIM_SPACING, r.id).toBe(0);
+      expect((r.nMax - r.nMin) % RIM_SPACING, r.id).toBe(0);
+    }
+  });
+
+  it('keeps the first region and its scene origin where they were, its tiles first in the data file', () => {
+    const [first] = manifest.regions;
+    expect(first).toEqual({
+      id: 'llandeilo-dinefwr',
+      name: 'Llandeilo and Dinefwr',
+      eMin: 260000,
+      eMax: 265000,
+      nMin: 220500,
+      nMax: 224500,
+    });
+    expect(manifest.sceneOrigin).toEqual({ e: 260000, n: 220500 });
+    const inFirst = manifest.tiles.filter(
+      (t) => first && insideBounds(first, { e: t.e + 250, n: t.n + 250 }),
+    );
+    expect(inFirst).toHaveLength(80);
+    expect(manifest.tiles.slice(0, 80)).toEqual(inFirst);
+    expect(inFirst.reduce((sum, t) => sum + t.bytes, 0)).toBe(3_919_360);
+  });
+
+  it('gives every tile in every region a key of its own', () => {
+    const keys = manifest.tiles.map(name);
+    expect(new Set(keys).size).toBe(keys.length);
+    expect(keys).toHaveLength(132);
   });
 });
 
@@ -170,23 +243,24 @@ describe('the LiDAR against OS Terrain 50', () => {
     new Uint16Array(raw.buffer, raw.byteOffset, raw.byteLength / 2),
   );
 
-  it('agrees to within a few metres on average, so the frames and datum are the same', () => {
-    const r = manifest.region;
-    let total = 0;
-    let signed = 0;
-    let count = 0;
-    for (let e = r.eMin + 200; e < r.eMax - 200; e += 100) {
-      for (let n = r.nMin + 200; n < r.nMax - 200; n += 100) {
-        const lidar = ground.lidarAt({ e, n }) ?? Number.NaN;
-        const diff = lidar - sampleHeight(t50, { e, n });
-        total += Math.abs(diff);
-        signed += diff;
-        count++;
+  it('agrees to within a few metres on average in every region, so the frames and datum are the same', () => {
+    for (const r of manifest.regions) {
+      let total = 0;
+      let signed = 0;
+      let count = 0;
+      for (let e = r.eMin + 200; e < r.eMax - 200; e += 100) {
+        for (let n = r.nMin + 200; n < r.nMax - 200; n += 100) {
+          const lidar = ground.lidarAt({ e, n }) ?? Number.NaN;
+          const diff = lidar - sampleHeight(t50, { e, n });
+          total += Math.abs(diff);
+          signed += diff;
+          count++;
+        }
       }
+      expect(count, r.id).toBeGreaterThan(200);
+      expect(total / count, r.id).toBeLessThan(1.5);
+      expect(Math.abs(signed / count), r.id).toBeLessThan(0.6);
     }
-    expect(count).toBeGreaterThan(1000);
-    expect(total / count).toBeLessThan(1.5);
-    expect(Math.abs(signed / count)).toBeLessThan(0.6);
   });
 
   it('agrees tile by tile, so one tile transposed or shifted shows (unless the ground is nearly symmetric)', () => {
@@ -204,9 +278,14 @@ describe('the LiDAR against OS Terrain 50', () => {
     }
   });
 
-  it('puts the blend at the rim: the surface there is the Terrain 50 surface', () => {
-    const r = manifest.region;
-    const g = { e: r.eMin, n: (r.nMin + r.nMax) / 2 };
-    expect(ground.metresAt(g, 123.4)).toBeCloseTo(123.4);
+  it('puts the blend at every region’s rim: the surface there is the Terrain 50 surface', () => {
+    for (const r of manifest.regions)
+      for (const g of [
+        { e: r.eMin, n: (r.nMin + r.nMax) / 2 },
+        { e: r.eMax, n: (r.nMin + r.nMax) / 2 },
+        { e: (r.eMin + r.eMax) / 2, n: r.nMin },
+        { e: (r.eMin + r.eMax) / 2, n: r.nMax },
+      ])
+        expect(ground.metresAt(g, 123.4), `${r.id} ${String(g.e)},${String(g.n)}`).toBeCloseTo(123.4);
   });
 });

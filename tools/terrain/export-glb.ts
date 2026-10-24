@@ -146,7 +146,7 @@ export function tileGlb(
       min[k] = Math.min(min[k] ?? Infinity, mesh.positions[v + k] ?? 0);
       max[k] = Math.max(max[k] ?? -Infinity, mesh.positions[v + k] ?? 0);
     }
-  const { region } = manifest;
+  const { sceneOrigin } = manifest;
   // The heights are whole centimetres, so a metre figure keeps two places and none of the float's noise.
   const minHeight = Math.round(Math.min(...heights) * 100) / 100;
   const maxHeight = Math.round(Math.max(...heights) * 100) / 100;
@@ -159,7 +159,7 @@ export function tileGlb(
         nodes: [0],
         extras: {
           crs: 'EPSG:27700',
-          sceneOriginBng: { e: region.eMin, n: region.nMin },
+          sceneOriginBng: { e: sceneOrigin.e, n: sceneOrigin.n },
           axes: 'x is metres east, y is metres up, and z is minus the metres north, of the scene origin; a node’s translation puts its tile in place',
         },
       },
@@ -168,7 +168,7 @@ export function tileGlb(
       {
         name,
         mesh: 0,
-        translation: [tile.e - region.eMin, 0, -(tile.n - region.nMin)],
+        translation: [tile.e - sceneOrigin.e, 0, sceneOrigin.n - tile.n],
         extras: {
           crs: 'EPSG:27700',
           tileOriginBng: { e: tile.e, n: tile.n },

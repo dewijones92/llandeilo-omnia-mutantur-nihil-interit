@@ -9,9 +9,16 @@ export interface Bounds {
   readonly nMax: number;
 }
 
+// A rectangle of LiDAR tiles cut into the coarse terrain, eased into it over its own rim.
+export interface LidarRegion extends Bounds {
+  readonly id: string;
+  readonly name: string;
+}
+
 export interface LidarArea extends Bounds {
   readonly id: string;
   readonly name: string;
+  readonly region: string;
   readonly centre: GridRef;
 }
 
@@ -31,7 +38,10 @@ export interface LidarManifest {
   readonly tileSize: number;
   readonly heightScale: number;
   readonly blendMetres: number;
-  readonly region: Bounds;
+  // Where the downloadable glb tiles put their scene origin: the first region's south-west corner, fixed so
+  // that adding a region never moves a tile already released.
+  readonly sceneOrigin: GridRef;
+  readonly regions: readonly LidarRegion[];
   readonly areas: readonly LidarArea[];
   readonly tiles: readonly LidarTileInfo[];
   readonly credit: string;
@@ -111,6 +121,20 @@ export function insideBounds(b: Bounds, g: GridRef): boolean {
   return g.e >= b.eMin && g.e <= b.eMax && g.n >= b.nMin && g.n <= b.nMax;
 }
 
+// The region holding a point (edges included), if any. Regions are at least a tile apart, so at most one does.
+export function regionAt<R extends Bounds>(regions: readonly R[], g: GridRef): R | undefined {
+  return regions.find((r) => insideBounds(r, g));
+}
+
+// The region a tile belongs to: the one holding its centre.
+export function regionOfTile<R extends Bounds>(
+  regions: readonly R[],
+  tile: { readonly e: number; readonly n: number },
+  size: number,
+): R | undefined {
+  return regionAt(regions, { e: tile.e + size / 2, n: tile.n + size / 2 });
+}
+
 // 0 on the rim of the region, easing to 1 a margin inside it.
 export function rimWeight(g: GridRef, region: Bounds, margin: number): number {
   const inside = Math.min(g.e - region.eMin, region.eMax - g.e, g.n - region.nMin, region.nMax - g.n);
@@ -133,12 +157,21 @@ export function nearRim(region: Bounds, g: GridRef): boolean {
   return rimDistance(region, g) < RIM_CLEARANCE_M;
 }
 
+export function nearAnyRim(regions: readonly Bounds[], g: GridRef): boolean {
+  return regions.some((r) => nearRim(r, g));
+}
+
+// What a tile's edge vertices on a rim take their height from.
+export interface Rim {
+  heightAt(g: GridRef): number | undefined;
+}
+
 type Edge = 'south' | 'east' | 'north' | 'west';
 
 // The base surface's heights at points spaced along the rim, joined by straight lines. The coarse
 // terrain's triangles meet the rim along exactly these lines, so a detail mesh whose edge vertices
 // take these heights meets them without a crack.
-export class RimProfile {
+export class RimProfile implements Rim {
   readonly points: readonly GridRef[];
   private readonly edges: Readonly<Record<Edge, readonly number[]>>;
 
@@ -195,7 +228,26 @@ export class RimProfile {
   }
 }
 
-// The ground where LiDAR tiles exist: the LiDAR heights, eased into the coarser surface at the rim.
+// One rim profile per region: every region's rim points, and the height on whichever rim a point lies.
+export class RimProfiles implements Rim {
+  readonly points: readonly GridRef[];
+  private readonly profiles: readonly RimProfile[];
+
+  constructor(regions: readonly Bounds[], spacing: number, baseAt: (g: GridRef) => number) {
+    this.profiles = regions.map((r) => new RimProfile(r, spacing, baseAt));
+    this.points = this.profiles.flatMap((p) => p.points);
+  }
+
+  heightAt(g: GridRef): number | undefined {
+    for (const p of this.profiles) {
+      const h = p.heightAt(g);
+      if (h !== undefined) return h;
+    }
+    return undefined;
+  }
+}
+
+// The ground where LiDAR tiles exist: the LiDAR heights, eased into the coarser surface at each region's rim.
 export class DetailGround {
   private readonly fields = new Map<string, Heightfield>();
   private readonly byCell = new Map<number, Heightfield>();
@@ -226,17 +278,23 @@ export class DetailGround {
     }
   }
 
+  regionAt(g: GridRef): LidarRegion | undefined {
+    return regionAt(this.manifest.regions, g);
+  }
+
   contains(g: GridRef): boolean {
-    return insideBounds(this.manifest.region, g);
+    return this.regionAt(g) !== undefined;
   }
 
   weightAt(g: GridRef): number {
-    return rimWeight(g, this.manifest.region, this.manifest.blendMetres);
+    const region = this.regionAt(g);
+    return region ? rimWeight(g, region, this.manifest.blendMetres) : 0;
   }
 
   lidarAt(g: GridRef): number | undefined {
-    if (!this.contains(g)) return undefined;
-    const { tileSize, region } = this.manifest;
+    const region = this.regionAt(g);
+    if (!region) return undefined;
+    const { tileSize } = this.manifest;
     const e = g.e === region.eMax ? g.e - tileSize : g.e;
     const n = g.n === region.nMax ? g.n - tileSize : g.n;
     const field = this.byCell.get(Math.floor(e / tileSize) * CELL_STRIDE + Math.floor(n / tileSize));
@@ -251,10 +309,12 @@ export class DetailGround {
     tile: LidarTileInfo,
     step: number,
     baseAt: (g: GridRef) => number,
-    rim: RimProfile,
+    rim: Rim,
     shape?: (g: GridRef, metres: number) => number,
   ): Float32Array {
-    const { tileSize: size, heightScale, blendMetres, region } = this.manifest;
+    const { tileSize: size, heightScale, blendMetres } = this.manifest;
+    const region = regionOfTile(this.manifest.regions, tile, size);
+    if (!region) throw new Error(`tile ${tileKey(tile.e, tile.n)} is in no region`);
     const stride = step / tile.step;
     if (!Number.isInteger(stride) || stride < 1 || size % step !== 0)
       throw new Error(`tile ${tileKey(tile.e, tile.n)} has no data for a step of ${String(step)}m`);
@@ -339,23 +399,58 @@ function bounds(v: unknown, field: string): Bounds {
   };
 }
 
+// How far apart two regions are: 0 if they touch or overlap.
+function regionGap(a: Bounds, b: Bounds): number {
+  const dx = Math.max(a.eMin - b.eMax, b.eMin - a.eMax, 0);
+  const dn = Math.max(a.nMin - b.nMax, b.nMin - a.nMax, 0);
+  return Math.hypot(dx, dn);
+}
+
+function parseRegions(raw: unknown, tileSize: number): LidarRegion[] {
+  const regions = list(raw, 'regions').map((v, i): LidarRegion => {
+    const r = record(v, `regions[${String(i)}]`);
+    const b = bounds(r, `regions[${String(i)}]`);
+    const id = text(r['id'], 'region id');
+    for (const edge of [b.eMin, b.eMax, b.nMin, b.nMax]) {
+      if (edge % tileSize !== 0)
+        throw new Error(`lidar.json: region ${id} is not a whole number of ${String(tileSize)}m tiles`);
+    }
+    if (b.eMax <= b.eMin || b.nMax <= b.nMin) throw new Error(`lidar.json: region ${id} is empty`);
+    return { ...b, id, name: text(r['name'], 'region name') };
+  });
+  if (regions.length === 0) throw new Error('lidar.json: there are no regions');
+  // A tile apart, so each region's rim is cut into the coarse terrain on its own and a point is in one region at most.
+  regions.forEach((a, i) => {
+    for (const b of regions.slice(i + 1)) {
+      if (a.id === b.id) throw new Error(`lidar.json: region ${a.id} is listed twice`);
+      if (regionGap(a, b) < tileSize)
+        throw new Error(`lidar.json: regions ${a.id} and ${b.id} are not a ${String(tileSize)}m tile apart`);
+    }
+  });
+  return regions;
+}
+
 export function parseManifest(raw: unknown): LidarManifest {
   if (!isRecord(raw)) throw new Error('lidar.json: the manifest is not an object');
   const tileSize = positive(raw['tileSize'], 'tileSize');
-  const region = bounds(raw['region'], 'region');
-  for (const v of [region.eMin, region.eMax, region.nMin, region.nMax]) {
-    if (v % tileSize !== 0)
-      throw new Error(`lidar.json: region is not a whole number of ${String(tileSize)}m tiles`);
-  }
+  const regions = parseRegions(raw['regions'], tileSize);
+  const origin = record(raw['sceneOrigin'], 'sceneOrigin');
   const areas = list(raw['areas'], 'areas').map((a, i): LidarArea => {
     const r = record(a, `areas[${String(i)}]`);
     const centre = record(r['centre'], `areas[${String(i)}].centre`);
-    return {
+    const area = {
       ...bounds(r, `areas[${String(i)}]`),
       id: text(r['id'], 'area id'),
       name: text(r['name'], 'area name'),
+      region: text(r['region'], 'area region'),
       centre: { e: finite(centre['e'], 'centre.e'), n: finite(centre['n'], 'centre.n') },
     };
+    const home = regions.find((g) => g.id === area.region);
+    if (!home) throw new Error(`lidar.json: area ${area.id} names no region ${area.region}`);
+    const inside =
+      area.eMin >= home.eMin && area.eMax <= home.eMax && area.nMin >= home.nMin && area.nMax <= home.nMax;
+    if (!inside) throw new Error(`lidar.json: area ${area.id} is not inside its region ${home.id}`);
+    return area;
   });
   const seen = new Set<string>();
   const tiles = list(raw['tiles'], 'tiles').map((t, i): LidarTileInfo => {
@@ -366,8 +461,8 @@ export function parseManifest(raw: unknown): LidarManifest {
     const key = tileKey(e, n);
     if (e % tileSize !== 0 || n % tileSize !== 0)
       throw new Error(`lidar.json: tile ${key} is not on the ${String(tileSize)}m grid`);
-    if (e < region.eMin || e >= region.eMax || n < region.nMin || n >= region.nMax)
-      throw new Error(`lidar.json: tile ${key} is outside the region`);
+    if (!regionOfTile(regions, { e, n }, tileSize))
+      throw new Error(`lidar.json: tile ${key} is outside every region`);
     if (tileSize % step !== 0)
       throw new Error(`lidar.json: tile ${key} step ${String(step)} does not divide ${String(tileSize)}`);
     if (seen.has(key)) throw new Error(`lidar.json: tile ${key} is listed twice`);
@@ -392,15 +487,21 @@ export function parseManifest(raw: unknown): LidarManifest {
       areas: list(r['areas'], 'tile areas').map((a) => text(a, 'tile area')),
     };
   });
-  const expected = ((region.eMax - region.eMin) / tileSize) * ((region.nMax - region.nMin) / tileSize);
-  if (tiles.length !== expected)
-    throw new Error(`lidar.json: ${String(tiles.length)} tiles, but the region covers ${String(expected)}`);
+  for (const r of regions) {
+    const expected = ((r.eMax - r.eMin) / tileSize) * ((r.nMax - r.nMin) / tileSize);
+    const held = tiles.filter((t) => regionOfTile([r], t, tileSize)).length;
+    if (held !== expected)
+      throw new Error(
+        `lidar.json: ${String(held)} tiles in region ${r.id}, but ${r.id} covers ${String(expected)}`,
+      );
+  }
   return {
     data: text(raw['data'], 'data'),
     tileSize,
     heightScale: positive(raw['heightScale'], 'heightScale'),
     blendMetres: positive(raw['blendMetres'], 'blendMetres'),
-    region,
+    sceneOrigin: { e: finite(origin['e'], 'sceneOrigin.e'), n: finite(origin['n'], 'sceneOrigin.n') },
+    regions,
     areas,
     tiles,
     credit: text(record(raw['source'], 'source')['credit'], 'source.credit'),

@@ -52,10 +52,11 @@ to replace one model without rebuilding the scene. Issue text is treated as data
   `public/models/landmarks/` and the train only, and a landmark's tier counts come from the parts' extras
   (`partTiers` in `tools/downloads/stamp.ts`). Our own models are CC BY 4.0, covering only this project's modelling.
 - **The terrain tiles' scene origin** is E 260000 N 220500, written into each tile as `sceneOriginBng` by
-  `tools/terrain/export-glb.ts`; today it is read from the region's corner in `tools/terrain/lidar-areas.json`.
-  Separate LiDAR regions for Carreg Cennen and Dryslwyn are planned (decision log, 2026-10-17); the work on them
-  (branch `lidar-regions`, with nothing committed on it yet when this was written) is reported to keep one shared
-  scene origin, at the same point, for every region. Not verified from its code.
+  `tools/terrain/export-glb.ts`. *Corrected 2026-10-23, once the regions work merged: it is read from the shared
+  `sceneOrigin` in `tools/terrain/lidar-areas.json` (the manifest's `sceneOrigin`), at that same point, for every
+  region; it was the one region's corner until then. Carreg Cennen and Dryslwyn now have LiDAR regions of their own
+  ([ADR 0049, amended 2026-10-23](../adr/0049-lidar-terrain-tiles-blended-into-terrain-50.md#amendment-2026-10-23-several-regions-carreg-cennen-and-dryslwyn)),
+  and their tiles share that origin, verified from the code and the 13 new tiles' glbs.*
 - **The closest precedent is the Photos layer** (ADR 0044): dated, placed content read through the snapshot, a
   toggle in the brand row remembered in `localStorage` with `?photos=1|0`, an ⓘ built from the shared tier badge.
 
@@ -74,8 +75,7 @@ named node; a SketchUp `.dae` is accepted and converted by our script.**
 - **The contribution frame: a named constant, not today's tiles.** `CONTRIBUTION_FRAME` in `src/domain/` is
   E 260000 N 220500 on the British National Grid, with heights in metres as the LiDAR gives them (absolute, as on
   the tiles), and grid north. It equals the tiles' scene origin, so a contributor who builds on the tiles where they
-  open is in it. A test holds the tiles' scene origin (the shared `sceneOrigin` once the regions work lands, the
-  region's corner until then) to it, so a change to the terrain config cannot silently move every contribution. Every
+  open is in it. A test holds the tiles' scene origin (the shared `sceneOrigin`, since 2026-10-23) to it, so a change to the terrain config cannot silently move every contribution. Every
   region's tiles share that origin, so an entry carries no frame of its own; a region with a different origin would
   be a new decision.
   Grid north and true north differ by more than a degree here (about 1.6° by the standard convergence formula,
@@ -481,7 +481,7 @@ Downloads build script is in the milestone; the 1.5MB cap, JPEG and the texture 
 test is "touches", so deep cellars and ditches pass; the fixture module is kept out of the deployed build; the guide
 says to rename our parts, when to use `follow`, and that Dewi approves; the terrain-origin lines no longer depend on
 `lidar-areas.json`. That the `lidar-regions` work keeps one shared `sceneOrigin` could not be checked: nothing is
-committed on that branch yet.
+committed on that branch yet. *(Checked 2026-10-23 when it merged: it does, `sceneOrigin` in `lidar-areas.json`.)*
 
 Suggestions taken in the first round: the probe reference is fixed and the adapter skips `_probe`; the adapter keeps the file's
 texture coordinates and base colour; "instead of ours" is open question 3; the licence line cites ADR 0026's list

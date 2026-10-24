@@ -26,7 +26,19 @@ export interface SeamReport extends GapReport {
 
 export const RIM_TOLERANCE = 1e-3;
 
+// Within the box's extent, rim included: a side carried on beyond the box is not its rim (another region's
+// vertices can lie on that line).
+function withinBox(box: RimBox, x: number, z: number, tolerance: number): boolean {
+  return (
+    x >= box.xMin - tolerance &&
+    x <= box.xMax + tolerance &&
+    z >= box.zMin - tolerance &&
+    z <= box.zMax + tolerance
+  );
+}
+
 export function onRim(box: RimBox, x: number, z: number, tolerance = RIM_TOLERANCE): boolean {
+  if (!withinBox(box, x, z, tolerance)) return false;
   return (
     Math.abs(z - box.zMin) <= tolerance ||
     Math.abs(z - box.zMax) <= tolerance ||
@@ -45,6 +57,7 @@ interface Line {
 // Which sides of the box a vertex lies on, and its position along each.
 function sidesOf(box: RimBox, x: number, z: number, tolerance: number): { side: Side; along: number }[] {
   const out: { side: Side; along: number }[] = [];
+  if (!withinBox(box, x, z, tolerance)) return out;
   if (Math.abs(z - box.zMin) <= tolerance) out.push({ side: 'south', along: x });
   if (Math.abs(z - box.zMax) <= tolerance) out.push({ side: 'north', along: x });
   if (Math.abs(x - box.xMin) <= tolerance) out.push({ side: 'west', along: z });

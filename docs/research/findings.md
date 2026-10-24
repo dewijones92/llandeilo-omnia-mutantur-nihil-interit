@@ -2,7 +2,7 @@
 title: Research findings and decisions
 kind: research
 status: current
-updated: 2026-10-17
+updated: 2026-10-23
 ---
 
 # Research findings and decisions
@@ -179,7 +179,9 @@ From [`carreg-cennen.md`](carreg-cennen.md), a draft, checked by the same agent 
 - **The building stone is not named by any source read**: "rubble stone with some ashlar dressings" on Dowlais
   Limestone (BGS); limestone rubble is an inference. No render or roof covering is recorded.
 - **A 2m LiDAR area is proposed** (Coflein's point, half-size 500m, nine 2m tiles from SN6618, SN6619, SN6718, SN6719);
-  it needs the LiDAR region widened to E 268000 and N 218000, which is a decision for the owner.
+  it needs the LiDAR region widened to E 268000 and N 218000, which is a decision for the owner. *Done otherwise on
+  2026-10-23: the area was built as proposed, in a LiDAR region of its own rather than a widened one
+  ([`../data/lidar.md`](../data/lidar.md#several-regions-carreg-cennen-and-dryslwyn-2026-10-23)).*
 - **What the app gets wrong today** (not changed here): the outer ward's "half-timbered stables, a forge, stores" stated
   as fact where the sources say "probably"; one barbican-and-outer-ward phase from 1300 where Cadw has two periods; no
   burnt state for 1282-87; the plan at 2.6 times.

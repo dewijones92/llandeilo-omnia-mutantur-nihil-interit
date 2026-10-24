@@ -433,13 +433,10 @@ export const FEATURES: readonly Feature[] = [
       en: 'The first, Welsh castle at Carreg Cennen',
       cy: 'Y castell Cymreig cyntaf yng Ngharreg Cennen',
     },
-    provenance: withNote(
-      reconstructed(
-        'Probably built in the later 12th century. Nothing of it survives above ground, so its form is a guess: a plain walled enclosure with a hall on the crag top.',
-        "Wedi'i godi yn niwedd y 12fed ganrif mae'n debyg. Does dim ohono wedi goroesi uwchben y ddaear, felly dyfalu yw ei ffurf: clos plaen â mur a neuadd ar ben y graig.",
-        ['medieval:S24', 'medieval:S25'],
-      ),
-      SLOPE_SEATING,
+    provenance: reconstructed(
+      'Probably built in the later 12th century. Nothing of it survives above ground, so its form is a guess: a plain walled enclosure with a hall on the crag top.',
+      "Wedi'i godi yn niwedd y 12fed ganrif mae'n debyg. Does dim ohono wedi goroesi uwchben y ddaear, felly dyfalu yw ei ffurf: clos plaen â mur a neuadd ar ben y graig.",
+      ['medieval:S24', 'medieval:S25'],
     ),
     place: 'carreg-cennen',
   }),

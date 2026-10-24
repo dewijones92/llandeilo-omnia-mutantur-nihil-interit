@@ -2,7 +2,7 @@
 title: Dryslwyn Castle (Castell Dryslwyn), phase by phase, for a Blender model
 kind: research
 status: draft
-updated: 2026-10-17
+updated: 2026-10-23
 ---
 
 # Dryslwyn Castle, phase by phase, for a Blender model
@@ -138,7 +138,10 @@ north. The plan drawing's north arrow is 3 degrees off grid north once fitted; t
 coordinate in "Plan for the Blender model" is in this frame: the keep's centre from the survey, everything else from
 the period plan [S11] fitted to the survey [S24] at 7.5 px/m and -3 degrees, pinned at the keep.
 
-The castle lies **outside the app's LiDAR region** (E 260000-265000, N 220500-224500, `tools/terrain/lidar-areas.json`),
+*Corrected 2026-10-23: the castle now has 2m LiDAR, in a detail region of its own (`dryslwyn`, E 254500 to 256500,
+N 219500 to 221500, the context region proposed below); [`../data/lidar.md`](../data/lidar.md#several-regions-carreg-cennen-and-dryslwyn-2026-10-23).
+The rest of this paragraph is what was true when the note was written.* The castle lies **outside the app's LiDAR
+region** (E 260000-265000, N 220500-224500, `tools/terrain/lidar-areas.json`),
 4.6km west of it and about 210m south of its southern edge, so today it stands on OS Terrain 50 alone. See the LiDAR area proposed
 under "Plan for the Blender model".
 
@@ -571,7 +574,10 @@ meters" [S10]; the inner curtain to 1m [S3]; the keep's ring to 74.6m OD round a
 floor at 65.2m; the apartment façade, chapel tower and east curtain at their measured tops; the middle and outer wards as
 low walls near their gates and banks elsewhere [S3][S24]. All bare limestone.
 
-**The LiDAR area (proposed).**
+**The LiDAR area (proposed).** *Built 2026-10-23 with the proposed half-size (250) and the same four 2m tiles,
+but centred on Coflein's point (E 255387 N 220288), the anchor, rather than on E 255450 N 220375; the region is the
+proposed second rectangle, and the terrain now takes several regions
+([`../data/lidar.md`](../data/lidar.md#several-regions-carreg-cennen-and-dryslwyn-2026-10-23)).*
 
 | Field | Value |
 |---|---|

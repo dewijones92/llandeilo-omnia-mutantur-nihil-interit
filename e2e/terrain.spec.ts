@@ -26,6 +26,10 @@ interface Seam {
   readonly rimEdges: number;
 }
 
+interface Seams extends Seam {
+  readonly regions: Readonly<Record<string, Seam>>;
+}
+
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null;
 }
@@ -69,8 +73,7 @@ async function detail(page: Page): Promise<DetailStats> {
   };
 }
 
-async function seam(page: Page): Promise<Seam> {
-  const s = await hook(page, 'seam');
+function seamOf(s: Record<string, unknown>): Seam {
   return {
     baseVertices: num(s, 'baseVertices'),
     detailVertices: num(s, 'detailVertices'),
@@ -79,6 +82,44 @@ async function seam(page: Page): Promise<Seam> {
     baseInside: num(s, 'baseInside'),
     rimEdges: num(s, 'rimEdges'),
   };
+}
+
+async function seam(page: Page): Promise<Seams> {
+  const s = await hook(page, 'seam');
+  const regions = s['regions'];
+  if (!isRecord(regions)) throw new Error('the seam hook gave no regions');
+  return {
+    ...seamOf(s),
+    regions: Object.fromEntries(
+      Object.entries(regions).map(([id, r]) => {
+        if (!isRecord(r)) throw new Error(`seam of ${id} is not a record`);
+        return [id, seamOf(r)];
+      }),
+    ),
+  };
+}
+
+// Every region's own seam: the detail meets the coarse terrain to under a millimetre along all four sides, no
+// coarse corner lies inside it, and every 40m rim segment is an edge of the coarse mesh.
+function expectEveryRegionSealed(label: string, s: Seams): void {
+  expect(Object.keys(s.regions).sort(), label).toEqual(lidar.regions.map((r) => r.id).sort());
+  for (const r of lidar.regions) {
+    const own = s.regions[r.id];
+    expect(own, `${label} ${r.id}`).toBeDefined();
+    if (!own) continue;
+    console.info(`dewidebug seam ${label} ${r.id}: ${JSON.stringify(own)}`);
+    const perimeter = 2 * (r.eMax - r.eMin + (r.nMax - r.nMin));
+    expect(own.baseVertices, `${label} ${r.id}: coarse vertices on the rim`).toBeGreaterThanOrEqual(
+      perimeter / RIM_SPACING,
+    );
+    expect(own.detailVertices, `${label} ${r.id}: detail vertices on the rim`).toBeGreaterThan(
+      perimeter / 20,
+    );
+    expect(own.unmatched, `${label} ${r.id}: unmatched`).toBe(0);
+    expect(own.maxGap, `${label} ${r.id}: the largest gap, in world units`).toBeLessThan(0.0001);
+    expect(own.baseInside, `${label} ${r.id}: coarse corners inside`).toBe(0);
+    expect(own.rimEdges, `${label} ${r.id}: rim edges`).toBe(perimeter / RIM_SPACING);
+  }
 }
 
 async function ready(page: Page, url: string): Promise<void> {
@@ -198,10 +239,52 @@ test('the detail meets the coarse terrain along the rim without a gap', async ({
   expect(s.detailVertices).toBeGreaterThan(1000);
   expect(s.unmatched).toBe(0);
   expect(s.maxGap).toBeLessThan(0.001);
-  const { eMin, eMax, nMin, nMax } = lidar.region;
   expect(s.baseInside).toBe(0);
-  expect(s.rimEdges).toBe((2 * (eMax - eMin + (nMax - nMin))) / RIM_SPACING);
+  expectEveryRegionSealed('town view', s);
 });
+
+test('every region meets the coarse terrain on all four sides at the overview', async ({ page }) => {
+  await ready(page, './?debug&year=2020&hour=12&season=summer');
+  expect(lidar.regions.length).toBeGreaterThanOrEqual(3);
+  expectEveryRegionSealed('overview', await seam(page));
+});
+
+// Each castle outside the first region: from the overview its tile is at 20m; a flight there swaps it to the 4m
+// mesh, its region still sealed against the coarse terrain; flying out takes it back.
+for (const [placeId, areaId] of [
+  ['carreg-cennen', 'carreg-cennen-castle'],
+  ['dryslwyn', 'dryslwyn-castle'],
+] as const) {
+  test(`flying to ${placeId} swaps its castle tiles to 4m, in a region of their own`, async ({ page }) => {
+    const area = lidar.areas.find((a) => a.id === areaId);
+    expect(area, areaId).toBeDefined();
+    if (!area) return;
+    expect(area.region, `${areaId} is not in the first region`).not.toBe(lidar.regions[0]?.id);
+    const castle = place(placeId);
+    const key = `${String(Math.floor(area.centre.e / 500) * 500)}_${String(Math.floor(area.centre.n / 500) * 500)}`;
+    const tilesOfArea = lidar.tiles
+      .filter((t) => t.areas.includes(areaId))
+      .map((t) => `${String(t.e)}_${String(t.n)}`);
+    expect(tilesOfArea, `${areaId}'s 2m tiles`).toContain(key);
+    await ready(page, './?debug&year=2020&hour=12&season=summer');
+    const far = await detail(page);
+    expect(far.tileSteps[key], `${key} from the overview`).toBe(20);
+    const at = toWorld(castle.at);
+    await moveCamera(page, at.x, at.z, 40);
+    await expect.poll(async () => (await detail(page)).tileSteps[key], { timeout: 60_000 }).toBe(4);
+    await expect.poll(async () => (await detail(page)).pending, { timeout: 60_000 }).toBe(0);
+    const near = await detail(page);
+    console.info(
+      `dewidebug flight ${placeId} steps ${JSON.stringify(tilesOfArea.map((k) => near.tileSteps[k]))}`,
+    );
+    expect(near.byStep['4'], `${placeId}: tiles at 4m`).toBeGreaterThanOrEqual(1);
+    for (const [k, step] of Object.entries(near.tileSteps))
+      if (step === 4) expect(tilesOfArea, `${k} at 4m belongs to ${areaId}`).toContain(k);
+    expectEveryRegionSealed(`at ${placeId}`, await seam(page));
+    await moveCamera(page, at.x, at.z, 3500);
+    await expect.poll(async () => (await detail(page)).tileSteps[key], { timeout: 60_000 }).toBe(20);
+  });
+}
 
 test('a period change to the ground rebuilds only the tiles under it and leaves the base alone', async ({
   page,
@@ -319,14 +402,14 @@ interface TileBox {
   readonly nMax: number;
 }
 
-// Every road and rail ribbon leg inside the LiDAR region, both edges sampled along their length, against
+// Every road and rail ribbon leg inside any LiDAR region, both edges sampled along their length, against
 // the mesh drawn there now.
 // `inTile` counts the legs whose both ends lie in `tile`, when one is given.
 async function ribbonsAgainstDrawn(page: Page, tile?: TileBox): Promise<RibbonReport> {
-  const { eMin, eMax, nMin, nMax } = lidar.region;
+  const boxes = lidar.regions.map((r) => [r.eMin, r.eMax, r.nMin, r.nMax] as const);
   const t = tile ?? { eMin: 0, eMax: 0, nMin: 0, nMax: 0 };
   return page.evaluate(
-    ([e0, e1, n0, n1, cE, cN, mpu, te0, te1, tn0, tn1]) => {
+    ([regions, cE, cN, mpu, te0, te1, tn0, tn1]) => {
       const debug: unknown = Reflect.get(window, 'llandeiloDebug');
       const scene: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'scene') : undefined;
       const terrain: unknown = typeof debug === 'object' && debug ? Reflect.get(debug, 'terrain') : undefined;
@@ -343,7 +426,7 @@ async function ribbonsAgainstDrawn(page: Page, tile?: TileBox): Promise<RibbonRe
       const inner = (x: number, z: number): boolean => {
         const e = cE + x * mpu;
         const n = cN + z * mpu;
-        return e > e0 && e < e1 && n > n0 && n < n1;
+        return regions.some(([e0, e1, n0, n1]) => e > e0 && e < e1 && n > n0 && n < n1);
       };
       let legs = 0;
       let longest = 0;
@@ -412,19 +495,7 @@ async function ribbonsAgainstDrawn(page: Page, tile?: TileBox): Promise<RibbonRe
       }
       return { legs, longest, lowest, highest, under, inTile, tile };
     },
-    [
-      eMin,
-      eMax,
-      nMin,
-      nMax,
-      WORLD.centre.e,
-      WORLD.centre.n,
-      WORLD.metresPerUnit,
-      t.eMin,
-      t.eMax,
-      t.nMin,
-      t.nMax,
-    ] as const,
+    [boxes, WORLD.centre.e, WORLD.centre.n, WORLD.metresPerUnit, t.eMin, t.eMax, t.nMin, t.nMax] as const,
   );
 }
 
