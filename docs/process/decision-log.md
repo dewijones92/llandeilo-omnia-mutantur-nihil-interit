@@ -317,3 +317,7 @@ Claude's own calls the same day, under the proactive mandate, for Dewi to overru
 | The contributed layer is off by default for visitors, switched on with one click and remembered, like Photos | Dewi, 2026-10-24: "Off by default" |
 | A contributed model over the 1.5MB committed cap is shipped as a release asset, like the terrain tiles, not committed to git history | Dewi, 2026-10-24: "Release assets" |
 | An official Blender 4.0.2 build (with the COLLADA importer that Ubuntu's package lacks) is installed in `~/code/tools/blender-4.0.2-linux-x64/` for the contributed-models converter | Dewi, 2026-10-24: "Yeah, fine", answering whether to download it |
+| A contribution may cover only part of a feature (say one gatehouse): it replaces just that part of our model while the layer is on, and the rest of ours stays | Dewi, 2026-10-24: "Allow, replace just that part" |
+| A contribution may show something the app does not draw at all, if it is placed and dated with a source; it is labelled as the contributor's like any other | Dewi, 2026-10-24: "Yes, if sourced" |
+| Textures from SketchUp's own material library in a contribution are treated like the contribution: credited, not licence-checked, their source noted in the manifest | Dewi, 2026-10-24: "Credit only, like his models" |
+| The map layers (Photos, Contributed models, and later ones) fold into one "Layers" menu of checkboxes, replacing separate toggle buttons | Dewi, 2026-10-24: "Yes, one Layers menu" |
