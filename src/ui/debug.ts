@@ -36,8 +36,10 @@ export class DebugOverlay {
     }, 500);
   }
 
+  // Drawn at once, not on the next tick: a slow first frame after a quality switch can starve the timer for seconds.
   update(s: Snapshot): void {
     this.snapshot = s;
+    this.render();
   }
 
   light(clock: Clock, l: Lighting, lamps: LampState): void {

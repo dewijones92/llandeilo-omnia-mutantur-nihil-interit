@@ -2040,6 +2040,17 @@ the whole shard under CI's settings (13 of 13, 16.7 minutes, 2026-10-23). The te
 `dewidebug world quality=` lines, the start line and page loads, prints them with the overlay assertion, and fails
 first if the last change recorded is not to High.
 
+**Found, 2026-10-23: the overlay was stale, not the world.** The instrumentation from d59da9f caught it on a446717's CI:
+the recorded sequence was start high, world high, load, chosen low, world low, applied low, chosen high, world high,
+applied high, and nothing after, yet the overlay still read Low with Low's shadows 30s later. So the switch worked and
+nothing chose Low again; both earlier guesses (a slow switch, then something switching back) were wrong. The overlay
+redraws on a 500ms timer, and `update()` only stored the snapshot; on SwiftShader the first frame at High (an 8192
+shadow map and recompiled pipelines) holds the main thread long enough that the timer did not fire inside the test's
+30s. `update()` now redraws at once. A test clicks Low and reads the overlay in the same task, so no timer or frame can
+run between them; it failed on the old code ("Expected substring: quality low") and passes now. **Lesson:** an overlay
+that refreshes on a timer measures the main thread's freedom, not the state; and the instrumentation, not a third
+guess, is what found it.
+
 ## 2026-10-23 (LiDAR in several regions: Carreg Cennen and Dryslwyn)
 
 Dewi's "Yes, per landmark" (2026-10-17) built for the two castles outside the first LiDAR region, as two regions of their
